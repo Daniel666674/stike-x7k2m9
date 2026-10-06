@@ -45,6 +45,24 @@
     }
     function closeCheckout() { if (checkoutOverlay) checkoutOverlay.classList.remove("open"); }
 
+    /* Ruta real de Wompi SOLO corre cuando el sitio esta servido por
+       tools/wompi-dev-server.mjs (localhost/127.0.0.1), porque ese es el
+       unico lugar que hoy sabe firmar la transaccion (ver assets/js/wompi.js
+       y api/wompi-sign.php). En el sitio en vivo (GitHub Pages, sin backend)
+       sigue la pasarela simulada de siempre -- nada cambia para los
+       clientes reales hasta que exista el backend en Hostinger. */
+    function handlePagarAhora(total) {
+      const isLocalTest = ["localhost", "127.0.0.1"].includes(location.hostname);
+      if (isLocalTest && typeof stikeWompiCheckout === "function") {
+        stikeWompiCheckout(total).catch(err => {
+          console.error("wompi checkout:", err);
+          stikeToast("Error al iniciar el pago con Wompi -- revisa la consola");
+        });
+        return;
+      }
+      openCheckout(total);
+    }
+
     function openCheckout(total) {
       const ov = ensureCheckoutOverlay();
       ov.innerHTML = `
@@ -208,7 +226,7 @@
           </div>
           <div class="line total"><span>Total</span><span>${stikePrice(total)}</span></div>
           <a class="btn wa block" style="margin-top:16px" href="https://wa.me/${STIKE_CONFIG.whatsapp}?text=${waMsg}" target="_blank" rel="noopener">Finalizar por WhatsApp</a>
-          <button class="btn block" style="margin-top:10px" onclick="openCheckout(${total})">Pagar ahora</button>
+          <button class="btn block" style="margin-top:10px" onclick="handlePagarAhora(${total})">Pagar ahora</button>
           <p style="color:var(--muted);font-size:12px;margin-top:14px;text-align:center">Pagos: Tarjeta · PSE · Nequi · Efecty</p>
         </aside>
       </div>`;
