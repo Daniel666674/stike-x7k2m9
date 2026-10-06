@@ -29,9 +29,12 @@
   const WOMPI_CURRENCY = "COP";
   const WOMPI_CHECKOUT_URL = "https://checkout.wompi.co/p/";
 
-  /* Se pisa en pruebas locales (ver tools/wompi-dev-server.mjs). En
-     produccion, una vez exista Hostinger, pasa a "/api/wompi-sign.php". */
-  const WOMPI_SIGN_ENDPOINT = (root.STIKE_WOMPI_SIGN_ENDPOINT) || "/api/wompi-sign.php";
+  /* Backend temporal en Vercel mientras se prueba el flujo completo en el
+     dominio real (GitHub Pages no corre PHP). Se pisa con
+     window.STIKE_WOMPI_SIGN_ENDPOINT en pruebas locales (ver
+     tools/wompi-dev-server.mjs). Cuando exista Hostinger, esto pasa a
+     "/api/wompi-sign.php" y este backend temporal se borra. */
+  const WOMPI_SIGN_ENDPOINT = (root.STIKE_WOMPI_SIGN_ENDPOINT) || "https://stike-wompi-api.vercel.app/api/wompi-sign";
 
   function wompiReference() {
     const rand = Math.random().toString(36).slice(2, 8);

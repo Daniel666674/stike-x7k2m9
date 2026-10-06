@@ -26,7 +26,7 @@
   <script src="assets/js/products-data.js?v=3"></script>
   <script src="assets/js/data.js?v=3"></script>
   <script src="assets/js/app.js?v=9"></script>
-  <script src="assets/js/wompi.js?v=1"></script>
+  <script src="assets/js/wompi.js?v=2"></script>
   <script>
     stikeInit();
     const FREE_SHIP = 300000;
@@ -45,15 +45,15 @@
     }
     function closeCheckout() { if (checkoutOverlay) checkoutOverlay.classList.remove("open"); }
 
-    /* Ruta real de Wompi SOLO corre cuando el sitio esta servido por
-       tools/wompi-dev-server.mjs (localhost/127.0.0.1), porque ese es el
-       unico lugar que hoy sabe firmar la transaccion (ver assets/js/wompi.js
-       y api/wompi-sign.php). En el sitio en vivo (GitHub Pages, sin backend)
-       sigue la pasarela simulada de siempre -- nada cambia para los
-       clientes reales hasta que exista el backend en Hostinger. */
+    /* TEMPORAL: mientras se prueba el flujo completo de Wompi contra el
+       sandbox real, el boton manda al checkout real de Wompi (sandbox,
+       no cobra nada) tanto en el sitio en vivo como en local -- la firma
+       la hace el backend temporal en Vercel (ver assets/js/wompi.js).
+       Cuando se confirme que todo funciona y se migre a Hostinger, esto
+       vuelve a la pasarela simulada o pasa a /api/wompi-sign.php segun
+       se decida. */
     function handlePagarAhora(total) {
-      const isLocalTest = ["localhost", "127.0.0.1"].includes(location.hostname);
-      if (isLocalTest && typeof stikeWompiCheckout === "function") {
+      if (typeof stikeWompiCheckout === "function") {
         stikeWompiCheckout(total).catch(err => {
           console.error("wompi checkout:", err);
           stikeToast("Error al iniciar el pago con Wompi -- revisa la consola");

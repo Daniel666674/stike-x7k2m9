@@ -33,7 +33,7 @@
   <script>
     stikeInit();
 
-    const STATUS_ENDPOINT = (window.STIKE_WOMPI_STATUS_ENDPOINT) || "/api/wompi-status.php";
+    const STATUS_ENDPOINT = (window.STIKE_WOMPI_STATUS_ENDPOINT) || "https://stike-wompi-api.vercel.app/api/wompi-status";
     const mount = document.getElementById("result-mount");
 
     function renderState({ icon, title, orderNo, message, actionHref, actionLabel }) {
