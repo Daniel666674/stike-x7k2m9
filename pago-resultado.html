@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+<base href="/stike-x7k2m9/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Resultado del pago: Stike Bike Shop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css?v=33">
+  <link rel="icon" href="assets/img/favicon.png">
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <div class="wrap page-head">
+    <nav class="breadcrumb"><a href="index.html">Inicio</a><span class="sep">/</span><span>Resultado del pago</span></nav>
+  </div>
+
+  <div class="wrap" style="max-width:520px;padding:40px 0 80px">
+    <div id="result-mount" class="co-success">
+      <p>Verificando tu pago…</p>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="assets/js/products-data.js?v=3"></script>
+  <script src="assets/js/data.js?v=3"></script>
+  <script src="assets/js/app.js?v=9"></script>
+  <script>
+    stikeInit();
+
+    const STATUS_ENDPOINT = (window.STIKE_WOMPI_STATUS_ENDPOINT) || "/api/wompi-status.php";
+    const mount = document.getElementById("result-mount");
+
+    function renderState({ icon, title, orderNo, message, actionHref, actionLabel }) {
+      mount.innerHTML = `
+        <div class="co-check">${icon}</div>
+        <h3>${title}</h3>
+        ${orderNo ? `<div class="co-order-no">Referencia ${orderNo}</div>` : ""}
+        <p>${message}</p>
+        <a class="btn block" href="${actionHref}">${actionLabel}</a>`;
+    }
+
+    const CHECK_SVG = `<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>`;
+    const X_SVG = `<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+    const CLOCK_SVG = `<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
+
+    async function run() {
+      const params = new URLSearchParams(location.search);
+      const id = params.get("id");
+      if (!id) {
+        renderState({
+          icon: X_SVG, title: "No encontramos tu pago",
+          message: "Si acabas de pagar, escríbenos por WhatsApp con tu comprobante y lo confirmamos a mano.",
+          actionHref: `https://wa.me/${STIKE_CONFIG.whatsapp}`, actionLabel: "Escribir por WhatsApp",
+        });
+        return;
+      }
+
+      let txn;
+      try {
+        const res = await fetch(`${STATUS_ENDPOINT}?id=${encodeURIComponent(id)}`);
+        const body = await res.json();
+        if (!res.ok) throw new Error(body?.error || `HTTP ${res.status}`);
+        txn = body.data || body;
+      } catch (err) {
+        renderState({
+          icon: X_SVG, title: "No pudimos confirmar el pago",
+          message: "Escríbenos por WhatsApp con tu comprobante y lo confirmamos a mano.",
+          actionHref: `https://wa.me/${STIKE_CONFIG.whatsapp}`, actionLabel: "Escribir por WhatsApp",
+        });
+        return;
+      }
+
+      const ref = txn.reference || id;
+      if (txn.status === "APPROVED") {
+        stikeSaveCart([]);
+        renderState({
+          icon: CHECK_SVG, title: "¡Pago exitoso!", orderNo: ref,
+          message: "Te escribiremos por WhatsApp para confirmar tu pedido y el envío.",
+          actionHref: "tienda.html", actionLabel: "Volver a la tienda",
+        });
+      } else if (txn.status === "PENDING") {
+        renderState({
+          icon: CLOCK_SVG, title: "Tu pago está en proceso", orderNo: ref,
+          message: "Algunos medios de pago (PSE, Nequi) tardan unos minutos en confirmar. Te avisamos por WhatsApp apenas se confirme.",
+          actionHref: "tienda.html", actionLabel: "Volver a la tienda",
+        });
+      } else {
+        renderState({
+          icon: X_SVG, title: "El pago no se completó", orderNo: ref,
+          message: "Puedes intentarlo de nuevo desde tu carrito.",
+          actionHref: "carrito.html", actionLabel: "Volver al carrito",
+        });
+      }
+    }
+    run();
+  </script>
+  <script src="assets/js/animations.js?v=5"></script>
+</body>
+</html>

@@ -7,3 +7,6 @@ Thumbs.db
 node_modules/
 dist/
 .env
+
+# Secretos de Wompi para Hostinger (se sube a mano por FTP, nunca al repo)
+api/config.local.php
