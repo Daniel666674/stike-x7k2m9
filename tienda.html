@@ -85,6 +85,7 @@
         <p>No encontramos productos con esos filtros. Prueba con otra categoría o marca.</p>
         <a class="btn cyan" href="tienda.html">Ver todo el catálogo</a>
       </div>
+      <button class="btn ghost block" id="load-more" style="margin-top:28px;display:none" onclick="loadMore()">Cargar más productos</button>
     </div>
   </div>
 
@@ -149,7 +150,7 @@
       document.querySelectorAll("#filter-cats input").forEach(cb => cb.addEventListener("change", () => {
         state.cats = [...document.querySelectorAll("#filter-cats input:checked")].map(i => i.value);
         state.sub = null;
-        render();
+        applyFilters();
       }));
       // Marcas
       // Igual que las subcategorias: solo marcas que hoy tienen producto en tienda.
@@ -161,16 +162,16 @@
         // alterna una sola marca a la vez, por simplicidad
         document.querySelectorAll(".brand-cb").forEach(o => { if (o !== e.target) o.checked = false; });
         state.brand = e.target.checked ? e.target.value : null;
-        render();
+        applyFilters();
       }));
       // Precio
-      document.querySelectorAll("input[name=price]").forEach(r => r.addEventListener("change", e => { state.price = e.target.value; render(); }));
-      document.getElementById("sort").addEventListener("change", e => { state.sort = e.target.value; render(); });
+      document.querySelectorAll("input[name=price]").forEach(r => r.addEventListener("change", e => { state.price = e.target.value; applyFilters(); }));
+      document.getElementById("sort").addEventListener("change", e => { state.sort = e.target.value; applyFilters(); });
       document.getElementById("clear-filters").addEventListener("click", () => {
         state.cats = []; state.sub = null; state.brand = null; state.price = "all"; state.q = "";
         document.querySelectorAll(".filters input[type=checkbox]").forEach(i => i.checked = false);
         document.querySelector("input[name=price][value=all]").checked = true;
-        render();
+        applyFilters();
       });
     }
 
@@ -189,7 +190,7 @@
         subs.map(s => `<label><input type="radio" name="subcat" value="${s}" ${state.sub === s ? "checked" : ""}> ${s} <em>${counts[s]}</em></label>`).join("");
       document.querySelectorAll('input[name=subcat]').forEach(r => r.addEventListener("change", e => {
         state.sub = e.target.value || null;
-        render();
+        applyFilters();
       }));
     }
 
@@ -245,20 +246,36 @@
       shelf.hidden = false;
     }
 
+    /* Paginacion: "repuestos" sola trae 125 productos, y sin esto se
+       mandaban los 125 de una, en una grilla de 2 columnas en movil --
+       una pagina de ~25.000px de alto antes de llegar al footer. Se
+       muestran de a PAGE_SIZE y "Cargar más" suma otro tanto; cualquier
+       cambio de filtro (applyFilters) vuelve a arrancar desde el principio
+       -- "cargar más" (loadMore) no toca nada mas, solo pide mas filas. */
+    const PAGE_SIZE = 24;
+    let visibleCount = PAGE_SIZE;
+
     function render() {
       buildHeader();
       buildSubcats();
       buildPartsShelf();
       syncCanonical();
       const list = filtered();
+      const shown = list.slice(0, visibleCount);
       const grid = document.getElementById("grid");
       const empty = document.getElementById("empty");
-      grid.innerHTML = list.map(stikeProductCard).join("");
+      const moreBtn = document.getElementById("load-more");
+      grid.innerHTML = shown.map(stikeProductCard).join("");
       empty.style.display = list.length ? "none" : "block";
       grid.style.display = list.length ? "grid" : "none";
       document.getElementById("result-count").textContent = `${list.length} producto${list.length === 1 ? "" : "s"}`;
-      document.getElementById("showing").textContent = `Mostrando ${list.length} resultado${list.length === 1 ? "" : "s"}`;
+      document.getElementById("showing").textContent = list.length
+        ? `Mostrando ${shown.length} de ${list.length} resultado${list.length === 1 ? "" : "s"}`
+        : "Mostrando 0 resultados";
+      if (moreBtn) moreBtn.style.display = shown.length < list.length ? "" : "none";
     }
+    function applyFilters() { visibleCount = PAGE_SIZE; render(); }
+    function loadMore() { visibleCount += PAGE_SIZE; render(); }
 
     buildFilters();
     render();
