@@ -20,5 +20,27 @@
       "city": "Fontibon",
       "notes": ""
     }
+  },
+  {
+    "ts": "2026-10-07T02:06:45.383Z",
+    "slug": "marco-fiend-shapershifter-320-blanco",
+    "name": "Marco Fiend Shapershifter 320 Blanco Perla Brillante",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 1790000,
+    "total": 1790000,
+    "admin": "Wompi (ref stike-1791338462799-83w658)",
+    "source": "wompi",
+    "orderRef": "stike-1791338462799-83w658",
+    "wompiId": "12209446-1791338772-41270",
+    "customerEmail": "jd44796@gmail.com",
+    "shipping": {
+      "name": "Juan Diaz",
+      "phone": "3148543846",
+      "address": "Carrera 81a #16c-71",
+      "city": "Bogotá",
+      "notes": ""
+    }
   }
 ]
