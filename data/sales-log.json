@@ -86,5 +86,27 @@
       "city": "sdgsdg",
       "notes": "sggd"
     }
+  },
+  {
+    "ts": "2026-10-07T03:53:02.548Z",
+    "slug": "bielas-primo-churchill-160mm-cromadas",
+    "name": "Bielas Primo Churchill 160mm Cromadas",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 920000,
+    "total": 920000,
+    "admin": "Wompi (ref stike-1791345105434-4vjh9s)",
+    "source": "wompi",
+    "orderRef": "stike-1791345105434-4vjh9s",
+    "wompiId": "12209446-1791345142-81883",
+    "customerEmail": "test@test.com",
+    "shipping": {
+      "name": "Daniel",
+      "phone": "3333333333",
+      "address": "cll123 #123#21",
+      "city": "Bogota fonrtibon",
+      "notes": ""
+    }
   }
 ]
