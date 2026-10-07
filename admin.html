@@ -115,7 +115,8 @@
   --radius-sm:8px;   /* botones, inputs -- ya no pildora en botones */
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 "Inter",-apple-system,"Segoe UI",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+html{overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 "Inter",-apple-system,"Segoe UI",Arial,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;max-width:100vw}
 h1,h2,h3,h4{font-family:inherit;font-weight:700;letter-spacing:-.01em;margin:0}
 /* La mayuscula+tracking que antes llevaban TODOS los titulos (prestada de
    Oswald, que nunca cargo) se queda solo donde ya es una convencion real de
@@ -409,8 +410,23 @@ tr:hover td{background:var(--bg-2)}
 .pill.good{color:var(--good);background:var(--good-soft);border-color:transparent}
 @media (max-width:900px){
   #app{grid-template-columns:1fr}
-  .side{position:static;height:auto;flex-direction:row;overflow-x:auto}
+  .side{
+    position:sticky;top:0;z-index:40;height:auto;min-width:0;
+    flex-direction:row;align-items:center;overflow-x:auto;-webkit-overflow-scrolling:touch;
+    border-right:none;border-bottom:1px solid var(--line);
+    padding:10px 12px;gap:2px;
+  }
+  .side .brand{padding:4px 10px 4px 2px;white-space:nowrap;flex:none}
+  .side .navbtn{white-space:nowrap;flex:none;padding:8px 12px}
+  .side .spacer,.side .side-foot{display:none}
+  main{padding:16px 14px 90px;min-width:0}
+  .topbar h2{font-size:20px}
+  .topbar-actions{width:100%}
   .grid-2,.grid-3,.grid-4{grid-template-columns:1fr 1fr}
+}
+@media (max-width:480px){
+  .notif-panel{position:fixed;top:auto;bottom:12px;left:12px;right:12px;width:auto;max-height:65vh}
+  .topbar-actions .lbl{display:none}
 }
 </style>
 </head>

@@ -1144,6 +1144,12 @@ function renderEditor() {
 }
 
 function escAttr(s) { return String(s == null ? "" : s).replace(/"/g, "&quot;"); }
+/* A diferencia de escAttr (solo comillas, para atributos), esto escapa
+   tambien < y > -- hace falta en todo lo que venga de datos escritos por
+   un cliente anonimo en el carrito (nombre, direccion, notas de envio) y
+   se vaya a mostrar como HTML aca, nunca antes necesario porque el resto
+   del panel solo mostraba datos que el propio dueno escribio. */
+function escHtml(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
 function validateNameField() {
   $("#ed-n-err").textContent = editorDraft.n ? "" : "El nombre es obligatorio.";
   return !!editorDraft.n;
@@ -1580,10 +1586,65 @@ function renderSalesTab() {
   $("#sales-count").textContent = rows.length
     ? `${rows.length} venta${rows.length === 1 ? "" : "s"} registrada${rows.length === 1 ? "" : "s"}${rows.length > 200 ? " — mostrando las 200 más recientes" : ""}`
     : "";
-  $("#sales-tbody").innerHTML = rows.slice(0, 200).map(s => `
-    <tr><td>${new Date(s.ts).toLocaleString("es-CO")}</td><td>${s.name || s.slug}</td>
-    <td>${[s.size, s.color].filter(Boolean).join(" / ") || "—"}</td><td>${s.qty}</td><td>${money(s.total)}</td><td>${s.admin || ""}</td></tr>`).join("")
+  $("#sales-tbody").innerHTML = rows.slice(0, 200).map((s, i) => `
+    <tr data-sale-idx="${i}" style="cursor:pointer" title="Ver detalle">
+      <td>${new Date(s.ts).toLocaleString("es-CO")}</td><td>${escHtml(s.name || s.slug)}</td>
+      <td>${escHtml([s.size, s.color].filter(Boolean).join(" / ")) || "—"}</td><td>${s.qty}</td><td>${money(s.total)}</td><td>${escHtml(s.admin || "")}</td></tr>`).join("")
     || `<tr><td colspan="6" class="muted" style="padding:16px;text-align:center">Sin ventas registradas.</td></tr>`;
+  $("#sales-tbody").querySelectorAll("tr[data-sale-idx]").forEach(tr => {
+    tr.addEventListener("click", () => openSaleDetail(rows[Number(tr.getAttribute("data-sale-idx"))]));
+  });
+}
+
+/* Detalle completo de una venta -- sobre todo para las de Wompi, que traen
+   datos de envio y referencia de pago que la fila de la tabla no alcanza a
+   mostrar. Reusa el mismo modal generico que el ajuste de precio en lote. */
+function openSaleDetail(sale) {
+  if (!sale) return;
+  const fieldRows = arr => arr.filter(Boolean).map(([k, v]) => `
+    <div style="display:flex;justify-content:space-between;gap:16px;padding:7px 0;border-bottom:1px solid var(--line-soft);font-size:13px">
+      <span class="muted">${escHtml(k)}</span><span style="text-align:right">${escHtml(v)}</span>
+    </div>`).join("");
+  const sectionTitle = t => `<h4 style="margin:18px 0 4px;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)">${escHtml(t)}</h4>`;
+
+  const variant = [sale.size, sale.color].filter(Boolean).join(" / ");
+  const mainRows = [
+    ["Fecha", new Date(sale.ts).toLocaleString("es-CO")],
+    ["Producto", sale.name || sale.slug],
+    variant && ["Variante", variant],
+    ["Cantidad", sale.qty],
+    ["Precio unitario", money(sale.unitPrice)],
+    ["Total", money(sale.total)],
+    ["Vendedor", sale.admin || "—"],
+  ];
+
+  const isWompi = sale.source === "wompi";
+  const wompiRows = isWompi ? [
+    ["Referencia", sale.orderRef || "—"],
+    ["ID transacción Wompi", sale.wompiId || "—"],
+    ["Email del cliente", sale.customerEmail || "—"],
+  ] : [];
+
+  const ship = sale.shipping;
+  const shipRows = ship ? [
+    ["Nombre", ship.name],
+    ["Teléfono", ship.phone],
+    ["Dirección", ship.address],
+    ["Ciudad / Barrio", ship.city],
+    ship.notes && ["Notas", ship.notes],
+  ] : [];
+
+  $("#confirm-modal").innerHTML = `
+    <h3 style="margin-bottom:2px">${escHtml(sale.name || sale.slug)}</h3>
+    <p class="muted" style="margin:0 0 4px;font-size:13px">Detalle de la venta</p>
+    ${fieldRows(mainRows)}
+    ${isWompi ? sectionTitle("Pago (Wompi)") + fieldRows(wompiRows) : ""}
+    ${shipRows.length
+      ? sectionTitle("Envío") + fieldRows(shipRows)
+      : (isWompi ? `<p style="color:var(--bad);font-size:12.5px;margin-top:14px">Sin datos de envío -- venta anterior a que se pidieran en el carrito.</p>` : "")}
+    <button class="btn block" id="sd-close" style="margin-top:20px">Cerrar</button>`;
+  $("#sd-close").addEventListener("click", closeConfirmModal);
+  $("#confirm-overlay").classList.add("open");
 }
 
 /* ============================== NOTIFICACIONES DE VENTAS ==================
