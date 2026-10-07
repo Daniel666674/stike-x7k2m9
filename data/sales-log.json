@@ -42,5 +42,27 @@
       "city": "Bogotá",
       "notes": ""
     }
+  },
+  {
+    "ts": "2026-10-07T02:24:21.913Z",
+    "slug": "buzo-fox-honda",
+    "name": "Buzo Fox Honda Racing Crema y Negro",
+    "size": "L",
+    "color": null,
+    "qty": 1,
+    "unitPrice": 120000,
+    "total": 120000,
+    "admin": "Wompi (ref stike-1791339080648-ecp12c)",
+    "source": "wompi",
+    "orderRef": "stike-1791339080648-ecp12c",
+    "wompiId": "12209446-1791339186-82412",
+    "customerEmail": "jparra375@gmail.com",
+    "shipping": {
+      "name": "Jefersson Parra González",
+      "phone": "3118108848",
+      "address": "Calle 67b # 64-27 sur",
+      "city": "bogota",
+      "notes": ""
+    }
   }
 ]
