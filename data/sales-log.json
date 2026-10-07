@@ -64,5 +64,27 @@
       "city": "bogota",
       "notes": ""
     }
+  },
+  {
+    "ts": "2026-10-07T02:43:54.543Z",
+    "slug": "tenedor-fiend-invest-v2-26mm-cromado",
+    "name": "Tenedor Fiend Invest V2 26mm Cromado",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 750000,
+    "total": 750000,
+    "admin": "Wompi (ref stike-1791340996590-yipmfi)",
+    "source": "wompi",
+    "orderRef": "stike-1791340996590-yipmfi",
+    "wompiId": "12209446-1791341025-68899",
+    "customerEmail": "test@test.com",
+    "shipping": {
+      "name": "fgrg",
+      "phone": "agdgdg",
+      "address": "sgdsdg",
+      "city": "sdgsdg",
+      "notes": "sggd"
+    }
   }
 ]
