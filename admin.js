@@ -366,6 +366,8 @@ async function loadAll() {
   renderAudit();
   renderContentTab();
   updateDirtyUI();
+  renderNotifBadge();
+  startSalesPolling();
   showStatus([{ text: `Listo: ${workingCatalog.length} productos.`, cls: "ok" }]);
 }
 
@@ -1584,6 +1586,87 @@ function renderSalesTab() {
     || `<tr><td colspan="6" class="muted" style="padding:16px;text-align:center">Sin ventas registradas.</td></tr>`;
 }
 
+/* ============================== NOTIFICACIONES DE VENTAS ==================
+   Avisa en el panel (campana + badge + notificacion del navegador) cuando
+   aparece una venta nueva en el log -- sobre todo las que vienen solas del
+   checkout real de Wompi, que nadie registro a mano. Revisa
+   data/sales-log.json cada 45s; si hay entradas que no estaban antes, las
+   muestra. Es una campana DE PANEL, no un push real: solo avisa mientras
+   esta pestaña sigue abierta (aunque este de fondo/minimizada). Para que
+   el dueño se entere aunque el panel este cerrado, ver el correo
+   automatico (wompi-order.js, lado del backend). */
+let lastSeenSaleTs = localStorage.getItem("stike_admin_last_seen_sale") || "";
+let notifPollTimer = null;
+
+function unseenSales() { return salesLog.filter(s => s.ts > lastSeenSaleTs); }
+
+function renderNotifBadge() {
+  const n = unseenSales().length;
+  const badge = $("#notif-badge");
+  if (!badge) return;
+  badge.textContent = n > 9 ? "9+" : String(n);
+  badge.style.display = n > 0 ? "" : "none";
+}
+
+function renderNotifPanel() {
+  const panel = $("#notif-panel");
+  const rows = salesLog.slice().reverse().slice(0, 12);
+  panel.innerHTML = `<h4>Ventas recientes</h4>` + (rows.length
+    ? rows.map(s => `
+      <div class="notif-row">
+        <div class="nr-top"><span>${s.qty}x ${s.name || s.slug}</span><b>${money(s.total)}</b></div>
+        <div class="nr-sub">${new Date(s.ts).toLocaleString("es-CO")} · ${s.admin || ""}</div>
+      </div>`).join("")
+    : `<div class="notif-empty">Sin ventas todavía.</div>`);
+}
+
+function toggleNotifPanel() {
+  const panel = $("#notif-panel");
+  const opening = panel.style.display === "none";
+  panel.style.display = opening ? "" : "none";
+  if (opening) {
+    renderNotifPanel();
+    if ("Notification" in window && Notification.permission === "default") Notification.requestPermission();
+  } else {
+    lastSeenSaleTs = new Date().toISOString();
+    localStorage.setItem("stike_admin_last_seen_sale", lastSeenSaleTs);
+    renderNotifBadge();
+  }
+}
+
+function notifySaleEntries(entries) {
+  if (!entries.length) return;
+  const preview = entries.slice(0, 3).map(s => `${s.qty}x ${s.name || s.slug}`).join(", ") + (entries.length > 3 ? "…" : "");
+  showStatus([{ text: `🔔 ${entries.length} venta${entries.length === 1 ? "" : "s"} nueva${entries.length === 1 ? "" : "s"}: ${preview}`, cls: "ok" }]);
+  if ("Notification" in window && Notification.permission === "granted") {
+    entries.slice(0, 3).forEach(s => {
+      try { new Notification("Nueva venta Stike", { body: `${s.qty}x ${s.name || s.slug} — ${money(s.total)}` }); }
+      catch (e) { /* algunos navegadores bloquean Notification fuera de un gesto del usuario */ }
+    });
+  }
+}
+
+async function pollSalesLog() {
+  if (demoMode || !session.pat) return;
+  const fresh = await ghGetFile(CONFIG.paths.salesLog);
+  const freshLog = fresh ? JSON.parse(fresh.text) : [];
+  if (freshLog.length === salesLog.length) return;
+  const knownKeys = new Set(salesLog.map(s => `${s.ts}|${s.slug}|${s.orderRef || ""}`));
+  const added = freshLog.filter(s => !knownKeys.has(`${s.ts}|${s.slug}|${s.orderRef || ""}`));
+  salesLog = freshLog;
+  renderSalesTab();
+  renderKpis();
+  renderNotifBadge();
+  if (added.length) notifySaleEntries(added);
+}
+
+function startSalesPolling() {
+  if (notifPollTimer) return;
+  notifPollTimer = setInterval(() => {
+    if (document.visibilityState === "visible") pollSalesLog().catch(() => {});
+  }, 45000);
+}
+
 /* ============================== KPIs ======================================== */
 /* Icono de candado reutilizable para todo dato que session.role oculta
    (costo, margen). 1em de lado: hereda el tamano de texto de donde se
@@ -2021,6 +2104,11 @@ $$(".navbtn").forEach(b => b.addEventListener("click", () => switchPanel(b.getAt
 /* ============================== WIRING GENERAL ================================ */
 $("#btn-refresh").addEventListener("click", () => loadAll().catch(e => showStatus([{ text: "Error: " + e.message, cls: "bad" }])));
 $("#btn-publish").addEventListener("click", () => publishCatalog());
+$("#btn-notif").addEventListener("click", e => { e.stopPropagation(); toggleNotifPanel(); });
+document.addEventListener("click", e => {
+  const panel = $("#notif-panel");
+  if (panel && panel.style.display !== "none" && !e.target.closest(".notif-wrap")) toggleNotifPanel();
+});
 $("#btn-new-product").addEventListener("click", () => openEditor(null));
 $("#p-search").addEventListener("input", renderProductGrid);
 $("#p-filter-cat").addEventListener("change", () => { $("#p-filter-sub").value = ""; renderProductGrid(); });

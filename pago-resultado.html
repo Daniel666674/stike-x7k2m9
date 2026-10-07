@@ -86,6 +86,7 @@
            tambien al backend (ver STIKE_WOMPI_ORDER_ENDPOINT) para que
            quede en el registro de ventas del panel admin. */
         const cart = stikeGetCart();
+        const shipInfo = stikeGetShipping();
         const waLines = cart.map(r => {
           const p = stikeFindProduct(r.slug);
           if (!p) return "";
@@ -96,7 +97,10 @@
           return `• ${r.qty}x ${p.n}${variant}, ${stikePrice(p.price * r.qty)}`;
         }).filter(Boolean).join("%0A");
         const amountPesos = Math.round((txn.amount_in_cents || 0) / 100);
-        const waMsg = `Hola Stike! Ya pague mi pedido por Wompi.%0AReferencia: ${ref}%0A${waLines}%0A%0ATotal pagado: ${stikePrice(amountPesos)}`;
+        const shipLines = shipInfo
+          ? `%0A%0AEnviar a:%0A${shipInfo.name} - ${shipInfo.phone}%0A${shipInfo.address}, ${shipInfo.city}` + (shipInfo.notes ? `%0ANotas: ${shipInfo.notes}` : "")
+          : "";
+        const waMsg = `Hola Stike! Ya pague mi pedido por Wompi.%0AReferencia: ${ref}%0A${waLines}%0A%0ATotal pagado: ${stikePrice(amountPesos)}${shipLines}`;
 
         const ORDER_ENDPOINT = window.STIKE_WOMPI_ORDER_ENDPOINT || "https://stike-wompi-api.vercel.app/api/wompi-order";
         if (ORDER_ENDPOINT && cart.length) {
@@ -108,12 +112,14 @@
               wompiId: id,
               amountInCents: txn.amount_in_cents,
               customerEmail: txn.customer_email || null,
+              shipping: shipInfo || null,
               items: cart.map(r => ({ slug: r.slug, qty: r.qty, size: r.size || null, color: r.color || null })),
             }),
           }).catch(err => console.error("wompi-order (registro de venta):", err));
         }
 
         stikeSaveCart([]);
+        stikeClearShipping();
         renderState({
           icon: CHECK_SVG, title: "¡Pago exitoso!", orderNo: ref,
           message: "Avísanos por WhatsApp para confirmar el envío de tu pedido:",

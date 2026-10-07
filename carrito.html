@@ -52,7 +52,32 @@
        Cuando se confirme que todo funciona y se migre a Hostinger, esto
        vuelve a la pasarela simulada o pasa a /api/wompi-sign.php segun
        se decida. */
+    /* El pago en si no dice a donde entregar -- Wompi solo sabe monto y
+       referencia -- asi que estos datos se piden aca, antes de salir del
+       sitio, y se guardan en localStorage (sobreviven el viaje de ida y
+       vuelta a checkout.wompi.co) para que pago-resultado.html los pueda
+       mandar junto con el pedido. */
+    function readShippingForm() {
+      const name = $ship("ship-name"), phone = $ship("ship-phone"), address = $ship("ship-address"), city = $ship("ship-city");
+      if (!name.value.trim() || !phone.value.trim() || !address.value.trim() || !city.value.trim()) {
+        const firstEmpty = [name, phone, address, city].find(el => !el.value.trim());
+        firstEmpty.focus();
+        stikeToast("Completa tus datos de envío antes de pagar");
+        return null;
+      }
+      return {
+        name: name.value.trim(), phone: phone.value.trim(),
+        address: address.value.trim(), city: city.value.trim(),
+        notes: $ship("ship-notes").value.trim(),
+      };
+    }
+    function $ship(id) { return document.getElementById(id); }
+
     function handlePagarAhora(total) {
+      const shipInfo = readShippingForm();
+      if (!shipInfo) return;
+      stikeSaveShipping(shipInfo);
+
       if (typeof stikeWompiCheckout === "function") {
         stikeWompiCheckout(total).catch(err => {
           console.error("wompi checkout:", err);
@@ -198,6 +223,8 @@
       const shipping = subtotal >= FREE_SHIP ? 0 : SHIP_COST;
       const total = subtotal + shipping;
       const missing = FREE_SHIP - subtotal;
+      const ship = stikeGetShipping() || {};
+      const escAttr = s => String(s || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
       const waLines = cart.map(r => {
         const p = stikeFindProduct(r.slug);
         if (!p) return "";
@@ -225,6 +252,14 @@
             <button class="btn sm" onclick="stikeToast('Código aplicado en el pago')">Aplicar</button>
           </div>
           <div class="line total"><span>Total</span><span>${stikePrice(total)}</span></div>
+          <div class="co-form" id="ship-form" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--line)">
+            <label for="ship-name" style="margin-bottom:0">Datos de envío</label>
+            <input type="text" id="ship-name" placeholder="Nombre completo" value="${escAttr(ship.name)}">
+            <input type="tel" id="ship-phone" placeholder="Teléfono / WhatsApp" value="${escAttr(ship.phone)}">
+            <input type="text" id="ship-address" placeholder="Dirección" value="${escAttr(ship.address)}">
+            <input type="text" id="ship-city" placeholder="Ciudad / Barrio" value="${escAttr(ship.city)}">
+            <input type="text" id="ship-notes" placeholder="Notas para la entrega (opcional)" value="${escAttr(ship.notes)}">
+          </div>
           <a class="btn wa block" style="margin-top:16px" href="https://wa.me/${STIKE_CONFIG.whatsapp}?text=${waMsg}" target="_blank" rel="noopener">Finalizar por WhatsApp</a>
           <button class="btn block" style="margin-top:10px" onclick="handlePagarAhora(${total})">Pagar ahora</button>
           <p style="color:var(--muted);font-size:12px;margin-top:14px;text-align:center">Pagos: Tarjeta · PSE · Nequi · Efecty</p>
@@ -236,6 +271,17 @@
       mount.querySelectorAll("[data-dec]").forEach(b => b.addEventListener("click", () => { const k=b.getAttribute("data-dec"); const c=stikeGetCart().find(x=>stikeLineKey(x)===k); stikeUpdateQty(k,(c?c.qty:1)-1); render(); }));
       mount.querySelectorAll("[data-qty]").forEach(inp => inp.addEventListener("change", () => { const k=inp.getAttribute("data-qty"); stikeUpdateQty(k, Math.max(1, parseInt(inp.value)||1)); render(); }));
       mount.querySelectorAll("[data-remove]").forEach(b => b.addEventListener("click", () => { stikeRemoveFromCart(b.getAttribute("data-remove")); render(); }));
+
+      // render() reconstruye todo el HTML (incluido el formulario de envío)
+      // cada vez que cambia una cantidad -- sin esto, lo que el cliente
+      // alcanzo a escribir pero no habia guardado se perdia al tocar + o -.
+      ["ship-name", "ship-phone", "ship-address", "ship-city", "ship-notes"].forEach(id => {
+        $ship(id).addEventListener("input", () => stikeSaveShipping({
+          name: $ship("ship-name").value, phone: $ship("ship-phone").value,
+          address: $ship("ship-address").value, city: $ship("ship-city").value,
+          notes: $ship("ship-notes").value,
+        }));
+      });
     }
     render();
   </script>

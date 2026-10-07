@@ -147,6 +147,15 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-
 .pill.editor{color:var(--accent);background:var(--accent-soft);border-color:transparent}
 .pill.dirty{color:var(--draft);background:var(--draft-soft);border-color:transparent}
 .pill.low{color:var(--warn)}
+.notif-wrap{position:relative}
+.notif-badge{position:absolute;top:-6px;right:-6px;min-width:16px;height:16px;padding:0 4px;border-radius:999px;background:#ff4d5e;color:#fff;font-size:10px;font-weight:700;line-height:16px;text-align:center}
+.notif-panel{position:absolute;top:calc(100% + 8px);right:0;width:320px;max-height:380px;overflow:auto;background:var(--bg-2);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.4);z-index:50;padding:6px}
+.notif-panel h4{margin:6px 10px;font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+.notif-row{display:block;padding:9px 10px;border-radius:8px;font-size:13px;line-height:1.4}
+.notif-row:hover{background:var(--bg-1)}
+.notif-row .nr-top{display:flex;justify-content:space-between;gap:8px;color:var(--text)}
+.notif-row .nr-sub{color:var(--muted);font-size:12px}
+.notif-empty{padding:18px 10px;text-align:center;color:var(--muted);font-size:13px}
 .pill.out{color:var(--bad)}
 
 /* ---- gate de acceso (Google Sign-In) ---- */
@@ -445,6 +454,10 @@ tr:hover td{background:var(--bg-2)}
       <h2 id="panel-title">Productos</h2>
       <div class="topbar-actions">
         <span class="pill dirty" id="dirty-pill" style="display:none"></span>
+        <div class="notif-wrap">
+          <button class="btn ghost sm" id="btn-notif" title="Ventas nuevas" aria-label="Notificaciones">🔔<span class="notif-badge" id="notif-badge" style="display:none">0</span></button>
+          <div class="notif-panel" id="notif-panel" style="display:none" role="menu"></div>
+        </div>
         <button class="btn ghost sm" id="btn-refresh">↻ Recargar de GitHub</button>
         <button class="btn cyan" id="btn-publish" disabled>Publicar cambios</button>
       </div>

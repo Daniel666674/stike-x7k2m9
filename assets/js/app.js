@@ -60,6 +60,23 @@ function stikeSaveCart(cart) {
   localStorage.setItem(CART_KEY, JSON.stringify(cart));
   stikeUpdateCartBadge();
 }
+
+/* Datos de envío del pedido en curso. Se guardan al dar "Pagar ahora" y
+   sobreviven el viaje de ida y vuelta a checkout.wompi.co (localStorage es
+   por origen, no se borra al navegar a otro sitio y volver) -- es la unica
+   forma de que pago-resultado.html sepa a donde entregar el pedido, ya que
+   Wompi nunca recibe ni devuelve esta informacion. */
+const SHIPPING_KEY = "stike_shipping_v1";
+function stikeGetShipping() {
+  try { return JSON.parse(localStorage.getItem(SHIPPING_KEY)) || null; }
+  catch { return null; }
+}
+function stikeSaveShipping(info) {
+  localStorage.setItem(SHIPPING_KEY, JSON.stringify(info));
+}
+function stikeClearShipping() {
+  localStorage.removeItem(SHIPPING_KEY);
+}
 /* Clave única de línea: mismo producto en distinta talla/color = línea distinta */
 function stikeLineKey(item) {
   return item.slug + (item.size ? "::s:" + item.size : "") + (item.color ? "::c:" + item.color : "");
