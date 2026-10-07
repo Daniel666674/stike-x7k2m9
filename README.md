@@ -36,15 +36,22 @@ backend**, no hay servidor ni base de datos.
   - `carrito.html` — Carrito con cantidades, envío gratis y checkout por WhatsApp
   - `marcas.html`, `contacto.html`, `nosotros.html`, `armar.html` (configurador), `blog*.html`
   - `admin.html` — Panel de inventario (ver abajo)
-  - `fate/` — Micro-sitio de **Fate BMX Colombia**, marca local que se vende
-    acá: landing propia (`fate/index.html`) con header/nav/footer propios
-    (no el header/footer compartido del resto del sitio), catálogo propio
-    filtrable (`fate/tienda.html`) y un mini-blog editorial propio
-    (`fate/blog.html` + `fate/historia-fate.html`, `fate/taller-fate.html`,
-    `fate/riders-fate.html`, con el mismo sistema `.blog-grid`/`.article`
-    que usa el blog principal), enlazados desde el nav principal y desde
-    `marcas.html`/home con una banda destacada. Carrito y checkout por
-    WhatsApp siguen siendo los de Stike; `marca-fate.html` viejo redirige acá.
+  - `fate/` — Sitio de marca de **Fate BMX Colombia**. **No es una tienda**:
+    es su propio sitio, blanco y negro, sin carrito ni precios, y no carga
+    nada del CSS/JS de Stike. Todo lo suyo vive dentro de `fate/`
+    (`fate/assets/{css,js,fonts,img}`), así que se puede llevar a otro
+    dominio tal cual. Páginas: `fate/index.html` (home), `fate/tienda.html`
+    (la **colección**: se llama así por la URL heredada, pero es un
+    escaparate con enlaces "Disponible en Stike" y "Consultar" por WhatsApp),
+    `fate/blog.html` (historias) y los tres artículos `historia-fate`,
+    `taller-fate` y `riders-fate`. Tokens de diseño en `:root` de
+    `fate/assets/css/fate.css` (solo neutros: no agregar color de acento);
+    tipografía Instrument Serif + Instrument Sans, autoalojada. La colección
+    es HTML a mano (no sale de `products-data.js`): una pieza nueva es un
+    `<article class="item">` nuevo en `fate/tienda.html`. Las fotos de
+    `fate/assets/img/` están pasadas a escala de grises y fondo blanco puro
+    (el emblema es PNG negro sobre transparente). Enlazado desde `marcas.html`
+    y el home de Stike; `marca-fate.html` viejo redirige acá.
 - **Catálogo** en `assets/js/products-data.js` (`window.STIKE_PRODUCTS`, JS
   plano no JSON, para poder incluirlo con `<script src>` sin fetch/CORS).
   Cada producto puede tener **tallas y/o colores como pools de stock
