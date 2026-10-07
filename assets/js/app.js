@@ -685,6 +685,24 @@ function stikeFloatingWA() {
   document.body.appendChild(a);
 }
 
+/* Carrito flotante, apilado ARRIBA del de WhatsApp (mismo rincón,
+   mismo lenguaje visual). El badge usa la clase "cart-count" que
+   stikeUpdateCartBadge() ya actualiza en todas partes -- no hace falta
+   cablear nada nuevo, el contador llega solo. No se muestra en carrito.html
+   (ya estás ahi) ni en pago-resultado.html (nada que mostrar todavia). */
+function stikeFloatingCart() {
+  const page = location.pathname.split("/").pop();
+  if (page === "carrito.html" || page === "pago-resultado.html") return;
+  const a = document.createElement("a");
+  a.className = "cart-float";
+  a.href = "carrito.html";
+  a.title = "Ver carrito";
+  a.setAttribute("aria-label", "Ver carrito");
+  a.innerHTML = HDR_ICO_BAG + `<span class="cart-count">0</span>`;
+  document.body.appendChild(a);
+  stikeUpdateCartBadge();
+}
+
 /* ------------------------- COOKIES / CONSENTIMIENTO -------------------- */
 const STIKE_COOKIE_KEY = "stike_cookie_consent_v1";
 function stikeCookieConsent() {
@@ -791,6 +809,7 @@ function stikeInit(active) {
   stikeRenderHeader(active);
   stikeRenderFooter();
   stikeFloatingWA();
+  stikeFloatingCart();
   stikeRenderSearchOverlay();
   stikeFillConfig();
   stikeCookieBanner();

@@ -905,6 +905,14 @@ body.fate-page .card .brand-line .bl-sub { display: inline; }
 .wa-float:hover { transform: scale(1.14); box-shadow: 0 14px 40px rgba(0,0,0,.28); }
 .wa-float svg { width: 30px; height: 30px; fill: #18181b; } /* boton siempre blanco (ver .wa-float): glifo fijo oscuro */
 
+/* Carrito flotante: mismo rincon, apilado ARRIBA del de WhatsApp (58px +
+   14px de separacion = 94px desde abajo). Mismo lenguaje visual que
+   .wa-float a proposito -- son el mismo patron de "atajo flotante". */
+.cart-float { position: fixed; bottom: 94px; right: 22px; width: 58px; height: 58px; border-radius: 50%; background: #ffffff; display: grid; place-items: center; box-shadow: 0 10px 30px rgba(0,0,0,.5); z-index: 90; transition: transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .2s ease; }
+.cart-float:hover { transform: scale(1.14); box-shadow: 0 14px 40px rgba(0,0,0,.28); }
+.cart-float svg { width: 24px; height: 24px; stroke: #18181b; }
+.cart-float .cart-count { top: -4px; right: -4px; background: var(--ink); color: var(--ink-contrast); }
+
 /* Volver arriba */
 .back-to-top {
   position: fixed; bottom: 22px; left: 22px; width: 48px; height: 48px; border-radius: 50%;
@@ -1978,6 +1986,8 @@ body:not(.fate-page) h1 .o1 { color: var(--mint); }
 /* ============================ FLOTANTES ================================= */
 .wa-float { background: var(--mint); box-shadow: var(--mint-glow); }
 .wa-float svg { fill: var(--mint-ink); }
+.cart-float { background: #f4f5f5; box-shadow: 0 10px 30px rgba(0,0,0,.5); }
+.cart-float svg { stroke: #111314; }
 .back-to-top { background: rgba(24,25,26,.95); border: 1px solid var(--line); color: var(--ink); }
 .back-to-top:hover { background: var(--mint); color: var(--mint-ink); border-color: var(--mint); }
 .toast { background: #f4f5f5; color: #111314; font-family: var(--cond); font-style: italic; font-size: 19px; border-left: 6px solid var(--mint); border-radius: 10px; }

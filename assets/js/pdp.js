@@ -157,14 +157,10 @@ function stikePdpInit(slug) {
   updateWaBuy();
 
   // Relacionados
-  /* Relacionados en vivo, no horneados en el HTML: se calculan del catalogo
-     que acaba de cargar, asi que no envejecen y no hace falta un script que
-     los pode despues. Se excluye lo agotado: recomendar algo que no se puede
-     comprar gasta el espacio de algo que si. STIKE_PRODUCTS ya viene sin
-     borradores (ver data.js). */
-  const vendible = x => x.slug !== p.slug && !stikeIsOut(x);
-  const related = STIKE_PRODUCTS.filter(x => x.cat === p.cat && vendible(x)).slice(0, 3);
-  const fallback = STIKE_PRODUCTS.filter(vendible).slice(0, 3);
+  /* stikeRelatedProducts (assets/js/data.js) hace el trabajo real: misma
+     marca + pieza complementaria primero, despues misma marca + medida,
+     con relleno para que la seccion nunca quede vacia. Calculado en vivo
+     del catalogo que acaba de cargar, asi que no envejece. */
   const relatedMount = document.getElementById("related");
-  if (relatedMount) relatedMount.innerHTML = (related.length ? related : fallback).map(stikeProductCard).join("");
+  if (relatedMount) relatedMount.innerHTML = stikeRelatedProducts(p, 3).map(stikeProductCard).join("");
 }

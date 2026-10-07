@@ -280,6 +280,94 @@ function stikeIsVisible(p) {
    tarjetas de la vitrina y el carrito. */
 function stikeIsOutOfStock(p) { return stikeIsOut(p); }
 
+/* ============================== RECOMENDACIONES ===========================
+   Motor de "tambien te puede gustar" / cross-sell con reglas de prioridad
+   explicitas -- antes era "mismo cat (repuestos/ropa), los primeros 3", que
+   no distinguia ni marca ni tipo de pieza real.
+
+     1. Misma marca + (mismo sub, o un sub que arma el build con el actual
+        -- ej. una caña Fiend sugiere timones y tenedores Fiend).
+     2. Misma marca + misma medida (compatibilidad real: mismo diametro,
+        dientes o rosca), si el nivel 1 no llena el cupo.
+     3. Mismo sub, cualquier marca (relleno).
+     4. Cualquier producto disponible (ultimo recurso, la seccion nunca
+        queda vacia).
+
+   Se excluye el producto actual y todo lo agotado, en cada nivel. */
+var STIKE_RELATED_SUB_MAP = {
+  "Espigas": ["Timones", "Tenedores", "Sillas y Postes"],
+  "Tenedores": ["Espigas", "Timones", "Rines"],
+  "Bielas": ["Platos", "Pedales", "Cadenas"],
+  "Platos": ["Bielas", "Cadenas"],
+  "Cadenas": ["Platos", "Bielas"],
+  "Manzanas": ["Rines", "Tacos y Protectores de Maza"],
+  "Tacos y Protectores de Maza": ["Manzanas", "Rines"],
+  "Rines": ["Llantas", "Manzanas", "Tacos y Protectores de Maza"],
+  "Llantas": ["Rines"],
+  "Timones": ["Espigas", "Grips", "Manubrios"],
+  "Manubrios": ["Timones", "Grips"],
+  "Grips": ["Timones", "Manubrios"],
+  "Frenos": ["Timones", "Rines"],
+  "Marcos": ["Tenedores", "Bielas"],
+  "Sillas y Postes": ["Espigas"],
+  "Pedales": ["Bielas"],
+};
+
+/* Medidas (diametro/dientes/rosca) salen del nombre o del slug -- en este
+   catalogo siempre quedan ahi (ej. "20mm", "25T", "M25"), no en spec[] con
+   una clave consistente entre subcategorias. No cubre medidas en pulgadas
+   (ej. los timones usan 9" - 9.25" x 27.25") -- esos caen al nivel 3. */
+function stikeMeasureTokens(p) {
+  var text = (p.n + " " + p.slug).toLowerCase();
+  var out = {};
+  (text.match(/\d+(\.\d+)?\s?mm/g) || []).forEach(function (m) { out[m.replace(/\s/g, "")] = true; });
+  (text.match(/\b\d{2,3}t\b/g) || []).forEach(function (m) { out[m] = true; });
+  (text.match(/\bm\d{2}\b/g) || []).forEach(function (m) { out[m] = true; });
+  return out;
+}
+function stikeShareMeasure(a, b) {
+  var i, keys = Object.keys(a);
+  for (i = 0; i < keys.length; i++) if (b[keys[i]]) return true;
+  return false;
+}
+
+function stikeRelatedProducts(p, limit) {
+  limit = limit || 4;
+  var pool = STIKE_PRODUCTS.filter(function (x) { return x.slug !== p.slug && !stikeIsOut(x) && stikeIsVisible(x); });
+  var picked = [], seen = {};
+  function add(list) {
+    for (var i = 0; i < list.length && picked.length < limit; i++) {
+      var x = list[i];
+      if (seen[x.slug]) continue;
+      seen[x.slug] = true;
+      picked.push(x);
+    }
+  }
+
+  // Nivel 1: misma marca + (mismo sub primero, luego subs complementarios)
+  var complementSubs = STIKE_RELATED_SUB_MAP[p.sub] || [];
+  var tier1 = pool.filter(function (x) { return x.brand === p.brand && (x.sub === p.sub || complementSubs.indexOf(x.sub) !== -1); });
+  tier1.sort(function (a, b) { return (a.sub === p.sub ? 0 : 1) - (b.sub === p.sub ? 0 : 1); });
+  add(tier1);
+
+  // Nivel 2: misma marca + misma medida
+  if (picked.length < limit) {
+    var myMeasures = stikeMeasureTokens(p);
+    if (Object.keys(myMeasures).length) {
+      var tier2 = pool.filter(function (x) { return x.brand === p.brand && stikeShareMeasure(myMeasures, stikeMeasureTokens(x)); });
+      add(tier2);
+    }
+  }
+
+  // Nivel 3: mismo sub, cualquier marca
+  if (picked.length < limit) add(pool.filter(function (x) { return x.sub === p.sub; }));
+
+  // Nivel 4: cualquier producto disponible
+  if (picked.length < limit) add(pool);
+
+  return picked.slice(0, limit);
+}
+
 /* El texto del mensaje de WhatsApp de una ficha de producto.
    Vive aca porque lo necesitan DOS lados: pdp-render.js lo hornea en el
    HTML (para quien llega con JavaScript apagado o lento) y pdp.js lo
