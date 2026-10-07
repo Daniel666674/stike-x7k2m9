@@ -173,11 +173,18 @@
   <script src="assets/js/data.js?v=3"></script>
   <script src="assets/js/app.js?v=9"></script>
   <script>
-    /* VIDEOS DEL HOME. Para poner un clip: subir el .mp4 (vertical para
-       los laterales, horizontal para "feature") a assets/video/ y escribir
-       la ruta aca, p. ej. heroLeft: "assets/video/stike-rider-1.mp4".
+    /* VIDEOS DEL HOME. Para poner un clip propio: subir el .mp4 (vertical
+       para los laterales, horizontal para "feature") a assets/video/ y
+       escribir la ruta aca, p. ej. heroLeft: "assets/video/stike-rider-1.mp4".
        Vacio = se queda la foto de siempre. Los laterales corren mudos en
-       bucle; "feature" arranca con sonido al tocar el boton de play. */
+       bucle; "feature" arranca con sonido al tocar el boton de play.
+
+       Para un video de YouTube en el recuadro grande ("feature"), usar
+       FEATURE_YOUTUBE_ID en vez de feature: el ID es lo que va despues de
+       /embed/ en el link para insertar (ej. de
+       "youtube.com/embed/LUhY9ixzp1w" el ID es "LUhY9ixzp1w"). Al tocar
+       play se inserta el iframe de YouTube recien ahi, no antes -- asi la
+       portada (la foto de siempre) sigue siendo lo que carga la pagina. */
     const STIKE_HOME_VIDEOS = {
       heroLeft:  "",
       heroRight: "",
@@ -185,7 +192,23 @@
       sideRight: "",
       feature:   "",
     };
+    const FEATURE_YOUTUBE_ID = "LUhY9ixzp1w";
+
     document.querySelectorAll("[data-video]").forEach(slot => {
+      if (slot.dataset.video === "feature" && FEATURE_YOUTUBE_ID) {
+        const play = slot.querySelector(".rd-play");
+        if (play) play.addEventListener("click", () => {
+          slot.classList.add("playing");
+          const iframe = document.createElement("iframe");
+          iframe.src = `https://www.youtube.com/embed/${FEATURE_YOUTUBE_ID}?autoplay=1&rel=0`;
+          iframe.title = "Video de Stike Bike Shop";
+          iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+          iframe.allowFullscreen = true;
+          iframe.referrerPolicy = "strict-origin-when-cross-origin";
+          slot.insertBefore(iframe, slot.firstChild);
+        }, { once: true });
+        return;
+      }
       const src = STIKE_HOME_VIDEOS[slot.dataset.video];
       if (!src) return;
       const img = slot.querySelector("img");

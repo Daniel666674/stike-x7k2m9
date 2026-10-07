@@ -685,21 +685,96 @@ function stikeFloatingWA() {
   document.body.appendChild(a);
 }
 
-/* Carrito flotante, apilado ARRIBA del de WhatsApp (mismo rincón,
-   mismo lenguaje visual). El badge usa la clase "cart-count" que
-   stikeUpdateCartBadge() ya actualiza en todas partes -- no hace falta
-   cablear nada nuevo, el contador llega solo. No se muestra en carrito.html
-   (ya estás ahi) ni en pago-resultado.html (nada que mostrar todavia). */
+/* Carrito flotante, apilado ARRIBA del de WhatsApp (mismo rincón, mismo
+   lenguaje visual). Es un mini-carrito desplegable de verdad -- ver,
+   cambiar cantidad, quitar y pagar -- sin salir de la página en la que
+   el cliente esté navegando. El badge usa la clase "cart-count" que
+   stikeUpdateCartBadge() ya actualiza en todas partes, asi que el
+   contador del boton y el del header quedan sincronizados solos.
+   No se muestra en carrito.html (ya estás ahi) ni en pago-resultado.html
+   (nada que mostrar todavia, y el pago ya esta en curso). */
 function stikeFloatingCart() {
   const page = location.pathname.split("/").pop();
   if (page === "carrito.html" || page === "pago-resultado.html") return;
-  const a = document.createElement("a");
-  a.className = "cart-float";
-  a.href = "carrito.html";
-  a.title = "Ver carrito";
-  a.setAttribute("aria-label", "Ver carrito");
-  a.innerHTML = HDR_ICO_BAG + `<span class="cart-count">0</span>`;
-  document.body.appendChild(a);
+
+  const wrap = document.createElement("div");
+  wrap.className = "cart-float-wrap";
+
+  const panel = document.createElement("div");
+  panel.className = "cart-float-panel";
+
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "cart-float";
+  btn.title = "Ver carrito";
+  btn.setAttribute("aria-label", "Ver carrito");
+  btn.innerHTML = HDR_ICO_BAG + `<span class="cart-count">0</span>`;
+
+  wrap.appendChild(panel);
+  wrap.appendChild(btn);
+  document.body.appendChild(wrap);
+  /* Los clicks en +/-/quitar reconstruyen panel.innerHTML (renderPanel),
+     asi que para cuando el evento burbujea hasta el listener de "click
+     afuera cierra" en document, e.target ya es un nodo que se acaba de
+     desprender del DOM -- wrap.contains(e.target) da false aunque el
+     click fue bien adentro, y el panel se cerraba solo en cada cambio. */
+  panel.addEventListener("click", e => e.stopPropagation());
+
+  function renderPanel() {
+    const cart = stikeGetCart();
+    if (!cart.length) {
+      panel.innerHTML = `<div class="cfp-empty">Tu carrito está vacío.<br><a href="tienda.html">Ir a la tienda →</a></div>`;
+      return;
+    }
+    const rows = cart.map(r => {
+      const p = stikeFindProduct(r.slug);
+      if (!p) return "";
+      const key = stikeLineKey(r);
+      const variantBits = [];
+      if (r.size) variantBits.push(r.size);
+      if (r.color) variantBits.push(r.color);
+      const url = stikeProductUrl(p);
+      return `
+        <div class="cfp-row">
+          <a href="${url}" class="cfp-img"><img src="${stikeImageForColor(p, r.color)}" alt="${p.n}"></a>
+          <div class="cfp-info">
+            <a href="${url}" class="cfp-name">${p.n}</a>
+            ${variantBits.length ? `<div class="cfp-variant">${variantBits.join(" · ")}</div>` : ""}
+            <div class="cfp-qty-row">
+              <div class="cfp-qty">
+                <button data-dec="${key}" aria-label="Menos">−</button>
+                <span>${r.qty}</span>
+                <button data-inc="${key}" aria-label="Más">+</button>
+              </div>
+              <span class="cfp-price">${stikePrice(p.price * r.qty)}</span>
+            </div>
+          </div>
+          <button class="cfp-remove" data-remove="${key}" aria-label="Quitar">✕</button>
+        </div>`;
+    }).join("");
+    panel.innerHTML = `
+      <div class="cfp-list">${rows}</div>
+      <div class="cfp-total"><span>Total</span><b>${stikePrice(stikeCartTotal())}</b></div>
+      <a class="btn cyan block" href="carrito.html">Ver carrito y pagar</a>`;
+    const bump = (key, delta) => {
+      const c = stikeGetCart().find(x => stikeLineKey(x) === key);
+      stikeUpdateQty(key, (c ? c.qty : 1) + delta);
+      renderPanel();
+    };
+    panel.querySelectorAll("[data-inc]").forEach(b => b.addEventListener("click", () => bump(b.getAttribute("data-inc"), 1)));
+    panel.querySelectorAll("[data-dec]").forEach(b => b.addEventListener("click", () => bump(b.getAttribute("data-dec"), -1)));
+    panel.querySelectorAll("[data-remove]").forEach(b => b.addEventListener("click", () => { stikeRemoveFromCart(b.getAttribute("data-remove")); renderPanel(); }));
+  }
+
+  btn.addEventListener("click", e => {
+    e.stopPropagation();
+    const opening = !panel.classList.contains("open");
+    if (opening) renderPanel();
+    panel.classList.toggle("open", opening);
+  });
+  document.addEventListener("click", e => { if (!wrap.contains(e.target)) panel.classList.remove("open"); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") panel.classList.remove("open"); });
+
   stikeUpdateCartBadge();
 }
 

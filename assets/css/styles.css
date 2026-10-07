@@ -907,11 +907,49 @@ body.fate-page .card .brand-line .bl-sub { display: inline; }
 
 /* Carrito flotante: mismo rincon, apilado ARRIBA del de WhatsApp (58px +
    14px de separacion = 94px desde abajo). Mismo lenguaje visual que
-   .wa-float a proposito -- son el mismo patron de "atajo flotante". */
-.cart-float { position: fixed; bottom: 94px; right: 22px; width: 58px; height: 58px; border-radius: 50%; background: #ffffff; display: grid; place-items: center; box-shadow: 0 10px 30px rgba(0,0,0,.5); z-index: 90; transition: transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .2s ease; }
+   .wa-float a proposito -- son el mismo patron de "atajo flotante".
+   .cart-float-wrap es un ancla de 0x0 fija en la esquina; el boton y el
+   panel se posicionan absolute dentro de ella, asi que mover uno no
+   desalinea al otro. */
+.cart-float-wrap { position: fixed; bottom: 22px; right: 22px; z-index: 95; }
+.cart-float { position: absolute; bottom: 72px; right: 0; width: 58px; height: 58px; border-radius: 50%; background: #ffffff; border: none; padding: 0; display: grid; place-items: center; box-shadow: 0 10px 30px rgba(0,0,0,.5); cursor: pointer; transition: transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .2s ease; }
 .cart-float:hover { transform: scale(1.14); box-shadow: 0 14px 40px rgba(0,0,0,.28); }
 .cart-float svg { width: 24px; height: 24px; stroke: #18181b; }
 .cart-float .cart-count { top: -4px; right: -4px; background: var(--ink); color: var(--ink-contrast); }
+
+/* Mini-carrito desplegable: abre arriba del boton (nunca lo tapa), con su
+   propia lista de lineas -- ver/cambiar cantidad/quitar/pagar sin salir de
+   la pagina en la que el cliente esta navegando. */
+.cart-float-panel {
+  position: absolute; bottom: 144px; right: 0; width: 340px; max-width: calc(100vw - 44px);
+  background: var(--bg-2, #1c1f24); border: 1px solid var(--line, #33373f); border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0,0,0,.5); padding: 16px; color: var(--ink, #f1f2f4);
+  opacity: 0; visibility: hidden; transform: translateY(10px) scale(.98); transform-origin: bottom right;
+  transition: opacity .18s var(--ease-soft, ease), transform .18s var(--ease-soft, ease), visibility .18s;
+}
+.cart-float-panel.open { opacity: 1; visibility: visible; transform: none; }
+.cart-float-panel .cfp-empty { text-align: center; padding: 20px 10px; color: var(--muted, #93979f); font-size: 14px; line-height: 1.6; }
+.cart-float-panel .cfp-empty a { color: var(--mint, #52f0d8); }
+.cfp-list { display: flex; flex-direction: column; gap: 12px; max-height: 320px; overflow-y: auto; margin-right: -4px; padding-right: 4px; }
+.cfp-row { display: flex; gap: 10px; align-items: flex-start; }
+.cfp-img { flex: none; width: 54px; height: 54px; border-radius: 8px; overflow: hidden; background: #f3f3f3; }
+.cfp-img img { width: 100%; height: 100%; object-fit: contain; }
+.cfp-info { flex: 1; min-width: 0; }
+.cfp-name { display: block; font-size: 13px; font-weight: 600; color: var(--ink, #f1f2f4); line-height: 1.3; }
+.cfp-name:hover { color: var(--mint, #52f0d8); }
+.cfp-variant { font-size: 11px; color: var(--muted, #93979f); margin-top: 2px; }
+.cfp-qty-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 6px; }
+.cfp-qty { display: inline-flex; align-items: center; gap: 2px; border: 1px solid var(--line, #33373f); border-radius: 999px; }
+.cfp-qty button { width: 22px; height: 22px; background: none; border: none; color: var(--ink, #f1f2f4); font-size: 13px; cursor: pointer; }
+.cfp-qty button:hover { color: var(--mint, #52f0d8); }
+.cfp-qty span { min-width: 18px; text-align: center; font-size: 12px; }
+.cfp-price { font-size: 13px; font-weight: 700; white-space: nowrap; }
+.cfp-remove { flex: none; width: 22px; height: 22px; background: none; border: none; color: var(--muted, #93979f); font-size: 12px; cursor: pointer; margin-top: 2px; }
+.cfp-remove:hover { color: var(--bad, #ff4d5e); }
+.cart-float-panel .cfp-total { display: flex; justify-content: space-between; align-items: baseline; border-top: 1px solid var(--line, #33373f); margin-top: 14px; padding-top: 12px; font-size: 14px; }
+.cart-float-panel .cfp-total b { font-size: 19px; }
+.cart-float-panel .btn { margin-top: 12px; }
+@media (max-width: 480px) { .cart-float-wrap { bottom: 16px; right: 16px; } }
 
 /* Volver arriba */
 .back-to-top {
@@ -2036,7 +2074,7 @@ body:not(.fate-page) h1 .o1 { color: var(--mint); }
 .rd-media { max-width: 1280px; margin: 0 auto; padding: 56px 22px 30px; display: grid; grid-template-columns: 230px 1fr 230px; gap: 56px; align-items: center; }
 .rd-media > .rd-vid { aspect-ratio: 188 / 307; }
 .rd-feature { position: relative; aspect-ratio: 16 / 10; background: #0f1011; overflow: hidden; border: 1px solid #3a3f40; box-shadow: 0 30px 60px -20px rgba(0,0,0,.85); margin: 0; }
-.rd-feature video, .rd-feature > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.rd-feature video, .rd-feature > img, .rd-feature iframe { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border: 0; }
 .rd-feature > img { filter: grayscale(1) brightness(.6); }
 .rd-play { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 92px; height: 92px; border-radius: 50%; border: 3px solid var(--mint); background: rgba(0,0,0,.4); box-shadow: var(--mint-glow); display: grid; place-items: center; cursor: pointer; transition: transform .25s var(--ease-back), background .2s; }
 .rd-play::after { content: ""; border-left: 26px solid var(--mint); border-top: 16px solid transparent; border-bottom: 16px solid transparent; margin-left: 8px; }
