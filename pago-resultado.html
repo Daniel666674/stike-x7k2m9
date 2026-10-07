@@ -36,12 +36,13 @@
     const STATUS_ENDPOINT = (window.STIKE_WOMPI_STATUS_ENDPOINT) || "https://stike-wompi-api.vercel.app/api/wompi-status";
     const mount = document.getElementById("result-mount");
 
-    function renderState({ icon, title, orderNo, message, actionHref, actionLabel }) {
+    function renderState({ icon, title, orderNo, message, extra, actionHref, actionLabel }) {
       mount.innerHTML = `
         <div class="co-check">${icon}</div>
         <h3>${title}</h3>
         ${orderNo ? `<div class="co-order-no">Referencia ${orderNo}</div>` : ""}
         <p>${message}</p>
+        ${extra || ""}
         <a class="btn block" href="${actionHref}">${actionLabel}</a>`;
     }
 
@@ -78,10 +79,45 @@
 
       const ref = txn.reference || id;
       if (txn.status === "APPROVED") {
+        /* El carrito en localStorage sigue intacto hasta este punto --
+           es la unica fuente que sabe QUE se compro (Wompi solo conoce
+           referencia y monto, nunca los productos). Lo leemos antes de
+           vaciarlo para armar el aviso por WhatsApp y, si existe, mandarlo
+           tambien al backend (ver STIKE_WOMPI_ORDER_ENDPOINT) para que
+           quede en el registro de ventas del panel admin. */
+        const cart = stikeGetCart();
+        const waLines = cart.map(r => {
+          const p = stikeFindProduct(r.slug);
+          if (!p) return "";
+          const variantBits = [];
+          if (r.size) variantBits.push(`Talla ${r.size}`);
+          if (r.color) variantBits.push(`Color ${r.color}`);
+          const variant = variantBits.length ? ` (${variantBits.join(", ")})` : "";
+          return `• ${r.qty}x ${p.n}${variant}, ${stikePrice(p.price * r.qty)}`;
+        }).filter(Boolean).join("%0A");
+        const amountPesos = Math.round((txn.amount_in_cents || 0) / 100);
+        const waMsg = `Hola Stike! Ya pague mi pedido por Wompi.%0AReferencia: ${ref}%0A${waLines}%0A%0ATotal pagado: ${stikePrice(amountPesos)}`;
+
+        const ORDER_ENDPOINT = window.STIKE_WOMPI_ORDER_ENDPOINT || "https://stike-wompi-api.vercel.app/api/wompi-order";
+        if (ORDER_ENDPOINT && cart.length) {
+          fetch(ORDER_ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              reference: ref,
+              wompiId: id,
+              amountInCents: txn.amount_in_cents,
+              customerEmail: txn.customer_email || null,
+              items: cart.map(r => ({ slug: r.slug, qty: r.qty, size: r.size || null, color: r.color || null })),
+            }),
+          }).catch(err => console.error("wompi-order (registro de venta):", err));
+        }
+
         stikeSaveCart([]);
         renderState({
           icon: CHECK_SVG, title: "¡Pago exitoso!", orderNo: ref,
-          message: "Te escribiremos por WhatsApp para confirmar tu pedido y el envío.",
+          message: "Avísanos por WhatsApp para confirmar el envío de tu pedido:",
+          extra: `<a class="btn wa block" style="margin-bottom:10px" href="https://wa.me/${STIKE_CONFIG.whatsapp}?text=${waMsg}" target="_blank" rel="noopener">Avisar por WhatsApp</a>`,
           actionHref: "tienda.html", actionLabel: "Volver a la tienda",
         });
       } else if (txn.status === "PENDING") {

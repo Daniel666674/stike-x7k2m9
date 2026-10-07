@@ -11,7 +11,7 @@
 /* ============================== CONFIG ================================= */
 const CONFIG = {
   owner: "Daniel666674",
-  repo: "bmxstore",
+  repo: "stike-x7k2m9",
   // Rama que despliega a GitHub Pages (ver .github/workflows/deploy.yml).
   branch: "claude/sweet-albattani-ti0w0e",
   paths: {
