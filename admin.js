@@ -1598,6 +1598,49 @@ function renderSalesTab() {
 let lastSeenSaleTs = localStorage.getItem("stike_admin_last_seen_sale") || "";
 let notifPollTimer = null;
 
+/* ------------------------------ SONIDO DE ALERTA ---------------------------
+   Sintetizado con Web Audio (sin archivo .mp3 que mantener): 3 pitidos tipo
+   alarma de caja registradora, fuertes a proposito -- la idea es que quien
+   esta en el local lo oiga desde el otro lado del mostrador y sepa que hay
+   que alistar un pedido para enviar.
+
+   Los navegadores bloquean sonido por JS hasta que la persona interactua
+   con la pagina una vez (click, tecla) -- por eso se "desbloquea" el
+   AudioContext en el primer click/tecla de toda la pestaña, y ademas hay
+   un boton "Probar sonido" junto a la campana para confirmarlo a mano. */
+let audioCtx = null;
+function ensureAudioCtx() {
+  if (!audioCtx) {
+    try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+    catch (e) { return null; }
+  }
+  if (audioCtx.state === "suspended") audioCtx.resume().catch(() => {});
+  return audioCtx;
+}
+document.addEventListener("click", ensureAudioCtx, { once: true });
+document.addEventListener("keydown", ensureAudioCtx, { once: true });
+
+function playSaleAlertSound() {
+  const ctx = ensureAudioCtx();
+  if (!ctx) return;
+  const now = ctx.currentTime;
+  const beep = (start, freq, dur) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "square";
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0, now + start);
+    gain.gain.linearRampToValueAtTime(0.9, now + start + 0.02);
+    gain.gain.linearRampToValueAtTime(0, now + start + dur);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(now + start);
+    osc.stop(now + start + dur + 0.02);
+  };
+  beep(0, 880, 0.14);
+  beep(0.18, 880, 0.14);
+  beep(0.36, 1175, 0.26);
+}
+
 function unseenSales() { return salesLog.filter(s => s.ts > lastSeenSaleTs); }
 
 function renderNotifBadge() {
@@ -1636,6 +1679,7 @@ function toggleNotifPanel() {
 
 function notifySaleEntries(entries) {
   if (!entries.length) return;
+  playSaleAlertSound();
   const preview = entries.slice(0, 3).map(s => `${s.qty}x ${s.name || s.slug}`).join(", ") + (entries.length > 3 ? "…" : "");
   showStatus([{ text: `🔔 ${entries.length} venta${entries.length === 1 ? "" : "s"} nueva${entries.length === 1 ? "" : "s"}: ${preview}`, cls: "ok" }]);
   if ("Notification" in window && Notification.permission === "granted") {
@@ -2105,6 +2149,7 @@ $$(".navbtn").forEach(b => b.addEventListener("click", () => switchPanel(b.getAt
 $("#btn-refresh").addEventListener("click", () => loadAll().catch(e => showStatus([{ text: "Error: " + e.message, cls: "bad" }])));
 $("#btn-publish").addEventListener("click", () => publishCatalog());
 $("#btn-notif").addEventListener("click", e => { e.stopPropagation(); toggleNotifPanel(); });
+$("#btn-test-sound").addEventListener("click", () => playSaleAlertSound());
 document.addEventListener("click", e => {
   const panel = $("#notif-panel");
   if (panel && panel.style.display !== "none" && !e.target.closest(".notif-wrap")) toggleNotifPanel();
