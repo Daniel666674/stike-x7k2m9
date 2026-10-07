@@ -2076,9 +2076,11 @@ body:not(.fate-page) h1 .o1 { color: var(--mint); }
 .rd-feature { position: relative; aspect-ratio: 16 / 10; background: #0f1011; overflow: hidden; border: 1px solid #3a3f40; box-shadow: 0 30px 60px -20px rgba(0,0,0,.85); margin: 0; }
 .rd-feature video, .rd-feature > img, .rd-feature iframe { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border: 0; }
 .rd-feature > img { filter: grayscale(1) brightness(.6); }
-.rd-play { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 92px; height: 92px; border-radius: 50%; border: 3px solid var(--mint); background: rgba(0,0,0,.4); box-shadow: var(--mint-glow); display: grid; place-items: center; cursor: pointer; transition: transform .25s var(--ease-back), background .2s; }
-.rd-play::after { content: ""; border-left: 26px solid var(--mint); border-top: 16px solid transparent; border-bottom: 16px solid transparent; margin-left: 8px; }
-.rd-play:hover { transform: translate(-50%, -50%) scale(1.08); background: rgba(82,240,216,.15); }
+/* Boton de play estilo YouTube (rectangulo redondeado rojo + triangulo
+   blanco) a proposito -- es un video de YouTube, se ve como lo que es. */
+.rd-play { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 92px; height: 64px; border-radius: 16px; border: none; background: #ff0000; box-shadow: 0 8px 26px rgba(0,0,0,.55); display: grid; place-items: center; cursor: pointer; transition: transform .25s var(--ease-back), background .2s; }
+.rd-play::after { content: ""; border-left: 26px solid #fff; border-top: 16px solid transparent; border-bottom: 16px solid transparent; margin-left: 6px; }
+.rd-play:hover { transform: translate(-50%, -50%) scale(1.08); background: #ff1a1a; }
 .rd-feature figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 16px 22px; background: linear-gradient(transparent, rgba(0,0,0,.85)); color: #fff; font-family: var(--cond); font-style: italic; font-weight: 300; font-size: 24px; text-transform: uppercase; letter-spacing: .04em; }
 .rd-feature figcaption b { color: var(--mint); font-weight: 400; }
 .rd-feature.playing .rd-play, .rd-feature.playing > img { display: none; }

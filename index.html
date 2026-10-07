@@ -194,18 +194,47 @@
     };
     const FEATURE_YOUTUBE_ID = "LUhY9ixzp1w";
 
+    /* El iframe simple de YouTube arranca en "auto", que casi siempre
+       elige una calidad baja (144p/240p) hasta que el buffer se adelanta.
+       La API real del reproductor (YT.Player) deja pedir HD apenas esta
+       listo -- YouTube no lo garantiza al 100% (sigue dependiendo de que
+       esa resolucion exista para el video y del ancho de banda real),
+       pero es la unica forma soportada de pedirlo, y evita el arranque
+       en 144p de un embed simple. */
+    let ytApiPromise = null;
+    function loadYouTubeApi() {
+      if (ytApiPromise) return ytApiPromise;
+      ytApiPromise = new Promise(resolve => {
+        if (window.YT && window.YT.Player) { resolve(window.YT); return; }
+        const prevReady = window.onYouTubeIframeAPIReady;
+        window.onYouTubeIframeAPIReady = () => { if (prevReady) prevReady(); resolve(window.YT); };
+        const tag = document.createElement("script");
+        tag.src = "https://www.youtube.com/iframe_api";
+        document.head.appendChild(tag);
+      });
+      return ytApiPromise;
+    }
+
     document.querySelectorAll("[data-video]").forEach(slot => {
       if (slot.dataset.video === "feature" && FEATURE_YOUTUBE_ID) {
         const play = slot.querySelector(".rd-play");
         if (play) play.addEventListener("click", () => {
           slot.classList.add("playing");
-          const iframe = document.createElement("iframe");
-          iframe.src = `https://www.youtube.com/embed/${FEATURE_YOUTUBE_ID}?autoplay=1&rel=0`;
-          iframe.title = "Video de Stike Bike Shop";
-          iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-          iframe.allowFullscreen = true;
-          iframe.referrerPolicy = "strict-origin-when-cross-origin";
-          slot.insertBefore(iframe, slot.firstChild);
+          const mount = document.createElement("div");
+          mount.id = "yt-feature-player";
+          slot.insertBefore(mount, slot.firstChild);
+          loadYouTubeApi().then(YT => {
+            const forceHd = e => e.target.setPlaybackQuality("hd1080");
+            new YT.Player("yt-feature-player", {
+              videoId: FEATURE_YOUTUBE_ID,
+              width: "100%", height: "100%",
+              playerVars: { autoplay: 1, rel: 0, playsinline: 1, modestbranding: 1, vq: "hd1080" },
+              events: {
+                onReady: e => { forceHd(e); e.target.playVideo(); },
+                onStateChange: e => { if (e.data === YT.PlayerState.PLAYING) forceHd(e); },
+              },
+            });
+          });
         }, { once: true });
         return;
       }
