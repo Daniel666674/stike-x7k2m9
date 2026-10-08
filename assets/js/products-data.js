@@ -3501,7 +3501,7 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "cajas-de-centro-cult-1022mm-negro",
     "sku": "REP-VAN-001",
-    "n": "CAJAS DE CENTRO CULT 1022mm NEGRO",
+    "n": "CAJA DE CENTRO CULT 1022mm NEGRO",
     "brand": "Total BMX",
     "cat": "repuestos",
     "sub": "Bielas",
