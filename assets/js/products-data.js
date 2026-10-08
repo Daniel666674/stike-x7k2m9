@@ -3497,5 +3497,25 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/reductor-extension-bikes-negro-3.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "cajas-de-centro-cult-1022mm-negro",
+    "sku": "REP-VAN-001",
+    "n": "CAJAS DE CENTRO CULT 1022mm NEGRO",
+    "brand": "Total BMX",
+    "cat": "repuestos",
+    "sub": "Bielas",
+    "spec": [
+      "· Rodamientos sellados MID",
+      "· Tapas aluminio",
+      "· Medida: 22mm - 19mm"
+    ],
+    "price": 135000,
+    "promo": false,
+    "units": 3,
+    "imgs": [
+      "assets/img/products/cb23cace-7f10-4e01-8438-726c559a4e61.jpg"
+    ],
+    "published": true
   }
 ];
