@@ -23,7 +23,7 @@ const STIKE_CATEGORIES = [
     name: "Protecciones",
     blurb: "Cascos, rodilleras y mas",
     color: "c3",
-    subs: ["Cascos", "Rodilleras", "Coderas", "Guantes", "Espinilleras"]
+    subs: ["Cascos", "Rodilleras", "Coderas", "Guantes", "Espinilleras", "Tobilleras"]
   },
   {
     slug: "ropa",
@@ -54,7 +54,8 @@ const STIKE_BRANDS = [
   "Éclat", "Federal", "Kink", "BSD", "Fly Bikes", "Demolition",
   "SaltPlus", "Stranger", "Mutanty", "Trueno", "Fate BMX Colombia",
   "TSG", "KMC", "Cinema", "GW", "Fade", "Stike", "Smith",
-  "Fiend", "Rant", "Subrosa", "Optimus", "Merritt", "Innova", "Primo"
+  "Fiend", "Rant", "Subrosa", "Optimus", "Merritt", "Innova", "Primo",
+  "R2 Protect", "Valkiria", "Volume", "Profile"
 ];
 
 /* ------------------- Categorias/subcategorias con talla obligatoria -----
@@ -63,7 +64,7 @@ const STIKE_BRANDS = [
    producto tiene 2+ colores reales) es SIEMPRE una segunda tabla
    independiente, sin importar la categoria; ver stikeStockFor().        */
 const SIZE_CATEGORIES = new Set([
-  "Cascos", "Rodilleras", "Coderas", "Guantes", "Espinilleras", // protecciones
+  "Cascos", "Rodilleras", "Coderas", "Guantes", "Espinilleras", "Tobilleras", // protecciones
   "Camisetas", "Busos y Chaquetas", "Jeans", "Tenis"            // ropa
 ]);
 
@@ -71,7 +72,7 @@ const SIZE_CATEGORIES = new Set([
 function stikeSizeRangeFor(sub) {
   if (sub === "Tenis") return ["38", "39", "40", "41", "42", "43", "44"];
   if (sub === "Camisetas" || sub === "Busos y Chaquetas" || sub === "Jeans") return ["S", "M", "L", "XL", "XXL"];
-  if (sub === "Cascos" || sub === "Rodilleras" || sub === "Coderas" || sub === "Guantes" || sub === "Espinilleras") return ["S", "M", "L", "XL"];
+  if (sub === "Cascos" || sub === "Rodilleras" || sub === "Coderas" || sub === "Guantes" || sub === "Espinilleras" || sub === "Tobilleras") return ["S", "M", "L", "XL"];
   return null;
 }
 

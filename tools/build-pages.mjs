@@ -178,10 +178,17 @@ function withBaseHref(html) {
    se reapunta al actual, conservando la ruta. */
 const SITE_URL_RE = /https:\/\/(?:daniel666674\.github\.io\/bmxstore|daniel666674\.github\.io|stikebikeshop\.com)((?:\/[^"'\s)]*)?)/g;
 
+// basePath actual sin barra final ("/stike-x7k2m9"), para no duplicarlo
+// cuando la URL que se esta retargeteando ya lo trae puesto -- sin esto,
+// correr el script sobre paginas que ya estan en el dominio actual pega el
+// basePath una segunda vez ("/stike-x7k2m9/stike-x7k2m9/").
+const CURRENT_PREFIX_RE = new RegExp("^" + SITE.basePath.replace(/\/$/, "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "(?=/|$)");
+
 function retargetUrls(html) {
   return html.replace(SITE_URL_RE, (match, tail) => {
     // "/bmxstore" ya viene consumido por el patron; el resto es la ruta real.
-    const cleaned = String(tail || "").replace(/^\/bmxstore(?=\/|$)/, "");
+    let cleaned = String(tail || "").replace(/^\/bmxstore(?=\/|$)/, "");
+    if (SITE.basePath !== "/") cleaned = cleaned.replace(CURRENT_PREFIX_RE, "");
     return cleaned && cleaned !== "/" ? SITE.url(cleaned) : SITE.url("");
   });
 }

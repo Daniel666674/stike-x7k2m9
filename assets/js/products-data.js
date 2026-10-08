@@ -3497,5 +3497,428 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/reductor-extension-bikes-negro-3.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "caja-de-centro-cult-crew-negra",
+    "sku": "REP-CUL-004",
+    "n": "Caja de Centro Cult Crew Negra",
+    "brand": "Cult",
+    "cat": "repuestos",
+    "sub": "Bielas",
+    "spec": [
+      "Medida: 1022mm",
+      "Color: Negro",
+      "Kit de rodamientos Crew"
+    ],
+    "price": 135000,
+    "promo": false,
+    "units": 3,
+    "imgs": [
+      "assets/img/products/caja-de-centro-cult-crew-negra-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "caja-de-centro-odyssey-1019mm-negra",
+    "sku": "REP-ODY-013",
+    "n": "Caja de Centro Odyssey 1019mm Negra",
+    "brand": "Odyssey",
+    "cat": "repuestos",
+    "sub": "Bielas",
+    "spec": [
+      "Medida: 1019mm",
+      "Color: Negro"
+    ],
+    "price": 100000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/caja-de-centro-odyssey-1019mm-negra-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "caja-de-centro-odyssey-1022mm-negra",
+    "sku": "REP-ODY-014",
+    "n": "Caja de Centro Odyssey 1022mm Negra",
+    "brand": "Odyssey",
+    "cat": "repuestos",
+    "sub": "Bielas",
+    "spec": [
+      "Medida: 1022mm",
+      "Color: Negro"
+    ],
+    "price": 120000,
+    "promo": false,
+    "units": 2,
+    "imgs": [
+      "assets/img/products/caja-de-centro-odyssey-1022mm-negra-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "caja-de-centro-demolition-bearing-kits-1024mm-negra",
+    "sku": "REP-DEM-002",
+    "n": "Caja de Centro Demolition Bearing Kits 1024mm Negra",
+    "brand": "Demolition",
+    "cat": "repuestos",
+    "sub": "Bielas",
+    "spec": [
+      "Medida: 1024mm",
+      "Color: Negro",
+      "Kit de rodamientos"
+    ],
+    "price": 130000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/caja-de-centro-demolition-bearing-kits-1024mm-negra-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "caja-de-centro-fate-1019mm-negra",
+    "sku": "REP-FAT-013",
+    "n": "Caja de Centro Fate 1019mm Negra",
+    "brand": "Fate BMX Colombia",
+    "cat": "repuestos",
+    "sub": "Bielas",
+    "spec": [
+      "Medida: 1019mm",
+      "Color: Negro"
+    ],
+    "price": 80000,
+    "promo": false,
+    "units": 9,
+    "imgs": [
+      "assets/img/products/caja-de-centro-fate-1019mm-negra-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "caja-de-centro-fate-1022mm-negra",
+    "sku": "REP-FAT-014",
+    "n": "Caja de Centro Fate 1022mm Negra",
+    "brand": "Fate BMX Colombia",
+    "cat": "repuestos",
+    "sub": "Bielas",
+    "spec": [
+      "Medida: 1022mm",
+      "Color: Negro"
+    ],
+    "price": 80000,
+    "promo": false,
+    "units": 15,
+    "imgs": [
+      "assets/img/products/caja-de-centro-fate-1022mm-negra-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "canitobillera-r2-protect",
+    "sku": "PRO-R2P-001",
+    "n": "Canitobillera R2 Protect",
+    "brand": "R2 Protect",
+    "cat": "protecciones",
+    "sub": "Espinilleras",
+    "spec": [
+      "Protege canilla y tobillo en una sola pieza",
+      "Ajuste con velcro"
+    ],
+    "price": 85000,
+    "promo": false,
+    "sizes": [{ "v": "L", "u": 4 }, { "v": "M", "u": 2 }, { "v": "S", "u": 2 }, { "v": "XL", "u": 1 }],
+    "imgs": [
+      "assets/img/products/canitobillera-r2-protect-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "cassette-federal-stance-negro",
+    "sku": "REP-FED-014",
+    "n": "Cassette Federal Stance Negro",
+    "brand": "Federal",
+    "cat": "repuestos",
+    "sub": "Manzanas",
+    "spec": [
+      "Color: Negro",
+      "Hub trasero completo (cassette)"
+    ],
+    "price": 710000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/cassette-federal-stance-negro-1.jpg",
+      "assets/img/products/cassette-federal-stance-negro-2.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "cassette-mutanty-mercury-elite-negro",
+    "sku": "REP-MUT-007",
+    "n": "Cassette Mutanty Mercury Elite Negro",
+    "brand": "Mutanty",
+    "cat": "repuestos",
+    "sub": "Manzanas",
+    "spec": [
+      "Color: Negro",
+      "Hub trasero completo (cassette)"
+    ],
+    "price": 550000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/cassette-mutanty-mercury-elite-negro-1.jpg",
+      "assets/img/products/cassette-mutanty-mercury-elite-negro-2.jpg",
+      "assets/img/products/cassette-mutanty-mercury-elite-negro-3.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "cassette-profile-mini-cromado",
+    "sku": "REP-PRF-001",
+    "n": "Cassette Profile Mini Cromado",
+    "brand": "Profile",
+    "cat": "repuestos",
+    "sub": "Manzanas",
+    "spec": [
+      "Color: Cromado",
+      "Hub trasero completo (cassette)"
+    ],
+    "price": 900000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/cassette-profile-mini-cromado-1.jpg",
+      "assets/img/products/cassette-profile-mini-cromado-2.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "cassette-trueno-v2-negro-derecha",
+    "sku": "REP-TRU-001",
+    "n": "Cassette Trueno V2 Negro (Lado Derecho / RHD)",
+    "brand": "Trueno",
+    "cat": "repuestos",
+    "sub": "Manzanas",
+    "spec": [
+      "Color: Negro",
+      "Lado de manejo: Derecho (RHD)"
+    ],
+    "price": 380000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/cassette-trueno-v2-negro-derecha-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "cassette-trueno-v2-negro-izquierda",
+    "sku": "REP-TRU-002",
+    "n": "Cassette Trueno V2 Negro (Lado Izquierdo / LHD)",
+    "brand": "Trueno",
+    "cat": "repuestos",
+    "sub": "Manzanas",
+    "spec": [
+      "Color: Negro",
+      "Lado de manejo: Izquierdo (LHD)"
+    ],
+    "price": 380000,
+    "promo": false,
+    "units": 2,
+    "imgs": [
+      "assets/img/products/cassette-trueno-v2-negro-izquierda-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "cana-demolition-josh-dave-cromada",
+    "sku": "REP-DEM-003",
+    "n": "Caña Demolition Josh Dave Cromada",
+    "brand": "Demolition",
+    "cat": "repuestos",
+    "sub": "Espigas",
+    "spec": [
+      "Medida: 50mm",
+      "Color: Cromado"
+    ],
+    "price": 330000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/cana-demolition-josh-dave-cromada-1.jpg",
+      "assets/img/products/cana-demolition-josh-dave-cromada-2.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "cana-shadow-chula-v2-48mm",
+    "sku": "REP-SHA-013",
+    "n": "Caña Shadow Chula V2 48mm",
+    "brand": "Shadow",
+    "cat": "repuestos",
+    "sub": "Espigas",
+    "spec": [
+      "Medida: 48mm",
+      "Color: Negro"
+    ],
+    "price": 300000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/cana-shadow-chula-v2-48mm-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "cana-volume-bison-negra-frontload-usada",
+    "sku": "REP-VOL-001",
+    "n": "Caña Volume Bison Negra FrontLoad (Segunda)",
+    "brand": "Volume",
+    "cat": "repuestos",
+    "sub": "Espigas",
+    "spec": [
+      "Medida: 50mm",
+      "Color: Negro",
+      "Tipo: FrontLoad",
+      "Unidad de segunda (usada)"
+    ],
+    "price": 180000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/cana-volume-bison-negra-frontload-usada-1.jpg",
+      "assets/img/products/cana-volume-bison-negra-frontload-usada-2.jpg",
+      "assets/img/products/cana-volume-bison-negra-frontload-usada-3.jpg",
+      "assets/img/products/cana-volume-bison-negra-frontload-usada-4.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "plato-fate-garuda-28t",
+    "sku": "REP-FAT-015",
+    "n": "Plato Fate Garuda 28T con Guardia",
+    "brand": "Fate BMX Colombia",
+    "cat": "repuestos",
+    "sub": "Platos",
+    "spec": [
+      "Dientes: 28T",
+      "Con guardia"
+    ],
+    "price": 230000,
+    "promo": false,
+    "colors": [{ "v": "Negro", "u": 10 }, { "v": "Cromado", "u": 10 }],
+    "imgs": [
+      "assets/img/products/plato-fate-garuda-28t-negro-1.jpg",
+      "assets/img/products/plato-fate-garuda-28t-cromado-1.jpg"
+    ],
+    "imgColorMap": {
+      "assets/img/products/plato-fate-garuda-28t-negro-1.jpg": "Negro",
+      "assets/img/products/plato-fate-garuda-28t-cromado-1.jpg": "Cromado"
+    },
+    "published": true
+  },
+  {
+    "slug": "poste-pivotal-gw-extralargo-negro",
+    "sku": "REP-GWB-001",
+    "n": "Poste Pivotal GW Extralargo Negro Recto",
+    "brand": "GW",
+    "cat": "repuestos",
+    "sub": "Sillas y Postes",
+    "spec": [
+      "Tipo: Pivotal",
+      "Largo: Extralargo",
+      "Forma: Recto",
+      "Color: Negro"
+    ],
+    "price": 45000,
+    "promo": false,
+    "units": 8,
+    "imgs": [
+      "assets/img/products/poste-pivotal-gw-extralargo-negro-1.jpg",
+      "assets/img/products/poste-pivotal-gw-extralargo-negro-2.jpg",
+      "assets/img/products/poste-pivotal-gw-extralargo-negro-3.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "rodicanitobillera-r2-protect",
+    "sku": "PRO-R2P-002",
+    "n": "Rodicanitobillera R2 Protect",
+    "brand": "R2 Protect",
+    "cat": "protecciones",
+    "sub": "Rodilleras",
+    "spec": [
+      "Protege rodilla, canilla y tobillo en una sola pieza",
+      "Ajuste con velcro"
+    ],
+    "price": 160000,
+    "promo": false,
+    "sizes": [{ "v": "L", "u": 5 }, { "v": "M", "u": 3 }, { "v": "S", "u": 1 }, { "v": "XS", "u": 1 }],
+    "imgs": [
+      "assets/img/products/rodicanitobillera-r2-protect-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "silla-pivotal-fate-negra",
+    "sku": "REP-FAT-016",
+    "n": "Silla Pivotal Fate Negra",
+    "brand": "Fate BMX Colombia",
+    "cat": "repuestos",
+    "sub": "Sillas y Postes",
+    "spec": [
+      "Tipo: Pivotal",
+      "Tapizado: Pana",
+      "Color: Negro"
+    ],
+    "price": 130000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/silla-pivotal-fate-negra-1.jpg",
+      "assets/img/products/silla-pivotal-fate-negra-2.jpg",
+      "assets/img/products/silla-pivotal-fate-negra-3.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "tobillera-de-impacto-r2-protect",
+    "sku": "PRO-R2P-003",
+    "n": "Tobillera de Impacto R2 Protect",
+    "brand": "R2 Protect",
+    "cat": "protecciones",
+    "sub": "Tobilleras",
+    "spec": [
+      "Se vende por unidad",
+      "Ajuste con velcro"
+    ],
+    "price": 60000,
+    "promo": false,
+    "units": 7,
+    "imgs": [
+      "assets/img/products/tobillera-de-impacto-r2-protect-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "tobilleras-estabilizadoras-valkiria",
+    "sku": "PRO-VLK-001",
+    "n": "Tobilleras Estabilizadoras Valkiria (Par)",
+    "brand": "Valkiria",
+    "cat": "protecciones",
+    "sub": "Tobilleras",
+    "spec": [
+      "Se vende por par",
+      "Estabilizador de tobillo con cordones y correa cruzada"
+    ],
+    "price": 120000,
+    "promo": false,
+    "sizes": [{ "v": "M", "u": 3 }, { "v": "S", "u": 1 }, { "v": "L", "u": 1 }],
+    "imgs": [
+      "assets/img/products/tobilleras-estabilizadoras-valkiria-1.jpg"
+    ],
+    "published": true
   }
 ];
