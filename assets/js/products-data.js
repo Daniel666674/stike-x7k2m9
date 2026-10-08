@@ -596,7 +596,7 @@ window.STIKE_PRODUCTS = [
     "promo": false,
     "units": 5,
     "imgs": [
-      "assets/img/products/caja-fiend-frente-integrado-ransom-negra-1.jpg"
+      "assets/img/products/82e2b5f2-7e43-437b-b696-0e5f82361aac.jpg"
     ],
     "published": true
   },
@@ -616,7 +616,7 @@ window.STIKE_PRODUCTS = [
     "promo": false,
     "units": 5,
     "imgs": [
-      "assets/img/products/caja-fiend-frente-integrado-ransom-cromada-1.jpg"
+      "assets/img/products/11f9099c-c018-4e0e-ba34-08181ceabc3d.jpg"
     ],
     "published": true
   },

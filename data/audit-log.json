@@ -259,5 +259,32 @@
     "edited": 3,
     "deleted": 0,
     "photos": 0
+  },
+  {
+    "ts": "2026-10-08T04:58:32.764Z",
+    "admin": "camilor9507@gmail.com",
+    "summary": "1 creado(s), 0 editado(s), 0 eliminado(s), 1 foto(s)",
+    "created": 1,
+    "edited": 0,
+    "deleted": 0,
+    "photos": 1
+  },
+  {
+    "ts": "2026-10-08T05:01:00.231Z",
+    "admin": "camilor9507@gmail.com",
+    "summary": "0 creado(s), 1 editado(s), 0 eliminado(s), 0 foto(s)",
+    "created": 0,
+    "edited": 1,
+    "deleted": 0,
+    "photos": 0
+  },
+  {
+    "ts": "2026-10-08T05:45:18.854Z",
+    "admin": "camilor9507@gmail.com",
+    "summary": "0 creado(s), 2 editado(s), 0 eliminado(s), 2 foto(s)",
+    "created": 0,
+    "edited": 2,
+    "deleted": 0,
+    "photos": 2
   }
 ]
