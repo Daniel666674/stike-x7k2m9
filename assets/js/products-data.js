@@ -63,8 +63,7 @@ window.STIKE_PRODUCTS = [
     "units": 1,
     "imgs": [
       "assets/img/products/cana-fiend-mills-topload-1.jpg",
-      "assets/img/products/cana-fiend-mills-topload-2.jpg",
-      "assets/img/products/cana-fiend-mills-topload-3.jpg"
+      "assets/img/products/cana-fiend-mills-topload-2.jpg"
     ],
     "published": true
   },
