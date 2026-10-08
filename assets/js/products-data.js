@@ -3407,7 +3407,6 @@ window.STIKE_PRODUCTS = [
     "promo": false,
     "units": 2,
     "imgs": [
-      "assets/img/products/hub-guard-trasero-normal-brainstorm-1.jpg",
       "assets/img/products/hub-guard-trasero-normal-brainstorm-2.jpg"
     ],
     "published": true
@@ -3626,7 +3625,24 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 85000,
     "promo": false,
-    "sizes": [{ "v": "L", "u": 4 }, { "v": "M", "u": 2 }, { "v": "S", "u": 2 }, { "v": "XL", "u": 1 }],
+    "sizes": [
+      {
+        "v": "L",
+        "u": 4
+      },
+      {
+        "v": "M",
+        "u": 2
+      },
+      {
+        "v": "S",
+        "u": 2
+      },
+      {
+        "v": "XL",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/canitobillera-r2-protect-1.jpg"
     ],
@@ -3752,25 +3768,6 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "cana-shadow-chula-v2-48mm",
-    "sku": "REP-SHA-013",
-    "n": "Caña Shadow Chula V2 48mm",
-    "brand": "Shadow",
-    "cat": "repuestos",
-    "sub": "Espigas",
-    "spec": [
-      "Medida: 48mm",
-      "Color: Negro"
-    ],
-    "price": 300000,
-    "promo": false,
-    "units": 1,
-    "imgs": [
-      "assets/img/products/cana-shadow-chula-v2-48mm-1.jpg"
-    ],
-    "published": true
-  },
-  {
     "slug": "cana-volume-bison-negra-frontload-usada",
     "sku": "REP-VOL-001",
     "n": "Caña Volume Bison Negra FrontLoad (Segunda)",
@@ -3807,7 +3804,16 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 230000,
     "promo": false,
-    "colors": [{ "v": "Negro", "u": 10 }, { "v": "Cromado", "u": 10 }],
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 10
+      },
+      {
+        "v": "Cromado",
+        "u": 10
+      }
+    ],
     "imgs": [
       "assets/img/products/plato-fate-garuda-28t-negro-1.jpg",
       "assets/img/products/plato-fate-garuda-28t-cromado-1.jpg"
@@ -3854,7 +3860,24 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 160000,
     "promo": false,
-    "sizes": [{ "v": "L", "u": 5 }, { "v": "M", "u": 3 }, { "v": "S", "u": 1 }, { "v": "XS", "u": 1 }],
+    "sizes": [
+      {
+        "v": "L",
+        "u": 5
+      },
+      {
+        "v": "M",
+        "u": 3
+      },
+      {
+        "v": "S",
+        "u": 1
+      },
+      {
+        "v": "XS",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/rodicanitobillera-r2-protect-1.jpg"
     ],
@@ -3895,11 +3918,28 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 60000,
     "promo": false,
-    "units": 7,
     "imgs": [
       "assets/img/products/tobillera-de-impacto-r2-protect-1.jpg"
     ],
-    "published": true
+    "published": true,
+    "sizes": [
+      {
+        "v": "S",
+        "u": 1
+      },
+      {
+        "v": "M",
+        "u": 1
+      },
+      {
+        "v": "L",
+        "u": 1
+      },
+      {
+        "v": "XL",
+        "u": 1
+      }
+    ]
   },
   {
     "slug": "tobilleras-estabilizadoras-valkiria",
@@ -3914,7 +3954,20 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 120000,
     "promo": false,
-    "sizes": [{ "v": "M", "u": 3 }, { "v": "S", "u": 1 }, { "v": "L", "u": 1 }],
+    "sizes": [
+      {
+        "v": "M",
+        "u": 3
+      },
+      {
+        "v": "S",
+        "u": 1
+      },
+      {
+        "v": "L",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/tobilleras-estabilizadoras-valkiria-1.jpg"
     ],
