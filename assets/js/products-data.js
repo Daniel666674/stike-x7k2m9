@@ -382,7 +382,8 @@ window.STIKE_PRODUCTS = [
     "promo": false,
     "units": 4,
     "imgs": [
-      "assets/img/products/timon-fiend-reynolds-negro-1.jpg"
+      "assets/img/products/timon-fiend-reynolds-negro-1.jpg",
+      "assets/img/products/timon-fiend-reynolds-negro-2.jpg"
     ],
     "published": true
   },
@@ -595,7 +596,7 @@ window.STIKE_PRODUCTS = [
     "promo": false,
     "units": 5,
     "imgs": [
-      "assets/img/products/82e2b5f2-7e43-437b-b696-0e5f82361aac.jpg"
+      "assets/img/products/caja-fiend-frente-integrado-ransom-negra-1.jpg"
     ],
     "published": true
   },
@@ -615,7 +616,7 @@ window.STIKE_PRODUCTS = [
     "promo": false,
     "units": 5,
     "imgs": [
-      "assets/img/products/11f9099c-c018-4e0e-ba34-08181ceabc3d.jpg"
+      "assets/img/products/caja-fiend-frente-integrado-ransom-cromada-1.jpg"
     ],
     "published": true
   },
@@ -1082,7 +1083,10 @@ window.STIKE_PRODUCTS = [
     "promo": false,
     "units": 2,
     "imgs": [
-      "assets/img/products/barends-process-aluminio-1.jpg"
+      "assets/img/products/barends-process-aluminio-1.jpg",
+      "assets/img/products/barends-process-aluminio-2.jpg",
+      "assets/img/products/barends-process-aluminio-3.jpg",
+      "assets/img/products/barends-process-aluminio-4.jpg"
     ],
     "published": true
   },
@@ -1101,7 +1105,8 @@ window.STIKE_PRODUCTS = [
     "promo": false,
     "units": 2,
     "imgs": [
-      "assets/img/products/cana-fiend-reynolds-v4-gold-1.jpg"
+      "assets/img/products/cana-fiend-reynolds-v4-gold-1.jpg",
+      "assets/img/products/cana-fiend-reynolds-v4-gold-2.jpg"
     ],
     "published": true
   },
@@ -1180,7 +1185,11 @@ window.STIKE_PRODUCTS = [
     "promo": false,
     "units": 2,
     "imgs": [
-      "assets/img/products/silla-pivotal-fiend-reynolds-zebra-1.jpg"
+      "assets/img/products/silla-pivotal-fiend-reynolds-zebra-1.jpg",
+      "assets/img/products/silla-pivotal-fiend-reynolds-zebra-2.jpg",
+      "assets/img/products/silla-pivotal-fiend-reynolds-zebra-3.jpg",
+      "assets/img/products/silla-pivotal-fiend-reynolds-zebra-4.jpg",
+      "assets/img/products/silla-pivotal-fiend-reynolds-zebra-5.jpg"
     ],
     "published": true
   },
@@ -2378,9 +2387,7 @@ window.STIKE_PRODUCTS = [
     "promo": false,
     "units": 1,
     "imgs": [
-      "assets/img/products/plato-fiend-palmere-guardia-negro-25t-2.jpg",
-      "assets/img/products/plato-fiend-palmere-guardia-negro-25t-1.jpg",
-      "assets/img/products/plato-fiend-palmere-guardia-negro-25t-3.jpg"
+      "assets/img/products/plato-fiend-palmere-guardia-negro-25t-1.jpg"
     ],
     "published": true
   },
