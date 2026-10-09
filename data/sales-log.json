@@ -196,5 +196,49 @@
       "city": "Bogotá",
       "notes": ""
     }
+  },
+  {
+    "ts": "2026-10-09T04:10:48.329Z",
+    "slug": "cana-shadow-finest-negra-topload",
+    "name": "Caña Shadow Finest Negra TopLoad",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 310000,
+    "total": 310000,
+    "admin": "Wompi (ref stike-1791519004253-qzpbpr)",
+    "source": "wompi",
+    "orderRef": "stike-1791519004253-qzpbpr",
+    "wompiId": "12209446-1791519038-34187",
+    "customerEmail": "test@test.com",
+    "shipping": {
+      "name": "daniel",
+      "phone": "3132313222",
+      "address": "calle 123",
+      "city": "bogotoa",
+      "notes": ""
+    }
+  },
+  {
+    "ts": "2026-10-09T04:10:48.329Z",
+    "slug": "bielas-primo-churchill-160mm-cromadas",
+    "name": "Bielas Primo Churchill 160mm Cromadas",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 920000,
+    "total": 920000,
+    "admin": "Wompi (ref stike-1791519004253-qzpbpr)",
+    "source": "wompi",
+    "orderRef": "stike-1791519004253-qzpbpr",
+    "wompiId": "12209446-1791519038-34187",
+    "customerEmail": "test@test.com",
+    "shipping": {
+      "name": "daniel",
+      "phone": "3132313222",
+      "address": "calle 123",
+      "city": "bogotoa",
+      "notes": ""
+    }
   }
 ]
