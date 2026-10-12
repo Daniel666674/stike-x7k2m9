@@ -55,7 +55,9 @@ const STIKE_BRANDS = [
   "SaltPlus", "Stranger", "Mutanty", "Trueno", "Fate BMX Colombia",
   "TSG", "KMC", "Cinema", "GW", "Fade", "Stike", "Smith",
   "Fiend", "Rant", "Subrosa", "Optimus", "Merritt", "Innova", "Primo",
-  "R2 Protect", "Valkiria", "Volume", "Profile"
+  "R2 Protect", "Valkiria", "Volume", "Profile",
+  "Nike", "Oakley", "Primitive", "Vans", "Quiksilver", "Animal", "AC",
+  "Circuit BMX", "DCN-CRW", "No Fear", "Helio Brand", "Fox"
 ];
 
 /* ------------------- Categorias/subcategorias con talla obligatoria -----
