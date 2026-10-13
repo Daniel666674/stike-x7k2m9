@@ -3713,8 +3713,7 @@ window.STIKE_PRODUCTS = [
     "promo": false,
     "units": 1,
     "imgs": [
-      "assets/img/products/cassette-profile-mini-cromado-2.jpg",
-      "assets/img/products/cassette-profile-mini-cromado-1.jpg"
+      "assets/img/products/cassette-profile-mini-cromado-2.jpg"
     ],
     "published": true
   },
