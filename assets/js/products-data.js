@@ -5102,5 +5102,465 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/poste-pivotal-mutanty-corto-negro-1.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "juegos-rodamiento-optimus-1019mm-verde",
+    "sku": "REP-OPT-002",
+    "n": "Juegos de Rodamiento Optimus 1019mm",
+    "brand": "Optimus",
+    "cat": "repuestos",
+    "sub": "Bielas",
+    "spec": [
+      "Compatibilidad: Caja de centro 1019mm",
+      "Incluye: 2 rodamientos (no incluye eje)",
+      "Uso: Alto rodaje e impacto"
+    ],
+    "price": 40000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/juegos-rodamiento-optimus-1019mm-verde-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "manzana-delantera-optimus-cromada",
+    "sku": "REP-OPT-003",
+    "n": "Manzana Delantera Optimus Cromada",
+    "brand": "Optimus",
+    "cat": "repuestos",
+    "sub": "Manzanas",
+    "spec": [
+      "Posición: Delantera",
+      "Agujeros: 36",
+      "Cuerpo: Aluminio",
+      "Eje: Cr-Mo 3/8\"",
+      "Balineras: 2 selladas",
+      "Color: Cromado"
+    ],
+    "price": 100000,
+    "promo": false,
+    "units": 2,
+    "imgs": [
+      "assets/img/products/manzana-delantera-optimus-cromada-1.jpg",
+      "assets/img/products/manzana-delantera-optimus-cromada-2.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "manzana-delantera-optimus-azul",
+    "sku": "REP-OPT-004",
+    "n": "Manzana Delantera Optimus Azul",
+    "brand": "Optimus",
+    "cat": "repuestos",
+    "sub": "Manzanas",
+    "spec": [
+      "Posición: Delantera",
+      "Agujeros: 36",
+      "Cuerpo: Aluminio",
+      "Eje: Cr-Mo 3/8\"",
+      "Balineras: 2 selladas",
+      "Color: Azul"
+    ],
+    "price": 100000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/manzana-delantera-optimus-azul-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "poste-pivotal-optimus-corto-negro",
+    "sku": "REP-OPT-005",
+    "n": "Poste Pivotal Optimus Corto Negro",
+    "brand": "Optimus",
+    "cat": "repuestos",
+    "sub": "Sillas y Postes",
+    "spec": [
+      "Tipo: Pivotal",
+      "Diámetro: 25.4mm",
+      "Material: Aluminio",
+      "Color: Negro"
+    ],
+    "price": 45000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/poste-pivotal-optimus-corto-negro-1.jpg",
+      "assets/img/products/poste-pivotal-optimus-corto-negro-2.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "poste-pivotal-optimus-largo-negro",
+    "sku": "REP-OPT-006",
+    "n": "Poste Pivotal Optimus Largo Negro",
+    "brand": "Optimus",
+    "cat": "repuestos",
+    "sub": "Sillas y Postes",
+    "spec": [
+      "Tipo: Pivotal",
+      "Diámetro: 25.4mm",
+      "Material: Aluminio",
+      "Color: Negro"
+    ],
+    "price": 45000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/poste-pivotal-optimus-largo-negro-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "silla-primo-biscuit-pivotal-pana-negro",
+    "sku": "REP-PRI-005",
+    "n": "Silla Primo Biscuit Seat Pivotal Pana Negro",
+    "brand": "Primo",
+    "cat": "repuestos",
+    "sub": "Sillas y Postes",
+    "spec": [
+      "Tipo: Pivotal",
+      "Material: Cuero sintético (pana)",
+      "Diseño: Pivotal Fat",
+      "Color: Negro"
+    ],
+    "price": 190000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/silla-primo-biscuit-pivotal-pana-negro-1.jpg",
+      "assets/img/products/silla-primo-biscuit-pivotal-pana-negro-2.jpg",
+      "assets/img/products/silla-primo-biscuit-pivotal-pana-negro-3.jpg",
+      "assets/img/products/silla-primo-biscuit-pivotal-pana-negro-4.jpg",
+      "assets/img/products/silla-primo-biscuit-pivotal-pana-negro-5.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "plato-profile-galaxy-spline-cromado-28t",
+    "sku": "REP-PRO-001",
+    "n": "Plato Profile Galaxy Spline Cromado 28T",
+    "brand": "Profile",
+    "cat": "repuestos",
+    "sub": "Platos",
+    "spec": [
+      "Dientes: 28T x 1/8\"",
+      "Tipo: Spline Drive (22mm, 48-spline)",
+      "Material: Aleación 7075",
+      "Peso: 118g",
+      "Color: Cromado"
+    ],
+    "price": 350000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/plato-profile-galaxy-spline-cromado-28t-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "cana-radio-50mm-negra",
+    "sku": "REP-RAD-001",
+    "n": "Caña Radio 50mm Negra",
+    "brand": "Radio",
+    "cat": "repuestos",
+    "sub": "Espigas",
+    "spec": [
+      "Largo: 50mm",
+      "Color: Negra"
+    ],
+    "price": 100000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/cana-radio-50mm-negra-1.jpg",
+      "assets/img/products/cana-radio-50mm-negra-2.jpg",
+      "assets/img/products/cana-radio-50mm-negra-3.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "pedales-rant-trill-negro",
+    "sku": "REP-RAN-004",
+    "n": "Pedales Rant Trill Negro",
+    "brand": "Rant",
+    "cat": "repuestos",
+    "sub": "Pedales",
+    "spec": [
+      "Color: Negro"
+    ],
+    "price": 73000,
+    "promo": false,
+    "units": 2,
+    "imgs": [
+      "assets/img/products/pedales-rant-trill-negro-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "pedales-rant-trill-rojo",
+    "sku": "REP-RAN-005",
+    "n": "Pedales Rant Trill Rojo",
+    "brand": "Rant",
+    "cat": "repuestos",
+    "sub": "Pedales",
+    "spec": [
+      "Color: Rojo"
+    ],
+    "price": 73000,
+    "promo": false,
+    "units": 2,
+    "imgs": [
+      "assets/img/products/pedales-rant-trill-rojo-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "pedales-rant-trill-azul",
+    "sku": "REP-RAN-006",
+    "n": "Pedales Rant Trill Azul",
+    "brand": "Rant",
+    "cat": "repuestos",
+    "sub": "Pedales",
+    "spec": [
+      "Color: Azul"
+    ],
+    "price": 73000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/pedales-rant-trill-azul-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "pedales-rant-trill-morado",
+    "sku": "REP-RAN-007",
+    "n": "Pedales Rant Trill Morado",
+    "brand": "Rant",
+    "cat": "repuestos",
+    "sub": "Pedales",
+    "spec": [
+      "Color: Morado"
+    ],
+    "price": 73000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/pedales-rant-trill-morado-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "brazos-salt-de-seguridad-175-negro",
+    "sku": "REP-SAL-001",
+    "n": "Brazos Salt de Seguridad 175 Negro",
+    "brand": "SaltPlus",
+    "cat": "repuestos",
+    "sub": "Bielas",
+    "spec": [
+      "Tipo: Seguridad (safety cranks)",
+      "Largo: 175mm",
+      "Color: Negro"
+    ],
+    "price": 300000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/brazos-salt-de-seguridad-175-negro-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "vielas-de-seguridad-salt-165-negra",
+    "sku": "REP-SAL-002",
+    "n": "Bielas Salt de Seguridad 165 Negra",
+    "brand": "SaltPlus",
+    "cat": "repuestos",
+    "sub": "Bielas",
+    "spec": [
+      "Tipo: Seguridad (safety cranks)",
+      "Largo: 165mm",
+      "Color: Negro"
+    ],
+    "price": 180000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/vielas-de-seguridad-salt-165-negra-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "freecoaster-shadow-derecho-negro",
+    "sku": "REP-SHA-013",
+    "n": "Freecoaster Shadow Derecho Negro",
+    "brand": "Shadow",
+    "cat": "repuestos",
+    "sub": "Manzanas",
+    "spec": [
+      "Tipo: Freecoaster",
+      "Eje: 14mm macho",
+      "Piñón: 9T",
+      "Agujeros: 36h",
+      "Color: Negro"
+    ],
+    "price": 500000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/freecoaster-shadow-derecho-negro-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "pedales-shadow-surface-negro",
+    "sku": "REP-SHA-014",
+    "n": "Pedales Shadow Surface Negro",
+    "brand": "Shadow",
+    "cat": "repuestos",
+    "sub": "Pedales",
+    "spec": [
+      "Material: Nylon compuesto",
+      "Eje: CrMo tratado térmicamente",
+      "Color: Negro"
+    ],
+    "price": 90000,
+    "promo": false,
+    "units": 5,
+    "imgs": [
+      "assets/img/products/pedales-shadow-surface-negro-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "pedales-shadow-surface-rojo",
+    "sku": "REP-SHA-015",
+    "n": "Pedales Shadow Surface Rojo",
+    "brand": "Shadow",
+    "cat": "repuestos",
+    "sub": "Pedales",
+    "spec": [
+      "Material: Nylon compuesto",
+      "Eje: CrMo tratado térmicamente",
+      "Color: Rojo"
+    ],
+    "price": 90000,
+    "promo": false,
+    "units": 2,
+    "imgs": [
+      "assets/img/products/pedales-shadow-surface-rojo-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "pedales-shadow-surface-morado",
+    "sku": "REP-SHA-016",
+    "n": "Pedales Shadow Surface Morado",
+    "brand": "Shadow",
+    "cat": "repuestos",
+    "sub": "Pedales",
+    "spec": [
+      "Material: Nylon compuesto",
+      "Eje: CrMo tratado térmicamente",
+      "Color: Morado"
+    ],
+    "price": 90000,
+    "promo": false,
+    "units": 2,
+    "imgs": [
+      "assets/img/products/pedales-shadow-surface-morado-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "pedales-shadow-ravager-negro",
+    "sku": "REP-SHA-017",
+    "n": "Pedales Shadow Ravager Negro",
+    "brand": "Shadow",
+    "cat": "repuestos",
+    "sub": "Pedales",
+    "spec": [
+      "Tipo/Ajuste: 16/9, 3 piezas",
+      "Material: Aluminio 6061",
+      "Cojinetes: Pelota suelta",
+      "Peso: 0.573kg (par)",
+      "Color: Negro"
+    ],
+    "price": 78000,
+    "promo": false,
+    "units": 3,
+    "imgs": [
+      "assets/img/products/pedales-shadow-ravager-negro-1.jpg",
+      "assets/img/products/pedales-shadow-ravager-negro-2.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "cana-stolen-50mm-cromada",
+    "sku": "REP-STO-001",
+    "n": "Caña Stolen 50mm Cromada",
+    "brand": "Stolen",
+    "cat": "repuestos",
+    "sub": "Espigas",
+    "spec": [
+      "Largo: 50mm",
+      "Color: Cromada"
+    ],
+    "price": 200000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/cana-stolen-50mm-cromada-1.jpg",
+      "assets/img/products/cana-stolen-50mm-cromada-2.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "timon-stranger-nass-93-negro",
+    "sku": "REP-STR-002",
+    "n": "Timón Stranger Nass 9.3 Negro",
+    "brand": "Stranger",
+    "cat": "repuestos",
+    "sub": "Timones",
+    "spec": [
+      "Material: Full Cr-Mo tratado al calor",
+      "Ancho: 29.5\"",
+      "Inclinación hacia atrás: 11.5°",
+      "Inclinación hacia arriba: 3°",
+      "Alto: 9.3\"",
+      "Color: Negro"
+    ],
+    "price": 380000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/timon-stranger-nass-93-negro-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "silla-trueno-negra",
+    "sku": "REP-TRU-003",
+    "n": "Silla Trueno Negra",
+    "brand": "Trueno",
+    "cat": "repuestos",
+    "sub": "Sillas y Postes",
+    "spec": [
+      "Tipo: Pivotal",
+      "Material: Cuero sintético",
+      "Diseño: Pivotal Fat",
+      "Color: Negro"
+    ],
+    "price": 130000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/silla-trueno-negra-1.jpg",
+      "assets/img/products/silla-trueno-negra-2.jpg"
+    ],
+    "published": true
   }
 ];

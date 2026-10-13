@@ -60,7 +60,7 @@ const STIKE_BRANDS = [
   "Circuit BMX", "DCN-CRW", "No Fear", "Helio Brand", "Fox", "Kenda", "Kboom",
   "Nightmare", "Etnies", "XOXO", "Freaak", "S&M Bikes", "Fit Bike Co.",
   "Micos Trails", "Piraña", "Ontrail", "ODI", "Counter", "Colony", "Rhino",
-  "Brainstorm", "Tall Order", "Extension", "Alpinestars"
+  "Brainstorm", "Tall Order", "Extension", "Alpinestars", "Radio", "Stolen"
 ];
 
 /* ------------------- Categorias/subcategorias con talla obligatoria -----
