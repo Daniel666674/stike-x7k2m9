@@ -3713,8 +3713,8 @@ window.STIKE_PRODUCTS = [
     "promo": false,
     "units": 1,
     "imgs": [
-      "assets/img/products/cassette-profile-mini-cromado-1.jpg",
-      "assets/img/products/cassette-profile-mini-cromado-2.jpg"
+      "assets/img/products/cassette-profile-mini-cromado-2.jpg",
+      "assets/img/products/cassette-profile-mini-cromado-1.jpg"
     ],
     "published": true
   },
@@ -3996,7 +3996,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 60000,
     "promo": false,
-    "sizes": [{ "v": "L", "u": 1 }],
+    "sizes": [
+      {
+        "v": "L",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camibuso-odyssey-blanca-manga-larga-1.jpg"
     ],
@@ -4016,7 +4021,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 60000,
     "promo": false,
-    "sizes": [{ "v": "L", "u": 1 }],
+    "sizes": [
+      {
+        "v": "L",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camibuso-animal-blanca-manga-larga-1.jpg"
     ],
@@ -4035,7 +4045,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "L", "u": 1 }],
+    "sizes": [
+      {
+        "v": "L",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-fate-blanca-1.jpg"
     ],
@@ -4054,7 +4069,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "M", "u": 1 }],
+    "sizes": [
+      {
+        "v": "M",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-no-fear-blanca-1.jpg"
     ],
@@ -4073,7 +4093,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "M", "u": 1 }],
+    "sizes": [
+      {
+        "v": "M",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-primitive-verde-logo-circular-1.jpg"
     ],
@@ -4092,7 +4117,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "L", "u": 1 }],
+    "sizes": [
+      {
+        "v": "L",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-vans-blanca-since-1966-l-1.jpg"
     ],
@@ -4111,7 +4141,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "S", "u": 1 }],
+    "sizes": [
+      {
+        "v": "S",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-vans-cafe-claro-logo-pequeno-1.jpg",
       "assets/img/products/camiseta-vans-cafe-claro-logo-pequeno-2.jpg",
@@ -4132,7 +4167,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "M", "u": 1 }],
+    "sizes": [
+      {
+        "v": "M",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-primo-negra-1.jpg",
       "assets/img/products/camiseta-primo-negra-2.jpg"
@@ -4152,7 +4192,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "M", "u": 1 }],
+    "sizes": [
+      {
+        "v": "M",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-vans-rosada-1.jpg"
     ],
@@ -4171,7 +4216,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "M", "u": 1 }],
+    "sizes": [
+      {
+        "v": "M",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-vans-blanca-since-1966-m-1.jpg",
       "assets/img/products/camiseta-vans-blanca-since-1966-m-2.jpg"
@@ -4191,7 +4241,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "M", "u": 1 }],
+    "sizes": [
+      {
+        "v": "M",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-ac-negra-1.jpg"
     ],
@@ -4210,7 +4265,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "M", "u": 1 }],
+    "sizes": [
+      {
+        "v": "M",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-we-the-people-cafe-claro-1.jpg",
       "assets/img/products/camiseta-we-the-people-cafe-claro-2.jpg"
@@ -4230,7 +4290,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "L", "u": 1 }],
+    "sizes": [
+      {
+        "v": "L",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-animal-blanca-logo-1.jpg",
       "assets/img/products/camiseta-animal-blanca-logo-2.jpg"
@@ -4250,7 +4315,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "M", "u": 1 }],
+    "sizes": [
+      {
+        "v": "M",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-circuit-bmx-crema-1.jpg",
       "assets/img/products/camiseta-circuit-bmx-crema-2.jpg"
@@ -4270,7 +4340,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "M", "u": 1 }],
+    "sizes": [
+      {
+        "v": "M",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-primitive-verde-6-0-1.jpg",
       "assets/img/products/camiseta-primitive-verde-6-0-2.jpg",
@@ -4291,7 +4366,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "L", "u": 1 }],
+    "sizes": [
+      {
+        "v": "L",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-fox-blanca-race-crew-1.jpg"
     ],
@@ -4310,7 +4390,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "L", "u": 1 }],
+    "sizes": [
+      {
+        "v": "L",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-nike-blanca-just-do-it-1.jpg"
     ],
@@ -4329,7 +4414,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "L", "u": 1 }],
+    "sizes": [
+      {
+        "v": "L",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-quiksilver-blanca-1.jpg"
     ],
@@ -4348,7 +4438,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "M", "u": 1 }],
+    "sizes": [
+      {
+        "v": "M",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-vans-blanca-oso-1.jpg"
     ],
@@ -4367,7 +4462,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "M", "u": 1 }],
+    "sizes": [
+      {
+        "v": "M",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-primitive-vinotinto-bici-llamas-1.jpg",
       "assets/img/products/camiseta-primitive-vinotinto-bici-llamas-2.jpg"
@@ -4387,7 +4487,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "M", "u": 1 }],
+    "sizes": [
+      {
+        "v": "M",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-odyssey-negra-40-anos-1.jpg",
       "assets/img/products/camiseta-odyssey-negra-40-anos-2.jpg",
@@ -4407,7 +4512,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 79000,
     "promo": false,
-    "sizes": [{ "v": "S", "u": 1 }],
+    "sizes": [
+      {
+        "v": "S",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-helio-rayas-azul-1.jpg"
     ],
@@ -4426,7 +4536,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "M", "u": 1 }],
+    "sizes": [
+      {
+        "v": "M",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-dcn-crw-gris-1.jpg",
       "assets/img/products/camiseta-dcn-crw-gris-2.jpg"
@@ -4446,7 +4561,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "M", "u": 1 }],
+    "sizes": [
+      {
+        "v": "M",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-fate-negra-1.jpg"
     ],
@@ -4465,7 +4585,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 60000,
     "promo": false,
-    "sizes": [{ "v": "S", "u": 1 }],
+    "sizes": [
+      {
+        "v": "S",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-primitive-negra-marvel-1.jpg",
       "assets/img/products/camiseta-primitive-negra-marvel-2.jpg"
@@ -4485,7 +4610,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 60000,
     "promo": false,
-    "sizes": [{ "v": "M", "u": 1 }],
+    "sizes": [
+      {
+        "v": "M",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-primitive-rosada-letras-1.jpg",
       "assets/img/products/camiseta-primitive-rosada-letras-2.jpg"
@@ -4505,7 +4635,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "S", "u": 1 }],
+    "sizes": [
+      {
+        "v": "S",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-primitive-beige-script-1.jpg"
     ],
@@ -4524,7 +4659,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "S", "u": 1 }],
+    "sizes": [
+      {
+        "v": "S",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-sm-negra-shield-1.jpg"
     ],
@@ -4543,7 +4683,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "S", "u": 1 }],
+    "sizes": [
+      {
+        "v": "S",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-sub-rosa-blanca-1.jpg"
     ],
@@ -4562,7 +4707,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "S", "u": 1 }],
+    "sizes": [
+      {
+        "v": "S",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-primitive-negra-circular-pequeno-1.jpg",
       "assets/img/products/camiseta-primitive-negra-circular-pequeno-2.jpg"
@@ -4582,7 +4732,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 79000,
     "promo": false,
-    "sizes": [{ "v": "S", "u": 1 }],
+    "sizes": [
+      {
+        "v": "S",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-helio-negra-all-we-need-1.jpg"
     ],
@@ -4601,7 +4756,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "S", "u": 1 }],
+    "sizes": [
+      {
+        "v": "S",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-helio-negra-logo-grande-1.jpg"
     ],
@@ -4620,7 +4780,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "L", "u": 1 }],
+    "sizes": [
+      {
+        "v": "L",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-primitive-negra-manga-pequeno-1.jpg"
     ],
@@ -4639,7 +4804,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "M", "u": 1 }],
+    "sizes": [
+      {
+        "v": "M",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-primitive-negra-grafico-color-1.jpg"
     ],
@@ -4658,7 +4828,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "S", "u": 1 }],
+    "sizes": [
+      {
+        "v": "S",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-kink-verde-claro-texto-1.jpg"
     ],
@@ -4677,7 +4852,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "sizes": [{ "v": "S", "u": 1 }],
+    "sizes": [
+      {
+        "v": "S",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/camiseta-kink-verde-claro-calavera-1.jpg",
       "assets/img/products/camiseta-kink-verde-claro-calavera-2.jpg"
@@ -4697,7 +4877,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 120000,
     "promo": false,
-    "sizes": [{ "v": "L", "u": 1 }],
+    "sizes": [
+      {
+        "v": "L",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/chaqueta-oakley-azul-1.jpg",
       "assets/img/products/chaqueta-oakley-azul-2.jpg"
@@ -4717,7 +4902,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 120000,
     "promo": false,
-    "sizes": [{ "v": "L", "u": 1 }],
+    "sizes": [
+      {
+        "v": "L",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/chaqueta-alpinestars-negra-1.jpg"
     ],
@@ -4736,7 +4926,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 120000,
     "promo": false,
-    "sizes": [{ "v": "M", "u": 1 }],
+    "sizes": [
+      {
+        "v": "M",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/chaqueta-nike-beige-negro-1.jpg",
       "assets/img/products/chaqueta-nike-beige-negro-2.jpg",
@@ -4757,7 +4952,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 120000,
     "promo": false,
-    "sizes": [{ "v": "M", "u": 1 }],
+    "sizes": [
+      {
+        "v": "M",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/chaqueta-vans-beige-negro-1.jpg"
     ],
