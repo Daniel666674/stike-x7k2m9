@@ -4762,5 +4762,345 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/chaqueta-vans-beige-negro-1.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "grips-cinema-reynolds-negro",
+    "sku": "GRP-CIN-001",
+    "n": "Grips Cinema Reynolds Negro",
+    "brand": "Cinema",
+    "cat": "accesorios",
+    "sub": "Grips",
+    "spec": [
+      "Material: Goma",
+      "Color: Negro"
+    ],
+    "price": 50000,
+    "promo": false,
+    "units": 2,
+    "imgs": [
+      "assets/img/products/grips-cinema-reynolds-negro-1.jpg",
+      "assets/img/products/grips-cinema-reynolds-negro-2.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "peg-cinema-negro",
+    "sku": "REP-CIN-001",
+    "n": "Peg Cinema Negro",
+    "brand": "Cinema",
+    "cat": "repuestos",
+    "sub": "Tacos y Protectores de Maza",
+    "spec": [
+      "Color: Negro"
+    ],
+    "price": 120000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/peg-cinema-negro-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "plato-cinema-beta-guard-negro-25t",
+    "sku": "REP-CIN-002",
+    "n": "Plato Cinema Beta Guard Negro 25T",
+    "brand": "Cinema",
+    "cat": "repuestos",
+    "sub": "Platos",
+    "spec": [
+      "Dientes: 25T",
+      "Con guardia",
+      "Color: Negro"
+    ],
+    "price": 270000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/plato-cinema-beta-guard-negro-25t-1.jpg",
+      "assets/img/products/plato-cinema-beta-guard-negro-25t-2.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "poste-pivotal-cult-layback-negro",
+    "sku": "REP-CUL-005",
+    "n": "Poste Pivotal Cult Layback Negro",
+    "brand": "Cult",
+    "cat": "repuestos",
+    "sub": "Sillas y Postes",
+    "spec": [
+      "Tipo: Pivotal Layback",
+      "Color: Negro"
+    ],
+    "price": 140000,
+    "promo": false,
+    "units": 2,
+    "imgs": [
+      "assets/img/products/poste-pivotal-cult-layback-negro-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "peg-demolition-negro",
+    "sku": "REP-DEM-004",
+    "n": "Peg Demolition Negro",
+    "brand": "Demolition",
+    "cat": "repuestos",
+    "sub": "Tacos y Protectores de Maza",
+    "spec": [
+      "Color: Negro"
+    ],
+    "price": 110000,
+    "promo": false,
+    "units": 2,
+    "imgs": [
+      "assets/img/products/peg-demolition-negro-1.jpg",
+      "assets/img/products/peg-demolition-negro-2.jpg",
+      "assets/img/products/peg-demolition-negro-3.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "poste-pivotal-demolition-300mm-negro",
+    "sku": "REP-DEM-005",
+    "n": "Poste Pivotal Demolition 300mm Negro",
+    "brand": "Demolition",
+    "cat": "repuestos",
+    "sub": "Sillas y Postes",
+    "spec": [
+      "Tipo: Pivotal",
+      "Largo: 300mm",
+      "Color: Negro"
+    ],
+    "price": 155000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/poste-pivotal-demolition-300mm-negro-1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "manzana-trasera-federal-derecha-negra-9t",
+    "sku": "REP-FED-015",
+    "n": "Manzana Trasera Federal Derecha Negra 9T",
+    "brand": "Federal",
+    "cat": "repuestos",
+    "sub": "Manzanas",
+    "spec": [
+      "Posición: Trasera (cassette)",
+      "Piñón: 9T",
+      "Color: Negro"
+    ],
+    "price": 500000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/manzana-trasera-federal-derecha-negra-9t-1.jpg",
+      "assets/img/products/manzana-trasera-federal-derecha-negra-9t-2.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "freecoaster-fiend-derecho-negro",
+    "sku": "REP-FIE-057",
+    "n": "Freecoaster Fiend Derecho Negro",
+    "brand": "Fiend",
+    "cat": "repuestos",
+    "sub": "Manzanas",
+    "spec": [
+      "Tipo: Freecoaster",
+      "Posición: Trasera",
+      "Color: Negro"
+    ],
+    "price": 500000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/freecoaster-fiend-derecho-negro-1.jpg",
+      "assets/img/products/freecoaster-fiend-derecho-negro-2.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "llavero-pedal-kboom-v2-amarillo",
+    "sku": "ACC-KBO-001",
+    "n": "Llavero Pedal Kboom V2 Amarillo",
+    "brand": "Kboom",
+    "cat": "accesorios",
+    "sub": "Llaveros",
+    "spec": [
+      "Diseño: Pedal BMX",
+      "Color: Amarillo"
+    ],
+    "price": 40000,
+    "promo": false,
+    "units": 3,
+    "imgs": [
+      "assets/img/products/llavero-pedal-kboom-v2-amarillo-1.jpg",
+      "assets/img/products/llavero-pedal-kboom-v2-amarillo-2.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "llavero-pedal-kboom-v2-azul-aguamarina",
+    "sku": "ACC-KBO-002",
+    "n": "Llavero Pedal Kboom V2 Azul Aguamarina",
+    "brand": "Kboom",
+    "cat": "accesorios",
+    "sub": "Llaveros",
+    "spec": [
+      "Diseño: Pedal BMX",
+      "Color: Azul Aguamarina"
+    ],
+    "price": 40000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/llavero-pedal-kboom-v2-azul-aguamarina-1.jpg",
+      "assets/img/products/llavero-pedal-kboom-v2-azul-aguamarina-2.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "neumatico-kenda-negro",
+    "sku": "REP-KEN-001",
+    "n": "Neumático Kenda Negro",
+    "brand": "Kenda",
+    "cat": "repuestos",
+    "sub": "Llantas",
+    "spec": [
+      "Tipo: Cámara/Tubo",
+      "Medida: 1.9 - 2.125\"",
+      "Válvula: Schrader (A/V)",
+      "Color: Negro"
+    ],
+    "price": 12000,
+    "promo": false,
+    "units": 13,
+    "imgs": [
+      "assets/img/products/neumatico-kenda-negro-1.jpg",
+      "assets/img/products/neumatico-kenda-negro-2.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "pedales-kink-hemlock-negro",
+    "sku": "REP-KIN-004",
+    "n": "Pedales Kink Hemlock Negro",
+    "brand": "Kink",
+    "cat": "repuestos",
+    "sub": "Pedales",
+    "spec": [
+      "Color: Negro"
+    ],
+    "price": 95000,
+    "promo": false,
+    "units": 2,
+    "imgs": [
+      "assets/img/products/pedales-kink-hemlock-negro-1.jpg",
+      "assets/img/products/pedales-kink-hemlock-negro-2.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "cana-merritt-50mm-cromada",
+    "sku": "REP-MER-002",
+    "n": "Caña Merritt 50mm Cromada",
+    "brand": "Merritt",
+    "cat": "repuestos",
+    "sub": "Espigas",
+    "spec": [
+      "Largo: 50mm",
+      "Color: Cromada"
+    ],
+    "price": 240000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/cana-merritt-50mm-cromada-1.jpg",
+      "assets/img/products/cana-merritt-50mm-cromada-2.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "manzana-trasera-merritt-derecha-cromada",
+    "sku": "REP-MER-003",
+    "n": "Manzana Trasera Merritt Derecha Cromada",
+    "brand": "Merritt",
+    "cat": "repuestos",
+    "sub": "Manzanas",
+    "spec": [
+      "Posición: Trasera (cassette)",
+      "Color: Cromada"
+    ],
+    "price": 700000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/manzana-trasera-merritt-derecha-cromada-1.jpg",
+      "assets/img/products/manzana-trasera-merritt-derecha-cromada-2.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "silla-mutanty-negra",
+    "sku": "REP-MUT-008",
+    "n": "Silla Mutanty Negra",
+    "brand": "Mutanty",
+    "cat": "repuestos",
+    "sub": "Sillas y Postes",
+    "spec": [
+      "Tipo: Pivotal",
+      "Color: Negro"
+    ],
+    "price": 130000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/silla-mutanty-negra-1.jpg",
+      "assets/img/products/silla-mutanty-negra-2.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "silla-mutanty-camuflada",
+    "sku": "REP-MUT-009",
+    "n": "Silla Mutanty Camuflada",
+    "brand": "Mutanty",
+    "cat": "repuestos",
+    "sub": "Sillas y Postes",
+    "spec": [
+      "Tipo: Pivotal",
+      "Color: Camuflado"
+    ],
+    "price": 130000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/silla-mutanty-camuflada-1.jpg",
+      "assets/img/products/silla-mutanty-camuflada-2.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "poste-pivotal-mutanty-corto-negro",
+    "sku": "REP-MUT-010",
+    "n": "Poste Pivotal Mutanty Corto Negro",
+    "brand": "Mutanty",
+    "cat": "repuestos",
+    "sub": "Sillas y Postes",
+    "spec": [
+      "Tipo: Pivotal corto",
+      "Color: Negro"
+    ],
+    "price": 45000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/poste-pivotal-mutanty-corto-negro-1.jpg"
+    ],
+    "published": true
   }
 ];

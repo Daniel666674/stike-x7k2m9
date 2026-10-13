@@ -37,7 +37,7 @@ const STIKE_CATEGORIES = [
     name: "Accesorios",
     blurb: "Detalles que marcan",
     color: "c5",
-    subs: ["Herramientas", "Grips", "Pegatinas", "Maletas", "Bombas", "Luces"]
+    subs: ["Herramientas", "Grips", "Pegatinas", "Maletas", "Bombas", "Luces", "Llaveros"]
   },
   {
     slug: "promo",
@@ -57,7 +57,7 @@ const STIKE_BRANDS = [
   "Fiend", "Rant", "Subrosa", "Optimus", "Merritt", "Innova", "Primo",
   "R2 Protect", "Valkiria", "Volume", "Profile",
   "Nike", "Oakley", "Primitive", "Vans", "Quiksilver", "Animal", "AC",
-  "Circuit BMX", "DCN-CRW", "No Fear", "Helio Brand", "Fox"
+  "Circuit BMX", "DCN-CRW", "No Fear", "Helio Brand", "Fox", "Kenda", "Kboom"
 ];
 
 /* ------------------- Categorias/subcategorias con talla obligatoria -----
