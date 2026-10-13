@@ -57,7 +57,10 @@ const STIKE_BRANDS = [
   "Fiend", "Rant", "Subrosa", "Optimus", "Merritt", "Innova", "Primo",
   "R2 Protect", "Valkiria", "Volume", "Profile",
   "Nike", "Oakley", "Primitive", "Vans", "Quiksilver", "Animal", "AC",
-  "Circuit BMX", "DCN-CRW", "No Fear", "Helio Brand", "Fox", "Kenda", "Kboom"
+  "Circuit BMX", "DCN-CRW", "No Fear", "Helio Brand", "Fox", "Kenda", "Kboom",
+  "Nightmare", "Etnies", "XOXO", "Freaak", "S&M Bikes", "Fit Bike Co.",
+  "Micos Trails", "Piraña", "Ontrail", "ODI", "Counter", "Colony", "Rhino",
+  "Brainstorm", "Tall Order", "Extension", "Alpinestars"
 ];
 
 /* ------------------- Categorias/subcategorias con talla obligatoria -----

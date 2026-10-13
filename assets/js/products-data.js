@@ -3154,7 +3154,7 @@ window.STIKE_PRODUCTS = [
     "slug": "perno-superior-wethepeople-negro",
     "sku": "REP-WTP-001",
     "n": "Conix Wethepeople Compact M25 Negro",
-    "brand": "WeThePeople",
+    "brand": "Wethepeople",
     "cat": "repuestos",
     "sub": "Tenedores",
     "spec": [
