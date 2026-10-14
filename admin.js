@@ -429,7 +429,6 @@ function validateCatalog(catalog) {
     if (p.slug) { if (bySlug.has(p.slug)) errors.push(`Slug duplicado "${p.slug}": ${bySlug.get(p.slug)} y ${label}`); else bySlug.set(p.slug, label); }
     if (p.sku) { if (bySku.has(p.sku)) errors.push(`SKU duplicado "${p.sku}": ${bySku.get(p.sku)} y ${label}`); else bySku.set(p.sku, label); }
     if (SIZE_CATEGORIES.has(p.sub) && !(p.sizes && p.sizes.length)) errors.push(`${label}: la subcategoría "${p.sub}" requiere tabla de tallas con stock`);
-    if (p.colors && p.colors.length === 1) errors.push(`${label}: colors[] necesita 2+ colores reales (o quítalo y deja solo unidades)`);
     (p.sizes || []).forEach(s => { if (s.u < 0) errors.push(`${label}: stock negativo en talla ${s.v}`); });
     (p.colors || []).forEach(c => { if (c.u < 0) errors.push(`${label}: stock negativo en color ${c.v}`); });
     if (!(p.sizes && p.sizes.length) && !(p.colors && p.colors.length) && typeof p.units !== "number") errors.push(`${label}: falta unidades en stock`);
@@ -1213,15 +1212,20 @@ function renderStockEditor() {
   const d = editorDraft;
   const sizeRequired = SIZE_CATEGORIES.has(d.sub);
 
-  // ---- tallas ----
-  if (sizeRequired) {
-    if (!d.sizes || !d.sizes.length) {
-      const range = stikeSizeRangeFor(d.sub) || ["Única"];
-      d.sizes = range.map(v => ({ v, u: 0 }));
-    }
+  // ---- tallas: obligatorias en SIZE_CATEGORIES, opcionales en cualquier otro producto ----
+  if (sizeRequired && (!d.sizes || !d.sizes.length)) {
+    const range = stikeSizeRangeFor(d.sub) || ["Única"];
+    d.sizes = range.map(v => ({ v, u: 0 }));
+  }
+  const hasSizes = !!(d.sizes && d.sizes.length);
+  if (!hasSizes) {
     $("#ed-sizes-box").innerHTML = `
-      <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:12.5px;text-transform:uppercase;color:var(--muted)">Tallas (obligatorio en "${d.sub}")</b>
-      <button class="btn ghost sm" id="ed-size-add" type="button">+ talla</button></div>
+      <label style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="ed-has-sizes"> Este producto viene en varias tallas o medidas</label>`;
+    $("#ed-has-sizes").addEventListener("change", () => { d.sizes = [{ v: "Única", u: 0 }]; renderStockEditor(); });
+  } else {
+    $("#ed-sizes-box").innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:12.5px;text-transform:uppercase;color:var(--muted)">Tallas${sizeRequired ? ` (obligatorio en "${d.sub}")` : ""}</b>
+      <span style="display:flex;gap:6px">${sizeRequired ? "" : `<button class="btn ghost sm" id="ed-size-off" type="button">Quitar tallas</button>`}<button class="btn ghost sm" id="ed-size-add" type="button">+ talla</button></span></div>
       <table class="stockTable"><tbody>${d.sizes.map((s, i) => `
         <tr><td style="width:40%"><input data-size-v="${i}" value="${escAttr(s.v)}"></td>
         <td><input data-size-u="${i}" type="number" min="0" value="${s.u}"></td>
@@ -1229,17 +1233,15 @@ function renderStockEditor() {
     $("#ed-size-add").addEventListener("click", () => { d.sizes.push({ v: "Nueva", u: 0 }); renderStockEditor(); });
     $$("#ed-sizes-box [data-size-v]").forEach(inp => inp.addEventListener("input", e => { d.sizes[+e.target.getAttribute("data-size-v")].v = e.target.value; }));
     $$("#ed-sizes-box [data-size-u]").forEach(inp => inp.addEventListener("input", e => { d.sizes[+e.target.getAttribute("data-size-u")].u = Math.max(0, parseInt(e.target.value) || 0); }));
-    $$("#ed-sizes-box [data-size-rm]").forEach(btn => btn.addEventListener("click", () => { d.sizes.splice(+btn.getAttribute("data-size-rm"), 1); renderStockEditor(); }));
-  } else {
-    d.sizes = null;
-    $("#ed-sizes-box").innerHTML = "";
+    $$("#ed-sizes-box [data-size-rm]").forEach(btn => btn.addEventListener("click", () => { d.sizes.splice(+btn.getAttribute("data-size-rm"), 1); if (!d.sizes.length) d.sizes = null; renderStockEditor(); }));
+    const offBtn = $("#ed-size-off"); if (offBtn) offBtn.addEventListener("click", () => { d.sizes = null; renderStockEditor(); });
   }
 
-  // ---- colores: disponibles en cualquier categoría cuando hay 2+ colores reales ----
+  // ---- colores: disponibles en cualquier producto, desde 1 color ----
   const hasColors = !!(d.colors && d.colors.length);
   $("#ed-colors-box").innerHTML = `
     <div style="display:flex;justify-content:space-between;align-items:center;margin-top:${sizeRequired ? "14px" : "0"}">
-      <label style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="ed-has-colors" ${hasColors ? "checked" : ""}> Este producto viene en varios colores</label>
+      <label style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="ed-has-colors" ${hasColors ? "checked" : ""}> Indicar color(es) del producto</label>
     </div>
     <div id="ed-colors-table" style="${hasColors ? "" : "display:none"}">
       <table class="stockTable"><tbody>${(d.colors || []).map((c, i) => `
@@ -1251,14 +1253,14 @@ function renderStockEditor() {
     ${!sizeRequired ? `<div class="field" id="ed-units-field" style="margin-top:12px;${hasColors ? "display:none" : ""}"><label>Unidades</label><input id="ed-units" type="number" min="0" value="${d.units || 0}"></div>` : ""}
   `;
   $("#ed-has-colors").addEventListener("change", e => {
-    if (e.target.checked) { if (!d.colors || !d.colors.length) d.colors = [{ v: "Negro", u: 0 }, { v: "Color 2", u: 0 }]; }
+    if (e.target.checked) { if (!d.colors || !d.colors.length) d.colors = [{ v: "Negro", u: 0 }]; }
     else { d.colors = null; }
     renderStockEditor();
   });
   const addColorBtn = $("#ed-color-add"); if (addColorBtn) addColorBtn.addEventListener("click", () => { d.colors.push({ v: "Nuevo color", u: 0 }); renderStockEditor(); renderPhotoGrid(); });
   $$("#ed-colors-table [data-color-v]").forEach(inp => inp.addEventListener("input", e => { d.colors[+e.target.getAttribute("data-color-v")].v = e.target.value; renderPhotoGrid(); }));
   $$("#ed-colors-table [data-color-u]").forEach(inp => inp.addEventListener("input", e => { d.colors[+e.target.getAttribute("data-color-u")].u = Math.max(0, parseInt(e.target.value) || 0); }));
-  $$("#ed-colors-table [data-color-rm]").forEach(btn => btn.addEventListener("click", () => { d.colors.splice(+btn.getAttribute("data-color-rm"), 1); if (d.colors.length < 2) d.colors = null; renderStockEditor(); renderPhotoGrid(); }));
+  $$("#ed-colors-table [data-color-rm]").forEach(btn => btn.addEventListener("click", () => { d.colors.splice(+btn.getAttribute("data-color-rm"), 1); if (!d.colors.length) d.colors = null; renderStockEditor(); renderPhotoGrid(); }));
   const unitsInp = $("#ed-units"); if (unitsInp) unitsInp.addEventListener("input", e => { d.units = Math.max(0, parseInt(e.target.value) || 0); });
 }
 
@@ -1375,7 +1377,6 @@ function saveEditorDraft() {
   stockErr.textContent = "";
   let stockOk = true;
   if (SIZE_CATEGORIES.has(d.sub) && (!d.sizes || !d.sizes.length)) { stockErr.textContent = `"${d.sub}" requiere al menos una talla.`; stockOk = false; }
-  else if (d.colors && d.colors.length === 1) { stockErr.textContent = "Si activas colores necesitas 2 o más."; stockOk = false; }
 
   /* Sin alert() bloqueante: el error queda escrito junto al campo (igual
      que slug/sku ya hacian) y el foco salta al primero con problema, para
