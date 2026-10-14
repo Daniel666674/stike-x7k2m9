@@ -58,6 +58,10 @@
       if (src.indexOf("accounts.google.com") !== -1) return;
       if (src.indexOf("fonts.googleapis.com") !== -1 || src.indexOf("fonts.gstatic.com") !== -1) return;
       showBoot("No se pudo cargar " + (target.src || target.href));
+    } else if (target && target !== window) {
+      // Una foto de producto rota (<img>) tambien llega aca en fase de
+      // captura, sin message: no es una falla del panel.
+      return;
     } else {
       showBoot((e.message || "error desconocido") + (e.filename ? " (" + e.filename + ":" + e.lineno + ")" : ""));
     }
