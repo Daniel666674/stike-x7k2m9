@@ -53,12 +53,12 @@ jobs:
         run: tools/publish-hostinger.sh "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" hostinger-deploy
 
       - name: Upload to Hostinger via FTP
-        if: ${{ secrets.HOSTINGER_FTP_HOST != '' }}
         env:
           FTP_HOST: ${{ secrets.HOSTINGER_FTP_HOST }}
           FTP_USER: ${{ secrets.HOSTINGER_FTP_USER }}
           FTP_PASS: ${{ secrets.HOSTINGER_FTP_PASS }}
         run: |
+          if [ -z "$FTP_HOST" ]; then echo "HOSTINGER_FTP_HOST no esta definido: se salta la subida por FTP."; exit 0; fi
           tools/stage-hostinger.sh /tmp/ftp-stage
           sudo apt-get update -qq && sudo apt-get install -y -qq lftp
           # mirror -R sin --delete: sube y sobreescribe, NUNCA borra lo que ya
