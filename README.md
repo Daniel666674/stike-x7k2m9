@@ -187,6 +187,12 @@ rama por su cuenta** (hPanel → Avanzado → Git, avisado por un webhook de Git
 no hay contraseñas FTP ni secrets en GitHub. Tarda uno o dos minutos desde que se
 publica hasta que se ve en el sitio. (Se probó subir por FTP desde GitHub Actions y
 Hostinger corta la conexión de datos —`ECONNRESET`— con FTP y con FTPS.)
+
+**Si el "Git" de hPanel no funciona:** `tools/instalar-hostinger.php` es un instalador de un
+solo archivo. Se sube a `public_html` con el Administrador de archivos, se abre
+`https://stikebikeshop.com/instalar-hostinger.php` y se pulsa el botón: el servidor
+baja la rama `hostinger-deploy` de GitHub y la descomprime en su carpeta (no toca
+`api/config.local.php`) y se borra solo. Sirve también para actualizar a mano.
 El workflow de GitHub Pages (`deploy.yml`) quedó solo manual: con la ruta base `/`
 dejaría la demo sin estilos.
 
