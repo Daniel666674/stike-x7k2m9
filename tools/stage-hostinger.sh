@@ -4,8 +4,8 @@
 #
 #   tools/stage-hostinger.sh <carpeta-de-salida>
 #
-# La corre .github/workflows/deploy-hostinger.yml antes de subir por FTP. Lo
-# que llega al hosting es SOLO lo que el sitio necesita: sin costos, sin ventas,
+# La usa tools/publish-hostinger.sh (que corre .github/workflows/deploy-hostinger.yml)
+# para armar la rama que Hostinger descarga. Lo que llega al hosting es SOLO lo que el sitio necesita: sin costos, sin ventas,
 # sin herramientas, sin el backend de Vercel. Es una lista de lo que se QUITA
 # de lo commiteado, mas una red de seguridad que aborta si algo interno se cuela.
 #

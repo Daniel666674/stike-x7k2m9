@@ -44,7 +44,7 @@ Options -Indexes
   RewriteRule ^data/(costs|sales-log|audit-log)\.json$ - [F,L]
   RewriteRule ^(PROPOSAL|MOTOR|README)\.md$ - [F,L]
   RewriteRule ^propuesta\.html$ - [F,L]
-  RewriteRule ^\.ftp-deploy-sync-state\.json$ - [F,L]
+  RewriteRule ^\.git(/|$) - [F,L]
   RewriteRule ^api/(_lib|config\.local)\.php$ - [F,L]
 </IfModule>
 
