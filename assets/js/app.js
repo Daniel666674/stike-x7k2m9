@@ -16,10 +16,10 @@ const STIKE_CONFIG = {
   fb: "https://www.facebook.com/share/1Cz3ezfUvL/?mibextid=wwXIfr",
   tiktok: "https://tiktok.com/@stikebikeshop",
   igHandle: "@stikebikeshop",
-  /* --- Datos legales: COMPLETAR con la información real de la empresa --- */
-  legalName: "[Razón social — completar]",   // p. ej. "Stike Bike Shop S.A.S."
-  nit: "[NIT — completar]",
-  legalUpdated: "21 de junio de 2026",
+  /* --- Datos legales (los muestran terminos.html y privacidad.html) --- */
+  legalName: "Jefersson Stike Parra González",   // persona natural; si algun dia pasa a una S.A.S., cambiar aca
+  nit: "1013643302-7",
+  legalUpdated: "14 de octubre de 2026",
   /* Envío de formularios (contacto + boletín) por correo real al dueño.
      Para activarlo (gratis, sin tarjeta, sin contraseña):
        1. Entra a https://web3forms.com

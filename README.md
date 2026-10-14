@@ -256,10 +256,12 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
 1. **Hostinger:** el dominio `stikebikeshop.com` agregado al plan Business como su
    propio sitio, con SSL activo y PHP 8.x. La primera vez el sitio se sube como ZIP
    en el asistente de hPanel y las fotos por el Administrador de archivos.
-2. **Datos legales:** completar `legalName` y `nit` en `STIKE_CONFIG`
-   (`assets/js/app.js`); hoy las páginas de términos y privacidad muestran
-   `[NIT — completar]`. La cuenta de Wompi de producción ya está activa
-   (comercios.wompi.co).
+2. **Datos legales:** `legalName` y `nit` ya están en `STIKE_CONFIG`
+   (`assets/js/app.js`) y los muestran las páginas de términos y privacidad. Si
+   cambian (por ejemplo al constituir una S.A.S.), se editan ahí y se sube el
+   `?v=` de `app.js` en todas las páginas. Falta decidir si se publica una
+   dirección física como domicilio: hoy dice solo "Bogotá D.C., Colombia". La
+   cuenta de Wompi de producción ya está activa (comercios.wompi.co).
 3. **Secretos del servidor:** crear `public_html/api/config.local.php` con el
    Administrador de archivos (nunca en el repo; hay una plantilla lista con los
    campos), primero con las llaves de **sandbox**:
