@@ -314,17 +314,7 @@ function seedDemoData() {
 
 function renderDemoBanner() {
   const el = $("#demo-banner");
-  if (!el) return;
-  el.innerHTML = demoMode ? `
-    <div class="demo-banner">
-      <svg width="19" height="19" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;color:var(--warn)"><path d="M8 3h4"/><path d="M9 3v5.2L4.6 15a2 2 0 001.7 3h7.4a2 2 0 001.7-3L11 8.2V3"/></svg>
-      <div>
-        <b>Modo demo — datos de ejemplo</b>
-        <p>El catálogo es el real del sitio, pero las <b>ventas, costos, márgenes y auditoría son ficticios</b>,
-        generados solo para mostrar cómo se ve el panel con movimiento. No se guarda ni se publica nada.
-        Para trabajar con datos reales, pega tu token de GitHub en <b>Configuración</b>.</p>
-      </div>
-    </div>` : "";
+  if (el) el.innerHTML = "";
 }
 
 function findOwnBaselineSlug(currentSlug) {
@@ -2191,22 +2181,14 @@ function showApp() {
     : `<span class="pill owner">Modo demo</span>`;
   $("#cfg-repo").textContent = `${CONFIG.owner}/${CONFIG.repo}`;
   $("#cfg-branch").textContent = CONFIG.branch;
-  $("#pat-status").textContent = session.pat ? "Token guardado en este navegador." : "Sin token: el panel está en modo demo con datos de ejemplo. Pega un token para trabajar con datos reales.";
+  $("#pat-status").textContent = session.pat ? "Token guardado en este navegador." : "Pega tu token de GitHub para cargar el catálogo, las ventas y publicar cambios.";
   renderSalesKeyStatus();
   if (session.pat) {
     loadAll().catch(e => handleLoadError(e));
   } else {
-    // Sin token no hay nada real que leer: arranca la demo para que el panel
-    // se vea como se veria operando, en vez de mostrar tablas vacias.
-    seedDemoData();
-    renderDemoBanner();
-    renderProductGrid();
-    renderSalesTab();
-    renderKpis();
-    renderAudit();
-    renderContentTab();
-    updateDirtyUI();
-    switchPanel("productos");
+    // Sin token no hay nada real que leer: sin datos ficticios, directo a
+    // Configuracion para pegar el token (al guardarlo, loadAll() carga todo).
+    switchPanel("config");
   }
 }
 
