@@ -9,5 +9,18 @@
     "unitPrice": 120000,
     "total": 120000,
     "admin": "daniel.f.acosta96@gmail.com"
+  },
+  {
+    "ts": "2026-10-14T23:41:20.907Z",
+    "slug": "mutanty-savage-v2-stem-plata",
+    "name": "Caña Mutanty Savage V2",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 220000,
+    "total": 220000,
+    "admin": "jparra375@gmail.com",
+    "invoice": 3782,
+    "payment": "Efectivo"
   }
 ]
