@@ -2111,7 +2111,6 @@ async function importFile(file) {
 const CONTENT_FIELDS = [
   { key: "home.heroTitle", label: "Home · Título del hero" },
   { key: "home.heroSubtitle", label: "Home · Subtítulo del hero" },
-  { key: "home.featuredTitle", label: "Home · Título sección destacados" },
   { key: "home.promoTitle", label: "Home · Título sección promo" },
   { key: "cat.repuestos.title", label: "Repuestos · Título de categoría" },
   { key: "cat.repuestos.subtitle", label: "Repuestos · Subtítulo" },

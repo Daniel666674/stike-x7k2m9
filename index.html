@@ -115,20 +115,6 @@
     </div>
   </section>
 
-  <!-- DESTACADOS -->
-  <section class="section" style="padding-top:0">
-    <div class="wrap">
-      <div class="section-head">
-        <div>
-          <span class="kicker" data-content-key="home.featuredKicker">Lo más vendido</span>
-          <h2>Destacados <span class="spray">de la semana</span></h2>
-        </div>
-        <a class="link-more" href="tienda.html">Ver todo →</a>
-      </div>
-      <div class="product-grid stagger" id="home-featured"></div>
-    </div>
-  </section>
-
   <!-- MARCA DESTACADA: FATE (marca/tienda propia, no una categoria mas) -->
   <section class="section" style="padding-top:0">
     <div class="wrap">
@@ -278,11 +264,6 @@
       <a class="tile tile-all" href="tienda.html?cat=repuestos">
         <span class="tile-label">Todas <span aria-hidden="true">→</span></span>
       </a>`;
-
-    // Destacados: primeros productos variados del catalogo real de hoy.
-    // 8 = dos filas limpias de 4 en la grilla de escritorio.
-    const featured = STIKE_PRODUCTS.slice(0, 8);
-    document.getElementById("home-featured").innerHTML = featured.map(stikeProductCard).join("");
   </script>
   <script src="assets/js/animations.js?v=5"></script>
 </body>
