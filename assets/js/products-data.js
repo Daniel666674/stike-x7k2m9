@@ -39,7 +39,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 220000,
     "promo": false,
-    "units": 1,
+    "units": 0,
     "imgs": [
       "assets/img/products/mutanty-savage-v2-stem-plata-1.jpg",
       "assets/img/products/mutanty-savage-v2-stem-plata-2.jpg"
