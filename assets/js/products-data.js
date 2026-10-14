@@ -5761,5 +5761,21 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/silla-trueno-negra-2.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "cadena-fate-x-kmc",
+    "sku": "REP-FAT-017",
+    "n": "cadena fate x kmc ",
+    "brand": "Fate BMX Colombia",
+    "cat": "repuestos",
+    "sub": "Cadenas",
+    "spec": [],
+    "price": 80000,
+    "promo": false,
+    "units": 0,
+    "imgs": [
+      "assets/img/products/5cb67fe9-9818-4c78-b2e6-e81a53adc649.jpg"
+    ],
+    "published": true
   }
 ];
