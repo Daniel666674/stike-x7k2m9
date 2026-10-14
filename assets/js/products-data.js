@@ -1225,7 +1225,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 380000,
     "promo": false,
-    "units": 1,
+    "units": 0,
     "imgs": [
       "assets/img/products/timon-primo-rebar-925-negro-1.jpg",
       "assets/img/products/timon-primo-rebar-925-negro-2.jpg"
