@@ -242,7 +242,9 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
   `node tools/wompi-pricing-test.mjs` (38, cálculo de precio y ataque de monto
   falso), `node tools/hostinger-api-test.mjs` (49, los endpoints PHP con un Wompi y
   un Resend falsos; necesita `php`) y `node tools/admin-online-sales-test.mjs`
-  (21, el panel con ventas de dos fuentes; necesita `npm install playwright`).
+  (21, el panel con ventas de dos fuentes; necesita `npm install playwright`) y
+  `node tools/domain-flip-test.mjs` (12, el cambio de dominio de ida y vuelta en
+  una copia: que no queden URL con la ruta vieja de GitHub Pages).
 
 **Salir a producción (en este orden).**
 
