@@ -1,0 +1,60 @@
+name: Publish to Hostinger
+
+# Cada vez que el panel admin publica (cada commit a la rama de trabajo), arma
+# la copia limpia del sitio (sin datos internos ni herramientas, ver
+# tools/stage-hostinger.sh) y la sube por FTP a Hostinger. Tambien se puede
+# correr a mano: Actions > Publish to Hostinger > Run workflow (con "dry_run"
+# solo lista lo que subiria, sin cambiar nada: usalo la primera vez).
+#
+# Secrets del repo (Settings > Secrets and variables > Actions), de la cuenta
+# FTP que se crea en hPanel > Archivos > Cuentas FTP:
+#   FTP_SERVER      el servidor FTP que muestra hPanel
+#   FTP_USERNAME    el usuario FTP
+#   FTP_PASSWORD    su contrasena
+#   FTP_SERVER_DIR  (opcional) carpeta destino; si el usuario FTP ya apunta a la
+#                   public_html de stikebikeshop.com, dejarlo sin definir. Si se
+#                   define, tiene que terminar en "/".
+# Variable opcional FTP_PROTOCOL: ftps (por defecto) o ftp.
+#
+# IMPORTANTE: la cuenta FTP tiene que apuntar a la carpeta de stikebikeshop.com
+# y no a la de otro sitio del mismo plan (EScena BMX): esto sobrescribe archivos
+# con el mismo nombre. api/config.local.php (los secretos del servidor) no esta
+# en el repo y nunca se toca ni se borra.
+on:
+  push:
+    branches: ["claude/sweet-albattani-ti0w0e"]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Solo listar lo que se subiria, sin cambiar nada"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+# Publicaciones seguidas del panel se juntan en un solo deploy del estado final.
+concurrency:
+  group: "hostinger"
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build clean copy
+        run: tools/stage-hostinger.sh _site
+
+      - name: Upload to Hostinger over FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
+          local-dir: ./_site/
+          server-dir: ${{ secrets.FTP_SERVER_DIR || './' }}
+          dry-run: ${{ github.event.inputs.dry_run == 'true' }}

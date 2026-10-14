@@ -1,11 +1,9 @@
 # =============================================================================
-# Stike Bike Shop — configuracion de cacheo y seguridad para un hosting
-# compartido tipo Apache. Sitio 100% estatico, sin backend.
+# Stike Bike Shop — configuracion del hosting (Hostinger, LiteSpeed/Apache):
+# HTTPS, rutas de la API, archivos internos bloqueados, cacheo y seguridad.
 #
-# NO esta activo hoy: esta demo se despliega solo en GitHub Pages (ver
-# .github/workflows/deploy.yml), que no lee .htaccess ni permite headers
-# custom. Este archivo queda como referencia de la config real que
-# aplicaria si el sitio se muda a un hosting propio.
+# Solo se activa en Hostinger. La demo en GitHub Pages no lee .htaccess ni
+# permite headers custom; ahi esto no hace nada.
 #
 # Regla de cacheo (ver correctness rule #5 del panel admin):
 #   - HTML: nunca se cachea, cada carga refleja la ultima publicacion.
@@ -16,6 +14,39 @@
 #     tambien el numero de version en TODOS los HTML que lo referencian,
 #     si no los visitantes con cache siguen viendo la version vieja.
 # =============================================================================
+
+Options -Indexes
+
+# ------------------------- HTTPS, www y rutas de la API ----------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Todo por HTTPS y sin "www": un solo sitio para Google y para los pagos.
+  # (El webhook de Wompi se registra con la URL final exacta, sin redirecciones:
+  # un POST redirigido llega como GET y se pierde.)
+  RewriteCond %{HTTPS} off [OR]
+  RewriteCond %{HTTP_HOST} ^www\. [NC]
+  RewriteCond %{HTTP_HOST} ^(?:www\.)?(.+)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+
+  # Algunos hostings PHP descartan el header Authorization antes de llegar a
+  # PHP; api/sales.php lo necesita para validar la clave del panel.
+  RewriteCond %{HTTP:Authorization} .
+  RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+  # El front llama /api/wompi-sign (igual que el backend de Vercel); aca se
+  # traduce al archivo PHP.
+  RewriteRule ^api/(wompi-sign|wompi-status|wompi-order|wompi-events|sales)/?$ api/$1.php [L]
+
+  # Segunda capa: lo interno no se sirve nunca, aunque algun dia llegue al
+  # hosting por error. (El deploy ya lo deja fuera: tools/stage-hostinger.sh.)
+  RewriteRule ^(tools|vercel-wompi-api|bmx-builder|\.github|node_modules)(/|$) - [F,L]
+  RewriteRule ^data/(costs|sales-log|audit-log)\.json$ - [F,L]
+  RewriteRule ^(PROPOSAL|MOTOR|README)\.md$ - [F,L]
+  RewriteRule ^propuesta\.html$ - [F,L]
+  RewriteRule ^\.ftp-deploy-sync-state\.json$ - [F,L]
+  RewriteRule ^api/(_lib|config\.local)\.php$ - [F,L]
+</IfModule>
 
 # ----------------------------- Cacheo ---------------------------------------
 <IfModule mod_expires.c>
@@ -56,21 +87,23 @@
   </Files>
 
   # ------------------------------- Seguridad ---------------------------------
-  # CSP: solo los terceros que el sitio realmente usa hoy — Google Fonts,
-  # la API de contenidos de GitHub (admin.html) y el embed de Google Maps
-  # (contacto.html). Nada de wildcards. `script-src` incluye 'unsafe-inline'
-  # porque el sitio (heredado del mockup original) usa manejadores inline
-  # (onclick=...) en el buscador, el popup de newsletter y el carrito; migrar
-  # eso a addEventListener queda pendiente como mejora, no bloquea el resto
-  # de la politica.
+  # CSP: solo los terceros que el sitio realmente usa — Google Fonts, la API
+  # de contenidos de GitHub (admin.html), el embed de Google Maps
+  # (contacto.html) y Wompi (el widget de pago: script, iframe y, si el widget
+  # no carga, el formulario de respaldo). Nuestra propia API (/api/...) es del
+  # mismo origen, no necesita permiso aparte. Nada de wildcards.
+  # `script-src` incluye 'unsafe-inline' porque el sitio (heredado del mockup
+  # original) usa manejadores inline (onclick=...); migrar eso a
+  # addEventListener queda pendiente como mejora.
   #
   # accounts.google.com (script-src + frame-src) y oauth2.googleapis.com
-  # (connect-src) son del login del panel (admin.html): el SDK de Sign In
-  # With Google carga desde ahi, puede abrir un iframe para el boton/prompt,
-  # y la verificacion del token es una llamada de lectura a ese endpoint.
-  # Sin esto el login queda roto en cuanto esta politica se active de verdad
-  # (hoy Pages no lee .htaccess; el dia que el sitio se mude a Apache, si).
-  Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://accounts.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self'; connect-src 'self' https://api.github.com https://oauth2.googleapis.com https://accounts.google.com; frame-src https://maps.google.com https://www.google.com https://accounts.google.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'"
+  # (connect-src) son del login del panel (admin.html).
+  #
+  # SIN PROBAR contra el widget real de Wompi (el entorno donde se escribio no
+  # llega a checkout.wompi.co). Despues del primer deploy: abrir el carrito, dar
+  # "Pagar ahora" y mirar la consola del navegador; cualquier linea
+  # "Refused to ..." dice exactamente que host falta agregar aca.
+  Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://accounts.google.com https://checkout.wompi.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self'; connect-src 'self' https://api.github.com https://oauth2.googleapis.com https://accounts.google.com https://production.wompi.co https://sandbox.wompi.co; frame-src https://maps.google.com https://www.google.com https://accounts.google.com https://checkout.wompi.co; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://checkout.wompi.co; object-src 'none'"
   Header set X-Content-Type-Options "nosniff"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
   Header set X-Frame-Options "SAMEORIGIN"

@@ -178,17 +178,20 @@ function withBaseHref(html) {
    se reapunta al actual, conservando la ruta. */
 const SITE_URL_RE = /https:\/\/(?:daniel666674\.github\.io\/bmxstore|daniel666674\.github\.io|stikebikeshop\.com)((?:\/[^"'\s)]*)?)/g;
 
-// basePath actual sin barra final ("/stike-x7k2m9"), para no duplicarlo
-// cuando la URL que se esta retargeteando ya lo trae puesto -- sin esto,
-// correr el script sobre paginas que ya estan en el dominio actual pega el
-// basePath una segunda vez ("/stike-x7k2m9/stike-x7k2m9/").
-const CURRENT_PREFIX_RE = new RegExp("^" + SITE.basePath.replace(/\/$/, "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "(?=/|$)");
+/* Rutas bajo las que el sitio ya vivio en GitHub Pages. Al reapuntar una URL
+   absoluta hay que quitar la que traiga puesta -- no solo la actual --, si no
+   el cambio a su dominio propio (BASE_PATH "/") deja canonical y og:image como
+   https://stikebikeshop.com/stike-x7k2m9/blog.html, una direccion que no
+   existe. tools/domain-flip-test.mjs cubre el viaje de ida y vuelta. */
+const OLD_BASE_PREFIXES = ["/bmxstore", "/stike-x7k2m9"];
 
 function retargetUrls(html) {
   return html.replace(SITE_URL_RE, (match, tail) => {
-    // "/bmxstore" ya viene consumido por el patron; el resto es la ruta real.
-    let cleaned = String(tail || "").replace(/^\/bmxstore(?=\/|$)/, "");
-    if (SITE.basePath !== "/") cleaned = cleaned.replace(CURRENT_PREFIX_RE, "");
+    let cleaned = String(tail || "");
+    const prefixes = [...OLD_BASE_PREFIXES, ...(SITE.basePath !== "/" ? [SITE.basePath.replace(/\/$/, "")] : [])];
+    for (const prefix of prefixes) {
+      if (cleaned === prefix || cleaned.startsWith(prefix + "/")) { cleaned = cleaned.slice(prefix.length); break; }
+    }
     return cleaned && cleaned !== "/" ? SITE.url(cleaned) : SITE.url("");
   });
 }
@@ -257,8 +260,9 @@ write("robots.txt", read("robots.txt").replace(/^Sitemap:.*$/m, `Sitemap: ${SITE
 /* Un marcador sin reemplazar sale como "__PRICE_PLAIN__" en medio del HTML:
    no revienta nada, solo deja la ficha mal y los datos estructurados
    invalidos, que Google descarta en silencio. */
+const checked = [...generated].filter(([f]) => f !== "_template.html");   // la plantilla lleva marcadores a proposito
 const leftovers = [];
-for (const [f, body] of generated) {
+for (const [f, body] of checked) {
   if (!f.endsWith(".html")) continue;
   for (const m of new Set([...body.matchAll(/__[A-Z][A-Z_]*__/g)].map((x) => x[0]))) {
     leftovers.push(`${f}: ${m}`);
@@ -267,7 +271,7 @@ for (const [f, body] of generated) {
 
 /* Los datos estructurados tienen que ser JSON valido o Google los tira. */
 const badJson = [];
-for (const [f, body] of generated) {
+for (const [f, body] of checked) {
   if (!f.endsWith(".html")) continue;
   for (const m of body.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
     try { JSON.parse(m[1]); } catch (e) { badJson.push(`${f}: ${e.message}`); }
@@ -275,7 +279,7 @@ for (const [f, body] of generated) {
 }
 
 const badUrls = [];
-for (const [f, body] of generated) {
+for (const [f, body] of checked) {
   if (!f.endsWith(".html")) continue;
   for (const m of body.matchAll(/(?:href|content|src)="(https:\/\/[^"]+)"/g)) {
     let u;

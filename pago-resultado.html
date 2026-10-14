@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-<base href="/stike-x7k2m9/">
+<base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex">
   <title>Resultado del pago: Stike Bike Shop</title>
@@ -29,11 +29,13 @@
 
   <script src="assets/js/products-data.js?v=3"></script>
   <script src="assets/js/data.js?v=3"></script>
-  <script src="assets/js/app.js?v=9"></script>
+  <script src="assets/js/app.js?v=11"></script>
+  <script src="assets/js/wompi.js?v=6"></script>
   <script>
     stikeInit();
 
-    const STATUS_ENDPOINT = (window.STIKE_WOMPI_STATUS_ENDPOINT) || "https://stike-wompi-api.vercel.app/api/wompi-status";
+    /* Rutas del backend de pagos: ver assets/js/wompi.js (STIKE_WOMPI_API). */
+    const STATUS_ENDPOINT = STIKE_WOMPI_API.status;
     const mount = document.getElementById("result-mount");
 
     function renderState({ icon, title, orderNo, message, extra, actionHref, actionLabel }) {
@@ -102,7 +104,7 @@
           : "";
         const waMsg = `Hola Stike! Ya pague mi pedido por Wompi.%0AReferencia: ${ref}%0A${waLines}%0A%0ATotal pagado: ${stikePrice(amountPesos)}${shipLines}`;
 
-        const ORDER_ENDPOINT = window.STIKE_WOMPI_ORDER_ENDPOINT || "https://stike-wompi-api.vercel.app/api/wompi-order";
+        const ORDER_ENDPOINT = STIKE_WOMPI_API.order;
         if (ORDER_ENDPOINT && cart.length) {
           fetch(ORDER_ENDPOINT, {
             method: "POST",

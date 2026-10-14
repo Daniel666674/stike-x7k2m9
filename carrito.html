@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-<base href="/stike-x7k2m9/">
+<base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Carrito: Stike Bike Shop</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,8 +25,8 @@
 
   <script src="assets/js/products-data.js?v=3"></script>
   <script src="assets/js/data.js?v=3"></script>
-  <script src="assets/js/app.js?v=9"></script>
-  <script src="assets/js/wompi.js?v=3"></script>
+  <script src="assets/js/app.js?v=11"></script>
+  <script src="assets/js/wompi.js?v=6"></script>
   <script>
     stikeInit();
     const FREE_SHIP = 300000;
@@ -79,9 +79,11 @@
       stikeSaveShipping(shipInfo);
 
       if (typeof stikeWompiCheckout === "function") {
-        stikeWompiCheckout(total).catch(err => {
+        stikeWompiCheckout(stikeGetCart(), total, { shipping: shipInfo }).catch(err => {
           console.error("wompi checkout:", err);
-          stikeToast("Error al iniciar el pago con Wompi -- revisa la consola");
+          stikeToast(err.code === "price_mismatch"
+            ? "Los precios cambiaron: recarga la página para ver el total actualizado"
+            : "Error al iniciar el pago con Wompi -- revisa la consola");
         });
         return;
       }

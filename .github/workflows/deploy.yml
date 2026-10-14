@@ -1,11 +1,12 @@
 name: Deploy to GitHub Pages
 
-# GitHub Pages es el unico destino de despliegue de este sitio (no hay otra
-# cuenta de hosting detras). Corre en cada push a la rama de trabajo, y se
-# puede disparar a mano desde la pestaña Actions.
+# Publica el repo en GitHub Pages (la demo que vivia en
+# daniel666674.github.io/stike-x7k2m9/).
+# DESACTIVADO como automatico: el sitio vive ahora en Hostinger (ver
+# deploy-hostinger.yml) y su ruta base es "/", asi que publicarlo aca en
+# daniel666674.github.io/stike-x7k2m9/ lo dejaria sin estilos ni imagenes. La
+# demo que quedo publicada sigue como estaba; este workflow solo corre a mano.
 on:
-  push:
-    branches: ["claude/sweet-albattani-ti0w0e"]
   workflow_dispatch:
 
 permissions:

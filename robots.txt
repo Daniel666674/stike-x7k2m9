@@ -5,4 +5,4 @@ Disallow: /admin.js
 Disallow: /admin-sw.js
 Disallow: /data/
 
-Sitemap: https://daniel666674.github.io/stike-x7k2m9/sitemap.xml
+Sitemap: https://stikebikeshop.com/sitemap.xml
