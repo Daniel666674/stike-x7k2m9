@@ -29,8 +29,10 @@ trap 'rm -rf "$WORK"' EXIT
 # 1) Copia limpia (aborta aqui, antes de tocar nada, si algo interno se cuela).
 "$SRC/tools/stage-hostinger.sh" "$WORK/stage"
 
-# 2) Rama de despliegue existente (para sumar un commit encima) o nueva.
-if git ls-remote --exit-code --heads "$REMOTE" "$BRANCH" >/dev/null 2>&1; then
+# 2) Rama de despliegue existente (para sumar un commit encima) o nueva. Se pide
+#    la ref completa: "hostinger-deploy" a secas tambien coincide con una rama
+#    llamada "claude/hostinger-deploy" y el clon fallaria.
+if git ls-remote --exit-code --heads "$REMOTE" "refs/heads/$BRANCH" >/dev/null 2>&1; then
   git clone --quiet --depth 1 --branch "$BRANCH" "$REMOTE" "$WORK/deploy"
 else
   git init --quiet -b "$BRANCH" "$WORK/deploy"
