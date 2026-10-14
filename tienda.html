@@ -77,7 +77,7 @@
           <h2 class="shelf-title">Explora por tipo de parte</h2>
           <p class="shelf-note">Cada tipo tiene su propia guía de compra y medidas.</p>
         </div>
-        <div class="part-grid" id="shop-parts"></div>
+        <div class="sibling-links" id="shop-parts"></div>
       </div>
       <div class="product-grid" id="grid"></div>
       <div class="empty" id="empty" style="display:none">
@@ -239,10 +239,7 @@
       const subs = cat.subs.filter(sub => counts[sub]).sort((a, b) => counts[b] - counts[a]);
       if (subs.length < 3) { shelf.hidden = true; return; }
       document.getElementById("shop-parts").innerHTML = subs.map(sub => `
-        <a class="part-tile" href="${stikeSubUrl(cat.slug, sub)}">
-          <span class="pt-name">${sub}</span>
-          <span class="pt-count">${counts[sub]} producto${counts[sub] === 1 ? "" : "s"}</span>
-        </a>`).join("");
+        <a class="sib" href="${stikeSubUrl(cat.slug, sub)}">${sub} <b>${counts[sub]}</b></a>`).join("");
       shelf.hidden = false;
     }
 
