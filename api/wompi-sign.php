@@ -6,6 +6,9 @@
    puede existir. Nunca lo hardcodees aca ni lo subas al repo -- lo lee
    _lib.php de la variable de entorno WOMPI_INTEGRITY_SECRET o de
    api/config.local.php (se sube a mano; ver .gitignore y _lib.php).
+   Devuelve tambien la llave PUBLICA (WOMPI_PUBLIC_KEY, la misma config), para
+   que sandbox <-> produccion se cambie en un solo archivo y las llaves
+   no puedan quedar mezcladas.
 
    Que hace: recibe {reference, items:[{slug, qty, size?, color?}], shipping,
    customerEmail?} desde el carrito. Calcula el monto AQUI con los precios del
@@ -34,8 +37,7 @@ stike_run(function () {
   $shipping = stike_clean_shipping($body["shipping"] ?? null);
   $customerEmail = stike_clean_email($body["customerEmail"] ?? null);
 
-  $secret = stike_config("WOMPI_INTEGRITY_SECRET");
-  if (!$secret) throw new ApiError(500, "server_not_configured", "falta WOMPI_INTEGRITY_SECRET (env o api/config.local.php)");
+  $keys = stike_wompi_keys();   // las tres del mismo ambiente, o no se firma
 
   stike_save_pending($reference, [
     "reference" => $reference, "createdAt" => stike_now_iso(),
@@ -44,13 +46,14 @@ stike_run(function () {
     "shipping" => $shipping, "customerEmail" => $customerEmail,
   ]);
 
-  $signature = hash("sha256", $reference . $priced["amountInCents"] . STIKE_CURRENCY . $secret);
+  $signature = hash("sha256", $reference . $priced["amountInCents"] . STIKE_CURRENCY . $keys["integrity"]);
 
   respond(200, [
     "reference" => $reference,
     "amount_in_cents" => $priced["amountInCents"],
     "currency" => STIKE_CURRENCY,
     "signature" => $signature,
+    "public_key" => $keys["public"],   // el front abre el widget con esta, no con una escrita en el JS
     "subtotal" => $priced["subtotal"],
     "shipping" => $priced["shipping"],
     "total" => $priced["total"],

@@ -15,6 +15,7 @@
 import { createRequire } from 'node:module';
 import { spawn } from 'node:child_process';
 import { createServer } from 'node:http';
+import { createHash } from 'node:crypto';
 import { createServer as createNetServer } from 'node:net';
 import { mkdtempSync, writeFileSync, existsSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -59,7 +60,7 @@ const resend = await listen((req, r) => {
 const STORAGE = mkdtempSync(join(tmpdir(), 'stike-test-'));
 const KEY = 'k'.repeat(32);
 const baseEnv = {
-  ...process.env, WOMPI_INTEGRITY_SECRET: 'test_integrity_falso', WOMPI_PRIVATE_KEY: 'prv_test_falsa',
+  ...process.env, WOMPI_PUBLIC_KEY: 'pub_test_desde_el_servidor', WOMPI_INTEGRITY_SECRET: 'test_integrity_falso', WOMPI_PRIVATE_KEY: 'prv_test_falsa',
   WOMPI_API_BASE: `http://127.0.0.1:${wompi.address().port}`, RESEND_API_KEY: 're_falsa',
   RESEND_API_BASE: `http://127.0.0.1:${resend.address().port}`, OWNER_NOTIFY_EMAIL: 'dueno@example.com',
   NO_PROXY: '*', no_proxy: '*',
@@ -88,6 +89,7 @@ try {
   const s1 = await post(A.url, 'wompi-sign', order(R1, { amount_in_cents: 100 }));
   t('firma -> 200', s1.code, 200);
   t('monto = catalogo, no el del navegador', s1.body.amount_in_cents, expectedCents);
+  t('devuelve la llave publica de la config del servidor (no una escrita en el JS)', s1.body.public_key, 'pub_test_desde_el_servidor');
   t('el pedido queda guardado (fuera del repo)', existsSync(join(STORAGE, 'pending', `${R1}.json`)), true);
   const pend = JSON.parse(readFileSync(join(STORAGE, 'pending', `${R1}.json`), 'utf8'));
   t('guarda a donde enviar', pend.shipping.address, 'Calle 1 # 2-3');
@@ -185,6 +187,22 @@ try {
   const bk = await fetch(`${B.url}/sales.php`, { headers: { Authorization: 'Bearer cualquier-cosa' } });
   t('sin ADMIN_API_KEY configurada, sales.php no responde datos', bk.status, 500);
   B.proc.kill();
+
+  console.log('\nLlaves de Wompi: las tres del mismo ambiente, o no se firma');
+  const withKeys = async (extra, ref) => {
+    const srv = await startPhp({ ...baseEnv, STORAGE_DIR: STORAGE, ADMIN_API_KEY: KEY, ...extra });
+    const r = await post(srv.url, 'wompi-sign', order(ref));
+    srv.proc.kill();
+    return r;
+  };
+  const mezcla = await withKeys({ WOMPI_PUBLIC_KEY: 'pub_prod_falsa' }, 'stike-1700000000060-llllll');
+  t('publica de produccion con privada de sandbox -> se niega', [mezcla.code, mezcla.body.error], [500, 'server_misconfigured']);
+  t('el mensaje explica por que y no filtra las llaves', [/mismo ambiente/.test(mezcla.body.detail), JSON.stringify(mezcla.body).includes('prv_test_falsa')], [true, false]);
+  t('sin llave publica -> se niega', (await withKeys({ WOMPI_PUBLIC_KEY: '' }, 'stike-1700000000061-mmmmmm')).body.error, 'server_not_configured');
+  t('llave con formato que no es de Wompi -> se niega', (await withKeys({ WOMPI_PUBLIC_KEY: 'cualquier-cosa' }, 'stike-1700000000062-nnnnnn')).body.error, 'server_misconfigured');
+  const prod = await withKeys({ WOMPI_PUBLIC_KEY: 'pub_prod_falsa', WOMPI_PRIVATE_KEY: 'prv_prod_falsa', WOMPI_INTEGRITY_SECRET: 'prod_integrity_falso' }, 'stike-1700000000063-oooooo');
+  t('juego completo de produccion -> firma bien', [prod.code, prod.body.public_key], [200, 'pub_prod_falsa']);
+  t('y la firma usa el secreto de produccion', prod.body.signature, createHash('sha256').update(`stike-1700000000063-oooooo${prod.body.amount_in_cents}COPprod_integrity_falso`).digest('hex'));
 } finally {
   A.proc.kill(); wompi.close(); resend.close();
   rmSync(STORAGE, { recursive: true, force: true });

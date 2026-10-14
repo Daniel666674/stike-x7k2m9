@@ -10,8 +10,9 @@
    a mano por FTP/Administrador de archivos, nunca al repo; ver .gitignore):
 
      <?php return [
-       'WOMPI_INTEGRITY_SECRET' => 'prod_integrity_...',
+       'WOMPI_PUBLIC_KEY'       => 'pub_prod_...',
        'WOMPI_PRIVATE_KEY'      => 'prv_prod_...',
+       'WOMPI_INTEGRITY_SECRET' => 'prod_integrity_...',
        'ADMIN_API_KEY'          => '<cadena larga al azar; se pega en el panel>',
        'RESEND_API_KEY'         => 're_...',            // opcional, ver correo
        'OWNER_NOTIFY_EMAIL'     => 'dueno@correo.com',  // opcional
@@ -330,6 +331,33 @@ function stike_wompi_get_transaction($id) {
     throw new ApiError(502, "wompi_verify_failed", (string)$res["status"]);
   }
   return $res["json"]["data"];
+}
+
+/* Las llaves de Wompi que firman un cobro (publica, privada y secreto de
+   integridad) tienen que ser TODAS del mismo ambiente. Si se mezclan (la
+   publica de produccion con la privada de sandbox, por ejemplo) no se cobra
+   nada y el cliente solo ve un error sin explicacion; aca el servidor se niega
+   y dice por que. Cambiar de sandbox a produccion es cambiar estas cuatro
+   lineas de api/config.local.php, sin tocar codigo. */
+function stike_wompi_keys() {
+  $keys = [
+    "WOMPI_PUBLIC_KEY" => stike_config("WOMPI_PUBLIC_KEY"),
+    "WOMPI_PRIVATE_KEY" => stike_config("WOMPI_PRIVATE_KEY"),
+    "WOMPI_INTEGRITY_SECRET" => stike_config("WOMPI_INTEGRITY_SECRET"),
+  ];
+  $envs = [];
+  foreach ($keys as $name => $v) {
+    if (!$v) throw new ApiError(500, "server_not_configured", "falta $name (env o api/config.local.php)");
+    // pub_test_..., prv_prod_..., test_integrity_..., prod_integrity_...
+    if (!preg_match('/^(?:pub_|prv_)(test|prod)_|^(test|prod)_integrity_/', $v, $m)) {
+      throw new ApiError(500, "server_misconfigured", "$name no tiene el formato de una llave de Wompi");
+    }
+    $envs[$name] = $m[1] !== "" ? $m[1] : $m[2];
+  }
+  if (count(array_unique($envs)) !== 1) {
+    throw new ApiError(500, "server_misconfigured", "las llaves de Wompi no son todas del mismo ambiente (sandbox o produccion)");
+  }
+  return ["public" => $keys["WOMPI_PUBLIC_KEY"], "private" => $keys["WOMPI_PRIVATE_KEY"], "integrity" => $keys["WOMPI_INTEGRITY_SECRET"], "environment" => reset($envs)];
 }
 
 /* Confirma un pago con Wompi (llave privada, del lado del servidor) y registra

@@ -203,8 +203,9 @@ cache del navegador siguen viendo la versión vieja.
 
 ## 💳 Pagos con Wompi
 
-Hoy en **sandbox** (no mueve plata real). Pasar a plata real es cambiar llaves y
-un par de configuraciones, no código: ver "Salir a producción".
+El servidor decide si cobra en **sandbox** (no mueve plata real) o en
+**producción** según las llaves de `api/config.local.php`; el código es el mismo.
+Cambiar de uno a otro es cambiar esas llaves: ver "Salir a producción".
 
 **Cómo funciona.**
 
@@ -240,7 +241,8 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
   existe porque Pages no corre PHP. Se borra cuando el sitio viva en Hostinger.
   **Nunca poner llaves de producción en Vercel.**
 - `assets/js/wompi.js` elige solo el backend: en `stikebikeshop.com` usa el PHP del
-  mismo sitio, en cualquier otro dominio usa Vercel.
+  mismo sitio (y abre el widget con la llave pública que el servidor le devuelve,
+  de `config.local.php`); en cualquier otro dominio usa Vercel.
 - Pruebas (todas sin red ni llaves reales):
   `node tools/wompi-pricing-test.mjs` (38, cálculo de precio y ataque de monto
   falso), `node tools/hostinger-api-test.mjs` (49, los endpoints PHP con un Wompi y
@@ -256,22 +258,25 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
    en el asistente de hPanel y las fotos por el Administrador de archivos.
 2. **Datos legales:** completar `legalName` y `nit` en `STIKE_CONFIG`
    (`assets/js/app.js`); hoy las páginas de términos y privacidad muestran
-   `[NIT — completar]`. La cuenta de producción de Wompi se activa en
-   comercios.wompi.co a nombre del negocio.
+   `[NIT — completar]`. La cuenta de Wompi de producción ya está activa
+   (comercios.wompi.co).
 3. **Secretos del servidor:** crear `public_html/api/config.local.php` con el
-   Administrador de archivos (nunca en el repo), primero con las llaves de
-   **sandbox**:
+   Administrador de archivos (nunca en el repo; hay una plantilla lista con los
+   campos), primero con las llaves de **sandbox**:
 
    ```php
    <?php return [
-     'WOMPI_INTEGRITY_SECRET' => 'test_integrity_...',
+     'WOMPI_PUBLIC_KEY'       => 'pub_test_...',
      'WOMPI_PRIVATE_KEY'      => 'prv_test_...',
+     'WOMPI_INTEGRITY_SECRET' => 'test_integrity_...',
      'ADMIN_API_KEY'          => '<una clave larga al azar, mínimo 24 caracteres>',
      'RESEND_API_KEY'         => 're_...',               // opcional, ver nota
      'OWNER_NOTIFY_EMAIL'     => 'dueno@correo.com',     // opcional
    ];
    ```
-   `ADMIN_API_KEY` se inventa (por ejemplo con un generador de contraseñas) y se
+   Las llaves de Wompi están en su panel, Desarrolladores → Llaves (en la pestaña
+   Sandbox o Producción). **Las tres tienen que ser del mismo ambiente**: si no,
+   el servidor se niega a firmar y dice por qué. `ADMIN_API_KEY` se inventa y se
    pega una vez en el panel, pestaña Configuración → "Clave del servidor de
    ventas". Sin `RESEND_API_KEY` el correo sale con el `mail()` del hosting, que
    puede caer en spam; con Resend (gratis, resend.com) llega confiable, y para
@@ -295,12 +300,15 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
    `.htaccess`); el panel abre con Google y publica un cambio de prueba que llega
    al sitio en un par de minutos.
 7. **Prueba en sandbox sobre el dominio final** con una tarjeta de prueba de
-   Wompi: la venta aparece en el panel y llega el correo.
-8. **Producción:** poner las llaves `prod` en `api/config.local.php`;
-   `WOMPI_PUBLIC_KEY` (`pub_prod_…`) en `assets/js/wompi.js` y subir su `?v=` en
-   `carrito.html` y `pago-resultado.html`; en el panel de Wompi (Desarrolladores)
-   configurar la **URL de eventos** `https://stikebikeshop.com/api/wompi-events`
-   (exactamente así: con https y sin `www`, una redirección perdería el aviso).
+   Wompi: la venta aparece en el panel y llega el correo. (Si quiere probar
+   también el aviso por webhook, en el panel de Wompi, pestaña Sandbox, poner la
+   misma URL de eventos del paso siguiente.)
+8. **Producción:** en `api/config.local.php` cambiar las tres líneas de Wompi por las
+   de **producción** (`pub_prod_…`, `prv_prod_…`, `prod_integrity_…`); no hay nada
+   que cambiar en el código ni que volver a publicar. En el panel de Wompi, pestaña
+   Producción (Desarrolladores), configurar la **URL de eventos**
+   `https://stikebikeshop.com/api/wompi-events` (exactamente así: con https y sin
+   `www`, una redirección perdería el aviso).
 9. **Prueba real** con un pedido pequeño y tarjeta propia; verificar panel y
    correo, y devolver el pago desde el panel de Wompi.
 10. **Limpieza:** borrar el proyecto `stike-wompi-api` de Vercel y la carpeta

@@ -31,6 +31,7 @@
 (function (root) {
   "use strict";
 
+  /* Solo para la demo con el backend de Vercel. En Hostinger la llave viene del servidor. */
   const WOMPI_PUBLIC_KEY = "pub_test_nF4Pq5VzI7bxkazitsOzrZ6R8vCrgdhE";
   const WOMPI_CURRENCY = "COP";
   const WOMPI_WIDGET_SRC = "https://checkout.wompi.co/widget.js";
@@ -76,9 +77,9 @@
 
   /* <form method="GET"> clasico a checkout.wompi.co/p/ -- la ruta de
      siempre, usada solo como red de seguridad si el widget no carga. */
-  function redirectCheckout(reference, amountInCents, signature, customerEmail) {
+  function redirectCheckout(publicKey, reference, amountInCents, signature, customerEmail) {
     const fields = {
-      "public-key": WOMPI_PUBLIC_KEY,
+      "public-key": publicKey,
       currency: WOMPI_CURRENCY,
       "amount-in-cents": String(amountInCents),
       reference,
@@ -134,6 +135,10 @@
     );
     const amountInCents = signed.amount_in_cents;
     const signature = signed.signature;
+    /* En el servidor propio (PHP) la llave publica viene de api/config.local.php,
+       junto con las secretas: sandbox <-> produccion se cambia ahi, sin tocar este
+       archivo. El backend temporal de Vercel no la devuelve y usa la de abajo. */
+    const publicKey = signed.public_key || WOMPI_PUBLIC_KEY;
 
     if (expectedTotalPesos != null && amountInCents !== Math.round(expectedTotalPesos * 100)) {
       const err = new Error(`El total del servidor (${amountInCents / 100}) no coincide con el del carrito (${expectedTotalPesos})`);
@@ -145,7 +150,7 @@
       await loadWompiWidget();
     } catch (err) {
       console.warn("Wompi widget no disponible, usando redireccion:", err);
-      redirectCheckout(reference, amountInCents, signature, customerEmail);
+      redirectCheckout(publicKey, reference, amountInCents, signature, customerEmail);
       return;
     }
 
@@ -153,7 +158,7 @@
       currency: WOMPI_CURRENCY,
       amountInCents,
       reference,
-      publicKey: WOMPI_PUBLIC_KEY,
+      publicKey,
       signature: { integrity: signature },
       redirectUrl: wompiRedirectUrl(),
     };
