@@ -2,20 +2,31 @@ name: Publish to Hostinger
 
 # Cada vez que el panel admin publica (cada commit a la rama de trabajo), arma
 # la copia limpia del sitio (sin datos internos ni herramientas, ver
-# tools/stage-hostinger.sh) y la deja en la rama "hostinger-deploy". Despues le
-# avisa a https://stikebikeshop.com/api/sync, y el SERVIDOR baja ese commit de
-# GitHub (api/sync.php): no hay FTP ni nada que entre al hosting desde aqui.
+# tools/stage-hostinger.sh) y la deja en la rama "hostinger-deploy". De ahi en
+# mas hay dos caminos, no exclusivos, cada uno activado solo si sus secrets
+# existen:
+#   - FTP (HOSTINGER_FTP_*): este workflow sube los archivos directo.
+#   - Aviso (HOSTINGER_SYNC_TOKEN): le avisa a stikebikeshop.com/api/sync y el
+#     SERVIDOR baja el commit de GitHub por su cuenta.
 # Si algun dia el "Git" de hPanel funciona, tambien puede apuntar a esa rama.
 #
-# Secret del repo (Settings > Secrets and variables > Actions):
+# Secrets del repo (Settings > Secrets and variables > Actions):
 #   HOSTINGER_SYNC_TOKEN   el mismo SYNC_TOKEN que esta en api/config.local.php
 #                          del servidor. Sin el, el paso de aviso se salta y la
 #                          rama igual se actualiza (el sitio no).
+#   HOSTINGER_FTP_HOST     host/usuario/clave de la cuenta FTP de Hostinger
+#   HOSTINGER_FTP_USER     (hPanel > Archivos > Cuentas FTP). Opcionales: si no
+#   HOSTINGER_FTP_PASS     estan, este paso se salta solo. Suben los archivos
+#                          DIRECTO por FTP (no dependen de que api/sync.php ya
+#                          exista en el servidor -- por eso tambien sirven para
+#                          instalarlo la primera vez, sin pasar por
+#                          instalar-hostinger.php).
 #
 # Tambien se puede correr a mano: Actions > Publish to Hostinger > Run workflow.
 #
 # api/config.local.php (los secretos del servidor) no esta en el repo, asi que
-# la rama no lo trae y ni el sync ni un "git pull" de Hostinger lo tocan o borran.
+# la rama no lo trae y ni el FTP, ni el sync, ni un "git pull" de Hostinger lo
+# tocan o borran (ver --exclude-glob abajo).
 on:
   push:
     branches: ["claude/sweet-albattani-ti0w0e"]
@@ -40,6 +51,24 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: tools/publish-hostinger.sh "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" hostinger-deploy
+
+      - name: Upload to Hostinger via FTP
+        if: ${{ secrets.HOSTINGER_FTP_HOST != '' }}
+        env:
+          FTP_HOST: ${{ secrets.HOSTINGER_FTP_HOST }}
+          FTP_USER: ${{ secrets.HOSTINGER_FTP_USER }}
+          FTP_PASS: ${{ secrets.HOSTINGER_FTP_PASS }}
+        run: |
+          tools/stage-hostinger.sh /tmp/ftp-stage
+          sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+          # mirror -R sin --delete: sube y sobreescribe, NUNCA borra lo que ya
+          # esta en el servidor y no vino en esta copia (red de seguridad
+          # aparte de --exclude-glob, por si config.local.php llegara a
+          # colarse en el stage).
+          lftp -u "$FTP_USER,$FTP_PASS" "$FTP_HOST" <<'EOF'
+          mirror -R --verbose --exclude-glob=config.local.php /tmp/ftp-stage/ ./
+          bye
+          EOF
 
       - name: Tell Hostinger to update
         env:
