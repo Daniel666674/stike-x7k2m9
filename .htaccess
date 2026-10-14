@@ -17,6 +17,10 @@
 
 Options -Indexes
 
+# La pagina de inicio es siempre index.html (si Hostinger dejo un default.php o
+# index.php de relleno, no tapa el sitio).
+DirectoryIndex index.html
+
 # ------------------------- HTTPS, www y rutas de la API ----------------------
 <IfModule mod_rewrite.c>
   RewriteEngine On
