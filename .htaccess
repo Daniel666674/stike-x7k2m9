@@ -40,7 +40,7 @@ DirectoryIndex index.html
 
   # El front llama /api/wompi-sign (igual que el backend de Vercel); aca se
   # traduce al archivo PHP.
-  RewriteRule ^api/(wompi-sign|wompi-status|wompi-order|wompi-events|sales)/?$ api/$1.php [L]
+  RewriteRule ^api/(wompi-sign|wompi-status|wompi-order|wompi-events|sales|sync)/?$ api/$1.php [L]
 
   # Segunda capa: lo interno no se sirve nunca, aunque algun dia llegue al
   # hosting por error. (El deploy ya lo deja fuera: tools/stage-hostinger.sh.)

@@ -182,17 +182,14 @@ publica ahí) y de donde sale el HTML generado; Hostinger solo sirve el resultad
 corre el PHP de los pagos. `.github/workflows/deploy-hostinger.yml` corre en cada
 publicación del panel: arma una copia limpia (sin costos, ventas, herramientas ni
 el backend de Vercel; la lista está en `tools/stage-hostinger.sh`) y la deja en la
-rama `hostinger-deploy` (`tools/publish-hostinger.sh`). **Hostinger descarga esa
-rama por su cuenta** (hPanel → Avanzado → Git, avisado por un webhook de GitHub):
-no hay contraseñas FTP ni secrets en GitHub. Tarda uno o dos minutos desde que se
-publica hasta que se ve en el sitio. (Se probó subir por FTP desde GitHub Actions y
-Hostinger corta la conexión de datos —`ECONNRESET`— con FTP y con FTPS.)
-
-**Si el "Git" de hPanel no funciona:** `tools/instalar-hostinger.php` es un instalador de un
-solo archivo. Se sube a `public_html` con el Administrador de archivos, se abre
-`https://stikebikeshop.com/instalar-hostinger.php` y se pulsa el botón: el servidor
-baja la rama `hostinger-deploy` de GitHub y la descomprime en su carpeta (no toca
-`api/config.local.php`) y se borra solo. Sirve también para actualizar a mano.
+rama `hostinger-deploy` (`tools/publish-hostinger.sh`) y le avisa a `api/sync.php`,
+**el servidor de Hostinger baja ese commit de GitHub** y actualiza el sitio: no hay
+contraseñas FTP, y el único secret en GitHub es el token del aviso. Tarda uno o dos
+minutos desde que se publica hasta que se ve en el sitio. (Se probó subir por FTP
+desde GitHub Actions y Hostinger corta la conexión de datos —`ECONNRESET`— con FTP y
+con FTPS; y el "Git" de hPanel no llegó a conectar.) La primera instalación y el
+`SYNC_TOKEN` están en el paso 5 de "Salir a producción". El instalador de un solo
+archivo es `tools/instalar-hostinger.php`.
 El workflow de GitHub Pages (`deploy.yml`) quedó solo manual: con la ruta base `/`
 dejaría la demo sin estilos.
 
@@ -258,7 +255,8 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
   falso), `node tools/hostinger-api-test.mjs` (56, los endpoints PHP con un Wompi y
   un Resend falsos; necesita `php`) y `node tools/admin-online-sales-test.mjs`
   (21, el panel con ventas de dos fuentes; necesita `npm install playwright`) y
-  `node tools/domain-flip-test.mjs` (12, el cambio de dominio de ida y vuelta en
+  `node tools/sync-test.mjs` (29, la actualización desde GitHub con un GitHub falso; necesita
+  `php` y `git`) y `node tools/domain-flip-test.mjs` (12, el cambio de dominio de ida y vuelta en
   una copia: que no queden URL con la ruta vieja de GitHub Pages).
 
 **Salir a producción (en este orden).**
@@ -285,6 +283,7 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
      'WOMPI_PRIVATE_KEY'      => 'prv_test_...',
      'WOMPI_INTEGRITY_SECRET' => 'test_integrity_...',
      'ADMIN_API_KEY'          => '<una clave larga al azar, mínimo 24 caracteres>',
+     'SYNC_TOKEN'             => '<otra clave larga al azar, mínimo 24: la de la publicación automática>',
      'RESEND_API_KEY'         => 're_...',               // opcional, ver nota
      'OWNER_NOTIFY_EMAIL'     => 'dueno@correo.com',     // opcional
    ];
@@ -301,18 +300,21 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
    (`OAUTH_CLIENT_ID`) → "Orígenes autorizados de JavaScript", agregar
    `https://stikebikeshop.com`. Sin eso Google rechaza el inicio de sesión en
    `https://stikebikeshop.com/admin.html` (`origin_mismatch`) y el panel no abre.
-5. **Publicación automática (Hostinger descarga de GitHub):** primero correr una vez
-   Actions → "Publish to Hostinger" → Run workflow (o esperar la siguiente
-   publicación del panel) para que exista la rama `hostinger-deploy`. Luego, en
-   hPanel → **Sitios web** → el sitio de `stikebikeshop.com` (no el de otro sitio
-   del plan) → Avanzado → **Git**: conectar el repo, rama `hostinger-deploy`,
-   directorio `public_html` (tiene que estar **vacío** la primera vez; si ya había
-   archivos, moverlos o borrarlos antes). Hostinger muestra una URL de webhook: se
-   pega en GitHub → Settings → Webhooks → Add webhook (tipo `application/json`,
-   evento "push"), y así cada publicación del panel se despliega sola. Después se
-   crea `api/config.local.php` (paso 3): no está en la rama, así que el "git pull" de
-   Hostinger nunca lo toca. El `.htaccess` bloquea `.git/` por si Hostinger deja esa
-   carpeta dentro de `public_html`.
+5. **Publicación automática (el servidor se actualiza solo desde GitHub):** el "Git"
+   de hPanel no conectó en la práctica, así que el sitio se instala y se actualiza
+   con `api/sync.php`.
+   - **Primera vez:** subir `tools/instalar-hostinger.php` a `public_html` con el
+     Administrador de archivos, abrir `https://stikebikeshop.com/instalar-hostinger.php` y
+     pulsar el botón; el servidor baja la rama `hostinger-deploy` y se borra solo.
+   - **Después:** poner `SYNC_TOKEN` (una clave larga al azar, mínimo 24) en
+     `api/config.local.php` y **la misma** en GitHub → Settings → Secrets and variables →
+     Actions → secret `HOSTINGER_SYNC_TOKEN`. Desde ahí cada publicación del panel hace
+     que el workflow actualice la rama y le avise a `/api/sync`, que baja ese commit,
+     reemplaza lo que cambió, borra lo que ya no está en el repo (solo lo que el mismo
+     sync instaló antes) y nunca toca `api/config.local.php`. Sin el secret el workflow
+     solo actualiza la rama.
+   - Si algún día el Git de hPanel funciona, se puede conectar a la rama
+     `hostinger-deploy` en lugar de esto (el `.htaccess` bloquea `.git/`).
 6. **Verificar en el dominio real:** el sitio carga; `https://stikebikeshop.com/data/costs.json`
    responde 403 o 404 (no el archivo); `https://stikebikeshop.com/api/sales` sin
    clave responde 401; "Pagar ahora" abre Wompi y la consola del navegador no
@@ -341,9 +343,9 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
   El servidor valida que el producto exista, esté publicado y tenga precio. Hoy lo
   cubre la confirmación por WhatsApp.
 - **Sin probar en el hosting real:** el `.htaccess` (redirecciones, rutas `/api/…`,
-  bloqueos), el CSP contra el widget de Wompi, el despliegue Git de Hostinger
-  (los pasos de hPanel están descritos de memoria de su documentación) y la
-  entrega de `mail()`. Todo esto se verifica en los pasos 5 a 7.
+  bloqueos), el CSP contra el widget de Wompi, el `ZipArchive`/`curl` del PHP de
+  Hostinger y que su firewall deje pasar la llamada desde GitHub a `/api/sync` (la
+  primera publicación lo muestra) y la entrega de `mail()`. Todo esto se verifica en los pasos 5 a 7.
 - **Respaldos:** `ventas.jsonl` vive solo en Hostinger (más el correo de cada
   venta). No está confirmado que los respaldos automáticos del plan incluyan
   carpetas fuera de `public_html`: verificarlo en hPanel o descargar la carpeta
