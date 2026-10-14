@@ -9,8 +9,8 @@ const STIKE_CONFIG = {
   whatsapp: "573118108848",
   whatsappPretty: "+57 311 810 8848",
   phone: "+57 311 810 8848",
-  email: "hola@stikebikeshop.com",
-  address: "Bogotá D.C., Colombia",
+  email: "jparra375@gmail.com",
+  address: "Cra 52A # 45A-29 Sur, Bogotá D.C., Colombia",
   hours: "Lun a Sáb · 10:00 a.m. – 7:00 p.m.",
   ig: "https://www.instagram.com/stikebikeshop?igsh=emVzZXc0NWVlNmcy",
   fb: "https://www.facebook.com/share/1Cz3ezfUvL/?mibextid=wwXIfr",
@@ -23,7 +23,7 @@ const STIKE_CONFIG = {
   /* Envío de formularios (contacto + boletín) por correo real al dueño.
      Para activarlo (gratis, sin tarjeta, sin contraseña):
        1. Entra a https://web3forms.com
-       2. Escribe el correo donde quieres recibir los mensajes (hola@stikebikeshop.com)
+       2. Escribe el correo donde quieres recibir los mensajes (jparra375@gmail.com)
        3. Click en "Create Access Key" -- te llega una llave (access key) al correo
        4. Pega esa llave abajo en formAccessKey
      Mientras formAccessKey esté vacío, el contacto y el boletín se envían por
