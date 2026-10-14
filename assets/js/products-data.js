@@ -60,7 +60,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 320000,
     "promo": false,
-    "units": 1,
+    "units": 0,
     "imgs": [
       "assets/img/products/cana-fiend-mills-topload-1.jpg",
       "assets/img/products/cana-fiend-mills-topload-2.jpg"
