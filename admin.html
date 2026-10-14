@@ -574,6 +574,7 @@ tr:hover td{background:var(--bg-2)}
       <div class="card">
         <h3 style="margin-bottom:4px">Historial de ventas</h3>
         <p class="hint muted" id="sales-count" style="margin:0 0 10px"></p>
+        <p class="hint" id="sales-online-note" style="margin:0 0 10px;display:none"></p>
         <div style="overflow:auto">
           <table><thead><tr><th>Fecha</th><th>Producto</th><th>Variante</th><th>Cant.</th><th>Total</th><th>Vendedor</th></tr></thead>
           <tbody id="sales-tbody"></tbody></table>
@@ -641,6 +642,16 @@ tr:hover td{background:var(--bg-2)}
         <button class="btn ghost sm" id="btn-clear-pat">Borrar token</button>
         <p class="hint" id="pat-status"></p>
       </div>
+      <div class="card" style="margin-top:14px">
+        <h3 style="margin-bottom:10px">Clave del servidor de ventas</h3>
+        <p class="hint muted">Para ver aquí las ventas de Wompi (con los datos de envío del cliente). Es la <span class="mono">ADMIN_API_KEY</span> que está en <span class="mono">api/config.local.php</span> del hosting. Se guarda solo en este navegador, nunca se publica.</p>
+        <div class="field" style="margin-top:10px"><input id="sales-key-input" type="password" placeholder="Clave larga al azar"
+          autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+          data-lpignore="true" data-1p-ignore data-bwignore data-form-type="other"></div>
+        <button class="btn cyan sm" id="btn-save-sales-key">Guardar clave</button>
+        <button class="btn ghost sm" id="btn-clear-sales-key">Borrar clave</button>
+        <p class="hint" id="sales-key-status"></p>
+      </div>
     </section>
   </main>
 </div>
@@ -655,7 +666,7 @@ tr:hover td{background:var(--bg-2)}
 <script src="assets/js/data.js?v=3"></script>
 <script src="assets/js/pdp-render.js?v=4"></script>
 <script src="assets/js/photo-editor.js?v=1"></script>
-<script src="admin.js?v=9"></script>
+<script src="admin.js?v=10"></script>
 <script>
   // Service worker propio del panel: solo cachea el logo del shell, nunca
   // admin.html/admin.js (ver admin-sw.js).

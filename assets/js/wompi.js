@@ -4,7 +4,7 @@
 
    Como funciona (ruta normal, Widget):
      1. Generamos una referencia unica para el pedido.
-     2. Le mandamos a WOMPI_SIGN_ENDPOINT los productos (slug + cantidad),
+     2. Le mandamos a WOMPI_API.sign los productos (slug + cantidad),
         NUNCA un monto. El backend calcula el total con los precios del
         catalogo y devuelve el monto en centavos (COP no tiene centavos
         reales, pero la API de Wompi los pide igual: monto * 100) junto
@@ -36,12 +36,22 @@
   const WOMPI_WIDGET_SRC = "https://checkout.wompi.co/widget.js";
   const WOMPI_CHECKOUT_URL = "https://checkout.wompi.co/p/";
 
-  /* Backend temporal en Vercel mientras se prueba el flujo completo en el
-     dominio real (GitHub Pages no corre PHP). Se pisa con
-     window.STIKE_WOMPI_SIGN_ENDPOINT en pruebas locales (ver
-     tools/wompi-dev-server.mjs). Cuando exista Hostinger, esto pasa a
-     "/api/wompi-sign.php" y este backend temporal se borra. */
-  const WOMPI_SIGN_ENDPOINT = (root.STIKE_WOMPI_SIGN_ENDPOINT) || "https://stike-wompi-api.vercel.app/api/wompi-sign";
+  /* A donde se le pide la firma, el estado y el registro de la venta.
+     - En stikebikeshop.com (Hostinger) es el PHP del mismo sitio: /api/...
+       (el .htaccess traduce /api/wompi-sign a api/wompi-sign.php).
+     - En cualquier otro lado (la demo en GitHub Pages, que no corre PHP) es
+       el backend temporal en Vercel. Se borra cuando el sitio viva solo en
+       Hostinger.
+     Cada ruta se puede pisar con window.STIKE_WOMPI_{SIGN,STATUS,ORDER}_ENDPOINT
+     (pruebas locales, ver tools/wompi-dev-server.mjs). */
+  const OWN_DOMAIN = typeof location !== "undefined" && /(^|\.)stikebikeshop\.com$/.test(location.hostname);
+  const API_BASE = OWN_DOMAIN ? new URL("api/", document.baseURI).href : "https://stike-wompi-api.vercel.app/api/";
+  const WOMPI_API = {
+    sign: root.STIKE_WOMPI_SIGN_ENDPOINT || API_BASE + "wompi-sign",
+    status: root.STIKE_WOMPI_STATUS_ENDPOINT || API_BASE + "wompi-status",
+    order: root.STIKE_WOMPI_ORDER_ENDPOINT || API_BASE + "wompi-order",
+  };
+  root.STIKE_WOMPI_API = WOMPI_API;   // pago-resultado.html usa status y order
 
   function wompiReference() {
     const rand = Math.random().toString(36).slice(2, 8);
@@ -52,11 +62,11 @@
     return new URL("pago-resultado.html", document.baseURI).href;
   }
 
-  async function signTransaction(reference, items) {
-    const res = await fetch(WOMPI_SIGN_ENDPOINT, {
+  async function signTransaction(reference, items, shipping, customerEmail) {
+    const res = await fetch(WOMPI_API.sign, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ reference, items }),
+      body: JSON.stringify({ reference, items, shipping: shipping || null, customerEmail: customerEmail || null }),
     });
     const data = await res.json().catch(() => null);
     if (!res.ok) throw new Error(`wompi-sign respondio ${res.status}: ${(data && data.error) || "sin detalle"}`);
@@ -109,11 +119,19 @@
   /* items: [{ slug, qty, size?, color? }], las filas del carrito.
      expectedTotalPesos: el total (en pesos, no centavos) que el cliente ve
      en pantalla; si el servidor calcula otro, se lanza un error con
-     code "price_mismatch" y NO se abre Wompi. customerEmail es opcional,
+     code "price_mismatch" y NO se abre Wompi.
+     opts.shipping (nombre, telefono, direccion, ciudad, notas): se guarda en
+     el servidor junto con el pedido, para que la venta quede completa aunque
+     el cliente pague y cierre la pestana. opts.customerEmail es opcional,
      Wompi lo usa para prellenar el checkout. */
-  async function stikeWompiCheckout(items, expectedTotalPesos, customerEmail) {
+  async function stikeWompiCheckout(items, expectedTotalPesos, opts) {
+    const { shipping, customerEmail } = opts || {};
     const reference = wompiReference();
-    const signed = await signTransaction(reference, items.map(r => ({ slug: r.slug, qty: r.qty })));
+    const signed = await signTransaction(
+      reference,
+      items.map(r => ({ slug: r.slug, qty: r.qty, size: r.size || null, color: r.color || null })),
+      shipping, customerEmail
+    );
     const amountInCents = signed.amount_in_cents;
     const signature = signed.signature;
 

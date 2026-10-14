@@ -1,0 +1,35 @@
+name: Publish to Hostinger
+
+# Arma la copia limpia del sitio (sin datos internos ni herramientas) y la
+# empuja a la rama "hostinger-deploy". Hostinger (hPanel > Avanzado > Git) esta
+# conectado a ESA rama y despliega solo con el webhook de GitHub.
+# Ver "Pagos con Wompi" / "Deploy a Hostinger" en el README.
+#
+# Hoy corre solo a mano (pestaña Actions > Run workflow). El dia del cambio de
+# dominio, quitar los "#" de abajo para que cada publicacion del panel admin
+# (cada commit a la rama de trabajo) llegue sola al hosting.
+on:
+  workflow_dispatch:
+  # push:
+  #   branches: ["claude/sweet-albattani-ti0w0e"]
+
+permissions:
+  contents: write
+
+# Publicaciones seguidas del panel se juntan en un solo deploy del estado final.
+concurrency:
+  group: "hostinger"
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Publish clean copy to hostinger-deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tools/publish-hostinger.sh "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" hostinger-deploy

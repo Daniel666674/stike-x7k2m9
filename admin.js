@@ -23,6 +23,9 @@ const CONFIG = {
     sitemap: "sitemap.xml",
     template: "_template.html",
   },
+  // Ventas online (Wompi): las guarda el servidor de Hostinger, no GitHub.
+  // Ruta relativa al <base href>; ver api/sales.php.
+  salesApi: "api/sales",
 };
 
 const $ = sel => document.querySelector(sel);
@@ -198,7 +201,11 @@ let dirtySlugs = new Set();        // slugs (actuales) tocados esta sesion
 let deletedSlugs = new Set();      // slugs remotos borrados esta sesion
 let renamedFrom = new Map();       // slug nuevo -> slug remoto anterior
 let costsMap = {};                 // slug -> costo (interno, nunca se publica en products-data.js)
-let salesLog = [];
+let salesLog = [];                 // lo que se muestra: salesLogGh + salesLogOnline, ordenado por fecha
+let salesLogGh = [];               // data/sales-log.json: ventas registradas a mano (y las de Wompi anteriores al servidor propio)
+let salesLogOnline = [];           // ventas de Wompi guardadas en el servidor (Hostinger), solo lectura
+let onlineSalesState = { configured: false, ok: false, error: "" };
+const SALES_KEY_STORAGE = "stike_admin_sales_key";
 let auditLog = [];
 let siteContent = {};
 let pendingUploads = new Map();    // path reservado -> File original (sin comprimir)
@@ -333,6 +340,40 @@ function updateDirtyUI() {
   else pill.style.display = "none";
 }
 
+/* ====================== VENTAS: dos fuentes, una lista ====================
+   Las ventas a mano (formulario y boton "Vender") viven en GitHub
+   (data/sales-log.json) y las de Wompi las guarda el servidor de Hostinger
+   (api/sales.php). Ahi estan los datos del cliente, por eso exige la clave
+   del servidor: se pega UNA vez en Configuracion, igual que el token de
+   GitHub, y se queda solo en este navegador. salesLog es la mezcla, sin
+   repetidos y en orden de fecha (los renderizadores asumen ese orden). */
+function saleKey(s) {
+  return s.orderRef ? `${s.orderRef}|${s.slug}|${s.size || ""}|${s.color || ""}` : `${s.ts}|${s.slug}`;
+}
+function rebuildSalesLog() {
+  const seen = new Set(salesLogGh.map(saleKey));
+  salesLog = salesLogGh
+    .concat(salesLogOnline.filter(s => !seen.has(saleKey(s))))
+    .sort((a, b) => (a.ts < b.ts ? -1 : a.ts > b.ts ? 1 : 0));
+}
+/* Nunca rechaza: si el servidor no responde, se conserva la ultima lista buena
+   y el panel avisa en la pestaña Ventas en vez de romper la carga. */
+async function fetchOnlineSales() {
+  const key = localStorage.getItem(SALES_KEY_STORAGE);
+  if (!key) { salesLogOnline = []; onlineSalesState = { configured: false, ok: false, error: "" }; return; }
+  try {
+    const res = await fetch(new URL(CONFIG.salesApi, document.baseURI), { headers: { Authorization: `Bearer ${key}` }, cache: "no-store" });
+    if (res.status === 401) throw new Error("la clave no es válida");
+    if (!res.ok) throw new Error(`el servidor respondió ${res.status}`);
+    const rows = await res.json();
+    if (!Array.isArray(rows)) throw new Error("respuesta inesperada");
+    salesLogOnline = rows;
+    onlineSalesState = { configured: true, ok: true, error: "" };
+  } catch (e) {
+    onlineSalesState = { configured: true, ok: false, error: e.message || "sin conexión" };
+  }
+}
+
 /* ============================== LOAD ===================================== */
 async function loadAll() {
   showStatus([{ text: "Cargando catálogo desde GitHub...", cls: "now" }]);
@@ -342,10 +383,12 @@ async function loadAll() {
     ghGetFile(CONFIG.paths.salesLog),
     ghGetFile(CONFIG.paths.auditLog),
     ghGetFile(CONFIG.paths.siteContent),
+    fetchOnlineSales(),
   ]);
   const arr = catFile ? parseCatalogFile(catFile.text) : [];
   costsMap = costsFile ? JSON.parse(costsFile.text) : {};
-  salesLog = salesFile ? JSON.parse(salesFile.text) : [];
+  salesLogGh = salesFile ? JSON.parse(salesFile.text) : [];
+  rebuildSalesLog();
   auditLog = auditFile ? JSON.parse(auditFile.text) : [];
   siteContent = contentFile ? JSON.parse(contentFile.text) : {};
 
@@ -1431,7 +1474,8 @@ async function applySale(p, opts) {
   } else {
     setPublishing(true);
     try {
-      salesLog = await appendJsonLog(CONFIG.paths.salesLog, [entry], `Venta: ${qty}x ${p.n}`);
+      salesLogGh = await appendJsonLog(CONFIG.paths.salesLog, [entry], `Venta: ${qty}x ${p.n}`);
+      rebuildSalesLog();
       // Publica SOLO el stock de este producto (no arrastra otras ediciones a medio terminar).
       await publishCatalog({ scopeSlugs: new Set([p.slug]), auditNote: `Venta registrada: ${qty}x ${p.n}` });
     } catch (e) {
@@ -1547,7 +1591,26 @@ async function confirmQuickSale() {
   else $("#qs-confirm").disabled = false;
 }
 
+function renderOnlineSalesNote() {
+  const el = $("#sales-online-note");
+  if (!el) return;
+  if (demoMode) { el.style.display = "none"; return; }
+  el.style.display = "";
+  const st = onlineSalesState;
+  if (!st.configured) {
+    el.style.color = "var(--muted)";
+    el.textContent = "Ventas online (Wompi): sin conectar. Pega la clave del servidor en Configuración para verlas aquí.";
+  } else if (!st.ok) {
+    el.style.color = "var(--bad)";
+    el.textContent = `No se pudieron leer las ventas online: ${st.error}. Se muestran solo las registradas a mano.`;
+  } else {
+    el.style.color = "var(--muted)";
+    el.textContent = `Ventas online conectadas (${salesLogOnline.length} registro${salesLogOnline.length === 1 ? "" : "s"} en el servidor).`;
+  }
+}
+
 function renderSalesTab() {
+  renderOnlineSalesNote();
   populateSaleProductSelect();
 
   const now = Date.now();
@@ -1623,6 +1686,7 @@ function openSaleDetail(sale) {
     ["Referencia", sale.orderRef || "—"],
     ["ID transacción Wompi", sale.wompiId || "—"],
     ["Email del cliente", sale.customerEmail || "—"],
+    sale.flag && ["⚠ Revisar", sale.flag === "amount_mismatch" ? "El monto cobrado no coincide con el pedido" : sale.flag === "no_pending_order" ? "Pago aprobado sin pedido guardado: contactar al cliente" : sale.flag],
   ] : [];
 
   const ship = sale.shipping;
@@ -1753,12 +1817,13 @@ function notifySaleEntries(entries) {
 
 async function pollSalesLog() {
   if (demoMode || !session.pat) return;
-  const fresh = await ghGetFile(CONFIG.paths.salesLog);
-  const freshLog = fresh ? JSON.parse(fresh.text) : [];
-  if (freshLog.length === salesLog.length) return;
-  const knownKeys = new Set(salesLog.map(s => `${s.ts}|${s.slug}|${s.orderRef || ""}`));
-  const added = freshLog.filter(s => !knownKeys.has(`${s.ts}|${s.slug}|${s.orderRef || ""}`));
-  salesLog = freshLog;
+  const [fresh] = await Promise.all([ghGetFile(CONFIG.paths.salesLog), fetchOnlineSales()]);
+  const before = salesLog;
+  salesLogGh = fresh ? JSON.parse(fresh.text) : [];
+  rebuildSalesLog();
+  const known = new Set(before.map(saleKey));
+  const added = salesLog.filter(s => !known.has(saleKey(s)));
+  if (!added.length && salesLog.length === before.length) { renderOnlineSalesNote(); return; }
   renderSalesTab();
   renderKpis();
   renderNotifBadge();
@@ -2104,6 +2169,7 @@ function showApp() {
   $("#cfg-repo").textContent = `${CONFIG.owner}/${CONFIG.repo}`;
   $("#cfg-branch").textContent = CONFIG.branch;
   $("#pat-status").textContent = session.pat ? "Token guardado en este navegador." : "Sin token: el panel está en modo demo con datos de ejemplo. Pega un token para trabajar con datos reales.";
+  renderSalesKeyStatus();
   if (session.pat) {
     loadAll().catch(e => handleLoadError(e));
   } else {
@@ -2148,6 +2214,32 @@ $("#btn-save-pat").addEventListener("click", () => {
       .then(() => switchPanel("productos"))
       .catch(e => handleLoadError(e));
   }
+});
+function renderSalesKeyStatus() {
+  const el = $("#sales-key-status");
+  if (!el) return;
+  const st = onlineSalesState;
+  if (!localStorage.getItem(SALES_KEY_STORAGE)) { el.style.color = ""; el.textContent = "Sin clave: las ventas de Wompi no se ven en el panel."; }
+  else if (st.ok) { el.style.color = ""; el.textContent = "Clave guardada en este navegador. Conectado al servidor de ventas."; }
+  else if (st.configured) { el.style.color = "var(--bad)"; el.textContent = `Clave guardada, pero: ${st.error}.`; }
+  else { el.style.color = ""; el.textContent = "Clave guardada en este navegador."; }
+}
+async function refreshOnlineSales() {
+  await fetchOnlineSales();
+  if (catalogLoaded && !demoMode) { rebuildSalesLog(); renderSalesTab(); renderKpis(); renderNotifBadge(); }
+  renderSalesKeyStatus();
+}
+$("#btn-save-sales-key").addEventListener("click", async () => {
+  const v = $("#sales-key-input").value.trim();
+  if (!v) return;
+  localStorage.setItem(SALES_KEY_STORAGE, v);
+  $("#sales-key-input").value = "";
+  $("#sales-key-status").textContent = "Comprobando con el servidor...";
+  await refreshOnlineSales();
+});
+$("#btn-clear-sales-key").addEventListener("click", async () => {
+  localStorage.removeItem(SALES_KEY_STORAGE);
+  await refreshOnlineSales();
 });
 $("#btn-clear-pat").addEventListener("click", () => {
   localStorage.removeItem("stike_admin_pat");
