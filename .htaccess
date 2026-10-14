@@ -1,0 +1,116 @@
+# =============================================================================
+# Stike Bike Shop — configuracion del hosting (Hostinger, LiteSpeed/Apache):
+# HTTPS, rutas de la API, archivos internos bloqueados, cacheo y seguridad.
+#
+# Solo se activa en Hostinger. La demo en GitHub Pages no lee .htaccess ni
+# permite headers custom; ahi esto no hace nada.
+#
+# Regla de cacheo (ver correctness rule #5 del panel admin):
+#   - HTML: nunca se cachea, cada carga refleja la ultima publicacion.
+#   - JS/CSS/imagenes/video: 1 año, immutable. El cache-busting se maneja
+#     SOLO con el query string ?v=N en cada <script>/<link>/<img> — si
+#     editas el CONTENIDO de un archivo compartido (styles.css, data.js,
+#     app.js, pdp.js, pdp-render.js, products-data.js) tenes que subir
+#     tambien el numero de version en TODOS los HTML que lo referencian,
+#     si no los visitantes con cache siguen viendo la version vieja.
+# =============================================================================
+
+Options -Indexes
+
+# ------------------------- HTTPS, www y rutas de la API ----------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Todo por HTTPS y sin "www": un solo sitio para Google y para los pagos.
+  # (El webhook de Wompi se registra con la URL final exacta, sin redirecciones:
+  # un POST redirigido llega como GET y se pierde.)
+  RewriteCond %{HTTPS} off [OR]
+  RewriteCond %{HTTP_HOST} ^www\. [NC]
+  RewriteCond %{HTTP_HOST} ^(?:www\.)?(.+)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+
+  # Algunos hostings PHP descartan el header Authorization antes de llegar a
+  # PHP; api/sales.php lo necesita para validar la clave del panel.
+  RewriteCond %{HTTP:Authorization} .
+  RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+  # El front llama /api/wompi-sign (igual que el backend de Vercel); aca se
+  # traduce al archivo PHP.
+  RewriteRule ^api/(wompi-sign|wompi-status|wompi-order|wompi-events|sales)/?$ api/$1.php [L]
+
+  # Segunda capa: lo interno no se sirve nunca, aunque algun dia llegue al
+  # hosting por error. (El deploy ya lo deja fuera: tools/stage-hostinger.sh.)
+  RewriteRule ^(tools|vercel-wompi-api|bmx-builder|\.github|node_modules)(/|$) - [F,L]
+  RewriteRule ^data/(costs|sales-log|audit-log)\.json$ - [F,L]
+  RewriteRule ^(PROPOSAL|MOTOR|README)\.md$ - [F,L]
+  RewriteRule ^propuesta\.html$ - [F,L]
+  RewriteRule ^\.git(/|$) - [F,L]
+  RewriteRule ^api/(_lib|config\.local)\.php$ - [F,L]
+</IfModule>
+
+# ----------------------------- Cacheo ---------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType application/xhtml+xml "access plus 0 seconds"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType video/mp4 "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html)$">
+    Header set Cache-Control "no-cache, max-age=0, must-revalidate"
+  </FilesMatch>
+  <FilesMatch "\.(js|css|jpe?g|png|webp|svg|mp4|woff2?)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # data/*.json (sales/audit/costs/site-content) las escribe el panel admin
+  # y las lee la propia app en vivo (KPIs, textos editables): tampoco se
+  # cachean, para que un publish se refleje de inmediato.
+  <FilesMatch "\.json$">
+    Header set Cache-Control "no-cache, max-age=0, must-revalidate"
+  </FilesMatch>
+
+  # El service worker del admin (admin-sw.js) no lleva cache HTTP largo:
+  # necesita que el navegador pueda detectar una version nueva sin esperar
+  # el ciclo de "1 año immutable" del resto de los .js.
+  <Files "admin-sw.js">
+    Header set Cache-Control "no-cache, max-age=0, must-revalidate"
+  </Files>
+
+  # ------------------------------- Seguridad ---------------------------------
+  # CSP: solo los terceros que el sitio realmente usa — Google Fonts, la API
+  # de contenidos de GitHub (admin.html), el embed de Google Maps
+  # (contacto.html) y Wompi (el widget de pago: script, iframe y, si el widget
+  # no carga, el formulario de respaldo). Nuestra propia API (/api/...) es del
+  # mismo origen, no necesita permiso aparte. Nada de wildcards.
+  # `script-src` incluye 'unsafe-inline' porque el sitio (heredado del mockup
+  # original) usa manejadores inline (onclick=...); migrar eso a
+  # addEventListener queda pendiente como mejora.
+  #
+  # accounts.google.com (script-src + frame-src) y oauth2.googleapis.com
+  # (connect-src) son del login del panel (admin.html).
+  #
+  # SIN PROBAR contra el widget real de Wompi (el entorno donde se escribio no
+  # llega a checkout.wompi.co). Despues del primer deploy: abrir el carrito, dar
+  # "Pagar ahora" y mirar la consola del navegador; cualquier linea
+  # "Refused to ..." dice exactamente que host falta agregar aca.
+  Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://accounts.google.com https://checkout.wompi.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self'; connect-src 'self' https://api.github.com https://oauth2.googleapis.com https://accounts.google.com https://production.wompi.co https://sandbox.wompi.co; frame-src https://maps.google.com https://www.google.com https://accounts.google.com https://checkout.wompi.co; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://checkout.wompi.co; object-src 'none'"
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+</IfModule>
+
+# ----------------------------- Compresion ------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript text/javascript application/json image/svg+xml
+</IfModule>

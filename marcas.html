@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+<base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marcas: Stike Bike Shop</title>
+  <meta name="description" content="Las mejores marcas BMX en Stike Bike Shop: Total, Odyssey, Shadow, Cult, Sunday y más.">
+  <link rel="canonical" href="https://stikebikeshop.com/marcas.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Stike Bike Shop">
+  <meta property="og:locale" content="es_CO">
+  <meta property="og:title" content="Marcas BMX | Stike Bike Shop">
+  <meta property="og:description" content="Trabajamos con las marcas más respetadas del BMX mundial.">
+  <meta property="og:url" content="https://stikebikeshop.com/marcas.html">
+  <meta property="og:image" content="https://stikebikeshop.com/assets/img/og-stike.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://stikebikeshop.com/assets/img/og-stike.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css?v=33">
+  <link rel="icon" href="assets/img/favicon.png">
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <div class="wrap page-head">
+    <nav class="breadcrumb"><a href="index.html">Inicio</a><span class="sep">/</span><span>Marcas</span></nav>
+    <h1>Marcas</h1>
+    <div class="count">Trabajamos con las marcas más respetadas del BMX mundial. Toca una para ver sus productos.</div>
+  </div>
+
+  <div class="wrap" style="padding-bottom:24px">
+    <div class="crew-band reveal">
+      <div class="crew-text">
+        <span class="kicker">Marca aliada · Bogotá</span>
+        <h2>Fate BMX Colombia: la marca <span class="o2">100% bogotana</span></h2>
+        <p>Marcos, sillas, platos y accesorios elegidos y probados por riders bogotanos. Conocé la marca, su historia y su catálogo completo.</p>
+        <a class="btn" href="fate/">Conocer Fate BMX Colombia →</a>
+      </div>
+      <div class="hero-art" style="aspect-ratio:1/1;max-width:320px;background:radial-gradient(120% 120% at 50% 0%, #161619, #0a0a0b 70%)">
+        <img src="assets/img/products/IMG_7139.jpeg" alt="Marco Fate BMX Colombia" style="position:relative;z-index:2;width:82%;max-width:260px;height:auto;border-radius:12px">
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap" style="padding-bottom:70px">
+    <div class="brand-grid" id="brand-grid" style="grid-template-columns:repeat(4,1fr)"></div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="assets/js/products-data.js?v=3"></script>
+  <script src="assets/js/data.js?v=3"></script>
+  <script src="assets/js/app.js?v=11"></script>
+  <script>
+    stikeInit("marcas");
+    const BRAND_PAGES = { "Fate BMX Colombia": "fate/" };
+    document.getElementById("brand-grid").innerHTML = STIKE_BRANDS.filter(b => STIKE_PRODUCTS.some(p => p.brand === b)).map(b => {
+      const count = STIKE_PRODUCTS.filter(p => p.brand === b).length;
+      const href = BRAND_PAGES[b] || `tienda.html?brand=${encodeURIComponent(b)}`;
+      return `<a class="brand-chip" id="${encodeURIComponent(b)}" href="${href}">
+        <span class="bc-name">${b}</span>
+        <span class="bc-count">${count} producto${count===1?"":"s"}</span>
+        <span class="bc-go" aria-hidden="true">→</span>
+      </a>`;
+    }).join("");
+  </script>
+  <script src="assets/js/animations.js?v=5"></script>
+</body>
+</html>

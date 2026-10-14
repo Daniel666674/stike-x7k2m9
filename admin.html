@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<base href="/">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel Stike: Inventario</title>
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='13' fill='%230b0b0d'/%3E%3Ccircle cx='19' cy='26' r='7' fill='%23fff'/%3E%3Ccircle cx='45' cy='26' r='7' fill='%23fff'/%3E%3Cellipse cx='32' cy='38' rx='17' ry='15' fill='%23fff'/%3E%3C/svg%3E">
+<!-- Sign In With Google. async+defer: no bloquea el resto de la carga: el
+     panel espera este SDK solo cuando de verdad hay que mostrar el boton
+     (ver whenGoogleReady en admin.js), nunca al cargar la pagina. -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<!-- El panel pedia "Inter" (texto) y "Oswald" (titulos/precios/KPIs) en su
+     CSS pero nunca las cargaba -- corria en la fuente por defecto del
+     sistema operativo de quien lo abriera, sin que nadie lo notara. Un
+     solo peso variable de Inter cubre todo (texto + titulos), asi que se
+     deja de pedir Oswald. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+/* Detector de fallas INLINE, antes de cargar nada mas: si admin.js (o
+   cualquier otro script/CSS del panel) no llega a cargar por la razon que
+   sea, esto SI se ejecuta igual (esta en el propio HTML) y lo muestra en
+   pantalla en vez de dejar la app muerta en silencio. Usa fase de captura
+   para poder detectar tambien fallas de carga de recursos (<script>/<link>),
+   que no burbujean hasta window en la fase normal. */
+(function () {
+  function showBoot(msg) {
+    try {
+      var box = document.getElementById("boot-crash");
+      if (!box) {
+        box = document.createElement("div");
+        box.id = "boot-crash";
+        box.style.cssText = "position:fixed;top:0;left:0;right:0;z-index:99999;background:#4a1216;color:#ffd7da;padding:12px 16px;font:13px/1.5 system-ui,sans-serif;border-bottom:2px solid #ff4d5e;white-space:pre-wrap";
+        (document.body || document.documentElement).appendChild(box);
+      }
+      box.textContent = "⚠ El panel no cargó (avísale a soporte con este texto): " + msg;
+    } catch (e) {}
+  }
+  window.addEventListener("error", function (e) {
+    var target = e.target;
+    if (target && target !== window && (target.tagName === "SCRIPT" || target.tagName === "LINK")) {
+      // El SDK de Google (Sign In With Google) y la hoja de Google Fonts
+      // quedan afuera de este aviso generico a proposito. El de Google
+      // Sign-In tiene su propio mensaje mas claro dentro del gate de login
+      // (whenGoogleReady en admin.js). El de fuentes es mas simple todavia:
+      // si Inter no carga (bloqueador de anuncios, red restrictiva, un
+      // corte momentaneo de Google Fonts), el panel sigue funcionando
+      // perfecto, solo se ve en la fuente del sistema en vez de Inter -- es
+      // cosmetico, no una falla real, y no amerita un banner rojo de
+      // "el panel no cargo" asustando a alguien sin experiencia tecnica.
+      var src = String(target.src || target.href || "");
+      if (src.indexOf("accounts.google.com") !== -1) return;
+      if (src.indexOf("fonts.googleapis.com") !== -1 || src.indexOf("fonts.gstatic.com") !== -1) return;
+      showBoot("No se pudo cargar " + (target.src || target.href));
+    } else {
+      showBoot((e.message || "error desconocido") + (e.filename ? " (" + e.filename + ":" + e.lineno + ")" : ""));
+    }
+  }, true);
+  window.addEventListener("unhandledrejection", function (e) {
+    showBoot((e.reason && e.reason.message) || String(e.reason));
+  });
+  window.addEventListener("load", function () {
+    setTimeout(function () {
+      if (!window.STIKE_ADMIN_BOOTED) showBoot("admin.js cargó pero nunca terminó de iniciar (revisa la consola con F12).");
+    }, 4000);
+  });
+})();
+</script>
+<style>
+/* =========================================================================
+   Panel admin: app self-contenida, sin build step ni framework. No hereda
+   assets/css/styles.css a proposito (es una herramienta interna, no una
+   pagina de la tienda), con su propio sistema de diseno -- direccion
+   "SaaS pulido" (Stripe/Shopify admin): superficies gris oscuro con
+   jerarquia real, un solo acento, chips de estado, sin negro puro ni
+   botones 100% redondeados.
+
+   Los NOMBRES de clase (.btn.cyan, .pill.owner, .pill.dirty, .pill.low...)
+   se mantienen exactamente iguales aunque el color detras cambie: admin.js
+   los escribe en decenas de plantillas y renombrarlos ahi es riesgo que no
+   hace falta correr solo por prolijidad. Lo que cambia es el TOKEN, no el
+   nombre.
+   ========================================================================= */
+:root{
+  /* Superficies: cuatro niveles para que "elevado" se sienta elevado de
+     verdad (paneles > fondo > fondo secundario), no solo un borde de 1px
+     separando dos grises casi iguales. */
+  --bg:#17191d; --bg-2:#1c1f24; --panel:#202329; --panel-2:#262a31;
+  --line:#33373f; --line-soft:#2a2e35;
+  --ink:#f1f2f4; --ink-2:#c6c9d1; --muted:#93979f;
+
+  /* Acento unico: version refinada del cyan de siempre (mismo reconocimiento
+     de marca, menos neon). accent-soft es el fondo tenue para chips/estados
+     activos -- el patron de "texto saturado sobre fondo tenue" que usan
+     Stripe y Shopify en vez de rellenos solidos. */
+  --accent:#22d3ee; --accent-ink:#06222b; --accent-soft:#123540;
+
+  /* Tres estados semanticos, cada uno con su fondo tenue. Antes "bajo stock"
+     y "sin publicar" compartian variantes del mismo amarillo/naranja aunque
+     signifiquen cosas distintas -- uno es una alerta del negocio (repone
+     stock), el otro es un estado de flujo de trabajo (te falta publicar).
+     Separados: warn = atencion del negocio, draft = estado de flujo. */
+  --good:#34d399; --good-soft:#113129;
+  --warn:#fbbf24; --warn-soft:#3d2f0e;
+  --draft:#a78bfa; --draft-soft:#241f3d;
+  --bad:#f87171;  --bad-soft:#3a1518;
+
+  --radius:10px;     /* cards, paneles, modales */
+  --radius-sm:8px;   /* botones, inputs -- ya no pildora en botones */
+}
+*{box-sizing:border-box}
+html{overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 "Inter",-apple-system,"Segoe UI",Arial,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;max-width:100vw}
+h1,h2,h3,h4{font-family:inherit;font-weight:700;letter-spacing:-.01em;margin:0}
+/* La mayuscula+tracking que antes llevaban TODOS los titulos (prestada de
+   Oswald, que nunca cargo) se queda solo donde ya es una convencion real de
+   dashboard -- microetiquetas, no titulos de seccion: .pill, th, .field
+   label, .kpi .l. Los titulos de seccion (h2/h3/h4) van en texto normal,
+   peso fuerte. */
+a{color:inherit}
+button{font:inherit;cursor:pointer}
+input,select,textarea{font:inherit;background:var(--bg-2);border:1px solid var(--line);color:var(--ink);border-radius:var(--radius-sm);padding:9px 11px}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+/* Precios, stock, SKUs, numeros de KPI: alineados en columna de verdad. Sin
+   esto los digitos de ancho variable (1 vs 8 vs 0) hacen que una lista de
+   precios se vea despareja aunque este bien alineada por CSS. */
+.tabnum{font-variant-numeric:tabular-nums}
+.btn{background:var(--ink);color:var(--bg);border:none;border-radius:var(--radius-sm);padding:10px 18px;font-weight:600;letter-spacing:0;transition:opacity .15s,background .15s}
+.btn:hover{opacity:.88}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.ghost:hover{background:var(--bg-2);opacity:1}
+.btn.cyan{background:var(--accent);color:var(--accent-ink)}
+.btn.bad{background:var(--bad);color:#2a0508}
+.btn.sm{padding:6px 12px;font-size:12px;border-radius:var(--radius-sm)}
+/* Los badges de estado SI se quedan pildora (999px): es el patron correcto
+   para chips en un dashboard tipo Stripe/Shopify -- lo que cambia de forma
+   es el boton, no el badge. */
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;text-transform:uppercase;letter-spacing:.5px;padding:3px 9px;border-radius:999px;background:var(--bg-2);border:1px solid var(--line);color:var(--muted)}
+.pill.dot::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.pill.owner{color:var(--warn);background:var(--warn-soft);border-color:transparent}
+.pill.editor{color:var(--accent);background:var(--accent-soft);border-color:transparent}
+.pill.dirty{color:var(--draft);background:var(--draft-soft);border-color:transparent}
+.pill.low{color:var(--warn)}
+.notif-wrap{position:relative}
+.notif-badge{position:absolute;top:-6px;right:-6px;min-width:16px;height:16px;padding:0 4px;border-radius:999px;background:#ff4d5e;color:#fff;font-size:10px;font-weight:700;line-height:16px;text-align:center}
+.notif-panel{position:absolute;top:calc(100% + 8px);right:0;width:320px;max-height:380px;overflow:auto;background:var(--bg-2);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.4);z-index:50;padding:6px}
+.notif-panel h4{margin:6px 10px;font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+.notif-row{display:block;padding:9px 10px;border-radius:8px;font-size:13px;line-height:1.4}
+.notif-row:hover{background:var(--bg-1)}
+.notif-row .nr-top{display:flex;justify-content:space-between;gap:8px;color:var(--text)}
+.notif-row .nr-sub{color:var(--muted);font-size:12px}
+.notif-empty{padding:18px 10px;text-align:center;color:var(--muted);font-size:13px}
+.pill.out{color:var(--bad)}
+
+/* ---- gate de acceso (Google Sign-In) ---- */
+.login-gate{
+  position:fixed; inset:0; z-index:9000;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--bg); padding:24px;
+}
+/* [hidden] por si solo pierde contra ".login-gate{display:flex}" porque
+   tienen la misma especificidad y esta regla carga despues que la hoja de
+   estilos del navegador: sin esto, ocultar el gate (gate.hidden = true, al
+   iniciar sesion) no lo saca de pantalla, se queda encima de todo el panel
+   bloqueando los clics. Detectado con Playwright antes de publicar. */
+.login-gate[hidden]{display:none}
+.login-gate-card{
+  width:100%; max-width:380px; background:var(--panel); border:1px solid var(--line);
+  border-radius:var(--radius); padding:36px 30px 32px; text-align:center;
+  box-shadow:0 24px 48px -12px rgba(0,0,0,.5);
+}
+.login-gate-mark{
+  width:44px; height:44px; margin:0 auto 18px; border-radius:12px;
+  background:var(--accent-soft); color:var(--accent);
+  display:flex; align-items:center; justify-content:center;
+}
+.login-gate-card .brand{font-family:inherit;font-weight:800;font-size:20px;letter-spacing:-.01em;margin-bottom:4px}
+.login-gate-card .brand small{display:block;font-size:10px;color:var(--muted);letter-spacing:1px;font-family:inherit;text-transform:uppercase}
+.login-gate-card p{color:var(--muted);font-size:13px;line-height:1.5;margin:14px 0 18px}
+#google-signin-btn{display:flex;justify-content:center;min-height:44px}
+.login-gate-note{font-size:12px;color:var(--bad);margin-top:14px}
+.login-gate-note[hidden]{display:none}
+
+/* ---- shell ---- */
+#app{display:grid;min-height:100vh;grid-template-columns:220px 1fr}
+.side{background:var(--panel);border-right:1px solid var(--line);padding:18px 12px;display:flex;flex-direction:column;gap:4px;position:sticky;top:0;height:100vh}
+.side .brand{font-family:inherit;font-weight:800;font-size:18px;letter-spacing:-.01em;padding:6px 10px 18px}
+.side .brand small{display:block;font-size:10px;color:var(--muted);letter-spacing:1px}
+.navbtn{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:9px;background:none;border:none;color:var(--muted);text-align:left;font-weight:500}
+.navbtn .nav-ic{width:18px;height:18px;flex:none}
+.navbtn:hover{background:var(--bg-2);color:var(--ink)}
+.navbtn.active{background:var(--bg-2);color:var(--ink);box-shadow:inset 3px 0 0 var(--accent)}
+.side .spacer{flex:1}
+.side-foot{padding:10px;border-top:1px solid var(--line);margin-top:8px;font-size:12px;color:var(--muted)}
+
+main{padding:22px 26px 80px;max-width:1280px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap}
+.topbar h2{font-size:24px}
+.topbar-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+
+.panel{display:none}
+.panel.active{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.card+.card{margin-top:14px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+.kpi .n{font-family:inherit;font-weight:700;font-size:28px;font-variant-numeric:tabular-nums}
+.kpi .l{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.6px}
+
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+th{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+tr:hover td{background:var(--bg-2)}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.toolbar input[type=search]{min-width:220px}
+.right{margin-left:auto}
+.muted{color:var(--muted)}
+.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-variant-numeric:tabular-nums}
+
+/* ---- grilla de productos: misma estetica de tarjeta que la tienda ---- */
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+/* Mismo bug que ya aparecio con .login-gate: [hidden] pierde contra una
+   regla de clase que fija display, por igual especificidad y orden de
+   carga. Se repite aca porque .pgrid tambien se oculta/muestra por JS
+   (toggle Tarjetas/Tabla) -- detectado por la prueba de la vista de tabla
+   antes de publicar. */
+.pgrid[hidden]{display:none}
+.pcard{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;transition:transform .18s,border-color .18s,box-shadow .18s}
+.pcard:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 14px 32px rgba(0,0,0,.4)}
+.pcard .thumb{position:relative;aspect-ratio:1/1;background:#f3f3f3;overflow:hidden}
+.pcard .thumb img{width:100%;height:100%;object-fit:contain;padding:10px;background:#f3f3f3}
+.pcard .flags{position:absolute;top:10px;left:10px;display:flex;flex-direction:column;gap:6px;align-items:flex-start;z-index:2}
+.pcard .flags .pill{background:rgba(9,9,10,.82);backdrop-filter:blur(4px)}
+.pcard .body{padding:15px 16px 16px;display:flex;flex-direction:column;gap:9px;flex:1}
+.pcard .brandline{font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent)}
+.pcard .title{font-size:16px;font-weight:700;line-height:1.3}
+.pcard .subline{font-size:12px;color:var(--muted)}
+.pcard .meta{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-top:auto}
+.pcard .price{font-family:inherit;font-weight:700;font-size:21px;font-variant-numeric:tabular-nums}
+.pcard .stockline{font-size:12px;color:var(--muted)}
+.pcard .foot{display:flex;gap:8px}
+.pcard .foot .btn{flex:1;text-align:center}
+.grid-empty{grid-column:1/-1;padding:34px;text-align:center;color:var(--muted);background:var(--panel);border:1px dashed var(--line);border-radius:var(--radius)}
+@media(max-width:1100px){.pgrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.pgrid{grid-template-columns:1fr}}
+
+/* ---- venta rapida desde la tarjeta ---- */
+.overlay.center{align-items:center;justify-content:center}
+.modal{width:min(440px,calc(100% - 32px));background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);padding:22px;max-height:90vh;overflow:auto}
+.qs-head{display:flex;gap:13px;align-items:center;margin-bottom:18px}
+.qs-head img{width:66px;height:66px;object-fit:contain;background:#f3f3f3;border-radius:10px;flex:none}
+.qs-head h3{font-size:17px;margin:2px 0 3px}
+.qs-total{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--line);margin-top:14px;padding-top:13px}
+.qs-total b{font-family:inherit;font-weight:700;font-size:23px;font-variant-numeric:tabular-nums}
+
+/* ---- banner modo demo ---- */
+.demo-banner{display:flex;gap:12px;align-items:flex-start;background:var(--warn-soft);border:1px solid #4a3a12;border-left:3px solid var(--warn);border-radius:var(--radius);padding:13px 16px;margin-bottom:18px}
+.demo-banner b{color:var(--warn)}
+.demo-banner p{margin:3px 0 0;color:var(--muted);font-size:12.5px;line-height:1.55}
+
+/* ---- reporting ---- */
+/* Reemplaza el 🔒 de texto plano que se interpolaba en el numero cuando
+   session.role no es "owner". El tamano sigue el font-size de donde se usa
+   (1em) para no necesitar variantes por contexto: se ve chico en una celda
+   de tabla y grande en el numero de un KPI, sin CSS aparte para cada uno. */
+.locked{display:inline-flex;align-items:center;color:var(--muted)}
+.locked svg{width:1em;height:1em}
+.kpi .delta{font-size:12px;margin-top:3px}
+.kpi .delta.up{color:var(--good)}
+.kpi .delta.down{color:var(--bad)}
+.kpi .delta.flat{color:var(--muted)}
+.barlist{display:flex;flex-direction:column;gap:11px}
+.barrow{display:grid;grid-template-columns:150px 1fr auto;gap:12px;align-items:center;font-size:13px}
+.barrow .track{display:block;background:var(--bg-2);border-radius:999px;height:9px;overflow:hidden}
+.barrow .fill{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),#0ea5b8)}
+.barrow .val{color:var(--muted);font-size:12px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.chart-legend{display:flex;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin-top:8px}
+.chart-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+@media(max-width:700px){.barrow{grid-template-columns:110px 1fr auto}}
+
+/* ---- modal / drawer product editor ---- */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:flex-start;justify-content:flex-end;z-index:100}
+.overlay.open{display:flex}
+/* El drawer entero es UN scroll container (overflow-y en .drawer, no en
+   un hijo): el pie de Guardar/Eliminar se queda fijo abajo con
+   position:sticky sobre ESE mismo scroll, sin partir el drawer en flex
+   header/body/footer -- mismo resultado, un cambio de CSS mas chico. */
+.drawer{width:min(640px,100%);height:100vh;background:var(--bg);border-left:1px solid var(--line);overflow-y:auto;padding:0}
+.drawer h3{font-size:20px;margin-bottom:0}
+.ed-head{position:sticky;top:0;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:20px 24px;background:var(--bg);border-bottom:1px solid var(--line)}
+.ed-body{padding:20px 24px 4px}
+.ed-section{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:600;margin:26px 0 12px;padding-top:20px;border-top:1px solid var(--line-soft)}
+.ed-section.first{margin-top:0;padding-top:0;border-top:none}
+.ed-foot{position:sticky;bottom:0;z-index:2;display:flex;gap:10px;padding:16px 24px;background:var(--bg);border-top:1px solid var(--line);margin-top:22px}
+.ed-foot .btn{flex:1}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}
+.field input,.field select,.field textarea{width:100%}
+.field .hint{font-size:11.5px;color:var(--muted);margin-top:4px}
+.field .err{font-size:11.5px;color:var(--bad);margin-top:4px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.stockTable{width:100%;border-collapse:collapse;margin-top:6px}
+.stockTable td{padding:4px 6px;border:none}
+.stockTable input{width:100%}
+
+
+/* ---- photo manager ---- */
+.photogrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:8px}
+.pthumb{position:relative;aspect-ratio:1/1;border-radius:10px;overflow:hidden;border:1.5px solid var(--line);background:var(--bg-2);cursor:grab}
+.pthumb img{width:100%;height:100%;object-fit:cover}
+.pthumb.cover{border-color:var(--accent)}
+.pthumb .cov-badge{position:absolute;top:4px;left:4px;background:var(--accent);color:var(--accent-ink);font-size:9px;font-weight:800;padding:2px 6px;border-radius:5px;text-transform:uppercase}
+.pthumb .rm{position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.7);color:#fff;border:none;font-size:12px;line-height:1}
+.pthumb .edit{position:absolute;top:4px;right:28px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--accent-ink);border:none;font-size:11px;line-height:1}
+.pthumb select{position:absolute;bottom:4px;left:4px;right:4px;font-size:10px;padding:2px 4px;border-radius:5px}
+.pthumb.dragover{outline:2px dashed var(--accent)}
+.uploadbox{border:1.5px dashed var(--line);border-radius:10px;padding:16px;text-align:center;color:var(--muted);font-size:12.5px;cursor:pointer}
+.uploadbox:hover{border-color:var(--accent)}
+.cropbox{display:flex;gap:14px;align-items:center;margin-top:10px}
+.crop-grid{display:grid;grid-template-columns:repeat(3,22px);gap:4px}
+.crop-grid button{width:22px;height:22px;border-radius:4px;border:1px solid var(--line);background:var(--bg-2)}
+.crop-grid button.active{background:var(--accent)}
+
+/* ---- editor de fotos (assets/js/photo-editor.js) ---- */
+.pe-overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;z-index:300;padding:20px}
+.pe-overlay.open{display:flex}
+.pe-modal{width:min(960px,100%);max-height:92vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);display:flex;flex-direction:column}
+.pe-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--line-soft)}
+.pe-head h3{font-size:16px}
+.pe-body{display:flex;gap:22px;padding:20px;flex-wrap:wrap}
+.pe-stage{position:relative;display:inline-flex;line-height:0;border-radius:8px;overflow:hidden;background:var(--bg-2);border:1px solid var(--line-soft);align-self:flex-start}
+.pe-stage canvas{display:block;max-width:100%}
+.pe-cropmask{position:absolute;background:rgba(0,0,0,.55);pointer-events:none}
+.pe-cropbox{position:absolute;border:2px dashed var(--accent);cursor:move;box-shadow:0 0 0 1px rgba(0,0,0,.35)}
+.pe-handle{position:absolute;width:14px;height:14px;background:var(--accent);border:2px solid var(--panel);border-radius:50%;cursor:nwse-resize}
+.pe-handle[data-h="nw"]{left:-8px;top:-8px}
+.pe-handle[data-h="ne"]{right:-8px;top:-8px;cursor:nesw-resize}
+.pe-handle[data-h="sw"]{left:-8px;bottom:-8px;cursor:nesw-resize}
+.pe-handle[data-h="se"]{right:-8px;bottom:-8px}
+.pe-loading{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:rgba(15,17,20,.7);color:var(--ink);font-size:13px;font-weight:600}
+.pe-loading.show{display:flex}
+.pe-tools{flex:1;min-width:240px;display:flex;flex-direction:column;gap:18px}
+.pe-group{display:flex;flex-direction:column;gap:8px}
+.pe-label{font-size:11px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted);font-weight:700}
+.pe-label .hint{text-transform:none;letter-spacing:0;font-weight:400}
+.pe-row{display:flex;gap:8px;flex-wrap:wrap}
+.pe-slider{display:flex;align-items:center;gap:8px;font-size:12.5px}
+.pe-slider span{width:66px;flex:none;color:var(--ink-2)}
+.pe-slider input[type="range"]{flex:1;min-width:0}
+.pe-slider b{width:30px;flex:none;text-align:right;font-variant-numeric:tabular-nums}
+.pe-hint{margin:0;font-size:11.5px;color:var(--muted);line-height:1.4}
+.pe-foot{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-top:1px solid var(--line-soft)}
+.pe-foot-right{display:flex;gap:10px}
+@media (max-width:640px){
+  .pe-body{flex-direction:column}
+  .pe-stage{width:100%;justify-content:center}
+  .pe-stage canvas{width:100%;height:auto}
+}
+
+.status{position:fixed;bottom:18px;right:18px;max-width:360px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;font-size:12.5px;box-shadow:0 10px 30px rgba(0,0,0,.4);z-index:200;display:none}
+.status.show{display:block}
+.status .line{padding:2px 0;color:var(--muted)}
+.status .line.ok{color:var(--good)}
+.status .line.bad{color:var(--bad)}
+.status .line.now{color:var(--ink)}
+
+.errlist{background:var(--bad-soft);border:1px solid #5a2226;border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:14px}
+.errlist h4{color:var(--bad);font-size:13px;margin-bottom:6px}
+.errlist li{color:#ffc4c8;font-size:12.5px}
+
+.spark{display:block}
+
+/* ---- selector Tarjetas/Tabla ---- */
+.viewtoggle{display:inline-flex;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius-sm);padding:2px}
+.viewtoggle-btn{background:none;border:none;color:var(--muted);font-size:12.5px;font-weight:600;padding:6px 12px;border-radius:6px}
+.viewtoggle-btn.active{background:var(--panel-2);color:var(--ink)}
+
+/* ---- barra de acciones en lote ---- */
+.bulkbar{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--accent-soft);border:1px solid #1c4a56;border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:14px;font-size:13px;color:var(--ink)}
+.bulkbar[hidden]{display:none}
+
+/* ---- vista de tabla del catalogo ---- */
+.ptable-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius)}
+.ptable-wrap[hidden]{display:none}
+.ptable{width:100%;border-collapse:collapse;font-size:13px}
+.ptable th,.ptable td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+.ptable thead th{background:var(--panel-2);color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px;font-weight:600;white-space:nowrap}
+.ptable th[data-sort]{cursor:pointer;user-select:none}
+.ptable th[data-sort]:hover{color:var(--ink)}
+.ptable th.num,.ptable td.num{text-align:right;font-variant-numeric:tabular-nums}
+.ptable tbody tr:last-child td{border-bottom:none}
+.ptable tbody tr:hover td{background:var(--bg-2)}
+.ptable tbody tr.selected td{background:var(--accent-soft)}
+.ptable .pt-thumb{width:36px;height:36px;border-radius:7px;overflow:hidden;background:#f3f3f3;flex:none}
+.ptable .pt-thumb img{width:100%;height:100%;object-fit:contain}
+.ptable .pt-name{font-weight:600}
+.ptable .pt-brand{color:var(--muted);font-size:11.5px}
+.ptable .pt-actions{display:flex;gap:6px;justify-content:flex-end}
+.sort-ic{display:inline-block;margin-left:3px;opacity:.6;font-size:10px}
+.pill.good{color:var(--good);background:var(--good-soft);border-color:transparent}
+@media (max-width:900px){
+  #app{grid-template-columns:1fr}
+  .side{
+    position:sticky;top:0;z-index:40;height:auto;min-width:0;
+    flex-direction:row;align-items:center;overflow-x:auto;-webkit-overflow-scrolling:touch;
+    border-right:none;border-bottom:1px solid var(--line);
+    padding:10px 12px;gap:2px;
+  }
+  .side .brand{padding:4px 10px 4px 2px;white-space:nowrap;flex:none}
+  .side .navbtn{white-space:nowrap;flex:none;padding:8px 12px}
+  .side .spacer,.side .side-foot{display:none}
+  main{padding:16px 14px 90px;min-width:0}
+  .topbar h2{font-size:20px}
+  .topbar-actions{width:100%}
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr 1fr}
+}
+@media (max-width:480px){
+  .notif-panel{position:fixed;top:auto;bottom:12px;left:12px;right:12px;width:auto;max-height:65vh}
+  .topbar-actions .lbl{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- Con ADMIN_EMAILS vacio en site.js, este gate ni se muestra: admin.html
+     entra directo, como al principio. Con la lista llena (el caso de hoy),
+     bloquea el panel hasta iniciar sesion con una cuenta autorizada.
+     Es una restriccion de INTERFAZ, no un muro real: quien tenga su propio
+     token de GitHub puede llamar la API sin pasar por aca. Sirve para que
+     nadie toque el catalogo real sin haber entrado, no para contener a
+     alguien con malas intenciones -- ver README. -->
+<div id="login-gate" class="login-gate" hidden>
+  <div class="login-gate-card">
+    <div class="login-gate-mark">
+      <svg width="22" height="22" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="1.5"/><path d="M6.5 9V6.3a3.5 3.5 0 017 0V9"/></svg>
+    </div>
+    <div class="brand">Stike<small>Panel admin</small></div>
+    <p id="login-gate-msg">Inicia sesión con una cuenta autorizada de Google para entrar al panel.</p>
+    <div id="google-signin-btn"></div>
+    <p id="login-gate-note" class="login-gate-note" hidden></p>
+  </div>
+</div>
+
+<!-- ============================== APP ============================== -->
+<div id="app">
+  <nav class="side">
+    <div class="brand">Stike<small>PANEL ADMIN</small></div>
+    <button class="navbtn active" data-panel="productos"><svg class="nav-ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8l7-4 7 4-7 4-7-4z"/><path d="M3 8v8l7 4 7-4V8"/><path d="M10 12v8"/></svg><span>Productos</span></button>
+    <button class="navbtn" data-panel="ventas"><svg class="nav-ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h10l1 15-6 2-6-2 1-15z"/><path d="M8 7h4"/><path d="M8 10h4"/></svg><span>Ventas</span></button>
+    <button class="navbtn" data-panel="kpis"><svg class="nav-ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l5-6 4 3 5-7"/><path d="M13 7h4v4"/></svg><span>KPIs</span></button>
+    <button class="navbtn" data-panel="auditoria"><svg class="nav-ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="7"/><path d="M10 6v4l3 2"/></svg><span>Auditoría</span></button>
+    <button class="navbtn" data-panel="contenido"><svg class="nav-ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 3l4 4-9 9H4v-4l9-9z"/></svg><span>Contenido del sitio</span></button>
+    <button class="navbtn" data-panel="config"><svg class="nav-ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="2.6"/><path d="M10 3v2M10 15v2M17 10h-2M5 10H3M14.9 5.1l-1.4 1.4M6.5 13.5l-1.4 1.4M14.9 14.9l-1.4-1.4M6.5 6.5L5.1 5.1"/></svg><span>Configuración</span></button>
+    <div class="spacer"></div>
+    <div class="side-foot" id="session-info"></div>
+  </nav>
+
+  <main>
+    <div class="topbar">
+      <h2 id="panel-title">Productos</h2>
+      <div class="topbar-actions">
+        <span class="pill dirty" id="dirty-pill" style="display:none"></span>
+        <div class="notif-wrap">
+          <button class="btn ghost sm" id="btn-notif" title="Ventas nuevas" aria-label="Notificaciones">🔔<span class="notif-badge" id="notif-badge" style="display:none">0</span></button>
+          <div class="notif-panel" id="notif-panel" style="display:none" role="menu"></div>
+        </div>
+        <button class="btn ghost sm" id="btn-test-sound" title="Probar el sonido de alerta de ventas">🔊 Probar sonido</button>
+        <button class="btn ghost sm" id="btn-refresh">↻ Recargar de GitHub</button>
+        <button class="btn cyan" id="btn-publish" disabled>Publicar cambios</button>
+      </div>
+    </div>
+
+    <div id="demo-banner"></div>
+
+    <!-- ---------------- Productos ---------------- -->
+    <section class="panel active" id="panel-productos">
+      <div class="toolbar">
+        <!-- Sin autocompletado: el navegador no debe rellenar ni recordar el
+             filtro (ver disableAutofill/resetSearchFilter en admin.js). -->
+        <input type="search" id="p-search" placeholder="Buscar por nombre, marca, SKU..."
+               autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+               data-lpignore="true" data-1p-ignore data-bwignore data-form-type="other">
+        <select id="p-filter-cat"><option value="">Todas las categorías</option></select>
+        <select id="p-filter-sub"><option value="">Todas las subcategorías</option></select>
+        <select id="p-filter-brand"><option value="">Todas las marcas</option></select>
+        <select id="p-filter-status">
+          <option value="">Cualquier estado</option>
+          <option value="published">Publicado</option>
+          <option value="draft">Borrador</option>
+          <option value="dirty">Sin publicar</option>
+          <option value="low">Bajo stock</option>
+          <option value="out">Agotado</option>
+          <option value="promo">Oferta</option>
+        </select>
+        <button class="btn ghost sm" id="btn-filters-clear" type="button">Limpiar filtros</button>
+        <div class="viewtoggle" id="view-toggle" role="group" aria-label="Vista del catálogo">
+          <button class="viewtoggle-btn" data-view="cards" type="button">Tarjetas</button>
+          <button class="viewtoggle-btn" data-view="table" type="button">Tabla</button>
+        </div>
+        <div class="right">
+          <button class="btn ghost sm" id="btn-export-csv">Exportar CSV</button>
+          <button class="btn ghost sm" id="btn-export-json">Exportar JSON</button>
+          <button class="btn ghost sm" id="btn-import">Importar</button>
+          <button class="btn ghost sm" id="btn-bulk-price">Ajustar precios %</button>
+          <button class="btn cyan sm" id="btn-new-product">+ Nuevo producto</button>
+        </div>
+      </div>
+      <input type="file" id="import-file" accept=".csv,.json" style="display:none">
+      <p class="hint muted" id="p-count" style="margin:-4px 0 14px"></p>
+
+      <!-- Barra de acciones en lote: solo tiene sentido en la vista de
+           tabla, que es la que tiene checkboxes de seleccion. -->
+      <div class="bulkbar" id="bulk-bar" hidden>
+        <span id="bulk-count"></span>
+        <div class="right" style="display:flex;gap:8px">
+          <button class="btn ghost sm" id="bulk-publish">Publicar seleccionados</button>
+          <button class="btn ghost sm" id="bulk-price">Ajustar precio %</button>
+          <button class="btn bad sm" id="bulk-delete">Eliminar</button>
+        </div>
+      </div>
+
+      <div class="pgrid" id="product-grid"></div>
+      <div class="ptable-wrap" id="product-table-wrap" hidden>
+        <table class="ptable">
+          <thead>
+            <tr>
+              <th style="width:32px"><input type="checkbox" id="ptable-select-all"></th>
+              <th style="width:48px"></th>
+              <th data-sort="n">Producto</th>
+              <th data-sort="sku">SKU</th>
+              <th data-sort="cat">Categoría</th>
+              <th data-sort="price" class="num">Precio</th>
+              <th data-sort="stock" class="num">Stock</th>
+              <th data-sort="status">Estado</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="product-table-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ---------------- Ventas ---------------- -->
+    <section class="panel" id="panel-ventas">
+      <div class="card">
+        <h3 style="margin-bottom:12px">Registrar venta</h3>
+        <div class="row3">
+          <div class="field"><label>Producto</label><select id="sale-product"></select></div>
+          <div class="field" id="sale-size-field" style="display:none"><label>Talla</label><select id="sale-size"></select></div>
+          <div class="field" id="sale-color-field" style="display:none"><label>Color</label><select id="sale-color"></select></div>
+        </div>
+        <div class="row3">
+          <div class="field"><label>Cantidad</label><input id="sale-qty" type="number" min="1" value="1"></div>
+          <div class="field"><label>Precio unitario (COP)</label><input id="sale-price" type="number" min="0" step="1000"></div>
+          <div class="field" style="display:flex;align-items:flex-end"><button class="btn cyan" id="btn-registrar-venta" style="width:100%">Registrar venta</button></div>
+        </div>
+        <p class="hint muted" id="sale-stock-hint"></p>
+      </div>
+      <div class="grid-4" id="sales-kpis" style="margin-top:14px"></div>
+      <div class="card">
+        <h3 style="margin-bottom:10px">Ventas por mes</h3>
+        <svg id="sales-month-chart" class="spark" viewBox="0 0 600 170" width="100%" height="170"></svg>
+      </div>
+      <div class="card">
+        <h3 style="margin-bottom:4px">Historial de ventas</h3>
+        <p class="hint muted" id="sales-count" style="margin:0 0 10px"></p>
+        <p class="hint" id="sales-online-note" style="margin:0 0 10px;display:none"></p>
+        <div style="overflow:auto">
+          <table><thead><tr><th>Fecha</th><th>Producto</th><th>Variante</th><th>Cant.</th><th>Total</th><th>Vendedor</th></tr></thead>
+          <tbody id="sales-tbody"></tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------------- KPIs ---------------- -->
+    <section class="panel" id="panel-kpis">
+      <div class="grid-3" id="kpi-cards"></div>
+      <div class="card">
+        <h3 style="margin-bottom:4px">Ingresos por día (últimos 30 días)</h3>
+        <p class="hint muted" style="margin:0 0 8px">Comparado con los 30 días anteriores.</p>
+        <svg id="kpi-chart" class="spark" viewBox="0 0 600 170" width="100%" height="170"></svg>
+        <div class="chart-legend">
+          <span><i style="background:#33e0ff"></i>Últimos 30 días</span>
+          <span><i style="background:#4a4a55"></i>30 días previos</span>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3 style="margin-bottom:12px">Ingresos por categoría (30d)</h3>
+          <div class="barlist" id="kpi-by-cat"></div>
+        </div>
+        <div class="card">
+          <h3 style="margin-bottom:12px">Ingresos por marca (30d)</h3>
+          <div class="barlist" id="kpi-by-brand"></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3 style="margin-bottom:10px">Top productos (30d)</h3>
+        <div style="overflow:auto">
+          <table><thead><tr><th>Producto</th><th>Unidades</th><th>Ingresos</th><th>Margen</th></tr></thead><tbody id="top-products-tbody"></tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------------- Auditoría ---------------- -->
+    <section class="panel" id="panel-auditoria">
+      <div class="card">
+        <h3 style="margin-bottom:10px">Historial de publicaciones</h3>
+        <table><thead><tr><th>Fecha</th><th>Admin</th><th>Resumen</th></tr></thead><tbody id="audit-tbody"></tbody></table>
+      </div>
+    </section>
+
+    <!-- ---------------- Contenido del sitio ---------------- -->
+    <section class="panel" id="panel-contenido">
+      <div class="card">
+        <h3 style="margin-bottom:6px">Textos editables</h3>
+        <p class="hint muted" style="margin-bottom:14px">Un campo que dejas vacío a propósito se publica vacío. Un campo que nunca tocas mantiene el texto por defecto del sitio.</p>
+        <div id="content-fields"></div>
+        <button class="btn cyan" id="btn-save-content" style="margin-top:10px">Guardar en el borrador</button>
+      </div>
+    </section>
+
+    <!-- ---------------- Config ---------------- -->
+    <section class="panel" id="panel-config">
+      <div class="card">
+        <h3 style="margin-bottom:10px">Token de GitHub</h3>
+        <p class="hint muted">Personal Access Token (fine-grained) con permiso <b>Contents: Read and write</b> sobre <span class="mono" id="cfg-repo"></span>, rama <span class="mono" id="cfg-branch"></span>. Se guarda solo en este navegador (localStorage), nunca se publica.</p>
+        <div class="field" style="margin-top:10px"><input id="pat-input" type="password" placeholder="ghp_..."
+          autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+          data-lpignore="true" data-1p-ignore data-bwignore data-form-type="other"></div>
+        <button class="btn cyan sm" id="btn-save-pat">Guardar token</button>
+        <button class="btn ghost sm" id="btn-clear-pat">Borrar token</button>
+        <p class="hint" id="pat-status"></p>
+      </div>
+      <div class="card" style="margin-top:14px">
+        <h3 style="margin-bottom:10px">Clave del servidor de ventas</h3>
+        <p class="hint muted">Para ver aquí las ventas de Wompi (con los datos de envío del cliente). Es la <span class="mono">ADMIN_API_KEY</span> que está en <span class="mono">api/config.local.php</span> del hosting. Se guarda solo en este navegador, nunca se publica.</p>
+        <div class="field" style="margin-top:10px"><input id="sales-key-input" type="password" placeholder="Clave larga al azar"
+          autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+          data-lpignore="true" data-1p-ignore data-bwignore data-form-type="other"></div>
+        <button class="btn cyan sm" id="btn-save-sales-key">Guardar clave</button>
+        <button class="btn ghost sm" id="btn-clear-sales-key">Borrar clave</button>
+        <p class="hint" id="sales-key-status"></p>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="overlay" id="editor-overlay"><div class="drawer" id="editor-drawer"></div></div>
+<div class="overlay center" id="sale-overlay"><div class="modal" id="sale-modal"></div></div>
+<div class="overlay center" id="confirm-overlay"><div class="modal" id="confirm-modal"></div></div>
+<div class="status" id="status-box"></div>
+
+<script src="assets/js/site.js?v=2"></script>
+<script src="assets/js/products-data.js?v=3"></script>
+<script src="assets/js/data.js?v=3"></script>
+<script src="assets/js/pdp-render.js?v=4"></script>
+<script src="assets/js/photo-editor.js?v=1"></script>
+<script src="admin.js?v=10"></script>
+<script>
+  // Service worker propio del panel: solo cachea el logo del shell, nunca
+  // admin.html/admin.js (ver admin-sw.js).
+  if ("serviceWorker" in navigator) navigator.serviceWorker.register("admin-sw.js").catch(() => {});
+</script>
+</body>
+</html>

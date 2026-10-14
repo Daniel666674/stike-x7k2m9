@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+<base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arma tu BMX a tu medida — Stike Bike Shop</title>
+  <meta name="description" content="Arma tu BMX pieza por pieza con vista previa en vivo: geometría por estilo (street, park, dirt), calculadora de talla por estatura, peso estimado y precio al instante. Asesoría de riders en Bogotá.">
+  <link rel="canonical" href="https://stikebikeshop.com/armar.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Stike Bike Shop">
+  <meta property="og:locale" content="es_CO">
+  <meta property="og:title" content="Arma tu BMX a tu medida | Stike Bike Shop">
+  <meta property="og:description" content="Arma tu BMX pieza por pieza con vista previa en vivo, talla por estatura y precio al instante.">
+  <meta property="og:url" content="https://stikebikeshop.com/armar.html">
+  <meta property="og:image" content="https://stikebikeshop.com/assets/img/og-stike.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://stikebikeshop.com/assets/img/og-stike.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css?v=33">
+  <link rel="icon" href="assets/img/favicon.png">
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <div class="wrap page-head">
+    <nav class="breadcrumb"><a href="index.html">Inicio</a><span class="sep">/</span><span>Arma tu BMX</span></nav>
+    <h1>Arma tu BMX <span class="spray">a tu medida</span></h1>
+    <div class="count">No vendemos completas: te ayudamos a construir la tuya, perfecta para tu estilo y tu estatura. Marco, tenedor, transmisión, ruedas y timón — con vista previa en vivo y asesoría de riders. Armado y ajuste gratis.</div>
+  </div>
+
+  <!-- PASO 1 — ESTILO -->
+  <section class="section" style="padding-top:24px">
+    <div class="wrap">
+      <div class="section-head"><div><span class="kicker">Paso 1</span><h2>Elige tu estilo</h2></div></div>
+      <div class="style-cards" id="style-cards"></div>
+      <div class="style-panel" id="style-panel"></div>
+    </div>
+  </section>
+
+  <!-- PASO 2 — MEDIDA -->
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head"><div><span class="kicker">Paso 2</span><h2>Encuentra tu medida</h2></div></div>
+      <p style="color:var(--muted);max-width:60ch;margin:-12px 0 22px">El <b>top tube (TT)</b> es la medida que define cómo te queda la BMX. Guíate por tu estatura — y recuerda: en street se suele bajar media pulgada para más maniobra, en dirt se sube para más estabilidad.</p>
+      <div class="sizing-wrap">
+        <div class="sizing-widget">
+          <label for="height" class="sizing-label">Tu estatura: <b id="height-val">175 cm</b></label>
+          <input id="height" class="sizing-range" type="range" min="140" max="200" value="175" step="1">
+          <div class="sizing-out">
+            <span>Top tube recomendado</span>
+            <strong id="tt-out">20.75" – 21.0"</strong>
+          </div>
+        </div>
+        <table class="sizing-table" id="sizing-table"></table>
+      </div>
+    </div>
+  </section>
+
+  <!-- PASO 3 — COMPONENTES -->
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head"><div><span class="kicker">Paso 3</span><h2>Arma por componentes</h2></div></div>
+
+      <!-- DASHBOARD EN VIVO -->
+      <div class="bike-stage" id="bike-stage">
+        <span class="bike-complete-badge" id="bike-badge">¡Build completa!</span>
+        <div class="stage-grid">
+          <div class="ro-item">
+            <span class="ro-k">Progreso de tu build</span>
+            <div class="ro-bar"><i id="ro-progress"></i></div>
+            <span class="ro-v" id="ro-count">0 / 5</span>
+          </div>
+          <div class="ro-item"><span class="ro-k">Precio en vivo</span><span class="ro-v big" id="ro-price">$0</span></div>
+          <div class="ro-item"><span class="ro-k">Peso estimado</span><span class="ro-v" id="ro-weight">— kg</span></div>
+        </div>
+        <div class="bike-actions">
+          <button class="btn ghost sm" id="b-random" type="button">Arma al azar</button>
+          <button class="btn ghost sm" id="b-share" type="button">Copiar link</button>
+          <button class="btn ghost sm" id="b-reset" type="button">Reiniciar</button>
+        </div>
+      </div>
+
+      <div class="builder-layout">
+        <div class="builder-main">
+          <div class="builder-steps" id="builder-steps"></div>
+          <div class="builder-stepwrap" id="builder-stepwrap"></div>
+          <div class="builder-nav">
+            <button class="btn ghost" id="prev-step">← Anterior</button>
+            <button class="btn" id="next-step">Siguiente →</button>
+          </div>
+        </div>
+        <aside class="builder-summary">
+          <h3>Tu build</h3>
+          <div class="builder-profile" id="builder-profile"></div>
+          <div id="build-list"></div>
+          <div class="line total"><span>Total</span><span id="build-total">$0</span></div>
+          <div class="budget-box">
+            <label for="budget">Tu presupuesto: <b id="budget-val">$3.000.000</b></label>
+            <input id="budget" class="sizing-range" type="range" min="500000" max="8000000" value="3000000" step="100000">
+            <div class="budget-status" id="budget-status">Mueve el slider a tu presupuesto</div>
+          </div>
+          <button class="btn block" id="add-build" style="margin-top:14px">Agregar todo al carrito</button>
+          <a class="btn wa block" id="wa-build" target="_blank" rel="noopener" style="margin-top:10px">Cotizar por WhatsApp</a>
+          <p class="builder-note">Armado y ajuste gratis · Asesoría de riders · Envíos a toda Colombia</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+
+  <script src="assets/js/products-data.js?v=3"></script>
+  <script src="assets/js/data.js?v=3"></script>
+  <script src="assets/js/app.js?v=11"></script>
+  <script>
+    stikeInit("armar");
+
+    /* ---------------- Estilos: geometría y recomendaciones ---------------- */
+    const STYLES = {
+      street: {
+        label: "Street",
+        tag: "Ledges, rieles, gaps",
+        desc: "Para todo lo urbano: ledges, rieles, gaps y manuals. Buscas una bici resistente, maniobrable y con buen peso para aguantar impactos.",
+        geo: { "Top tube": "20.5\" – 21\"", "Ángulo de dirección": "75°", "Vainas (chainstay)": "13\" – 13.5\"", "Altura de eje (BB)": "Media (~11.6\")", "Transmisión": "25/9 ó 28/9", "Tenedor (offset)": "28 – 30 mm" },
+        tips: ["Tacos en los 4 ejes para grinds", "Freecoaster o cassette, según preferencia", "Llantas 2.3\"–2.4\" para más agarre", "Timón alto (9.4\"+) para control"]
+      },
+      park: {
+        label: "Park",
+        tag: "Rampas, bowls, cajón",
+        desc: "Para rampas, bowls y skatepark. Geometría corta y reactiva que responde rápido en transiciones, aéreos y combos.",
+        geo: { "Top tube": "20.5\" – 20.75\"", "Ángulo de dirección": "75.5°", "Vainas (chainstay)": "12.8\" – 13.2\"", "Altura de eje (BB)": "Media–alta", "Transmisión": "28/9", "Tenedor (offset)": "30 – 32 mm" },
+        tips: ["Cassette ligero para acelerar rápido", "Sin frenos o freno trasero limpio", "Llantas 2.2\"–2.35\" infladas duro", "La bici lo más liviana posible"]
+      },
+      dirt: {
+        label: "Dirt / Trails",
+        tag: "Saltos de tierra",
+        desc: "Para saltos de tierra y trails. Bici más larga y estable para mantener velocidad entre saltos y aterrizar firme.",
+        geo: { "Top tube": "20.75\" – 21.25\"", "Ángulo de dirección": "74.5° – 75°", "Vainas (chainstay)": "13.5\" – 13.75\"", "Altura de eje (BB)": "Alta", "Transmisión": "28/9 ó 30/9", "Tenedor (offset)": "32 – 35 mm" },
+        tips: ["Vainas largas = más estabilidad en el aire", "Transmisión más grande para velocidad", "Llantas con taco para agarre en tierra", "Freno trasero recomendado"]
+      }
+    };
+    let selectedStyle = "street";
+
+    function renderStyleCards() {
+      document.getElementById("style-cards").innerHTML = Object.keys(STYLES).map(k => {
+        const s = STYLES[k];
+        return `<button class="style-card ${k === selectedStyle ? "active" : ""}" data-style="${k}">
+          <span class="style-name">${s.label}</span>
+          <span class="style-tag">${s.tag}</span>
+        </button>`;
+      }).join("");
+      document.querySelectorAll("[data-style]").forEach(b => b.addEventListener("click", () => {
+        selectedStyle = b.getAttribute("data-style");
+        renderStyleCards(); renderStylePanel(); renderSummary(); updateStage();
+      }));
+    }
+
+    function renderStylePanel() {
+      const s = STYLES[selectedStyle];
+      const geo = Object.keys(s.geo).map(k => `<div class="geo-item"><span class="geo-k">${k}</span><span class="geo-v">${s.geo[k]}</span></div>`).join("");
+      const tips = s.tips.map(t => `<li>${t}</li>`).join("");
+      document.getElementById("style-panel").innerHTML = `
+        <div class="style-panel-head">
+          <h3>Setup ${s.label}</h3>
+          <p>${s.desc}</p>
+        </div>
+        <div class="geo-grid">${geo}</div>
+        <div class="style-tips"><h4>Tips de montaje</h4><ul>${tips}</ul></div>`;
+    }
+
+    /* ---------------- Talla por estatura ---------------- */
+    const SIZING = [
+      { h: "Menos de 1.60 m", tt: "20.0\" – 20.5\"" },
+      { h: "1.60 – 1.75 m", tt: "20.5\" – 20.75\"" },
+      { h: "1.75 – 1.85 m", tt: "20.75\" – 21.0\"" },
+      { h: "Más de 1.85 m", tt: "21.0\" – 21.25\"" }
+    ];
+    function ttForHeight(cm) {
+      if (cm < 160) return "20.0\" – 20.5\"";
+      if (cm < 175) return "20.5\" – 20.75\"";
+      if (cm < 185) return "20.75\" – 21.0\"";
+      return "21.0\" – 21.25\"";
+    }
+    let recommendedTT = ttForHeight(175);
+    function renderSizing() {
+      document.getElementById("sizing-table").innerHTML =
+        `<thead><tr><th>Estatura</th><th>Top tube</th></tr></thead><tbody>` +
+        SIZING.map(r => `<tr><td>${r.h}</td><td>${r.tt}</td></tr>`).join("") + `</tbody>`;
+      const range = document.getElementById("height");
+      const sync = () => {
+        const cm = parseInt(range.value, 10);
+        recommendedTT = ttForHeight(cm);
+        document.getElementById("height-val").textContent = cm + " cm";
+        document.getElementById("tt-out").textContent = recommendedTT;
+        renderSummary(); updateStage();
+      };
+      range.addEventListener("input", sync);
+      sync();
+    }
+
+    /* ---------------- Configurador por componentes ---------------- */
+    const STEPS = [
+      { key: "marco",       label: "Marco",       subs: ["Marcos"] },
+      { key: "tenedor",     label: "Tenedor",     subs: ["Tenedores"] },
+      { key: "transmision", label: "Transmisión", subs: ["Bielas", "Platos", "Cadenas", "Pedales"] },
+      { key: "ruedas",      label: "Ruedas",      subs: ["Rines", "Manzanas", "Llantas"] },
+      { key: "timon",       label: "Timón",       subs: ["Timones", "Manubrios", "Grips"] }
+    ];
+    let current = 0;
+    let build = {};
+    let celebrated = false;
+
+    /* Pesos típicos por componente (g) — fallback si el producto no trae "Peso" */
+    const STEP_WEIGHT = { marco: 2300, tenedor: 1000, transmision: 1500, ruedas: 3200, timon: 1100 };
+    const BASE_WEIGHT = 1200; /* silla, frenos, caja de centro, caja de frente, etc. */
+    function parseWeight(p) {
+      const specs = (p && p.spec ? p.spec : []).join(" ");
+      let m = specs.match(/Peso:\s*([\d.]+)\s*kg/i); if (m) return parseFloat(m[1]) * 1000;
+      m = specs.match(/Peso:\s*([\d.]+)\s*g/i); if (m) return parseFloat(m[1]);
+      return null;
+    }
+    function buildWeight() {
+      let g = BASE_WEIGHT;
+      STEPS.forEach(s => {
+        const p = build[s.key] ? stikeFindProduct(build[s.key]) : null;
+        g += (p && parseWeight(p)) || STEP_WEIGHT[s.key];
+      });
+      return g;
+    }
+    function buildTotal() {
+      let t = 0;
+      STEPS.forEach(s => { const p = build[s.key] ? stikeFindProduct(build[s.key]) : null; if (p) t += p.price; });
+      return t;
+    }
+
+    function optionsFor(step) {
+      return STIKE_PRODUCTS.filter(p => p.cat === "repuestos" && step.subs.includes(p.sub));
+    }
+
+    /* ---------------- Persistencia + link compartible ---------------- */
+    const BUILD_KEY = "stike_build_v1";
+    function persist() {
+      try { localStorage.setItem(BUILD_KEY, JSON.stringify({ build, style: selectedStyle, h: document.getElementById("height").value })); } catch (e) {}
+    }
+    function buildShareURL() {
+      const params = new URLSearchParams();
+      const b = STEPS.filter(s => build[s.key]).map(s => s.key + "-" + build[s.key]).join("~");
+      if (b) params.set("b", b);
+      params.set("e", selectedStyle);
+      params.set("h", document.getElementById("height").value);
+      return location.origin + location.pathname + "?" + params.toString();
+    }
+    function restoreBuild() {
+      const q = new URLSearchParams(location.search);
+      let data = null;
+      if (q.get("b") || q.get("e") || q.get("h")) {
+        data = { build: {}, style: q.get("e"), h: q.get("h") };
+        (q.get("b") || "").split("~").filter(Boolean).forEach(tok => {
+          const i = tok.indexOf("-"); if (i < 1) return;
+          data.build[tok.slice(0, i)] = tok.slice(i + 1);
+        });
+      } else {
+        try { data = JSON.parse(localStorage.getItem(BUILD_KEY)); } catch (e) {}
+      }
+      if (!data) return;
+      if (data.style && STYLES[data.style]) selectedStyle = data.style;
+      if (data.h) { const r = document.getElementById("height"); if (r) r.value = data.h; }
+      if (data.build) STEPS.forEach(s => {
+        const id = data.build[s.key];
+        if (id && optionsFor(s).some(p => p.slug === id)) build[s.key] = id;
+      });
+    }
+    function copyShare() {
+      const url = buildShareURL();
+      history.replaceState(null, "", url);
+      const done = () => stikeToast("Listo, copiamos el link de tu build");
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(done).catch(() => fallbackCopy(url, done));
+      } else { fallbackCopy(url, done); }
+    }
+    function fallbackCopy(text, done) {
+      const t = document.createElement("textarea");
+      t.value = text; t.style.position = "fixed"; t.style.opacity = "0";
+      document.body.appendChild(t); t.focus(); t.select();
+      try { document.execCommand("copy"); done(); } catch (e) { stikeToast("Copia este link: " + text); }
+      document.body.removeChild(t);
+    }
+
+    /* ---------------- Aleatorio / reiniciar ---------------- */
+    function randomBuild() {
+      STEPS.forEach(s => { const o = optionsFor(s); if (o.length) build[s.key] = o[Math.floor(Math.random() * o.length)].slug; });
+      current = STEPS.length - 1;
+      renderAll(); scrollBuilder();
+      stikeToast("Te armamos una al azar, parce — ajústala a tu gusto");
+    }
+    function resetBuild() {
+      build = {}; celebrated = false; current = 0;
+      renderAll(); scrollBuilder();
+      stikeToast("Build reiniciada");
+    }
+
+    /* ---------------- Vista previa en vivo ---------------- */
+    function updateStage() {
+      const chosen = STEPS.filter(s => build[s.key]).length;
+      const pct = Math.round(chosen / STEPS.length * 100);
+      document.getElementById("ro-progress").style.width = pct + "%";
+      document.getElementById("ro-count").textContent = chosen + " / " + STEPS.length;
+      document.getElementById("ro-price").textContent = stikePrice(buildTotal());
+      document.getElementById("ro-weight").textContent = (buildWeight() / 1000).toFixed(1) + " kg";
+      const complete = chosen === STEPS.length;
+      const stage = document.getElementById("bike-stage");
+      stage.classList.toggle("complete", complete);
+      if (complete && !celebrated) { celebrated = true; confetti(); }
+      if (!complete) celebrated = false;
+      updateBudget();
+      persist();
+    }
+    function updateBudget() {
+      const el = document.getElementById("budget-status");
+      const b = parseInt(document.getElementById("budget").value, 10);
+      const total = buildTotal();
+      if (total === 0) { el.textContent = "Mueve el slider a tu presupuesto"; el.className = "budget-status"; return; }
+      const diff = b - total;
+      if (diff >= 0) { el.textContent = "Vas bien · te quedan " + stikePrice(diff); el.className = "budget-status ok"; }
+      else { el.textContent = "Te pasaste por " + stikePrice(-diff) + " — mira opciones más económicas"; el.className = "budget-status over"; }
+    }
+    function confetti() {
+      const stage = document.getElementById("bike-stage");
+      const colors = ["#ffffff", "#d4d4da", "#a1a1aa", "#8e8e96", "#f4f4f5", "#52525b"];
+      for (let i = 0; i < 26; i++) {
+        const c = document.createElement("i");
+        c.className = "confetti-bit";
+        c.style.left = Math.random() * 100 + "%";
+        c.style.background = colors[i % colors.length];
+        c.style.animationDelay = (Math.random() * 0.25) + "s";
+        stage.appendChild(c);
+        setTimeout(() => c.remove(), 1700);
+      }
+    }
+
+    /* ---------------- Stepper ---------------- */
+    function renderSteps() {
+      document.getElementById("builder-steps").innerHTML = STEPS.map((s, i) => {
+        const done = build[s.key] ? " done" : "";
+        const act = i === current ? " active" : "";
+        return `<button class="bstep${act}${done}" data-step="${i}"><span class="bstep-n">${build[s.key] ? "✓" : (i + 1)}</span><span class="bstep-l">${s.label}</span></button>`;
+      }).join("");
+      document.querySelectorAll("[data-step]").forEach(b => b.addEventListener("click", () => { current = +b.getAttribute("data-step"); renderAll(); }));
+    }
+    function renderStep() {
+      const step = STEPS[current];
+      const opts = optionsFor(step);
+      const wrap = document.getElementById("builder-stepwrap");
+      wrap.innerHTML = `
+        <div class="bstep-head"><span class="kicker">Componente ${current + 1} de ${STEPS.length}</span><h2>Elige tu ${step.label}</h2></div>
+        <div class="boption-grid">
+          <button class="boption skip ${!build[step.key] ? "active" : ""}" data-pick=""><span class="bopt-skip">Sin ${step.label.toLowerCase()}<small>Lo elijo después / lo tengo</small></span></button>
+          ${opts.map(p => `<button class="boption ${build[step.key] === p.slug ? "active" : ""}" data-pick="${p.slug}">
+            <span class="bopt-img"><img src="${stikeProductImage(p, 300)}" alt="${p.n}"></span>
+            <span class="bopt-info"><span class="bopt-brand">${p.brand}</span><span class="bopt-name">${p.n}</span><span class="bopt-price">${stikePrice(p.price)}</span></span>
+          </button>`).join("")}
+        </div>`;
+      wrap.querySelectorAll("[data-pick]").forEach(b => b.addEventListener("click", () => {
+        const id = b.getAttribute("data-pick");
+        if (id) build[step.key] = id; else delete build[step.key];
+        if (current < STEPS.length - 1) current++;
+        renderAll(); scrollBuilder();
+      }));
+    }
+    function renderSummary() {
+      const html = STEPS.map(s => {
+        const id = build[s.key]; const p = id ? stikeFindProduct(id) : null;
+        return `<div class="build-row ${p ? "" : "empty"}"><span class="br-label">${s.label}</span><span class="br-val">${p ? p.n : "—"}</span><span class="br-price">${p ? stikePrice(p.price) : ""}</span></div>`;
+      }).join("");
+      document.getElementById("build-list").innerHTML = html;
+      document.getElementById("build-total").textContent = stikePrice(buildTotal());
+      document.getElementById("builder-profile").innerHTML =
+        `<span class="bp-chip">Estilo: ${STYLES[selectedStyle].label}</span><span class="bp-chip">Top tube: ${recommendedTT}</span><span class="bp-chip">~${(buildWeight() / 1000).toFixed(1)} kg</span>`;
+
+      const chosen = STEPS.filter(s => build[s.key]).map(s => { const p = stikeFindProduct(build[s.key]); return `• ${s.label}: ${p.n} — ${stikePrice(p.price)}`; });
+      const head = `Estilo: ${STYLES[selectedStyle].label} · Top tube ${recommendedTT} · ~${(buildWeight() / 1000).toFixed(1)} kg`;
+      const msg = `Hola Stike! Quiero armar esta BMX:%0A${head}%0A%0A${chosen.join("%0A") || "(aún sin componentes)"}%0A%0ATotal estimado: ${stikePrice(buildTotal())}%0A%0A¿Me asesoran para completarla?`;
+      document.getElementById("wa-build").href = `https://wa.me/${STIKE_CONFIG.whatsapp}?text=${msg}`;
+    }
+    function renderNav() {
+      document.getElementById("prev-step").disabled = current === 0;
+      document.getElementById("next-step").textContent = current === STEPS.length - 1 ? "Ver resumen ↓" : "Siguiente →";
+    }
+    function scrollBuilder() {
+      const el = document.getElementById("builder-steps");
+      if (el) { const y = el.getBoundingClientRect().top + window.scrollY - 120; window.scrollTo({ top: Math.max(0, y), behavior: "smooth" }); }
+    }
+    function renderBuilder() { renderSteps(); renderStep(); renderNav(); }
+    function renderAll() { renderBuilder(); renderSummary(); updateStage(); }
+
+    document.getElementById("prev-step").addEventListener("click", () => { if (current > 0) { current--; renderAll(); scrollBuilder(); } });
+    document.getElementById("next-step").addEventListener("click", () => { if (current < STEPS.length - 1) { current++; renderAll(); scrollBuilder(); } });
+    document.getElementById("add-build").addEventListener("click", () => {
+      const chosen = STEPS.filter(s => build[s.key]);
+      if (!chosen.length) { stikeToast("Elige al menos un componente"); return; }
+      chosen.forEach(s => stikeAddToCart(build[s.key], 1));
+      stikeToast("Build agregada al carrito");
+      setTimeout(() => window.location.href = "carrito.html", 750);
+    });
+    document.getElementById("b-random").addEventListener("click", randomBuild);
+    document.getElementById("b-share").addEventListener("click", copyShare);
+    document.getElementById("b-reset").addEventListener("click", resetBuild);
+    document.getElementById("budget").addEventListener("input", () => {
+      document.getElementById("budget-val").textContent = stikePrice(parseInt(document.getElementById("budget").value, 10));
+      updateBudget();
+    });
+
+    restoreBuild();
+    renderStyleCards();
+    renderStylePanel();
+    renderSizing();
+    document.getElementById("budget-val").textContent = stikePrice(parseInt(document.getElementById("budget").value, 10));
+    renderAll();
+  </script>
+  <script src="assets/js/animations.js?v=5"></script>
+</body></html>

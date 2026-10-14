@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+<base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto: Stike Bike Shop</title>
+  <meta name="description" content="Visítanos en Venecia, Bogotá o escríbenos por WhatsApp. Stike Bike Shop, tu tienda BMX.">
+  <link rel="canonical" href="https://stikebikeshop.com/contacto.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Stike Bike Shop">
+  <meta property="og:locale" content="es_CO">
+  <meta property="og:title" content="Contacto: Venecia, Bogotá | Stike Bike Shop">
+  <meta property="og:description" content="Visítanos en Venecia, Bogotá o escríbenos por WhatsApp.">
+  <meta property="og:url" content="https://stikebikeshop.com/contacto.html">
+  <meta property="og:image" content="https://stikebikeshop.com/assets/img/og-stike.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://stikebikeshop.com/assets/img/og-stike.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css?v=33">
+  <link rel="icon" href="assets/img/favicon.png">
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <div class="wrap page-head">
+    <nav class="breadcrumb"><a href="index.html">Inicio</a><span class="sep">/</span><span>Contacto</span></nav>
+    <h1>Hablemos <span class="spray">BMX</span></h1>
+    <div class="count">Estamos en Venecia y respondemos rápido por WhatsApp.</div>
+  </div>
+
+  <div class="wrap contact-grid">
+    <div>
+      <div class="contact-card">
+        <div class="info-row"><span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><b>Tienda física</b><span id="addr"></span></div></div>
+        <div class="info-row" id="envios"><span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><div><b>Horario</b><span id="hours"></span></div></div>
+        <div class="info-row"><span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><div><b>WhatsApp</b><span id="wa"></span></div></div>
+        <div class="info-row"><span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span><div><b>Correo</b><span id="mail"></span></div></div>
+        <div class="info-row"><span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></span><div><b>Redes</b><span id="social"></span></div></div>
+      </div>
+      <div class="map-embed">
+        <iframe title="Ubicación Stike Bike Shop: Venecia, Bogotá" src="https://maps.google.com/maps?q=Venecia%2C%20Bogot%C3%A1%2C%20Colombia&z=14&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        <a class="map-open" href="https://www.google.com/maps/search/?api=1&query=Venecia%2C%20Bogot%C3%A1%2C%20Colombia" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Venecia · Bogotá, abrir en Google Maps</a>
+      </div>
+    </div>
+
+    <div class="contact-card">
+      <h2 style="font-size:28px;margin-bottom:6px">Escríbenos</h2>
+      <p style="color:var(--muted);margin-bottom:18px">¿Dudas con un repuesto o quieres armar tu BMX? Cuéntanos.</p>
+      <form onsubmit="stikeContact(event)">
+        <div class="form-field"><label>Nombre</label><input type="text" name="nombre" required placeholder="Tu nombre"></div>
+        <div class="form-field"><label>WhatsApp / Teléfono</label><input type="tel" name="telefono" required placeholder="3xx xxx xxxx"></div>
+        <div class="form-field"><label>Tema</label>
+          <select name="tema">
+            <option>Asesoría para comprar BMX</option>
+            <option>Disponibilidad de repuesto</option>
+            <option>Estado de mi pedido</option>
+            <option>Garantías</option>
+            <option>Eventos / comunidad</option>
+          </select>
+        </div>
+        <div class="form-field"><label>Mensaje</label><textarea name="mensaje" rows="4" required placeholder="¿En qué te ayudamos?"></textarea></div>
+        <label class="form-consent">
+          <input type="checkbox" name="consent" required>
+          <span>Acepto la <a href="privacidad.html" target="_blank" rel="noopener">Política de Privacidad</a> y el tratamiento de mis datos personales conforme a la Ley 1581 de 2012.</span>
+        </label>
+        <button class="btn block" type="submit">Enviar mensaje</button>
+      </form>
+    </div>
+  </div>
+
+  <section class="section" id="faq" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head"><div><span class="kicker">Resolvemos</span><h2>Preguntas frecuentes</h2></div></div>
+      <div class="props" style="grid-template-columns:1fr 1fr">
+        <div class="prop"><span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13" rx="1"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span><div><h4>¿Hacen envíos?</h4><p>Sí, a toda Colombia. En Bogotá despachamos en 24h y puedes recoger en tienda.</p></div></div>
+        <div class="prop"><span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></span><div><h4>¿Cómo puedo pagar?</h4><p>Tarjeta, PSE, Nequi, Efecty y cuotas sin interés con tarjetas seleccionadas.</p></div></div>
+        <div class="prop"><span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span><div><h4>¿Arman la bici?</h4><p>Sí. Cuando armas tu BMX con nuestras partes, la entregamos montada y ajustada por nuestros mecánicos, sin costo.</p></div></div>
+        <div class="prop"><span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.33"/></svg></span><div><h4>¿Tienen garantía?</h4><p>Sí, todos los productos cuentan con garantía de fábrica y soporte local.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+
+  <script src="assets/js/products-data.js?v=3"></script>
+  <script src="assets/js/data.js?v=3"></script>
+  <script src="assets/js/app.js?v=11"></script>
+  <script>
+    stikeInit();
+    const C = STIKE_CONFIG;
+    document.getElementById("addr").textContent = C.address;
+    document.getElementById("hours").textContent = C.hours;
+    document.getElementById("wa").innerHTML = `<a href="https://wa.me/${C.whatsapp}" target="_blank" rel="noopener" style="color:var(--cyan)">${C.whatsappPretty}</a>`;
+    document.getElementById("mail").innerHTML = `<a href="mailto:${C.email}" style="color:var(--cyan)">${C.email}</a>`;
+    document.getElementById("social").innerHTML =
+      `<a href="${C.ig}" target="_blank" rel="noopener" style="color:var(--cyan)">${C.igHandle}</a> · ` +
+      `<a href="${C.fb}" target="_blank" rel="noopener" style="color:var(--cyan)">Facebook</a> · ` +
+      `<a href="${C.tiktok}" target="_blank" rel="noopener" style="color:var(--cyan)">TikTok</a>`;
+  </script>
+  <script src="assets/js/animations.js?v=5"></script>
+</body>
+</html>

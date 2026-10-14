@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+<base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tienda: Stike Bike Shop</title>
+  <meta name="description" content="Catálogo Stike Bike Shop: repuestos, protecciones, ropa y accesorios BMX en Bogotá.">
+  <link rel="canonical" href="https://stikebikeshop.com/tienda.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Stike Bike Shop">
+  <meta property="og:locale" content="es_CO">
+  <meta property="og:title" content="Tienda BMX: Repuestos, protección y ropa | Stike Bike Shop">
+  <meta property="og:description" content="Catálogo BMX en Bogotá: repuestos, protecciones, ropa y accesorios.">
+  <meta property="og:url" content="https://stikebikeshop.com/tienda.html">
+  <meta property="og:image" content="https://stikebikeshop.com/assets/img/og-stike.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://stikebikeshop.com/assets/img/og-stike.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css?v=33">
+  <link rel="icon" href="assets/img/favicon.png">
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <div class="wrap page-head">
+    <nav class="breadcrumb" id="crumb"></nav>
+    <h1 id="page-title">Tienda</h1>
+    <p class="muted" id="page-subtitle" style="display:none;margin:6px 0 0;font-size:15px"></p>
+    <div class="count" id="result-count"></div>
+  </div>
+
+  <div class="wrap shop-layout">
+    <aside class="filters">
+      <h4>Filtrar</h4>
+      <div class="fgroup">
+        <strong class="fgroup-label">Categoría</strong>
+        <div id="filter-cats" style="margin-top:8px"></div>
+      </div>
+      <div class="fgroup" id="subcat-group" style="display:none">
+        <strong class="fgroup-label" id="subcat-label">Subcategoría</strong>
+        <div id="filter-subcats" style="margin-top:8px"></div>
+      </div>
+      <div class="fgroup">
+        <strong class="fgroup-label">Marca</strong>
+        <div id="filter-brands" class="scroll-list" style="margin-top:8px"></div>
+      </div>
+      <div class="fgroup">
+        <strong class="fgroup-label">Precio</strong>
+        <div id="filter-price" style="margin-top:8px">
+          <label><input type="radio" name="price" value="all" checked> Todos</label>
+          <label><input type="radio" name="price" value="0-150000"> Hasta $150.000</label>
+          <label><input type="radio" name="price" value="150000-500000"> $150.000 – $500.000</label>
+          <label><input type="radio" name="price" value="500000-1000000"> $500.000 – $1.000.000</label>
+          <label><input type="radio" name="price" value="1000000-99999999"> Más de $1.000.000</label>
+        </div>
+      </div>
+      <button class="btn ghost sm block" id="clear-filters" style="margin-top:18px">Limpiar filtros</button>
+    </aside>
+
+    <div class="shop-main">
+      <div class="shop-toolbar">
+        <div id="showing" style="color:var(--muted);font-size:14px"></div>
+        <label style="display:flex;align-items:center;gap:8px;color:var(--muted);font-size:14px">Ordenar:
+          <select id="sort">
+            <option value="relevance">Relevancia</option>
+            <option value="price-asc">Precio: menor a mayor</option>
+            <option value="price-desc">Precio: mayor a menor</option>
+            <option value="name">Nombre A-Z</option>
+          </select>
+        </label>
+      </div>
+      <div id="shop-parts-shelf" hidden>
+        <div class="shelf-head">
+          <h2 class="shelf-title">Explora por tipo de parte</h2>
+          <p class="shelf-note">Cada tipo tiene su propia guía de compra y medidas.</p>
+        </div>
+        <div class="part-grid" id="shop-parts"></div>
+      </div>
+      <div class="product-grid" id="grid"></div>
+      <div class="empty" id="empty" style="display:none">
+        <h3 style="font-size:28px">Sin resultados</h3>
+        <p>No encontramos productos con esos filtros. Prueba con otra categoría o marca.</p>
+        <a class="btn cyan" href="tienda.html">Ver todo el catálogo</a>
+      </div>
+      <button class="btn ghost block" id="load-more" style="margin-top:28px;display:none" onclick="loadMore()">Cargar más productos</button>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="assets/js/products-data.js?v=3"></script>
+  <script src="assets/js/data.js?v=3"></script>
+  <script src="assets/js/app.js?v=11"></script>
+  <script>
+    stikeInit();
+
+    const params = new URLSearchParams(location.search);
+    const state = {
+      cats: params.get("cat") ? [params.get("cat")] : [],
+      sub: params.get("sub") || null,
+      brand: params.get("brand") || null,
+      q: (params.get("q") || "").toLowerCase().trim(),
+      price: "all",
+      sort: "relevance"
+    };
+
+    const titleEl = document.getElementById("page-title");
+    const subtitleEl = document.getElementById("page-subtitle");
+    const crumbEl = document.getElementById("crumb");
+    let siteContentManifest = {};
+
+    function currentCat() { return state.cats.length === 1 ? stikeCategory(state.cats[0]) : null; }
+
+    function buildHeader() {
+      const cat = currentCat();
+      let title = "Tienda", crumb = `<a href="index.html">Inicio</a><span class="sep">/</span><span>Tienda</span>`;
+      let subtitle = "";
+      if (state.q) {
+        title = `Resultados: “${state.q}”`;
+        crumb = `<a href="index.html">Inicio</a><span class="sep">/</span><span>Búsqueda</span>`;
+      } else if (state.brand) {
+        title = state.brand;
+        crumb = `<a href="index.html">Inicio</a><span class="sep">/</span><a href="marcas.html">Marcas</a><span class="sep">/</span><span>${state.brand}</span>`;
+      } else if (cat) {
+        title = cat.name;
+        crumb = `<a href="index.html">Inicio</a><span class="sep">/</span><a href="tienda.html">Tienda</a><span class="sep">/</span><span>${cat.name}</span>`;
+        if (state.sub) {
+          title = state.sub;
+          crumb += `<span class="sep">/</span><span>${state.sub}</span>`;
+        } else {
+          // Banner de categoria editable desde el admin (por presencia de clave).
+          const titleKey = `cat.${cat.slug}.title`, subKey = `cat.${cat.slug}.subtitle`;
+          if (Object.prototype.hasOwnProperty.call(siteContentManifest, titleKey)) title = siteContentManifest[titleKey];
+          if (Object.prototype.hasOwnProperty.call(siteContentManifest, subKey)) subtitle = siteContentManifest[subKey];
+        }
+      }
+      titleEl.textContent = title;
+      crumbEl.innerHTML = crumb;
+      subtitleEl.textContent = subtitle;
+      subtitleEl.style.display = subtitle ? "" : "none";
+    }
+
+    function buildFilters() {
+      // Categorías (checkbox)
+      document.getElementById("filter-cats").innerHTML = STIKE_CATEGORIES.map(c => `
+        <label><input type="checkbox" value="${c.slug}" ${state.cats.includes(c.slug) ? "checked" : ""}> ${c.name}</label>`).join("");
+      document.querySelectorAll("#filter-cats input").forEach(cb => cb.addEventListener("change", () => {
+        state.cats = [...document.querySelectorAll("#filter-cats input:checked")].map(i => i.value);
+        state.sub = null;
+        applyFilters();
+      }));
+      // Marcas
+      // Igual que las subcategorias: solo marcas que hoy tienen producto en tienda.
+      const brandCounts = {};
+      STIKE_PRODUCTS.forEach(p => { if (p.brand) brandCounts[p.brand] = (brandCounts[p.brand] || 0) + 1; });
+      document.getElementById("filter-brands").innerHTML = STIKE_BRANDS.filter(b => brandCounts[b]).map(b => `
+        <label><input type="checkbox" class="brand-cb" value="${b}" ${state.brand === b ? "checked" : ""}> ${b} <em>${brandCounts[b]}</em></label>`).join("");
+      document.querySelectorAll(".brand-cb").forEach(cb => cb.addEventListener("change", (e) => {
+        // alterna una sola marca a la vez, por simplicidad
+        document.querySelectorAll(".brand-cb").forEach(o => { if (o !== e.target) o.checked = false; });
+        state.brand = e.target.checked ? e.target.value : null;
+        applyFilters();
+      }));
+      // Precio
+      document.querySelectorAll("input[name=price]").forEach(r => r.addEventListener("change", e => { state.price = e.target.value; applyFilters(); }));
+      document.getElementById("sort").addEventListener("change", e => { state.sort = e.target.value; applyFilters(); });
+      document.getElementById("clear-filters").addEventListener("click", () => {
+        state.cats = []; state.sub = null; state.brand = null; state.price = "all"; state.q = "";
+        document.querySelectorAll(".filters input[type=checkbox]").forEach(i => i.checked = false);
+        document.querySelector("input[name=price][value=all]").checked = true;
+        applyFilters();
+      });
+    }
+
+    function buildSubcats() {
+      const cat = currentCat();
+      const group = document.getElementById("subcat-group");
+      const box = document.getElementById("filter-subcats");
+      // Solo subcategorias con stock: un filtro que devuelve cero resultados es un
+      // callejon sin salida, y la taxonomia trae tipos que aun no se surten.
+      const subs = stikeStockedSubs(cat);
+      if (!cat || !subs.length) { group.style.display = "none"; box.innerHTML = ""; return; }
+      const counts = stikeSubCounts(cat.slug);
+      group.style.display = "";
+      document.getElementById("subcat-label").textContent = `Subcategoría de ${cat.name}`;
+      box.innerHTML = `<label><input type="radio" name="subcat" value="" ${!state.sub ? "checked" : ""}> Todas <em>${subs.reduce((n, s) => n + counts[s], 0)}</em></label>` +
+        subs.map(s => `<label><input type="radio" name="subcat" value="${s}" ${state.sub === s ? "checked" : ""}> ${s} <em>${counts[s]}</em></label>`).join("");
+      document.querySelectorAll('input[name=subcat]').forEach(r => r.addEventListener("change", e => {
+        state.sub = e.target.value || null;
+        applyFilters();
+      }));
+    }
+
+    function filtered() {
+      let list = STIKE_PRODUCTS.slice();
+      if (state.cats.length) list = list.filter(p => state.cats.includes(p.cat) || (state.cats.includes("promo") && p.promo));
+      if (state.sub) list = list.filter(p => p.sub === state.sub);
+      if (state.brand) list = list.filter(p => p.brand === state.brand);
+      if (state.q) list = list.filter(p =>
+        (p.n + " " + p.brand + " " + p.sub + " " + p.cat).toLowerCase().includes(state.q));
+      if (state.price !== "all") {
+        const [lo, hi] = state.price.split("-").map(Number);
+        list = list.filter(p => p.price >= lo && p.price <= hi);
+      }
+      if (state.sort === "price-asc") list.sort((a,b) => a.price - b.price);
+      else if (state.sort === "price-desc") list.sort((a,b) => b.price - a.price);
+      else if (state.sort === "name") list.sort((a,b) => a.n.localeCompare(b.n));
+      return list;
+    }
+
+    // Cuando el filtro coincide con una landing de tipo de parte, esa landing es la
+    // version canonica: si no, la URL con query string compite contra ella en Google.
+    function syncCanonical() {
+      const cat = currentCat();
+      const base = "https://stikebikeshop.com/";
+      let target = base + "tienda.html";
+      if (cat && state.sub) {
+        const url = stikeSubUrl(cat.slug, state.sub);
+        if (url.indexOf("categoria/") === 0) target = base + url;
+      }
+      const link = document.querySelector('link[rel=canonical]');
+      if (link) link.setAttribute("href", target);
+      const og = document.querySelector('meta[property="og:url"]');
+      if (og) og.setAttribute("content", target);
+    }
+
+    // Vitrina de tipos de parte: solo con una categoria activa y sin subcategoria,
+    // que es el momento en que el visitante todavia esta decidiendo que busca.
+    function buildPartsShelf() {
+      const shelf = document.getElementById("shop-parts-shelf");
+      const cat = currentCat();
+      const showShelf = cat && !state.sub && !state.q && cat.subs && cat.subs.length > 2;
+      if (!showShelf) { shelf.hidden = true; return; }
+      const counts = {};
+      STIKE_PRODUCTS.forEach(p => { if (p.cat === cat.slug && p.sub) counts[p.sub] = (counts[p.sub] || 0) + 1; });
+      const subs = cat.subs.filter(sub => counts[sub]).sort((a, b) => counts[b] - counts[a]);
+      if (subs.length < 3) { shelf.hidden = true; return; }
+      document.getElementById("shop-parts").innerHTML = subs.map(sub => `
+        <a class="part-tile" href="${stikeSubUrl(cat.slug, sub)}">
+          <span class="pt-name">${sub}</span>
+          <span class="pt-count">${counts[sub]} producto${counts[sub] === 1 ? "" : "s"}</span>
+        </a>`).join("");
+      shelf.hidden = false;
+    }
+
+    /* Paginacion: "repuestos" sola trae 125 productos, y sin esto se
+       mandaban los 125 de una, en una grilla de 2 columnas en movil --
+       una pagina de ~25.000px de alto antes de llegar al footer. Se
+       muestran de a PAGE_SIZE y "Cargar más" suma otro tanto; cualquier
+       cambio de filtro (applyFilters) vuelve a arrancar desde el principio
+       -- "cargar más" (loadMore) no toca nada mas, solo pide mas filas. */
+    const PAGE_SIZE = 24;
+    let visibleCount = PAGE_SIZE;
+
+    function render() {
+      buildHeader();
+      buildSubcats();
+      buildPartsShelf();
+      syncCanonical();
+      const list = filtered();
+      const shown = list.slice(0, visibleCount);
+      const grid = document.getElementById("grid");
+      const empty = document.getElementById("empty");
+      const moreBtn = document.getElementById("load-more");
+      grid.innerHTML = shown.map(stikeProductCard).join("");
+      empty.style.display = list.length ? "none" : "block";
+      grid.style.display = list.length ? "grid" : "none";
+      document.getElementById("result-count").textContent = `${list.length} producto${list.length === 1 ? "" : "s"}`;
+      document.getElementById("showing").textContent = list.length
+        ? `Mostrando ${shown.length} de ${list.length} resultado${list.length === 1 ? "" : "s"}`
+        : "Mostrando 0 resultados";
+      if (moreBtn) moreBtn.style.display = shown.length < list.length ? "" : "none";
+    }
+    function applyFilters() { visibleCount = PAGE_SIZE; render(); }
+    function loadMore() { visibleCount += PAGE_SIZE; render(); }
+
+    buildFilters();
+    render();
+    fetch("data/site-content.json", { cache: "no-store" }).then(r => r.ok ? r.json() : {}).catch(() => ({})).then(c => { siteContentManifest = c; buildHeader(); });
+  </script>
+  <script src="assets/js/animations.js?v=5"></script>
+</body>
+</html>

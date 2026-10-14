@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+<base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirigiendo: Stike Bike Shop</title>
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href="https://stikebikeshop.com/tienda.html">
+</head>
+<body>
+  <script>
+    /* Enlace heredado: producto.html?id=<id-viejo> -> producto/<slug>.html.
+       Las fichas de producto ahora son paginas estaticas generadas
+       (ver /producto/*.html), una por producto, no esta pagina con query string. */
+    var LEGACY_ID_TO_SLUG = {"frame-total":"marco-cult-americano","frame-fly":"marco-sunday-cromoly","fork-odyssey":"tenedor-federal","fork-shadow":"tenedor-shadow-vultus","bar-cult":"manubrio-cult-crew-4pc","stem-eclat":"manubrio-eclat","crank-bsd":"bielas-bsd-substance-xl","sprk-shadow":"plato-fate-garuda-25t","chain-kmc":"cadena-shadow-interlock-v2","brake-odyssey":"freno-odyssey-springfield","hub-fed":"manzana-federal-stance-fc","rim-eclat":"rin-eclat-bondi-36h","tire-total":"llanta-total-killabee-2-4","pedal-odyssey":"pedales-plataforma-bmx-negro","seat-cult":"silla-fate-pivotal-pana-negro","peg-shadow":"tacos-fate-bmx-par","helmet-tsg":"casco-tsg-evolution","helmet-black":"casco-stike-pro-negro","knee-fuse":"rodilleras-shadow-riding-gear","gloves-stike":"guantes-stike-grip","tee-stike":"camiseta-stike-graffiti-tee","hoodie-stike":"buso-stike-box-logo","cap-stike":"gorra-fate-bmx-colombia","sunnies-stike":"gafas-smith-street","shoes-vans":"tenis-stike-x-street-rojo","shoes-black":"tenis-fade-negro","tool-stike":"multiherramienta-stike-18-en-1","tool-cult":"llave-de-pedal-hexagonal-cult","grip-odi":"grips-wethepeople-flow-xl","pump-stike":"bomba-de-piso-gw","stickers-stike":"pack-de-calcomanias-stike-graffiti","chain-silver":"cadena-kmc-z410-plata","tire-street":"llanta-wethepeople-2-25","rim-eclat-2":"rin-eclat-cortex-20h-negro","rim-fly":"rin-shadow-36h","bar-saltplus":"manubrio-saltplus-race-4pc","bar-stranger":"manubrio-stranger-highrise-9-5","fork-cruiser":"tenedor-bsd-cruiser-26-negro","expander-mutanty":"expander-mutanty-m24","grip-kink":"grips-kink-form-flangeless","grip-eclat-red":"grips-eclat-recoil-rojo","stem-trueno":"timon-trueno-carga-frontal","stem-kink":"timon-kink-williams-carga-frontal","helmet-tsg-white":"casco-tsg-evolution","cap-federal":"gorra-federal-script-cap","frame-fate":"marco-fate-bmx-colombia","sprk-fate-chrome":"plato-fate-garuda-25t","seat-fate-leather":"silla-fate-pivotal-cuero-negro","frame-cult-wb":"marco-total-bmx-20-75-blanco-azul","frame-federal-white":"marco-federal-bruno-lt-blanco","frame-wtp-green":"marco-wethepeople-battleship-verde","hub-cassette-black":"maza-trasera-cassette-shadow-negra","hub-rear-eclat":"maza-trasera-odyssey-negra","hub-chrome":"maza-trasera-cassette-cromada","hub-front-fed":"maza-cassette-federal-negra","pedal-plastic-blk":"pedales-cinema-negros","pedal-alloy-blk":"pedales-federal-negros","pedal-grip-blk":"pedales-wethepeople-negros"};
+    var id = new URLSearchParams(location.search).get("id");
+    var slug = id && LEGACY_ID_TO_SLUG[id];
+    location.replace(slug ? "producto/" + slug + ".html" : "tienda.html");
+  </script>
+  <noscript><meta http-equiv="refresh" content="0; url=tienda.html"></noscript>
+  <p>Redirigiendo… <a href="tienda.html">Ir a la tienda</a></p>
+</body>
+</html>

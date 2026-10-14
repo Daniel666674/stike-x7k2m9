@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /admin.js
+Disallow: /admin-sw.js
+Disallow: /data/
+
+Sitemap: https://stikebikeshop.com/sitemap.xml
