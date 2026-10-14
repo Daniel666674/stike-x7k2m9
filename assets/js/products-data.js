@@ -3497,7 +3497,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 30000,
     "promo": false,
-    "units": 4,
+    "units": 3,
     "imgs": [
       "assets/img/products/reductor-extension-bikes-negro-1.jpg",
       "assets/img/products/reductor-extension-bikes-negro-2.jpg",
