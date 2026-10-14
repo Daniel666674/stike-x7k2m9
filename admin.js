@@ -1463,7 +1463,14 @@ async function applySale(p, opts) {
   if (!p.sizes && !p.colors) p.units = Math.max(0, (p.units || 0) - qty);
   markDirty(p.slug);
 
-  const entry = { ts: new Date().toISOString(), slug: p.slug, name: p.n, size: size || null, color: color || null, qty, unitPrice, total: unitPrice * qty, admin: session.email };
+  const discount = opts.customer ? Math.min(unitPrice * qty, opts.customer.discount || 0) : 0;
+  const entry = { ts: new Date().toISOString(), slug: p.slug, name: p.n, size: size || null, color: color || null, qty, unitPrice, total: unitPrice * qty - discount, admin: session.email };
+  if (discount) entry.discount = discount;
+  if (opts.customer) {
+    entry.invoice = nextInvoiceNumber();
+    entry.payment = opts.customer.pay;
+    saveInvoiceCustomer(entry.invoice, opts.customer);
+  }
 
   if (demoMode) {
     // En demo la venta se ve reflejada al instante (stock, historial, KPIs)
@@ -1487,19 +1494,24 @@ async function applySale(p, opts) {
   renderSalesTab();
   renderKpis();
   renderProductGrid();
-  return true;
+  if (opts.customer) writeInvoice(opts.invWin, entry, opts.customer);
+  return entry;
 }
 
 /* Entrada 1: formulario completo del panel Ventas. */
 async function registrarVenta() {
   const p = workingCatalog.find(x => x.slug === $("#sale-product").value);
   if (!p) return;
-  await applySale(p, {
+  const customer = readCustomerFields("sale");
+  const invWin = customer ? openInvoiceWindow() : null;
+  const ok = await applySale(p, {
     size: p.sizes ? $("#sale-size").value : null,
     color: p.colors ? $("#sale-color").value : null,
     qty: $("#sale-qty").value,
     unitPrice: $("#sale-price").value,
+    customer, invWin,
   });
+  if (!ok && invWin) invWin.close();
 }
 
 /* ===================== Entrada 2: venta rapida desde la tarjeta ==============
@@ -1544,16 +1556,18 @@ function renderQuickSale() {
       <div class="field"><label>Precio unitario</label><input id="qs-price" type="number" min="0" step="1000" value="${p.price}"></div>
     </div>
     <p class="hint muted" id="qs-stock"></p>
+    ${customerFieldsHtml("qs")}
     <div class="qs-total"><span class="muted">Total</span><b id="qs-total">${money(p.price)}</b></div>
     <div style="display:flex;gap:10px;margin-top:16px">
       <button class="btn ghost" id="qs-cancel" style="flex:1">Cancelar</button>
       <button class="btn cyan" id="qs-confirm" style="flex:2">Registrar venta</button>
     </div>`;
 
-  ["#qs-size", "#qs-color", "#qs-qty", "#qs-price"].forEach(sel => {
+  ["#qs-size", "#qs-color", "#qs-qty", "#qs-price", "#qs-c-disc", "#qs-inv"].forEach(sel => {
     const el = $(sel);
     if (el) { el.addEventListener("change", refreshQuickSale); el.addEventListener("input", refreshQuickSale); }
   });
+  wireCustomerFields("qs");
   $("#qs-cancel").addEventListener("click", closeQuickSale);
   $("#qs-confirm").addEventListener("click", confirmQuickSale);
   disableAutofill($("#sale-modal"));
@@ -1572,7 +1586,8 @@ function refreshQuickSale() {
   if (stock != null) qtyEl.max = Math.max(1, stock);
 
   const unitPrice = Math.max(0, parseInt($("#qs-price").value) || 0);
-  $("#qs-total").textContent = money(unitPrice * qty);
+  const disc = ($("#qs-inv") && $("#qs-inv").checked) ? Math.max(0, parseInt(($("#qs-c-disc") || {}).value) || 0) : 0;
+  $("#qs-total").textContent = money(Math.max(0, unitPrice * qty - disc));
   $("#qs-stock").textContent = stock == null ? "" :
     stock <= 0 ? "Sin stock para esa combinación." : `Stock disponible: ${stock}`;
   $("#qs-confirm").disabled = (stock != null && stock <= 0);
@@ -1582,14 +1597,17 @@ async function confirmQuickSale() {
   const p = workingCatalog.find(x => x.slug === quickSaleSlug);
   if (!p) return;
   $("#qs-confirm").disabled = true;
+  const customer = readCustomerFields("qs");
+  const invWin = customer ? openInvoiceWindow() : null;
   const ok = await applySale(p, {
     size: $("#qs-size") ? $("#qs-size").value : null,
     color: $("#qs-color") ? $("#qs-color").value : null,
     qty: $("#qs-qty").value,
     unitPrice: $("#qs-price").value,
+    customer, invWin,
   });
   if (ok) closeQuickSale();
-  else $("#qs-confirm").disabled = false;
+  else { if (invWin) invWin.close(); $("#qs-confirm").disabled = false; }
 }
 
 function renderOnlineSalesNote() {
@@ -1679,6 +1697,9 @@ function openSaleDetail(sale) {
     ["Cantidad", sale.qty],
     ["Precio unitario", money(sale.unitPrice)],
     ["Total", money(sale.total)],
+    sale.discount && ["Descuento", money(sale.discount)],
+    sale.payment && ["Forma de pago", sale.payment],
+    sale.invoice && ["Factura", "Nº " + sale.invoice],
     ["Vendedor", sale.admin || "—"],
   ];
 
@@ -1707,8 +1728,10 @@ function openSaleDetail(sale) {
     ${shipRows.length
       ? sectionTitle("Envío") + fieldRows(shipRows)
       : (isWompi ? `<p style="color:var(--bad);font-size:12.5px;margin-top:14px">Sin datos de envío -- venta anterior a que se pidieran en el carrito.</p>` : "")}
-    <button class="btn block" id="sd-close" style="margin-top:20px">Cerrar</button>`;
+    ${sale.invoice ? `<button class="btn cyan block" id="sd-invoice" style="margin-top:20px">Ver / imprimir factura Nº ${escHtml(sale.invoice)}</button>` : ""}
+    <button class="btn block" id="sd-close" style="margin-top:${sale.invoice ? "10px" : "20px"}">Cerrar</button>`;
   $("#sd-close").addEventListener("click", closeConfirmModal);
+  if (sale.invoice) $("#sd-invoice").addEventListener("click", () => reprintInvoice(sale));
   $("#confirm-overlay").classList.add("open");
 }
 
@@ -2527,3 +2550,160 @@ function bootApp() {
   // funcionando igual.
   window.STIKE_ADMIN_BOOTED = true;
 })();
+
+/* ============================== FACTURA DE VENTA ==========================
+   Version digital de la factura fisica de Stike (talonario Nº 3781), en
+   formato vertical para imprimir o guardar como PDF. Se genera al registrar
+   una venta desde cualquiera de las dos entradas.
+
+   Privacidad: el repo es publico, asi que los datos del cliente (nombre,
+   documento, telefono, direccion) NO van a data/sales-log.json. En el log
+   solo queda el numero de factura; los datos del cliente se guardan en este
+   navegador (localStorage) para poder reimprimir desde el historial.
+   ========================================================================= */
+const INVOICE_SELLER = {
+  name: "Jefersson Parra",
+  nit: "1.013.643.302-7",
+  regime: "Régimen Simplificado",
+  address: "Cra. 52 A No. 45A-29 Sur",
+  phone: "741 5998",
+  cell: "311 810 8848",
+  email: "stikebikeshop@gmail.com",
+  city: "Bogotá D.C.",
+};
+const INVOICE_FIRST_NUMBER = 3782;   // la ultima del talonario fisico es la 3781
+const INVOICE_CUSTOMERS_KEY = "stike_invoice_customers";
+const PAYMENT_METHODS = ["Efectivo", "Transferencia", "Nequi", "Daviplata", "Tarjeta", "Wompi"];
+
+function nextInvoiceNumber() {
+  const used = (salesLog || []).map(s => Number(s.invoice) || 0);
+  return Math.max(INVOICE_FIRST_NUMBER - 1, ...used) + 1;
+}
+function loadInvoiceCustomers() {
+  try { return JSON.parse(localStorage.getItem(INVOICE_CUSTOMERS_KEY) || "{}"); } catch { return {}; }
+}
+function saveInvoiceCustomer(num, customer) {
+  try { const all = loadInvoiceCustomers(); all[num] = customer; localStorage.setItem(INVOICE_CUSTOMERS_KEY, JSON.stringify(all)); } catch {}
+}
+
+function customerFieldsHtml(prefix) {
+  return `
+    <div class="inv-fields">
+      <label style="display:flex;align-items:center;gap:8px;margin:14px 0 8px"><input type="checkbox" id="${prefix}-inv" checked> Generar factura</label>
+      <div id="${prefix}-inv-box">
+        <div class="grid-2">
+          <div class="field"><label>Cliente</label><input id="${prefix}-c-name" placeholder="Nombre completo"></div>
+          <div class="field"><label>CC / NIT</label><input id="${prefix}-c-doc"></div>
+        </div>
+        <div class="grid-2">
+          <div class="field"><label>Teléfono</label><input id="${prefix}-c-tel" type="tel"></div>
+          <div class="field"><label>Ciudad</label><input id="${prefix}-c-city" value="Bogotá"></div>
+        </div>
+        <div class="field"><label>Dirección</label><input id="${prefix}-c-addr"></div>
+        <div class="grid-2">
+          <div class="field"><label>Forma de pago</label><select id="${prefix}-c-pay">${PAYMENT_METHODS.map(m => `<option>${m}</option>`).join("")}</select></div>
+          <div class="field"><label>Descuento (COP)</label><input id="${prefix}-c-disc" type="number" min="0" step="1000" value="0"></div>
+        </div>
+        <div class="field"><label>Observaciones</label><input id="${prefix}-c-notes" placeholder="Opcional"></div>
+      </div>
+    </div>`;
+}
+function wireCustomerFields(prefix) {
+  const cb = $(`#${prefix}-inv`);
+  if (cb) cb.addEventListener("change", () => { $(`#${prefix}-inv-box`).style.display = cb.checked ? "" : "none"; });
+}
+function readCustomerFields(prefix) {
+  const cb = $(`#${prefix}-inv`);
+  if (!cb || !cb.checked) return null;
+  const v = id => ($(`#${prefix}-c-${id}`) || {}).value || "";
+  return { name: v("name").trim(), doc: v("doc").trim(), tel: v("tel").trim(), city: v("city").trim(),
+           addr: v("addr").trim(), pay: v("pay"), discount: Math.max(0, parseInt(v("disc")) || 0), notes: v("notes").trim() };
+}
+
+function invoiceHtml(sale, customer) {
+  const c = customer || {};
+  const d = new Date(sale.ts);
+  const p = workingCatalog.find(x => x.slug === sale.slug) || {};
+  const code = p.sku || sale.slug || "";
+  const desc = [sale.name || p.n || sale.slug, [sale.size && `Talla ${sale.size}`, sale.color].filter(Boolean).join(" · ")].filter(Boolean).join(" — ");
+  const subtotal = sale.unitPrice * sale.qty;
+  const discount = Math.min(subtotal, c.discount || 0);
+  const total = subtotal - discount;
+  const e = escHtml;
+  const logo = new URL("assets/img/logo-stike.png", document.baseURI).href;
+  const blankRows = Array.from({ length: 9 }, () => `<tr><td>&nbsp;</td><td></td><td></td><td></td><td></td></tr>`).join("");
+  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Factura ${sale.invoice}</title>
+<style>
+@page{size:letter portrait;margin:12mm}
+*{box-sizing:border-box}body{font-family:Arial,Helvetica,sans-serif;color:#111;margin:0;background:#eee}
+.sheet{width:190mm;min-height:250mm;margin:10px auto;background:#fff;padding:12mm;display:flex;flex-direction:column}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.brand img{height:70px}.brand small{display:block;letter-spacing:6px;font-weight:700;font-size:11px;margin-top:2px}
+.seller{text-align:center;font-weight:700;line-height:1.35;font-size:14px;padding-top:6px}
+.num{border:2px solid #111;border-radius:10px;text-align:center;min-width:52mm}
+.num h1{font-size:15px;margin:0;padding:6px;border-bottom:2px solid #111}
+.num .n{font-size:22px;color:#c0161c;font-weight:700;padding:6px}
+.date{display:grid;grid-template-columns:repeat(3,1fr);border-top:2px solid #111}
+.date div{border-left:1px solid #111;padding:3px 0;font-size:11px;font-weight:700}.date div:first-child{border-left:0}
+.date span{display:block;font-weight:400;font-size:13px}
+.cli{border:2px solid #111;border-radius:10px;margin-top:12px;font-size:12.5px}
+.cli .r{display:flex;border-bottom:1px solid #111}.cli .r:last-child{border-bottom:0}
+.cli .r>div{flex:1;padding:6px 8px}.cli .r>div+div{border-left:1px solid #111}
+.cli b{margin-right:6px}
+table{width:100%;border-collapse:collapse;margin-top:12px;font-size:12.5px;border:2px solid #111}
+th{background:#111;color:#fff;padding:6px;font-size:11.5px}td{border:1px solid #111;padding:6px;height:24px}
+td.n,th.n{text-align:right;white-space:nowrap}td.c{text-align:center}
+.tot{display:flex;justify-content:space-between;gap:16px;margin-top:10px;align-items:flex-start}
+.note{font-size:10px;max-width:105mm;line-height:1.35}
+.sum{border:2px solid #111;border-radius:10px;min-width:70mm;font-size:13px}
+.sum div{display:flex;justify-content:space-between;padding:6px 10px;border-bottom:1px solid #111}.sum div:last-child{border-bottom:0;font-weight:700;font-size:15px}
+.warn{font-weight:700;font-size:12px;margin-top:14px}
+.signs{display:flex;gap:30px;margin-top:auto;padding-top:40px}.signs div{flex:1;border-top:1px solid #111;text-align:center;font-weight:700;font-size:11px;padding-top:4px}
+.foot{text-align:center;font-weight:700;font-size:11.5px;margin-top:14px;border-top:2px solid #111;padding-top:6px}
+.bar{text-align:center;margin:12px}.bar button{font-size:15px;padding:10px 22px;border:0;border-radius:8px;background:#111;color:#fff;cursor:pointer;margin:0 4px}
+@media print{body{background:#fff}.sheet{margin:0;width:auto;min-height:auto;padding:0}.bar{display:none}}
+</style></head><body>
+<div class="bar"><button onclick="window.print()">Imprimir / Guardar PDF</button><button onclick="window.close()">Cerrar</button></div>
+<div class="sheet">
+  <div class="top">
+    <div class="brand"><img src="${logo}" alt="Stike Bike Shop"></div>
+    <div class="seller">${e(INVOICE_SELLER.name)}<br>Nit: ${e(INVOICE_SELLER.nit)}<br>${e(INVOICE_SELLER.regime)}</div>
+    <div class="num"><h1>FACTURA DE VENTA</h1><div class="n">Nº ${e(sale.invoice)}</div>
+      <div class="date"><div>DÍA<span>${d.getDate()}</span></div><div>MES<span>${d.getMonth() + 1}</span></div><div>AÑO<span>${d.getFullYear()}</span></div></div></div>
+  </div>
+  <div class="cli">
+    <div class="r"><div><b>CLIENTE:</b>${e(c.name || "")}</div><div style="flex:.6"><b>CC/NIT:</b>${e(c.doc || "")}</div></div>
+    <div class="r"><div><b>DIRECCIÓN:</b>${e(c.addr || "")}</div><div style="flex:.6"><b>TEL:</b>${e(c.tel || "")}</div></div>
+    <div class="r"><div><b>CIUDAD:</b>${e(c.city || "")}</div><div style="flex:.6"><b>PAGO:</b>${e(c.pay || "")}</div></div>
+  </div>
+  <table><thead><tr><th style="width:22%">CÓDIGO</th><th>DESCRIPCIÓN</th><th style="width:10%">CANTIDAD</th><th class="n" style="width:16%">VR. UNITARIO</th><th class="n" style="width:16%">VR. TOTAL</th></tr></thead>
+  <tbody><tr><td>${e(code)}</td><td>${e(desc)}</td><td class="c">${sale.qty}</td><td class="n">${money(sale.unitPrice)}</td><td class="n">${money(subtotal)}</td></tr>${blankRows}</tbody></table>
+  <div class="tot">
+    <div class="note">${c.notes ? `<b>Observaciones:</b> ${e(c.notes)}<br><br>` : ""}Nota: No se aceptan devoluciones, ni descuentos que no hayan sido autorizadas por nosotros. Esta factura de venta se asimila en todo a una letra de cambio según Art. 774 del código de comercio.
+      <div class="warn">MERCANCÍAS SEPARADAS DESPUÉS DE MES LA EMPRESA NO RESPONDE</div></div>
+    <div class="sum"><div><span>SUB-TOTAL</span><span>${money(subtotal)}</span></div>${discount ? `<div><span>DESCUENTO</span><span>-${money(discount)}</span></div>` : ""}<div><span>TOTAL</span><span>${money(total)}</span></div></div>
+  </div>
+  <div class="signs"><div>FIRMAS Y SELLO</div><div>FIRMAS Y SELLO</div></div>
+  <div class="foot">${e(INVOICE_SELLER.address)} - Tel: ${e(INVOICE_SELLER.phone)} - Cel: ${e(INVOICE_SELLER.cell)} - Correo: ${e(INVOICE_SELLER.email)} - ${e(INVOICE_SELLER.city)}</div>
+</div></body></html>`;
+}
+
+/* La ventana se abre en el clic (antes de cualquier await) para que el
+   bloqueador de popups no la frene; se llena cuando la venta ya quedo. */
+function openInvoiceWindow() {
+  const w = window.open("", "_blank");
+  if (w) w.document.write("<p style='font-family:sans-serif;padding:20px'>Generando factura...</p>");
+  return w;
+}
+function writeInvoice(w, sale, customer) {
+  const html = invoiceHtml(sale, customer);
+  if (w && !w.closed) { w.document.open(); w.document.write(html); w.document.close(); return; }
+  const blob = new Blob([html], { type: "text/html" });
+  window.open(URL.createObjectURL(blob), "_blank");
+}
+function reprintInvoice(sale) {
+  writeInvoice(null, sale, loadInvoiceCustomers()[sale.invoice] || null);
+}
+
+$("#sale-customer").innerHTML = customerFieldsHtml("sale");
+wireCustomerFields("sale");
