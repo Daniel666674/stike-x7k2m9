@@ -1,0 +1,55 @@
+name: Publish to Hostinger
+
+# Cada vez que el panel admin publica (cada commit a la rama de trabajo), arma
+# la copia limpia del sitio (sin datos internos ni herramientas, ver
+# tools/stage-hostinger.sh) y la deja en la rama "hostinger-deploy". Despues le
+# avisa a https://stikebikeshop.com/api/sync, y el SERVIDOR baja ese commit de
+# GitHub (api/sync.php): no hay FTP ni nada que entre al hosting desde aqui.
+# Si algun dia el "Git" de hPanel funciona, tambien puede apuntar a esa rama.
+#
+# Secret del repo (Settings > Secrets and variables > Actions):
+#   HOSTINGER_SYNC_TOKEN   el mismo SYNC_TOKEN que esta en api/config.local.php
+#                          del servidor. Sin el, el paso de aviso se salta y la
+#                          rama igual se actualiza (el sitio no).
+#
+# Tambien se puede correr a mano: Actions > Publish to Hostinger > Run workflow.
+#
+# api/config.local.php (los secretos del servidor) no esta en el repo, asi que
+# la rama no lo trae y ni el sync ni un "git pull" de Hostinger lo tocan o borran.
+on:
+  push:
+    branches: ["claude/sweet-albattani-ti0w0e"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Publicaciones seguidas del panel se juntan en un solo deploy del estado final.
+concurrency:
+  group: "hostinger"
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Publish clean copy to hostinger-deploy
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: tools/publish-hostinger.sh "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" hostinger-deploy
+
+      - name: Tell Hostinger to update
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SYNC_TOKEN: ${{ secrets.HOSTINGER_SYNC_TOKEN }}
+        run: |
+          if [ -z "$SYNC_TOKEN" ]; then echo "HOSTINGER_SYNC_TOKEN no esta definido: se salta el aviso al sitio."; exit 0; fi
+          SHA="$(git ls-remote "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" refs/heads/hostinger-deploy | cut -f1)"
+          echo "Avisando a stikebikeshop.com del commit ${SHA}"
+          curl -sS --fail-with-body --max-time 300 -X POST \
+            -H "Authorization: Bearer ${SYNC_TOKEN}" -H "Content-Type: application/json" \
+            -d "{\"sha\":\"${SHA}\"}" https://stikebikeshop.com/api/sync
+          echo

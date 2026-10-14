@@ -3,69 +3,59 @@
    STIKE BIKE SHOP: firma de integridad de Wompi (backend real, Hostinger).
 
    Este archivo es el UNICO lugar donde el secreto de integridad de Wompi
-   puede existir. Nunca lo hardcodees aca ni lo subas al repo -- lo lee de:
-     1. la variable de entorno WOMPI_INTEGRITY_SECRET (si el panel de
-        Hostinger permite configurarla), o si no
-     2. config.local.php, un archivo que subes a mano por FTP/Administrador
-        de archivos, al lado de este (api/config.local.php), con:
-          <?php return ['WOMPI_INTEGRITY_SECRET' => 'prv_integrity_...'];
-        Ese archivo NUNCA se commitea (ver .gitignore: api/config.local.php).
+   puede existir. Nunca lo hardcodees aca ni lo subas al repo -- lo lee
+   _lib.php de la variable de entorno WOMPI_INTEGRITY_SECRET o de
+   api/config.local.php (se sube a mano; ver .gitignore y _lib.php).
+   Devuelve tambien la llave PUBLICA (WOMPI_PUBLIC_KEY, la misma config), para
+   que sandbox <-> produccion se cambie en un solo archivo y las llaves
+   no puedan quedar mezcladas.
 
-   Que hace: recibe {reference, amount_in_cents, currency} desde el carrito,
-   calcula SHA256(reference + amount_in_cents + currency + secreto) y lo
-   devuelve. El navegador nunca ve el secreto -- esa es la unica razon de
-   que este archivo exista en vez de firmar en assets/js/wompi.js.
+   Que hace: recibe {reference, items:[{slug, qty, size?, color?}], shipping,
+   customerEmail?} desde el carrito. Calcula el monto AQUI con los precios del
+   catalogo publicado (assets/js/products-data.js), guarda el pedido (que se
+   compro y a donde enviarlo) y firma
+   SHA256(reference + amount_in_cents + currency + secreto).
 
-   TODO antes de aceptar pagos reales (no bloquea las pruebas en sandbox):
-   este endpoint confia en el amount_in_cents que manda el navegador. Para
-   plata real hay que recalcular el total del lado del servidor a partir
-   del carrito (products-data.js) en vez de firmar lo que llegue, o alguien
-   podria pagar 1 peso por un marco de $1.850.000 editando la peticion.
+   El navegador nunca manda ni decide el monto: cualquier amount_in_cents que
+   llegue en la peticion se ignora. Sin eso, alguien podria pagar 1 peso por
+   un marco de $1.850.000 editando la peticion.
+
+   El pedido guardado es lo que despues permite registrar la venta aunque el
+   cliente pague y cierre la pestana (ver wompi-events.php). Si no se puede
+   guardar, NO se firma: preferimos no cobrar a cobrar algo que no podemos
+   registrar.
    ========================================================================= */
 
-header("Content-Type: application/json; charset=utf-8");
+require __DIR__ . "/_lib.php";
 
-function respond($status, $data) {
-  http_response_code($status);
-  echo json_encode($data);
-  exit;
-}
+stike_run(function () {
+  stike_require_method("POST");
+  $body = stike_json_body();
 
-if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-  respond(405, ["error" => "method_not_allowed"]);
-}
+  $reference = stike_valid_reference($body["reference"] ?? null);
+  $priced = stike_price_order(stike_load_catalog(), $body["items"] ?? null);
+  $shipping = stike_clean_shipping($body["shipping"] ?? null);
+  $customerEmail = stike_clean_email($body["customerEmail"] ?? null);
 
-$body = json_decode(file_get_contents("php://input"), true);
-if (!is_array($body)) {
-  respond(400, ["error" => "invalid_json"]);
-}
+  $keys = stike_wompi_keys();   // las tres del mismo ambiente, o no se firma
 
-$reference = isset($body["reference"]) ? (string)$body["reference"] : "";
-$amountInCents = isset($body["amount_in_cents"]) ? $body["amount_in_cents"] : null;
-$currency = isset($body["currency"]) ? (string)$body["currency"] : "";
+  stike_save_pending($reference, [
+    "reference" => $reference, "createdAt" => stike_now_iso(),
+    "lines" => $priced["lines"], "subtotal" => $priced["subtotal"], "shippingCost" => $priced["shipping"],
+    "amountInCents" => $priced["amountInCents"],
+    "shipping" => $shipping, "customerEmail" => $customerEmail,
+  ]);
 
-if ($reference === "" || !is_int($amountInCents) && !ctype_digit((string)$amountInCents) || $amountInCents <= 0 || $currency === "") {
-  respond(400, ["error" => "missing_or_invalid_fields", "need" => ["reference", "amount_in_cents", "currency"]]);
-}
-$amountInCents = (string)(int)$amountInCents;
+  $signature = hash("sha256", $reference . $priced["amountInCents"] . STIKE_CURRENCY . $keys["integrity"]);
 
-$secret = getenv("WOMPI_INTEGRITY_SECRET") ?: null;
-if (!$secret) {
-  $localConfigPath = __DIR__ . "/config.local.php";
-  if (is_file($localConfigPath)) {
-    $cfg = include $localConfigPath;
-    $secret = $cfg["WOMPI_INTEGRITY_SECRET"] ?? null;
-  }
-}
-if (!$secret) {
-  respond(500, ["error" => "server_not_configured", "detail" => "falta WOMPI_INTEGRITY_SECRET (env o api/config.local.php)"]);
-}
-
-$signature = hash("sha256", $reference . $amountInCents . $currency . $secret);
-
-respond(200, [
-  "reference" => $reference,
-  "amount_in_cents" => (int)$amountInCents,
-  "currency" => $currency,
-  "signature" => $signature,
-]);
+  respond(200, [
+    "reference" => $reference,
+    "amount_in_cents" => $priced["amountInCents"],
+    "currency" => STIKE_CURRENCY,
+    "signature" => $signature,
+    "public_key" => $keys["public"],   // el front abre el widget con esta, no con una escrita en el JS
+    "subtotal" => $priced["subtotal"],
+    "shipping" => $priced["shipping"],
+    "total" => $priced["total"],
+  ]);
+});

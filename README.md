@@ -21,8 +21,10 @@ backend**, no hay servidor ni base de datos.
 > del motor de catálogo del que salió esta arquitectura. Si vas a tocar
 > stock, visibilidad o la generación de fichas, ese es el documento.
 
-> Vende por WhatsApp: no hay pasarela de pago. El carrito funciona con
-> `localStorage` y el checkout arma un mensaje de WhatsApp con el pedido.
+> Cobra con **Wompi** (hoy en **sandbox**, no mueve plata real; ver
+> "Pagos con Wompi" más abajo) y confirma el envío por WhatsApp. El carrito
+> funciona con `localStorage`; el monto que se cobra lo calcula un servidor,
+> nunca el navegador.
 
 ## ✨ Qué incluye
 
@@ -111,16 +113,17 @@ contenidos de GitHub (`assets/js/products-data.js`, `producto/*.html`,
 ## ▶️ Cómo verlo
 
 ```bash
-# desde el directorio que CONTIENE bmxstore/, no desde adentro:
+# desde la carpeta del repo:
 python3 -m http.server 8000
-# abre http://localhost:8000/bmxstore/
+# abre http://localhost:8000/
 ```
 
-Tiene que ser así porque las páginas llevan `<base href="/bmxstore/">` (el
-sitio vive en un subdirectorio en GitHub Pages). Servido desde adentro, los
-`assets/` dan 404 y la página carga sin JavaScript ni estilos. Cuando el
-sitio pase a su dominio propio, `BASE_PATH` en `assets/js/site.js` pasa a
-`"/"` y se sirve desde adentro con normalidad.
+Las páginas llevan `<base href="/">` (el sitio vive en la raíz de
+`stikebikeshop.com`), así que se sirve directo desde esta carpeta. Si alguna
+vez `BASE_PATH` en `assets/js/site.js` vuelve a ser un subdirectorio, hay que
+servir desde el directorio que lo contiene (y correr `node tools/build-pages.mjs`).
+`tools/wompi-dev-server.mjs` lo hace solo: sirve bajo la ruta base de `site.js`.
+Este servidor no corre el PHP de los pagos; para probarlo, `php -S`.
 
 `admin.html` funciona igual en local, pero para cargar o publicar necesita
 un token de GitHub real con acceso de escritura a este repo.
@@ -168,19 +171,32 @@ un token de GitHub real con acceso de escritura a este repo.
 
 ## 🚀 Deploy
 
-Esto es una demo sin hosting propio: **GitHub Pages es el único deploy
-real**. `.github/workflows/deploy.yml` publica todo el repo en cada push a
-la rama configurada (hoy `main`) usando
-`actions/deploy-pages`; no hace falta ningún secret, solo que "GitHub
-Actions" esté seleccionado como fuente en Settings → Pages del repo (ya
-lo estaba, porque el sitio ya vivía en
-`https://daniel666674.github.io/bmxstore/` antes de este cambio).
+**Hoy** (demo): GitHub Pages. `.github/workflows/deploy.yml` publica todo el
+repo en cada push a la rama configurada usando `actions/deploy-pages`; no hace
+falta ningún secret, solo que "GitHub Actions" esté seleccionado como fuente en
+Settings → Pages.
 
-`.htaccess` queda en el repo como referencia de la configuración
-(cacheo de 1 año immutable en JS/CSS/imágenes/video, HTML sin cache, CSP)
-que aplicaría si algún día esto se muda a un hosting real tipo Apache —
-GitHub Pages no lee `.htaccess` ni permite headers custom, así que hoy no
-está activo. El cache-busting real que SÍ aplica en Pages es el query
+**Destino final: Hostinger, en `stikebikeshop.com`** (ya aplicado en
+`assets/js/site.js`). GitHub sigue siendo el lugar donde se edita (el panel admin
+publica ahí) y de donde sale el HTML generado; Hostinger solo sirve el resultado y
+corre el PHP de los pagos. `.github/workflows/deploy-hostinger.yml` corre en cada
+publicación del panel: arma una copia limpia (sin costos, ventas, herramientas ni
+el backend de Vercel; la lista está en `tools/stage-hostinger.sh`) y la deja en la
+rama `hostinger-deploy` (`tools/publish-hostinger.sh`) y le avisa a `api/sync.php`,
+**el servidor de Hostinger baja ese commit de GitHub** y actualiza el sitio: no hay
+contraseñas FTP, y el único secret en GitHub es el token del aviso. Tarda uno o dos
+minutos desde que se publica hasta que se ve en el sitio. (Se probó subir por FTP
+desde GitHub Actions y Hostinger corta la conexión de datos —`ECONNRESET`— con FTP y
+con FTPS; y el "Git" de hPanel no llegó a conectar.) La primera instalación y el
+`SYNC_TOKEN` están en el paso 5 de "Salir a producción". El instalador de un solo
+archivo es `tools/instalar-hostinger.php`.
+El workflow de GitHub Pages (`deploy.yml`) quedó solo manual: con la ruta base `/`
+dejaría la demo sin estilos.
+
+`.htaccess` es la configuración de Hostinger (HTTPS y sin `www`, rutas `/api/…`,
+archivos internos bloqueados, cacheo de 1 año immutable en JS/CSS/imágenes/video,
+HTML sin cache, CSP con Wompi). GitHub Pages no lo lee, así que en la demo no
+hace nada. El cache-busting real es el query
 string `?v=N` en cada referencia a un archivo compartido; si editás el
 CONTENIDO de `styles.css`/`data.js`/`app.js`/etc. acordate de subir ese
 número en todos los HTML que lo referencian, si no los visitantes con
@@ -191,6 +207,153 @@ cache del navegador siguen viendo la versión vieja.
 > `?v=` con un hash del contenido del archivo, en el momento del deploy) es
 > un cambio chico y pendiente; hoy la mitigación es acordarse, y que un
 > visitante nuevo nunca ve el problema.
+
+## 💳 Pagos con Wompi
+
+El servidor decide si cobra en **sandbox** (no mueve plata real) o en
+**producción** según las llaves de `api/config.local.php`; el código es el mismo.
+Cambiar de uno a otro es cambiar esas llaves: ver "Salir a producción".
+
+**Cómo funciona.**
+
+1. El carrito manda al servidor los productos (`slug` + cantidad + talla/color) y
+   los datos de envío, **nunca un monto**.
+2. El servidor calcula el total con los precios del catálogo publicado (subtotal +
+   envío, gratis desde $300.000), **guarda el pedido** y firma ese monto con el
+   secreto de integridad de Wompi. El navegador abre el widget de Wompi con eso.
+3. Cuando Wompi aprueba el pago, la venta se registra por **dos caminos** que no
+   se pisan (idempotente por referencia): el regreso del cliente a
+   `pago-resultado.html` (`wompi-order`) y el **webhook** de Wompi
+   (`wompi-events`), que funciona aunque el cliente pague y cierre la pestaña.
+   Ninguno confía en lo que diga el navegador: se le pregunta a Wompi con la llave
+   privada y la venta sale del pedido guardado en el paso 2.
+4. Cada venta queda en **tres lugares**: el servidor de Hostinger
+   (`ventas.jsonl`), el **correo al dueño** y el **panel admin** (pestaña
+   Ventas, que las lee de Hostinger).
+
+**Dónde viven los datos de los clientes.** En una carpeta `stike-private/` al lado
+de `public_html` en Hostinger (fuera de lo que sirve el sitio) y en el correo al
+dueño. **Nunca en este repositorio**, que es público. Ventas marcadas con ⚠ en el
+panel: el monto cobrado no coincide con el pedido, o Wompi aprobó un pago del que
+no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
+
+**Archivos.**
+
+- `api/` (Hostinger, PHP): `wompi-sign.php`, `wompi-order.php`, `wompi-events.php`,
+  `sales.php` (lo lee el panel, exige clave), `wompi-status.php`, y `_lib.php`
+  (lo compartido). Las constantes de envío (`FREE_SHIP`, `SHIP_COST`) están en
+  `carrito.html`, `api/_lib.php` y `vercel-wompi-api/lib/pricing.js`: si se
+  cambian, cambiarlas en los tres.
+- `vercel-wompi-api/` (demo en GitHub Pages): backend temporal en Vercel que
+  existe porque Pages no corre PHP. Se borra cuando el sitio viva en Hostinger.
+  **Nunca poner llaves de producción en Vercel.**
+- `assets/js/wompi.js` elige solo el backend: en `stikebikeshop.com` usa el PHP del
+  mismo sitio (y abre el widget con la llave pública que el servidor le devuelve,
+  de `config.local.php`); en cualquier otro dominio usa Vercel.
+- Pruebas (todas sin red ni llaves reales):
+  `node tools/wompi-pricing-test.mjs` (38, cálculo de precio y ataque de monto
+  falso), `node tools/hostinger-api-test.mjs` (56, los endpoints PHP con un Wompi y
+  un Resend falsos; necesita `php`) y `node tools/admin-online-sales-test.mjs`
+  (21, el panel con ventas de dos fuentes; necesita `npm install playwright`) y
+  `node tools/sync-test.mjs` (29, la actualización desde GitHub con un GitHub falso; necesita
+  `php` y `git`) y `node tools/domain-flip-test.mjs` (12, el cambio de dominio de ida y vuelta en
+  una copia: que no queden URL con la ruta vieja de GitHub Pages).
+
+**Salir a producción (en este orden).**
+
+1. **Hostinger:** el dominio `stikebikeshop.com` agregado al plan Business como su
+   propio sitio, con SSL activo y PHP 8.x. La primera vez el sitio se sube como ZIP
+   en el asistente de hPanel y las fotos por el Administrador de archivos.
+2. **Datos legales y de contacto:** `legalName`, `nit`, `email` y `address` ya están
+   en `STIKE_CONFIG` (`assets/js/app.js`) y los muestran las páginas de términos,
+   privacidad y contacto (el correo y la dirección también van en los datos
+   estructurados de `index.html`). Si cambian (por ejemplo al constituir una
+   S.A.S.), se editan ahí y se sube el `?v=` de `app.js` en todas las páginas. El
+   mapa de `contacto.html` sigue apuntando a "Venecia, Bogotá" (nivel barrio);
+   cuando se confirme en Google Maps el pin de la dirección exacta, se cambia el
+   `q=` del mapa. La cuenta de Wompi de producción ya está activa
+   (comercios.wompi.co).
+3. **Secretos del servidor:** crear `public_html/api/config.local.php` con el
+   Administrador de archivos (nunca en el repo; hay una plantilla lista con los
+   campos), primero con las llaves de **sandbox**:
+
+   ```php
+   <?php return [
+     'WOMPI_PUBLIC_KEY'       => 'pub_test_...',
+     'WOMPI_PRIVATE_KEY'      => 'prv_test_...',
+     'WOMPI_INTEGRITY_SECRET' => 'test_integrity_...',
+     'ADMIN_API_KEY'          => '<una clave larga al azar, mínimo 24 caracteres>',
+     'SYNC_TOKEN'             => '<otra clave larga al azar, mínimo 24: la de la publicación automática>',
+     'RESEND_API_KEY'         => 're_...',               // opcional, ver nota
+     'OWNER_NOTIFY_EMAIL'     => 'dueno@correo.com',     // opcional
+   ];
+   ```
+   Las llaves de Wompi están en su panel, Desarrolladores → Llaves (en la pestaña
+   Sandbox o Producción). **Las tres tienen que ser del mismo ambiente**: si no,
+   el servidor se niega a firmar y dice por qué. `ADMIN_API_KEY` se inventa y se
+   pega una vez en el panel, pestaña Configuración → "Clave del servidor de
+   ventas". Sin `RESEND_API_KEY` el correo sale con el `mail()` del hosting, que
+   puede caer en spam; con Resend (gratis, resend.com) llega confiable, y para
+   enviar desde `@stikebikeshop.com` hay que verificar el dominio ahí.
+4. **Login del panel en el dominio nuevo:** en Google Cloud Console → APIs y
+   servicios → Credenciales → el ID de cliente OAuth de `site.js`
+   (`OAUTH_CLIENT_ID`) → "Orígenes autorizados de JavaScript", agregar
+   `https://stikebikeshop.com`. Sin eso Google rechaza el inicio de sesión en
+   `https://stikebikeshop.com/admin.html` (`origin_mismatch`) y el panel no abre.
+5. **Publicación automática (el servidor se actualiza solo desde GitHub):** el "Git"
+   de hPanel no conectó en la práctica, así que el sitio se instala y se actualiza
+   con `api/sync.php`.
+   - **Primera vez:** subir `tools/instalar-hostinger.php` a `public_html` con el
+     Administrador de archivos, abrir `https://stikebikeshop.com/instalar-hostinger.php` y
+     pulsar el botón; el servidor baja la rama `hostinger-deploy` y se borra solo.
+   - **Después:** poner `SYNC_TOKEN` (una clave larga al azar, mínimo 24) en
+     `api/config.local.php` y **la misma** en GitHub → Settings → Secrets and variables →
+     Actions → secret `HOSTINGER_SYNC_TOKEN`. Desde ahí cada publicación del panel hace
+     que el workflow actualice la rama y le avise a `/api/sync`, que baja ese commit,
+     reemplaza lo que cambió, borra lo que ya no está en el repo (solo lo que el mismo
+     sync instaló antes) y nunca toca `api/config.local.php`. Sin el secret el workflow
+     solo actualiza la rama.
+   - Si algún día el Git de hPanel funciona, se puede conectar a la rama
+     `hostinger-deploy` en lugar de esto (el `.htaccess` bloquea `.git/`).
+6. **Verificar en el dominio real:** el sitio carga; `https://stikebikeshop.com/data/costs.json`
+   responde 403 o 404 (no el archivo); `https://stikebikeshop.com/api/sales` sin
+   clave responde 401; "Pagar ahora" abre Wompi y la consola del navegador no
+   muestra líneas `Refused to…` (si las hay, dicen qué host agregar al CSP del
+   `.htaccess`); el panel abre con Google y publica un cambio de prueba que llega
+   al sitio en un par de minutos.
+7. **Prueba en sandbox sobre el dominio final** con una tarjeta de prueba de
+   Wompi: la venta aparece en el panel y llega el correo. (Si quiere probar
+   también el aviso por webhook, en el panel de Wompi, pestaña Sandbox, poner la
+   misma URL de eventos del paso siguiente.)
+8. **Producción:** en `api/config.local.php` cambiar las tres líneas de Wompi por las
+   de **producción** (`pub_prod_…`, `prv_prod_…`, `prod_integrity_…`); no hay nada
+   que cambiar en el código ni que volver a publicar. En el panel de Wompi, pestaña
+   Producción (Desarrolladores), configurar la **URL de eventos**
+   `https://stikebikeshop.com/api/wompi-events` (exactamente así: con https y sin
+   `www`, una redirección perdería el aviso).
+9. **Prueba real** con un pedido pequeño y tarjeta propia; verificar panel y
+   correo, y devolver el pago desde el panel de Wompi.
+10. **Limpieza:** borrar el proyecto `stike-wompi-api` de Vercel y la carpeta
+    `vercel-wompi-api/`. (`data/sales-log.json` ya quedó en `[]`: las ventas de
+    prueba del sandbox se vaciaron al cambiar de dominio.)
+
+**Lo que no está resuelto ni probado:**
+
+- **Stock:** una venta online no descuenta unidades (la venta a mano del panel sí).
+  El servidor valida que el producto exista, esté publicado y tenga precio. Hoy lo
+  cubre la confirmación por WhatsApp.
+- **Sin probar en el hosting real:** el `.htaccess` (redirecciones, rutas `/api/…`,
+  bloqueos), el CSP contra el widget de Wompi, el `ZipArchive`/`curl` del PHP de
+  Hostinger y que su firewall deje pasar la llamada desde GitHub a `/api/sync` (la
+  primera publicación lo muestra) y la entrega de `mail()`. Todo esto se verifica en los pasos 5 a 7.
+- **Respaldos:** `ventas.jsonl` vive solo en Hostinger (más el correo de cada
+  venta). No está confirmado que los respaldos automáticos del plan incluyan
+  carpetas fuera de `public_html`: verificarlo en hPanel o descargar la carpeta
+  `stike-private/` cada cierto tiempo. Si se prefiere dentro de `public_html`,
+  `STORAGE_DIR` en `config.local.php` lo permite (se bloquea el acceso web solo).
+- **Webhook sin checksum:** `wompi-events.php` no valida el checksum del evento a
+  propósito (explicación en el archivo): le pregunta a Wompi por la transacción,
+  así que un evento falso no registra nada.
 
 ## 🗂️ Estructura
 

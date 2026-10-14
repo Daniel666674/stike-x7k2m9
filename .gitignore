@@ -10,3 +10,6 @@ dist/
 
 # Secretos de Wompi para Hostinger (se sube a mano por FTP, nunca al repo)
 api/config.local.php
+
+# Datos de ventas si alguien prueba el PHP en local con STORAGE_DIR dentro del repo
+/stike-private/

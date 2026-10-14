@@ -29,30 +29,15 @@
    es un aviso extra, nunca la fuente de verdad.
    ========================================================================= */
 
+const { setCors } = require("../lib/cors");
+const { fetchCatalog, priceOrder } = require("../lib/pricing");
+
 const REPO_OWNER = "Daniel666674";
 const REPO_NAME = "stike-x7k2m9";
 const REPO_BRANCH = "claude/sweet-albattani-ti0w0e";
 const SALES_LOG_PATH = "data/sales-log.json";
-const CATALOG_URL = "https://daniel666674.github.io/stike-x7k2m9/assets/js/products-data.js";
 const DEFAULT_OWNER_EMAIL = "jparra375@gmail.com";
 const DEFAULT_FROM = "Stike Bike Shop <onboarding@resend.dev>";
-
-function setCors(res) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-}
-
-async function fetchCatalog() {
-  const res = await fetch(CATALOG_URL, { cache: "no-store" });
-  if (!res.ok) throw new Error(`catalog_fetch_${res.status}`);
-  const text = await res.text();
-  const marker = "window.STIKE_PRODUCTS = ";
-  const i = text.indexOf(marker);
-  if (i < 0) throw new Error("catalog_parse_failed");
-  const body = text.slice(i + marker.length, text.lastIndexOf(";"));
-  return JSON.parse(body);
-}
 
 async function verifyWompiTransaction(wompiId, privateKey) {
   const base = privateKey.startsWith("prv_prod_")
@@ -107,7 +92,7 @@ function money(n) { return "$" + Math.round(n || 0).toLocaleString("es-CO"); }
    en Vercel, esto se salta en silencio -- la venta ya quedo registrada en
    sales-log.json de todas formas, el correo es un aviso extra, no la
    fuente de verdad. */
-async function notifyOwnerByEmail({ reference, wompiId, entries, shipping, customerEmail, total }) {
+async function notifyOwnerByEmail({ reference, wompiId, entries, shipping, customerEmail, total, amountCheck, paidInCents }) {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) return { skipped: true };
 
@@ -129,6 +114,7 @@ async function notifyOwnerByEmail({ reference, wompiId, entries, shipping, custo
     <div style="font-family:system-ui,sans-serif;max-width:480px;margin:0 auto">
       <h2 style="margin-bottom:4px">Nueva venta — Stike Bike Shop</h2>
       <p style="color:#666;margin-top:0">Referencia Wompi: ${escHtml(reference)} · ID ${escHtml(wompiId)}</p>
+      ${amountCheck !== "ok" ? `<p style="color:#b00"><b>Revisar a mano:</b> el monto cobrado por Wompi (${money(paidInCents / 100)}) no coincide con el carrito que envió el navegador (${amountCheck === "mismatch" ? "montos distintos" : "no se pudo verificar"}). Confirma el pedido con el cliente antes de enviar.</p>` : ""}
       <table style="width:100%;border-collapse:collapse;font-size:14px">
         <thead><tr>
           <th style="text-align:left;padding:6px 10px;border-bottom:2px solid #222">Producto</th>
@@ -161,11 +147,13 @@ async function notifyOwnerByEmail({ reference, wompiId, entries, shipping, custo
 }
 
 module.exports = async (req, res) => {
-  setCors(res);
+  setCors(req, res, "POST, OPTIONS");
   if (req.method === "OPTIONS") return res.status(204).end();
   if (req.method !== "POST") return res.status(405).json({ error: "method_not_allowed" });
 
-  const body = typeof req.body === "string" ? JSON.parse(req.body || "{}") : (req.body || {});
+  let body;
+  try { body = typeof req.body === "string" ? JSON.parse(req.body || "{}") : (req.body || {}); }
+  catch { return res.status(400).json({ error: "invalid_json" }); }
   const { reference, wompiId, items, customerEmail, shipping } = body;
   if (!reference || !wompiId || !Array.isArray(items) || !items.length) {
     return res.status(400).json({ error: "missing_or_invalid_fields" });
@@ -192,6 +180,17 @@ module.exports = async (req, res) => {
     return res.status(502).json({ error: "catalog_fetch_failed", detail: String(err.message || err) });
   }
 
+  /* Control cruzado: Wompi cobro txn.amount_in_cents; el carrito que mando el
+     navegador, valuado con el catalogo real, tiene que dar lo mismo. Si no
+     da, la venta se registra igual (la plata ya entro) pero marcada, y el
+     correo al dueno lo dice. */
+  let amountCheck = "ok";
+  try {
+    if (priceOrder(catalog, items).amountInCents !== txn.amount_in_cents) amountCheck = "mismatch";
+  } catch {
+    amountCheck = "unverifiable";
+  }
+
   const ts = new Date().toISOString();
   const adminTag = `Wompi (ref ${reference})`;
   const entries = items
@@ -207,6 +206,7 @@ module.exports = async (req, res) => {
         source: "wompi", orderRef: reference, wompiId,
         customerEmail: customerEmail || txn.customer_email || null,
         shipping: shipping || null,
+        ...(amountCheck !== "ok" ? { flag: `amount_${amountCheck}`, paidInCents: txn.amount_in_cents } : {}),
       };
     })
     .filter(Boolean);
@@ -236,6 +236,7 @@ module.exports = async (req, res) => {
         emailResult = await notifyOwnerByEmail({
           reference, wompiId, entries, shipping,
           customerEmail: customerEmail || txn.customer_email || null, total,
+          amountCheck, paidInCents: txn.amount_in_cents,
         });
       } catch (err) {
         // La venta YA quedo registrada -- un correo que falla no debe
