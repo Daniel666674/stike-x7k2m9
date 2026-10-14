@@ -16,13 +16,15 @@ import { spawn } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { createServer } from 'node:net';
 import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
 import { join } from 'node:path';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const port = await new Promise(res => { const s = createServer(); s.listen(0, '127.0.0.1', () => { const p = s.address().port; s.close(() => res(p)); }); });
 const server = spawn('node', [join(ROOT, 'tools/wompi-dev-server.mjs'), String(port)], { stdio: 'ignore' });
 await new Promise(r => setTimeout(r, 800));
-const B = `http://127.0.0.1:${port}/stike-x7k2m9`;
+const SITE = createRequire(import.meta.url)(join(ROOT, 'assets/js/site.js'));
+const B = `http://127.0.0.1:${port}${SITE.basePath.replace(/\/$/, '')}`;
 
 let pass = 0, fail = 0;
 const t = (label, got, want) => {

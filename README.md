@@ -113,16 +113,17 @@ contenidos de GitHub (`assets/js/products-data.js`, `producto/*.html`,
 ## ▶️ Cómo verlo
 
 ```bash
-# desde el directorio que CONTIENE bmxstore/, no desde adentro:
+# desde la carpeta del repo:
 python3 -m http.server 8000
-# abre http://localhost:8000/bmxstore/
+# abre http://localhost:8000/
 ```
 
-Tiene que ser así porque las páginas llevan `<base href="/bmxstore/">` (el
-sitio vive en un subdirectorio en GitHub Pages). Servido desde adentro, los
-`assets/` dan 404 y la página carga sin JavaScript ni estilos. Cuando el
-sitio pase a su dominio propio, `BASE_PATH` en `assets/js/site.js` pasa a
-`"/"` y se sirve desde adentro con normalidad.
+Las páginas llevan `<base href="/">` (el sitio vive en la raíz de
+`stikebikeshop.com`), así que se sirve directo desde esta carpeta. Si alguna
+vez `BASE_PATH` en `assets/js/site.js` vuelve a ser un subdirectorio, hay que
+servir desde el directorio que lo contiene (y correr `node tools/build-pages.mjs`).
+`tools/wompi-dev-server.mjs` lo hace solo: sirve bajo la ruta base de `site.js`.
+Este servidor no corre el PHP de los pagos; para probarlo, `php -S`.
 
 `admin.html` funciona igual en local, pero para cargar o publicar necesita
 un token de GitHub real con acceso de escritura a este repo.
@@ -175,13 +176,15 @@ repo en cada push a la rama configurada usando `actions/deploy-pages`; no hace
 falta ningún secret, solo que "GitHub Actions" esté seleccionado como fuente en
 Settings → Pages.
 
-**Destino final: Hostinger, en `stikebikeshop.com`.** GitHub sigue siendo el
-lugar donde se edita (el panel admin publica ahí) y de donde sale el HTML
-generado; Hostinger solo sirve el resultado y corre el PHP de los pagos.
-`.github/workflows/deploy-hostinger.yml` arma una copia limpia (sin costos, ventas,
-herramientas ni el backend de Vercel; lista en `tools/publish-hostinger.sh`) y la
-empuja a la rama `hostinger-deploy`, que es la que Hostinger tiene conectada.
-Paso a paso en "Pagos con Wompi → Salir a producción".
+**Destino final: Hostinger, en `stikebikeshop.com`** (ya aplicado en
+`assets/js/site.js`). GitHub sigue siendo el lugar donde se edita (el panel admin
+publica ahí) y de donde sale el HTML generado; Hostinger solo sirve el resultado y
+corre el PHP de los pagos. `.github/workflows/deploy-hostinger.yml` corre en cada
+publicación del panel: arma una copia limpia (sin costos, ventas, herramientas ni
+el backend de Vercel; la lista está en `tools/stage-hostinger.sh`) y la sube por
+FTP. Tarda uno o dos minutos desde que se publica hasta que se ve en el sitio.
+El workflow de GitHub Pages (`deploy.yml`) quedó solo manual: con la ruta base `/`
+dejaría la demo sin estilos.
 
 `.htaccess` es la configuración de Hostinger (HTTPS y sin `www`, rutas `/api/…`,
 archivos internos bloqueados, cacheo de 1 año immutable en JS/CSS/imágenes/video,
@@ -248,15 +251,16 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
 
 **Salir a producción (en este orden).**
 
-1. **Antes de empezar:** el dominio `stikebikeshop.com` comprado y un plan de
-   Hostinger con PHP 8 y cURL (cualquier plan de hosting web los trae). Completar
-   `legalName` y `nit` en `STIKE_CONFIG` (`assets/js/app.js`); hoy las páginas de
-   términos y privacidad muestran `[NIT — completar]`. La cuenta de producción de
-   Wompi se activa en comercios.wompi.co a nombre del negocio.
-2. **En Hostinger:** agregar el dominio al plan, activar el SSL gratis y elegir
-   PHP 8.x.
-3. **Secretos del servidor:** crear `api/config.local.php` con el Administrador de
-   archivos (nunca en el repo), primero con las llaves de **sandbox**:
+1. **Hostinger:** el dominio `stikebikeshop.com` agregado al plan Business como su
+   propio sitio, con SSL activo y PHP 8.x. La primera vez el sitio se sube como ZIP
+   en el asistente de hPanel y las fotos por el Administrador de archivos.
+2. **Datos legales:** completar `legalName` y `nit` en `STIKE_CONFIG`
+   (`assets/js/app.js`); hoy las páginas de términos y privacidad muestran
+   `[NIT — completar]`. La cuenta de producción de Wompi se activa en
+   comercios.wompi.co a nombre del negocio.
+3. **Secretos del servidor:** crear `public_html/api/config.local.php` con el
+   Administrador de archivos (nunca en el repo), primero con las llaves de
+   **sandbox**:
 
    ```php
    <?php return [
@@ -272,20 +276,24 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
    ventas". Sin `RESEND_API_KEY` el correo sale con el `mail()` del hosting, que
    puede caer en spam; con Resend (gratis, resend.com) llega confiable, y para
    enviar desde `@stikebikeshop.com` hay que verificar el dominio ahí.
-4. **Cambio de dominio** (una sola vez): en `assets/js/site.js` poner
-   `DOMAIN = "stikebikeshop.com"` y `BASE_PATH = "/"`, correr
-   `node tools/build-pages.mjs` y publicar. **No hacerlo antes de que Hostinger
-   esté listo:** con `BASE_PATH = "/"` la demo de GitHub Pages deja de verse bien.
-5. **Publicar a Hostinger:** correr el workflow "Publish to Hostinger" (Actions →
-   Run workflow). En hPanel → Avanzado → Git, conectar el repo a la rama
-   `hostinger-deploy` (carpeta `public_html`, vacía la primera vez) y agregar el
-   webhook de auto-deploy que da Hostinger en Settings → Webhooks de GitHub. Para
-   que cada publicación del panel llegue sola, descomentar el `push:` del workflow.
+4. **Login del panel en el dominio nuevo:** en Google Cloud Console → APIs y
+   servicios → Credenciales → el ID de cliente OAuth de `site.js`
+   (`OAUTH_CLIENT_ID`) → "Orígenes autorizados de JavaScript", agregar
+   `https://stikebikeshop.com`. Sin eso Google rechaza el inicio de sesión en
+   `https://stikebikeshop.com/admin.html` (`origin_mismatch`) y el panel no abre.
+5. **Publicación automática:** en hPanel → Archivos → Cuentas FTP crear una cuenta
+   cuya carpeta sea la `public_html` **de stikebikeshop.com** (no la de otro sitio
+   del plan: sobrescribiría archivos). En GitHub → Settings → Secrets and
+   variables → Actions agregar `FTP_SERVER`, `FTP_USERNAME` y `FTP_PASSWORD`
+   (y `FTP_SERVER_DIR` si hace falta). Correr una vez a mano Actions →
+   "Publish to Hostinger" → Run workflow con **dry_run** marcado (solo lista lo
+   que subiría) y, si la lista es la esperada, otra vez sin marcarlo.
 6. **Verificar en el dominio real:** el sitio carga; `https://stikebikeshop.com/data/costs.json`
    responde 403 o 404 (no el archivo); `https://stikebikeshop.com/api/sales` sin
    clave responde 401; "Pagar ahora" abre Wompi y la consola del navegador no
    muestra líneas `Refused to…` (si las hay, dicen qué host agregar al CSP del
-   `.htaccess`).
+   `.htaccess`); el panel abre con Google y publica un cambio de prueba que llega
+   al sitio en un par de minutos.
 7. **Prueba en sandbox sobre el dominio final** con una tarjeta de prueba de
    Wompi: la venta aparece en el panel y llega el correo.
 8. **Producción:** poner las llaves `prod` en `api/config.local.php`;
@@ -296,8 +304,8 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
 9. **Prueba real** con un pedido pequeño y tarjeta propia; verificar panel y
    correo, y devolver el pago desde el panel de Wompi.
 10. **Limpieza:** borrar el proyecto `stike-wompi-api` de Vercel y la carpeta
-    `vercel-wompi-api/`, y dejar `data/sales-log.json` en `[]` (hoy solo tiene
-    ventas de prueba del sandbox).
+    `vercel-wompi-api/`. (`data/sales-log.json` ya quedó en `[]`: las ventas de
+    prueba del sandbox se vaciaron al cambiar de dominio.)
 
 **Lo que no está resuelto ni probado:**
 
@@ -305,9 +313,10 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
   El servidor valida que el producto exista, esté publicado y tenga precio. Hoy lo
   cubre la confirmación por WhatsApp.
 - **Sin probar en el hosting real:** el `.htaccess` (redirecciones, rutas `/api/…`,
-  bloqueos), el CSP contra el widget de Wompi, el despliegue por Git de Hostinger
-  (se espera que `git pull` no borre `api/config.local.php`, que no está en el repo)
-  y la entrega de `mail()`. Todo esto se verifica en los pasos 5 a 7.
+  bloqueos), el CSP contra el widget de Wompi, la subida por FTP a Hostinger
+  (la acción solo borra lo que ella misma subió, así que `api/config.local.php`,
+  que no está en el repo, no se toca) y la entrega de `mail()`. Todo esto se
+  verifica en los pasos 5 a 7.
 - **Respaldos:** `ventas.jsonl` vive solo en Hostinger (más el correo de cada
   venta). No está confirmado que los respaldos automáticos del plan incluyan
   carpetas fuera de `public_html`: verificarlo en hPanel o descargar la carpeta

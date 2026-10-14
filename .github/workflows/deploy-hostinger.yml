@@ -1,20 +1,37 @@
 name: Publish to Hostinger
 
-# Arma la copia limpia del sitio (sin datos internos ni herramientas) y la
-# empuja a la rama "hostinger-deploy". Hostinger (hPanel > Avanzado > Git) esta
-# conectado a ESA rama y despliega solo con el webhook de GitHub.
-# Ver "Pagos con Wompi" / "Deploy a Hostinger" en el README.
+# Cada vez que el panel admin publica (cada commit a la rama de trabajo), arma
+# la copia limpia del sitio (sin datos internos ni herramientas, ver
+# tools/stage-hostinger.sh) y la sube por FTP a Hostinger. Tambien se puede
+# correr a mano: Actions > Publish to Hostinger > Run workflow (con "dry_run"
+# solo lista lo que subiria, sin cambiar nada: usalo la primera vez).
 #
-# Hoy corre solo a mano (pestaña Actions > Run workflow). El dia del cambio de
-# dominio, quitar los "#" de abajo para que cada publicacion del panel admin
-# (cada commit a la rama de trabajo) llegue sola al hosting.
+# Secrets del repo (Settings > Secrets and variables > Actions), de la cuenta
+# FTP que se crea en hPanel > Archivos > Cuentas FTP:
+#   FTP_SERVER      el servidor FTP que muestra hPanel
+#   FTP_USERNAME    el usuario FTP
+#   FTP_PASSWORD    su contrasena
+#   FTP_SERVER_DIR  (opcional) carpeta destino; si el usuario FTP ya apunta a la
+#                   public_html de stikebikeshop.com, dejarlo sin definir. Si se
+#                   define, tiene que terminar en "/".
+# Variable opcional FTP_PROTOCOL: ftps (por defecto) o ftp.
+#
+# IMPORTANTE: la cuenta FTP tiene que apuntar a la carpeta de stikebikeshop.com
+# y no a la de otro sitio del mismo plan (EScena BMX): esto sobrescribe archivos
+# con el mismo nombre. api/config.local.php (los secretos del servidor) no esta
+# en el repo y nunca se toca ni se borra.
 on:
+  push:
+    branches: ["claude/sweet-albattani-ti0w0e"]
   workflow_dispatch:
-  # push:
-  #   branches: ["claude/sweet-albattani-ti0w0e"]
+    inputs:
+      dry_run:
+        description: "Solo listar lo que se subiria, sin cambiar nada"
+        type: boolean
+        default: false
 
 permissions:
-  contents: write
+  contents: read
 
 # Publicaciones seguidas del panel se juntan en un solo deploy del estado final.
 concurrency:
@@ -28,8 +45,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Publish clean copy to hostinger-deploy
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          tools/publish-hostinger.sh "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" hostinger-deploy
+      - name: Build clean copy
+        run: tools/stage-hostinger.sh _site
+
+      - name: Upload to Hostinger over FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
+          local-dir: ./_site/
+          server-dir: ${{ secrets.FTP_SERVER_DIR || './' }}
+          dry-run: ${{ github.event.inputs.dry_run == 'true' }}

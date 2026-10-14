@@ -39,11 +39,12 @@ Options -Indexes
   RewriteRule ^api/(wompi-sign|wompi-status|wompi-order|wompi-events|sales)/?$ api/$1.php [L]
 
   # Segunda capa: lo interno no se sirve nunca, aunque algun dia llegue al
-  # hosting por error. (El deploy ya lo deja fuera: tools/publish-hostinger.sh.)
+  # hosting por error. (El deploy ya lo deja fuera: tools/stage-hostinger.sh.)
   RewriteRule ^(tools|vercel-wompi-api|bmx-builder|\.github|node_modules)(/|$) - [F,L]
   RewriteRule ^data/(costs|sales-log|audit-log)\.json$ - [F,L]
   RewriteRule ^(PROPOSAL|MOTOR|README)\.md$ - [F,L]
   RewriteRule ^propuesta\.html$ - [F,L]
+  RewriteRule ^\.ftp-deploy-sync-state\.json$ - [F,L]
   RewriteRule ^api/(_lib|config\.local)\.php$ - [F,L]
 </IfModule>
 

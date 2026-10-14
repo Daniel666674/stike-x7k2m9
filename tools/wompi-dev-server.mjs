@@ -8,7 +8,7 @@
    Uso:
      node tools/wompi-dev-server.mjs [puerto=8139]
 
-   Sirve el repo bajo /stike-x7k2m9/ (mismo BASE_PATH que el sitio real)
+   Sirve el repo bajo el mismo BASE_PATH que el sitio real (assets/js/site.js)
    para que <base href> no rompa las rutas relativas.
    ========================================================================= */
 import http from "node:http";
@@ -23,7 +23,8 @@ const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 // Mismo calculo de precio que corre en Vercel (y que espeja el PHP).
 const { parseCatalog, priceOrder, PricingError } = createRequire(import.meta.url)("../vercel-wompi-api/lib/pricing.js");
 const PORT = Number(process.argv[2]) || 8139;
-const BASE = "/stike-x7k2m9";
+// Misma ruta base que el sitio real (assets/js/site.js): "" en stikebikeshop.com.
+const BASE = createRequire(import.meta.url)("../assets/js/site.js").basePath.replace(/\/$/, "");
 
 const env = loadEnv();
 
