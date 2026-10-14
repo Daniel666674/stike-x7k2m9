@@ -1,12 +1,8 @@
 /* Espejo de api/wompi-status.php -- ver wompi-sign.js para el contexto. */
-function setCors(res) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-}
+const { setCors } = require("../lib/cors");
 
 module.exports = async (req, res) => {
-  setCors(res);
+  setCors(req, res, "GET, OPTIONS");
   if (req.method === "OPTIONS") return res.status(204).end();
   if (req.method !== "GET") return res.status(405).json({ error: "method_not_allowed" });
 

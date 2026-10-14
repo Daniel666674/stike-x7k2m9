@@ -15,10 +15,13 @@ import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { createRequire } from "node:module";
 import { loadEnv, signWompiTransaction } from "./wompi-sign.mjs";
 import { fetchWompiTransaction } from "./wompi-status.mjs";
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
+// Mismo calculo de precio que corre en Vercel (y que espeja el PHP).
+const { parseCatalog, priceOrder, PricingError } = createRequire(import.meta.url)("../vercel-wompi-api/lib/pricing.js");
 const PORT = Number(process.argv[2]) || 8139;
 const BASE = "/stike-x7k2m9";
 
@@ -48,18 +51,23 @@ const server = http.createServer(async (req, res) => {
   if (pathname === "/api/wompi-sign.php" && req.method === "POST") {
     try {
       const body = JSON.parse(await readBody(req));
-      const { reference, amount_in_cents: amountInCents, currency } = body;
-      if (!reference || !amountInCents || !currency) {
+      const { reference, items } = body;
+      if (!reference) {
         res.writeHead(400, { "Content-Type": "application/json" });
-        res.end(JSON.stringify({ error: "missing_or_invalid_fields" }));
+        res.end(JSON.stringify({ error: "invalid_reference" }));
         return;
       }
-      const signature = signWompiTransaction({ reference, amountInCents, currency, integritySecret: env.WOMPI_INTEGRITY_SECRET });
+      const catalog = parseCatalog(fs.readFileSync(path.join(ROOT, "assets/js/products-data.js"), "utf8"));
+      const priced = priceOrder(catalog, items);   // el monto SIEMPRE lo calcula el servidor
+      const signature = signWompiTransaction({ reference, amountInCents: priced.amountInCents, currency: "COP", integritySecret: env.WOMPI_INTEGRITY_SECRET });
       res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ reference, amount_in_cents: amountInCents, currency, signature }));
+      res.end(JSON.stringify({
+        reference, amount_in_cents: priced.amountInCents, currency: "COP", signature,
+        subtotal: priced.subtotal, shipping: priced.shipping, total: priced.total,
+      }));
     } catch (err) {
-      res.writeHead(500, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ error: String(err.message || err) }));
+      res.writeHead(err instanceof PricingError ? 400 : 500, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: err.code || String(err.message || err) }));
     }
     return;
   }

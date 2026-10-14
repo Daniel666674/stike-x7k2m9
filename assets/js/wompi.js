@@ -3,13 +3,15 @@
    caida automatica al Checkout Web por redireccion si el widget no carga.
 
    Como funciona (ruta normal, Widget):
-     1. Generamos una referencia unica para el pedido y el monto en
-        centavos (COP no tiene centavos reales, pero la API de Wompi los
-        pide igual: monto * 100).
-     2. Le pedimos la firma de integridad a WOMPI_SIGN_ENDPOINT -- un
-        backend que conoce el secreto de integridad. Este archivo NUNCA
-        toca ese secreto; si lo hiciera, cualquiera podria leerlo con
-        "ver codigo fuente" y firmar lo que quisiera.
+     1. Generamos una referencia unica para el pedido.
+     2. Le mandamos a WOMPI_SIGN_ENDPOINT los productos (slug + cantidad),
+        NUNCA un monto. El backend calcula el total con los precios del
+        catalogo y devuelve el monto en centavos (COP no tiene centavos
+        reales, pero la API de Wompi los pide igual: monto * 100) junto
+        con la firma de integridad. Este archivo NUNCA toca el secreto; si
+        lo hiciera, cualquiera podria leerlo con "ver codigo fuente" y
+        firmar lo que quisiera. Si el total del servidor no es el que el
+        cliente vio en el carrito, se frena aca, antes de abrir Wompi.
      3. Cargamos checkout.wompi.co/widget.js y abrimos el modal del
         widget con esos datos. El cliente mete tarjeta/PSE/Nequi AHI
         MISMO, sin salir de stike-x7k2m9 -- antes esto era una
@@ -50,16 +52,16 @@
     return new URL("pago-resultado.html", document.baseURI).href;
   }
 
-  async function signTransaction(reference, amountInCents) {
+  async function signTransaction(reference, items) {
     const res = await fetch(WOMPI_SIGN_ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ reference, amount_in_cents: amountInCents, currency: WOMPI_CURRENCY }),
+      body: JSON.stringify({ reference, items }),
     });
-    if (!res.ok) throw new Error(`wompi-sign respondio ${res.status}`);
-    const data = await res.json();
-    if (!data.signature) throw new Error("wompi-sign no devolvio firma");
-    return data.signature;
+    const data = await res.json().catch(() => null);
+    if (!res.ok) throw new Error(`wompi-sign respondio ${res.status}: ${(data && data.error) || "sin detalle"}`);
+    if (!data || !data.signature || !data.amount_in_cents) throw new Error("wompi-sign no devolvio firma o monto");
+    return data;
   }
 
   /* <form method="GET"> clasico a checkout.wompi.co/p/ -- la ruta de
@@ -104,12 +106,22 @@
     return widgetScriptPromise;
   }
 
-  /* totalPesos: numero en pesos colombianos (no centavos). customerEmail
-     es opcional, Wompi lo usa para prellenar el checkout. */
-  async function stikeWompiCheckout(totalPesos, customerEmail) {
+  /* items: [{ slug, qty, size?, color? }], las filas del carrito.
+     expectedTotalPesos: el total (en pesos, no centavos) que el cliente ve
+     en pantalla; si el servidor calcula otro, se lanza un error con
+     code "price_mismatch" y NO se abre Wompi. customerEmail es opcional,
+     Wompi lo usa para prellenar el checkout. */
+  async function stikeWompiCheckout(items, expectedTotalPesos, customerEmail) {
     const reference = wompiReference();
-    const amountInCents = Math.round(totalPesos * 100);
-    const signature = await signTransaction(reference, amountInCents);
+    const signed = await signTransaction(reference, items.map(r => ({ slug: r.slug, qty: r.qty })));
+    const amountInCents = signed.amount_in_cents;
+    const signature = signed.signature;
+
+    if (expectedTotalPesos != null && amountInCents !== Math.round(expectedTotalPesos * 100)) {
+      const err = new Error(`El total del servidor (${amountInCents / 100}) no coincide con el del carrito (${expectedTotalPesos})`);
+      err.code = "price_mismatch";
+      throw err;
+    }
 
     try {
       await loadWompiWidget();

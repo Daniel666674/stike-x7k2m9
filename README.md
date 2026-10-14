@@ -21,8 +21,10 @@ backend**, no hay servidor ni base de datos.
 > del motor de catálogo del que salió esta arquitectura. Si vas a tocar
 > stock, visibilidad o la generación de fichas, ese es el documento.
 
-> Vende por WhatsApp: no hay pasarela de pago. El carrito funciona con
-> `localStorage` y el checkout arma un mensaje de WhatsApp con el pedido.
+> Cobra con **Wompi** (hoy en **sandbox**, no mueve plata real; ver
+> "Pagos con Wompi" más abajo) y confirma el envío por WhatsApp. El carrito
+> funciona con `localStorage`; el monto que se cobra lo calcula un servidor,
+> nunca el navegador.
 
 ## ✨ Qué incluye
 
@@ -191,6 +193,71 @@ cache del navegador siguen viendo la versión vieja.
 > `?v=` con un hash del contenido del archivo, en el momento del deploy) es
 > un cambio chico y pendiente; hoy la mitigación es acordarse, y que un
 > visitante nuevo nunca ve el problema.
+
+## 💳 Pagos con Wompi
+
+**Cómo funciona.** El carrito manda a un backend los productos (`slug` +
+cantidad), **nunca un monto**. El backend calcula el total con los precios del
+catálogo publicado (`vercel-wompi-api/lib/pricing.js`: subtotal + envío, gratis
+desde $300.000), firma ese monto con el secreto de integridad de Wompi y se lo
+devuelve al navegador, que abre el widget de Wompi. Al volver,
+`pago-resultado.html` confirma el estado con la llave privada y registra la venta
+(`vercel-wompi-api/api/wompi-order.js`). El navegador nunca ve ningún secreto.
+
+- **Backend vigente:** `vercel-wompi-api/` (proyecto `stike-wompi-api` en
+  Vercel). GitHub Pages no corre PHP, por eso vive aparte.
+- **Espejo para Hostinger:** `api/wompi-sign.php` y `api/wompi-status.php`, mismo
+  contrato. Solo se usa si el sitio se muda a Hostinger; en ese caso
+  `WOMPI_SIGN_ENDPOINT` en `assets/js/wompi.js` pasa a `/api/wompi-sign.php` y
+  `vercel-wompi-api/` se borra. Las constantes de envío (`FREE_SHIP`,
+  `SHIP_COST`) existen en `carrito.html`, `lib/pricing.js` y `wompi-sign.php`:
+  si se cambian, cambiarlas en los tres.
+- **Pruebas:** `node tools/wompi-pricing-test.mjs` (38 casos, incluye el intento
+  de pagar un monto falso). Para probar el flujo completo en local:
+  `node tools/wompi-dev-server.mjs` con un `.env` (no versionado) con
+  `WOMPI_INTEGRITY_SECRET` y `WOMPI_PRIVATE_KEY` de sandbox.
+
+**Pasar de sandbox a producción (en este orden):**
+
+1. **Decidir dos cosas** (bloquean todo lo demás): el dominio y dónde se aloja
+   el sitio (GitHub Pages + este backend en Vercel, o Hostinger con el PHP).
+2. **Datos legales:** completar `legalName` y `nit` en `STIKE_CONFIG`
+   (`assets/js/app.js`). Hoy las páginas de términos y privacidad muestran
+   `[NIT — completar]`. La cuenta de producción de Wompi se activa en
+   comercios.wompi.co a nombre del negocio.
+3. **Dominio:** apuntar el DNS, cambiar `DOMAIN` y `BASE_PATH` en
+   `assets/js/site.js`, correr `node tools/build-pages.mjs`, agregar el archivo
+   `CNAME` si es GitHub Pages, y comprobar que el sitio carga por HTTPS en el
+   dominio final (`build-pages` ya actualiza fichas, sitemap, `robots.txt` y
+   `<base href>`).
+4. **Variables de entorno en Vercel** (nunca en el repo), con las llaves de
+   **producción** que entrega Wompi: `WOMPI_INTEGRITY_SECRET`,
+   `WOMPI_PRIVATE_KEY` (empieza por `prv_prod_`), `ALLOWED_ORIGINS` (el dominio
+   final, con y sin `www`) y `CATALOG_URL` (URL pública de
+   `assets/js/products-data.js` en el dominio final). Después, redesplegar.
+5. **Llave pública:** `WOMPI_PUBLIC_KEY` en `assets/js/wompi.js` pasa de
+   `pub_test_…` a `pub_prod_…` y se sube el `?v=` de `wompi.js` en `carrito.html`.
+6. **Prueba real:** un pedido pequeño con tarjeta propia, verificar que aparece en
+   la pestaña Ventas del panel y llega el correo, y devolver el pago desde el
+   panel de Wompi.
+
+**Pendiente antes de cobrar a clientes reales:**
+
+- ⚠️ **Datos personales en un repo público.** `wompi-order.js` guarda nombre,
+  teléfono, dirección y correo del cliente en `data/sales-log.json`, y este
+  repositorio es público: cualquiera los lee en github.com (el deploy los saca
+  del sitio, no del repo). Con clientes reales hay que mover el registro de
+  ventas a un lugar privado (repo privado, base de datos) antes de cobrar.
+- **Stock:** el servidor valida que el producto exista, esté publicado y tenga
+  precio, pero no descuenta ni revisa unidades. Hoy lo cubre la confirmación
+  manual por WhatsApp.
+- **Cliente que paga y cierra la pestaña:** la venta solo se registra cuando el
+  cliente vuelve a `pago-resultado.html`. Para no depender de eso hace falta el
+  webhook de eventos de Wompi más un pedido guardado en el servidor al firmar.
+- **Si se muda a Hostinger:** el CSP de `.htaccess` hay que abrirlo a
+  `checkout.wompi.co` (script, frame y form-action) y al backend de firma
+  (connect-src); hoy bloquearía el widget. No está probado porque ese hosting
+  todavía no existe.
 
 ## 🗂️ Estructura
 
