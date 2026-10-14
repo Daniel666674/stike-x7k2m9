@@ -3586,7 +3586,7 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "caja-de-centro-fate-1019mm-negra",
     "sku": "REP-FAT-013",
-    "n": "Caja de Centro Fate 1019mm Negra",
+    "n": "Caja de Centro Fate  Mid 19mm Negra",
     "brand": "Fate BMX Colombia",
     "cat": "repuestos",
     "sub": "Bielas",
@@ -3596,7 +3596,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 80000,
     "promo": false,
-    "units": 9,
+    "units": 56,
     "imgs": [
       "assets/img/products/caja-de-centro-fate-1019mm-negra-1.jpg"
     ],
@@ -5310,7 +5310,7 @@ window.STIKE_PRODUCTS = [
     "cat": "repuestos",
     "sub": "Bielas",
     "spec": [
-      "Compatibilidad: Caja de centro 1019mm",
+      "Compatibilidad: Caja de centro Mid 19mm",
       "Incluye: 2 rodamientos (no incluye eje)",
       "Uso: Alto rodaje e impacto"
     ],
