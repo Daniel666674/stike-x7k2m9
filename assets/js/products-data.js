@@ -224,7 +224,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 340000,
     "promo": false,
-    "units": 1,
+    "units": 0,
     "imgs": [
       "assets/img/products/cana-bsd-front-load-negra-1.jpg"
     ],
