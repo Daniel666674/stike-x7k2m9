@@ -31,6 +31,14 @@ git -C "$SRC" archive --format=tar HEAD | tar -x -C "$OUT"
     data/costs.json data/sales-log.json data/audit-log.json \
     PROPOSAL.md MOTOR.md README.md propuesta.html _template.html CNAME )
 
+# Cache-busting: el ?v= de los .js/.css (catalogo incluido) pasa a ser un hash
+# de su contenido, para que ningun cache (navegador o CDN) sirva uno viejo.
+if command -v node >/dev/null 2>&1; then
+  node "$SRC/tools/stamp-assets.mjs" "$OUT"
+else
+  echo "AVISO: no hay node; no se estamparon los assets (los ?v= quedan como estan)." >&2
+fi
+
 # Red de seguridad: si algo interno se cuela, no se publica.
 for forbidden in data/costs.json data/sales-log.json data/audit-log.json vercel-wompi-api tools .env api/config.local.php PROPOSAL.md; do
   if [ -e "$OUT/$forbidden" ]; then echo "ERROR: $forbidden quedo en la copia a publicar" >&2; exit 1; fi
