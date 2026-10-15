@@ -38,7 +38,7 @@ function stikePdpInit(slug) {
     if (!lightbox) {
       lightbox = document.createElement("div");
       lightbox.className = "pdp-lightbox";
-      lightbox.innerHTML = `<button class="lb-close" aria-label="Cerrar"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button><img alt="">`;
+      lightbox.innerHTML = `<button class="lb-close" aria-label="Cerrar"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button><button class="lb-nav prev" type="button" aria-label="Foto anterior"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 5 8 12 15 19"/></svg></button><button class="lb-nav next" type="button" aria-label="Foto siguiente"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 5 16 12 9 19"/></svg></button><img alt="">`;
       document.body.appendChild(lightbox);
       const lbImg = lightbox.querySelector("img");
       const close = () => lightbox.classList.remove("open");
@@ -79,13 +79,10 @@ function stikePdpInit(slug) {
     if (!selectedColor || !p.imgColorMap || !thumbsBox) return;
     const matches = (p.imgs || []).filter(u => p.imgColorMap[u] === selectedColor);
     if (!matches.length) return;
-    if (mainImg) mainImg.src = matches[0];
     thumbsBox.querySelectorAll("[data-thumb]").forEach(btn => {
-      const src = btn.getAttribute("data-src");
-      const show = matches.includes(src);
-      btn.style.display = show ? "" : "none";
-      btn.classList.toggle("active", src === matches[0]);
+      btn.style.display = matches.includes(btn.getAttribute("data-src")) ? "" : "none";
     });
+    if (typeof showPhoto === "function") showPhoto(matches[0]); else if (mainImg) mainImg.src = matches[0];
   }
 
   // Cantidad
@@ -191,13 +188,77 @@ function stikePdpInit(slug) {
     else stikeToast("Copia: " + shareUrl);
   });
 
+  /* ---------------------------- Galeria ----------------------------------
+     Flechas en pantalla, teclado (← →), deslizar con el dedo y contador.
+     Recorre solo las fotos VISIBLES: al elegir un color la galeria se filtra
+     (applyColorGallery) y las flechas siguen esa misma lista. Funciona igual
+     en la foto principal y en la vista ampliada (lightbox). */
+  const thumbBtns = () => thumbsBox ? Array.from(thumbsBox.querySelectorAll("[data-thumb]")) : [];
+  const photoList = () => {
+    const l = thumbBtns().filter(b => b.style.display !== "none").map(b => b.getAttribute("data-src"));
+    return l.length ? l : (mainImg ? [mainImg.getAttribute("src")] : []);
+  };
+  let countEl = null;
+  function updateGalleryUi() {
+    const list = photoList();
+    const i = Math.max(0, list.indexOf(mainImg.getAttribute("src")));
+    if (countEl) { countEl.textContent = (i + 1) + " / " + list.length; countEl.hidden = list.length < 2; }
+    mainBox.querySelectorAll(".pdp-nav").forEach(b => { b.hidden = list.length < 2; });
+    const lb = document.querySelector(".pdp-lightbox");
+    if (lb) lb.querySelectorAll(".lb-nav").forEach(b => { b.hidden = list.length < 2; });
+  }
+  function showPhoto(src) {
+    if (!mainImg || !src) return;
+    mainImg.setAttribute("src", src);
+    thumbBtns().forEach(b => {
+      const on = b.getAttribute("data-src") === src;
+      b.classList.toggle("active", on);
+      if (on && thumbsBox && thumbsBox.scrollTo) thumbsBox.scrollTo({ left: Math.max(0, b.offsetLeft - (thumbsBox.clientWidth - b.offsetWidth) / 2), behavior: "smooth" });
+    });
+    const lb = document.querySelector(".pdp-lightbox");
+    if (lb && lb.classList.contains("open")) lb.querySelector("img").src = src;
+    updateGalleryUi();
+  }
+  function stepPhoto(d) {
+    const list = photoList();
+    if (list.length < 2) return;
+    const i = Math.max(0, list.indexOf(mainImg.getAttribute("src")));
+    showPhoto(list[(i + d + list.length) % list.length]);
+  }
+  window.stikePhotoStep = stepPhoto;
   // Miniaturas: cambiar imagen principal
-  if (thumbsBox) thumbsBox.querySelectorAll("[data-thumb]").forEach(t => t.addEventListener("click", () => {
-    thumbsBox.querySelectorAll("[data-thumb]").forEach(o => o.classList.remove("active"));
-    t.classList.add("active");
-    const src = t.getAttribute("data-src");
-    if (src && mainImg) mainImg.src = src;
-  }));
+  thumbBtns().forEach(t => t.addEventListener("click", () => showPhoto(t.getAttribute("data-src"))));
+  if (mainBox && mainImg) {
+    const mk = (cls, label, svg, d) => { const b = document.createElement("button"); b.type = "button"; b.className = "pdp-nav " + cls; b.setAttribute("aria-label", label); b.innerHTML = svg; b.addEventListener("click", e => { e.stopPropagation(); stepPhoto(d); }); mainBox.appendChild(b); };
+    mk("prev", "Foto anterior", '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 5 8 12 15 19"/></svg>', -1);
+    mk("next", "Foto siguiente", '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 5 16 12 9 19"/></svg>', 1);
+    countEl = document.createElement("span"); countEl.className = "pdp-count"; countEl.setAttribute("aria-live", "polite"); mainBox.appendChild(countEl);
+    const lb = document.querySelector(".pdp-lightbox");
+    if (lb) { lb.querySelector(".lb-nav.prev").addEventListener("click", e => { e.stopPropagation(); stepPhoto(-1); }); lb.querySelector(".lb-nav.next").addEventListener("click", e => { e.stopPropagation(); stepPhoto(1); }); }
+    // Teclado: ← → (no se pisa lo que se escribe en un campo, ni atajos con Ctrl/Alt/Cmd)
+    document.addEventListener("keydown", e => {
+      if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      const t = e.target;
+      if (t && (/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) || t.isContentEditable)) return;
+      e.preventDefault();
+      stepPhoto(e.key === "ArrowRight" ? 1 : -1);
+    });
+    // Deslizar con el dedo (foto principal y vista ampliada)
+    const swipe = el => {
+      let x0 = null, y0 = null;
+      el.addEventListener("touchstart", e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+      el.addEventListener("touchend", e => {
+        if (x0 == null) return;
+        const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+        x0 = null;
+        if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.4) stepPhoto(dx < 0 ? 1 : -1);
+      }, { passive: true });
+    };
+    swipe(mainBox);
+    if (lb) swipe(lb);
+    updateGalleryUi();
+  }
 
   updateWaBuy();
 

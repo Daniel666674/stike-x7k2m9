@@ -1,0 +1,73 @@
+/* Prueba de la galeria (flechas, teclado, vista ampliada, deslizar). Servir el repo en :8143: node tools/gallery-test.mjs */
+import { createRequire } from "node:module";
+const require = createRequire(process.env.PW_MODULES || "/opt/node-tools/node_modules/");
+const { chromium } = require("playwright");
+const B = "http://localhost:8143";
+const br = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium" });
+let fail = 0; const t = (l, ok, x = "") => { if (!ok) fail++; console.log((ok ? "ok    " : "FALLA ") + l + (ok ? "" : "  -> " + x)); };
+const page = await br.newPage({ viewport: { width: 1200, height: 900 } });
+const errs = []; page.on("pageerror", e => errs.push(e.message));
+await page.goto(`${B}/producto/pedales-demolition-trooper.html`, { waitUntil: "networkidle" });
+await page.addStyleTag({ content: "[class*=cookie]{display:none!important}" });
+const src = () => page.locator("#main-img").getAttribute("src");
+const total = await page.locator(".pdp-thumbs [data-thumb]").count();
+t(`hay ${total} fotos`, total >= 5);
+t("flechas visibles", await page.locator(".pdp-nav.next").isVisible() && await page.locator(".pdp-nav.prev").isVisible());
+t("contador 1 / N", (await page.locator(".pdp-count").innerText()) === `1 / ${total}`, await page.locator(".pdp-count").innerText());
+const s0 = await src();
+await page.locator(".pdp-nav.next").click();
+t("flecha derecha avanza", (await src()) !== s0);
+t("contador 2 / N", (await page.locator(".pdp-count").innerText()) === `2 / ${total}`);
+t("la miniatura activa sigue a la foto", (await page.locator(".pdp-thumbs [data-thumb].active").getAttribute("data-src")) === (await src()));
+await page.locator(".pdp-nav.prev").click();
+t("flecha izquierda vuelve", (await src()) === s0);
+await page.locator(".pdp-nav.prev").click();
+t("de la primera retrocede a la ultima (cicla)", (await page.locator(".pdp-count").innerText()) === `${total} / ${total}`);
+await page.keyboard.press("ArrowRight");
+t("teclado → (de la ultima a la primera)", (await src()) === s0);
+await page.keyboard.press("ArrowRight");
+await page.keyboard.press("ArrowLeft");
+t("teclado ← deshace →", (await src()) === s0);
+// no pisa un campo de texto
+await page.locator("#qty").focus(); const before = await src();
+await page.keyboard.press("ArrowRight");
+t("en el campo de cantidad las flechas NO cambian la foto", (await src()) === before);
+await page.locator("body").click({ position: { x: 5, y: 300 } });
+// lightbox
+await page.locator(".pdp-zoom").click();
+t("vista ampliada abierta", await page.locator(".pdp-lightbox.open").count() === 1);
+t("flechas en la vista ampliada", await page.locator(".pdp-lightbox .lb-nav.next").isVisible());
+const l0 = await page.locator(".pdp-lightbox img").getAttribute("src");
+await page.locator(".pdp-lightbox .lb-nav.next").click();
+t("lightbox: flecha cambia la foto", (await page.locator(".pdp-lightbox img").getAttribute("src")) !== l0);
+const l1 = await page.locator(".pdp-lightbox img").getAttribute("src");
+await page.keyboard.press("ArrowRight");
+t("lightbox: teclado → cambia la foto", (await page.locator(".pdp-lightbox img").getAttribute("src")) !== l1);
+await page.keyboard.press("Escape");
+t("Escape cierra", await page.locator(".pdp-lightbox.open").count() === 0);
+// color filtra la galeria y las flechas siguen la lista filtrada
+await page.goto(`${B}/producto/pedales-demolition-trooper.html`, { waitUntil: "networkidle" });
+await page.addStyleTag({ content: "[class*=cookie]{display:none!important}" });
+await page.locator("#color-options .color-opt").nth(1).click();
+const vis = await page.locator(".pdp-thumbs [data-thumb]:visible").count();
+t(`color elegido: la galeria se filtra a ${vis} foto(s)`, vis >= 1 && vis < total);
+const cnt = await page.locator(".pdp-count").innerText();
+t("el contador sigue la lista filtrada", cnt === `1 / ${vis}`, cnt);
+if (vis === 1) t("con una sola foto no hay flechas", !(await page.locator(".pdp-nav.next").isVisible()));
+// producto con 1 foto: sin flechas
+await page.goto(`${B}/producto/camibuso-odyssey-blanca-manga-larga.html`, { waitUntil: "networkidle" });
+t("1 foto: sin flechas ni contador", !(await page.locator(".pdp-nav.next").isVisible()) && !(await page.locator(".pdp-count").isVisible()));
+// celular: swipe
+const m = await br.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+const mp = await m.newPage();
+await mp.goto(`${B}/producto/pedales-demolition-trooper.html`, { waitUntil: "networkidle" });
+await mp.addStyleTag({ content: "[class*=cookie]{display:none!important}" });
+const ms0 = await mp.locator("#main-img").getAttribute("src");
+await mp.evaluate(() => { const el = document.querySelector(".pdp-gallery .main"); const mk = (type, x) => el.dispatchEvent(new TouchEvent(type, { bubbles: true, touches: type === "touchend" ? [] : [new Touch({ identifier: 1, target: el, clientX: x, clientY: 200 })], changedTouches: [new Touch({ identifier: 1, target: el, clientX: x, clientY: 200 })] })); mk("touchstart", 300); mk("touchend", 120); });
+t("celular: deslizar a la izquierda avanza", (await mp.locator("#main-img").getAttribute("src")) !== ms0);
+t("celular: flechas visibles y sin desbordar", await mp.locator(".pdp-nav.next").isVisible() && (await mp.evaluate(() => document.body.scrollWidth)) <= 390);
+await mp.screenshot({ path: "/tmp/claude-0/x/gal-mobile.png" });
+await page.goto(`${B}/producto/pedales-demolition-trooper.html`, { waitUntil: "networkidle" });
+await page.screenshot({ path: "/tmp/claude-0/x/gal-desktop.png", clip: { x: 0, y: 80, width: 640, height: 640 } });
+t("sin errores JS", errs.length === 0, errs.join("|"));
+await br.close(); process.exit(fail ? 1 : 0);
