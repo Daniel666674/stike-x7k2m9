@@ -306,8 +306,6 @@
   "caja-frente-fate-negra": 0,
   "caja-frente-fiend-alta-negra": 0,
   "caja-frente-gw": 0,
-  "caja-fiend-frente-integrado-ransom-negra": 0,
-  "caja-fiend-frente-integrado-ransom-cromada": 0,
   "caja-frente-fiend-stack": 0,
   "caja-frente-cult-match-v2": 0,
   "funda-peg-fate-43": 0,
@@ -330,5 +328,6 @@
   "caja-de-centro-fate-1019mm-negra": 0,
   "juegos-rodamiento-optimus-1019mm-verde": 0,
   "tenedor-odyssey-r15-negro": 0,
-  "cana-bsd-front-load-negra": 0
+  "cana-bsd-front-load-negra": 0,
+  "caja-de-frente-fiend-frente-integrado-ransom": 0
 }

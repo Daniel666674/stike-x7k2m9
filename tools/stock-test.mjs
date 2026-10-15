@@ -52,5 +52,21 @@ t('AGOTADO SIGUE VISIBLE',            D.stikeIsVisible({ units: 0 }), true);
 console.log('\nEl contador del panel muestra el dato crudo');
 t('suma cruda de tallas', D.stikeTotalStock({ sizes: [{ v: 'S', u: 1 }, { v: 'M', u: 4 }] }), 5);
 
+console.log('\nCombinaciones talla x color (p.combos)');
+const tee = { sizes: [{ v: 'M', u: 2 }, { v: 'L', u: 1 }], colors: [{ v: 'Blanco', u: 2 }, { v: 'Negro', u: 1 }],
+  combos: [{ s: 'M', c: 'Blanco', u: 1 }, { s: 'L', c: 'Blanco', u: 1 }, { s: 'M', c: 'Negro', u: 1 }, { s: 'L', c: 'Negro', u: 0 }] };
+t('combo existente',                   D.stikeStockFor(tee, 'L', 'Blanco'), 1);
+t('combo en 0 aunque L y Negro tengan stock por separado', D.stikeStockFor(tee, 'L', 'Negro'), 0);
+t('falta elegir una de las dos -> null', D.stikeStockFor(tee, 'M', null), null);
+t('total = suma de la tabla',          D.stikeTotalStock(tee), 3);
+t('vendible = mejor combinacion',      D.stikeSellable(tee), 1);
+t('todo en 0 -> agotado',              D.stikeIsOut({ ...tee, combos: tee.combos.map(r => ({ ...r, u: 0 })) }), true);
+t('sin combos sigue el minimo de las pools', D.stikeStockFor({ sizes: tee.sizes, colors: tee.colors }, 'L', 'Negro'), 1);
+
+console.log('\nColor redondo: tono segun el nombre');
+t('negro brillante -> negro',          D.stikeColorStyle('Negro brillante'), '#16171a');
+t('dos tonos -> mitades',              /^linear-gradient\(90deg,#2563c9 0 50%,#d4202c 50% 100%\)$/.test(D.stikeColorStyle('Azul/Rojo')), true);
+t('cromado -> degradado',              /gradient/.test(D.stikeColorStyle('Cromado')), true);
+
 console.log(`\n  ${pass} pasaron, ${fail} fallaron\n`);
 process.exit(fail ? 1 : 0);

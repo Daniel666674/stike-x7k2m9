@@ -181,6 +181,7 @@ function stikeProductCard(p) {
       ${brandLine}
       <div class="title"><a href="${url}">${p.n}</a></div>
       <div class="price">${stikePrice(p.price)}${oldPrice}</div>
+      ${p.colors && p.colors.length > 1 ? `<div class="swatch-row dots" style="margin-top:8px">${p.colors.slice(0, 8).map(c => stikeColorDot(c)).join("")}${p.colors.length > 8 ? `<span class="cdot-more">+${p.colors.length - 8}</span>` : ""}</div>` : ""}
     </div>
   </article>`;
 }

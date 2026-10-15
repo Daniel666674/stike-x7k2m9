@@ -64,14 +64,16 @@
       <div class="size-options" id="size-options">${opts}</div>
     </div>`;
   }
-  function renderColorBlock(p) {
+  /* Colores: circulos tintados, SIN texto (el nombre queda en aria-label
+     para lectores de pantalla). El tono sale de stikeColorStyle (data.js). */
+  function renderColorBlock(p, stock) {
     if (!p.colors) return "";
     var opts = p.colors.map(c =>
-      `<button type="button" class="size-opt${c.u <= 0 ? " out" : ""}" data-color="${esc(c.v)}" data-stock="${c.u}" ${c.u <= 0 ? "disabled" : ""}>${esc(c.v)}</button>`
+      `<button type="button" class="color-opt${c.u <= 0 ? " out" : ""}" data-color="${esc(c.v)}" data-stock="${c.u}" aria-label="${esc(c.v)}" style="--dot:${esc(stock.stikeColorStyle(c.v))}" ${c.u <= 0 ? "disabled" : ""}><span class="dot-fill"></span></button>`
     ).join("");
     return `<div class="size-select" data-variant="color">
       <div class="size-label">Color <span class="size-req" id="color-req"></span></div>
-      <div class="size-options" id="color-options">${opts}</div>
+      <div class="size-options color-options" id="color-options">${opts}</div>
     </div>`;
   }
 
@@ -144,7 +146,7 @@
       PRICE_BLOCK: `${money(p.price)} ${oldPrice}${discount}`,
       STOCK_BLOCK: stockHtml,
       SIZE_BLOCK: renderSizeBlock(p),
-      COLOR_BLOCK: renderColorBlock(p),
+      COLOR_BLOCK: renderColorBlock(p, stock),
       ADD_DISABLED: isOut ? "disabled style=opacity:.5" : "",
       WA_LABEL: stock.stikeWaLabel(p),
       /* Datos estructurados: precio sin formato y disponibilidad. Un agotado

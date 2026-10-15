@@ -70,7 +70,8 @@ const PdpRender = require(path.join(ROOT, "assets/js/pdp-render.js"));
 const browser = loadBrowserScripts(
   ["assets/js/products-data.js", "assets/js/data.js"],
   ["STIKE_ALL_PRODUCTS", "STIKE_PRODUCTS", "STIKE_CATEGORIES", "STIKE_PART_PAGES",
-   "stikeIsVisible", "stikeIsOut", "stikeTotalStock", "stikeSellable", "stikeWaText", "stikeWaLabel", "stikePrice"]
+   "stikeIsVisible", "stikeIsOut", "stikeTotalStock", "stikeSellable", "stikeWaText", "stikeWaLabel", "stikePrice",
+   "stikeColorStyle", "stikeHasCombos", "stikeComboUnits"]
 );
 
 /* El catalogo COMPLETO, borradores incluidos: hay que saber que un borrador
@@ -151,6 +152,27 @@ for (const p of VISIBLE) {
   write(`producto/${p.slug}.html`, withBaseHref(html));
 }
 
+/* Fichas que se fusionaron en otra (varios colores de un mismo producto):
+   data/redirects.json {slugViejo: slugNuevo}. El enlace viejo (Google,
+   WhatsApp, favoritos) sigue funcionando: la ficha vieja pasa a ser una
+   pagina minima que manda al producto nuevo. */
+const REDIRECTS = fs.existsSync(path.join(ROOT, "data/redirects.json"))
+  ? JSON.parse(read("data/redirects.json")) : {};
+for (const [oldSlug, newSlug] of Object.entries(REDIRECTS)) {
+  if (!VISIBLE.some((p) => p.slug === newSlug)) { problems.push(`La redireccion ${oldSlug} -> ${newSlug} apunta a un producto que no esta publicado.`); continue; }
+  if (VISIBLE.some((p) => p.slug === oldSlug)) continue;      // el slug viejo volvio a ser un producto real
+  const target = SITE.url(`producto/${newSlug}.html`);
+  write(`producto/${oldSlug}.html`, `<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Redirigiendo… | ${SITE.name}</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="${target}">
+<meta http-equiv="refresh" content="0; url=${newSlug}.html">
+<script>location.replace(${JSON.stringify(newSlug + ".html")} + location.search + location.hash);</script>
+</head><body><p>Este producto ahora está en <a href="${newSlug}.html">${newSlug}</a>.</p></body></html>
+`);
+}
+
 /* Fichas en disco que ya no corresponden a ningun producto publicado: un
    borrador que antes estuvo publicado, o un producto borrado. El panel las
    borra al publicar; aca solo se avisan, porque borrar archivos sin que
@@ -160,7 +182,7 @@ for (const p of VISIBLE) {
 const vivos = new Set(VISIBLE.map((p) => p.slug));
 const huerfanas = fs.existsSync(path.join(ROOT, "producto"))
   ? fs.readdirSync(path.join(ROOT, "producto"))
-      .filter((f) => f.endsWith(".html") && !vivos.has(f.replace(/\.html$/, "")))
+      .filter((f) => f.endsWith(".html") && !vivos.has(f.replace(/\.html$/, "")) && !(f.replace(/\.html$/, "") in REDIRECTS))
   : [];
 
 /* --------------------------------------------------------------------------
