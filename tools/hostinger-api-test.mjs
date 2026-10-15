@@ -76,8 +76,12 @@ const post = async (base, ep, body) => { const r = await fetch(`${base}/${ep}.ph
 const getSales = async (key) => { const r = await fetch(`${A.url}/sales.php`, { headers: key ? { Authorization: `Bearer ${key}` } : {} }); return { code: r.status, body: await r.json().catch(() => null) }; };
 
 const real = P.parseCatalog(readFileSync(join(ROOT, 'assets/js/products-data.js'), 'utf8')).filter(p => p.published !== false);
-const barato = real.reduce((a, p) => (p.price < a.price ? p : a));
-const caro = real.reduce((a, p) => (p.price > a.price ? p : a));
+// Productos con stock de sobra y sin variantes: la firma ahora rechaza
+// pedidos que superan el stock (ver la prueba "sin stock" mas abajo).
+const vendibles = real.filter(p => !(p.sizes && p.sizes.length) && !(p.colors && p.colors.length) && (typeof p.units !== 'number' || p.units >= 2));
+const barato = vendibles.reduce((a, p) => (p.price < a.price ? p : a));
+const caro = vendibles.reduce((a, p) => (p.price > a.price ? p : a));
+const agotado = real.find(p => !(p.sizes && p.sizes.length) && !(p.colors && p.colors.length) && p.units === 0);
 const SHIP = { name: 'Cliente Prueba', phone: '3001112233', address: 'Calle 1 # 2-3', city: 'Bogota', notes: 'Timbre roto' };
 const order = (ref, extra = {}) => ({ reference: ref, items: [{ slug: barato.slug, qty: 2, size: 'M', color: 'Negro' }, { slug: caro.slug, qty: 1 }], shipping: SHIP, customerEmail: 'cliente@example.com', ...extra });
 const expectedCents = P.priceOrder(real, [{ slug: barato.slug, qty: 2 }, { slug: caro.slug, qty: 1 }]).amountInCents;
@@ -176,6 +180,14 @@ try {
   t('clave equivocada -> 401', (await getSales('x'.repeat(32))).code, 401);
   t('clave correcta -> 200', (await getSales(KEY)).code, 200);
   t('POST no esta permitido', (await post(A.url, 'sales', {})).code, 405);
+
+  console.log('\nStock: no se cobra lo que no hay');
+  if (agotado) {
+    const sa = await post(A.url, 'wompi-sign', { ...order('stike-1700000000060-agotad'), items: [{ slug: agotado.slug, qty: 1 }] });
+    t('producto agotado -> 409 out_of_stock', [sa.code, sa.body && sa.body.error, sa.body && sa.body.detail], [409, 'out_of_stock', agotado.slug]);
+  }
+  const sb = await post(A.url, 'wompi-sign', { ...order('stike-1700000000061-masdel'), items: [{ slug: barato.slug, qty: (typeof barato.units === 'number' ? barato.units : 1) + (typeof barato.units === 'number' ? 1 : 0) }] });
+  if (typeof barato.units === 'number') t('pedir mas unidades de las que hay -> 409', sb.code, 409);
 
   console.log('\nFallas de configuracion (no deben abrir nada ni filtrar rutas)');
   const archivo = join(STORAGE, 'un-archivo');

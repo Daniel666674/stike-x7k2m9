@@ -99,6 +99,25 @@ function stikePdpInit(slug) {
     qtyEl.addEventListener("input", () => { qtyEl.value = qtyEl.value.replace(/[^0-9]/g, ""); });
   }
 
+  /* El HTML de la ficha se genero con el stock de ESE momento; las ventas
+     (tienda u online) lo cambian despues. Se re-sincronizan los botones con
+     el catalogo vivo para que nunca se ofrezca algo vendido ni se bloquee
+     algo que volvio a tener unidades. */
+  [["#size-options", "data-size", p.sizes], ["#color-options", "data-color", p.colors]].forEach(([sel, attr, pool]) => {
+    if (!pool) return;
+    document.querySelectorAll(`${sel} .size-opt`).forEach(b => {
+      const row = pool.find(r => r.v === b.getAttribute(attr));
+      const u = row ? (row.u || 0) : 0;
+      b.setAttribute("data-stock", u);
+      b.disabled = u <= 0;
+      b.classList.toggle("out", u <= 0);
+    });
+  });
+  if (addBtn) {
+    const sellable = stikeSellable(p);
+    addBtn.disabled = sellable != null && sellable <= 0;
+  }
+
   // Talla / color: los botones ya estan en el HTML (server-rendered) con su data-stock
   document.querySelectorAll("#size-options .size-opt").forEach(b => b.addEventListener("click", () => {
     if (b.disabled) return;

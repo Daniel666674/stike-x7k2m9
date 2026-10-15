@@ -70,7 +70,12 @@
       body: JSON.stringify({ reference, items, shipping: shipping || null, customerEmail: customerEmail || null }),
     });
     const data = await res.json().catch(() => null);
-    if (!res.ok) throw new Error(`wompi-sign respondio ${res.status}: ${(data && data.error) || "sin detalle"}`);
+    if (!res.ok) {
+      const err = new Error(`wompi-sign respondio ${res.status}: ${(data && data.error) || "sin detalle"}`);
+      err.code = data && data.error;
+      err.detail = data && data.detail;
+      throw err;
+    }
     if (!data || !data.signature || !data.amount_in_cents) throw new Error("wompi-sign no devolvio firma o monto");
     return data;
   }
