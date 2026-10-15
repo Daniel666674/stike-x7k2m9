@@ -154,7 +154,19 @@ function stike_pool_units($pool, $v) {
   foreach ($pool as $row) if (($row["v"] ?? null) === $v) return max(0, (int)($row["u"] ?? 0));
   return 0;
 }
+/* Con tabla de combinaciones (p.combos = [{s, c, u}]) esa tabla manda. */
+function stike_has_combos($p) {
+  return !empty($p["combos"]) && is_array($p["combos"]) && !empty($p["sizes"]) && !empty($p["colors"]);
+}
+function stike_combo_units($p, $size, $color) {
+  foreach ($p["combos"] as $row) if (($row["s"] ?? null) === $size && ($row["c"] ?? null) === $color) return max(0, (int)($row["u"] ?? 0));
+  return 0;
+}
 function stike_stock_for($p, $size, $color) {
+  if (stike_has_combos($p)) {
+    if ($size === null || $color === null) return 0;
+    return stike_combo_units($p, $size, $color);
+  }
   $sizes = (isset($p["sizes"]) && is_array($p["sizes"]) && count($p["sizes"])) ? $p["sizes"] : null;
   $colors = (isset($p["colors"]) && is_array($p["colors"]) && count($p["colors"])) ? $p["colors"] : null;
   if ($sizes || $colors) {
@@ -168,6 +180,10 @@ function stike_stock_for($p, $size, $color) {
 /* Descuenta una venta del producto, en la misma pool en que se vendio. */
 function stike_decrement_stock(&$p, $size, $color, $qty) {
   $hit = false;
+  if (stike_has_combos($p) && $size !== null && $color !== null && !empty($p["combos"])) {
+    foreach ($p["combos"] as &$row) if (($row["s"] ?? null) === $size && ($row["c"] ?? null) === $color) $row["u"] = max(0, (int)$row["u"] - $qty);
+    unset($row);
+  }
   foreach (["sizes" => $size, "colors" => $color] as $k => $v) {
     if ($v === null || empty($p[$k]) || !is_array($p[$k])) continue;
     foreach ($p[$k] as &$row) if (($row["v"] ?? null) === $v) { $row["u"] = max(0, (int)$row["u"] - $qty); $hit = true; }

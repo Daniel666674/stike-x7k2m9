@@ -195,8 +195,23 @@ function stikePoolTotal(pool) {
   return pool.reduce((sum, r) => sum + r.u, 0);
 }
 
+/* COMBINACIONES (opcional): un producto con tallas Y colores puede traer
+   p.combos = [{s: talla, c: color, u: unidades}]. Entonces ESA tabla manda
+   (una camiseta negra M y una blanca L no se confunden con negra L). Las
+   pools p.sizes / p.colors quedan como la suma de cada fila/columna, para
+   que todo lo que solo lee totales siga funcionando. */
+function stikeHasCombos(p) { return !!(p && p.combos && p.combos.length && p.sizes && p.colors); }
+function stikeComboUnits(p, size, color) {
+  const row = (p.combos || []).find(r => r.s === size && r.c === color);
+  return row ? Math.max(0, row.u || 0) : 0;
+}
+
 /* Stock vendible real para la seleccion actual (talla y/o color elegidos) */
 function stikeStockFor(p, size, color) {
+  if (stikeHasCombos(p)) {
+    if (size == null || color == null) return null;
+    return stikeComboUnits(p, size, color);
+  }
   const sizeStock = p.sizes ? stikePoolStock(p.sizes, size) : null;
   const colorStock = p.colors ? stikePoolStock(p.colors, color) : null;
   if (p.sizes && p.colors) {
@@ -243,6 +258,7 @@ function stikeStockFor(p, size, color) {
 /* Suma cruda de una pool. Para el panel, que muestra el inventario tal
    como esta guardado; no para decidir si algo se puede vender. */
 function stikeTotalStock(p) {
+  if (stikeHasCombos(p)) return p.combos.reduce((n, r) => n + Math.max(0, r.u || 0), 0);
   const sizeTotal = p.sizes ? stikePoolTotal(p.sizes) : null;
   const colorTotal = p.colors ? stikePoolTotal(p.colors) : null;
   if (sizeTotal != null && colorTotal != null) return Math.min(sizeTotal, colorTotal);
@@ -259,6 +275,7 @@ function stikeSellable(p) {
   const sizes = p.sizes && p.sizes.length ? p.sizes : null;
   const colors = p.colors && p.colors.length ? p.colors : null;
 
+  if (stikeHasCombos(p)) return Math.max(0, ...p.combos.map(r => r.u || 0));
   if (sizes && colors) {
     /* Dos bodegas: la mejor combinacion posible es el mejor de los minimos.
        Con S=0 y negro=5, la talla S no se puede vender aunque haya negro. */
@@ -400,11 +417,61 @@ function stikeWaLabel(p) {
   return stikeIsOut(p) ? "Avísame cuando llegue" : "Comprar por WhatsApp";
 }
 
-/* Etiqueta corta para tarjetas: chips de talla/color, tachados si agotados */
+/* ---------------------------- Colores redondos ----------------------------
+   El selector de color NO muestra la palabra: es un circulo del color. Se
+   deduce del NOMBRE del color guardado (por palabras clave, asi "Negro
+   brillante", "Negra" y "Black" caen en el mismo tono). Un color de dos
+   tonos ("Azul/Rojo") sale partido en dos mitades. Si el nombre no se
+   reconoce sale gris con un aviso en consola (nunca un circulo vacio). */
+const STIKE_COLOR_HEX = [
+  [/cromad|chrome|plata|silver/, "linear-gradient(135deg,#f4f5f6 0%,#9ea3a8 45%,#eceef0 60%,#7d8388 100%)"],
+  [/dorad|gold|oro(?! rosa)/, "linear-gradient(135deg,#f6dd7a,#c99a1c 55%,#f0cf62)"],
+  [/oro rosa|rose/, "linear-gradient(135deg,#f4cfc2,#c98b7a)"],
+  [/tornasol|iridisc|holograf/, "conic-gradient(#7be0d8,#c79bf2,#f5a8c9,#f6e58a,#7be0d8)"],
+  [/camuflad|camo/, "radial-gradient(circle at 30% 30%,#6b7a4a 0 28%,#3e4a2c 30% 55%,#8a7a52 57% 80%,#2b3320 82%)"],
+  [/aguamarina|turquesa|aqua/, "#2ec4b6"],
+  [/negr|black/, "#16171a"],
+  [/blanc|white|perla|crema/, "#f3f1ec"],
+  [/roj|red|corsa|vinotint/, "#d4202c"],
+  [/azul|blue/, "#2563c9"],
+  [/verde|green|oliva|militar/, "#2f9e4f"],
+  [/morad|purpura|púrpura|lila|violet/, "#7a3fc4"],
+  [/rosad|rosa|fucsia|fuscia|pink/, "#e86aa6"],
+  [/amarill|yellow/, "#f2c21b"],
+  [/naranj|orange|anaranjad/, "#f07a1a"],
+  [/gris|gray|grey/, "#8b9096"],
+  [/caf[eé]|marr[oó]n|chocolate|brown/, "#6b4a2f"],
+  [/beige|arena|crema/, "#d9c7a3"],
+];
+function stikeColorOne(name) {
+  const n = String(name || "").toLowerCase();
+  for (const [re, css] of STIKE_COLOR_HEX) if (re.test(n)) return css;
+  if (typeof console !== "undefined") console.warn("[stike] color sin tono definido:", name);
+  return "#9aa0a6";
+}
+/* Un tono plano (el primer color de un degradado), para las mitades. */
+function stikeColorSolid(name) {
+  const css = stikeColorOne(name);
+  const m = css.match(/#[0-9a-f]{3,6}/i);
+  return m ? m[0] : "#9aa0a6";
+}
+/* Valor CSS de "background" para un nombre de color (una o dos mitades). */
+function stikeColorStyle(name) {
+  const parts = String(name || "").split(/\s*\/\s*/).filter(Boolean);
+  if (parts.length >= 2) return `linear-gradient(90deg,${stikeColorSolid(parts[0])} 0 50%,${stikeColorSolid(parts[1])} 50% 100%)`;
+  return stikeColorOne(name);
+}
+/* Circulo de color: sin texto visible; el nombre queda para lectores de
+   pantalla (aria-label) y el hover. */
+function stikeColorDot(c, extra) {
+  return `<span class="cdot${c.u <= 0 ? " out" : ""}" style="background:${stikeColorStyle(c.v)}" role="img" aria-label="${String(c.v).replace(/"/g, "&quot;")}"${extra || ""}></span>`;
+}
+
+/* Etiqueta corta para tarjetas: tallas en texto, colores en circulos */
 function stikeVariantChips(p) {
   const parts = [];
   if (p.sizes) parts.push(`<div class="swatch-row">${p.sizes.map(s => `<span class="swatch${s.u <= 0 ? " out" : ""}">${s.v}</span>`).join("")}</div>`);
-  if (p.colors) parts.push(`<div class="swatch-row">${p.colors.map(c => `<span class="swatch${c.u <= 0 ? " out" : ""}">${c.v}</span>`).join("")}</div>`);
+  if (p.colors) parts.push(`<div class="swatch-row dots">${p.colors.map(c => stikeColorDot(c)).join("")}</div>`);
   return parts.join("");
 }
 
@@ -438,6 +505,6 @@ if (typeof module !== "undefined" && module.exports) {
     STIKE_CATEGORIES, STIKE_BRANDS, SIZE_CATEGORIES, SKU_CAT_CODES,
     stikeTotalStock, stikeSellable, stikeIsOut, stikeIsVisible, stikeIsOutOfStock,
     stikeStockFor, stikePoolStock, stikePoolTotal, stikeCategory, stikePrice,
-    stikeWaText, stikeWaLabel,
+    stikeWaText, stikeWaLabel, stikeColorStyle, stikeHasCombos, stikeComboUnits,
   };
 }

@@ -252,62 +252,48 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "marco-fiend-shapershifter-320-negro",
+    "slug": "marco-fiend-shapershifter-320",
     "sku": "REP-FIE-002",
-    "n": "Marco Fiend Shapershifter 320 Negro Brillante",
+    "n": "Marco Fiend Shapershifter 320",
     "brand": "Fiend",
     "cat": "repuestos",
     "sub": "Marcos",
     "spec": [
       "Medidas disponibles: 20.5\" y 20.75\" (1 c/u)",
-      "Tubo superior: 12.75\"",
-      "Color: Negro brillante"
+      "Tubo superior: 12.75\""
     ],
     "price": 1790000,
     "promo": false,
-    "units": 2,
+    "colors": [
+      {
+        "v": "Negro brillante",
+        "u": 2
+      },
+      {
+        "v": "Gris mate",
+        "u": 1
+      },
+      {
+        "v": "Rojo corsa",
+        "u": 2
+      },
+      {
+        "v": "Blanco perla brillante",
+        "u": 1
+      }
+    ],
     "imgs": [
-      "assets/img/products/marco-fiend-shapershifter-320-negro-1.jpg"
+      "assets/img/products/marco-fiend-shapershifter-320-negro-1.jpg",
+      "assets/img/products/marco-fiend-shapershifter-320-gris-mate-1.jpg",
+      "assets/img/products/marco-fiend-shapershifter-320-rojo-corsa-1.jpg",
+      "assets/img/products/marco-fiend-shapershifter-320-blanco-1.jpg"
     ],
-    "published": true
-  },
-  {
-    "slug": "marco-fiend-shapershifter-320-gris-mate",
-    "sku": "REP-FIE-003",
-    "n": "Marco Fiend Shapershifter 320 Gris Mate",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Marcos",
-    "spec": [
-      "Tubo superior: 20.75\" X 12.75\"",
-      "Color: Gris mate"
-    ],
-    "price": 1790000,
-    "promo": false,
-    "units": 1,
-    "imgs": [
-      "assets/img/products/marco-fiend-shapershifter-320-gris-mate-1.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "marco-fiend-shapershifter-320-rojo-corsa",
-    "sku": "REP-FIE-004",
-    "n": "Marco Fiend Shapershifter 320 Rojo Corsa",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Marcos",
-    "spec": [
-      "Medidas disponibles: 20.5\" y 20.75\" (1 c/u)",
-      "Tubo superior: 12.75\"",
-      "Color: Rojo corsa"
-    ],
-    "price": 1790000,
-    "promo": false,
-    "units": 2,
-    "imgs": [
-      "assets/img/products/marco-fiend-shapershifter-320-rojo-corsa-1.jpg"
-    ],
+    "imgColorMap": {
+      "assets/img/products/marco-fiend-shapershifter-320-negro-1.jpg": "Negro brillante",
+      "assets/img/products/marco-fiend-shapershifter-320-gris-mate-1.jpg": "Gris mate",
+      "assets/img/products/marco-fiend-shapershifter-320-rojo-corsa-1.jpg": "Rojo corsa",
+      "assets/img/products/marco-fiend-shapershifter-320-blanco-1.jpg": "Blanco perla brillante"
+    },
     "published": true
   },
   {
@@ -349,22 +335,38 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "tenedor-fiend-invest-v2-26mm-cromado",
+    "slug": "tenedor-fiend-invest-v2-26mm",
     "sku": "REP-FIE-007",
-    "n": "Tenedor Fiend Invest V2 26mm Cromado",
+    "n": "Tenedor Fiend Invest V2 26mm",
     "brand": "Fiend",
     "cat": "repuestos",
     "sub": "Tenedores",
     "spec": [
-      "Eje: 26mm",
-      "Color: Cromado"
+      "Desplazamiento: 26mm",
+      "Eje: 3/8\"",
+      "Tubo de dirección: 1 1/8\" sin rosca",
+      "Material: Cromoly 4130 tratado térmicamente, tapa en aluminio 6061-T6"
     ],
     "price": 750000,
     "promo": false,
-    "units": 1,
-    "imgs": [
-      "assets/img/products/tenedor-fiend-invest-v2-26mm-cromado-1.jpg"
+    "colors": [
+      {
+        "v": "Cromado",
+        "u": 1
+      },
+      {
+        "v": "Negro",
+        "u": 1
+      }
     ],
+    "imgs": [
+      "assets/img/products/tenedor-fiend-invest-v2-26mm-cromado-1.jpg",
+      "assets/img/products/tenedor-fiend-invest-v2-26mm-negro-1.jpg"
+    ],
+    "imgColorMap": {
+      "assets/img/products/tenedor-fiend-invest-v2-26mm-cromado-1.jpg": "Cromado",
+      "assets/img/products/tenedor-fiend-invest-v2-26mm-negro-1.jpg": "Negro"
+    },
     "published": true
   },
   {
@@ -445,219 +447,180 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "cana-fiend-reynolds-v4-negra",
+    "slug": "cana-fiend-reynolds-v4",
     "sku": "REP-FIE-012",
-    "n": "Caña Fiend Reynolds V4 Negra",
+    "n": "Caña Fiend Reynolds V4",
     "brand": "Fiend",
     "cat": "repuestos",
     "sub": "Espigas",
     "spec": [
-      "Modelo: Reynolds V4",
-      "Color: Negro"
+      "Modelo: Reynolds V4"
     ],
     "price": 295000,
     "promo": false,
-    "units": 5,
-    "imgs": [
-      "assets/img/products/cana-fiend-reynolds-v4-negra-1.jpg"
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 5
+      },
+      {
+        "v": "Cromado",
+        "u": 4
+      },
+      {
+        "v": "Dorado",
+        "u": 2
+      }
     ],
+    "imgs": [
+      "assets/img/products/cana-fiend-reynolds-v4-negra-1.jpg",
+      "assets/img/products/cana-fiend-reynolds-v4-cromada-1.jpg",
+      "assets/img/products/cana-fiend-reynolds-v4-gold-1.jpg",
+      "assets/img/products/cana-fiend-reynolds-v4-gold-2.jpg"
+    ],
+    "imgColorMap": {
+      "assets/img/products/cana-fiend-reynolds-v4-negra-1.jpg": "Negro",
+      "assets/img/products/cana-fiend-reynolds-v4-cromada-1.jpg": "Cromado",
+      "assets/img/products/cana-fiend-reynolds-v4-gold-1.jpg": "Dorado",
+      "assets/img/products/cana-fiend-reynolds-v4-gold-2.jpg": "Dorado"
+    },
     "published": true
   },
   {
-    "slug": "cana-fiend-reynolds-v4-cromada",
-    "sku": "REP-FIE-013",
-    "n": "Caña Fiend Reynolds V4 Cromada",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Espigas",
-    "spec": [
-      "Modelo: Reynolds V4",
-      "Color: Cromado"
-    ],
-    "price": 295000,
-    "promo": false,
-    "units": 4,
-    "imgs": [
-      "assets/img/products/cana-fiend-reynolds-v4-cromada-1.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "cana-fiend-ransom-gold",
+    "slug": "cana-fiend-ransom",
     "sku": "REP-FIE-014",
-    "n": "Caña Fiend Ransom Gold",
+    "n": "Caña Fiend Ransom",
     "brand": "Fiend",
     "cat": "repuestos",
     "sub": "Espigas",
     "spec": [
-      "Modelo: Ransom",
-      "Color: Dorado"
+      "Modelo: Ransom"
     ],
     "price": 295000,
     "promo": false,
-    "units": 1,
-    "imgs": [
-      "assets/img/products/cana-fiend-ransom-gold-1.jpg"
+    "colors": [
+      {
+        "v": "Dorado",
+        "u": 1
+      },
+      {
+        "v": "Cromado",
+        "u": 2
+      }
     ],
-    "published": true
-  },
-  {
-    "slug": "cana-fiend-ransom-cromada",
-    "sku": "REP-FIE-015",
-    "n": "Caña Fiend Ransom Cromada",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Espigas",
-    "spec": [
-      "Modelo: Ransom",
-      "Color: Cromado"
-    ],
-    "price": 295000,
-    "promo": false,
-    "units": 2,
     "imgs": [
+      "assets/img/products/cana-fiend-ransom-gold-1.jpg",
       "assets/img/products/cana-fiend-ransom-cromada-1.jpg"
     ],
+    "imgColorMap": {
+      "assets/img/products/cana-fiend-ransom-gold-1.jpg": "Dorado",
+      "assets/img/products/cana-fiend-ransom-cromada-1.jpg": "Cromado"
+    },
     "published": true
   },
   {
-    "slug": "cana-fiend-mills-fl-negra",
+    "slug": "cana-fiend-mills-fl",
     "sku": "REP-FIE-016",
-    "n": "Caña Fiend Mills FL Negra",
+    "n": "Caña Fiend Mills FL",
     "brand": "Fiend",
     "cat": "repuestos",
     "sub": "Espigas",
     "spec": [
       "Modelo: Mills",
-      "Tipo: Front Load",
-      "Color: Negro"
+      "Tipo: Front Load"
     ],
     "price": 295000,
     "promo": false,
-    "units": 5,
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 5
+      },
+      {
+        "v": "Dorado",
+        "u": 1
+      },
+      {
+        "v": "Cromado",
+        "u": 5
+      }
+    ],
     "imgs": [
-      "assets/img/products/cana-fiend-mills-fl-negra-1.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "cana-fiend-mills-fl-gold",
-    "sku": "REP-FIE-017",
-    "n": "Caña Fiend Mills FL Gold",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Espigas",
-    "spec": [
-      "Modelo: Mills",
-      "Tipo: Front Load",
-      "Color: Dorado"
-    ],
-    "price": 295000,
-    "promo": false,
-    "units": 1,
-    "imgs": [
-      "assets/img/products/cana-fiend-mills-fl-gold-1.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "cana-fiend-mills-fl-cromada",
-    "sku": "REP-FIE-018",
-    "n": "Caña Fiend Mills FL Cromada",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Espigas",
-    "spec": [
-      "Modelo: Mills",
-      "Tipo: Front Load",
-      "Color: Cromado"
-    ],
-    "price": 295000,
-    "promo": false,
-    "units": 5,
-    "imgs": [
+      "assets/img/products/cana-fiend-mills-fl-negra-1.jpg",
+      "assets/img/products/cana-fiend-mills-fl-gold-1.jpg",
       "assets/img/products/cana-fiend-mills-fl-cromada-1.jpg"
     ],
+    "imgColorMap": {
+      "assets/img/products/cana-fiend-mills-fl-negra-1.jpg": "Negro",
+      "assets/img/products/cana-fiend-mills-fl-gold-1.jpg": "Dorado",
+      "assets/img/products/cana-fiend-mills-fl-cromada-1.jpg": "Cromado"
+    },
     "published": true
   },
   {
-    "slug": "caja-fiend-frente-integrado-ransom-negra",
+    "slug": "caja-de-frente-fiend-frente-integrado-ransom",
     "sku": "REP-FIE-019",
-    "n": "Caja De Frente Fiend Frente Integrado Ransom Negra",
+    "n": "Caja De Frente Fiend Frente Integrado Ransom",
     "brand": "Fiend",
     "cat": "repuestos",
     "sub": "Tenedores",
     "spec": [
       "Tipo: Integrada",
-      "Modelo: Ransom",
-      "Color: Negro"
+      "Modelo: Ransom"
     ],
     "price": 135000,
     "promo": false,
-    "units": 5,
-    "imgs": [
-      "assets/img/products/caja-fiend-frente-integrado-ransom-negra-1.jpg"
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 5
+      },
+      {
+        "v": "Cromado",
+        "u": 5
+      }
     ],
-    "published": true
-  },
-  {
-    "slug": "caja-fiend-frente-integrado-ransom-cromada",
-    "sku": "REP-FIE-020",
-    "n": "Caja De Frente Fiend Frente Integrado Ransom Cromada",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Tenedores",
-    "spec": [
-      "Tipo: Integrada",
-      "Modelo: Ransom",
-      "Color: Cromado"
-    ],
-    "price": 135000,
-    "promo": false,
-    "units": 5,
     "imgs": [
+      "assets/img/products/caja-fiend-frente-integrado-ransom-negra-1.jpg",
       "assets/img/products/caja-fiend-frente-integrado-ransom-cromada-1.jpg"
     ],
+    "imgColorMap": {
+      "assets/img/products/caja-fiend-frente-integrado-ransom-negra-1.jpg": "Negro",
+      "assets/img/products/caja-fiend-frente-integrado-ransom-cromada-1.jpg": "Cromado"
+    },
     "published": true
   },
   {
-    "slug": "caja-fiend-centro-mid-22mm-ransom-negra",
+    "slug": "caja-de-centro-fiend-mid-22mm-ransom",
     "sku": "REP-FIE-021",
-    "n": "Caja de Centro Fiend Mid 22mm Ransom Negra",
+    "n": "Caja de Centro Fiend Mid 22mm Ransom",
     "brand": "Fiend",
     "cat": "repuestos",
     "sub": "Bielas",
     "spec": [
       "Eje: 22mm",
-      "Modelo: Ransom Mid",
-      "Color: Negro"
+      "Modelo: Ransom Mid"
     ],
     "price": 135000,
     "promo": false,
-    "units": 5,
-    "imgs": [
-      "assets/img/products/caja-fiend-centro-mid-22mm-ransom-negra-1.jpg"
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 5
+      },
+      {
+        "v": "Cromado",
+        "u": 5
+      }
     ],
-    "published": true
-  },
-  {
-    "slug": "caja-fiend-centro-mid-22mm-ransom-cromada",
-    "sku": "REP-FIE-022",
-    "n": "Caja de Centro Fiend Mid 22mm Ransom Cromada",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Bielas",
-    "spec": [
-      "Eje: 22mm",
-      "Modelo: Ransom Mid",
-      "Color: Cromado"
-    ],
-    "price": 135000,
-    "promo": false,
-    "units": 5,
     "imgs": [
+      "assets/img/products/caja-fiend-centro-mid-22mm-ransom-negra-1.jpg",
       "assets/img/products/caja-fiend-centro-mid-22mm-ransom-cromada-1.jpg"
     ],
+    "imgColorMap": {
+      "assets/img/products/caja-fiend-centro-mid-22mm-ransom-negra-1.jpg": "Negro",
+      "assets/img/products/caja-fiend-centro-mid-22mm-ransom-cromada-1.jpg": "Cromado"
+    },
     "published": true
   },
   {
@@ -721,43 +684,69 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "plato-fiend-omicron-cromado-25t",
+    "slug": "plato-fiend-omicron-25t",
     "sku": "REP-FIE-026",
-    "n": "Plato Fiend Omicron Cromado 25T",
+    "n": "Plato Fiend Omicron 25T",
     "brand": "Fiend",
     "cat": "repuestos",
     "sub": "Platos",
     "spec": [
       "Dientes: 25T",
-      "Sin guardia",
-      "Color: Cromado"
+      "Sin guardia"
     ],
     "price": 270000,
     "promo": false,
-    "units": 4,
-    "imgs": [
-      "assets/img/products/plato-fiend-omicron-cromado-25t-1.jpg"
+    "colors": [
+      {
+        "v": "Cromado",
+        "u": 4
+      },
+      {
+        "v": "Negro",
+        "u": 4
+      }
     ],
+    "imgs": [
+      "assets/img/products/plato-fiend-omicron-cromado-25t-1.jpg",
+      "assets/img/products/plato-fiend-omicron-negro-25t-1.jpg"
+    ],
+    "imgColorMap": {
+      "assets/img/products/plato-fiend-omicron-cromado-25t-1.jpg": "Cromado",
+      "assets/img/products/plato-fiend-omicron-negro-25t-1.jpg": "Negro"
+    },
     "published": true
   },
   {
-    "slug": "plato-fiend-omicron-cromado-28t",
+    "slug": "plato-fiend-omicron-28t",
     "sku": "REP-FIE-027",
-    "n": "Plato Fiend Omicron Cromado 28T",
+    "n": "Plato Fiend Omicron 28T",
     "brand": "Fiend",
     "cat": "repuestos",
     "sub": "Platos",
     "spec": [
       "Dientes: 28T",
-      "Sin guardia",
-      "Color: Cromado"
+      "Sin guardia"
     ],
     "price": 270000,
     "promo": false,
-    "units": 4,
-    "imgs": [
-      "assets/img/products/plato-fiend-omicron-cromado-28t-1.jpg"
+    "colors": [
+      {
+        "v": "Cromado",
+        "u": 4
+      },
+      {
+        "v": "Negro",
+        "u": 4
+      }
     ],
+    "imgs": [
+      "assets/img/products/plato-fiend-omicron-cromado-28t-1.jpg",
+      "assets/img/products/plato-fiend-omicron-negro-28t-1.jpg"
+    ],
+    "imgColorMap": {
+      "assets/img/products/plato-fiend-omicron-cromado-28t-1.jpg": "Cromado",
+      "assets/img/products/plato-fiend-omicron-negro-28t-1.jpg": "Negro"
+    },
     "published": true
   },
   {
@@ -858,41 +847,35 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "poste-pivotal-fiend-185mm-negro",
+    "slug": "poste-pivotal-fiend-185mm",
     "sku": "REP-FIE-033",
-    "n": "Poste Pivotal Fiend 185mm Negro",
+    "n": "Poste Pivotal Fiend 185mm",
     "brand": "Fiend",
     "cat": "repuestos",
     "sub": "Sillas y Postes",
     "spec": [
-      "Largo: 185mm",
-      "Color: Negro"
+      "Largo: 185mm"
     ],
     "price": 135000,
     "promo": false,
-    "units": 6,
-    "imgs": [
-      "assets/img/products/poste-pivotal-fiend-185mm-negro-1.jpg"
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 6
+      },
+      {
+        "v": "Cromado",
+        "u": 6
+      }
     ],
-    "published": true
-  },
-  {
-    "slug": "poste-pivotal-fiend-185mm-cromado",
-    "sku": "REP-FIE-034",
-    "n": "Poste Pivotal Fiend 185mm Cromado",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Sillas y Postes",
-    "spec": [
-      "Largo: 185mm",
-      "Color: Cromado"
-    ],
-    "price": 135000,
-    "promo": false,
-    "units": 6,
     "imgs": [
+      "assets/img/products/poste-pivotal-fiend-185mm-negro-1.jpg",
       "assets/img/products/poste-pivotal-fiend-185mm-cromado-1.jpg"
     ],
+    "imgColorMap": {
+      "assets/img/products/poste-pivotal-fiend-185mm-negro-1.jpg": "Negro",
+      "assets/img/products/poste-pivotal-fiend-185mm-cromado-1.jpg": "Cromado"
+    },
     "published": true
   },
   {
@@ -934,139 +917,80 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "marco-fiend-reynolds-dorado",
+    "slug": "marco-fiend-reynolds",
     "sku": "REP-FIE-037",
-    "n": "Marco Fiend Reynolds Dorado Translúcido",
+    "n": "Marco Fiend Reynolds",
     "brand": "Fiend",
     "cat": "repuestos",
     "sub": "Marcos",
     "spec": [
       "Medidas disponibles: 20.5\" y 20.75\" (1 c/u)",
-      "Tubo superior: 12.75\"",
-      "Color: Dorado translúcido"
+      "Tubo superior: 12.75\""
     ],
     "price": 1790000,
     "promo": false,
-    "units": 2,
+    "colors": [
+      {
+        "v": "Dorado translúcido",
+        "u": 2
+      },
+      {
+        "v": "Negro",
+        "u": 2
+      },
+      {
+        "v": "Púrpura intenso",
+        "u": 2
+      }
+    ],
     "imgs": [
-      "assets/img/products/marco-fiend-reynolds-dorado-1.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "marco-fiend-reynolds-negro",
-    "sku": "REP-FIE-038",
-    "n": "Marco Fiend Reynolds Negro",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Marcos",
-    "spec": [
-      "Medidas disponibles: 20.5\" y 20.75\" (1 c/u)",
-      "Tubo superior: 12.75\"",
-      "Color: Negro"
-    ],
-    "price": 1790000,
-    "promo": false,
-    "units": 2,
-    "imgs": [
-      "assets/img/products/marco-fiend-reynolds-negro-1.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "marco-fiend-reynolds-purpura",
-    "sku": "REP-FIE-039",
-    "n": "Marco Fiend Reynolds Púrpura Intenso",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Marcos",
-    "spec": [
-      "Medidas disponibles: 20.5\" y 20.75\" (1 c/u)",
-      "Tubo superior: 12.75\"",
-      "Color: Púrpura intenso"
-    ],
-    "price": 1790000,
-    "promo": false,
-    "units": 2,
-    "imgs": [
+      "assets/img/products/marco-fiend-reynolds-dorado-1.jpg",
+      "assets/img/products/marco-fiend-reynolds-negro-1.jpg",
       "assets/img/products/marco-fiend-reynolds-purpura-1.jpg"
     ],
+    "imgColorMap": {
+      "assets/img/products/marco-fiend-reynolds-dorado-1.jpg": "Dorado translúcido",
+      "assets/img/products/marco-fiend-reynolds-negro-1.jpg": "Negro",
+      "assets/img/products/marco-fiend-reynolds-purpura-1.jpg": "Púrpura intenso"
+    },
     "published": true
   },
   {
-    "slug": "marco-fiend-mills-azul",
+    "slug": "marco-fiend-mills",
     "sku": "REP-FIE-040",
-    "n": "Marco Fiend Mills Azul Translúcido",
+    "n": "Marco Fiend Mills",
     "brand": "Fiend",
     "cat": "repuestos",
     "sub": "Marcos",
     "spec": [
-      "Tubo superior: 20.5\" X 13.1\"",
-      "Color: Azul translúcido"
+      "Tubo superior: 20.5\" X 13.1\""
     ],
     "price": 1790000,
     "promo": false,
-    "units": 1,
+    "colors": [
+      {
+        "v": "Azul translúcido",
+        "u": 1
+      },
+      {
+        "v": "Negro",
+        "u": 1
+      },
+      {
+        "v": "Rojo translúcido",
+        "u": 1
+      }
+    ],
     "imgs": [
-      "assets/img/products/marco-fiend-mills-azul-1.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "marco-fiend-mills-negro",
-    "sku": "REP-FIE-041",
-    "n": "Marco Fiend Mills Negro",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Marcos",
-    "spec": [
-      "Tubo superior: 20.5\" X 13.1\"",
-      "Color: Negro"
-    ],
-    "price": 1790000,
-    "promo": false,
-    "units": 1,
-    "imgs": [
-      "assets/img/products/marco-fiend-mills-negro-1.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "marco-fiend-mills-rojo",
-    "sku": "REP-FIE-042",
-    "n": "Marco Fiend Mills Rojo Translúcido",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Marcos",
-    "spec": [
-      "Tubo superior: 20.5\" X 13.1\"",
-      "Color: Rojo translúcido"
-    ],
-    "price": 1790000,
-    "promo": false,
-    "units": 1,
-    "imgs": [
+      "assets/img/products/marco-fiend-mills-azul-1.jpg",
+      "assets/img/products/marco-fiend-mills-negro-1.jpg",
       "assets/img/products/marco-fiend-mills-rojo-1.jpg"
     ],
-    "published": true
-  },
-  {
-    "slug": "marco-fiend-shapershifter-320-blanco",
-    "sku": "REP-FIE-043",
-    "n": "Marco Fiend Shapershifter 320 Blanco Perla Brillante",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Marcos",
-    "spec": [
-      "Tubo superior: 20.5\" X 12.75\"",
-      "Color: Blanco perla brillante"
-    ],
-    "price": 1790000,
-    "promo": false,
-    "units": 1,
-    "imgs": [
-      "assets/img/products/marco-fiend-shapershifter-320-blanco-1.jpg"
-    ],
+    "imgColorMap": {
+      "assets/img/products/marco-fiend-mills-azul-1.jpg": "Azul translúcido",
+      "assets/img/products/marco-fiend-mills-negro-1.jpg": "Negro",
+      "assets/img/products/marco-fiend-mills-rojo-1.jpg": "Rojo translúcido"
+    },
     "published": true
   },
   {
@@ -1091,26 +1015,6 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "cana-fiend-reynolds-v4-gold",
-    "sku": "REP-FIE-046",
-    "n": "Caña Fiend Reynolds V4 Gold",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Espigas",
-    "spec": [
-      "Modelo: Reynolds V4",
-      "Color: Dorado"
-    ],
-    "price": 295000,
-    "promo": false,
-    "units": 2,
-    "imgs": [
-      "assets/img/products/cana-fiend-reynolds-v4-gold-1.jpg",
-      "assets/img/products/cana-fiend-reynolds-v4-gold-2.jpg"
-    ],
-    "published": true
-  },
-  {
     "slug": "plato-fiend-reynolds-cromado-25t",
     "sku": "REP-FIE-049",
     "n": "Plato Fiend Reynolds Cromado 25T",
@@ -1127,46 +1031,6 @@ window.STIKE_PRODUCTS = [
     "units": 2,
     "imgs": [
       "assets/img/products/plato-fiend-reynolds-cromado-25t-1.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "plato-fiend-omicron-negro-25t",
-    "sku": "REP-FIE-050",
-    "n": "Plato Fiend Omicron Negro 25T",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Platos",
-    "spec": [
-      "Dientes: 25T",
-      "Sin guardia",
-      "Color: Negro"
-    ],
-    "price": 270000,
-    "promo": false,
-    "units": 4,
-    "imgs": [
-      "assets/img/products/plato-fiend-omicron-negro-25t-1.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "plato-fiend-omicron-negro-28t",
-    "sku": "REP-FIE-051",
-    "n": "Plato Fiend Omicron Negro 28T",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Platos",
-    "spec": [
-      "Dientes: 28T",
-      "Sin guardia",
-      "Color: Negro"
-    ],
-    "price": 270000,
-    "promo": false,
-    "units": 4,
-    "imgs": [
-      "assets/img/products/plato-fiend-omicron-negro-28t-1.jpg"
     ],
     "published": true
   },
@@ -2333,28 +2197,6 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "tenedor-fiend-invest-v2-26mm-negro",
-    "sku": "REP-FIE-054",
-    "n": "Tenedor Fiend Invest V2 26mm Negro",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Tenedores",
-    "spec": [
-      "Desplazamiento: 26mm",
-      "Eje: 3/8\"",
-      "Tubo de dirección: 1 1/8\" sin rosca",
-      "Material: Cromoly 4130 tratado térmicamente, tapa en aluminio 6061-T6",
-      "Color: Negro"
-    ],
-    "price": 750000,
-    "promo": false,
-    "units": 1,
-    "imgs": [
-      "assets/img/products/tenedor-fiend-invest-v2-26mm-negro-1.jpg"
-    ],
-    "published": true
-  },
-  {
     "slug": "tenedor-pirana-20-cromado",
     "sku": "REP-PIR-001",
     "n": "Tenedor Piraña 20\" Cromado",
@@ -2533,45 +2375,37 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "plato-mutanty-diamond-negro",
+    "slug": "plato-mutanty-diamond-con-guardia",
     "sku": "PLT-MUT-001",
-    "n": "Plato Mutanty Diamond Negro con Guardia",
+    "n": "Plato Mutanty Diamond con Guardia",
     "brand": "Mutanty",
     "cat": "repuestos",
     "sub": "Platos",
     "spec": [
       "Material: Aluminio 7075-T6",
       "Dientes: 25T-28T",
-      "Con guardia",
-      "Color: Negro"
+      "Con guardia"
     ],
     "price": 240000,
     "promo": false,
-    "units": 1,
-    "imgs": [
-      "assets/img/products/plato-mutanty-diamond-negro-1.jpg"
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 1
+      },
+      {
+        "v": "Cromado",
+        "u": 1
+      }
     ],
-    "published": true
-  },
-  {
-    "slug": "plato-mutanty-diamond-cromado",
-    "sku": "PLT-MUT-002",
-    "n": "Plato Mutanty Diamond Cromado con Guardia",
-    "brand": "Mutanty",
-    "cat": "repuestos",
-    "sub": "Platos",
-    "spec": [
-      "Material: Aluminio 7075-T6",
-      "Dientes: 25T-28T",
-      "Con guardia",
-      "Color: Cromado"
-    ],
-    "price": 240000,
-    "promo": false,
-    "units": 1,
     "imgs": [
+      "assets/img/products/plato-mutanty-diamond-negro-1.jpg",
       "assets/img/products/plato-mutanty-diamond-cromado-1.jpg"
     ],
+    "imgColorMap": {
+      "assets/img/products/plato-mutanty-diamond-negro-1.jpg": "Negro",
+      "assets/img/products/plato-mutanty-diamond-cromado-1.jpg": "Cromado"
+    },
     "published": true
   },
   {
@@ -2712,94 +2546,53 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "pedales-demolition-trooper-azul-rojo",
-    "sku": "PED-DMO-005",
-    "n": "Pedales Demolition Trooper Azul/Rojo",
-    "brand": "Demolition",
-    "cat": "repuestos",
-    "sub": "Pedales",
-    "spec": [
-      "Color: Azul/Rojo"
-    ],
-    "price": 95000,
-    "promo": false,
-    "units": 2,
-    "imgs": [
-      "assets/img/products/pedales-demolition-trooper-azul-rojo-1.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "pedales-demolition-trooper-blanco-negro",
-    "sku": "PED-DMO-004",
-    "n": "Pedales Demolition Trooper Blanco/Negro",
-    "brand": "Demolition",
-    "cat": "repuestos",
-    "sub": "Pedales",
-    "spec": [
-      "Color: Blanco/Negro"
-    ],
-    "price": 95000,
-    "promo": false,
-    "units": 2,
-    "imgs": [
-      "assets/img/products/pedales-demolition-trooper-blanco-negro-1.jpg",
-      "assets/img/products/pedales-demolition-trooper-blanco-negro-2.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "pedales-demolition-trooper-rojo-blanco",
-    "sku": "PED-DMO-003",
-    "n": "Pedales Demolition Trooper Rojo/Blanco",
-    "brand": "Demolition",
-    "cat": "repuestos",
-    "sub": "Pedales",
-    "spec": [
-      "Color: Rojo/Blanco"
-    ],
-    "price": 95000,
-    "promo": false,
-    "units": 2,
-    "imgs": [
-      "assets/img/products/pedales-demolition-trooper-rojo-blanco-1.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "pedales-demolition-trooper-azul-blanco",
-    "sku": "PED-DMO-002",
-    "n": "Pedales Demolition Trooper Azul/Blanco",
-    "brand": "Demolition",
-    "cat": "repuestos",
-    "sub": "Pedales",
-    "spec": [
-      "Color: Azul/Blanco"
-    ],
-    "price": 95000,
-    "promo": false,
-    "units": 1,
-    "imgs": [
-      "assets/img/products/pedales-demolition-trooper-azul-blanco-1.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "pedales-demolition-trooper-morado-amarillo",
+    "slug": "pedales-demolition-trooper",
     "sku": "PED-DMO-001",
-    "n": "Pedales Demolition Trooper Morado/Amarillo",
+    "n": "Pedales Demolition Trooper",
     "brand": "Demolition",
     "cat": "repuestos",
     "sub": "Pedales",
-    "spec": [
-      "Color: Morado/Amarillo"
-    ],
+    "spec": [],
     "price": 95000,
     "promo": false,
-    "units": 3,
+    "colors": [
+      {
+        "v": "Azul/Rojo",
+        "u": 2
+      },
+      {
+        "v": "Blanco/Negro",
+        "u": 2
+      },
+      {
+        "v": "Rojo/Blanco",
+        "u": 2
+      },
+      {
+        "v": "Azul/Blanco",
+        "u": 1
+      },
+      {
+        "v": "Morado/Amarillo",
+        "u": 3
+      }
+    ],
     "imgs": [
+      "assets/img/products/pedales-demolition-trooper-azul-rojo-1.jpg",
+      "assets/img/products/pedales-demolition-trooper-blanco-negro-1.jpg",
+      "assets/img/products/pedales-demolition-trooper-blanco-negro-2.jpg",
+      "assets/img/products/pedales-demolition-trooper-rojo-blanco-1.jpg",
+      "assets/img/products/pedales-demolition-trooper-azul-blanco-1.jpg",
       "assets/img/products/pedales-demolition-trooper-morado-amarillo-1.jpg"
     ],
+    "imgColorMap": {
+      "assets/img/products/pedales-demolition-trooper-azul-rojo-1.jpg": "Azul/Rojo",
+      "assets/img/products/pedales-demolition-trooper-blanco-negro-1.jpg": "Blanco/Negro",
+      "assets/img/products/pedales-demolition-trooper-blanco-negro-2.jpg": "Blanco/Negro",
+      "assets/img/products/pedales-demolition-trooper-rojo-blanco-1.jpg": "Rojo/Blanco",
+      "assets/img/products/pedales-demolition-trooper-azul-blanco-1.jpg": "Azul/Blanco",
+      "assets/img/products/pedales-demolition-trooper-morado-amarillo-1.jpg": "Morado/Amarillo"
+    },
     "published": true
   },
   {
@@ -3222,7 +3015,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 40000,
     "promo": false,
-    "colors": [
+    "sizes": [
       {
         "v": "M25",
         "u": 5
@@ -3239,10 +3032,6 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/perno-superior-mutanty-negro-m24-1.jpg",
       "assets/img/products/perno-superior-mutanty-negro-m25-1.jpg"
     ],
-    "imgColorMap": {
-      "assets/img/products/perno-superior-mutanty-negro-m24-1.jpg": "M24",
-      "assets/img/products/perno-superior-mutanty-negro-m25-1.jpg": "M25"
-    },
     "published": true
   },
   {
@@ -4044,14 +3833,13 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "camiseta-fate-blanca",
+    "slug": "camiseta-fate-bmx",
     "sku": "ROP-FAT-001",
-    "n": "Camiseta Fate BMX Blanca",
+    "n": "Camiseta Fate BMX",
     "brand": "Fate BMX Colombia",
     "cat": "ropa",
     "sub": "Camisetas",
     "spec": [
-      "Color: Blanco",
       "Logo Fate BMX al frente"
     ],
     "price": 50000,
@@ -4059,16 +3847,53 @@ window.STIKE_PRODUCTS = [
     "sizes": [
       {
         "v": "M",
-        "u": 1
+        "u": 2
       },
       {
         "v": "L",
         "u": 1
       }
     ],
-    "imgs": [
-      "assets/img/products/camiseta-fate-blanca-1.jpg"
+    "colors": [
+      {
+        "v": "Blanco",
+        "u": 2
+      },
+      {
+        "v": "Negro",
+        "u": 1
+      }
     ],
+    "combos": [
+      {
+        "s": "M",
+        "c": "Blanco",
+        "u": 1
+      },
+      {
+        "s": "M",
+        "c": "Negro",
+        "u": 1
+      },
+      {
+        "s": "L",
+        "c": "Blanco",
+        "u": 1
+      },
+      {
+        "s": "L",
+        "c": "Negro",
+        "u": 0
+      }
+    ],
+    "imgs": [
+      "assets/img/products/camiseta-fate-blanca-1.jpg",
+      "assets/img/products/camiseta-fate-negra-1.jpg"
+    ],
+    "imgColorMap": {
+      "assets/img/products/camiseta-fate-blanca-1.jpg": "Blanco",
+      "assets/img/products/camiseta-fate-negra-1.jpg": "Negro"
+    },
     "published": true
   },
   {
@@ -4596,30 +4421,6 @@ window.STIKE_PRODUCTS = [
     "imgs": [
       "assets/img/products/camiseta-dcn-crw-gris-1.jpg",
       "assets/img/products/camiseta-dcn-crw-gris-2.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "camiseta-fate-negra",
-    "sku": "ROP-FAT-002",
-    "n": "Camiseta Fate BMX Negra",
-    "brand": "Fate BMX Colombia",
-    "cat": "ropa",
-    "sub": "Camisetas",
-    "spec": [
-      "Color: Negro",
-      "Logo Fate BMX al frente"
-    ],
-    "price": 50000,
-    "promo": false,
-    "sizes": [
-      {
-        "v": "M",
-        "u": 1
-      }
-    ],
-    "imgs": [
-      "assets/img/products/camiseta-fate-negra-1.jpg"
     ],
     "published": true
   },
@@ -5183,43 +4984,39 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "llavero-pedal-kboom-v2-amarillo",
+    "slug": "llavero-pedal-kboom-v2",
     "sku": "ACC-KBO-001",
-    "n": "Llavero Pedal Kboom V2 Amarillo",
+    "n": "Llavero Pedal Kboom V2",
     "brand": "Kboom",
     "cat": "accesorios",
     "sub": "Llaveros",
     "spec": [
-      "Diseño: Pedal BMX",
-      "Color: Amarillo"
+      "Diseño: Pedal BMX"
     ],
     "price": 40000,
     "promo": false,
-    "units": 3,
+    "colors": [
+      {
+        "v": "Amarillo",
+        "u": 3
+      },
+      {
+        "v": "Azul aguamarina",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/llavero-pedal-kboom-v2-amarillo-1.jpg",
-      "assets/img/products/llavero-pedal-kboom-v2-amarillo-2.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "llavero-pedal-kboom-v2-azul-aguamarina",
-    "sku": "ACC-KBO-002",
-    "n": "Llavero Pedal Kboom V2 Azul Aguamarina",
-    "brand": "Kboom",
-    "cat": "accesorios",
-    "sub": "Llaveros",
-    "spec": [
-      "Diseño: Pedal BMX",
-      "Color: Azul Aguamarina"
-    ],
-    "price": 40000,
-    "promo": false,
-    "units": 1,
-    "imgs": [
+      "assets/img/products/llavero-pedal-kboom-v2-amarillo-2.jpg",
       "assets/img/products/llavero-pedal-kboom-v2-azul-aguamarina-1.jpg",
       "assets/img/products/llavero-pedal-kboom-v2-azul-aguamarina-2.jpg"
     ],
+    "imgColorMap": {
+      "assets/img/products/llavero-pedal-kboom-v2-amarillo-1.jpg": "Amarillo",
+      "assets/img/products/llavero-pedal-kboom-v2-amarillo-2.jpg": "Amarillo",
+      "assets/img/products/llavero-pedal-kboom-v2-azul-aguamarina-1.jpg": "Azul aguamarina",
+      "assets/img/products/llavero-pedal-kboom-v2-azul-aguamarina-2.jpg": "Azul aguamarina"
+    },
     "published": true
   },
   {
@@ -5304,43 +5101,39 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "silla-mutanty-negra",
+    "slug": "silla-mutanty",
     "sku": "REP-MUT-008",
-    "n": "Silla Mutanty Negra",
+    "n": "Silla Mutanty",
     "brand": "Mutanty",
     "cat": "repuestos",
     "sub": "Sillas y Postes",
     "spec": [
-      "Tipo: Pivotal",
-      "Color: Negro"
+      "Tipo: Pivotal"
     ],
     "price": 130000,
     "promo": false,
-    "units": 1,
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 1
+      },
+      {
+        "v": "Camuflado",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/silla-mutanty-negra-1.jpg",
-      "assets/img/products/silla-mutanty-negra-2.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "silla-mutanty-camuflada",
-    "sku": "REP-MUT-009",
-    "n": "Silla Mutanty Camuflada",
-    "brand": "Mutanty",
-    "cat": "repuestos",
-    "sub": "Sillas y Postes",
-    "spec": [
-      "Tipo: Pivotal",
-      "Color: Camuflado"
-    ],
-    "price": 130000,
-    "promo": false,
-    "units": 1,
-    "imgs": [
+      "assets/img/products/silla-mutanty-negra-2.jpg",
       "assets/img/products/silla-mutanty-camuflada-1.jpg",
       "assets/img/products/silla-mutanty-camuflada-2.jpg"
     ],
+    "imgColorMap": {
+      "assets/img/products/silla-mutanty-negra-1.jpg": "Negro",
+      "assets/img/products/silla-mutanty-negra-2.jpg": "Negro",
+      "assets/img/products/silla-mutanty-camuflada-1.jpg": "Camuflado",
+      "assets/img/products/silla-mutanty-camuflada-2.jpg": "Camuflado"
+    },
     "published": true
   },
   {
@@ -5383,9 +5176,9 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "manzana-delantera-optimus-cromada",
+    "slug": "manzana-delantera-optimus",
     "sku": "REP-OPT-003",
-    "n": "Manzana Delantera Optimus Cromada",
+    "n": "Manzana Delantera Optimus",
     "brand": "Optimus",
     "cat": "repuestos",
     "sub": "Manzanas",
@@ -5394,39 +5187,30 @@ window.STIKE_PRODUCTS = [
       "Agujeros: 36",
       "Cuerpo: Aluminio",
       "Eje: Cr-Mo 3/8\"",
-      "Balineras: 2 selladas",
-      "Color: Cromado"
+      "Balineras: 2 selladas"
     ],
     "price": 100000,
     "promo": false,
-    "units": 1,
+    "colors": [
+      {
+        "v": "Cromado",
+        "u": 1
+      },
+      {
+        "v": "Azul",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/manzana-delantera-optimus-cromada-1.jpg",
-      "assets/img/products/manzana-delantera-optimus-cromada-2.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "manzana-delantera-optimus-azul",
-    "sku": "REP-OPT-004",
-    "n": "Manzana Delantera Optimus Azul",
-    "brand": "Optimus",
-    "cat": "repuestos",
-    "sub": "Manzanas",
-    "spec": [
-      "Posición: Delantera",
-      "Agujeros: 36",
-      "Cuerpo: Aluminio",
-      "Eje: Cr-Mo 3/8\"",
-      "Balineras: 2 selladas",
-      "Color: Azul"
-    ],
-    "price": 100000,
-    "promo": false,
-    "units": 1,
-    "imgs": [
+      "assets/img/products/manzana-delantera-optimus-cromada-2.jpg",
       "assets/img/products/manzana-delantera-optimus-azul-1.jpg"
     ],
+    "imgColorMap": {
+      "assets/img/products/manzana-delantera-optimus-cromada-1.jpg": "Cromado",
+      "assets/img/products/manzana-delantera-optimus-cromada-2.jpg": "Cromado",
+      "assets/img/products/manzana-delantera-optimus-azul-1.jpg": "Azul"
+    },
     "published": true
   },
   {
@@ -5541,75 +5325,45 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "pedales-rant-trill-negro",
+    "slug": "pedales-rant-trill",
     "sku": "REP-RAN-004",
-    "n": "Pedales Rant Trill Negro",
+    "n": "Pedales Rant Trill",
     "brand": "Rant",
     "cat": "repuestos",
     "sub": "Pedales",
-    "spec": [
-      "Color: Negro"
-    ],
+    "spec": [],
     "price": 73000,
     "promo": false,
-    "units": 2,
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 2
+      },
+      {
+        "v": "Rojo",
+        "u": 2
+      },
+      {
+        "v": "Azul",
+        "u": 1
+      },
+      {
+        "v": "Morado",
+        "u": 1
+      }
+    ],
     "imgs": [
-      "assets/img/products/pedales-rant-trill-negro-1.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "pedales-rant-trill-rojo",
-    "sku": "REP-RAN-005",
-    "n": "Pedales Rant Trill Rojo",
-    "brand": "Rant",
-    "cat": "repuestos",
-    "sub": "Pedales",
-    "spec": [
-      "Color: Rojo"
-    ],
-    "price": 73000,
-    "promo": false,
-    "units": 2,
-    "imgs": [
-      "assets/img/products/pedales-rant-trill-rojo-1.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "pedales-rant-trill-azul",
-    "sku": "REP-RAN-006",
-    "n": "Pedales Rant Trill Azul",
-    "brand": "Rant",
-    "cat": "repuestos",
-    "sub": "Pedales",
-    "spec": [
-      "Color: Azul"
-    ],
-    "price": 73000,
-    "promo": false,
-    "units": 1,
-    "imgs": [
-      "assets/img/products/pedales-rant-trill-azul-1.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "pedales-rant-trill-morado",
-    "sku": "REP-RAN-007",
-    "n": "Pedales Rant Trill Morado",
-    "brand": "Rant",
-    "cat": "repuestos",
-    "sub": "Pedales",
-    "spec": [
-      "Color: Morado"
-    ],
-    "price": 73000,
-    "promo": false,
-    "units": 1,
-    "imgs": [
+      "assets/img/products/pedales-rant-trill-negro-1.jpg",
+      "assets/img/products/pedales-rant-trill-rojo-1.jpg",
+      "assets/img/products/pedales-rant-trill-azul-1.jpg",
       "assets/img/products/pedales-rant-trill-morado-1.jpg"
     ],
+    "imgColorMap": {
+      "assets/img/products/pedales-rant-trill-negro-1.jpg": "Negro",
+      "assets/img/products/pedales-rant-trill-rojo-1.jpg": "Rojo",
+      "assets/img/products/pedales-rant-trill-azul-1.jpg": "Azul",
+      "assets/img/products/pedales-rant-trill-morado-1.jpg": "Morado"
+    },
     "published": true
   },
   {
@@ -5675,63 +5429,42 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "pedales-shadow-surface-negro",
+    "slug": "pedales-shadow-surface",
     "sku": "REP-SHA-014",
-    "n": "Pedales Shadow Surface Negro",
+    "n": "Pedales Shadow Surface",
     "brand": "Shadow",
     "cat": "repuestos",
     "sub": "Pedales",
     "spec": [
       "Material: Nylon compuesto",
-      "Eje: CrMo tratado térmicamente",
-      "Color: Negro"
+      "Eje: CrMo tratado térmicamente"
     ],
     "price": 90000,
     "promo": false,
-    "units": 3,
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 3
+      },
+      {
+        "v": "Rojo",
+        "u": 2
+      },
+      {
+        "v": "Morado",
+        "u": 2
+      }
+    ],
     "imgs": [
-      "assets/img/products/pedales-shadow-surface-negro-1.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "pedales-shadow-surface-rojo",
-    "sku": "REP-SHA-015",
-    "n": "Pedales Shadow Surface Rojo",
-    "brand": "Shadow",
-    "cat": "repuestos",
-    "sub": "Pedales",
-    "spec": [
-      "Material: Nylon compuesto",
-      "Eje: CrMo tratado térmicamente",
-      "Color: Rojo"
-    ],
-    "price": 90000,
-    "promo": false,
-    "units": 2,
-    "imgs": [
-      "assets/img/products/pedales-shadow-surface-rojo-1.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "pedales-shadow-surface-morado",
-    "sku": "REP-SHA-016",
-    "n": "Pedales Shadow Surface Morado",
-    "brand": "Shadow",
-    "cat": "repuestos",
-    "sub": "Pedales",
-    "spec": [
-      "Material: Nylon compuesto",
-      "Eje: CrMo tratado térmicamente",
-      "Color: Morado"
-    ],
-    "price": 90000,
-    "promo": false,
-    "units": 2,
-    "imgs": [
+      "assets/img/products/pedales-shadow-surface-negro-1.jpg",
+      "assets/img/products/pedales-shadow-surface-rojo-1.jpg",
       "assets/img/products/pedales-shadow-surface-morado-1.jpg"
     ],
+    "imgColorMap": {
+      "assets/img/products/pedales-shadow-surface-negro-1.jpg": "Negro",
+      "assets/img/products/pedales-shadow-surface-rojo-1.jpg": "Rojo",
+      "assets/img/products/pedales-shadow-surface-morado-1.jpg": "Morado"
+    },
     "published": true
   },
   {

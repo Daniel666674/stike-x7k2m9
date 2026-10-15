@@ -1333,6 +1333,20 @@ body.fate-page .card .brand-line .bl-sub { display: inline; }
 .size-opt.out, .size-opt:disabled { opacity: .35; text-decoration: line-through; cursor: not-allowed; }
 .size-opt.out:hover, .size-opt:disabled:hover { border-color: var(--line); }
 .size-options.shake { animation: shake .42s; }
+/* Selector de color: circulos tintados, sin palabras */
+.color-options { gap: 12px; }
+.color-opt { position: relative; width: 36px; height: 36px; padding: 0; border-radius: 50%; border: 2px solid transparent; background: transparent; cursor: pointer; transition: transform .15s, border-color .15s; }
+.color-opt .dot-fill { display: block; width: 100%; height: 100%; border-radius: 50%; background: var(--dot); box-shadow: inset 0 0 0 1px rgba(0,0,0,.22); }
+.color-opt:hover { transform: scale(1.08); }
+.color-opt.active { border-color: var(--ink); padding: 3px; }
+.color-opt.out, .color-opt:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+.color-opt.out::after, .color-opt:disabled::after { content: ""; position: absolute; left: 50%; top: -2px; width: 2px; height: calc(100% + 4px); background: var(--ink); transform: rotate(45deg); }
+.color-opt:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+/* Mini circulos en las tarjetas */
+.swatch-row.dots { gap: 6px; }
+.cdot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(0,0,0,.25); }
+.cdot.out { opacity: .35; }
+.cdot-more { font-size: 11px; color: var(--muted); align-self: center; }
 @keyframes shake { 10%,90% { transform: translateX(-1px); } 20%,80% { transform: translateX(2px); } 30%,50%,70% { transform: translateX(-5px); } 40%,60% { transform: translateX(5px); } }
 
 /* ------------------------------ Compartir (PDP) ------------------------ */

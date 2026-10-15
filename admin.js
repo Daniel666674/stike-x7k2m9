@@ -173,7 +173,7 @@ const CATALOG_HEADER = `/* =====================================================
    Ver assets/js/data.js para SIZE_CATEGORIES, helpers de stock y variantes.
    ========================================================================= */\n`;
 const CATALOG_KEY_ORDER = ["slug", "sku", "n", "brand", "cat", "sub", "spec", "price", "old", "promo", "tag",
-  "units", "sizes", "colors", "imgs", "imgColorMap", "imgFit", "imgZoom", "imgPos", "published"];
+  "units", "sizes", "colors", "combos", "imgs", "imgColorMap", "imgFit", "imgZoom", "imgPos", "published"];
 
 function parseCatalogFile(text) {
   const i = text.indexOf(CATALOG_MARKER);
@@ -1135,6 +1135,7 @@ function renderEditor() {
         <div class="err" id="ed-stock-err"></div>
         <div id="ed-sizes-box"></div>
         <div id="ed-colors-box"></div>
+        <div id="ed-combos-box"></div>
       </div>
 
       <h4 class="ed-section">Fotos <span class="hint" style="text-transform:none;letter-spacing:0">— la primera es la portada</span></h4>
@@ -1228,7 +1229,7 @@ function renderStockEditor() {
         <td><input data-size-u="${i}" type="number" min="0" value="${s.u}"></td>
         <td style="width:30px"><button class="btn ghost sm" data-size-rm="${i}" type="button">✕</button></td></tr>`).join("")}</tbody></table>`;
     $("#ed-size-add").addEventListener("click", () => { d.sizes.push({ v: "Nueva", u: 0 }); renderStockEditor(); });
-    $$("#ed-sizes-box [data-size-v]").forEach(inp => inp.addEventListener("input", e => { d.sizes[+e.target.getAttribute("data-size-v")].v = e.target.value; }));
+    $$("#ed-sizes-box [data-size-v]").forEach(inp => inp.addEventListener("input", e => { const row = d.sizes[+e.target.getAttribute("data-size-v")]; renameCombo(d, "s", row.v, e.target.value); row.v = e.target.value; renderComboGrid(); }));
     $$("#ed-sizes-box [data-size-u]").forEach(inp => inp.addEventListener("input", e => { d.sizes[+e.target.getAttribute("data-size-u")].u = Math.max(0, parseInt(e.target.value) || 0); }));
     $$("#ed-sizes-box [data-size-rm]").forEach(btn => btn.addEventListener("click", () => { d.sizes.splice(+btn.getAttribute("data-size-rm"), 1); if (!d.sizes.length) d.sizes = null; renderStockEditor(); }));
     const offBtn = $("#ed-size-off"); if (offBtn) offBtn.addEventListener("click", () => { d.sizes = null; renderStockEditor(); });
@@ -1240,9 +1241,10 @@ function renderStockEditor() {
     <div style="display:flex;justify-content:space-between;align-items:center;margin-top:${sizeRequired ? "14px" : "0"}">
       <label style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="ed-has-colors" ${hasColors ? "checked" : ""}> Indicar color(es) del producto</label>
     </div>
+    <datalist id="ed-color-names">${["Negro", "Blanco", "Cromado", "Dorado", "Rojo", "Azul", "Verde", "Morado", "Rosado", "Gris", "Amarillo", "Naranja", "Café", "Beige", "Camuflado", "Azul Aguamarina", "Oro Rosa", "Tornasol", "Azul/Rojo", "Negro/Blanco"].map(n => `<option value="${n}">`).join("")}</datalist>
     <div id="ed-colors-table" style="${hasColors ? "" : "display:none"}">
       <table class="stockTable"><tbody>${(d.colors || []).map((c, i) => `
-        <tr><td style="width:40%"><input data-color-v="${i}" value="${escAttr(c.v)}"></td>
+        <tr><td style="width:40%;display:flex;align-items:center;gap:8px"><span class="cdot" style="background:${stikeColorStyle(c.v)}"></span><input data-color-v="${i}" list="ed-color-names" value="${escAttr(c.v)}"></td>
         <td><input data-color-u="${i}" type="number" min="0" value="${c.u}"></td>
         <td style="width:30px"><button class="btn ghost sm" data-color-rm="${i}" type="button">✕</button></td></tr>`).join("")}</tbody></table>
       <button class="btn ghost sm" id="ed-color-add" type="button">+ color</button>
@@ -1255,10 +1257,51 @@ function renderStockEditor() {
     renderStockEditor();
   });
   const addColorBtn = $("#ed-color-add"); if (addColorBtn) addColorBtn.addEventListener("click", () => { d.colors.push({ v: "Nuevo color", u: 0 }); renderStockEditor(); renderPhotoGrid(); });
-  $$("#ed-colors-table [data-color-v]").forEach(inp => inp.addEventListener("input", e => { d.colors[+e.target.getAttribute("data-color-v")].v = e.target.value; renderPhotoGrid(); }));
+  $$("#ed-colors-table [data-color-v]").forEach(inp => inp.addEventListener("input", e => { const row = d.colors[+e.target.getAttribute("data-color-v")]; renameCombo(d, "c", row.v, e.target.value); row.v = e.target.value; const dot = e.target.parentElement.querySelector(".cdot"); if (dot) dot.style.background = stikeColorStyle(row.v); renderComboGrid(); renderPhotoGrid(); }));
   $$("#ed-colors-table [data-color-u]").forEach(inp => inp.addEventListener("input", e => { d.colors[+e.target.getAttribute("data-color-u")].u = Math.max(0, parseInt(e.target.value) || 0); }));
   $$("#ed-colors-table [data-color-rm]").forEach(btn => btn.addEventListener("click", () => { d.colors.splice(+btn.getAttribute("data-color-rm"), 1); if (!d.colors.length) d.colors = null; renderStockEditor(); renderPhotoGrid(); }));
   const unitsInp = $("#ed-units"); if (unitsInp) unitsInp.addEventListener("input", e => { d.units = Math.max(0, parseInt(e.target.value) || 0); });
+  renderComboGrid();
+}
+
+/* ---- Tabla talla x color (stock por combinacion) ----
+   Aparece cuando el producto tiene tallas Y colores. Las pools de talla y de
+   color pasan a ser la SUMA de esta tabla (solo lectura), igual que en el
+   motor del sitio (stikeHasCombos). */
+function renameCombo(d, key, from, to) {
+  if (d.combos) d.combos.forEach(r => { if (r[key] === from) r[key] = to; });
+}
+function syncPoolsFromCombos(d) {
+  d.sizes.forEach(s => { s.u = d.combos.filter(r => r.s === s.v).reduce((n, r) => n + r.u, 0); });
+  d.colors.forEach(c => { c.u = d.combos.filter(r => r.c === c.v).reduce((n, r) => n + r.u, 0); });
+}
+function renderComboGrid() {
+  const d = editorDraft, box = $("#ed-combos-box");
+  if (!box) return;
+  if (!(d.sizes && d.sizes.length && d.colors && d.colors.length)) { d.combos = null; box.innerHTML = ""; return; }
+  const prev = d.combos || null;
+  const grid = [];
+  if (prev) {
+    d.sizes.forEach(s => d.colors.forEach(c => { const r = prev.find(x => x.s === s.v && x.c === c.v); grid.push({ s: s.v, c: c.v, u: r ? r.u : 0 }); }));
+  } else {
+    /* Primera vez: se reparte lo que ya habia (cada color llena las tallas con stock). */
+    const left = Object.fromEntries(d.sizes.map(s => [s.v, s.u]));
+    d.colors.forEach(c => { let rest = c.u; d.sizes.forEach(s => { const take = Math.min(rest, left[s.v]); left[s.v] -= take; rest -= take; grid.push({ s: s.v, c: c.v, u: take }); }); });
+  }
+  d.combos = grid;
+  syncPoolsFromCombos(d);
+  box.innerHTML = `<div style="margin-top:14px"><b style="font-size:12.5px;text-transform:uppercase;color:var(--muted)">Stock por talla y color</b>
+    <p class="hint muted" style="margin:4px 0 8px">Las cantidades de arriba son la suma de esta tabla.</p>
+    <table class="stockTable"><thead><tr><th></th>${d.sizes.map(s => `<th>${escHtml(s.v)}</th>`).join("")}</tr></thead><tbody>${d.colors.map(c => `
+      <tr><td style="white-space:nowrap"><span class="cdot" style="background:${stikeColorStyle(c.v)}"></span></td>${d.sizes.map(s => `<td><input type="number" min="0" style="width:64px" data-combo-s="${escAttr(s.v)}" data-combo-c="${escAttr(c.v)}" value="${d.combos.find(r => r.s === s.v && r.c === c.v).u}"></td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+  $$("#ed-sizes-box [data-size-u], #ed-colors-table [data-color-u]").forEach(inp => { inp.readOnly = true; inp.title = "Suma de la tabla talla x color"; });
+  $$("#ed-combos-box [data-combo-s]").forEach(inp => inp.addEventListener("input", e => {
+    const row = d.combos.find(r => r.s === e.target.getAttribute("data-combo-s") && r.c === e.target.getAttribute("data-combo-c"));
+    if (row) row.u = Math.max(0, parseInt(e.target.value) || 0);
+    syncPoolsFromCombos(d);
+    $$("#ed-sizes-box [data-size-u]").forEach(i => { i.value = d.sizes[+i.getAttribute("data-size-u")].u; });
+    $$("#ed-colors-table [data-color-u]").forEach(i => { i.value = d.colors[+i.getAttribute("data-color-u")].u; });
+  }));
 }
 
 /* ---- Fotos: nombre aleatorio (nunca por posicion), reorden, portada, tag de color ---- */
@@ -1451,11 +1494,15 @@ function updateSaleStockHint() {
    independientes; sin variantes se descuenta de units. */
 function decrementStock(p, size, color, qty) {
   let hit = false;
+  if (stikeHasCombos(p) && size && color) {
+    const row = p.combos.find(r => r.s === size && r.c === color);
+    if (row) row.u = Math.max(0, (row.u || 0) - qty);
+  }
   if (size && p.sizes) { const row = p.sizes.find(s => s.v === size); if (row) { row.u = Math.max(0, (row.u || 0) - qty); hit = true; } }
   if (color && p.colors) { const row = p.colors.find(c => c.v === color); if (row) { row.u = Math.max(0, (row.u || 0) - qty); hit = true; } }
   if (!hit && !(p.sizes && p.sizes.length) && !(p.colors && p.colors.length) && typeof p.units === "number") p.units = Math.max(0, p.units - qty);
 }
-const STOCK_FIELDS = ["units", "sizes", "colors"];
+const STOCK_FIELDS = ["units", "sizes", "colors", "combos"];
 
 /* Escribe en GitHub el descuento de stock de una o varias lineas, SIEMPRE
    sobre el catalogo mas reciente (no sobre la copia cargada en el panel,

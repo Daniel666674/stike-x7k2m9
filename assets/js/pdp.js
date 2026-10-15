@@ -103,16 +103,39 @@ function stikePdpInit(slug) {
      (tienda u online) lo cambian despues. Se re-sincronizan los botones con
      el catalogo vivo para que nunca se ofrezca algo vendido ni se bloquee
      algo que volvio a tener unidades. */
-  [["#size-options", "data-size", p.sizes], ["#color-options", "data-color", p.colors]].forEach(([sel, attr, pool]) => {
-    if (!pool) return;
-    document.querySelectorAll(`${sel} .size-opt`).forEach(b => {
-      const row = pool.find(r => r.v === b.getAttribute(attr));
-      const u = row ? (row.u || 0) : 0;
-      b.setAttribute("data-stock", u);
-      b.disabled = u <= 0;
-      b.classList.toggle("out", u <= 0);
+  /* Que se puede elegir depende de lo ya elegido: con tabla de
+     combinaciones, una talla solo esta disponible si existe en el color
+     elegido (y al reves). Sin combos son dos bodegas independientes. */
+  function optionUnits(kind, value) {
+    if (stikeHasCombos(p)) {
+      return p.combos.reduce((n, r) => {
+        if (kind === "size" && r.s !== value) return n;
+        if (kind === "color" && r.c !== value) return n;
+        if (kind === "size" && selectedColor && r.c !== selectedColor) return n;
+        if (kind === "color" && selectedSize && r.s !== selectedSize) return n;
+        return n + Math.max(0, r.u || 0);
+      }, 0);
+    }
+    const pool = kind === "size" ? p.sizes : p.colors;
+    const row = pool && pool.find(r => r.v === value);
+    return row ? (row.u || 0) : 0;
+  }
+  function refreshOptions() {
+    [["size", "#size-options .size-opt", "data-size"], ["color", "#color-options .color-opt", "data-color"]].forEach(([kind, sel, attr]) => {
+      if (!(kind === "size" ? p.sizes : p.colors)) return;
+      document.querySelectorAll(sel).forEach(b => {
+        const u = optionUnits(kind, b.getAttribute(attr));
+        b.setAttribute("data-stock", u);
+        b.disabled = u <= 0;
+        b.classList.toggle("out", u <= 0);
+        if (u <= 0 && b.classList.contains("active")) {   // la eleccion ya no existe con la otra
+          b.classList.remove("active");
+          if (kind === "size") selectedSize = null; else selectedColor = null;
+        }
+      });
     });
-  });
+  }
+  refreshOptions();
   if (addBtn) {
     const sellable = stikeSellable(p);
     addBtn.disabled = sellable != null && sellable <= 0;
@@ -125,14 +148,16 @@ function stikePdpInit(slug) {
     b.classList.add("active");
     selectedSize = b.getAttribute("data-size");
     const req = document.getElementById("size-req"); if (req) req.textContent = "";
+    refreshOptions();
     updateWaBuy();
   }));
-  document.querySelectorAll("#color-options .size-opt").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll("#color-options .color-opt").forEach(b => b.addEventListener("click", () => {
     if (b.disabled) return;
-    document.querySelectorAll("#color-options .size-opt").forEach(o => o.classList.remove("active"));
+    document.querySelectorAll("#color-options .color-opt").forEach(o => o.classList.remove("active"));
     b.classList.add("active");
     selectedColor = b.getAttribute("data-color");
     const req = document.getElementById("color-req"); if (req) req.textContent = "";
+    refreshOptions();
     updateWaBuy();
     applyColorGallery();
   }));
