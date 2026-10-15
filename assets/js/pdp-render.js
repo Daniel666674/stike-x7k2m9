@@ -60,7 +60,7 @@
       `<button type="button" class="size-opt${s.u <= 0 ? " out" : ""}" data-size="${esc(s.v)}" data-stock="${s.u}" ${s.u <= 0 ? "disabled" : ""}>${esc(s.v)}</button>`
     ).join("");
     return `<div class="size-select" data-variant="size">
-      <div class="size-label">Talla <span class="size-req" id="size-req"></span></div>
+      <div class="size-label">${esc(p.sizeLabel || "Talla")} <span class="size-req" id="size-req"></span></div>
       <div class="size-options" id="size-options">${opts}</div>
     </div>`;
   }

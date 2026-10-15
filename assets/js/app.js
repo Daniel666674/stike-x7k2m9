@@ -159,7 +159,7 @@ function stikeProductCard(p) {
   const cta = out
     ? `<a class="btn cyan sm block" href="${url}">Ver producto</a>`
     : hasVariants
-      ? `<a class="btn cyan sm block" href="${url}">${p.sizes ? "Elegir talla" : "Elegir color"}</a>`
+      ? `<a class="btn cyan sm block" href="${url}">${p.sizes ? "Elegir " + String(p.sizeLabel || "talla").toLowerCase() : "Elegir color"}</a>`
       : `<button class="btn cyan sm add block" data-add="${p.slug}">Agregar al carrito</button>`;
   /* Kicker carries the brand on the multi-brand storefront. On a
      single-brand catalogue (Fate) the brand repeats on every card and stops

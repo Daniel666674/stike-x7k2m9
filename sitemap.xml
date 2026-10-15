@@ -67,10 +67,8 @@
   <url><loc>https://stikebikeshop.com/producto/bielas-fiend-segment-22mm-negras-170mm.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
   <url><loc>https://stikebikeshop.com/producto/bielas-fiend-segment-22mm-cromadas.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
   <url><loc>https://stikebikeshop.com/producto/plato-fiend-reynolds-negro-25t-sin-guardia.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://stikebikeshop.com/producto/plato-fiend-omicron-25t.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://stikebikeshop.com/producto/plato-fiend-omicron-28t.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://stikebikeshop.com/producto/plato-fiend-omicron-guard-cromado-26t.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://stikebikeshop.com/producto/plato-fiend-omicron-guard-negro-28t.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://stikebikeshop.com/producto/plato-fiend-omicron.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://stikebikeshop.com/producto/plato-fiend-omicron-guard.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
   <url><loc>https://stikebikeshop.com/producto/cadena-fiend-halflink-negra.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
   <url><loc>https://stikebikeshop.com/producto/pedales-fiend-reynolds-blancos.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
   <url><loc>https://stikebikeshop.com/producto/silla-pivotal-fiend-reynolds-kevlar-negra.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
@@ -131,8 +129,7 @@
   <url><loc>https://stikebikeshop.com/producto/plato-odyssey-utility-pro-negro-28t.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
   <url><loc>https://stikebikeshop.com/producto/plato-mutanty-diamond-con-guardia.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
   <url><loc>https://stikebikeshop.com/producto/plato-fiend-reynolds-purpura.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://stikebikeshop.com/producto/plato-gw-corona-negro-28t.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://stikebikeshop.com/producto/plato-gw-corona-negro-25t.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://stikebikeshop.com/producto/plato-gw-corona.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
   <url><loc>https://stikebikeshop.com/producto/plato-gw-kl215-negro.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
   <url><loc>https://stikebikeshop.com/producto/pedales-cinema-tilt-negro.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
   <url><loc>https://stikebikeshop.com/producto/pedales-cult-dak-negro.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
@@ -242,8 +239,7 @@
   <url><loc>https://stikebikeshop.com/producto/poste-pivotal-mutanty-corto-negro.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
   <url><loc>https://stikebikeshop.com/producto/juegos-rodamiento-optimus-1019mm-verde.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
   <url><loc>https://stikebikeshop.com/producto/manzana-delantera-optimus.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://stikebikeshop.com/producto/poste-pivotal-optimus-corto-negro.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://stikebikeshop.com/producto/poste-pivotal-optimus-largo-negro.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://stikebikeshop.com/producto/poste-pivotal-optimus.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
   <url><loc>https://stikebikeshop.com/producto/silla-primo-biscuit-pivotal-pana-negro.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
   <url><loc>https://stikebikeshop.com/producto/plato-profile-galaxy-spline-cromado-28t.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
   <url><loc>https://stikebikeshop.com/producto/cana-radio-50mm-negra.html</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>
