@@ -13,10 +13,12 @@
    NO responde nada (nunca queda abierto por omision).
    ========================================================================= */
 
-require __DIR__ . "/_lib.php";
+require __DIR__ . "/_admin.php";
 
 stike_run(function () {
   stike_require_method("GET");
+  // El panel entra con su cookie de sesion (ver api/_admin.php).
+  if (stike_admin_session()) respond(200, stike_read_sales());
   $key = stike_config("ADMIN_API_KEY");
   if (!$key || strlen($key) < 24) throw new ApiError(500, "server_not_configured", "falta ADMIN_API_KEY (minimo 24 caracteres)");
 

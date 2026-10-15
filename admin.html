@@ -13,7 +13,6 @@
 <!-- Sign In With Google. async+defer: no bloquea el resto de la carga: el
      panel espera este SDK solo cuando de verdad hay que mostrar el boton
      (ver whenGoogleReady en admin.js), nunca al cargar la pagina. -->
-<script src="https://accounts.google.com/gsi/client" async defer></script>
 <!-- El panel pedia "Inter" (texto) y "Oswald" (titulos/precios/KPIs) en su
      CSS pero nunca las cargaba -- corria en la fuente por defecto del
      sistema operativo de quien lo abriera, sin que nadie lo notara. Un
@@ -436,24 +435,6 @@ tr:hover td{background:var(--bg-2)}
 </head>
 <body>
 
-<!-- Con ADMIN_EMAILS vacio en site.js, este gate ni se muestra: admin.html
-     entra directo, como al principio. Con la lista llena (el caso de hoy),
-     bloquea el panel hasta iniciar sesion con una cuenta autorizada.
-     Es una restriccion de INTERFAZ, no un muro real: quien tenga su propio
-     token de GitHub puede llamar la API sin pasar por aca. Sirve para que
-     nadie toque el catalogo real sin haber entrado, no para contener a
-     alguien con malas intenciones -- ver README. -->
-<div id="login-gate" class="login-gate" hidden>
-  <div class="login-gate-card">
-    <div class="login-gate-mark">
-      <svg width="22" height="22" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="1.5"/><path d="M6.5 9V6.3a3.5 3.5 0 017 0V9"/></svg>
-    </div>
-    <div class="brand">Stike<small>Panel admin</small></div>
-    <p id="login-gate-msg">Inicia sesión con una cuenta autorizada de Google para entrar al panel.</p>
-    <div id="google-signin-btn"></div>
-    <p id="login-gate-note" class="login-gate-note" hidden></p>
-  </div>
-</div>
 
 <!-- ============================== APP ============================== -->
 <div id="app">
@@ -638,24 +619,13 @@ tr:hover td{background:var(--bg-2)}
     <!-- ---------------- Config ---------------- -->
     <section class="panel" id="panel-config">
       <div class="card">
-        <h3 style="margin-bottom:10px">Token de GitHub</h3>
-        <p class="hint muted">Personal Access Token (fine-grained) con permiso <b>Contents: Read and write</b> sobre <span class="mono" id="cfg-repo"></span>, rama <span class="mono" id="cfg-branch"></span>. Se guarda solo en este navegador (localStorage), nunca se publica.</p>
-        <div class="field" style="margin-top:10px"><input id="pat-input" type="password" placeholder="ghp_..."
-          autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-          data-lpignore="true" data-1p-ignore data-bwignore data-form-type="other"></div>
-        <button class="btn cyan sm" id="btn-save-pat">Guardar token</button>
-        <button class="btn ghost sm" id="btn-clear-pat">Borrar token</button>
-        <p class="hint" id="pat-status"></p>
+        <h3 style="margin-bottom:10px">Conexión</h3>
+        <p class="hint muted">El panel publica en GitHub y lee las ventas online a través del servidor, con tu sesión. Ninguna llave se guarda en este navegador.</p>
+        <p class="hint" id="cfg-status"></p>
       </div>
       <div class="card" style="margin-top:14px">
-        <h3 style="margin-bottom:10px">Clave del servidor de ventas</h3>
-        <p class="hint muted">Para ver aquí las ventas de Wompi (con los datos de envío del cliente). Es la <span class="mono">ADMIN_API_KEY</span> que está en <span class="mono">api/config.local.php</span> del hosting. Se guarda solo en este navegador, nunca se publica.</p>
-        <div class="field" style="margin-top:10px"><input id="sales-key-input" type="password" placeholder="Clave larga al azar"
-          autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-          data-lpignore="true" data-1p-ignore data-bwignore data-form-type="other"></div>
-        <button class="btn cyan sm" id="btn-save-sales-key">Guardar clave</button>
-        <button class="btn ghost sm" id="btn-clear-sales-key">Borrar clave</button>
-        <p class="hint" id="sales-key-status"></p>
+        <h3 style="margin-bottom:10px">Pagos y servidor</h3>
+        <div id="cfg-health"></div>
       </div>
     </section>
   </main>
@@ -666,12 +636,12 @@ tr:hover td{background:var(--bg-2)}
 <div class="overlay center" id="confirm-overlay"><div class="modal" id="confirm-modal"></div></div>
 <div class="status" id="status-box"></div>
 
-<script src="assets/js/site.js?v=2"></script>
+<script src="assets/js/site.js?v=3"></script>
 <script src="assets/js/products-data.js?v=3"></script>
 <script src="assets/js/data.js?v=3"></script>
 <script src="assets/js/pdp-render.js?v=4"></script>
 <script src="assets/js/photo-editor.js?v=1"></script>
-<script src="admin.js?v=13"></script>
+<script src="admin.js?v=14"></script>
 <script>
   // Service worker propio del panel: solo cachea el logo del shell, nunca
   // admin.html/admin.js (ver admin-sw.js).

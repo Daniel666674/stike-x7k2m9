@@ -14,7 +14,7 @@
         cliente vio en el carrito, se frena aca, antes de abrir Wompi.
      3. Cargamos checkout.wompi.co/widget.js y abrimos el modal del
         widget con esos datos. El cliente mete tarjeta/PSE/Nequi AHI
-        MISMO, sin salir de stike-x7k2m9 -- antes esto era una
+        MISMO, sin salir del sitio -- antes esto era una
         redireccion de pagina completa a checkout.wompi.co.
      4. Al terminar, Wompi manda el navegador a redirectUrl con el id de
         la transaccion (igual que la version anterior por redireccion),
@@ -31,22 +31,17 @@
 (function (root) {
   "use strict";
 
-  /* Solo para la demo con el backend de Vercel. En Hostinger la llave viene del servidor. */
-  const WOMPI_PUBLIC_KEY = "pub_test_nF4Pq5VzI7bxkazitsOzrZ6R8vCrgdhE";
   const WOMPI_CURRENCY = "COP";
   const WOMPI_WIDGET_SRC = "https://checkout.wompi.co/widget.js";
   const WOMPI_CHECKOUT_URL = "https://checkout.wompi.co/p/";
 
-  /* A donde se le pide la firma, el estado y el registro de la venta.
-     - En stikebikeshop.com (Hostinger) es el PHP del mismo sitio: /api/...
-       (el .htaccess traduce /api/wompi-sign a api/wompi-sign.php).
-     - En cualquier otro lado (la demo en GitHub Pages, que no corre PHP) es
-       el backend temporal en Vercel. Se borra cuando el sitio viva solo en
-       Hostinger.
-     Cada ruta se puede pisar con window.STIKE_WOMPI_{SIGN,STATUS,ORDER}_ENDPOINT
-     (pruebas locales, ver tools/wompi-dev-server.mjs). */
-  const OWN_DOMAIN = typeof location !== "undefined" && /(^|\.)stikebikeshop\.com$/.test(location.hostname);
-  const API_BASE = OWN_DOMAIN ? new URL("api/", document.baseURI).href : "https://stike-wompi-api.vercel.app/api/";
+  /* A donde se le pide la firma, el estado y el registro de la venta: siempre
+     el PHP del propio sitio (/api/..., el .htaccess lo traduce a api/*.php).
+     La llave publica y el ambiente (sandbox o produccion) los define
+     api/config.local.php, nunca este archivo. Cada ruta se puede pisar con
+     window.STIKE_WOMPI_{SIGN,STATUS,ORDER}_ENDPOINT (pruebas locales, ver
+     tools/wompi-dev-server.mjs). */
+  const API_BASE = new URL("api/", document.baseURI).href;
   const WOMPI_API = {
     sign: root.STIKE_WOMPI_SIGN_ENDPOINT || API_BASE + "wompi-sign",
     status: root.STIKE_WOMPI_STATUS_ENDPOINT || API_BASE + "wompi-status",
@@ -140,10 +135,10 @@
     );
     const amountInCents = signed.amount_in_cents;
     const signature = signed.signature;
-    /* En el servidor propio (PHP) la llave publica viene de api/config.local.php,
-       junto con las secretas: sandbox <-> produccion se cambia ahi, sin tocar este
-       archivo. El backend temporal de Vercel no la devuelve y usa la de abajo. */
-    const publicKey = signed.public_key || WOMPI_PUBLIC_KEY;
+    /* La llave publica viene del servidor (api/config.local.php), junto con
+       las secretas: sandbox <-> produccion se cambia ahi, sin tocar este archivo. */
+    const publicKey = signed.public_key;
+    if (!publicKey) throw new Error("wompi-sign no devolvio la llave publica");
 
     if (expectedTotalPesos != null && amountInCents !== Math.round(expectedTotalPesos * 100)) {
       const err = new Error(`El total del servidor (${amountInCents / 100}) no coincide con el del carrito (${expectedTotalPesos})`);

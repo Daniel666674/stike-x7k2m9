@@ -40,7 +40,13 @@ DirectoryIndex index.html
 
   # El front llama /api/wompi-sign (igual que el backend de Vercel); aca se
   # traduce al archivo PHP.
-  RewriteRule ^api/(wompi-sign|wompi-status|wompi-order|wompi-events|sales|sync)/?$ api/$1.php [L]
+  RewriteRule ^api/(wompi-sign|wompi-status|wompi-order|wompi-events|sales|sync|admin-login|admin-health|gh)/?$ api/$1.php [L]
+
+  # Panel admin: el HTML y el codigo SOLO salen por admin.php, que exige una
+  # sesion iniciada (cookie firmada, verificada en el servidor). Sin sesion
+  # se ve unicamente la pantalla de "Iniciar sesion".
+  RewriteRule ^admin(\.html)?/?$ admin.php?f=html [L,QSA]
+  RewriteRule ^admin\.js$ admin.php?f=js [L,QSA]
 
   # Segunda capa: lo interno no se sirve nunca, aunque algun dia llegue al
   # hosting por error. (El deploy ya lo deja fuera: tools/stage-hostinger.sh.)
@@ -49,7 +55,7 @@ DirectoryIndex index.html
   RewriteRule ^(PROPOSAL|MOTOR|README)\.md$ - [F,L]
   RewriteRule ^propuesta\.html$ - [F,L]
   RewriteRule ^\.git(/|$) - [F,L]
-  RewriteRule ^api/(_lib|config\.local)\.php$ - [F,L]
+  RewriteRule ^api/(_lib|_admin|config\.local)\.php$ - [F,L]
 </IfModule>
 
 # ----------------------------- Cacheo ---------------------------------------
@@ -97,8 +103,7 @@ DirectoryIndex index.html
   </Files>
 
   # ------------------------------- Seguridad ---------------------------------
-  # CSP: solo los terceros que el sitio realmente usa — Google Fonts, la API
-  # de contenidos de GitHub (admin.html), el embed de Google Maps
+  # CSP: solo los terceros que el sitio realmente usa — Google Fonts, el embed de Google Maps
   # (contacto.html) y Wompi (el widget de pago: script, iframe y, si el widget
   # no carga, el formulario de respaldo). Nuestra propia API (/api/...) es del
   # mismo origen, no necesita permiso aparte. Nada de wildcards.
@@ -106,14 +111,15 @@ DirectoryIndex index.html
   # original) usa manejadores inline (onclick=...); migrar eso a
   # addEventListener queda pendiente como mejora.
   #
-  # accounts.google.com (script-src + frame-src) y oauth2.googleapis.com
-  # (connect-src) son del login del panel (admin.html).
+  # accounts.google.com (script-src + frame-src + connect-src) es del boton
+  # de login del panel. GitHub y la verificacion del login de Google los hace
+  # el SERVIDOR (api/gh.php, api/admin-login.php), no el navegador.
   #
   # SIN PROBAR contra el widget real de Wompi (el entorno donde se escribio no
   # llega a checkout.wompi.co). Despues del primer deploy: abrir el carrito, dar
   # "Pagar ahora" y mirar la consola del navegador; cualquier linea
   # "Refused to ..." dice exactamente que host falta agregar aca.
-  Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://accounts.google.com https://checkout.wompi.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self'; connect-src 'self' https://api.github.com https://oauth2.googleapis.com https://accounts.google.com https://production.wompi.co https://sandbox.wompi.co; frame-src https://maps.google.com https://www.google.com https://accounts.google.com https://checkout.wompi.co; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://checkout.wompi.co; object-src 'none'"
+  Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://accounts.google.com https://checkout.wompi.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self'; connect-src 'self' https://accounts.google.com https://production.wompi.co https://sandbox.wompi.co; frame-src https://maps.google.com https://www.google.com https://accounts.google.com https://checkout.wompi.co; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://checkout.wompi.co; object-src 'none'"
   Header set X-Content-Type-Options "nosniff"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
   Header set X-Frame-Options "SAMEORIGIN"
