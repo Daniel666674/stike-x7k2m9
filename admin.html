@@ -431,6 +431,8 @@ tr:hover td{background:var(--bg-2)}
   .notif-panel{position:fixed;top:auto;bottom:12px;left:12px;right:12px;width:auto;max-height:65vh}
   .topbar-actions .lbl{display:none}
 }
+/* Rol "tienda" (staff): se ocultan las secciones financieras y de edicion. El servidor (api/gh.php) igual las bloquea. */
+body.role-staff .staff-hide{display:none!important}
 </style>
 </head>
 <body>
@@ -442,10 +444,10 @@ tr:hover td{background:var(--bg-2)}
     <div class="brand">Stike<small>PANEL ADMIN</small></div>
     <button class="navbtn active" data-panel="productos"><svg class="nav-ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8l7-4 7 4-7 4-7-4z"/><path d="M3 8v8l7 4 7-4V8"/><path d="M10 12v8"/></svg><span>Productos</span></button>
     <button class="navbtn" data-panel="ventas"><svg class="nav-ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h10l1 15-6 2-6-2 1-15z"/><path d="M8 7h4"/><path d="M8 10h4"/></svg><span>Ventas</span></button>
-    <button class="navbtn" data-panel="kpis"><svg class="nav-ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l5-6 4 3 5-7"/><path d="M13 7h4v4"/></svg><span>KPIs</span></button>
-    <button class="navbtn" data-panel="auditoria"><svg class="nav-ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="7"/><path d="M10 6v4l3 2"/></svg><span>Auditoría</span></button>
-    <button class="navbtn" data-panel="contenido"><svg class="nav-ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 3l4 4-9 9H4v-4l9-9z"/></svg><span>Contenido del sitio</span></button>
-    <button class="navbtn" data-panel="config"><svg class="nav-ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="2.6"/><path d="M10 3v2M10 15v2M17 10h-2M5 10H3M14.9 5.1l-1.4 1.4M6.5 13.5l-1.4 1.4M14.9 14.9l-1.4-1.4M6.5 6.5L5.1 5.1"/></svg><span>Configuración</span></button>
+    <button class="navbtn staff-hide" data-panel="kpis"><svg class="nav-ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l5-6 4 3 5-7"/><path d="M13 7h4v4"/></svg><span>KPIs</span></button>
+    <button class="navbtn staff-hide" data-panel="auditoria"><svg class="nav-ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="7"/><path d="M10 6v4l3 2"/></svg><span>Auditoría</span></button>
+    <button class="navbtn staff-hide" data-panel="contenido"><svg class="nav-ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 3l4 4-9 9H4v-4l9-9z"/></svg><span>Contenido del sitio</span></button>
+    <button class="navbtn staff-hide" data-panel="config"><svg class="nav-ic" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="2.6"/><path d="M10 3v2M10 15v2M17 10h-2M5 10H3M14.9 5.1l-1.4 1.4M6.5 13.5l-1.4 1.4M14.9 14.9l-1.4-1.4M6.5 6.5L5.1 5.1"/></svg><span>Configuración</span></button>
     <div class="spacer"></div>
     <div class="side-foot" id="session-info"></div>
   </nav>
@@ -461,7 +463,7 @@ tr:hover td{background:var(--bg-2)}
         </div>
         <button class="btn ghost sm" id="btn-test-sound" title="Probar el sonido de alerta de ventas">🔊 Probar sonido</button>
         <button class="btn ghost sm" id="btn-refresh">↻ Recargar de GitHub</button>
-        <button class="btn cyan" id="btn-publish" disabled>Publicar cambios</button>
+        <button class="btn cyan staff-hide" id="btn-publish" disabled>Publicar cambios</button>
       </div>
     </div>
 
@@ -495,9 +497,9 @@ tr:hover td{background:var(--bg-2)}
         <div class="right">
           <button class="btn ghost sm" id="btn-export-csv">Exportar CSV</button>
           <button class="btn ghost sm" id="btn-export-json">Exportar JSON</button>
-          <button class="btn ghost sm" id="btn-import">Importar</button>
-          <button class="btn ghost sm" id="btn-bulk-price">Ajustar precios %</button>
-          <button class="btn cyan sm" id="btn-new-product">+ Nuevo producto</button>
+          <button class="btn ghost sm staff-hide" id="btn-import">Importar</button>
+          <button class="btn ghost sm staff-hide" id="btn-bulk-price">Ajustar precios %</button>
+          <button class="btn cyan sm staff-hide" id="btn-new-product">+ Nuevo producto</button>
         </div>
       </div>
       <input type="file" id="import-file" accept=".csv,.json" style="display:none">
@@ -508,9 +510,9 @@ tr:hover td{background:var(--bg-2)}
       <div class="bulkbar" id="bulk-bar" hidden>
         <span id="bulk-count"></span>
         <div class="right" style="display:flex;gap:8px">
-          <button class="btn ghost sm" id="bulk-publish">Publicar seleccionados</button>
-          <button class="btn ghost sm" id="bulk-price">Ajustar precio %</button>
-          <button class="btn bad sm" id="bulk-delete">Eliminar</button>
+          <button class="btn ghost sm staff-hide" id="bulk-publish">Publicar seleccionados</button>
+          <button class="btn ghost sm staff-hide" id="bulk-price">Ajustar precio %</button>
+          <button class="btn bad sm staff-hide" id="bulk-delete">Eliminar</button>
         </div>
       </div>
 
@@ -553,7 +555,7 @@ tr:hover td{background:var(--bg-2)}
         <div id="sale-customer"></div>
       </div>
       <div class="grid-4" id="sales-kpis" style="margin-top:14px"></div>
-      <div class="card">
+      <div class="card staff-hide">
         <h3 style="margin-bottom:10px">Ventas por mes</h3>
         <svg id="sales-month-chart" class="spark" viewBox="0 0 600 170" width="100%" height="170"></svg>
       </div>

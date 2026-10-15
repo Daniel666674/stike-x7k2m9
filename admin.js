@@ -65,6 +65,16 @@ const money = n => "$" + Math.round(n || 0).toLocaleString("es-CO");
    ========================================================================= */
 let session = { name: "demo", email: "demo@stikebikeshop.com", role: "owner", pat: "" };
 
+/* Roles (la lista de quien es que vive en api/_admin.php, y el servidor
+   tambien hace cumplir los limites en api/gh.php; esto solo adapta la
+   pantalla). "staff" = la tienda: registra ventas y ve notificaciones,
+   sin costos, margen, KPIs, auditoria ni edicion del catalogo/sitio. */
+const ROLE_LABELS = { owner: "Dueño", developer: "Desarrollador", admin: "Administrador", dev_assistant: "Asistente de desarrollo", staff: "Tienda" };
+const seesFinance = () => ["owner", "developer", "admin", "dev_assistant"].includes(session.role);
+function applyRoleUi() {
+  document.body.classList.toggle("role-staff", !seesFinance());
+}
+
 /* ============================== BASE64 (UTF-8 y binario safe) =========== */
 function b64EncodeBytes(bytes) {
   let bin = "";
@@ -1073,7 +1083,7 @@ function subsFor(cat) { const c = STIKE_CATEGORIES.find(x => x.slug === cat); re
 
 function renderEditor() {
   const d = editorDraft;
-  const isOwner = session.role === "owner";
+  const isOwner = seesFinance();
   const catSubs = subsFor(d.cat);
   const sizeCatActive = SIZE_CATEGORIES.has(d.sub);
 
@@ -1138,8 +1148,8 @@ function renderEditor() {
     </div>
 
     <div class="ed-foot">
-      <button class="btn cyan" id="ed-save">Guardar en el borrador</button>
-      ${!editorIsNew ? `<button class="btn bad" id="ed-delete">Eliminar producto</button>` : ""}
+      <button class="btn cyan staff-hide" id="ed-save">Guardar en el borrador</button>
+      ${!editorIsNew ? `<button class="btn bad staff-hide" id="ed-delete">Eliminar producto</button>` : ""}
     </div>
   `;
 
@@ -1734,10 +1744,10 @@ function renderSalesTab() {
   const tickets = thisMonth.length;
   const avgTicket = tickets ? revenue / tickets : 0;
   $("#sales-kpis").innerHTML = `
-    <div class="kpi"><div class="n">${money(revenue)}</div><div class="l">Ventas (30d)</div></div>
+    ${seesFinance() ? `<div class="kpi"><div class="n">${money(revenue)}</div><div class="l">Ventas (30d)</div></div>` : ""}
     <div class="kpi"><div class="n">${units}</div><div class="l">Unidades (30d)</div></div>
     <div class="kpi"><div class="n">${tickets}</div><div class="l">Transacciones (30d)</div></div>
-    <div class="kpi"><div class="n">${money(avgTicket)}</div><div class="l">Ticket promedio</div></div>`;
+    ${seesFinance() ? `<div class="kpi"><div class="n">${money(avgTicket)}</div><div class="l">Ticket promedio</div></div>` : ""}`;
 
   // Barras por mes (ultimos 6 meses)
   const months = [];
@@ -1964,7 +1974,7 @@ function startSalesPolling() {
 const LOCKED_ICON = `<span class="locked" title="Solo dueño"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="9" width="11" height="8" rx="1.5"/><path d="M6.5 9V6.5a3.5 3.5 0 017 0V9"/></svg></span>`;
 
 function renderKpis() {
-  const isOwner = session.role === "owner";
+  const isOwner = seesFinance();
   const now = Date.now();
   const inRange = (s, fromDaysAgo, toDaysAgo) => {
     const t = new Date(s.ts).getTime();
@@ -2278,7 +2288,7 @@ async function saveSiteContent() {
 /* ============================== APP SHELL ==================================== */
 function showApp() {
   $("#session-info").innerHTML = `<div style="display:flex;flex-direction:column;gap:6px;align-items:flex-start">
-         <span class="pill ${session.role === "owner" ? "owner" : "editor"}">${session.role === "owner" ? "Dueño" : "Editor"}</span>
+         <span class="pill ${seesFinance() ? "owner" : "editor"}">${ROLE_LABELS[session.role] || session.role}</span>
          <span class="pill dot">${escHtml(session.email)}</span>
          <button class="btn ghost sm" onclick="clearLogin()">Cerrar sesión</button>
        </div>`;
@@ -2368,6 +2378,7 @@ window.addEventListener("pageshow", () => resetSearchFilter(true));
 
 /* ============================== NAV / PANELES ================================ */
 function switchPanel(name) {
+  if (!seesFinance() && !["productos", "ventas"].includes(name)) name = "productos";
   $$(".navbtn").forEach(b => b.classList.toggle("active", b.getAttribute("data-panel") === name));
   $$(".panel").forEach(p => p.classList.toggle("active", p.id === "panel-" + name));
   const titles = { productos: "Productos", ventas: "Ventas", kpis: "KPIs", auditoria: "Auditoría", contenido: "Contenido del sitio", config: "Configuración" };
@@ -2484,6 +2495,7 @@ function bootApp() {
     if (!me) { location.reload(); return; }   // la cookie vencio: admin.php muestra el login
     session.email = me.email;
     session.role = me.role;
+    applyRoleUi();
     bootApp();
   }).catch(() => { $("#status-box") && showStatus([{ text: "Sin conexión con el servidor.", cls: "bad" }]); });
 

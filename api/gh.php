@@ -27,6 +27,15 @@ stike_run(function () {
   $path = $_GET["path"] ?? "";
   if (!is_string($path) || strpos($path, "..") !== false || !preg_match(STIKE_GH_ALLOWED, $path)) throw new ApiError(403, "path_not_allowed", $path);
 
+  // Rol "staff" (tienda): ni lee costos ni escribe nada fuera de lo que
+  // necesita una venta (stock del catalogo, log de ventas, auditoria).
+  if (!stike_admin_sees_finance($session["role"])) {
+    if ($path === "data/costs.json") throw new ApiError(404, "not_found");
+    if ($method !== "GET" && !preg_match('#^(assets/js/products-data\.js|data/(sales-log|audit-log|stock-applied)\.json)$#', $path)) {
+      throw new ApiError(403, "role_not_allowed", $path);
+    }
+  }
+
   $body = null;
   if ($method !== "GET") {
     $in = stike_json_body();
