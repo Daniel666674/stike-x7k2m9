@@ -2160,3 +2160,22 @@ body.fate-page h1, body.fate-page h2 { font-stretch: 100%; overflow-wrap: normal
 }
 body.fate-page .btn:not(.ghost):not(.wa) { color: #fff; }
 body.fate-page .btn.ghost { color: #e9a58f; border-color: var(--fate-accent); }
+
+/* ---- Ficha de producto en celular: nada se sale del ancho de la pantalla ----
+   Una ficha con muchas fotos (producto agrupado por colores) ensanchaba la
+   columna 1fr hasta el ancho de TODAS las miniaturas juntas (min-content), y
+   el resto de la pagina quedaba cortado a la derecha. Las columnas pueden
+   encogerse (min-width: 0) y las miniaturas se desplazan dentro de su fila. */
+.pdp { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.pdp > *, .pdp-gallery, .pdp-info { min-width: 0; max-width: 100%; }
+.pdp-info h1 { overflow-wrap: break-word; hyphens: auto; }
+.pdp-thumbs { overflow-x: auto; overflow-y: hidden; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 4px 2px 8px; margin-left: -2px; margin-right: -2px; }
+.pdp-thumbs::-webkit-scrollbar { display: none; }
+.pdp-thumbs button { scroll-snap-align: start; }
+@media (max-width: 980px) {
+  .pdp { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+}
+@media (max-width: 560px) {
+  .pdp-thumbs button { width: 68px; }
+  .pdp .btn { padding: 0 18px; letter-spacing: 1.5px; }
+}
