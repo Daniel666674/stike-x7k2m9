@@ -28,6 +28,7 @@ require_once __DIR__ . "/_lib.php";
    - owner     (dueño): todo.
    - developer (desarrollador): todo.
    - admin     (administrador): todo.
+   - dev_assistant (asistente de desarrollo): todo.
    - staff     (tienda): productos y stock a la vista, registrar ventas y
                notificaciones. NO ve costos, margen, KPIs ni auditoria, y no
                puede crear/editar/eliminar productos ni tocar el sitio. */
@@ -36,10 +37,10 @@ const STIKE_ADMIN_ROLES = [
   "daniel.f.acosta96@gmail.com" => "developer",   // Daniel Acosta
   // "CORREO_DE_JEIMY"          => "admin",       // Jeimy: falta el correo
   // "CORREO_DE_KEVIN"          => "staff",       // Kevin Arevalo: falta el correo
-  "camilor9507@gmail.com"       => "staff",
+  "camilor9507@gmail.com"       => "dev_assistant",   // Camilo: asistente de desarrollo
 ];
 /* Roles que ven la informacion financiera (costos, margen, KPIs). */
-const STIKE_FINANCE_ROLES = ["owner", "developer", "admin"];
+const STIKE_FINANCE_ROLES = ["owner", "developer", "admin", "dev_assistant"];
 
 const STIKE_OAUTH_CLIENT_ID = "752305520255-7e2abc762p3saer5sube25jh9rt9jle7.apps.googleusercontent.com";
 const STIKE_ADMIN_COOKIE = "stike_admin";

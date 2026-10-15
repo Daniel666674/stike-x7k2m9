@@ -106,7 +106,7 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/marco-fate-namaste-v2-3.jpg"
     ],
     "published": true,
-    "units": 1
+    "units": 28
   },
   {
     "slug": "marco-subrosa-joris",
@@ -183,7 +183,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 400000,
     "promo": false,
-    "units": 2,
+    "units": 3,
     "imgs": [
       "assets/img/products/tenedor-rant-negro-30mm-1.jpg"
     ],

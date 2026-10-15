@@ -69,8 +69,8 @@ let session = { name: "demo", email: "demo@stikebikeshop.com", role: "owner", pa
    tambien hace cumplir los limites en api/gh.php; esto solo adapta la
    pantalla). "staff" = la tienda: registra ventas y ve notificaciones,
    sin costos, margen, KPIs, auditoria ni edicion del catalogo/sitio. */
-const ROLE_LABELS = { owner: "Dueño", developer: "Desarrollador", admin: "Administrador", staff: "Tienda" };
-const seesFinance = () => ["owner", "developer", "admin"].includes(session.role);
+const ROLE_LABELS = { owner: "Dueño", developer: "Desarrollador", admin: "Administrador", dev_assistant: "Asistente de desarrollo", staff: "Tienda" };
+const seesFinance = () => ["owner", "developer", "admin", "dev_assistant"].includes(session.role);
 function applyRoleUi() {
   document.body.classList.toggle("role-staff", !seesFinance());
 }
