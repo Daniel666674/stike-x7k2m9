@@ -85,18 +85,17 @@ function b64DecodeText(b64) { return new TextDecoder().decode(b64DecodeBytes(b64
    todo PUT/DELETE lo manda; un 409/422 por sha desactualizado se reintenta
    (hasta 4x, con backoff) volviendo a pedir el sha (y, para el catalogo,
    rehaciendo el merge completo -- ver writeCatalogWithMergeRetry).        */
+/* Todo pasa por api/gh.php: el servidor pone el GITHUB_TOKEN (que nunca
+   llega al navegador) y valida la sesion, el repo, la rama y la ruta. */
 async function ghRequest(path, opts = {}) {
-  const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${path}` +
-    (opts.method && opts.method !== "GET" ? "" : `?ref=${encodeURIComponent(CONFIG.branch)}`);
-  const res = await fetch(url, {
+  const res = await fetch(new URL(`api/gh?path=${encodeURIComponent(path)}`, document.baseURI), {
     method: opts.method || "GET",
-    headers: {
-      Authorization: `Bearer ${session.pat}`,
-      Accept: "application/vnd.github+json",
-      ...(opts.body ? { "Content-Type": "application/json" } : {}),
-    },
+    credentials: "same-origin",
+    cache: "no-store",
+    headers: opts.body ? { "Content-Type": "application/json" } : {},
     body: opts.body ? JSON.stringify(opts.body) : undefined,
   });
+  if (res.status === 401) { location.reload(); throw new Error("La sesión venció. Vuelve a iniciar sesión."); }
   return res;
 }
 
@@ -205,7 +204,6 @@ let salesLog = [];                 // lo que se muestra: salesLogGh + salesLogOn
 let salesLogGh = [];               // data/sales-log.json: ventas registradas a mano (y las de Wompi anteriores al servidor propio)
 let salesLogOnline = [];           // ventas de Wompi guardadas en el servidor (Hostinger), solo lectura
 let onlineSalesState = { configured: false, ok: false, error: "" };
-const SALES_KEY_STORAGE = "stike_admin_sales_key";
 let auditLog = [];
 let siteContent = {};
 let pendingUploads = new Map();    // path reservado -> File original (sin comprimir)
@@ -349,11 +347,9 @@ function rebuildSalesLog() {
 /* Nunca rechaza: si el servidor no responde, se conserva la ultima lista buena
    y el panel avisa en la pestaña Ventas en vez de romper la carga. */
 async function fetchOnlineSales() {
-  const key = localStorage.getItem(SALES_KEY_STORAGE);
-  if (!key) { salesLogOnline = []; onlineSalesState = { configured: false, ok: false, error: "" }; return; }
   try {
-    const res = await fetch(new URL(CONFIG.salesApi, document.baseURI), { headers: { Authorization: `Bearer ${key}` }, cache: "no-store" });
-    if (res.status === 401) throw new Error("la clave no es válida");
+    const res = await fetch(new URL(CONFIG.salesApi, document.baseURI), { credentials: "same-origin", cache: "no-store" });
+    if (res.status === 401) throw new Error("la sesión venció");
     if (!res.ok) throw new Error(`el servidor respondió ${res.status}`);
     const rows = await res.json();
     if (!Array.isArray(rows)) throw new Error("respuesta inesperada");
@@ -2281,85 +2277,54 @@ async function saveSiteContent() {
 
 /* ============================== APP SHELL ==================================== */
 function showApp() {
-  $("#session-info").innerHTML = STIKE_SITE.adminEmails.length
-    ? `<div style="display:flex;flex-direction:column;gap:6px;align-items:flex-start">
+  $("#session-info").innerHTML = `<div style="display:flex;flex-direction:column;gap:6px;align-items:flex-start">
          <span class="pill ${session.role === "owner" ? "owner" : "editor"}">${session.role === "owner" ? "Dueño" : "Editor"}</span>
-         <span class="pill dot">${session.email}</span>
+         <span class="pill dot">${escHtml(session.email)}</span>
          <button class="btn ghost sm" onclick="clearLogin()">Cerrar sesión</button>
-       </div>`
-    : `<span class="pill owner">Modo demo</span>`;
-  $("#cfg-repo").textContent = `${CONFIG.owner}/${CONFIG.repo}`;
-  $("#cfg-branch").textContent = CONFIG.branch;
-  $("#pat-status").textContent = session.pat ? "Token guardado en este navegador." : "Pega tu token de GitHub para cargar el catálogo, las ventas y publicar cambios.";
-  renderSalesKeyStatus();
-  if (session.pat) {
-    loadAll().catch(e => handleLoadError(e));
-  } else {
-    // Sin token no hay nada real que leer: sin datos ficticios, directo a
-    // Configuracion para pegar el token (al guardarlo, loadAll() carga todo).
-    switchPanel("config");
+       </div>`;
+  loadAll().catch(e => handleLoadError(e));
+  renderHealth();
+}
+
+/* Pestaña Configuracion: que esta listo para cobrar y que falta. El servidor
+   nunca devuelve el valor de una llave, solo si existe y si funciona. */
+async function renderHealth() {
+  const el = $("#cfg-health");
+  if (!el) return;
+  el.innerHTML = `<p class="hint muted">Revisando...</p>`;
+  try {
+    const res = await fetch(new URL("api/admin-health", document.baseURI), { credentials: "same-origin", cache: "no-store" });
+    const h = await res.json();
+    if (!res.ok) throw new Error(h.error || res.status);
+    el.innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <span class="pill ${h.ready ? "owner" : ""}" style="${h.ready ? "" : "background:var(--bad);color:#fff"}">${h.ready ? "Listo para cobrar" : "Falta configurar"}</span>
+        <button class="btn ghost sm" id="cfg-health-refresh" type="button">Volver a revisar</button>
+      </div>
+      ${h.checks.map(c => `
+        <div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--line-soft);font-size:13px">
+          <span style="flex:none;width:18px;color:${c.ok ? "var(--good, #3ecf8e)" : "var(--bad)"}">${c.ok ? "✔" : "✕"}</span>
+          <span style="flex:1"><b>${escHtml(c.label)}</b><br><span class="muted">${escHtml(c.detail)}</span></span>
+        </div>`).join("")}
+      <p class="hint muted" style="margin-top:12px">URL de eventos para el panel de Wompi: <span class="mono">${escHtml(h.eventsUrl)}</span></p>`;
+    $("#cfg-health-refresh").addEventListener("click", renderHealth);
+  } catch (e) {
+    el.innerHTML = `<p class="hint" style="color:var(--bad)">No se pudo revisar la configuración: ${escHtml(e.message)}</p>`;
   }
 }
 
 function handleLoadError(e) {
-  const friendly = patErrorMessage(e);
-  $("#pat-status").innerHTML = `<span style="color:var(--bad)">${friendly}</span>`;
+  $("#cfg-status").innerHTML = `<span style="color:var(--bad)">${escHtml(patErrorMessage(e))}</span>`;
   switchPanel("config");
   showStatus([{ text: "Error cargando catálogo: " + e.message, cls: "bad" }]);
 }
 function patErrorMessage(e) {
-  if (/-> 401/.test(e.message)) return "Token inválido o expirado. Genera uno nuevo en GitHub y pégalo de nuevo.";
-  if (/-> 404/.test(e.message)) return `No se encontró ${CONFIG.owner}/${CONFIG.repo} (rama "${CONFIG.branch}") con ese token. Revisa que el token tenga acceso a este repo.`;
-  if (/-> 403/.test(e.message)) return "El token no tiene permiso de escritura sobre este repo (o se agotó el límite de la API). Revisa el scope Contents: Read and write.";
+  if (/-> 500/.test(e.message)) return "El servidor no tiene configurado GITHUB_TOKEN en api/config.local.php (o el token no sirve).";
+  if (/-> 401/.test(e.message)) return "El GITHUB_TOKEN del servidor es inválido o expiró: genera uno nuevo y ponlo en api/config.local.php.";
+  if (/-> 404/.test(e.message)) return `El GITHUB_TOKEN del servidor no tiene acceso a ${CONFIG.owner}/${CONFIG.repo}.`;
+  if (/-> 403/.test(e.message)) return "El GITHUB_TOKEN del servidor no tiene permiso de escritura (Contents: Read and write) o se agotó el límite de la API.";
   return "No se pudo cargar el catálogo: " + e.message;
 }
-
-$("#btn-save-pat").addEventListener("click", () => {
-  const v = $("#pat-input").value.trim();
-  if (!v) return;
-  localStorage.setItem("stike_admin_pat", v);
-  session.pat = v;
-  $("#pat-input").value = "";
-  $("#pat-status").textContent = "Token guardado en este navegador.";
-  // En modo demo el catalogo "ya esta cargado" (ficticio), asi que hay que
-  // recargar igual para reemplazarlo por los datos reales del repo.
-  if (!catalogLoaded || demoMode) {
-    loadAll()
-      .then(() => switchPanel("productos"))
-      .catch(e => handleLoadError(e));
-  }
-});
-function renderSalesKeyStatus() {
-  const el = $("#sales-key-status");
-  if (!el) return;
-  const st = onlineSalesState;
-  if (!localStorage.getItem(SALES_KEY_STORAGE)) { el.style.color = ""; el.textContent = "Sin clave: las ventas de Wompi no se ven en el panel."; }
-  else if (st.ok) { el.style.color = ""; el.textContent = "Clave guardada en este navegador. Conectado al servidor de ventas."; }
-  else if (st.configured) { el.style.color = "var(--bad)"; el.textContent = `Clave guardada, pero: ${st.error}.`; }
-  else { el.style.color = ""; el.textContent = "Clave guardada en este navegador."; }
-}
-async function refreshOnlineSales() {
-  await fetchOnlineSales();
-  if (catalogLoaded && !demoMode) { rebuildSalesLog(); renderSalesTab(); renderKpis(); renderNotifBadge(); }
-  renderSalesKeyStatus();
-}
-$("#btn-save-sales-key").addEventListener("click", async () => {
-  const v = $("#sales-key-input").value.trim();
-  if (!v) return;
-  localStorage.setItem(SALES_KEY_STORAGE, v);
-  $("#sales-key-input").value = "";
-  $("#sales-key-status").textContent = "Comprobando con el servidor...";
-  await refreshOnlineSales();
-});
-$("#btn-clear-sales-key").addEventListener("click", async () => {
-  localStorage.removeItem(SALES_KEY_STORAGE);
-  await refreshOnlineSales();
-});
-$("#btn-clear-pat").addEventListener("click", () => {
-  localStorage.removeItem("stike_admin_pat");
-  if (session) session.pat = "";
-  $("#pat-status").textContent = "Token borrado.";
-});
 
 /* ============================== ANTI-AUTOFILL ===============================
    El panel es una herramienta interna: ningun campo debe autocompletarse ni
@@ -2482,129 +2447,20 @@ document.addEventListener("keydown", e => {
 });
 $$("#view-toggle .viewtoggle-btn").forEach(b => b.classList.toggle("active", b.getAttribute("data-view") === productsView));
 
-/* ============================== ACCESO (Google Sign-In) ====================
-   Gate de identidad delante del panel. Mientras STIKE_SITE.adminEmails
-   tenga algo (hoy lo tiene), el panel NO arranca hasta que alguien entre
-   con una cuenta de Google que este en esa lista. session.email/role
-   quedan puestos ANTES de llamar a bootApp(), asi que todo lo que ya lee
-   session.role (renderProductGrid, renderSalesTab, ...) se comporta bien
-   sin que haga falta tocar nada mas ahi.
-
-   Verificacion SIN backend: el sitio es estatico, asi que en vez de
-   validar la firma del JWT nosotros mismos, se le pregunta a Google
-   (oauth2.googleapis.com/tokeninfo) si el token es valido y de que cuenta
-   es -- una llamada HTTPS de lectura, no hace falta servidor propio.
-
-   Esto sigue siendo una restriccion de INTERFAZ, no un muro real: quien
-   tenga su propio token de GitHub puede llamar la API de Contenidos sin
-   pasar por aca. Sirve para que nadie toque el catalogo real sin haber
-   iniciado sesion, no para contener a alguien con malas intenciones.
-   ============================================================================= */
-const LOGIN_STORAGE_KEY = "stike_admin_login_v1";
-
-/* Los navegadores embebidos de WhatsApp/Instagram/Facebook bloquean el
-   popup de Google Sign-In con un error criptico de origen -- Google lo
-   documenta como algo que no van a arreglar. Se detectan por el user
-   agent y se les muestra un aviso en vez de dejarlos atascados. */
-function isEmbeddedBrowser() {
-  return /FBAN|FBAV|FB_IAB|Instagram|\bLine\/|WhatsApp/i.test(navigator.userAgent || "");
+/* ============================== SESION ===================================
+   La sesion la valida el SERVIDOR (api/_admin.php): admin.php ni siquiera
+   entrega este archivo sin una cookie valida. Aca solo se pregunta quien
+   es (correo y rol) para mostrarlo; nada de lo que haga el navegador puede
+   "fingir" una sesion.
+   ========================================================================= */
+async function fetchSession() {
+  const res = await fetch(new URL("api/admin-login", document.baseURI), { credentials: "same-origin", cache: "no-store" });
+  if (!res.ok) return null;
+  return res.json();
 }
-
-function loadStoredLogin() {
-  try {
-    const raw = sessionStorage.getItem(LOGIN_STORAGE_KEY);
-    if (!raw) return null;
-    const email = String(JSON.parse(raw).email || "").toLowerCase();
-    // Se revalida contra la lista ACTUAL, no se confia ciegamente en lo
-    // guardado: si a alguien lo sacaron de ADMIN_EMAILS despues de que iba
-    // a entrar, no debe seguir adentro solo porque el navegador recuerda
-    // el login viejo. sessionStorage (no localStorage) a proposito: cierra
-    // sola al cerrar la pestaña, en vez de quedar viva indefinidamente en
-    // una computadora compartida.
-    if (!email || !STIKE_SITE.adminEmails.some(e => e.toLowerCase() === email)) return null;
-    return { email, role: STIKE_SITE.ownerEmails.some(e => e.toLowerCase() === email) ? "owner" : "employee" };
-  } catch (e) { return null; }
-}
-function persistLogin(email) {
-  try { sessionStorage.setItem(LOGIN_STORAGE_KEY, JSON.stringify({ email, ts: Date.now() })); } catch (e) {}
-}
-function clearLogin() {
-  try { sessionStorage.removeItem(LOGIN_STORAGE_KEY); } catch (e) {}
+async function clearLogin() {
+  try { await fetch(new URL("api/admin-login", document.baseURI), { method: "DELETE", credentials: "same-origin" }); } catch (e) {}
   location.reload();
-}
-
-/* Sin esto, cualquier pagina podria fingir un login pasandole al callback
-   un email cualquiera: el credential es un JWT y hay que preguntarle a
-   Google si de verdad lo firmo Google y para esta app (aud). */
-async function verifyGoogleCredential(idToken) {
-  const res = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${encodeURIComponent(idToken)}`);
-  if (!res.ok) throw new Error("Google no pudo verificar la sesión. Intenta de nuevo.");
-  const info = await res.json();
-  if (info.aud !== STIKE_SITE.oauthClientId) throw new Error("El token no corresponde a este panel.");
-  if (info.email_verified !== "true" && info.email_verified !== true) throw new Error("Esa cuenta de Google no tiene el correo verificado.");
-  return String(info.email || "").toLowerCase();
-}
-
-/* El SDK de Google carga async/defer en paralelo a admin.js: puede no
-   estar listo todavia cuando se llega aca. Si nunca carga (sin internet,
-   un bloqueador de anuncios), avisa en pantalla en vez de dejar el boton
-   sin aparecer en silencio -- mismo principio que el detector de fallas
-   inline del <head>. */
-function whenGoogleReady(cb, deadline) {
-  deadline = deadline || Date.now() + 10000;
-  if (window.google && google.accounts && google.accounts.id) return cb();
-  if (Date.now() > deadline) {
-    const note = $("#login-gate-note");
-    if (note) { note.hidden = false; note.textContent = "No se pudo cargar el inicio de sesión de Google. Revisa tu conexión e intenta recargar la página."; }
-    return;
-  }
-  setTimeout(() => whenGoogleReady(cb, deadline), 100);
-}
-
-/* Bloquea el panel hasta autenticar. Llama a onAuthenticated() una vez que
-   session.email/session.role quedaron puestos con una cuenta autorizada. */
-function requireGoogleLogin(onAuthenticated) {
-  const gate = $("#login-gate");
-  const restored = loadStoredLogin();
-  if (restored) {
-    session.email = restored.email;
-    session.role = restored.role;
-    onAuthenticated();
-    return;
-  }
-
-  gate.hidden = false;
-
-  if (isEmbeddedBrowser()) {
-    $("#login-gate-msg").textContent = "Este navegador (el de WhatsApp o Instagram) no puede iniciar sesión con Google.";
-    const note = $("#login-gate-note");
-    note.hidden = false;
-    note.textContent = "Abrí este enlace en Chrome o Safari para entrar al panel.";
-    return;
-  }
-
-  whenGoogleReady(() => {
-    google.accounts.id.initialize({
-      client_id: STIKE_SITE.oauthClientId,
-      callback: response => {
-        const note = $("#login-gate-note");
-        note.hidden = true;
-        verifyGoogleCredential(response.credential).then(email => {
-          if (!STIKE_SITE.adminEmails.some(e => e.toLowerCase() === email)) {
-            note.hidden = false;
-            note.textContent = `${email} no está autorizado para entrar al panel. Pide que agreguen tu correo.`;
-            return;
-          }
-          persistLogin(email);
-          session.email = email;
-          session.role = STIKE_SITE.ownerEmails.some(e => e.toLowerCase() === email) ? "owner" : "employee";
-          gate.hidden = true;
-          onAuthenticated();
-        }).catch(e => { note.hidden = false; note.textContent = e.message; });
-      },
-    });
-    google.accounts.id.renderButton($("#google-signin-btn"), { theme: "outline", size: "large", text: "signin_with", width: 280 });
-  });
 }
 
 /* ============================== INIT =========================================== */
@@ -2613,7 +2469,9 @@ function bootApp() {
   resetSearchFilter(false);          // antes del primer render: filtro siempre vacio
   populateCategoryFilter();
   renderProductGrid();
-  session.pat = localStorage.getItem("stike_admin_pat") || "";
+  session.pat = "server";   // el token vive en el servidor (api/gh.php)
+  // Limpieza: borra las llaves que versiones anteriores guardaban en el navegador.
+  try { ["stike_admin_pat", "stike_admin_sales_key"].forEach(k => localStorage.removeItem(k)); sessionStorage.removeItem("stike_admin_login_v1"); } catch (e) {}
   showApp();
   // Chrome restaura valores DESPUES del load: se vuelve a limpiar en el
   // siguiente frame y un instante despues, por si llega tarde.
@@ -2622,8 +2480,12 @@ function bootApp() {
 }
 
 (function init() {
-  if (STIKE_SITE.adminEmails.length) requireGoogleLogin(bootApp);
-  else bootApp();  // ADMIN_EMAILS vacio: entra directo, como antes de conectar el login
+  fetchSession().then(me => {
+    if (!me) { location.reload(); return; }   // la cookie vencio: admin.php muestra el login
+    session.email = me.email;
+    session.role = me.role;
+    bootApp();
+  }).catch(() => { $("#status-box") && showStatus([{ text: "Sin conexión con el servidor.", cls: "bad" }]); });
 
   // El detector de fallas del <head> revisa STIKE_ADMIN_BOOTED 4s despues
   // de window.load y, si sigue en false, muestra la alarma roja de "el

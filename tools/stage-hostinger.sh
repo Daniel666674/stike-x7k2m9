@@ -35,7 +35,7 @@ git -C "$SRC" archive --format=tar HEAD | tar -x -C "$OUT"
 for forbidden in data/costs.json data/sales-log.json data/audit-log.json vercel-wompi-api tools .env api/config.local.php PROPOSAL.md; do
   if [ -e "$OUT/$forbidden" ]; then echo "ERROR: $forbidden quedo en la copia a publicar" >&2; exit 1; fi
 done
-for required in index.html carrito.html pago-resultado.html .htaccess api/_lib.php api/wompi-sign.php api/wompi-order.php api/wompi-events.php api/sales.php api/sync.php data/site-content.json assets/js/products-data.js; do
+for required in index.html carrito.html pago-resultado.html .htaccess api/_lib.php api/wompi-sign.php api/wompi-order.php api/wompi-events.php api/sales.php api/sync.php api/_admin.php api/admin-login.php api/admin-health.php api/gh.php admin.php admin.html admin.js data/site-content.json assets/js/products-data.js; do
   if [ ! -e "$OUT/$required" ]; then echo "ERROR: falta $required en la copia a publicar" >&2; exit 1; fi
 done
 

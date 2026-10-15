@@ -35,31 +35,8 @@
      los dos y se niega a generar si no coinciden. */
   var WHATSAPP  = "573118108848";
 
-  /* Acceso al panel. Mientras ADMIN_EMAILS este vacio, admin.html entra
-     sin login (asi arranco esto). Con la lista llena, como ahora, admin.html
-     exige iniciar sesion con una de estas cuentas de Google antes de mostrar
-     nada del catalogo real.
-
-     El Client ID es publico a proposito -- va escrito en la pagina, y lo
-     que protege el acceso es esta lista de correos, no el secreto de la
-     credencial (ese no se usa: Sign In With Google no lo necesita). */
-  var OAUTH_CLIENT_ID = "752305520255-7e2abc762p3saer5sube25jh9rt9jle7.apps.googleusercontent.com";
-
-  /* Quien puede ENTRAR al panel. Un correo que no este aca se autentica bien
-     con Google (es una cuenta real) pero el panel lo rechaza igual: la
-     lista de Google en Cloud Console es aparte y NO sustituye a esta. */
-  var ADMIN_EMAILS = [
-    "daniel.f.acosta96@gmail.com",
-    "camilor9507@gmail.com",
-    "jparra375@gmail.com",
-  ];
-
-  /* De los de arriba, quien ve costo y margen. El resto entra y publica
-     igual, pero esos numeros quedan ocultos (ver session.role en admin.js). */
-  var OWNER_EMAILS = [
-    "daniel.f.acosta96@gmail.com",
-    "jparra375@gmail.com",
-  ];
+  /* Acceso al panel admin: la lista de correos autorizados y la sesion viven
+     en el SERVIDOR (api/_admin.php), no aca -- este archivo es publico. */
 
   /* ------------------------------ DERIVADO ------------------------------ */
 
@@ -82,9 +59,6 @@
     shortName: "Stike",
     whatsapp: WHATSAPP,
     ogFallback: "assets/img/og-stike.jpg",
-    oauthClientId: OAUTH_CLIENT_ID,
-    adminEmails: ADMIN_EMAILS,
-    ownerEmails: OWNER_EMAILS,
 
     /* Las paginas fijas del sitemap: [ruta, prioridad, frecuencia].
        Vive aca porque la usan DOS generadores -- tools/build-pages.mjs y el
