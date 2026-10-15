@@ -726,23 +726,36 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "plato-fiend-reynolds-negro-25t-sin-guardia",
+    "slug": "plato-fiend-reynolds-25t",
     "sku": "REP-FIE-025",
-    "n": "Plato Fiend Reynolds Negro 25T Sin Guardia",
+    "n": "Plato Fiend Reynolds 25T Sin Guardia",
     "brand": "Fiend",
     "cat": "repuestos",
     "sub": "Platos",
     "spec": [
       "Dientes: 25T",
-      "Sin guardia",
-      "Color: Negro"
+      "Sin guardia"
     ],
     "price": 140000,
     "promo": false,
-    "units": 1,
-    "imgs": [
-      "assets/img/products/plato-fiend-reynolds-negro-25t-sin-guardia-1.jpg"
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 1
+      },
+      {
+        "v": "Cromado",
+        "u": 2
+      }
     ],
+    "imgs": [
+      "assets/img/products/plato-fiend-reynolds-negro-25t-sin-guardia-1.jpg",
+      "assets/img/products/plato-fiend-reynolds-cromado-25t-1.jpg"
+    ],
+    "imgColorMap": {
+      "assets/img/products/plato-fiend-reynolds-negro-25t-sin-guardia-1.jpg": "Negro",
+      "assets/img/products/plato-fiend-reynolds-cromado-25t-1.jpg": "Cromado"
+    },
     "published": true
   },
   {
@@ -1147,26 +1160,6 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "plato-fiend-reynolds-cromado-25t",
-    "sku": "REP-FIE-049",
-    "n": "Plato Fiend Reynolds Cromado 25T",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Platos",
-    "spec": [
-      "Dientes: 25T",
-      "Sin guardia",
-      "Color: Cromado"
-    ],
-    "price": 140000,
-    "promo": false,
-    "units": 2,
-    "imgs": [
-      "assets/img/products/plato-fiend-reynolds-cromado-25t-1.jpg"
-    ],
-    "published": true
-  },
-  {
     "slug": "silla-pivotal-fiend-reynolds-zebra",
     "sku": "REP-FIE-052",
     "n": "Silla Pivotal Fiend Reynolds Zebra",
@@ -1268,25 +1261,78 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "bielas-federal-vice-160mm-negras",
+    "slug": "bielas-federal-vice",
     "sku": "REP-FED-011",
-    "n": "Bielas Federal Vice 160mm Negras",
+    "n": "Bielas Federal Vice",
     "brand": "Federal",
     "cat": "repuestos",
     "sub": "Bielas",
     "spec": [
-      "Largo: 160mm",
-      "Color: Negro",
-      "Incluye cajas de centro"
+      "Eje: 24mm hollow, 48 spline",
+      "Material: Cromoly 4130 tratado térmicamente",
+      "Incluye caja de centro (BB) y espaciadores"
     ],
     "price": 920000,
     "promo": false,
-    "units": 1,
+    "sizes": [
+      {
+        "v": "160mm",
+        "u": 1
+      },
+      {
+        "v": "175mm",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Largo",
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 1
+      },
+      {
+        "v": "Cromado",
+        "u": 1
+      }
+    ],
+    "combos": [
+      {
+        "s": "160mm",
+        "c": "Negro",
+        "u": 1
+      },
+      {
+        "s": "160mm",
+        "c": "Cromado",
+        "u": 0
+      },
+      {
+        "s": "175mm",
+        "c": "Negro",
+        "u": 0
+      },
+      {
+        "s": "175mm",
+        "c": "Cromado",
+        "u": 1
+      }
+    ],
     "imgs": [
       "assets/img/products/bielas-federal-vice-160mm-negras-1.jpg",
       "assets/img/products/bielas-federal-vice-160mm-negras-2.jpg",
-      "assets/img/products/bielas-federal-vice-160mm-negras-3.jpg"
+      "assets/img/products/bielas-federal-vice-160mm-negras-3.jpg",
+      "assets/img/products/bielas-federal-vice-2-cromadas-175mm-1.jpg",
+      "assets/img/products/bielas-federal-vice-2-cromadas-175mm-2.jpg",
+      "assets/img/products/bielas-federal-vice-2-cromadas-175mm-3.jpg"
     ],
+    "imgColorMap": {
+      "assets/img/products/bielas-federal-vice-160mm-negras-1.jpg": "Negro",
+      "assets/img/products/bielas-federal-vice-160mm-negras-2.jpg": "Negro",
+      "assets/img/products/bielas-federal-vice-160mm-negras-3.jpg": "Negro",
+      "assets/img/products/bielas-federal-vice-2-cromadas-175mm-1.jpg": "Cromado",
+      "assets/img/products/bielas-federal-vice-2-cromadas-175mm-2.jpg": "Cromado",
+      "assets/img/products/bielas-federal-vice-2-cromadas-175mm-3.jpg": "Cromado"
+    },
     "published": true
   },
   {
@@ -2196,30 +2242,6 @@ window.STIKE_PRODUCTS = [
     "units": 1,
     "imgs": [
       "assets/img/products/plato-odyssey-utility-pro-negro-25t-1.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "bielas-federal-vice-2-cromadas-175mm",
-    "sku": "REP-FED-012",
-    "n": "Bielas Federal Vice 2 Cromadas 175mm",
-    "brand": "Federal",
-    "cat": "repuestos",
-    "sub": "Bielas",
-    "spec": [
-      "Medida: 175mm",
-      "Eje: 24mm hollow, 48 spline",
-      "Material: Cromoly 4130 tratado térmicamente",
-      "Incluye caja de centro (BB) y espaciadores",
-      "Color: Cromado"
-    ],
-    "price": 920000,
-    "promo": false,
-    "units": 1,
-    "imgs": [
-      "assets/img/products/bielas-federal-vice-2-cromadas-175mm-1.jpg",
-      "assets/img/products/bielas-federal-vice-2-cromadas-175mm-2.jpg",
-      "assets/img/products/bielas-federal-vice-2-cromadas-175mm-3.jpg"
     ],
     "published": true
   },
