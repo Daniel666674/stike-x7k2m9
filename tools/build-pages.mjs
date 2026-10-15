@@ -20,6 +20,7 @@
    que genera el build y la que genera el panel dejan de ser iguales.
    ========================================================================= */
 import fs from "node:fs";
+import crypto from "node:crypto";
 import path from "node:path";
 import vm from "node:vm";
 import { createRequire } from "node:module";
@@ -121,7 +122,34 @@ const changedFiles = [];
    cuando nada se escribio a disco. */
 const generated = new Map();
 
+/* Cache-busting automatico. El servidor guarda los .js/.css 1 AÑO
+   (.htaccess) y la unica forma de que un visitante reciba uno nuevo es que su
+   URL cambie. Antes el "?v=N" se subia a mano y se olvidaba: gente con el
+   data.js viejo veia las fichas nuevas con el codigo viejo (por ejemplo, los
+   botones de color no hacian nada). Ahora el numero es un hash del CONTENIDO
+   del archivo: si el archivo cambia, la URL cambia sola.
+   products-data.js se deja fuera a proposito: el servidor ya lo manda
+   no-cache (trae el stock) y el panel lo reescribe en cada venta. */
+const ASSET_RE = /((?:src|href)=")((?:\.{1,2}\/)*assets\/(?:js|css)\/[A-Za-z0-9._-]+\.(?:js|css))(\?v=[^"]*)?(")/g;
+const hashCache = new Map();
+function assetHash(rel) {
+  if (!hashCache.has(rel)) {
+    const abs = path.join(ROOT, rel);
+    hashCache.set(rel, fs.existsSync(abs) ? crypto.createHash("sha1").update(fs.readFileSync(abs)).digest("hex").slice(0, 8) : null);
+  }
+  return hashCache.get(rel);
+}
+function stampAssets(html) {
+  return html.replace(ASSET_RE, (m, pre, file, q, post) => {
+    const clean = file.replace(/^(?:\.{1,2}\/)+/, "");
+    if (clean.endsWith("products-data.js")) return m;
+    const h = assetHash(clean);
+    return h ? `${pre}${file}?v=${h}${post}` : m;
+  });
+}
+
 function write(relPath, content) {
+  if (relPath.endsWith(".html")) content = stampAssets(content);
   generated.set(relPath, content);
   const abs = path.join(ROOT, relPath);
   const before = fs.existsSync(abs) ? fs.readFileSync(abs, "utf8") : null;
@@ -232,7 +260,7 @@ for (const f of htmlFiles) {
   if (f.startsWith("producto/")) continue;          // ya regeneradas arriba
   if (f.startsWith("bmx-builder/")) continue;        // sub-app aparte, no comparte head
   const before = read(f);
-  const after = retargetUrls(withBaseHref(before));
+  const after = stampAssets(retargetUrls(withBaseHref(before)));
   if (after !== before) write(f, after);
 }
 
