@@ -34,7 +34,7 @@ console.log('\nDUEÑO (jparra375): ve el campo de costo al editar un producto');
 
 console.log('\nEMPLEADO (camilor95): el campo de costo NO aparece al editar');
 {
-  const { page, context } = await loginAs('camilor9507@gmail.com');
+  const { page, context } = await loginAs('camilor95@gmail.com');
   await page.locator('[data-edit]').first().click();
   const html = await page.locator('#editor-drawer').innerHTML();
   t('sin id="ed-cost" en el HTML', html.includes('id="ed-cost"'), false);
@@ -44,7 +44,7 @@ console.log('\nEMPLEADO (camilor95): el campo de costo NO aparece al editar');
 
 console.log('\nKPIs: el margen se oculta al empleado');
 {
-  const { page, context } = await loginAs('camilor9507@gmail.com');
+  const { page, context } = await loginAs('camilor95@gmail.com');
   await page.click('[data-panel="kpis"]');
   await page.waitForTimeout(200);
   const html = await page.locator('main').innerHTML();

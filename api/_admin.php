@@ -35,9 +35,9 @@ require_once __DIR__ . "/_lib.php";
 const STIKE_ADMIN_ROLES = [
   "jparra375@gmail.com"         => "owner",       // Jefersson Parra
   "daniel.f.acosta96@gmail.com" => "developer",   // Daniel Acosta
-  // "CORREO_DE_JEIMY"          => "admin",       // Jeimy: falta el correo
-  // "CORREO_DE_KEVIN"          => "staff",       // Kevin Arevalo: falta el correo
-  "camilor9507@gmail.com"       => "dev_assistant",   // Camilo: asistente de desarrollo
+  "yeimy.hernandez.corredor@gmail.com" => "admin",   // Jeimy
+  "kevinarevalo1996@gmail.com"  => "staff",       // Kevin Arevalo (tienda)
+  "camilor95@gmail.com"         => "dev_assistant",   // Camilo: asistente de desarrollo
 ];
 /* Roles que ven la informacion financiera (costos, margen, KPIs). */
 const STIKE_FINANCE_ROLES = ["owner", "developer", "admin", "dev_assistant"];
