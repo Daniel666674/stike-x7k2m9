@@ -162,6 +162,18 @@ function stike_combo_units($p, $size, $color) {
   foreach ($p["combos"] as $row) if (($row["s"] ?? null) === $size && ($row["c"] ?? null) === $color) return max(0, (int)($row["u"] ?? 0));
   return 0;
 }
+/* Precio unitario para (talla, color): MISMA regla que stikePriceFor en
+   assets/js/data.js. El color manda; luego la talla/medida; luego el base. El
+   navegador nunca dice cuanto cuesta: esto es lo que se cobra. */
+function stike_unit_price($p, $size, $color) {
+  foreach ([["colors", $color], ["sizes", $size]] as [$k, $v]) {
+    if ($v === null || empty($p[$k]) || !is_array($p[$k])) continue;
+    foreach ($p[$k] as $row) {
+      if (($row["v"] ?? null) === $v && isset($row["price"]) && is_int($row["price"]) && $row["price"] > 0) return $row["price"];
+    }
+  }
+  return $p["price"];
+}
 function stike_stock_for($p, $size, $color) {
   if (stike_has_combos($p)) {
     if ($size === null || $color === null) return 0;
@@ -217,11 +229,12 @@ function stike_price_order($catalog, $items) {
     $color = stike_clean_variant($it["color"] ?? null);
     $avail = stike_stock_for($p, $size, $color);
     if ($avail !== null && $qty > $avail) throw new ApiError(409, "out_of_stock", $slug);
-    $total = $p["price"] * $qty;
+    $unit = stike_unit_price($p, $size, $color);
+    $total = $unit * $qty;
     $subtotal += $total;
     $lines[] = [
       "slug" => $slug, "name" => $p["n"] ?? $slug, "qty" => $qty,
-      "unitPrice" => $p["price"], "total" => $total,
+      "unitPrice" => $unit, "total" => $total,
       "size" => $size,
       "color" => $color,
     ];

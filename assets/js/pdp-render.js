@@ -45,6 +45,22 @@
     throw new Error("pdp-render: falta el motor de stock (assets/js/data.js)");
   }
 
+  /* Precio por variante: el rango sale del motor de data.js (stikePriceRange).
+     Si no hay motor/rango, cae al precio base. */
+  function priceRange(p, stock) {
+    return stock && stock.stikePriceRange ? stock.stikePriceRange(p) : { min: p.price, max: p.price, varies: false };
+  }
+  function priceFrom(p, stock) {
+    var r = priceRange(p, stock);
+    return (r.varies ? "Desde " : "") + money(r.min);
+  }
+  /* El monto va en #pdp-price para que pdp.js lo cambie al elegir una opcion. */
+  function priceBlock(p, stock, oldPrice, discount) {
+    var r = priceRange(p, stock);
+    if (r.varies) return `<span id="pdp-price">Desde ${money(r.min)}</span>`;
+    return `<span id="pdp-price">${money(p.price)}</span> ${oldPrice}${discount}`;
+  }
+
   function renderGallery(p, coverUrl) {
     var imgs = (p.imgs && p.imgs.length) ? p.imgs : [coverUrl];
     var main = `<div class="main"><img id="main-img" src="${esc(imgs[0])}" alt="${esc(p.n)}"></div>`;
@@ -124,7 +140,7 @@
     var discount = p.old ? `<span class="tag-pill" style="background:#18181b;color:#fff;margin-left:10px;font-size:11px;padding:4px 10px">-${Math.round((1 - p.price / p.old) * 100)}%</span>` : "";
     var waMsg = encodeURIComponent(stock.stikeWaText(p, { shortName: site.shortName || site.name }));
     var canonical = site.url(`producto/${p.slug}.html`);
-    var shareMsg = encodeURIComponent(`Mira este producto de ${site.name}: ${p.n}, ${money(p.price)}\n${canonical}`);
+    var shareMsg = encodeURIComponent(`Mira este producto de ${site.name}: ${p.n}, ${priceFrom(p, stock)}\n${canonical}`);
     /* site.url() pone la barra; concatenar a mano fue exactamente el bug que
        dejo las 52 fichas con el og:image en 404. */
     var ogImage = coverUrl
@@ -143,7 +159,7 @@
       GALLERY: renderGallery(p, coverUrl),
       BRAND: esc(p.brand),
       NAME: esc(p.n),
-      PRICE_BLOCK: `${money(p.price)} ${oldPrice}${discount}`,
+      PRICE_BLOCK: priceBlock(p, stock, oldPrice, discount),
       STOCK_BLOCK: stockHtml,
       SIZE_BLOCK: renderSizeBlock(p),
       COLOR_BLOCK: renderColorBlock(p, stock),
@@ -153,7 +169,7 @@
          se marca OutOfStock y se QUEDA en el indice, con su posicionamiento
          intacto para cuando vuelva la mercancia. Sacarlo obliga a
          reconstruir ese posicionamiento en cada reposicion. */
-      PRICE_PLAIN: String(p.price),
+      PRICE_PLAIN: String(priceRange(p, stock).min),
       AVAILABILITY: isOut ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
       WA_HREF: `https://wa.me/${(ctx.whatsapp || site.whatsapp)}?text=${waMsg}`,
       SHARE_WA_HREF: `https://wa.me/?text=${shareMsg}`,

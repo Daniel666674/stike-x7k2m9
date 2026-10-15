@@ -72,7 +72,7 @@ const browser = loadBrowserScripts(
   ["assets/js/products-data.js", "assets/js/data.js"],
   ["STIKE_ALL_PRODUCTS", "STIKE_PRODUCTS", "STIKE_CATEGORIES", "STIKE_PART_PAGES",
    "stikeIsVisible", "stikeIsOut", "stikeTotalStock", "stikeSellable", "stikeWaText", "stikeWaLabel", "stikePrice",
-   "stikeColorStyle", "stikeHasCombos", "stikeComboUnits"]
+   "stikeColorStyle", "stikeHasCombos", "stikeComboUnits", "stikePriceFor", "stikePriceRange", "stikePriceLabel"]
 );
 
 /* El catalogo COMPLETO, borradores incluidos: hay que saber que un borrador

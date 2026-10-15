@@ -1,10 +1,11 @@
-/* Prueba de variantes (colores redondos, tallas, combos, roles). Servir el repo en :8140 (python3 -m http.server 8140) y correr: node tools/variants-test.mjs */
+/* Prueba de variantes (colores redondos, tallas, combos, roles). Servir el repo en :8143 (python3 -m http.server 8140) y correr: node tools/variants-test.mjs */
 import { createRequire } from "node:module";
 const require = createRequire(process.env.PW_MODULES || "/opt/node-tools/node_modules/");
 const { chromium } = require("playwright");
-const B = "http://localhost:8140";
+const B = "http://localhost:8143";
 const br = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium" });
 const page = await br.newPage({ viewport: { width: 1200, height: 900 } });
+await page.addInitScript(() => { document.addEventListener("DOMContentLoaded", () => { const s = document.createElement("style"); s.textContent = "[class*=cookie],#newsletter-overlay{display:none!important}"; document.head.appendChild(s); }); });
 const errs = []; page.on("pageerror", e => errs.push(e.message));
 const t = (l, ok, extra="") => console.log((ok ? "ok    " : "FALLA ") + l + (ok ? "" : "  -> " + extra));
 

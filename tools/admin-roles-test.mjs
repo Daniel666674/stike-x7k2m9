@@ -1,9 +1,9 @@
-/* Prueba de variantes (colores redondos, tallas, combos, roles). Servir el repo en :8140 (python3 -m http.server 8140) y correr: node tools/admin-roles-test.mjs */
+/* Prueba de variantes (colores redondos, tallas, combos, roles). Servir el repo en :8143 (python3 -m http.server 8140) y correr: node tools/admin-roles-test.mjs */
 import { createRequire } from "node:module";
 import fs from "node:fs";
 const require = createRequire(process.env.PW_MODULES || "/opt/node-tools/node_modules/");
 const { chromium } = require("playwright");
-const ROOT = process.cwd(), B = "http://localhost:8140";
+const ROOT = process.cwd(), B = "http://localhost:8143";
 const br = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium" });
 let fail = 0;
 const t = (l, ok, extra = "") => { if (!ok) fail++; console.log((ok ? "ok    " : "FALLA ") + l + (ok ? "" : "  -> " + extra)); };

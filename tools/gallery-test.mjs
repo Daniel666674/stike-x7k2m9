@@ -6,6 +6,7 @@ const B = "http://localhost:8143";
 const br = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium" });
 let fail = 0; const t = (l, ok, x = "") => { if (!ok) fail++; console.log((ok ? "ok    " : "FALLA ") + l + (ok ? "" : "  -> " + x)); };
 const page = await br.newPage({ viewport: { width: 1200, height: 900 } });
+await page.addInitScript(() => { document.addEventListener("DOMContentLoaded", () => { const s = document.createElement("style"); s.textContent = "[class*=cookie],#newsletter-overlay{display:none!important}"; document.head.appendChild(s); }); });
 const errs = []; page.on("pageerror", e => errs.push(e.message));
 await page.goto(`${B}/producto/pedales-demolition-trooper.html`, { waitUntil: "networkidle" });
 await page.addStyleTag({ content: "[class*=cookie]{display:none!important}" });

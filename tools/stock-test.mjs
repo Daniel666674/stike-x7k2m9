@@ -68,5 +68,19 @@ t('negro brillante -> negro',          D.stikeColorStyle('Negro brillante'), '#1
 t('dos tonos -> mitades',              /^linear-gradient\(90deg,#2563c9 0 50%,#d4202c 50% 100%\)$/.test(D.stikeColorStyle('Azul/Rojo')), true);
 t('cromado -> degradado',              /gradient/.test(D.stikeColorStyle('Cromado')), true);
 
+console.log('\nPrecio por opcion (stikePriceFor / stikePriceRange)');
+const timon = { price: 350000, colors: [{ v: 'Negro', u: 4 }, { v: 'Cromado', u: 3, price: 400000 }] };
+t('color con precio propio',             D.stikePriceFor(timon, null, 'Cromado'), 400000);
+t('color sin precio propio -> base',     D.stikePriceFor(timon, null, 'Negro'), 350000);
+t('sin elegir -> base',                  D.stikePriceFor(timon, null, null), 350000);
+t('rango: desde 350k hasta 400k',        D.stikePriceRange(timon), { min: 350000, max: 400000, varies: true });
+t('etiqueta de tarjeta "Desde"',         D.stikePriceLabel(timon).startsWith('Desde'), true);
+t('producto sin variantes con precio: no varia', D.stikePriceRange({ price: 90000, units: 2 }).varies, false);
+const peg = { price: 15000, sizes: [{ v: '4.3', u: 10 }, { v: '4.5', u: 400, price: 20000 }] };
+t('medida con precio propio',            D.stikePriceFor(peg, '4.5', null), 20000);
+t('el color manda sobre la medida',      D.stikePriceFor({ price: 100, sizes: [{ v: 'A', u: 1, price: 500 }], colors: [{ v: 'X', u: 1, price: 300 }] }, 'A', 'X'), 300);
+t('WhatsApp sin elegir dice "desde"',    D.stikeWaText({ ...timon, n: 'T', units: undefined }, {}).includes('desde $350.000'), true);
+t('WhatsApp con color lleva SU precio',  D.stikeWaText({ ...timon, n: 'T' }, { color: 'Cromado' }).includes('$400.000'), true);
+
 console.log(`\n  ${pass} pasaron, ${fail} fallaron\n`);
 process.exit(fail ? 1 : 0);

@@ -68,23 +68,51 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "manzana-optimus-gold",
+    "slug": "manzana-delantera-optimus",
     "sku": "REP-OPT-001",
-    "n": "Manzana Optimus Gold",
+    "n": "Manzana Delantera Optimus",
     "brand": "Optimus",
     "cat": "repuestos",
     "sub": "Manzanas",
     "spec": [
       "Posición: Delantera",
-      "Color: Dorado"
+      "Agujeros: 36",
+      "Cuerpo: Aluminio",
+      "Eje: Cr-Mo 3/8\"",
+      "Balineras: 2 selladas"
     ],
     "price": 95000,
     "promo": false,
-    "units": 1,
+    "colors": [
+      {
+        "v": "Cromado",
+        "u": 1,
+        "price": 100000
+      },
+      {
+        "v": "Azul",
+        "u": 1,
+        "price": 100000
+      },
+      {
+        "v": "Dorado",
+        "u": 1
+      }
+    ],
     "imgs": [
+      "assets/img/products/manzana-delantera-optimus-cromada-1.jpg",
+      "assets/img/products/manzana-delantera-optimus-cromada-2.jpg",
+      "assets/img/products/manzana-delantera-optimus-azul-1.jpg",
       "assets/img/products/manzana-optimus-gold-1.jpg",
       "assets/img/products/manzana-optimus-gold-2.jpg"
     ],
+    "imgColorMap": {
+      "assets/img/products/manzana-delantera-optimus-cromada-1.jpg": "Cromado",
+      "assets/img/products/manzana-delantera-optimus-cromada-2.jpg": "Cromado",
+      "assets/img/products/manzana-delantera-optimus-azul-1.jpg": "Azul",
+      "assets/img/products/manzana-optimus-gold-1.jpg": "Dorado",
+      "assets/img/products/manzana-optimus-gold-2.jpg": "Dorado"
+    },
     "published": true
   },
   {
@@ -359,41 +387,36 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "tenedor-fiend-process-ic-v2-20mm-cromado",
+    "slug": "tenedor-fiend-process-ic-v2-20mm",
     "sku": "REP-FIE-005",
-    "n": "Tenedor Fiend Process IC V2 20mm Cromado",
+    "n": "Tenedor Fiend Process IC V2 20mm",
     "brand": "Fiend",
     "cat": "repuestos",
     "sub": "Tenedores",
     "spec": [
-      "Eje: 20mm",
-      "Color: Cromado"
-    ],
-    "price": 750000,
-    "promo": false,
-    "units": 1,
-    "imgs": [
-      "assets/img/products/tenedor-fiend-process-ic-v2-20mm-cromado-1.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "tenedor-fiend-process-ic-v2-20mm-negro",
-    "sku": "REP-FIE-006",
-    "n": "Tenedor Fiend Process IC V2 20mm Negro",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Tenedores",
-    "spec": [
-      "Eje: 20mm",
-      "Color: Negro"
+      "Eje: 20mm"
     ],
     "price": 670000,
     "promo": false,
-    "units": 1,
-    "imgs": [
-      "assets/img/products/tenedor-fiend-process-ic-v2-20mm-negro-1.jpg"
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 1
+      },
+      {
+        "v": "Cromado",
+        "u": 1,
+        "price": 750000
+      }
     ],
+    "imgs": [
+      "assets/img/products/tenedor-fiend-process-ic-v2-20mm-negro-1.jpg",
+      "assets/img/products/tenedor-fiend-process-ic-v2-20mm-cromado-1.jpg"
+    ],
+    "imgColorMap": {
+      "assets/img/products/tenedor-fiend-process-ic-v2-20mm-negro-1.jpg": "Negro",
+      "assets/img/products/tenedor-fiend-process-ic-v2-20mm-cromado-1.jpg": "Cromado"
+    },
     "published": true
   },
   {
@@ -432,80 +455,71 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "timon-fiend-reynolds-negro",
+    "slug": "timon-fiend-reynolds",
     "sku": "REP-FIE-008",
-    "n": "Timón Fiend Reynolds Negro",
+    "n": "Timón Fiend Reynolds",
     "brand": "Fiend",
     "cat": "repuestos",
     "sub": "Timones",
     "spec": [
-      "Medida: 9\" - 9.25\" X 27.25\"",
-      "Color: Negro"
+      "Medida: 9\" - 9.25\" X 27.25\""
     ],
     "price": 350000,
     "promo": false,
-    "units": 4,
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 4
+      },
+      {
+        "v": "Cromado",
+        "u": 3,
+        "price": 400000
+      }
+    ],
     "imgs": [
       "assets/img/products/timon-fiend-reynolds-negro-1.jpg",
-      "assets/img/products/timon-fiend-reynolds-negro-2.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "timon-fiend-reynolds-cromado",
-    "sku": "REP-FIE-009",
-    "n": "Timón Fiend Reynolds Cromado",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Timones",
-    "spec": [
-      "Medida: 9\" - 9.25\" X 27.25\"",
-      "Color: Cromado"
-    ],
-    "price": 400000,
-    "promo": false,
-    "units": 3,
-    "imgs": [
+      "assets/img/products/timon-fiend-reynolds-negro-2.jpg",
       "assets/img/products/timon-fiend-reynolds-cromado-1.jpg"
     ],
+    "imgColorMap": {
+      "assets/img/products/timon-fiend-reynolds-negro-1.jpg": "Negro",
+      "assets/img/products/timon-fiend-reynolds-negro-2.jpg": "Negro",
+      "assets/img/products/timon-fiend-reynolds-cromado-1.jpg": "Cromado"
+    },
     "published": true
   },
   {
-    "slug": "timon-fiend-team-negro",
+    "slug": "timon-fiend-team",
     "sku": "REP-FIE-010",
-    "n": "Timón Fiend Team Negro",
+    "n": "Timón Fiend Team",
     "brand": "Fiend",
     "cat": "repuestos",
     "sub": "Timones",
     "spec": [
-      "Medida: 9.5\" - 9.75\" X 29\"",
-      "Color: Negro"
+      "Medida: 9.5\" - 9.75\" X 29\""
     ],
     "price": 350000,
     "promo": false,
-    "units": 7,
-    "imgs": [
-      "assets/img/products/timon-fiend-team-negro-1.jpg"
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 7
+      },
+      {
+        "v": "Cromado",
+        "u": 4,
+        "price": 400000
+      }
     ],
-    "published": true
-  },
-  {
-    "slug": "timon-fiend-team-cromado",
-    "sku": "REP-FIE-011",
-    "n": "Timón Fiend Team Cromado",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Timones",
-    "spec": [
-      "Medida: 9.5\" - 9.75\" X 29\"",
-      "Color: Cromado"
-    ],
-    "price": 400000,
-    "promo": false,
-    "units": 4,
     "imgs": [
+      "assets/img/products/timon-fiend-team-negro-1.jpg",
       "assets/img/products/timon-fiend-team-cromado-1.jpg"
     ],
+    "imgColorMap": {
+      "assets/img/products/timon-fiend-team-negro-1.jpg": "Negro",
+      "assets/img/products/timon-fiend-team-cromado-1.jpg": "Cromado"
+    },
     "published": true
   },
   {
@@ -686,43 +700,37 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "bielas-fiend-segment-22mm-negras-170mm",
+    "slug": "bielas-fiend-segment-22mm",
     "sku": "REP-FIE-023",
-    "n": "Bielas Fiend Segment 22mm Negras 170mm",
+    "n": "Bielas Fiend Segment 22mm",
     "brand": "Fiend",
     "cat": "repuestos",
     "sub": "Bielas",
     "spec": [
       "Eje: 22mm",
-      "Largo: 170mm",
-      "Color: Negro"
+      "Largos: negras 170mm · cromadas 160, 165 y 170mm"
     ],
     "price": 800000,
     "promo": false,
-    "units": 1,
-    "imgs": [
-      "assets/img/products/bielas-fiend-segment-22mm-negras-170mm-1.jpg"
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 1
+      },
+      {
+        "v": "Cromado",
+        "u": 4,
+        "price": 890000
+      }
     ],
-    "published": true
-  },
-  {
-    "slug": "bielas-fiend-segment-22mm-cromadas",
-    "sku": "REP-FIE-024",
-    "n": "Bielas Fiend Segment 22mm Cromadas",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Bielas",
-    "spec": [
-      "Eje: 22mm",
-      "Medidas: 160mm, 165mm, 170mm",
-      "Color: Cromado"
-    ],
-    "price": 890000,
-    "promo": false,
-    "units": 4,
     "imgs": [
+      "assets/img/products/bielas-fiend-segment-22mm-negras-170mm-1.jpg",
       "assets/img/products/bielas-fiend-segment-22mm-cromadas-1.jpg"
     ],
+    "imgColorMap": {
+      "assets/img/products/bielas-fiend-segment-22mm-negras-170mm-1.jpg": "Negro",
+      "assets/img/products/bielas-fiend-segment-22mm-cromadas-1.jpg": "Cromado"
+    },
     "published": true
   },
   {
@@ -1485,14 +1493,13 @@ window.STIKE_PRODUCTS = [
     "imgPos": "top center"
   },
   {
-    "slug": "chaqueta-nightmare-aguamarina",
+    "slug": "chaqueta-nightmare",
     "sku": "ROP-NIG-002",
-    "n": "Chaqueta Nightmare Aguamarina",
+    "n": "Chaqueta Nightmare",
     "brand": "Nightmare",
     "cat": "ropa",
     "sub": "Busos y Chaquetas",
     "spec": [
-      "Color: Aguamarina",
       "Tela: Satinada, rompevientos",
       "Cierre: Cremallera completa"
     ],
@@ -1501,22 +1508,103 @@ window.STIKE_PRODUCTS = [
     "sizes": [
       {
         "v": "S",
-        "u": 1
+        "u": 2
       },
       {
         "v": "M",
-        "u": 0
+        "u": 1
       },
       {
         "v": "L",
+        "u": 1
+      },
+      {
+        "v": "XL",
+        "u": 0
+      },
+      {
+        "v": "XXL",
+        "u": 0
+      }
+    ],
+    "colors": [
+      {
+        "v": "Aguamarina",
+        "u": 1
+      },
+      {
+        "v": "Negro",
+        "u": 3
+      }
+    ],
+    "combos": [
+      {
+        "s": "S",
+        "c": "Aguamarina",
+        "u": 1
+      },
+      {
+        "s": "S",
+        "c": "Negro",
+        "u": 1
+      },
+      {
+        "s": "M",
+        "c": "Aguamarina",
+        "u": 0
+      },
+      {
+        "s": "M",
+        "c": "Negro",
+        "u": 1
+      },
+      {
+        "s": "L",
+        "c": "Aguamarina",
+        "u": 0
+      },
+      {
+        "s": "L",
+        "c": "Negro",
+        "u": 1
+      },
+      {
+        "s": "XL",
+        "c": "Aguamarina",
+        "u": 0
+      },
+      {
+        "s": "XL",
+        "c": "Negro",
+        "u": 0
+      },
+      {
+        "s": "XXL",
+        "c": "Aguamarina",
+        "u": 0
+      },
+      {
+        "s": "XXL",
+        "c": "Negro",
         "u": 0
       }
     ],
     "imgs": [
       "assets/img/products/chaqueta-nightmare-aguamarina-1.jpg",
       "assets/img/products/chaqueta-nightmare-aguamarina-2.jpg",
-      "assets/img/products/44967b86-615a-468b-8b1b-c250cf8143d0.jpg"
+      "assets/img/products/44967b86-615a-468b-8b1b-c250cf8143d0.jpg",
+      "assets/img/products/adf3825c-f657-4572-bded-5d086750324c.jpg",
+      "assets/img/products/192e6a90-ca08-4468-98e7-5d6303258d5a.jpg",
+      "assets/img/products/0cd73d14-5201-4841-a9a2-b1ffb8de3e49.jpg"
     ],
+    "imgColorMap": {
+      "assets/img/products/chaqueta-nightmare-aguamarina-1.jpg": "Aguamarina",
+      "assets/img/products/chaqueta-nightmare-aguamarina-2.jpg": "Aguamarina",
+      "assets/img/products/44967b86-615a-468b-8b1b-c250cf8143d0.jpg": "Aguamarina",
+      "assets/img/products/adf3825c-f657-4572-bded-5d086750324c.jpg": "Negro",
+      "assets/img/products/192e6a90-ca08-4468-98e7-5d6303258d5a.jpg": "Negro",
+      "assets/img/products/0cd73d14-5201-4841-a9a2-b1ffb8de3e49.jpg": "Negro"
+    },
     "published": true
   },
   {
@@ -2072,49 +2160,6 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "chaqueta-nightmare-negro",
-    "sku": "ROP-NIG-004",
-    "n": "Chaqueta Nightmare Negro",
-    "brand": "Total BMX",
-    "cat": "ropa",
-    "sub": "Busos y Chaquetas",
-    "spec": [
-      "Color: Negro",
-      "Tela: Satinada, rompevientos",
-      "Cierre: Cremallera completa"
-    ],
-    "price": 120000,
-    "promo": false,
-    "sizes": [
-      {
-        "v": "S",
-        "u": 1
-      },
-      {
-        "v": "M",
-        "u": 1
-      },
-      {
-        "v": "L",
-        "u": 1
-      },
-      {
-        "v": "XL",
-        "u": 0
-      },
-      {
-        "v": "XXL",
-        "u": 0
-      }
-    ],
-    "imgs": [
-      "assets/img/products/adf3825c-f657-4572-bded-5d086750324c.jpg",
-      "assets/img/products/192e6a90-ca08-4468-98e7-5d6303258d5a.jpg",
-      "assets/img/products/0cd73d14-5201-4841-a9a2-b1ffb8de3e49.jpg"
-    ],
-    "published": true
-  },
-  {
     "slug": "buzo-alpinestars-negro",
     "sku": "ROP-ALP-001",
     "n": "Buzo Alpinestars Negro",
@@ -2225,23 +2270,36 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "plato-odyssey-utility-pro-negro-25t",
-    "sku": "REP-ODY-009",
-    "n": "Plato Odyssey Utility Pro Negro 25T",
+    "slug": "plato-odyssey-utility-pro-negro",
+    "sku": "ODYSSEY-PLATO-28T-NEGRO",
+    "n": "Plato Odyssey Utility Pro Negro",
     "brand": "Odyssey",
     "cat": "repuestos",
     "sub": "Platos",
     "spec": [
-      "Dientes: 25T",
-      "Guardia removible incluida",
       "Material: Aluminio CNC 7075",
+      "Grosor: 8mm",
+      "Guardia removible",
       "Color: Negro"
     ],
     "price": 250000,
     "promo": false,
-    "units": 1,
+    "sizes": [
+      {
+        "v": "25T",
+        "u": 1
+      },
+      {
+        "v": "28T",
+        "u": 1,
+        "price": 340000
+      }
+    ],
+    "sizeLabel": "Dientes",
     "imgs": [
-      "assets/img/products/plato-odyssey-utility-pro-negro-25t-1.jpg"
+      "assets/img/products/plato-odyssey-utility-pro-negro-25t-1.jpg",
+      "assets/img/products/plato-odyssey-utility-pro-negro-28t-1.jpg",
+      "assets/img/products/plato-odyssey-utility-pro-negro-28t-2.jpg"
     ],
     "published": true
   },
@@ -2502,29 +2560,6 @@ window.STIKE_PRODUCTS = [
     "units": 1,
     "imgs": [
       "assets/img/products/poste-counter-layback-cromado-1.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "plato-odyssey-utility-pro-negro-28t",
-    "sku": "ODYSSEY-PLATO-28T-NEGRO",
-    "n": "Plato Odyssey Utility Pro Negro 28T con Guardia",
-    "brand": "Odyssey",
-    "cat": "repuestos",
-    "sub": "Platos",
-    "spec": [
-      "Dientes: 28T",
-      "Material: Aluminio CNC 7075",
-      "Grosor: 8mm",
-      "Guardia removible",
-      "Color: Negro"
-    ],
-    "price": 340000,
-    "promo": false,
-    "units": 1,
-    "imgs": [
-      "assets/img/products/plato-odyssey-utility-pro-negro-28t-1.jpg",
-      "assets/img/products/plato-odyssey-utility-pro-negro-28t-2.jpg"
     ],
     "published": true
   },
@@ -3037,39 +3072,31 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "funda-peg-fate-43",
+    "slug": "cubierta-peg-fate",
     "sku": "REP-FAT-011",
-    "n": "Cubierta Peg Fate 4.3\"",
+    "n": "Cubierta Peg Fate",
     "brand": "Fate BMX Colombia",
     "cat": "repuestos",
     "sub": "Tacos y Protectores de Maza",
     "spec": [
-      "Medida: 4.3\"",
       "Color: Negro"
     ],
     "price": 15000,
     "promo": false,
-    "units": 10,
-    "imgs": [
-      "assets/img/products/funda-peg-fate-43-1.jpg"
+    "sizes": [
+      {
+        "v": "4.3\"",
+        "u": 10
+      },
+      {
+        "v": "4.5\"",
+        "u": 400,
+        "price": 20000
+      }
     ],
-    "published": true
-  },
-  {
-    "slug": "funda-peg-fate-45",
-    "sku": "REP-FAT-012",
-    "n": "Cubierta Peg Fate 4.5\"",
-    "brand": "Fate BMX Colombia",
-    "cat": "repuestos",
-    "sub": "Tacos y Protectores de Maza",
-    "spec": [
-      "Medida: 4.5\"",
-      "Color: Negro"
-    ],
-    "price": 20000,
-    "promo": false,
-    "units": 400,
+    "sizeLabel": "Medida",
     "imgs": [
+      "assets/img/products/funda-peg-fate-43-1.jpg",
       "assets/img/products/funda-peg-fate-45-1.jpg"
     ],
     "published": true
@@ -3467,39 +3494,31 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "caja-de-centro-odyssey-1019mm-negra",
+    "slug": "caja-de-centro-odyssey-negra",
     "sku": "REP-ODY-013",
-    "n": "Caja de Centro Odyssey 1019mm Negra",
+    "n": "Caja de Centro Odyssey Negra",
     "brand": "Odyssey",
     "cat": "repuestos",
     "sub": "Bielas",
     "spec": [
-      "Medida: 1019mm",
       "Color: Negro"
     ],
     "price": 100000,
     "promo": false,
-    "units": 1,
-    "imgs": [
-      "assets/img/products/caja-de-centro-odyssey-1019mm-negra-1.jpg"
+    "sizes": [
+      {
+        "v": "1019mm",
+        "u": 1
+      },
+      {
+        "v": "1022mm",
+        "u": 2,
+        "price": 120000
+      }
     ],
-    "published": true
-  },
-  {
-    "slug": "caja-de-centro-odyssey-1022mm-negra",
-    "sku": "REP-ODY-014",
-    "n": "Caja de Centro Odyssey 1022mm Negra",
-    "brand": "Odyssey",
-    "cat": "repuestos",
-    "sub": "Bielas",
-    "spec": [
-      "Medida: 1022mm",
-      "Color: Negro"
-    ],
-    "price": 120000,
-    "promo": false,
-    "units": 2,
+    "sizeLabel": "Medida",
     "imgs": [
+      "assets/img/products/caja-de-centro-odyssey-1019mm-negra-1.jpg",
       "assets/img/products/caja-de-centro-odyssey-1022mm-negra-1.jpg"
     ],
     "published": true
@@ -3525,39 +3544,30 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "caja-de-centro-fate-1019mm-negra",
+    "slug": "caja-de-centro-fate-negra",
     "sku": "REP-FAT-013",
-    "n": "Caja de Centro Fate  Mid 19mm Negra",
+    "n": "Caja de Centro Fate Negra",
     "brand": "Fate BMX Colombia",
     "cat": "repuestos",
     "sub": "Bielas",
     "spec": [
-      "Medida: 1019mm",
       "Color: Negro"
     ],
     "price": 80000,
     "promo": false,
-    "units": 57,
-    "imgs": [
-      "assets/img/products/caja-de-centro-fate-1019mm-negra-1.jpg"
+    "sizes": [
+      {
+        "v": "1019mm",
+        "u": 57
+      },
+      {
+        "v": "1022mm",
+        "u": 58
+      }
     ],
-    "published": true
-  },
-  {
-    "slug": "caja-de-centro-fate-1022mm-negra",
-    "sku": "REP-FAT-014",
-    "n": "Caja de Centro Fate 1022mm Negra",
-    "brand": "Fate BMX Colombia",
-    "cat": "repuestos",
-    "sub": "Bielas",
-    "spec": [
-      "Medida: 1022mm",
-      "Color: Negro"
-    ],
-    "price": 80000,
-    "promo": false,
-    "units": 58,
+    "sizeLabel": "Medida",
     "imgs": [
+      "assets/img/products/caja-de-centro-fate-1019mm-negra-1.jpg",
       "assets/img/products/caja-de-centro-fate-1022mm-negra-1.jpg"
     ],
     "published": true
@@ -3659,39 +3669,30 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "cassette-trueno-v2-negro-derecha",
+    "slug": "cassette-trueno-v2-negro",
     "sku": "REP-TRU-001",
-    "n": "Cassette Trueno V2 Negro (Lado Derecho / RHD)",
+    "n": "Cassette Trueno V2 Negro",
     "brand": "Trueno",
     "cat": "repuestos",
     "sub": "Manzanas",
     "spec": [
-      "Color: Negro",
-      "Lado de manejo: Derecho (RHD)"
+      "Color: Negro"
     ],
     "price": 380000,
     "promo": false,
-    "units": 1,
-    "imgs": [
-      "assets/img/products/cassette-trueno-v2-negro-derecha-1.jpg"
+    "sizes": [
+      {
+        "v": "Derecho (RHD)",
+        "u": 1
+      },
+      {
+        "v": "Izquierdo (LHD)",
+        "u": 2
+      }
     ],
-    "published": true
-  },
-  {
-    "slug": "cassette-trueno-v2-negro-izquierda",
-    "sku": "REP-TRU-002",
-    "n": "Cassette Trueno V2 Negro (Lado Izquierdo / LHD)",
-    "brand": "Trueno",
-    "cat": "repuestos",
-    "sub": "Manzanas",
-    "spec": [
-      "Color: Negro",
-      "Lado de manejo: Izquierdo (LHD)"
-    ],
-    "price": 380000,
-    "promo": false,
-    "units": 2,
+    "sizeLabel": "Lado",
     "imgs": [
+      "assets/img/products/cassette-trueno-v2-negro-derecha-1.jpg",
       "assets/img/products/cassette-trueno-v2-negro-izquierda-1.jpg"
     ],
     "published": true
@@ -4089,7 +4090,7 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "camiseta-vans-blanca-since-1966-l",
+    "slug": "camiseta-vans-blanca-since-1966",
     "sku": "ROP-VAN-003",
     "n": "Camiseta Vans Blanca Since 1966",
     "brand": "Vans",
@@ -4103,6 +4104,10 @@ window.STIKE_PRODUCTS = [
     "promo": false,
     "sizes": [
       {
+        "v": "M",
+        "u": 1
+      },
+      {
         "v": "L",
         "u": 1
       },
@@ -4112,7 +4117,9 @@ window.STIKE_PRODUCTS = [
       }
     ],
     "imgs": [
-      "assets/img/products/camiseta-vans-blanca-since-1966-l-1.jpg"
+      "assets/img/products/camiseta-vans-blanca-since-1966-l-1.jpg",
+      "assets/img/products/camiseta-vans-blanca-since-1966-m-1.jpg",
+      "assets/img/products/camiseta-vans-blanca-since-1966-m-2.jpg"
     ],
     "published": true
   },
@@ -4196,31 +4203,6 @@ window.STIKE_PRODUCTS = [
     ],
     "imgs": [
       "assets/img/products/camiseta-vans-rosada-1.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "camiseta-vans-blanca-since-1966-m",
-    "sku": "ROP-VAN-006",
-    "n": "Camiseta Vans Blanca Since 1966 (2)",
-    "brand": "Vans",
-    "cat": "ropa",
-    "sub": "Camisetas",
-    "spec": [
-      "Color: Blanco",
-      "Estampado grande \"Since 1966\" en la espalda"
-    ],
-    "price": 50000,
-    "promo": false,
-    "sizes": [
-      {
-        "v": "M",
-        "u": 1
-      }
-    ],
-    "imgs": [
-      "assets/img/products/camiseta-vans-blanca-since-1966-m-1.jpg",
-      "assets/img/products/camiseta-vans-blanca-since-1966-m-2.jpg"
     ],
     "published": true
   },
@@ -5320,44 +5302,6 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "manzana-delantera-optimus",
-    "sku": "REP-OPT-003",
-    "n": "Manzana Delantera Optimus",
-    "brand": "Optimus",
-    "cat": "repuestos",
-    "sub": "Manzanas",
-    "spec": [
-      "Posición: Delantera",
-      "Agujeros: 36",
-      "Cuerpo: Aluminio",
-      "Eje: Cr-Mo 3/8\"",
-      "Balineras: 2 selladas"
-    ],
-    "price": 100000,
-    "promo": false,
-    "colors": [
-      {
-        "v": "Cromado",
-        "u": 1
-      },
-      {
-        "v": "Azul",
-        "u": 1
-      }
-    ],
-    "imgs": [
-      "assets/img/products/manzana-delantera-optimus-cromada-1.jpg",
-      "assets/img/products/manzana-delantera-optimus-cromada-2.jpg",
-      "assets/img/products/manzana-delantera-optimus-azul-1.jpg"
-    ],
-    "imgColorMap": {
-      "assets/img/products/manzana-delantera-optimus-cromada-1.jpg": "Cromado",
-      "assets/img/products/manzana-delantera-optimus-cromada-2.jpg": "Cromado",
-      "assets/img/products/manzana-delantera-optimus-azul-1.jpg": "Azul"
-    },
-    "published": true
-  },
-  {
     "slug": "poste-pivotal-optimus",
     "sku": "REP-OPT-005",
     "n": "Poste Pivotal Optimus Negro",
@@ -5501,42 +5445,33 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "brazos-salt-de-seguridad-175-negro",
+    "slug": "bielas-salt-de-seguridad-negras",
     "sku": "REP-SAL-001",
-    "n": "Brazos Salt de Seguridad 175 Negro",
+    "n": "Bielas Salt de Seguridad Negras",
     "brand": "SaltPlus",
     "cat": "repuestos",
     "sub": "Bielas",
     "spec": [
       "Tipo: Seguridad (safety cranks)",
-      "Largo: 175mm",
-      "Color: Negro"
-    ],
-    "price": 300000,
-    "promo": false,
-    "units": 1,
-    "imgs": [
-      "assets/img/products/brazos-salt-de-seguridad-175-negro-1.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "vielas-de-seguridad-salt-165-negra",
-    "sku": "REP-SAL-002",
-    "n": "Bielas Salt de Seguridad 165 Negra",
-    "brand": "SaltPlus",
-    "cat": "repuestos",
-    "sub": "Bielas",
-    "spec": [
-      "Tipo: Seguridad (safety cranks)",
-      "Largo: 165mm",
       "Color: Negro"
     ],
     "price": 180000,
     "promo": false,
-    "units": 1,
+    "sizes": [
+      {
+        "v": "165mm",
+        "u": 1
+      },
+      {
+        "v": "175mm",
+        "u": 1,
+        "price": 300000
+      }
+    ],
+    "sizeLabel": "Largo",
     "imgs": [
-      "assets/img/products/vielas-de-seguridad-salt-165-negra-1.jpg"
+      "assets/img/products/vielas-de-seguridad-salt-165-negra-1.jpg",
+      "assets/img/products/brazos-salt-de-seguridad-175-negro-1.jpg"
     ],
     "published": true
   },

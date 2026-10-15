@@ -116,7 +116,7 @@ function stikeCartCount() {
 function stikeCartTotal() {
   return stikeGetCart().reduce((sum, r) => {
     const p = stikeFindProduct(r.slug);
-    return sum + (p ? p.price * r.qty : 0);
+    return sum + (p ? stikePriceFor(p, r.size || null, r.color || null) * r.qty : 0);
   }, 0);
 }
 function stikeUpdateCartBadge() {
@@ -180,7 +180,7 @@ function stikeProductCard(p) {
     <div class="body">
       ${brandLine}
       <div class="title"><a href="${url}">${p.n}</a></div>
-      <div class="price">${stikePrice(p.price)}${oldPrice}</div>
+      <div class="price">${stikePriceLabel(p)}${stikePriceRange(p).varies ? "" : oldPrice}</div>
       ${p.colors && p.colors.length > 1 ? `<div class="swatch-row dots" style="margin-top:8px">${p.colors.slice(0, 8).map(c => stikeColorDot(c)).join("")}${p.colors.length > 8 ? `<span class="cdot-more">+${p.colors.length - 8}</span>` : ""}</div>` : ""}
     </div>
   </article>`;
@@ -393,7 +393,7 @@ function stikeSearchRow(p) {
   return `<a class="sr-row" href="${stikeProductUrl(p)}">
     <span class="sr-thumb"><img src="${stikeProductImage(p, 120)}" alt=""></span>
     <span class="sr-meta"><span class="sr-name">${p.n}</span><span class="sr-brand">${p.brand}</span></span>
-    <span class="sr-price">${stikePrice(p.price)}</span>
+    <span class="sr-price">${stikePriceLabel(p)}</span>
   </a>`;
 }
 function stikeSearchRender(q) {
@@ -747,7 +747,7 @@ function stikeFloatingCart() {
                 <span>${r.qty}</span>
                 <button data-inc="${key}" aria-label="Más">+</button>
               </div>
-              <span class="cfp-price">${stikePrice(p.price * r.qty)}</span>
+              <span class="cfp-price">${stikePrice(stikePriceFor(p, r.size || null, r.color || null) * r.qty)}</span>
             </div>
           </div>
           <button class="cfp-remove" data-remove="${key}" aria-label="Quitar">✕</button>

@@ -5,6 +5,7 @@ const { chromium } = require("playwright");
 const B = "http://localhost:8143";
 const br = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium" });
 const page = await br.newPage({ viewport: { width: 1200, height: 900 } });
+await page.addInitScript(() => { document.addEventListener("DOMContentLoaded", () => { const s = document.createElement("style"); s.textContent = "[class*=cookie],#newsletter-overlay{display:none!important}"; document.head.appendChild(s); }); });
 const errs = []; page.on("pageerror", e => errs.push(e.message));
 let fail = 0; const t = (l, ok, x = "") => { if (!ok) fail++; console.log((ok ? "ok    " : "FALLA ") + l + (ok ? "" : "  -> " + x)); };
 const dis = async (sel) => page.locator(sel).isDisabled();

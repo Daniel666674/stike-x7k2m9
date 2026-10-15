@@ -189,6 +189,26 @@ try {
   const sb = await post(A.url, 'wompi-sign', { ...order('stike-1700000000061-masdel'), items: [{ slug: barato.slug, qty: (typeof barato.units === 'number' ? barato.units : 1) + (typeof barato.units === 'number' ? 1 : 0) }] });
   if (typeof barato.units === 'number') t('pedir mas unidades de las que hay -> 409', sb.code, 409);
 
+  console.log('\nPrecio por opcion (color/medida): el servidor cobra el de la opcion elegida');
+  const conPrecio = real.find(p => (p.colors || []).some(c => c.price > 0 && c.u >= 1) || (p.sizes || []).some(z => z.price > 0 && z.u >= 1));
+  if (conPrecio) {
+    const dim = (conPrecio.colors || []).some(c => c.price > 0) ? 'color' : 'size';
+    const rows = dim === 'color' ? conPrecio.colors : conPrecio.sizes;
+    const cara = rows.find(r => r.price > 0 && r.u >= 1), base = rows.find(r => !(r.price > 0) && r.u >= 1);
+    const line = (r) => ({ slug: conPrecio.slug, qty: 1, [dim]: r.v });
+    const cents = (price) => P.priceOrder([{ slug: conPrecio.slug, n: conPrecio.n, price }], [{ slug: conPrecio.slug, qty: 1 }]).amountInCents;
+    const sv1 = await post(A.url, 'wompi-sign', { ...order('stike-1700000000070-varcar'), items: [line(cara)] });
+    t(`opcion con precio propio (${cara.v}) -> cobra ${cara.price}`, [sv1.code, sv1.body && sv1.body.amount_in_cents], [200, cents(cara.price)]);
+    const sv1b = await post(A.url, 'wompi-sign', { ...order('stike-1700000000071-vartru'), items: [{ ...line(cara), price: 1, unitPrice: 1, total: 1 }], amount_in_cents: 100 });
+    t('precio trucado desde el navegador se ignora', sv1b.body && sv1b.body.amount_in_cents, cents(cara.price));
+    if (base) {
+      const sv2 = await post(A.url, 'wompi-sign', { ...order('stike-1700000000072-varbas'), items: [line(base)] });
+      t(`opcion sin precio propio (${base.v}) -> cobra el base ${conPrecio.price}`, [sv2.code, sv2.body && sv2.body.amount_in_cents], [200, cents(conPrecio.price)]);
+    }
+    const sv3 = await post(A.url, 'wompi-sign', { ...order('stike-1700000000073-varsin'), items: [{ slug: conPrecio.slug, qty: 1 }] });
+    t('sin elegir la opcion -> no se cobra (409)', sv3.code, 409);
+  }
+
   console.log('\nFallas de configuracion (no deben abrir nada ni filtrar rutas)');
   const archivo = join(STORAGE, 'un-archivo');
   writeFileSync(archivo, 'x');

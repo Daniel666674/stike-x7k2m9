@@ -24,8 +24,8 @@
   <div id="site-footer"></div>
 
   <script src="assets/js/products-data.js?v=3"></script>
-  <script src="assets/js/data.js?v=053b3437"></script>
-  <script src="assets/js/app.js?v=17c86d86"></script>
+  <script src="assets/js/data.js?v=c5bfdb57"></script>
+  <script src="assets/js/app.js?v=ed4e3208"></script>
   <script src="assets/js/wompi.js?v=e5052b66"></script>
   <script>
     stikeInit();
@@ -211,7 +211,7 @@
             <div class="ci-brand">${p.brand}</div>
             <a href="${url}" class="ci-title">${p.n}</a>
             ${sizeTag}
-            <div class="ci-price">${stikePrice(p.price)}</div>
+            <div class="ci-price">${stikePrice(stikePriceFor(p, r.size || null, r.color || null))}</div>
           </div>
           <div class="ci-right">
             <div class="qty">
@@ -237,7 +237,7 @@
         if (r.size) variantBits.push(`Talla ${r.size}`);
         if (r.color) variantBits.push(`Color ${r.color}`);
         const variant = variantBits.length ? ` (${variantBits.join(", ")})` : "";
-        return `• ${r.qty}x ${p.n}${variant}, ${stikePrice(p.price * r.qty)}`;
+        return `• ${r.qty}x ${p.n}${variant}, ${stikePrice(stikePriceFor(p, r.size || null, r.color || null) * r.qty)}`;
       }).join("%0A");
       const waMsg = `Hola Stike! Quiero hacer este pedido:%0A${waLines}%0A%0ASubtotal: ${stikePrice(subtotal)}%0ATotal: ${stikePrice(total)}`;
 
