@@ -16,7 +16,8 @@
    una venta que Wompi no confirme, y uno real y repetido no duplica nada. Lo
    unico que un atacante logra es hacernos consultar a Wompi.
 
-   Responde 200 a todo lo que no sea una falla nuestra (evento de otro tipo,
+   Responde 200 a todo lo que no sea una falla nuestra (verificacion de la URL,
+   cuerpo vacio, evento de otro tipo,
    pago rechazado, referencia desconocida) para que Wompi no reintente en vano;
    responde 5xx si no pudimos consultar a Wompi o guardar la venta, para que
    reintente.
@@ -25,8 +26,15 @@
 require __DIR__ . "/_lib.php";
 
 stike_run(function () {
+  /* Al guardar la URL, Wompi (y cualquier verificador) puede comprobar que
+     responda: un GET/HEAD/OPTIONS o un POST vacio tiene que dar 200, no 405 o
+     400, o el panel de Wompi dice "URL de eventos invalida". No hay riesgo: sin
+     una transaccion real que Wompi confirme, este endpoint no registra nada. */
+  $method = $_SERVER["REQUEST_METHOD"] ?? "";
+  if (in_array($method, ["GET", "HEAD", "OPTIONS"], true)) respond(200, ["ok" => true, "service" => "wompi-events"]);
   stike_require_method("POST");
-  $event = stike_json_body();
+  $event = json_decode(file_get_contents("php://input"), true);
+  if (!is_array($event)) respond(200, ["ok" => true, "ignored" => "empty"]);
 
   if (($event["event"] ?? "") !== "transaction.updated") respond(200, ["ok" => true, "ignored" => "event"]);
   $txn = $event["data"]["transaction"] ?? null;
