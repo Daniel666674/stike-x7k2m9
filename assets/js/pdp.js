@@ -58,6 +58,7 @@ function stikePdpInit(slug) {
     mainImg.addEventListener("click", openLightbox);
   }
 
+  const sizeWord = String(p.sizeLabel || "talla").toLowerCase();
   function currentStock() {
     return stikeStockFor(p, p.sizes ? selectedSize : undefined, p.colors ? selectedColor : undefined);
   }
@@ -164,10 +165,10 @@ function stikePdpInit(slug) {
 
   if (addBtn && !addBtn.disabled) addBtn.addEventListener("click", () => {
     if (p.sizes && !selectedSize) {
-      const req = document.getElementById("size-req"); if (req) req.textContent = "(elige una talla)";
+      const req = document.getElementById("size-req"); if (req) req.textContent = "(elige " + sizeWord + ")";
       const opts = document.getElementById("size-options");
       if (opts) { opts.classList.add("shake"); setTimeout(() => opts.classList.remove("shake"), 450); }
-      stikeToast("Elige una talla primero");
+      stikeToast("Elige " + sizeWord + " primero");
       return;
     }
     if (p.colors && !selectedColor) {

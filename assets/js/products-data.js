@@ -100,13 +100,23 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 1300000,
     "promo": false,
+    "sizes": [
+      {
+        "v": "20.4",
+        "u": 2
+      },
+      {
+        "v": "20.75",
+        "u": 26
+      }
+    ],
+    "sizeLabel": "Medida",
     "imgs": [
       "assets/img/products/marco-fate-namaste-v2-2.jpg",
       "assets/img/products/marco-fate-namaste-v2-1.jpg",
       "assets/img/products/marco-fate-namaste-v2-3.jpg"
     ],
-    "published": true,
-    "units": 28
+    "published": true
   },
   {
     "slug": "marco-subrosa-joris",
@@ -259,11 +269,21 @@ window.STIKE_PRODUCTS = [
     "cat": "repuestos",
     "sub": "Marcos",
     "spec": [
-      "Medidas disponibles: 20.5\" y 20.75\" (1 c/u)",
       "Tubo superior: 12.75\""
     ],
     "price": 1790000,
     "promo": false,
+    "sizes": [
+      {
+        "v": "20.5",
+        "u": 3
+      },
+      {
+        "v": "20.75",
+        "u": 3
+      }
+    ],
+    "sizeLabel": "Medida",
     "colors": [
       {
         "v": "Negro brillante",
@@ -280,6 +300,48 @@ window.STIKE_PRODUCTS = [
       {
         "v": "Blanco perla brillante",
         "u": 1
+      }
+    ],
+    "combos": [
+      {
+        "s": "20.5",
+        "c": "Negro brillante",
+        "u": 1
+      },
+      {
+        "s": "20.5",
+        "c": "Gris mate",
+        "u": 0
+      },
+      {
+        "s": "20.5",
+        "c": "Rojo corsa",
+        "u": 1
+      },
+      {
+        "s": "20.5",
+        "c": "Blanco perla brillante",
+        "u": 1
+      },
+      {
+        "s": "20.75",
+        "c": "Negro brillante",
+        "u": 1
+      },
+      {
+        "s": "20.75",
+        "c": "Gris mate",
+        "u": 1
+      },
+      {
+        "s": "20.75",
+        "c": "Rojo corsa",
+        "u": 1
+      },
+      {
+        "s": "20.75",
+        "c": "Blanco perla brillante",
+        "u": 0
       }
     ],
     "imgs": [
@@ -684,109 +746,137 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "plato-fiend-omicron-25t",
+    "slug": "plato-fiend-omicron",
     "sku": "REP-FIE-026",
-    "n": "Plato Fiend Omicron 25T",
+    "n": "Plato Fiend Omicron",
     "brand": "Fiend",
     "cat": "repuestos",
     "sub": "Platos",
     "spec": [
-      "Dientes: 25T",
       "Sin guardia"
     ],
     "price": 270000,
     "promo": false,
+    "sizes": [
+      {
+        "v": "25T",
+        "u": 8
+      },
+      {
+        "v": "28T",
+        "u": 8
+      }
+    ],
+    "sizeLabel": "Dientes",
     "colors": [
       {
         "v": "Cromado",
-        "u": 4
+        "u": 8
       },
       {
         "v": "Negro",
+        "u": 8
+      }
+    ],
+    "combos": [
+      {
+        "s": "25T",
+        "c": "Cromado",
+        "u": 4
+      },
+      {
+        "s": "25T",
+        "c": "Negro",
+        "u": 4
+      },
+      {
+        "s": "28T",
+        "c": "Cromado",
+        "u": 4
+      },
+      {
+        "s": "28T",
+        "c": "Negro",
         "u": 4
       }
     ],
     "imgs": [
       "assets/img/products/plato-fiend-omicron-cromado-25t-1.jpg",
-      "assets/img/products/plato-fiend-omicron-negro-25t-1.jpg"
-    ],
-    "imgColorMap": {
-      "assets/img/products/plato-fiend-omicron-cromado-25t-1.jpg": "Cromado",
-      "assets/img/products/plato-fiend-omicron-negro-25t-1.jpg": "Negro"
-    },
-    "published": true
-  },
-  {
-    "slug": "plato-fiend-omicron-28t",
-    "sku": "REP-FIE-027",
-    "n": "Plato Fiend Omicron 28T",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Platos",
-    "spec": [
-      "Dientes: 28T",
-      "Sin guardia"
-    ],
-    "price": 270000,
-    "promo": false,
-    "colors": [
-      {
-        "v": "Cromado",
-        "u": 4
-      },
-      {
-        "v": "Negro",
-        "u": 4
-      }
-    ],
-    "imgs": [
+      "assets/img/products/plato-fiend-omicron-negro-25t-1.jpg",
       "assets/img/products/plato-fiend-omicron-cromado-28t-1.jpg",
       "assets/img/products/plato-fiend-omicron-negro-28t-1.jpg"
     ],
     "imgColorMap": {
+      "assets/img/products/plato-fiend-omicron-cromado-25t-1.jpg": "Cromado",
+      "assets/img/products/plato-fiend-omicron-negro-25t-1.jpg": "Negro",
       "assets/img/products/plato-fiend-omicron-cromado-28t-1.jpg": "Cromado",
       "assets/img/products/plato-fiend-omicron-negro-28t-1.jpg": "Negro"
     },
     "published": true
   },
   {
-    "slug": "plato-fiend-omicron-guard-cromado-26t",
+    "slug": "plato-fiend-omicron-guard",
     "sku": "REP-FIE-028",
-    "n": "Plato Fiend Omicron Guard Cromado 26T",
+    "n": "Plato Fiend Omicron Guard",
     "brand": "Fiend",
     "cat": "repuestos",
     "sub": "Platos",
     "spec": [
-      "Dientes: 26T",
-      "Con guardia",
-      "Color: Cromado"
+      "Con guardia"
     ],
     "price": 340000,
     "promo": false,
-    "units": 1,
-    "imgs": [
-      "assets/img/products/plato-fiend-omicron-guard-cromado-26t-1.jpg"
+    "sizes": [
+      {
+        "v": "26T",
+        "u": 1
+      },
+      {
+        "v": "28T",
+        "u": 1
+      }
     ],
-    "published": true
-  },
-  {
-    "slug": "plato-fiend-omicron-guard-negro-28t",
-    "sku": "REP-FIE-029",
-    "n": "Plato Fiend Omicron Guard Negro 28T",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Platos",
-    "spec": [
-      "Dientes: 28T",
-      "Con guardia",
-      "Color: Negro"
+    "sizeLabel": "Dientes",
+    "colors": [
+      {
+        "v": "Cromado",
+        "u": 1
+      },
+      {
+        "v": "Negro",
+        "u": 1
+      }
     ],
-    "price": 340000,
-    "promo": false,
-    "units": 1,
+    "combos": [
+      {
+        "s": "26T",
+        "c": "Cromado",
+        "u": 1
+      },
+      {
+        "s": "26T",
+        "c": "Negro",
+        "u": 0
+      },
+      {
+        "s": "28T",
+        "c": "Cromado",
+        "u": 0
+      },
+      {
+        "s": "28T",
+        "c": "Negro",
+        "u": 1
+      }
+    ],
     "imgs": [
+      "assets/img/products/plato-fiend-omicron-guard-cromado-26t-1.jpg",
       "assets/img/products/plato-fiend-omicron-guard-negro-28t-1.jpg"
     ],
+    "imgColorMap": {
+      "assets/img/products/plato-fiend-omicron-guard-cromado-26t-1.jpg": "Cromado",
+      "assets/img/products/plato-fiend-omicron-guard-negro-28t-1.jpg": "Negro"
+    },
     "published": true
   },
   {
@@ -924,11 +1014,21 @@ window.STIKE_PRODUCTS = [
     "cat": "repuestos",
     "sub": "Marcos",
     "spec": [
-      "Medidas disponibles: 20.5\" y 20.75\" (1 c/u)",
       "Tubo superior: 12.75\""
     ],
     "price": 1790000,
     "promo": false,
+    "sizes": [
+      {
+        "v": "20.5",
+        "u": 3
+      },
+      {
+        "v": "20.75",
+        "u": 3
+      }
+    ],
+    "sizeLabel": "Medida",
     "colors": [
       {
         "v": "Dorado translúcido",
@@ -941,6 +1041,38 @@ window.STIKE_PRODUCTS = [
       {
         "v": "Púrpura intenso",
         "u": 2
+      }
+    ],
+    "combos": [
+      {
+        "s": "20.5",
+        "c": "Dorado translúcido",
+        "u": 1
+      },
+      {
+        "s": "20.5",
+        "c": "Negro",
+        "u": 1
+      },
+      {
+        "s": "20.5",
+        "c": "Púrpura intenso",
+        "u": 1
+      },
+      {
+        "s": "20.75",
+        "c": "Dorado translúcido",
+        "u": 1
+      },
+      {
+        "s": "20.75",
+        "c": "Negro",
+        "u": 1
+      },
+      {
+        "s": "20.75",
+        "c": "Púrpura intenso",
+        "u": 1
       }
     ],
     "imgs": [
@@ -2430,42 +2562,32 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "plato-gw-corona-negro-28t",
+    "slug": "plato-gw-corona",
     "sku": "PLT-GWB-002",
-    "n": "Plato GW Corona Negro 28T",
+    "n": "Plato GW Corona Negro",
     "brand": "GW",
     "cat": "repuestos",
     "sub": "Platos",
     "spec": [
       "Material: Acero",
-      "Dientes: 28T",
       "Color: Negro"
     ],
     "price": 9000,
     "promo": false,
-    "units": 0,
+    "sizes": [
+      {
+        "v": "25T",
+        "u": 1
+      },
+      {
+        "v": "28T",
+        "u": 0
+      }
+    ],
+    "sizeLabel": "Dientes",
     "imgs": [
+      "assets/img/products/plato-gw-corona-negro-25t-1.jpg",
       "assets/img/products/plato-gw-corona-negro-28t-1.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "plato-gw-corona-negro-25t",
-    "sku": "PLT-GWB-003",
-    "n": "Plato GW Corona Negro 25T",
-    "brand": "GW",
-    "cat": "repuestos",
-    "sub": "Platos",
-    "spec": [
-      "Material: Acero",
-      "Dientes: 25T",
-      "Color: Negro"
-    ],
-    "price": 9000,
-    "promo": false,
-    "units": 1,
-    "imgs": [
-      "assets/img/products/plato-gw-corona-negro-25t-1.jpg"
     ],
     "published": true
   },
@@ -5214,9 +5336,9 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "poste-pivotal-optimus-corto-negro",
+    "slug": "poste-pivotal-optimus",
     "sku": "REP-OPT-005",
-    "n": "Poste Pivotal Optimus Corto Negro",
+    "n": "Poste Pivotal Optimus Negro",
     "brand": "Optimus",
     "cat": "repuestos",
     "sub": "Sillas y Postes",
@@ -5228,30 +5350,20 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 45000,
     "promo": false,
-    "units": 1,
+    "sizes": [
+      {
+        "v": "Corto",
+        "u": 1
+      },
+      {
+        "v": "Largo",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Largo",
     "imgs": [
       "assets/img/products/poste-pivotal-optimus-corto-negro-1.jpg",
-      "assets/img/products/poste-pivotal-optimus-corto-negro-2.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "poste-pivotal-optimus-largo-negro",
-    "sku": "REP-OPT-006",
-    "n": "Poste Pivotal Optimus Largo Negro",
-    "brand": "Optimus",
-    "cat": "repuestos",
-    "sub": "Sillas y Postes",
-    "spec": [
-      "Tipo: Pivotal",
-      "Diámetro: 25.4mm",
-      "Material: Aluminio",
-      "Color: Negro"
-    ],
-    "price": 45000,
-    "promo": false,
-    "units": 1,
-    "imgs": [
+      "assets/img/products/poste-pivotal-optimus-corto-negro-2.jpg",
       "assets/img/products/poste-pivotal-optimus-largo-negro-1.jpg"
     ],
     "published": true

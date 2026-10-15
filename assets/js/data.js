@@ -403,7 +403,7 @@ function stikeRelatedProducts(p, limit) {
 function stikeWaText(p, opts) {
   opts = opts || {};
   const bits = [];
-  if (opts.size) bits.push("talla " + opts.size);
+  if (opts.size) bits.push(String((p && p.sizeLabel) || "talla").toLowerCase() + " " + opts.size);
   if (opts.color) bits.push("color " + opts.color);
   const variant = bits.length ? " (" + bits.join(", ") + ")" : "";
   const name = opts.shortName || "Stike";

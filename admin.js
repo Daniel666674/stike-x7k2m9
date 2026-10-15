@@ -173,7 +173,7 @@ const CATALOG_HEADER = `/* =====================================================
    Ver assets/js/data.js para SIZE_CATEGORIES, helpers de stock y variantes.
    ========================================================================= */\n`;
 const CATALOG_KEY_ORDER = ["slug", "sku", "n", "brand", "cat", "sub", "spec", "price", "old", "promo", "tag",
-  "units", "sizes", "colors", "combos", "imgs", "imgColorMap", "imgFit", "imgZoom", "imgPos", "published"];
+  "units", "sizes", "sizeLabel", "colors", "combos", "imgs", "imgColorMap", "imgFit", "imgZoom", "imgPos", "published"];
 
 function parseCatalogFile(text) {
   const i = text.indexOf(CATALOG_MARKER);
@@ -1223,11 +1223,13 @@ function renderStockEditor() {
   } else {
     $("#ed-sizes-box").innerHTML = `
       <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:12.5px;text-transform:uppercase;color:var(--muted)">Tallas${sizeRequired ? ` (obligatorio en "${d.sub}")` : ""}</b>
+      <label class="hint muted" style="display:flex;align-items:center;gap:6px">Nombre del selector <input id="ed-size-label" list="ed-size-label-opts" style="width:110px" placeholder="Talla" value="${escAttr(d.sizeLabel || "")}"><datalist id="ed-size-label-opts"><option value="Talla"><option value="Medida"><option value="Dientes"><option value="Largo"></datalist></label>
       <span style="display:flex;gap:6px">${sizeRequired ? "" : `<button class="btn ghost sm" id="ed-size-off" type="button">Quitar tallas</button>`}<button class="btn ghost sm" id="ed-size-add" type="button">+ talla</button></span></div>
       <table class="stockTable"><tbody>${d.sizes.map((s, i) => `
         <tr><td style="width:40%"><input data-size-v="${i}" value="${escAttr(s.v)}"></td>
         <td><input data-size-u="${i}" type="number" min="0" value="${s.u}"></td>
         <td style="width:30px"><button class="btn ghost sm" data-size-rm="${i}" type="button">✕</button></td></tr>`).join("")}</tbody></table>`;
+    $("#ed-size-label").addEventListener("input", e => { const v = e.target.value.trim(); if (v && v.toLowerCase() !== "talla") d.sizeLabel = v; else delete d.sizeLabel; });
     $("#ed-size-add").addEventListener("click", () => { d.sizes.push({ v: "Nueva", u: 0 }); renderStockEditor(); });
     $$("#ed-sizes-box [data-size-v]").forEach(inp => inp.addEventListener("input", e => { const row = d.sizes[+e.target.getAttribute("data-size-v")]; renameCombo(d, "s", row.v, e.target.value); row.v = e.target.value; renderComboGrid(); }));
     $$("#ed-sizes-box [data-size-u]").forEach(inp => inp.addEventListener("input", e => { d.sizes[+e.target.getAttribute("data-size-u")].u = Math.max(0, parseInt(e.target.value) || 0); }));
