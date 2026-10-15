@@ -23,30 +23,38 @@
 
 require_once __DIR__ . "/_lib.php";
 
-/* Quien puede ENTRAR al panel y quien ve costos/margen (rol "owner").
-   Para agregar a alguien: sumarlo aca y publicar. */
-const STIKE_ADMIN_EMAILS = [
-  "daniel.f.acosta96@gmail.com",
-  "camilor9507@gmail.com",
-  "jparra375@gmail.com",
+/* Quien puede ENTRAR al panel y con que rol. Para agregar a alguien:
+   sumarlo aca y publicar. Roles:
+   - owner     (dueño): todo.
+   - developer (desarrollador): todo.
+   - admin     (administrador): todo.
+   - staff     (tienda): productos y stock a la vista, registrar ventas y
+               notificaciones. NO ve costos, margen, KPIs ni auditoria, y no
+               puede crear/editar/eliminar productos ni tocar el sitio. */
+const STIKE_ADMIN_ROLES = [
+  "jparra375@gmail.com"         => "owner",       // Jefersson Parra
+  "daniel.f.acosta96@gmail.com" => "developer",   // Daniel Acosta
+  // "CORREO_DE_JEIMY"          => "admin",       // Jeimy: falta el correo
+  // "CORREO_DE_KEVIN"          => "staff",       // Kevin Arevalo: falta el correo
+  "camilor9507@gmail.com"       => "staff",
 ];
-const STIKE_OWNER_EMAILS = [
-  "daniel.f.acosta96@gmail.com",
-  "jparra375@gmail.com",
-];
+/* Roles que ven la informacion financiera (costos, margen, KPIs). */
+const STIKE_FINANCE_ROLES = ["owner", "developer", "admin"];
+
 const STIKE_OAUTH_CLIENT_ID = "752305520255-7e2abc762p3saer5sube25jh9rt9jle7.apps.googleusercontent.com";
 const STIKE_ADMIN_COOKIE = "stike_admin";
 const STIKE_ADMIN_TTL = 43200;   // 12 horas
 
 function stike_admin_role($email) {
   $email = strtolower(trim((string)$email));
-  foreach (STIKE_ADMIN_EMAILS as $e) {
-    if (strtolower($e) === $email) {
-      foreach (STIKE_OWNER_EMAILS as $o) if (strtolower($o) === $email) return "owner";
-      return "employee";
-    }
+  foreach (STIKE_ADMIN_ROLES as $e => $role) {
+    if (strtolower($e) === $email) return $role;
   }
   return null;
+}
+
+function stike_admin_sees_finance($role) {
+  return in_array($role, STIKE_FINANCE_ROLES, true);
 }
 
 /* Clave de firma de las cookies. Se deriva de ADMIN_API_KEY (que ya esta en
