@@ -27,9 +27,9 @@
 
   <div id="site-footer"></div>
 
-  <script src="assets/js/products-data.js?v=d500356366"></script>
-  <script src="assets/js/data.js?v=053b3437f9"></script>
-  <script src="assets/js/app.js?v=17c86d868c"></script>
+  <script src="assets/js/products-data.js?v=b81c80c7a6"></script>
+  <script src="assets/js/data.js?v=c5bfdb57c0"></script>
+  <script src="assets/js/app.js?v=ed4e320845"></script>
   <script src="assets/js/wompi.js?v=e5052b6646"></script>
   <script>
     stikeInit();
@@ -96,7 +96,7 @@
           if (r.size) variantBits.push(`Talla ${r.size}`);
           if (r.color) variantBits.push(`Color ${r.color}`);
           const variant = variantBits.length ? ` (${variantBits.join(", ")})` : "";
-          return `• ${r.qty}x ${p.n}${variant}, ${stikePrice(p.price * r.qty)}`;
+          return `• ${r.qty}x ${p.n}${variant}, ${stikePrice(stikePriceFor(p, r.size || null, r.color || null) * r.qty)}`;
         }).filter(Boolean).join("%0A");
         const amountPesos = Math.round((txn.amount_in_cents || 0) / 100);
         const shipLines = shipInfo

@@ -431,6 +431,10 @@ function validateCatalog(catalog) {
     if (!(p.sizes && p.sizes.length) && !(p.colors && p.colors.length) && typeof p.units !== "number") errors.push(`${label}: falta unidades en stock`);
     /* Sin foto, la ficha sale con el logo generico y el og:image apunta al
        logo: el producto compartido por WhatsApp no muestra el producto. */
+    const vRows = [...(p.sizes || []), ...(p.colors || [])];
+    if (vRows.some(r => r.price != null && !(Number.isInteger(r.price) && r.price > 0))) errors.push(`${label}: un precio por opción es inválido`);
+    if ((p.sizes || []).some(r => r.price > 0) && (p.colors || []).some(r => r.price > 0)) errors.push(`${label}: el precio por opción va en las tallas O en los colores, no en los dos`);
+    if (vRows.some(r => r.price > 0 && r.price < p.price)) errors.push(`${label}: el precio base debe ser el más bajo (hay una opción más barata que el base)`);
     if (!(p.imgs && p.imgs.length)) errors.push(`${label}: falta la foto (al menos una)`);
   });
   return errors;
@@ -967,7 +971,7 @@ function renderCards(visible) {
         <div class="title">${p.n}</div>
         <div class="subline">${stikeCategory(p.cat) ? stikeCategory(p.cat).name : p.cat}${p.sub ? " · " + p.sub : ""}</div>
         <div class="meta">
-          <span class="price">${money(p.price)}</span>
+          <span class="price">${stikePriceLabel(p)}</span>
           <span class="stockline">${stockTxt}</span>
         </div>
         <div class="subline mono">${p.sku}</div>
@@ -1033,7 +1037,7 @@ function renderProductTable(visible) {
       <td><div class="pt-name">${p.n}</div><div class="pt-brand">${p.brand}</div></td>
       <td class="mono">${p.sku}</td>
       <td>${stikeCategory(p.cat) ? stikeCategory(p.cat).name : p.cat}${p.sub ? " · " + p.sub : ""}</td>
-      <td class="num tabnum">${money(p.price)}</td>
+      <td class="num tabnum">${stikePriceLabel(p)}</td>
       <td class="num tabnum">${stockTxt}</td>
       <td>${productStatusChip(p)}</td>
       <td><div class="pt-actions">
@@ -1205,6 +1209,25 @@ function validateSkuField() {
   return !taken && !!editorDraft.sku;
 }
 
+/* ---- Precio por opcion ----
+   Una talla/color puede tener su propio precio (vacio = el base). El base es
+   siempre el MAS BAJO: es el "desde" de las tarjetas. La regla de cobro vive
+   en stikePriceFor (data.js) y stike_unit_price (api/_lib.php). */
+function setRowPrice(d, row, raw) {
+  const v = parseInt(raw);
+  if (v > 0) row.price = v; else delete row.price;
+  syncBasePrice(d);
+}
+function syncBasePrice(d) {
+  const rows = [...(d.sizes || []), ...(d.colors || [])];
+  const priced = rows.filter(r => r.price > 0);
+  if (!priced.length) return;
+  const min = Math.min(...priced.map(r => r.price));
+  const hasUnpriced = rows.some(r => !(r.price > 0));
+  d.price = hasUnpriced && d.price > 0 ? Math.min(min, d.price) : min;
+  const el = $("#ed-price"); if (el) el.value = d.price;
+}
+
 /* ---- Tallas y colores: pools de stock INDEPENDIENTES (ver stikeStockFor) ---- */
 function renderStockEditor() {
   const d = editorDraft;
@@ -1228,11 +1251,13 @@ function renderStockEditor() {
       <table class="stockTable"><tbody>${d.sizes.map((s, i) => `
         <tr><td style="width:40%"><input data-size-v="${i}" value="${escAttr(s.v)}"></td>
         <td><input data-size-u="${i}" type="number" min="0" value="${s.u}"></td>
+        <td style="width:120px"><input data-size-p="${i}" type="number" min="0" step="1000" placeholder="Precio" title="Precio de esta opción. Vacío = precio base" value="${s.price || ""}"></td>
         <td style="width:30px"><button class="btn ghost sm" data-size-rm="${i}" type="button">✕</button></td></tr>`).join("")}</tbody></table>`;
     $("#ed-size-label").addEventListener("input", e => { const v = e.target.value.trim(); if (v && v.toLowerCase() !== "talla") d.sizeLabel = v; else delete d.sizeLabel; });
     $("#ed-size-add").addEventListener("click", () => { d.sizes.push({ v: "Nueva", u: 0 }); renderStockEditor(); });
     $$("#ed-sizes-box [data-size-v]").forEach(inp => inp.addEventListener("input", e => { const row = d.sizes[+e.target.getAttribute("data-size-v")]; renameCombo(d, "s", row.v, e.target.value); row.v = e.target.value; renderComboGrid(); }));
     $$("#ed-sizes-box [data-size-u]").forEach(inp => inp.addEventListener("input", e => { d.sizes[+e.target.getAttribute("data-size-u")].u = Math.max(0, parseInt(e.target.value) || 0); }));
+    $$("#ed-sizes-box [data-size-p]").forEach(inp => inp.addEventListener("input", e => setRowPrice(d, d.sizes[+e.target.getAttribute("data-size-p")], e.target.value)));
     $$("#ed-sizes-box [data-size-rm]").forEach(btn => btn.addEventListener("click", () => { d.sizes.splice(+btn.getAttribute("data-size-rm"), 1); if (!d.sizes.length) d.sizes = null; renderStockEditor(); }));
     const offBtn = $("#ed-size-off"); if (offBtn) offBtn.addEventListener("click", () => { d.sizes = null; renderStockEditor(); });
   }
@@ -1248,6 +1273,7 @@ function renderStockEditor() {
       <table class="stockTable"><tbody>${(d.colors || []).map((c, i) => `
         <tr><td style="width:40%;display:flex;align-items:center;gap:8px"><span class="cdot" style="background:${stikeColorStyle(c.v)}"></span><input data-color-v="${i}" list="ed-color-names" value="${escAttr(c.v)}"></td>
         <td><input data-color-u="${i}" type="number" min="0" value="${c.u}"></td>
+        <td style="width:120px"><input data-color-p="${i}" type="number" min="0" step="1000" placeholder="Precio" title="Precio de este color. Vacío = precio base" value="${c.price || ""}"></td>
         <td style="width:30px"><button class="btn ghost sm" data-color-rm="${i}" type="button">✕</button></td></tr>`).join("")}</tbody></table>
       <button class="btn ghost sm" id="ed-color-add" type="button">+ color</button>
     </div>
@@ -1261,6 +1287,7 @@ function renderStockEditor() {
   const addColorBtn = $("#ed-color-add"); if (addColorBtn) addColorBtn.addEventListener("click", () => { d.colors.push({ v: "Nuevo color", u: 0 }); renderStockEditor(); renderPhotoGrid(); });
   $$("#ed-colors-table [data-color-v]").forEach(inp => inp.addEventListener("input", e => { const row = d.colors[+e.target.getAttribute("data-color-v")]; renameCombo(d, "c", row.v, e.target.value); row.v = e.target.value; const dot = e.target.parentElement.querySelector(".cdot"); if (dot) dot.style.background = stikeColorStyle(row.v); renderComboGrid(); renderPhotoGrid(); }));
   $$("#ed-colors-table [data-color-u]").forEach(inp => inp.addEventListener("input", e => { d.colors[+e.target.getAttribute("data-color-u")].u = Math.max(0, parseInt(e.target.value) || 0); }));
+  $$("#ed-colors-table [data-color-p]").forEach(inp => inp.addEventListener("input", e => setRowPrice(d, d.colors[+e.target.getAttribute("data-color-p")], e.target.value)));
   $$("#ed-colors-table [data-color-rm]").forEach(btn => btn.addEventListener("click", () => { d.colors.splice(+btn.getAttribute("data-color-rm"), 1); if (!d.colors.length) d.colors = null; renderStockEditor(); renderPhotoGrid(); }));
   const unitsInp = $("#ed-units"); if (unitsInp) unitsInp.addEventListener("input", e => { d.units = Math.max(0, parseInt(e.target.value) || 0); });
   renderComboGrid();
@@ -1471,12 +1498,13 @@ function populateSaleProductSelect() {
 }
 function onSaleProductChange() {
   const p = workingCatalog.find(x => x.slug === $("#sale-product").value);
-  $("#sale-price").value = p ? p.price : "";
   const sizeField = $("#sale-size-field"), colorField = $("#sale-color-field");
   sizeField.style.display = p && p.sizes ? "" : "none";
   colorField.style.display = p && p.colors ? "" : "none";
   if (p && p.sizes) $("#sale-size").innerHTML = p.sizes.map(s => `<option value="${escAttr(s.v)}" ${s.u <= 0 ? "disabled" : ""}>${s.v} (${s.u} disp.)</option>`).join("");
   if (p && p.colors) $("#sale-color").innerHTML = p.colors.map(c => `<option value="${escAttr(c.v)}" ${c.u <= 0 ? "disabled" : ""}>${c.v} (${c.u} disp.)</option>`).join("");
+  if (p) $("#sale-price").value = stikePriceFor(p, p.sizes && p.sizes[0] ? $("#sale-size").value : null, p.colors && p.colors[0] ? $("#sale-color").value : null);
+  else $("#sale-price").value = "";
   updateSaleStockHint();
 }
 function updateSaleStockHint() {
@@ -1720,10 +1748,19 @@ function renderQuickSale() {
     const el = $(sel);
     if (el) { el.addEventListener("change", refreshQuickSale); el.addEventListener("input", refreshQuickSale); }
   });
+  ["#qs-size", "#qs-color"].forEach(sel => {
+    const el = $(sel);
+    if (el) el.addEventListener("change", () => {
+      const sz = $("#qs-size") ? $("#qs-size").value : null, co = $("#qs-color") ? $("#qs-color").value : null;
+      $("#qs-price").value = stikePriceFor(p, sz, co);   // el precio sigue a la opcion elegida
+      refreshQuickSale();
+    });
+  });
   wireCustomerFields("qs");
   $("#qs-cancel").addEventListener("click", closeQuickSale);
   $("#qs-confirm").addEventListener("click", confirmQuickSale);
   disableAutofill($("#sale-modal"));
+  $("#qs-price").value = stikePriceFor(p, $("#qs-size") ? $("#qs-size").value : null, $("#qs-color") ? $("#qs-color").value : null);
   refreshQuickSale();
 }
 
@@ -2166,7 +2203,12 @@ function openBulkPriceModal(slugs, label) {
   $("#bp-cancel").addEventListener("click", closeConfirmModal);
   $("#bp-apply").addEventListener("click", () => {
     const factor = 1 + (parseFloat($("#bp-pct").value) / 100 || 0);
-    targets().forEach(p => { p.price = Math.max(0, Math.round((p.price * factor) / 100) * 100); markDirty(p.slug); });
+    targets().forEach(p => {
+      const scale = v => Math.max(0, Math.round((v * factor) / 100) * 100);
+      p.price = scale(p.price);
+      [...(p.sizes || []), ...(p.colors || [])].forEach(r => { if (r.price > 0) r.price = scale(r.price); });   // los precios por opcion suben igual
+      markDirty(p.slug);
+    });
     closeConfirmModal();
     renderProductGrid();
   });
@@ -2489,8 +2531,13 @@ $("#bulk-delete").addEventListener("click", () => openBulkDeleteConfirm([...sele
 $("#btn-import").addEventListener("click", () => $("#import-file").click());
 $("#import-file").addEventListener("change", e => { const f = e.target.files[0]; if (f) importFile(f); e.target.value = ""; });
 $("#sale-product").addEventListener("change", onSaleProductChange);
-$("#sale-size").addEventListener("change", updateSaleStockHint);
-$("#sale-color").addEventListener("change", updateSaleStockHint);
+function updateSalePrice() {
+  const p = workingCatalog.find(x => x.slug === $("#sale-product").value);
+  if (!p) return;
+  $("#sale-price").value = stikePriceFor(p, p.sizes ? $("#sale-size").value : null, p.colors ? $("#sale-color").value : null);
+}
+$("#sale-size").addEventListener("change", () => { updateSalePrice(); updateSaleStockHint(); });
+$("#sale-color").addEventListener("change", () => { updateSalePrice(); updateSaleStockHint(); });
 $("#btn-registrar-venta").addEventListener("click", registrarVenta);
 $("#btn-save-content").addEventListener("click", saveSiteContent);
 $("#editor-overlay").addEventListener("click", e => { if (e.target.id === "editor-overlay") closeEditor(); });

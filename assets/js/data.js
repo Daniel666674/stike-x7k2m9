@@ -195,6 +195,34 @@ function stikePoolTotal(pool) {
   return pool.reduce((sum, r) => sum + r.u, 0);
 }
 
+/* PRECIO POR VARIANTE (opcional). Una fila de p.sizes o p.colors puede traer
+   su propio "price" (COP): es el precio completo de esa opcion, no un
+   recargo. p.price es el BASE y tiene que ser el mas bajo ("desde").
+   Regla (misma en api/_lib.php, stike_unit_price): el precio del color manda;
+   si no, el de la talla/medida; si no, el base. Se usa en la ficha, las
+   tarjetas, el carrito, el WhatsApp, el panel y, sobre todo, el servidor, que
+   es quien cobra. */
+function stikePriceFor(p, size, color) {
+  const c = color != null && p.colors ? p.colors.find(r => r.v === color) : null;
+  if (c && c.price > 0) return c.price;
+  const s = size != null && p.sizes ? p.sizes.find(r => r.v === size) : null;
+  if (s && s.price > 0) return s.price;
+  return p.price;
+}
+/* {min, max, varies}: el rango de precios que puede tener el producto. */
+function stikePriceRange(p) {
+  const all = [p.price];
+  (p.colors || []).forEach(r => { if (r.price > 0) all.push(r.price); });
+  (p.sizes || []).forEach(r => { if (r.price > 0) all.push(r.price); });
+  const min = Math.min.apply(null, all), max = Math.max.apply(null, all);
+  return { min: min, max: max, varies: max > min };
+}
+/* Texto de precio para tarjetas/listas: "Desde $X" si cambia segun la opcion. */
+function stikePriceLabel(p) {
+  const r = stikePriceRange(p);
+  return (r.varies ? "Desde " : "") + stikePrice(r.min);
+}
+
 /* COMBINACIONES (opcional): un producto con tallas Y colores puede traer
    p.combos = [{s: talla, c: color, u: unidades}]. Entonces ESA tabla manda
    (una camiseta negra M y una blanca L no se confunden con negra L). Las
@@ -407,9 +435,12 @@ function stikeWaText(p, opts) {
   if (opts.color) bits.push("color " + opts.color);
   const variant = bits.length ? " (" + bits.join(", ") + ")" : "";
   const name = opts.shortName || "Stike";
+  const range = stikePriceRange(p);
+  const priceTxt = range.varies && opts.size == null && opts.color == null
+    ? "desde " + stikePrice(range.min) : stikePrice(stikePriceFor(p, opts.size, opts.color));
   return stikeIsOut(p)
     ? `Hola ${name}! ${p.n}${variant} está agotado, ¿me avisas cuando vuelva?`
-    : `Hola ${name}! Me interesa: ${p.n}${variant} (${stikePrice(p.price)}). ¿Está disponible?`;
+    : `Hola ${name}! Me interesa: ${p.n}${variant} (${priceTxt}). ¿Está disponible?`;
 }
 
 /* La etiqueta del boton, que tiene que ir a juego con el mensaje. */
@@ -457,7 +488,7 @@ function stikeColorSolid(name) {
 }
 /* Valor CSS de "background" para un nombre de color (una o dos mitades). */
 function stikeColorStyle(name) {
-  const parts = String(name || "").split(/\s*\/\s*/).filter(Boolean);
+  const parts = String(name || "").split(/\s*\/\s*|\s+y\s+/i).filter(Boolean);   // "Azul/Rojo" y "Beige y negro": dos mitades
   if (parts.length >= 2) return `linear-gradient(90deg,${stikeColorSolid(parts[0])} 0 50%,${stikeColorSolid(parts[1])} 50% 100%)`;
   return stikeColorOne(name);
 }
@@ -505,6 +536,6 @@ if (typeof module !== "undefined" && module.exports) {
     STIKE_CATEGORIES, STIKE_BRANDS, SIZE_CATEGORIES, SKU_CAT_CODES,
     stikeTotalStock, stikeSellable, stikeIsOut, stikeIsVisible, stikeIsOutOfStock,
     stikeStockFor, stikePoolStock, stikePoolTotal, stikeCategory, stikePrice,
-    stikeWaText, stikeWaLabel, stikeColorStyle, stikeHasCombos, stikeComboUnits,
+    stikeWaText, stikeWaLabel, stikeColorStyle, stikeHasCombos, stikeComboUnits, stikePriceFor, stikePriceRange, stikePriceLabel,
   };
 }

@@ -67,7 +67,18 @@ function stikePdpInit(slug) {
      generador al hornear la ficha, para que el mensaje no dependa de si el
      cliente eligio variante o no. Si el producto esta agotado, el mensaje y
      la etiqueta del boton cambian a "avisame cuando llegue". */
+  /* Precio de la opcion elegida (solo cambia si hay precios por variante). */
+  const priceEl = document.getElementById("pdp-price");
+  function updatePrice() {
+    if (!priceEl) return;
+    const r = stikePriceRange(p);
+    if (!r.varies) return;
+    const dim = (p.colors && p.colors.some(c => c.price > 0)) ? "color" : "size";
+    const chosen = dim === "color" ? selectedColor : selectedSize;
+    priceEl.textContent = chosen != null ? stikePrice(stikePriceFor(p, selectedSize, selectedColor)) : "Desde " + stikePrice(r.min);
+  }
   function updateWaBuy() {
+    updatePrice();
     if (!waBuy) return;
     const msg = stikeWaText(p, { size: selectedSize, color: selectedColor, shortName: STIKE_CONFIG.name });
     waBuy.href = `https://wa.me/${STIKE_CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`;
