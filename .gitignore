@@ -13,3 +13,4 @@ api/config.local.php
 
 # Datos de ventas si alguien prueba el PHP en local con STORAGE_DIR dentro del repo
 /stike-private/
+.preview/

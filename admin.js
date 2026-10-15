@@ -928,7 +928,29 @@ function renderProductGrid() {
   $("#p-count").textContent = catalogLoaded
     ? `${visible.length} de ${workingCatalog.length} producto${workingCatalog.length === 1 ? "" : "s"}`
     : "";
+  renderProductStats(statusFilter);
   populateSaleProductSelect();
+}
+
+/* Resumen arriba del catalogo: cada chip es un atajo al filtro de estado. */
+function renderProductStats(statusFilter) {
+  const el = $("#p-stats");
+  if (!el) return;
+  if (!catalogLoaded) { el.innerHTML = ""; return; }
+  const count = f => workingCatalog.filter(p => matchesStatusFilter(p, f)).length;
+  const stats = [
+    { f: "", n: workingCatalog.length, label: "Productos", cls: "" },
+    { f: "out", n: count("out"), label: "Agotados", cls: "bad" },
+    { f: "low", n: count("low"), label: `Bajo stock (≤${STIKE_LOW_STOCK_ADMIN})`, cls: "warn" },
+    { f: "draft", n: count("draft"), label: "Borradores", cls: "" },
+    { f: "dirty", n: count("dirty"), label: "Sin publicar", cls: "draft" },
+  ].filter(x => x.f === "" || x.f === statusFilter || x.n > 0);
+  el.innerHTML = stats.map(x => `<button type="button" class="pstat ${x.cls} ${x.f === statusFilter ? "active" : ""}" data-stat="${x.f}"><b>${x.n}</b><span>${x.label}</span></button>`).join("");
+  $$("#p-stats [data-stat]").forEach(b => b.addEventListener("click", () => {
+    const f = b.getAttribute("data-stat");
+    $("#p-filter-status").value = f === statusFilter ? "" : f;
+    renderProductGrid();
+  }));
 }
 
 function renderCards(visible) {
@@ -943,24 +965,23 @@ function renderCards(visible) {
       p.promo ? `<span class="pill" style="color:var(--warn)">Oferta</span>` : "",
       dirtySlugs.has(p.slug) ? `<span class="pill dirty">Sin publicar</span>` : "",
     ].filter(Boolean).join("");
-    const img = (p.imgs && p.imgs[0]) ? previewSrcFor(p.imgs[0]) : stikeProductImage(p, 600);
+    const img = (p.imgs && p.imgs[0]) ? previewSrcFor(p.imgs[0]) : stikeProductImage(p, 400);
     const stockTxt = out ? `<span style="color:var(--bad)">Sin stock</span>`
       : low ? `<span style="color:var(--warn)">${total} en stock</span>`
       : `${total} en stock`;
     return `<article class="pcard" data-slug="${p.slug}">
-      <div class="thumb">
+      <div class="thumb" data-edit="${p.slug}" title="Editar">
         <div class="flags">${flags}</div>
-        <img src="${img}" alt="">
+        <img src="${img}" alt="" loading="lazy">
       </div>
       <div class="body">
         <span class="brandline">${p.brand}</span>
-        <div class="title">${p.n}</div>
-        <div class="subline">${stikeCategory(p.cat) ? stikeCategory(p.cat).name : p.cat}${p.sub ? " · " + p.sub : ""}</div>
+        <div class="title" title="${escAttr(p.n)}">${p.n}</div>
+        <div class="subline">${stikeCategory(p.cat) ? stikeCategory(p.cat).name : p.cat}${p.sub ? " · " + p.sub : ""} · <span class="mono">${p.sku}</span></div>
         <div class="meta">
           <span class="price">${money(p.price)}</span>
           <span class="stockline">${stockTxt}</span>
         </div>
-        <div class="subline mono">${p.sku}</div>
         <div class="foot">
           <button class="btn ghost sm" data-edit="${p.slug}">Editar</button>
           <button class="btn cyan sm" data-sell="${p.slug}" ${out ? "disabled title=\"Sin stock\"" : ""}>Vender</button>
@@ -1722,54 +1743,118 @@ function renderOnlineSalesNote() {
   }
 }
 
+/* Periodo de los reportes (Ventas y KPIs comparten el mismo). */
+let reportDays = (() => { const v = Number(localStorage.getItem("stike_admin_period")); return [7, 30, 90].includes(v) ? v : 30; })();
+let salesShown = 25;
+const isOnlineSale = s => s.source === "wompi";
+function saleName(s) {
+  if (s.name) return s.name;
+  const p = workingCatalog.find(x => x.slug === s.slug);
+  return p ? p.n : s.slug;
+}
+function salesBetween(fromDaysAgo, toDaysAgo) {
+  const now = Date.now();
+  return salesLog.filter(s => { const t = new Date(s.ts).getTime(); return t > now - fromDaysAgo * 864e5 && t <= now - toDaysAgo * 864e5; });
+}
+function deltaHtml(cur, prev) {
+  if (!prev) return `<div class="delta flat">sin datos del período anterior</div>`;
+  const pct = Math.round(((cur - prev) / prev) * 100);
+  const cls = pct > 0 ? "up" : pct < 0 ? "down" : "flat";
+  return `<div class="delta ${cls}">${pct > 0 ? "▲" : pct < 0 ? "▼" : "="} ${Math.abs(pct)}% vs ${reportDays} días anteriores</div>`;
+}
+function setReportDays(days) {
+  reportDays = days;
+  localStorage.setItem("stike_admin_period", String(days));
+  renderPeriodToggles();
+  renderSalesTab();
+  renderKpis();
+}
+function renderPeriodToggles() {
+  $$("[data-period-toggle] [data-days]").forEach(b => b.classList.toggle("active", Number(b.getAttribute("data-days")) === reportDays));
+}
+const fmtShortDate = ts => new Date(ts).toLocaleString("es-CO", { day: "numeric", month: "short", hour: "numeric", minute: "2-digit" });
+
 function renderSalesTab() {
   renderOnlineSalesNote();
   populateSaleProductSelect();
+  renderPeriodToggles();
 
-  const now = Date.now();
-  const monthAgo = now - 30 * 864e5;
-  const thisMonth = salesLog.filter(s => new Date(s.ts).getTime() >= monthAgo);
-  const revenue = thisMonth.reduce((a, s) => a + s.total, 0);
-  const units = thisMonth.reduce((a, s) => a + s.qty, 0);
-  const tickets = thisMonth.length;
+  const cur = salesBetween(reportDays, 0), prev = salesBetween(reportDays * 2, reportDays);
+  const sum = arr => arr.reduce((a, s) => a + s.total, 0);
+  const revenue = sum(cur), store = sum(cur.filter(s => !isOnlineSale(s))), online = revenue - store;
+  const tickets = cur.length, prevTickets = prev.length;
+  const units = cur.reduce((a, s) => a + s.qty, 0);
   const avgTicket = tickets ? revenue / tickets : 0;
+  const prevAvg = prevTickets ? sum(prev) / prevTickets : 0;
   $("#sales-kpis").innerHTML = `
-    <div class="kpi"><div class="n">${money(revenue)}</div><div class="l">Ventas (30d)</div></div>
-    <div class="kpi"><div class="n">${units}</div><div class="l">Unidades (30d)</div></div>
-    <div class="kpi"><div class="n">${tickets}</div><div class="l">Transacciones (30d)</div></div>
-    <div class="kpi"><div class="n">${money(avgTicket)}</div><div class="l">Ticket promedio</div></div>`;
+    <div class="kpi"><div class="n">${money(revenue)}</div><div class="l">Ventas (${reportDays} días)</div>${deltaHtml(revenue, sum(prev))}</div>
+    <div class="kpi"><div class="n">${money(store)}</div><div class="l">En tienda</div><div class="sub">Online (Wompi): ${money(online)}</div></div>
+    <div class="kpi"><div class="n">${tickets}</div><div class="l">Transacciones</div><div class="sub">${units} unidad${units === 1 ? "" : "es"}</div></div>
+    <div class="kpi"><div class="n">${money(avgTicket)}</div><div class="l">Ticket promedio</div>${deltaHtml(avgTicket, prevAvg)}</div>`;
 
-  // Barras por mes (ultimos 6 meses)
+  // Barras por mes (ultimos 6 meses), tienda y online apiladas
   const months = [];
   const d0 = new Date(); d0.setDate(1);
   for (let i = 5; i >= 0; i--) {
     const d = new Date(d0.getFullYear(), d0.getMonth() - i, 1);
-    months.push({ key: d.toISOString().slice(0, 7), label: d.toLocaleDateString("es-CO", { month: "short" }), total: 0 });
+    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+    months.push({ key, label: d.toLocaleDateString("es-CO", { month: "short" }).replace(".", ""), store: 0, online: 0 });
   }
   const idx = Object.fromEntries(months.map((m, i) => [m.key, i]));
-  salesLog.forEach(s => { const k = s.ts.slice(0, 7); if (k in idx) months[idx[k]].total += s.total; });
-  const maxM = Math.max(1, ...months.map(m => m.total));
-  const W = 600, H = 170, padX = 10, padB = 26, padT = 10;
-  const bw = (W - padX * 2) / months.length;
-  $("#sales-month-chart").innerHTML = months.map((m, i) => {
-    const h = (m.total / maxM) * (H - padB - padT);
-    const x = padX + i * bw, y = H - padB - h;
-    return `<rect x="${(x + bw * .18).toFixed(1)}" y="${y.toFixed(1)}" width="${(bw * .64).toFixed(1)}" height="${Math.max(1, h).toFixed(1)}" rx="4" fill="#22d3ee" opacity="${i === months.length - 1 ? 1 : .55}"/>
-      <text x="${(x + bw / 2).toFixed(1)}" y="${H - 9}" text-anchor="middle" font-size="11" fill="#93979f">${m.label}</text>`;
-  }).join("") + `<line x1="${padX}" y1="${H - padB}" x2="${W - padX}" y2="${H - padB}" stroke="#33373f"/>`;
-
-  const rows = salesLog.slice().reverse();
-  $("#sales-count").textContent = rows.length
-    ? `${rows.length} venta${rows.length === 1 ? "" : "s"} registrada${rows.length === 1 ? "" : "s"}${rows.length > 200 ? " — mostrando las 200 más recientes" : ""}`
-    : "";
-  $("#sales-tbody").innerHTML = rows.slice(0, 200).map((s, i) => `
-    <tr data-sale-idx="${i}" style="cursor:pointer" title="Ver detalle">
-      <td>${new Date(s.ts).toLocaleString("es-CO")}</td><td>${escHtml(s.name || s.slug)}</td>
-      <td>${escHtml([s.size, s.color].filter(Boolean).join(" / ")) || "—"}</td><td>${s.qty}</td><td>${money(s.total)}</td><td>${escHtml(s.admin || "")}</td></tr>`).join("")
-    || `<tr><td colspan="6" class="muted" style="padding:16px;text-align:center">Sin ventas registradas.</td></tr>`;
-  $("#sales-tbody").querySelectorAll("tr[data-sale-idx]").forEach(tr => {
-    tr.addEventListener("click", () => openSaleDetail(rows[Number(tr.getAttribute("data-sale-idx"))]));
+  salesLog.forEach(s => {
+    const d = new Date(s.ts);
+    const k = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+    if (k in idx) months[idx[k]][isOnlineSale(s) ? "online" : "store"] += s.total;
   });
+  const maxM = Math.max(1, ...months.map(m => m.store + m.online));
+  const W = 1000, H = 230, padX = 10, padB = 26, padT = 22;
+  const bw = (W - padX * 2) / months.length;
+  const scale = v => (v / maxM) * (H - padB - padT);
+  const short = v => v >= 1e6 ? "$" + (v / 1e6).toFixed(v >= 1e7 ? 0 : 1).replace(".", ",") + "M" : v >= 1e3 ? "$" + Math.round(v / 1e3) + "k" : money(v);
+  $("#sales-month-chart").setAttribute("viewBox", `0 0 ${W} ${H}`);
+  $("#sales-month-chart").removeAttribute("height");
+  $("#sales-month-chart").innerHTML = months.map((m, i) => {
+    const hs = scale(m.store), ho = scale(m.online), x = padX + i * bw + bw * .2, w = bw * .6;
+    const yS = H - padB - hs, yO = yS - ho, tot = m.store + m.online;
+    return `<g><title>${m.label}: ${money(tot)} (tienda ${money(m.store)} · online ${money(m.online)})</title>
+      <rect x="${x.toFixed(1)}" y="${yS.toFixed(1)}" width="${w.toFixed(1)}" height="${Math.max(tot ? 1 : 0, hs).toFixed(1)}" rx="3" fill="#22d3ee"/>
+      ${ho > 0 ? `<rect x="${x.toFixed(1)}" y="${yO.toFixed(1)}" width="${w.toFixed(1)}" height="${ho.toFixed(1)}" rx="3" fill="#a78bfa"/>` : ""}
+      ${tot ? `<text x="${(x + w / 2).toFixed(1)}" y="${(yO - 6).toFixed(1)}" text-anchor="middle" font-size="11" fill="#c6c9d1">${short(tot)}</text>` : ""}
+      <text x="${(x + w / 2).toFixed(1)}" y="${H - 8}" text-anchor="middle" font-size="11" fill="#93979f">${m.label}</text></g>`;
+  }).join("") + `<line x1="${padX}" y1="${H - padB}" x2="${W - padX}" y2="${H - padB}" stroke="#33373f"/>`;
+  const legend = $("#sales-month-legend") || (() => {
+    const l = document.createElement("div"); l.className = "chart-legend"; l.id = "sales-month-legend";
+    $("#sales-month-chart").after(l); return l;
+  })();
+  legend.innerHTML = `<span><i style="background:#22d3ee"></i>Tienda</span><span><i style="background:#a78bfa"></i>Online (Wompi)</span>`;
+
+  // Historial con busqueda, filtro por canal y "ver mas"
+  const q = ($("#sales-search").value || "").toLowerCase().trim();
+  const chan = $("#sales-channel").value;
+  const all = salesLog.slice().reverse();
+  const rows = all.filter(s => (!chan || (chan === "online") === isOnlineSale(s)) && (!q || [
+    saleName(s), s.slug, s.size, s.color, s.admin, s.payment, s.invoice, s.orderRef, s.shipping && s.shipping.name, s.customer && s.customer.name,
+  ].filter(Boolean).join(" ").toLowerCase().includes(q)));
+  $("#sales-count").textContent = all.length
+    ? (rows.length === all.length ? `${all.length} venta${all.length === 1 ? "" : "s"} registrada${all.length === 1 ? "" : "s"}` : `${rows.length} de ${all.length} ventas`)
+    : "";
+  const shown = rows.slice(0, salesShown);
+  $("#sales-tbody").innerHTML = shown.map((s, i) => {
+    const online = isOnlineSale(s);
+    const pay = online ? "Wompi" : [s.payment, s.invoice ? `Fact. ${s.invoice}` : ""].filter(Boolean).join(" · ") || "—";
+    const seller = online ? (s.shipping && s.shipping.name ? escHtml(s.shipping.name) : "—") : escHtml((s.admin || "").split("@")[0]);
+    return `<tr data-sale-idx="${i}" style="cursor:pointer" title="Ver detalle">
+      <td>${fmtShortDate(s.ts)}</td><td class="prod">${escHtml(saleName(s))}${s.flag ? `<span class="flagdot" title="Revisar">⚠</span>` : ""}</td>
+      <td>${escHtml([s.size, s.color].filter(Boolean).join(" / ")) || "—"}</td><td class="num">${s.qty}</td><td class="num">${money(s.total)}</td>
+      <td><span class="chan ${online ? "online" : ""}">${online ? "Online" : "Tienda"}</span></td><td>${escHtml(pay)}</td><td>${seller}</td></tr>`;
+  }).join("")
+    || `<tr><td colspan="8" class="muted" style="padding:16px;text-align:center">${all.length ? "Ninguna venta coincide con la búsqueda." : "Sin ventas registradas."}</td></tr>`;
+  $("#sales-tbody").querySelectorAll("tr[data-sale-idx]").forEach(tr => {
+    tr.addEventListener("click", () => openSaleDetail(shown[Number(tr.getAttribute("data-sale-idx"))]));
+  });
+  const more = $("#sales-more");
+  more.hidden = rows.length <= salesShown;
+  more.textContent = `Ver más (${rows.length - shown.length} restantes)`;
 }
 
 /* Detalle completo de una venta -- sobre todo para las de Wompi, que traen
@@ -1901,9 +1986,11 @@ function renderNotifPanel() {
     ? rows.map(s => `
       <div class="notif-row">
         <div class="nr-top"><span>${s.qty}x ${s.name || s.slug}</span><b>${money(s.total)}</b></div>
-        <div class="nr-sub">${new Date(s.ts).toLocaleString("es-CO")} · ${s.admin || ""}</div>
+        <div class="nr-sub">${new Date(s.ts).toLocaleString("es-CO")} · ${s.source === "wompi" ? "Online" : escHtml(s.admin || "")}</div>
       </div>`).join("")
-    : `<div class="notif-empty">Sin ventas todavía.</div>`);
+    : `<div class="notif-empty">Sin ventas todavía.</div>`)
+    + `<div class="notif-foot"><button class="btn ghost sm" id="btn-test-sound" type="button" title="Probar el sonido de alerta de ventas">🔊 Probar sonido</button></div>`;
+  $("#btn-test-sound").addEventListener("click", e => { e.stopPropagation(); playSaleAlertSound(); });
 }
 
 function toggleNotifPanel() {
@@ -1965,74 +2052,98 @@ const LOCKED_ICON = `<span class="locked" title="Solo dueño"><svg viewBox="0 0 
 
 function renderKpis() {
   const isOwner = session.role === "owner";
-  const now = Date.now();
-  const inRange = (s, fromDaysAgo, toDaysAgo) => {
-    const t = new Date(s.ts).getTime();
-    return t > now - fromDaysAgo * 864e5 && t <= now - toDaysAgo * 864e5;
-  };
-  const last30 = salesLog.filter(s => inRange(s, 30, 0));
-  const prev30 = salesLog.filter(s => inRange(s, 60, 30));
-
+  renderPeriodToggles();
+  const D = reportDays;
+  const cur = salesBetween(D, 0), prev = salesBetween(D * 2, D);
   const sum = arr => arr.reduce((a, s) => a + s.total, 0);
-  const revenue = sum(last30), prevRevenue = sum(prev30);
-  const units = last30.reduce((a, s) => a + s.qty, 0);
-  const prevUnits = prev30.reduce((a, s) => a + s.qty, 0);
-  const avgTicket = last30.length ? revenue / last30.length : 0;
-  const prevAvg = prev30.length ? prevRevenue / prev30.length : 0;
-  const lowStock = workingCatalog.filter(p => stikeTotalStock(p) <= STIKE_LOW_STOCK_ADMIN).length;
+  const revenue = sum(cur), prevRevenue = sum(prev);
+  const units = cur.reduce((a, s) => a + s.qty, 0), prevUnits = prev.reduce((a, s) => a + s.qty, 0);
+  const avgTicket = cur.length ? revenue / cur.length : 0, prevAvg = prev.length ? prevRevenue / prev.length : 0;
+  const outCount = workingCatalog.filter(p => stikeTotalStock(p) <= 0).length;
+  const lowCount = workingCatalog.filter(p => { const t = stikeTotalStock(p); return t > 0 && t <= STIKE_LOW_STOCK_ADMIN; }).length;
   const activos = workingCatalog.filter(p => p.published !== false).length;
 
   const costOf = slug => { const p = workingCatalog.find(x => x.slug === slug); return p ? (p.cost || costsMap[slug] || 0) : 0; };
-  const cogs = last30.reduce((a, s) => a + costOf(s.slug) * s.qty, 0);
-  const marginPct = revenue > 0 ? Math.round(((revenue - cogs) / revenue) * 100) : 0;
-
-  const delta = (cur, prev) => {
-    if (!prev) return `<div class="delta flat">sin base previa</div>`;
-    const pct = Math.round(((cur - prev) / prev) * 100);
-    const cls = pct > 0 ? "up" : pct < 0 ? "down" : "flat";
-    const arrow = pct > 0 ? "▲" : pct < 0 ? "▼" : "=";
-    return `<div class="delta ${cls}">${arrow} ${Math.abs(pct)}% vs 30d previos</div>`;
-  };
+  // El margen solo es real sobre ventas de productos con costo cargado: sin
+  // costos, antes mostraba "100%", que parece un dato y no lo es.
+  const withCost = cur.filter(s => costOf(s.slug) > 0);
+  const revWithCost = sum(withCost);
+  const cogs = withCost.reduce((a, s) => a + costOf(s.slug) * s.qty, 0);
+  const marginPct = revWithCost > 0 ? Math.round(((revWithCost - cogs) / revWithCost) * 100) : null;
+  const coverage = revenue > 0 ? Math.round((revWithCost / revenue) * 100) : 0;
+  const marginN = !isOwner ? LOCKED_ICON : marginPct === null ? "—" : marginPct + "%";
+  const marginSub = !isOwner ? "solo dueño"
+    : marginPct === null ? "Carga el costo en cada producto para verlo"
+    : coverage < 100 ? `sobre el ${coverage}% de las ventas (las que tienen costo)` : "Costo: " + money(cogs);
 
   $("#kpi-cards").innerHTML = `
-    <div class="kpi"><div class="n">${money(revenue)}</div><div class="l">Ingresos (30d)</div>${delta(revenue, prevRevenue)}</div>
-    <div class="kpi"><div class="n">${units}</div><div class="l">Unidades vendidas (30d)</div>${delta(units, prevUnits)}</div>
-    <div class="kpi"><div class="n">${money(avgTicket)}</div><div class="l">Ticket promedio</div>${delta(avgTicket, prevAvg)}</div>
-    <div class="kpi"><div class="n">${isOwner ? marginPct + "%" : LOCKED_ICON}</div><div class="l">Margen bruto (30d)</div>
-      <div class="delta flat">${isOwner ? "Costo: " + money(cogs) : "solo dueño"}</div></div>
-    <div class="kpi"><div class="n">${lowStock}</div><div class="l">Bajo stock / agotados</div>
-      <div class="delta ${lowStock ? "down" : "up"}">${lowStock ? "requieren reposición" : "todo cubierto"}</div></div>
+    <div class="kpi"><div class="n">${money(revenue)}</div><div class="l">Ingresos (${D} días)</div>${deltaHtml(revenue, prevRevenue)}</div>
+    <div class="kpi"><div class="n">${units}</div><div class="l">Unidades vendidas</div>${deltaHtml(units, prevUnits)}</div>
+    <div class="kpi"><div class="n">${money(avgTicket)}</div><div class="l">Ticket promedio</div>${deltaHtml(avgTicket, prevAvg)}</div>
+    <div class="kpi"><div class="n">${marginN}</div><div class="l">Margen bruto</div><div class="delta flat">${marginSub}</div></div>
+    <div class="kpi"><div class="n">${outCount}<span class="muted" style="font-size:.6em;font-weight:600"> / ${lowCount}</span></div><div class="l">Agotados / bajo stock</div>
+      <div class="delta ${outCount + lowCount ? "down" : "up"}">${outCount + lowCount ? "ver “Para reponer” abajo" : "todo cubierto"}</div></div>
     <div class="kpi"><div class="n">${activos}</div><div class="l">Productos publicados</div>
       <div class="delta flat">de ${workingCatalog.length} en catálogo</div></div>`;
 
-  // Serie diaria 30d + sombra de los 30 previos
+  // Ingresos por dia del periodo + linea punteada del periodo anterior
+  const now = Date.now();
+  const dayKey = t => { const d = new Date(t); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; };
   const series = (from, to) => {
     const days = [];
-    for (let i = from - 1; i >= to; i--) days.push(new Date(now - i * 864e5).toISOString().slice(0, 10));
+    for (let i = from - 1; i >= to; i--) days.push(dayKey(now - i * 864e5));
     const byDay = Object.fromEntries(days.map(d => [d, 0]));
-    salesLog.forEach(s => { const k = s.ts.slice(0, 10); if (k in byDay) byDay[k] += s.total; });
-    return days.map(d => byDay[d]);
+    salesLog.forEach(s => { const k = dayKey(s.ts); if (k in byDay) byDay[k] += s.total; });
+    return { days, vals: days.map(d => byDay[d]) };
   };
-  const cur = series(30, 0), old = series(60, 30);
-  const max = Math.max(1, ...cur, ...old);
-  const W = 600, H = 170, pad = 10;
-  const toPts = vals => vals.map((v, i) => {
-    const x = pad + (i / Math.max(1, vals.length - 1)) * (W - pad * 2);
-    const y = H - pad - (v / max) * (H - pad * 2);
-    return `${x.toFixed(1)},${y.toFixed(1)}`;
-  }).join(" ");
-  $("#kpi-chart").innerHTML = `
-    <polyline points="${toPts(old)}" fill="none" stroke="#4a4e58" stroke-width="1.5" stroke-dasharray="4 4"/>
-    <polyline points="${pad},${H - pad} ${toPts(cur)} ${W - pad},${H - pad}" fill="#22d3ee22" stroke="none"/>
-    <polyline points="${toPts(cur)}" fill="none" stroke="#22d3ee" stroke-width="2.5"/>
-    <line x1="${pad}" y1="${H - pad}" x2="${W - pad}" y2="${H - pad}" stroke="#33373f"/>`;
+  const curS = series(D, 0), oldS = series(D * 2, D);
+  const max = Math.max(1, ...curS.vals, ...oldS.vals);
+  const W = 1000, H = 240, padL = 8, padR = 8, padT = 16, padB = 22;
+  const X = i => padL + (i / Math.max(1, D - 1)) * (W - padL - padR);
+  const Y = v => H - padB - (v / max) * (H - padT - padB);
+  const pts = vals => vals.map((v, i) => `${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join(" ");
+  const lbl = k => { const [y, m, d] = k.split("-").map(Number); return new Date(y, m - 1, d).toLocaleDateString("es-CO", { day: "numeric", month: "short" }).replace(".", ""); };
+  const ticks = [0, Math.floor((D - 1) / 2), D - 1];
+  $("#kpi-chart-title").textContent = `Ingresos por día (últimos ${D} días)`;
+  const chart = $("#kpi-chart");
+  chart.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  chart.removeAttribute("height");
+  chart.innerHTML = `
+    <line x1="${padL}" y1="${Y(max)}" x2="${W - padR}" y2="${Y(max)}" stroke="#2a2e35" stroke-dasharray="2 4"/>
+    <text x="${padL}" y="${Y(max) - 3}" font-size="10" fill="#93979f">${money(max)}</text>
+    <polyline points="${pts(oldS.vals)}" fill="none" stroke="#4a4e58" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <polyline points="${X(0)},${H - padB} ${pts(curS.vals)} ${X(D - 1)},${H - padB}" fill="#22d3ee22" stroke="none"/>
+    <polyline points="${pts(curS.vals)}" fill="none" stroke="#22d3ee" stroke-width="2.2" stroke-linejoin="round"/>
+    <line x1="${padL}" y1="${H - padB}" x2="${W - padR}" y2="${H - padB}" stroke="#33373f"/>
+    ${ticks.map((i, n) => `<text x="${X(i)}" y="${H - 6}" font-size="10" fill="#93979f" text-anchor="${n === 0 ? "start" : n === 2 ? "end" : "middle"}">${lbl(curS.days[i])}</text>`).join("")}
+    <line id="kpi-hover-line" x1="0" x2="0" y1="${padT}" y2="${H - padB}" stroke="#c6c9d1" stroke-width="1" opacity="0"/>
+    <circle id="kpi-hover-dot" r="4" fill="#22d3ee" stroke="#17191d" stroke-width="2" opacity="0"/>`;
+  if (!chart.parentElement.classList.contains("chart-wrap")) {
+    const wrap = document.createElement("div"); wrap.className = "chart-wrap";
+    chart.before(wrap); wrap.appendChild(chart);
+    const tip = document.createElement("div"); tip.className = "chart-tip"; tip.id = "kpi-tip"; wrap.appendChild(tip);
+  }
+  chart.onmousemove = e => {
+    const r = chart.getBoundingClientRect();
+    const vx = ((e.clientX - r.left) / r.width) * W;
+    const i = Math.max(0, Math.min(D - 1, Math.round(((vx - padL) / (W - padL - padR)) * (D - 1))));
+    const v = curS.vals[i];
+    $("#kpi-hover-line").setAttribute("x1", X(i)); $("#kpi-hover-line").setAttribute("x2", X(i)); $("#kpi-hover-line").setAttribute("opacity", ".35");
+    $("#kpi-hover-dot").setAttribute("cx", X(i)); $("#kpi-hover-dot").setAttribute("cy", Y(v)); $("#kpi-hover-dot").setAttribute("opacity", "1");
+    const tip = $("#kpi-tip");
+    tip.innerHTML = `${lbl(curS.days[i])}<b>${money(v)}</b><span class="muted">antes: ${money(oldS.vals[i])}</span>`;
+    tip.style.left = (X(i) / W) * r.width + "px";
+    tip.style.top = (Y(v) / H) * r.height + "px";
+    tip.style.display = "block";
+  };
+  chart.onmouseleave = () => { $("#kpi-tip").style.display = "none"; $("#kpi-hover-line").setAttribute("opacity", "0"); $("#kpi-hover-dot").setAttribute("opacity", "0"); };
 
   // Desglose por categoria y por marca
   const breakdown = (keyFn) => {
     const map = {};
-    last30.forEach(s => {
+    cur.forEach(s => {
       const p = workingCatalog.find(x => x.slug === s.slug);
-      const k = p ? keyFn(p) : "—";
+      const k = p ? keyFn(p) : "Otros";
       map[k] = (map[k] || 0) + s.total;
     });
     return Object.entries(map).sort((a, b) => b[1] - a[1]).slice(0, 6);
@@ -2041,7 +2152,7 @@ function renderKpis() {
     const top = Math.max(1, ...rows.map(r => r[1]));
     $(el).innerHTML = rows.map(([k, v]) => `
       <div class="barrow">
-        <span>${k}</span>
+        <span>${escHtml(k)}</span>
         <span class="track"><span class="fill" style="width:${Math.max(3, (v / top) * 100).toFixed(1)}%"></span></span>
         <span class="val">${money(v)}</span>
       </div>`).join("") || `<p class="muted" style="margin:0">Sin ventas en el período.</p>`;
@@ -2051,18 +2162,34 @@ function renderKpis() {
 
   // Top productos con margen
   const bySlug = {};
-  last30.forEach(s => {
-    bySlug[s.slug] = bySlug[s.slug] || { name: s.name || s.slug, units: 0, revenue: 0, cost: 0 };
+  cur.forEach(s => {
+    bySlug[s.slug] = bySlug[s.slug] || { slug: s.slug, name: saleName(s), units: 0, revenue: 0, cost: 0 };
     bySlug[s.slug].units += s.qty;
     bySlug[s.slug].revenue += s.total;
     bySlug[s.slug].cost += costOf(s.slug) * s.qty;
   });
+  const inCatalog = slug => workingCatalog.some(p => p.slug === slug);
+  const nameCell = (slug, name) => inCatalog(slug) ? `<button class="linkish" data-open="${escAttr(slug)}">${escHtml(name)}</button>` : escHtml(name);
   const top = Object.values(bySlug).sort((a, b) => b.revenue - a.revenue).slice(0, 10);
   $("#top-products-tbody").innerHTML = top.map(t => {
-    const m = t.revenue > 0 ? Math.round(((t.revenue - t.cost) / t.revenue) * 100) + "%" : "—";
-    return `<tr><td>${t.name}</td><td>${t.units}</td><td>${money(t.revenue)}</td><td>${isOwner ? m : LOCKED_ICON}</td></tr>`;
+    const m = t.cost > 0 && t.revenue > 0 ? Math.round(((t.revenue - t.cost) / t.revenue) * 100) + "%" : "—";
+    return `<tr><td>${nameCell(t.slug, t.name)}</td><td class="num">${t.units}</td><td class="num">${money(t.revenue)}</td><td class="num">${isOwner ? m : LOCKED_ICON}</td></tr>`;
   }).join("")
-    || `<tr><td colspan="4" class="muted" style="padding:16px;text-align:center">Sin ventas en los últimos 30 días.</td></tr>`;
+    || `<tr><td colspan="4" class="muted" style="padding:16px;text-align:center">Sin ventas en el período.</td></tr>`;
+
+  // Para reponer: poco stock y con ventas en los ultimos 90 dias
+  const sold90 = {};
+  salesBetween(90, 0).forEach(s => { sold90[s.slug] = (sold90[s.slug] || 0) + s.qty; });
+  const restock = workingCatalog
+    .filter(p => stikeTotalStock(p) <= STIKE_LOW_STOCK_ADMIN && sold90[p.slug])
+    .sort((a, b) => sold90[b.slug] - sold90[a.slug] || stikeTotalStock(a) - stikeTotalStock(b))
+    .slice(0, 12);
+  $("#restock-tbody").innerHTML = restock.map(p => {
+    const t = stikeTotalStock(p);
+    return `<tr><td>${nameCell(p.slug, p.n)}</td><td class="num" style="color:${t <= 0 ? "var(--bad)" : "var(--warn)"}">${t <= 0 ? "Agotado" : t}</td><td class="num">${sold90[p.slug]}</td></tr>`;
+  }).join("")
+    || `<tr><td colspan="3" class="muted" style="padding:16px;text-align:center">Nada urgente: ningún producto con poco stock se ha vendido en 90 días.</td></tr>`;
+  $$("#panel-kpis [data-open]").forEach(b => b.addEventListener("click", () => openEditor(b.getAttribute("data-open"))));
 }
 
 /* ============================== AUDITORÍA =================================== */
@@ -2277,11 +2404,13 @@ async function saveSiteContent() {
 
 /* ============================== APP SHELL ==================================== */
 function showApp() {
-  $("#session-info").innerHTML = `<div style="display:flex;flex-direction:column;gap:6px;align-items:flex-start">
-         <span class="pill ${session.role === "owner" ? "owner" : "editor"}">${session.role === "owner" ? "Dueño" : "Editor"}</span>
-         <span class="pill dot">${escHtml(session.email)}</span>
-         <button class="btn ghost sm" onclick="clearLogin()">Cerrar sesión</button>
-       </div>`;
+  $("#session-info").innerHTML = `<div class="me">
+         <span class="avatar">${escHtml((session.email || "?").charAt(0))}</span>
+         <div class="who"><div class="em" title="${escAttr(session.email)}">${escHtml(session.email)}</div>
+           <div class="rl">${session.role === "owner" ? "Dueño" : "Empleado"}</div></div>
+       </div>
+       <button class="btn ghost sm me-logout" id="btn-logout" type="button">Cerrar sesión</button>`;
+  $("#btn-logout").addEventListener("click", clearLogin);
   loadAll().catch(e => handleLoadError(e));
   renderHealth();
 }
@@ -2378,10 +2507,16 @@ function switchPanel(name) {
 $$(".navbtn").forEach(b => b.addEventListener("click", () => switchPanel(b.getAttribute("data-panel"))));
 
 /* ============================== WIRING GENERAL ================================ */
-$("#btn-refresh").addEventListener("click", () => loadAll().catch(e => showStatus([{ text: "Error: " + e.message, cls: "bad" }])));
+$("#btn-refresh").addEventListener("click", () => {
+  const b = $("#btn-refresh");
+  b.classList.add("spin");
+  loadAll().catch(e => showStatus([{ text: "Error: " + e.message, cls: "bad" }])).finally(() => b.classList.remove("spin"));
+});
+$("#btn-more").addEventListener("click", e => { e.stopPropagation(); $("#more-menu").hidden = !$("#more-menu").hidden; });
+$$("#more-menu button").forEach(b => b.addEventListener("click", () => { $("#more-menu").hidden = true; }));
+document.addEventListener("click", e => { if (!e.target.closest(".menu-wrap")) $("#more-menu").hidden = true; });
 $("#btn-publish").addEventListener("click", () => publishCatalog());
 $("#btn-notif").addEventListener("click", e => { e.stopPropagation(); toggleNotifPanel(); });
-$("#btn-test-sound").addEventListener("click", () => playSaleAlertSound());
 document.addEventListener("click", e => {
   const panel = $("#notif-panel");
   if (panel && panel.style.display !== "none" && !e.target.closest(".notif-wrap")) toggleNotifPanel();
@@ -2433,6 +2568,10 @@ $("#sale-size").addEventListener("change", updateSaleStockHint);
 $("#sale-color").addEventListener("change", updateSaleStockHint);
 $("#btn-registrar-venta").addEventListener("click", registrarVenta);
 $("#btn-save-content").addEventListener("click", saveSiteContent);
+$$("[data-period-toggle] [data-days]").forEach(b => b.addEventListener("click", () => setReportDays(Number(b.getAttribute("data-days")))));
+$("#sales-search").addEventListener("input", () => { salesShown = 25; renderSalesTab(); });
+$("#sales-channel").addEventListener("change", () => { salesShown = 25; renderSalesTab(); });
+$("#sales-more").addEventListener("click", () => { salesShown += 50; renderSalesTab(); });
 $("#editor-overlay").addEventListener("click", e => { if (e.target.id === "editor-overlay") closeEditor(); });
 $("#sale-overlay").addEventListener("click", e => { if (e.target.id === "sale-overlay") closeQuickSale(); });
 $("#confirm-overlay").addEventListener("click", e => { if (e.target.id === "confirm-overlay") closeConfirmModal(); });
