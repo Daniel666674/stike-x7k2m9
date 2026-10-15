@@ -163,7 +163,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 750000,
     "promo": false,
-    "units": 1,
+    "units": 0,
     "imgs": [
       "assets/img/products/tenedor-odyssey-r15-negro-1.jpg",
       "assets/img/products/tenedor-odyssey-r15-negro-2.jpg"
