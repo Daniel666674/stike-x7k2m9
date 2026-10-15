@@ -147,6 +147,37 @@ function stike_clean_variant($v) {
   return $v;
 }
 
+/* ------------------------------- stock ----------------------------------- */
+/* Mismo motor que stikeStockFor (assets/js/data.js): talla y color son pools
+   independientes; null = stock sin registrar (no se bloquea la venta). */
+function stike_pool_units($pool, $v) {
+  foreach ($pool as $row) if (($row["v"] ?? null) === $v) return max(0, (int)($row["u"] ?? 0));
+  return 0;
+}
+function stike_stock_for($p, $size, $color) {
+  $sizes = (isset($p["sizes"]) && is_array($p["sizes"]) && count($p["sizes"])) ? $p["sizes"] : null;
+  $colors = (isset($p["colors"]) && is_array($p["colors"]) && count($p["colors"])) ? $p["colors"] : null;
+  if ($sizes || $colors) {
+    $vals = [];
+    if ($sizes) { if ($size === null) return 0; $vals[] = stike_pool_units($sizes, $size); }
+    if ($colors) { if ($color === null) return 0; $vals[] = stike_pool_units($colors, $color); }
+    return min($vals);
+  }
+  return array_key_exists("units", $p) && is_numeric($p["units"]) ? max(0, (int)$p["units"]) : null;
+}
+/* Descuenta una venta del producto, en la misma pool en que se vendio. */
+function stike_decrement_stock(&$p, $size, $color, $qty) {
+  $hit = false;
+  foreach (["sizes" => $size, "colors" => $color] as $k => $v) {
+    if ($v === null || empty($p[$k]) || !is_array($p[$k])) continue;
+    foreach ($p[$k] as &$row) if (($row["v"] ?? null) === $v) { $row["u"] = max(0, (int)$row["u"] - $qty); $hit = true; }
+    unset($row);
+  }
+  if (!$hit && empty($p["sizes"]) && empty($p["colors"]) && isset($p["units"]) && is_numeric($p["units"])) {
+    $p["units"] = max(0, (int)$p["units"] - $qty);
+  }
+}
+
 /* El monto SIEMPRE lo calcula el servidor con el catalogo; lo que mande el
    navegador (precio, total, amount_in_cents) se ignora. */
 function stike_price_order($catalog, $items) {
@@ -166,13 +197,17 @@ function stike_price_order($catalog, $items) {
     $p = $bySlug[$slug] ?? null;
     if (!$p || (array_key_exists("published", $p) && $p["published"] === false)) throw new ApiError(400, "unknown_product", $slug);
     if (!is_int($p["price"] ?? null) || $p["price"] <= 0) throw new ApiError(400, "product_without_price", $slug);
+    $size = stike_clean_variant($it["size"] ?? null);
+    $color = stike_clean_variant($it["color"] ?? null);
+    $avail = stike_stock_for($p, $size, $color);
+    if ($avail !== null && $qty > $avail) throw new ApiError(409, "out_of_stock", $slug);
     $total = $p["price"] * $qty;
     $subtotal += $total;
     $lines[] = [
       "slug" => $slug, "name" => $p["n"] ?? $slug, "qty" => $qty,
       "unitPrice" => $p["price"], "total" => $total,
-      "size" => stike_clean_variant($it["size"] ?? null),
-      "color" => stike_clean_variant($it["color"] ?? null),
+      "size" => $size,
+      "color" => $color,
     ];
   }
   $shipping = $subtotal >= STIKE_FREE_SHIP ? 0 : STIKE_SHIP_COST;
@@ -207,6 +242,92 @@ function stike_clean_shipping($raw) {
 
 function stike_clean_email($v) {
   return (is_string($v) && strlen($v) <= 160 && filter_var($v, FILTER_VALIDATE_EMAIL)) ? $v : null;
+}
+
+/* ------------------- stock en GitHub (fuente de la verdad) ----------------
+   El catalogo vive en assets/js/products-data.js del repo; de ahi se publica
+   al hosting. Cada venta online se descuenta ALLA (con GITHUB_TOKEN en
+   api/config.local.php: token fine-grained con Contents read/write sobre el
+   repo) y queda anotada en data/stock-applied.json para que nadie la vuelva
+   a descontar: ni un reintento de Wompi, ni el panel admin (que concilia las
+   ventas online que el servidor no alcanzo a descontar). */
+const STIKE_GH_REPO = "Daniel666674/stike-x7k2m9";
+const STIKE_GH_BRANCH = "claude/sweet-albattani-ti0w0e";
+
+function stike_gh($method, $path, $body = null) {
+  $token = stike_config("GITHUB_TOKEN");
+  if (!$token) throw new ApiError(500, "github_not_configured");
+  $base = getenv("STIKE_GITHUB_API") ?: "https://api.github.com";   // solo pruebas; un visitante no controla el entorno
+  $url = $base . "/repos/" . STIKE_GH_REPO . "/contents/" . $path . ($method === "GET" ? "?ref=" . rawurlencode(STIKE_GH_BRANCH) : "");
+  $res = stike_http($method, $url, [
+    "Authorization: Bearer " . $token, "Accept: application/vnd.github+json",
+    "User-Agent: stike-server", "Content-Type: application/json",
+  ], $body === null ? null : json_encode($body, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+  return $res;
+}
+function stike_gh_get_text($path) {
+  $r = stike_gh("GET", $path);
+  if ($r["status"] === 404) return [null, null];
+  if ($r["status"] !== 200 || !isset($r["json"]["content"])) throw new ApiError(502, "github_read_failed", "$path {$r["status"]}");
+  return [base64_decode($r["json"]["content"]), $r["json"]["sha"]];
+}
+function stike_gh_put_text($path, $text, $sha, $message) {
+  $body = ["message" => $message, "content" => base64_encode($text), "branch" => STIKE_GH_BRANCH];
+  if ($sha) $body["sha"] = $sha;
+  $r = stike_gh("PUT", $path, $body);
+  if ($r["status"] === 200 || $r["status"] === 201) return true;
+  if ($r["status"] === 409 || $r["status"] === 422) return false;   // sha viejo: reintentar
+  throw new ApiError(502, "github_write_failed", "$path {$r["status"]}");
+}
+
+/* Mismo formato que escribe el panel (JSON.stringify con 2 espacios), para
+   que los commits del servidor no reformateen el archivo entero. */
+function stike_json_2sp($v) {
+  $json = json_encode($v, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+  return preg_replace_callback('/^( {4})+/m', fn($m) => str_repeat("  ", strlen($m[0]) / 4), $json);
+}
+
+/* Descuenta en GitHub las lineas de una venta online. Devuelve true si quedo
+   aplicada (ahora o antes), false si GitHub no esta configurado. Idempotente
+   por $saleKey. */
+function stike_apply_stock_github($saleKey, $entries) {
+  if (!stike_config("GITHUB_TOKEN")) return false;
+  $marker = "window.STIKE_PRODUCTS = ";
+  for ($attempt = 1; $attempt <= 5; $attempt++) {
+    [$ledgerText, $ledgerSha] = stike_gh_get_text("data/stock-applied.json");
+    $ledger = $ledgerText ? json_decode($ledgerText, true) : [];
+    if (!is_array($ledger)) $ledger = [];
+    if (in_array($saleKey, $ledger, true)) return true;
+
+    [$text, $sha] = stike_gh_get_text("assets/js/products-data.js");
+    $pos = $text === null ? false : strpos($text, $marker);
+    if ($pos === false) throw new ApiError(502, "catalog_parse_failed");
+    $catalog = json_decode(substr($text, $pos + strlen($marker), strrpos($text, ";") - $pos - strlen($marker)), true);
+    if (!is_array($catalog)) throw new ApiError(502, "catalog_parse_failed");
+    foreach ($entries as $e) {
+      foreach ($catalog as &$p) {
+        if (($p["slug"] ?? null) === ($e["slug"] ?? "")) stike_decrement_stock($p, $e["size"] ?? null, $e["color"] ?? null, (int)$e["qty"]);
+      }
+      unset($p);
+    }
+    $newText = substr($text, 0, $pos + strlen($marker)) . stike_json_2sp($catalog) . ";\n";
+    $names = implode(", ", array_map(fn($e) => $e["qty"] . "x " . ($e["name"] ?? $e["slug"]), $entries));
+    if (!stike_gh_put_text("assets/js/products-data.js", $newText, $sha, "[Wompi] Stock: venta online $saleKey ($names)")) { usleep(400000 * $attempt); continue; }
+
+    // El catalogo ya quedo; el ledger se reintenta solo (si fallara, el
+    // reintento de arriba volveria a descontar: por eso se insiste aca).
+    for ($j = 1; $j <= 5; $j++) {
+      [$lt, $ls] = stike_gh_get_text("data/stock-applied.json");
+      $l = $lt ? json_decode($lt, true) : [];
+      if (!is_array($l)) $l = [];
+      if (in_array($saleKey, $l, true)) return true;
+      $l[] = $saleKey;
+      if (stike_gh_put_text("data/stock-applied.json", json_encode($l, JSON_PRETTY_PRINT) . "\n", $ls, "[Wompi] Stock aplicado: $saleKey")) return true;
+      usleep(300000 * $j);
+    }
+    throw new ApiError(502, "github_write_failed", "stock-applied.json");
+  }
+  throw new ApiError(502, "github_write_failed", "products-data.js (conflictos)");
 }
 
 /* ------------------------------- almacenamiento -------------------------- */
@@ -422,6 +543,14 @@ function stike_finalize_order($reference, $wompiId) {
     error_log("[stike] no se pudo registrar la venta $reference: " . $e->errorCode);
   }
   if ($recordError === null && !$recorded) return ["alreadyRecorded" => true];
+
+  /* Stock: si falla (GitHub caido, sin token) la venta igual queda y el panel
+     admin la descuenta al abrirse (concilia contra data/stock-applied.json). */
+  $stockApplied = false;
+  if ($flag !== "no_pending_order") {
+    try { $stockApplied = stike_apply_stock_github("wompi:" . $reference, $entries); }
+    catch (ApiError $e) { error_log("[stike] stock no descontado para $reference: " . $e->errorCode . " " . ($e->detail ?? "")); }
+  }
 
   /* El correo sale aunque el guardado haya fallado: es la segunda copia. */
   $email = stike_notify_owner($entries, [

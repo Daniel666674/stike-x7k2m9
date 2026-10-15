@@ -401,6 +401,7 @@ async function loadAll() {
   updateDirtyUI();
   renderNotifBadge();
   startSalesPolling();
+  reconcileOnlineStock();
   showStatus([{ text: `Listo: ${workingCatalog.length} productos.`, cls: "ok" }]);
 }
 
@@ -1439,53 +1440,160 @@ function updateSaleStockHint() {
    del log y la persiste (o la deja solo en memoria en modo demo). Lo usan
    las DOS entradas: el formulario del panel Ventas y el boton "Vender" de
    cada tarjeta del inventario. Devuelve true si la venta se registro. */
+/* Descuenta una venta de un producto, en la misma pool en que se vendio.
+   Espejo de stike_decrement_stock (api/_lib.php): talla y color son pools
+   independientes; sin variantes se descuenta de units. */
+function decrementStock(p, size, color, qty) {
+  let hit = false;
+  if (size && p.sizes) { const row = p.sizes.find(s => s.v === size); if (row) { row.u = Math.max(0, (row.u || 0) - qty); hit = true; } }
+  if (color && p.colors) { const row = p.colors.find(c => c.v === color); if (row) { row.u = Math.max(0, (row.u || 0) - qty); hit = true; } }
+  if (!hit && !(p.sizes && p.sizes.length) && !(p.colors && p.colors.length) && typeof p.units === "number") p.units = Math.max(0, p.units - qty);
+}
+const STOCK_FIELDS = ["units", "sizes", "colors"];
+
+/* Escribe en GitHub el descuento de stock de una o varias lineas, SIEMPRE
+   sobre el catalogo mas reciente (no sobre la copia cargada en el panel,
+   que puede estar vieja si otra persona vendio o edito mientras tanto).
+   Revalida el stock contra esa version fresca y reintenta si hay choque.
+   No pasa por publishCatalog: una venta no puede quedar frenada porque OTRO
+   producto tenga un error de validacion. Devuelve el catalogo escrito. */
+async function commitStockDelta(lines, message) {
+  for (let attempt = 1; attempt <= 6; attempt++) {
+    const fresh = await ghGetFile(CONFIG.paths.catalog);
+    if (!fresh) throw new Error("no se pudo leer el catálogo");
+    const arr = parseCatalogFile(fresh.text);
+    for (const l of lines) {
+      const row = arr.find(r => r.slug === l.slug);
+      if (!row) throw Object.assign(new Error(`El producto "${l.name || l.slug}" ya no existe en el catálogo.`), { userFacing: true });
+      if (l.check) {
+        const avail = stikeStockFor(row, l.size || undefined, l.color || undefined);
+        if (avail != null && l.qty > avail) {
+          const local = workingCatalog.find(x => x.slug === l.slug);
+          if (local) STOCK_FIELDS.forEach(k => { if (row[k] === undefined) delete local[k]; else local[k] = JSON.parse(JSON.stringify(row[k])); });
+          renderProductGrid();
+        }
+        if (avail != null && l.qty > avail) throw Object.assign(new Error(`Solo quedan ${avail} unidades de "${row.n}" para esa combinación (alguien vendió mientras tanto).`), { userFacing: true });
+      }
+      decrementStock(row, l.size, l.color, l.qty);
+    }
+    try {
+      await ghPutOnce(CONFIG.paths.catalog, b64EncodeText(serializeCatalogFile(arr)), message, fresh.sha);
+    } catch (e) {
+      if (e.conflict && attempt < 6) { await sleep(backoffMs(Math.min(attempt, 4))); continue; }
+      throw e;
+    }
+    // Reflejar en el panel SOLO los campos de stock (no pisa ediciones sin publicar).
+    for (const l of lines) {
+      const row = arr.find(r => r.slug === l.slug);
+      const local = workingCatalog.find(x => x.slug === l.slug);
+      const base = baseline.get(l.slug);
+      STOCK_FIELDS.forEach(k => {
+        const v = row[k] === undefined ? undefined : JSON.parse(JSON.stringify(row[k]));
+        if (local) { if (v === undefined) delete local[k]; else local[k] = JSON.parse(JSON.stringify(v)); }
+        if (base) { if (v === undefined) delete base[k]; else base[k] = v; }
+      });
+    }
+    return arr;
+  }
+}
+
+/* Nucleo de "registrar venta": lo usan las DOS entradas (formulario de
+   Ventas y boton "Vender"). Orden a proposito: primero el STOCK, despues el
+   log. Si el stock no se pudo escribir, la venta NO se registra (nada de
+   ventas anotadas con unidades sin descontar). Devuelve la entrada o false. */
+let saleInFlight = false;
 async function applySale(p, opts) {
-  if (!p) return false;
+  if (!p || saleInFlight) return false;
   const size = (p.sizes && p.sizes.length) ? (opts.size || null) : null;
   const color = (p.colors && p.colors.length) ? (opts.color || null) : null;
   const qty = Math.max(1, parseInt(opts.qty) || 1);
   const unitPrice = Math.max(0, parseInt(opts.unitPrice) || p.price);
-  const stock = stikeStockFor(p, size, color);
+  const stock = stikeStockFor(p, size || undefined, color || undefined);
   if (stock != null && qty > stock) { alert(`Solo hay ${stock} unidades disponibles para esa combinación.`); return false; }
 
-  if (p.sizes && size) { const row = p.sizes.find(s => s.v === size); row.u = Math.max(0, row.u - qty); }
-  if (p.colors && color) { const row = p.colors.find(c => c.v === color); row.u = Math.max(0, row.u - qty); }
-  if (!p.sizes && !p.colors) p.units = Math.max(0, (p.units || 0) - qty);
-  markDirty(p.slug);
-
   const discount = opts.customer ? Math.min(unitPrice * qty, opts.customer.discount || 0) : 0;
-  const entry = { ts: new Date().toISOString(), slug: p.slug, name: p.n, size: size || null, color: color || null, qty, unitPrice, total: unitPrice * qty - discount, admin: session.email };
+  const entry = { ts: new Date().toISOString(), slug: p.slug, name: p.n, size: size || null, color: color || null, qty, unitPrice, total: unitPrice * qty - discount, admin: session.email, source: "tienda" };
   if (discount) entry.discount = discount;
-  if (opts.customer) {
-    entry.invoice = nextInvoiceNumber();
-    entry.payment = opts.customer.pay;
-    saveInvoiceCustomer(entry.invoice, opts.customer);
-  }
 
-  if (demoMode) {
-    // En demo la venta se ve reflejada al instante (stock, historial, KPIs)
-    // pero se queda en memoria: no toca GitHub ni el log real de ventas.
-    salesLog = salesLog.concat([entry]);
-    dirtySlugs.delete(p.slug);
-    updateDirtyUI();
-    showStatus([{ text: `Venta registrada en la demo: ${qty}x ${p.n} (no se publicó, es solo de ejemplo).`, cls: "ok" }]);
-  } else {
-    setPublishing(true);
+  saleInFlight = true;
+  setPublishing(true);
+  showStatus([{ text: `Descontando stock de ${p.n}...`, cls: "now" }]);
+  try {
+    const merged = await commitStockDelta([{ slug: p.slug, name: p.n, size, color, qty, check: true }], `Stock: venta en tienda ${qty}x ${p.n}`);
+    if (opts.customer) {
+      entry.invoice = nextInvoiceNumber();
+      entry.payment = opts.customer.pay;
+      saveInvoiceCustomer(entry.invoice, opts.customer);
+    }
+    showStatus([{ text: "Stock descontado. Registrando la venta...", cls: "now" }]);
     try {
       salesLogGh = await appendJsonLog(CONFIG.paths.salesLog, [entry], `Venta: ${qty}x ${p.n}`);
       rebuildSalesLog();
-      // Publica SOLO el stock de este producto (no arrastra otras ediciones a medio terminar).
-      await publishCatalog({ scopeSlugs: new Set([p.slug]), auditNote: `Venta registrada: ${qty}x ${p.n}` });
     } catch (e) {
-      showStatus([{ text: "Error registrando venta: " + e.message, cls: "bad" }]);
-      setPublishing(false);
+      // El stock YA quedo descontado: se avisa fuerte para no repetir la venta.
+      showStatus([{ text: `El stock se descontó, pero la venta no quedó en el historial (${e.message}). NO la vuelvas a registrar: avísale a soporte.`, cls: "bad" }]);
+      alert("El stock se descontó, pero la venta no quedó en el historial. No la vuelvas a registrar.");
     }
+    regenerateProductPages(merged, new Set([p.slug]), `Stock: venta en tienda ${qty}x ${p.n}`).catch(e => console.warn("ficha no regenerada", e));
+    showStatus([{ text: `✔ Venta registrada: ${qty}x ${p.n}. Stock actualizado.`, cls: "ok" }]);
+  } catch (e) {
+    showStatus([{ text: "La venta NO se registró y el stock no cambió: " + e.message, cls: "bad" }]);
+    if (e.userFacing) alert(e.message);
+    return false;
+  } finally {
+    saleInFlight = false;
+    setPublishing(false);
   }
   renderSalesTab();
   renderKpis();
   renderProductGrid();
   if (opts.customer) writeInvoice(opts.invWin, entry, opts.customer);
   return entry;
+}
+
+/* ===================== Ventas online: conciliacion de stock ===============
+   El servidor descuenta el stock de cada venta de Wompi en GitHub y la anota
+   en data/stock-applied.json. Si no pudo (GitHub caido, sin GITHUB_TOKEN en
+   el hosting), la venta igual quedo guardada: al abrir el panel se descuenta
+   aca lo que falte, una sola vez (mismo ledger). */
+const ONLINE_STOCK_SINCE = "2026-10-15T00:00:00Z";
+let reconcilingOnline = false;
+async function reconcileOnlineStock() {
+  if (reconcilingOnline || !session.pat || !salesLogOnline.length) return;
+  reconcilingOnline = true;
+  try {
+    const ledgerFile = await ghGetFile("data/stock-applied.json");
+    const ledger = new Set(ledgerFile ? JSON.parse(ledgerFile.text) : []);
+    const byRef = new Map();
+    salesLogOnline.forEach(s => {
+      if (s.source !== "wompi" || !s.orderRef || s.slug === "pago-sin-pedido") return;
+      // Ventas anteriores a esta conciliacion: su stock se manejaba a mano.
+      if (s.ts < ONLINE_STOCK_SINCE) return;
+      // Recien llegada: el servidor puede estar descontandola en este momento.
+      if (Date.now() - Date.parse(s.ts) < 120000) return;
+      const key = "wompi:" + s.orderRef;
+      if (ledger.has(key)) return;
+      if (!byRef.has(key)) byRef.set(key, []);
+      byRef.get(key).push(s);
+    });
+    for (const [key, lines] of byRef) {
+      showStatus([{ text: `Descontando stock de una venta online (${key.slice(6)})...`, cls: "now" }]);
+      await commitStockDelta(lines.map(s => ({ slug: s.slug, name: s.name, size: s.size || null, color: s.color || null, qty: s.qty })), `[Panel] Stock: venta online ${key}`);
+      for (let attempt = 1; attempt <= 4; attempt++) {
+        const f = await ghGetFile("data/stock-applied.json");
+        const arr = f ? JSON.parse(f.text) : [];
+        if (arr.includes(key)) break;
+        arr.push(key);
+        try { await ghPutOnce("data/stock-applied.json", b64EncodeText(JSON.stringify(arr, null, 2) + "\n"), `[Panel] Stock aplicado: ${key}`, f ? f.sha : undefined); break; }
+        catch (e) { if (e.conflict && attempt < 4) { await sleep(backoffMs(attempt)); continue; } throw e; }
+      }
+    }
+    if (byRef.size) { renderProductGrid(); showStatus([{ text: `✔ Stock actualizado con ${byRef.size} venta(s) online.`, cls: "ok" }]); }
+  } catch (e) {
+    showStatus([{ text: "No se pudo descontar el stock de ventas online: " + e.message, cls: "bad" }]);
+  } finally {
+    reconcilingOnline = false;
+  }
 }
 
 /* Entrada 1: formulario completo del panel Ventas. */
@@ -1832,6 +1940,7 @@ function notifySaleEntries(entries) {
 async function pollSalesLog() {
   if (demoMode || !session.pat) return;
   const [fresh] = await Promise.all([ghGetFile(CONFIG.paths.salesLog), fetchOnlineSales()]);
+  reconcileOnlineStock();
   const before = salesLog;
   salesLogGh = fresh ? JSON.parse(fresh.text) : [];
   rebuildSalesLog();
