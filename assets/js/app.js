@@ -508,6 +508,7 @@ function stikeRenderFooter() {
         </div>
         <div>
           <h5>Ayuda</h5>
+          <a href="preguntas-frecuentes.html">Preguntas frecuentes</a>
           <a href="envios.html">Envíos y entregas</a>
           <a href="devoluciones.html">Cambios y devoluciones</a>
           <a href="https://wa.me/${C.whatsapp}" target="_blank" rel="noopener">${C.whatsappPretty}</a>

@@ -1744,12 +1744,23 @@ window.STIKE_PRODUCTS = [
       {
         "v": "L",
         "u": 0
+      },
+      {
+        "v": "XL",
+        "u": 0
+      },
+      {
+        "v": "XXL",
+        "u": 0
       }
     ],
     "imgs": [
       "assets/img/products/ca6f3ff1-0d17-48ae-8802-88705c1fa42f.jpg",
       "assets/img/products/buzo-sm-bmx-negro-1.jpg",
-      "assets/img/products/941d3816-7480-4aae-8dcd-ceea9c8225e8.jpg"
+      "assets/img/products/941d3816-7480-4aae-8dcd-ceea9c8225e8.jpg",
+      "assets/img/products/2042ac18-0651-4d49-abe4-b91ca82ce22e.jpg",
+      "assets/img/products/aa15ee07-044a-4d9e-9f82-e44d3e5bf187.jpg",
+      "assets/img/products/fdd1760e-bec8-4259-bb34-e4959cbc2569.jpg"
     ],
     "published": true
   },
@@ -2074,48 +2085,6 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/a69bfa64-3064-4816-a066-b612dd3be8cc.jpg",
       "assets/img/products/b849ed5f-7bc3-492e-a4cf-c7a4560c28ff.jpg",
       "assets/img/products/092f85a7-0830-4166-9054-f58bfb7905cf.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "buzo-sm-negro",
-    "sku": "ROP-SYM-002",
-    "n": "Buzo S&M BMX Negro",
-    "brand": "Total BMX",
-    "cat": "ropa",
-    "sub": "Busos y Chaquetas",
-    "spec": [
-      "Color: Negro",
-      "Estampado: Escudo S&M American Bicycle Co."
-    ],
-    "price": 120000,
-    "promo": false,
-    "sizes": [
-      {
-        "v": "S",
-        "u": 0
-      },
-      {
-        "v": "M",
-        "u": 1
-      },
-      {
-        "v": "L",
-        "u": 0
-      },
-      {
-        "v": "XL",
-        "u": 0
-      },
-      {
-        "v": "XXL",
-        "u": 0
-      }
-    ],
-    "imgs": [
-      "assets/img/products/2042ac18-0651-4d49-abe4-b91ca82ce22e.jpg",
-      "assets/img/products/aa15ee07-044a-4d9e-9f82-e44d3e5bf187.jpg",
-      "assets/img/products/fdd1760e-bec8-4259-bb34-e4959cbc2569.jpg"
     ],
     "published": true
   },

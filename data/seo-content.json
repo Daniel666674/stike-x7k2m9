@@ -1,0 +1,114 @@
+{
+  "_nota": "Textos de las paginas de categoria y de marca que genera tools/build-seo.mjs. Todo lo demas (precios, conteos, listados, datos estructurados) sale solo del catalogo. Si un tipo o una marca no aparece aqui, el generador usa un texto neutro con los datos reales del catalogo.",
+  "subs": {
+    "camisetas": {
+      "h1": "Camisetas BMX",
+      "intro": "Camisetas de las marcas que montamos y de street wear BMX para el día a día. Cada producto muestra sus tallas y colores disponibles."
+    },
+    "busos-y-chaquetas": {
+      "h1": "Busos y chaquetas BMX",
+      "intro": "Busos, hoodies y chaquetas de marcas BMX y street wear para rodar en Bogotá, donde el clima cambia varias veces al día. Elige tu talla en cada producto."
+    },
+    "espigas": {
+      "h1": "Espigas BMX",
+      "intro": "Espigas (pegs) para grinds y stalls: se instalan en el eje de la rueda delantera o trasera. Revisa el diámetro de tu eje (14 mm o 3/8\") antes de comprar."
+    },
+    "espinilleras": {
+      "h1": "Espinilleras BMX",
+      "intro": "Espinilleras para proteger la tibia de los golpes de pedal. Elige tu talla en cada producto."
+    },
+    "tobilleras": {
+      "h1": "Tobilleras BMX",
+      "intro": "Tobilleras para proteger el tobillo en saltos, caídas y sesiones largas de parque. Elige tu talla en cada producto."
+    },
+    "llaveros": {
+      "h1": "Llaveros BMX",
+      "intro": "Llaveros BMX para llevar la marca contigo."
+    }
+  },
+  "brands": {},
+  "faq": [
+    {
+      "section": "Envíos y entregas",
+      "items": [
+        {
+          "q": "¿Hacen envíos a toda Colombia?",
+          "a": "Sí. Despachamos a todo el país con transportadoras aliadas. En Bogotá la entrega a domicilio tarda de 24 a 48 horas hábiles y en ciudades principales de 2 a 5 días hábiles. También puedes recoger tu pedido sin costo en nuestra tienda de Venecia. Detalles en [Envíos y entregas](envios.html)."
+        },
+        {
+          "q": "¿Cuánto cuesta el envío?",
+          "a": "En la tienda en línea el envío dentro de Colombia cuesta {{shipCost}} y es gratis en compras desde {{freeFrom}}. Recoger en la tienda de Venecia, Bogotá, no tiene costo."
+        },
+        {
+          "q": "¿Hacen envíos internacionales?",
+          "a": "Sí, bajo cotización: escríbenos por WhatsApp al {{phone}} antes de comprar. Los impuestos, aranceles y trámites de aduana del país de destino corren por cuenta del comprador."
+        },
+        {
+          "q": "¿Qué hago si mi pedido llega dañado o incompleto?",
+          "a": "Escríbenos dentro de las 48 horas siguientes a la entrega, con fotos y tu número de pedido, y lo resolvemos lo antes posible."
+        }
+      ]
+    },
+    {
+      "section": "Pagos",
+      "items": [
+        {
+          "q": "¿Qué medios de pago aceptan?",
+          "a": "{{payments}}. El pedido se confirma una vez verificado el pago. También puedes coordinar tu compra por WhatsApp al {{phone}}."
+        }
+      ]
+    },
+    {
+      "section": "Cambios, devoluciones y garantía",
+      "items": [
+        {
+          "q": "¿Puedo devolver o cambiar un producto?",
+          "a": "En compras a distancia tienes derecho de retracto dentro de los cinco (5) días hábiles siguientes a la entrega (Ley 1480 de 2011), con el producto en las mismas condiciones en que lo recibiste: sin uso, con empaque, etiquetas y accesorios originales. Consulta la política completa en [Cambios y devoluciones](devoluciones.html)."
+        },
+        {
+          "q": "¿Los productos tienen garantía?",
+          "a": "Sí. Todos los productos cuentan con garantía legal: si tienen un defecto de fábrica o no funcionan correctamente, tienes derecho a reparación, cambio o, cuando proceda, devolución del dinero sin costo para ti. Escríbenos con tu número de pedido y evidencia del defecto."
+        }
+      ]
+    },
+    {
+      "section": "Productos, tallas y disponibilidad",
+      "items": [
+        {
+          "q": "¿Cómo elijo la talla, la medida o el color?",
+          "a": "En la ficha de cada producto que viene en varias opciones aparecen los selectores de talla o medida y de color. El precio y la disponibilidad se actualizan según lo que elijas."
+        },
+        {
+          "q": "¿Cómo sé si un producto está disponible?",
+          "a": "Cada ficha muestra el inventario y se actualiza con cada venta. Si algo aparece agotado, escríbenos por WhatsApp y te avisamos cuando entre."
+        },
+        {
+          "q": "¿Qué marcas venden?",
+          "a": "Trabajamos con marcas BMX como {{topBrands}}, entre otras. Mira todas en [Marcas](marcas.html)."
+        }
+      ]
+    },
+    {
+      "section": "Armado de BMX",
+      "items": [
+        {
+          "q": "¿Arman la bicicleta?",
+          "a": "Sí. Cuando armas tu BMX con nuestras partes, la entregamos montada y ajustada por nuestros mecánicos, sin costo. Empieza en [Arma tu BMX](armar.html) o pide asesoría por WhatsApp."
+        }
+      ]
+    },
+    {
+      "section": "Tienda física y contacto",
+      "items": [
+        {
+          "q": "¿Dónde están ubicados y cuál es el horario?",
+          "a": "Estamos en {{address}}. Horario: {{hours}}."
+        },
+        {
+          "q": "¿Cómo los contacto?",
+          "a": "Por WhatsApp o llamada al {{phone}}, o por correo a {{email}}. Más datos en [Contacto](contacto.html)."
+        }
+      ]
+    }
+  ]
+}

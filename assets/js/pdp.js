@@ -171,6 +171,7 @@ function stikePdpInit(slug) {
     applyColorGallery();
   }));
 
+
   if (addBtn && !addBtn.disabled) addBtn.addEventListener("click", () => {
     if (p.sizes && !selectedSize) {
       const req = document.getElementById("size-req"); if (req) req.textContent = "(elige " + sizeWord + ")";
@@ -272,6 +273,19 @@ function stikePdpInit(slug) {
   }
 
   updateWaBuy();
+
+  // Enlace a una variante concreta (los datos estructurados y el feed de Google
+  // apuntan a ficha?color=Negro&size=M): se eligen solas esas opciones. Va al
+  // final porque al elegir un color se mueve la galeria, que se arma arriba.
+  try {
+    const q = new URLSearchParams(location.search);
+    [["color", "#color-options .color-opt", "data-color"], ["size", "#size-options .size-opt", "data-size"]].forEach(([key, sel, attr]) => {
+      const want = q.get(key);
+      if (!want) return;
+      const btn = Array.prototype.find.call(document.querySelectorAll(sel), b => b.getAttribute(attr) === want);
+      if (btn && !btn.disabled) btn.click();
+    });
+  } catch (e) { /* sin URLSearchParams: se queda sin preseleccion */ }
 
   // Relacionados
   /* stikeRelatedProducts (assets/js/data.js) hace el trabajo real: misma

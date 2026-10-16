@@ -1,8 +1,281 @@
+# Stike Bike Shop — https://stikebikeshop.com/
+# Generado por tools/build-seo.mjs: no editar a mano (ver SEO.md).
+#
+# Buscadores y asistentes de IA son bienvenidos: queremos que nos encuentren y que
+# ChatGPT, Claude, Gemini, Perplexity y Copilot puedan citar la tienda.
+# Resumen para modelos de lenguaje: https://stikebikeshop.com/llms.txt
+
 User-agent: *
 Allow: /
 Disallow: /admin.html
+Disallow: /admin.php
 Disallow: /admin.js
 Disallow: /admin-sw.js
 Disallow: /data/
+Disallow: /api/
+Disallow: /carrito.html
+Disallow: /pago-resultado.html
+Disallow: /tienda.html?q=
+Disallow: /propuesta.html
+
+User-agent: GPTBot
+Allow: /
+Disallow: /admin.html
+Disallow: /admin.php
+Disallow: /admin.js
+Disallow: /admin-sw.js
+Disallow: /data/
+Disallow: /api/
+Disallow: /carrito.html
+Disallow: /pago-resultado.html
+Disallow: /tienda.html?q=
+Disallow: /propuesta.html
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin.html
+Disallow: /admin.php
+Disallow: /admin.js
+Disallow: /admin-sw.js
+Disallow: /data/
+Disallow: /api/
+Disallow: /carrito.html
+Disallow: /pago-resultado.html
+Disallow: /tienda.html?q=
+Disallow: /propuesta.html
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /admin.html
+Disallow: /admin.php
+Disallow: /admin.js
+Disallow: /admin-sw.js
+Disallow: /data/
+Disallow: /api/
+Disallow: /carrito.html
+Disallow: /pago-resultado.html
+Disallow: /tienda.html?q=
+Disallow: /propuesta.html
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin.html
+Disallow: /admin.php
+Disallow: /admin.js
+Disallow: /admin-sw.js
+Disallow: /data/
+Disallow: /api/
+Disallow: /carrito.html
+Disallow: /pago-resultado.html
+Disallow: /tienda.html?q=
+Disallow: /propuesta.html
+
+User-agent: Claude-User
+Allow: /
+Disallow: /admin.html
+Disallow: /admin.php
+Disallow: /admin.js
+Disallow: /admin-sw.js
+Disallow: /data/
+Disallow: /api/
+Disallow: /carrito.html
+Disallow: /pago-resultado.html
+Disallow: /tienda.html?q=
+Disallow: /propuesta.html
+
+User-agent: Claude-SearchBot
+Allow: /
+Disallow: /admin.html
+Disallow: /admin.php
+Disallow: /admin.js
+Disallow: /admin-sw.js
+Disallow: /data/
+Disallow: /api/
+Disallow: /carrito.html
+Disallow: /pago-resultado.html
+Disallow: /tienda.html?q=
+Disallow: /propuesta.html
+
+User-agent: anthropic-ai
+Allow: /
+Disallow: /admin.html
+Disallow: /admin.php
+Disallow: /admin.js
+Disallow: /admin-sw.js
+Disallow: /data/
+Disallow: /api/
+Disallow: /carrito.html
+Disallow: /pago-resultado.html
+Disallow: /tienda.html?q=
+Disallow: /propuesta.html
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin.html
+Disallow: /admin.php
+Disallow: /admin.js
+Disallow: /admin-sw.js
+Disallow: /data/
+Disallow: /api/
+Disallow: /carrito.html
+Disallow: /pago-resultado.html
+Disallow: /tienda.html?q=
+Disallow: /propuesta.html
+
+User-agent: Perplexity-User
+Allow: /
+Disallow: /admin.html
+Disallow: /admin.php
+Disallow: /admin.js
+Disallow: /admin-sw.js
+Disallow: /data/
+Disallow: /api/
+Disallow: /carrito.html
+Disallow: /pago-resultado.html
+Disallow: /tienda.html?q=
+Disallow: /propuesta.html
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /admin.html
+Disallow: /admin.php
+Disallow: /admin.js
+Disallow: /admin-sw.js
+Disallow: /data/
+Disallow: /api/
+Disallow: /carrito.html
+Disallow: /pago-resultado.html
+Disallow: /tienda.html?q=
+Disallow: /propuesta.html
+
+User-agent: Applebot
+Allow: /
+Disallow: /admin.html
+Disallow: /admin.php
+Disallow: /admin.js
+Disallow: /admin-sw.js
+Disallow: /data/
+Disallow: /api/
+Disallow: /carrito.html
+Disallow: /pago-resultado.html
+Disallow: /tienda.html?q=
+Disallow: /propuesta.html
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /admin.html
+Disallow: /admin.php
+Disallow: /admin.js
+Disallow: /admin-sw.js
+Disallow: /data/
+Disallow: /api/
+Disallow: /carrito.html
+Disallow: /pago-resultado.html
+Disallow: /tienda.html?q=
+Disallow: /propuesta.html
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin.html
+Disallow: /admin.php
+Disallow: /admin.js
+Disallow: /admin-sw.js
+Disallow: /data/
+Disallow: /api/
+Disallow: /carrito.html
+Disallow: /pago-resultado.html
+Disallow: /tienda.html?q=
+Disallow: /propuesta.html
+
+User-agent: Googlebot
+Allow: /
+Disallow: /admin.html
+Disallow: /admin.php
+Disallow: /admin.js
+Disallow: /admin-sw.js
+Disallow: /data/
+Disallow: /api/
+Disallow: /carrito.html
+Disallow: /pago-resultado.html
+Disallow: /tienda.html?q=
+Disallow: /propuesta.html
+
+User-agent: Amazonbot
+Allow: /
+Disallow: /admin.html
+Disallow: /admin.php
+Disallow: /admin.js
+Disallow: /admin-sw.js
+Disallow: /data/
+Disallow: /api/
+Disallow: /carrito.html
+Disallow: /pago-resultado.html
+Disallow: /tienda.html?q=
+Disallow: /propuesta.html
+
+User-agent: DuckAssistBot
+Allow: /
+Disallow: /admin.html
+Disallow: /admin.php
+Disallow: /admin.js
+Disallow: /admin-sw.js
+Disallow: /data/
+Disallow: /api/
+Disallow: /carrito.html
+Disallow: /pago-resultado.html
+Disallow: /tienda.html?q=
+Disallow: /propuesta.html
+
+User-agent: CCBot
+Allow: /
+Disallow: /admin.html
+Disallow: /admin.php
+Disallow: /admin.js
+Disallow: /admin-sw.js
+Disallow: /data/
+Disallow: /api/
+Disallow: /carrito.html
+Disallow: /pago-resultado.html
+Disallow: /tienda.html?q=
+Disallow: /propuesta.html
+
+User-agent: meta-externalagent
+Allow: /
+Disallow: /admin.html
+Disallow: /admin.php
+Disallow: /admin.js
+Disallow: /admin-sw.js
+Disallow: /data/
+Disallow: /api/
+Disallow: /carrito.html
+Disallow: /pago-resultado.html
+Disallow: /tienda.html?q=
+Disallow: /propuesta.html
+
+User-agent: cohere-ai
+Allow: /
+Disallow: /admin.html
+Disallow: /admin.php
+Disallow: /admin.js
+Disallow: /admin-sw.js
+Disallow: /data/
+Disallow: /api/
+Disallow: /carrito.html
+Disallow: /pago-resultado.html
+Disallow: /tienda.html?q=
+Disallow: /propuesta.html
+
+User-agent: MistralAI-User
+Allow: /
+Disallow: /admin.html
+Disallow: /admin.php
+Disallow: /admin.js
+Disallow: /admin-sw.js
+Disallow: /data/
+Disallow: /api/
+Disallow: /carrito.html
+Disallow: /pago-resultado.html
+Disallow: /tienda.html?q=
+Disallow: /propuesta.html
 
 Sitemap: https://stikebikeshop.com/sitemap.xml
