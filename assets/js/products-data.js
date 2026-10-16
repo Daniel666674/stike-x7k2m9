@@ -2006,7 +2006,7 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "buzo-vanz-verde-a-cuadros",
     "sku": "ROP-VAN-002",
-    "n": "BUZO VANZ VERDE A CUADROS",
+    "n": "BUZO VANS VERDE A CUADROS",
     "brand": "Total BMX",
     "cat": "ropa",
     "sub": "Busos y Chaquetas",
@@ -2044,7 +2044,8 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/6eaaa212-2731-46fa-875b-547185c67698.jpg",
       "assets/img/products/ed9837ea-be09-462b-9c9a-acf7bbf63fab.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "buzo-fox-negro",
@@ -4179,8 +4180,8 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "camiseta-ac-negra",
     "sku": "ROP-AC-001",
-    "n": "Camiseta AC Negra",
-    "brand": "AC",
+    "n": "Camiseta Vans Blanca",
+    "brand": "Vans",
     "cat": "ropa",
     "sub": "Camisetas",
     "spec": [
@@ -4198,13 +4199,14 @@ window.STIKE_PRODUCTS = [
     "imgs": [
       "assets/img/products/camiseta-ac-negra-1.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "camiseta-we-the-people-cafe-claro",
     "sku": "ROP-WTP-001",
-    "n": "Camiseta We The People",
-    "brand": "Wethepeople",
+    "n": "Camiseta Vans Blanca",
+    "brand": "Vans",
     "cat": "ropa",
     "sub": "Camisetas",
     "spec": [
@@ -4223,7 +4225,8 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/camiseta-we-the-people-cafe-claro-1.jpg",
       "assets/img/products/camiseta-we-the-people-cafe-claro-2.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "camiseta-animal-blanca-logo",
@@ -4257,8 +4260,8 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "camiseta-circuit-bmx-crema",
     "sku": "ROP-CIR-001",
-    "n": "Camiseta Circuit BMX",
-    "brand": "Circuit BMX",
+    "n": "Camiseta Fitbikeco",
+    "brand": "Fit Bike Co.",
     "cat": "ropa",
     "sub": "Camisetas",
     "spec": [
@@ -4277,12 +4280,13 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/camiseta-circuit-bmx-crema-1.jpg",
       "assets/img/products/camiseta-circuit-bmx-crema-2.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "camiseta-primitive-verde-6-0",
     "sku": "ROP-PRM-002",
-    "n": "Camiseta Primitive 6.0 Verde",
+    "n": "Camiseta Vans Blanca",
     "brand": "Primitive",
     "cat": "ropa",
     "sub": "Camisetas",
@@ -4303,12 +4307,13 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/camiseta-primitive-verde-6-0-2.jpg",
       "assets/img/products/camiseta-primitive-verde-6-0-3.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "camiseta-fox-blanca-race-crew",
     "sku": "ROP-FOX-005",
-    "n": "Camiseta Fox Race Crew 1974",
+    "n": "Camiseta Fox Race ",
     "brand": "Fox",
     "cat": "ropa",
     "sub": "Camisetas",
@@ -4331,7 +4336,8 @@ window.STIKE_PRODUCTS = [
     "imgs": [
       "assets/img/products/camiseta-fox-blanca-race-crew-1.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "camiseta-nike-blanca-just-do-it",
@@ -4445,7 +4451,7 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "camiseta-odyssey-negra-40-anos",
     "sku": "ROP-ODY-002",
-    "n": "Camiseta Odyssey Negra 40 Años",
+    "n": "Camiseta Nike 6.0 Verde ",
     "brand": "Odyssey",
     "cat": "ropa",
     "sub": "Camisetas",
@@ -4466,13 +4472,14 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/camiseta-odyssey-negra-40-anos-2.jpg",
       "assets/img/products/camiseta-odyssey-negra-40-anos-3.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "camiseta-helio-rayas-azul",
     "sku": "ROP-HEL-001",
-    "n": "Camiseta Helio Brand Rayas",
-    "brand": "Helio Brand",
+    "n": "Camiseta Odyssey Negra 40 ",
+    "brand": "Odyssey",
     "cat": "ropa",
     "sub": "Camisetas",
     "spec": [
@@ -4493,7 +4500,8 @@ window.STIKE_PRODUCTS = [
     "imgs": [
       "assets/img/products/camiseta-helio-rayas-azul-1.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "camiseta-dcn-crw-gris",
