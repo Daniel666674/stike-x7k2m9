@@ -1,6 +1,6 @@
 # Stike Bike Shop
 
-> Tienda BMX en Bogotá: repuestos, protecciones, ropa y armado de BMX a la medida con asesoría de riders. Vendemos 198 productos de marcas como Fiend, Odyssey, Primitive, Cult, Mutanty, Shadow, con envíos a toda Colombia y tienda física en Venecia, Bogotá.
+> Tienda BMX en Bogotá: repuestos, protecciones, ropa y armado de BMX a la medida con asesoría de riders. Vendemos 198 productos de marcas como Fiend, Odyssey, Primitive, Cult, Mutanty, Vans, con envíos a toda Colombia y tienda física en Venecia, Bogotá.
 
 ## Datos del negocio
 - Nombre: Stike Bike Shop (también "Stike")
@@ -61,15 +61,16 @@
 - [Éclat](https://stikebikeshop.com/marca/eclat.html): 2 productos
 - [Federal](https://stikebikeshop.com/marca/federal.html): 4 productos
 - [Fiend](https://stikebikeshop.com/marca/fiend.html): 31 productos
+- [Fit Bike Co.](https://stikebikeshop.com/marca/fit-bike-co.html): 2 productos
 - [Fox](https://stikebikeshop.com/marca/fox.html): 4 productos
 - [GW](https://stikebikeshop.com/marca/gw.html): 4 productos
-- [Helio Brand](https://stikebikeshop.com/marca/helio-brand.html): 3 productos
+- [Helio Brand](https://stikebikeshop.com/marca/helio-brand.html): 2 productos
 - [Kink](https://stikebikeshop.com/marca/kink.html): 4 productos
 - [Merritt](https://stikebikeshop.com/marca/merritt.html): 3 productos
 - [Mutanty](https://stikebikeshop.com/marca/mutanty.html): 8 productos
 - [Nightmare](https://stikebikeshop.com/marca/nightmare.html): 3 productos
 - [Nike](https://stikebikeshop.com/marca/nike.html): 2 productos
-- [Odyssey](https://stikebikeshop.com/marca/odyssey.html): 9 productos
+- [Odyssey](https://stikebikeshop.com/marca/odyssey.html): 10 productos
 - [Optimus](https://stikebikeshop.com/marca/optimus.html): 3 productos
 - [Primitive](https://stikebikeshop.com/marca/primitive.html): 9 productos
 - [Primo](https://stikebikeshop.com/marca/primo.html): 6 productos
@@ -83,8 +84,7 @@
 - [Sunday](https://stikebikeshop.com/marca/sunday.html): 2 productos
 - [Total BMX](https://stikebikeshop.com/marca/total-bmx.html): 4 productos
 - [Trueno](https://stikebikeshop.com/marca/trueno.html): 3 productos
-- [Vans](https://stikebikeshop.com/marca/vans.html): 6 productos
-- [Wethepeople](https://stikebikeshop.com/marca/wethepeople.html): 2 productos
+- [Vans](https://stikebikeshop.com/marca/vans.html): 8 productos
 - [XOXO](https://stikebikeshop.com/marca/xoxo.html): 2 productos
 - [Fate BMX Colombia](https://stikebikeshop.com/fate/): marca aliada 100% bogotana
 
