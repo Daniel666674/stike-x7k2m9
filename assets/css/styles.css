@@ -2211,3 +2211,17 @@ body.fate-page .btn.ghost { color: #e9a58f; border-color: var(--fate-accent); }
 .faq-item[open] summary::after { content: "–"; }
 .faq-item .faq-a { padding: 0 18px 16px; color: var(--muted); line-height: 1.65; }
 .faq-item .faq-a a { color: var(--mint); text-decoration: underline; }
+
+/* Tarjetas con varios colores: las fotos de cada color se alternan solas
+   (assets/js/app.js, stikeCardSlideshow). Las fotos extra se apilan sobre la
+   de portada y se cruzan con un fundido; el circulo del color que se ve se
+   ilumina para ligar foto y color. */
+.card.sl-ready .thumb img { transition: opacity .75s var(--ease-soft), transform .85s var(--ease); }
+.card.sl-ready .thumb img:not(.cs-on) { opacity: 0; }
+.card .thumb img.cs { position: absolute; inset: 0; pointer-events: none; }
+.card .swatch-row.dots .cdot { cursor: pointer; transition: transform .25s var(--ease-soft), box-shadow .25s var(--ease-soft), opacity .25s; }
+.card .swatch-row.dots .cdot.on { transform: scale(1.22); box-shadow: inset 0 0 0 1px rgba(0,0,0,.25), 0 0 0 2px #18191a, 0 0 0 3.5px var(--mint); }
+@media (prefers-reduced-motion: reduce) {
+  .card.sl-ready .thumb img { transition: none; }
+  .card .swatch-row.dots .cdot { transition: none; }
+}

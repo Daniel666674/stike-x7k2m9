@@ -145,6 +145,24 @@ function stikeToast(msg) {
 /* ------------------------- TARJETA DE PRODUCTO ------------------------- */
 const STIKE_LOW_STOCK = 5;
 function stikeProductUrl(p) { return `producto/${p.slug}.html`; }
+/* Fotos que rotan en la tarjeta: si el producto tiene varios colores y una foto
+   por color (imgColorMap), la tarjeta pasa sola de un color al otro para que se
+   note que hay mas opciones. Arranca en la foto de portada, sigue con la foto de
+   cada color que tenga stock y no repite fotos. Sin fotos por color, o agotado,
+   no hay rotacion (devuelve null). */
+function stikeCardSlides(p) {
+  if (!p.colors || p.colors.length < 2 || !p.imgColorMap || !p.imgs || !p.imgs.length) return null;
+  if (stikeIsOutOfStock(p)) return null;
+  const list = [], seen = new Set();
+  const add = (src, color) => { if (src && !seen.has(src)) { seen.add(src); list.push({ s: src, c: color || "" }); } };
+  add(p.imgs[0], p.imgColorMap[p.imgs[0]]);
+  p.colors.forEach(c => {
+    if (c.u != null && c.u <= 0) return;                     // un color agotado no se anuncia
+    add(p.imgs.find(u => p.imgColorMap[u] === c.v), c.v);
+  });
+  return list.length > 1 ? list : null;
+}
+
 function stikeProductCard(p) {
   const out = stikeIsOutOfStock(p);
   const badge = out ? `<span class="badge sold">Agotado</span>`
@@ -167,8 +185,10 @@ function stikeProductCard(p) {
   const brandLine = (p.brand || p.sub || p.cat)
     ? `<div class="brand-line"><span class="bl-brand">${p.brand || ""}</span><span class="bl-sub">${p.sub || p.cat || ""}</span></div>`
     : "";
+  const slides = stikeCardSlides(p);
+  const slidesAttr = slides ? ` data-slides="${JSON.stringify(slides).replace(/&/g, "&amp;").replace(/"/g, "&quot;")}"` : "";
   return `
-  <article class="card">
+  <article class="card"${slidesAttr}>
     <div class="thumb">
       ${badge}
       <button class="fav" title="Guardar" aria-label="Guardar"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
@@ -185,6 +205,109 @@ function stikeProductCard(p) {
     </div>
   </article>`;
 }
+
+/* ---- Rotacion de fotos de color en las tarjetas ------------------------------
+   Se engancha sola a cualquier tarjeta con data-slides (la grilla de la tienda,
+   categorias, marcas, relacionados), incluidas las que se dibujan despues.
+   · Las fotos extra no se descargan hasta que la tarjeta entra en pantalla.
+   · Cada tarjeta arranca en un momento distinto para que la grilla no cambie
+     toda de golpe.
+   · Se pausa con el mouse encima, con la pestana oculta y fuera de pantalla.
+   · Con "reducir movimiento" activado en el dispositivo no rota sola.
+   · Pasar el mouse por un circulo de color muestra esa foto; tocarlo abre el
+     producto con ese color ya elegido. */
+(function stikeCardSlideshow() {
+  if (typeof document === "undefined" || window.__stikeCardSlides) return;
+  window.__stikeCardSlides = true;
+  const reduce = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  const EVERY = 2800;
+
+  function prep(st) {
+    if (st.imgs) return;
+    const link = st.card.querySelector(".thumb-link");
+    const first = link && link.querySelector("img");
+    if (!first) return;
+    st.imgs = [first];
+    st.slides.slice(1).forEach(sl => {
+      const im = new Image();
+      im.className = "cs"; im.alt = ""; im.decoding = "async";
+      im.setAttribute("aria-hidden", "true");
+      im.src = sl.s;
+      link.appendChild(im);
+      st.imgs.push(im);
+    });
+    st.card.classList.add("sl-ready");
+    first.classList.add("cs-on");
+    mark(st, 0);
+  }
+  function mark(st, i) {
+    const color = st.slides[i].c;
+    st.card.querySelectorAll(".swatch-row.dots .cdot").forEach(d => d.classList.toggle("on", !!color && d.getAttribute("aria-label") === color));
+  }
+  function show(st, i) {
+    if (!st.imgs || i === st.i) return;
+    st.imgs[st.i].classList.remove("cs-on");
+    st.i = i;
+    st.imgs[i].classList.add("cs-on");
+    mark(st, i);
+  }
+  function stop(st) { clearTimeout(st.t); st.t = 0; }
+  function tick(st) {
+    stop(st);
+    if (reduce || st.paused || !st.visible) return;
+    const wait = st.started ? EVERY : 900 + Math.random() * 2400;
+    st.started = true;
+    st.t = setTimeout(() => {
+      if (!st.card.isConnected) { if (io) io.unobserve(st.card); return; }
+      const n = (st.i + 1) % st.imgs.length;
+      if (!document.hidden && st.imgs[n].complete) show(st, n);   // si la foto aun no llego, espera al siguiente turno
+      tick(st);
+    }, wait);
+  }
+  const io = "IntersectionObserver" in window
+    ? new IntersectionObserver(entries => entries.forEach(e => {
+        const st = e.target._sl; if (!st) return;
+        st.visible = e.isIntersecting;
+        if (st.visible) { prep(st); tick(st); } else stop(st);
+      }), { rootMargin: "160px" })
+    : null;
+
+  function bind(card) {
+    if (card._sl) return;
+    let slides;
+    try { slides = JSON.parse(card.getAttribute("data-slides")); } catch (e) { return; }
+    if (!Array.isArray(slides) || slides.length < 2) return;
+    const st = card._sl = { card, slides, i: 0, imgs: null, t: 0, paused: false, visible: false, started: false };
+    card.addEventListener("mouseenter", () => { st.paused = true; stop(st); });
+    card.addEventListener("mouseleave", () => { st.paused = false; tick(st); });
+    card.addEventListener("mouseover", e => {                       // circulo de color -> esa foto
+      const d = e.target.closest && e.target.closest(".cdot");
+      if (!d || !st.imgs) return;
+      const i = st.slides.findIndex(sl => sl.c && sl.c === d.getAttribute("aria-label"));
+      if (i !== -1) show(st, i);
+    });
+    if (io) io.observe(card); else { st.visible = true; prep(st); tick(st); }
+  }
+  function scan(root) {
+    if (root.matches && root.matches(".card[data-slides]")) bind(root);
+    if (root.querySelectorAll) root.querySelectorAll(".card[data-slides]").forEach(bind);
+  }
+  scan(document);
+  if ("MutationObserver" in window) {
+    new MutationObserver(ms => ms.forEach(m => m.addedNodes.forEach(n => { if (n.nodeType === 1) scan(n); })))
+      .observe(document.documentElement, { childList: true, subtree: true });
+  }
+  /* Tocar un circulo de color en cualquier tarjeta abre el producto con ese color. */
+  document.addEventListener("click", e => {
+    const d = e.target.closest && e.target.closest(".card .swatch-row.dots .cdot");
+    if (!d) return;
+    const a = d.closest(".card").querySelector(".title a");
+    const color = d.getAttribute("aria-label");
+    if (!a || !color) return;
+    e.preventDefault();
+    window.location.href = a.getAttribute("href") + (a.getAttribute("href").indexOf("?") === -1 ? "?" : "&") + "color=" + encodeURIComponent(color);
+  });
+})();
 
 /* ----------------------- NAV: dropdown de categoría -------------------- */
 /* Each part type has its own page (categoria/<slug>.html) rather than only a
