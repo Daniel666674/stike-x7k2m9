@@ -17,6 +17,11 @@
 
 Options -Indexes
 
+# Pagina de error propia (404.html): con menu y enlaces, no un 404 mudo. Es
+# noindex, asi que no se indexa; solo evita perder al visitante y a los
+# rastreadores que llegan a un enlace viejo.
+ErrorDocument 404 /404.html
+
 # La pagina de inicio es siempre index.html (si Hostinger dejo un default.php o
 # index.php de relleno, no tapa el sitio).
 DirectoryIndex index.html
@@ -32,6 +37,100 @@ DirectoryIndex index.html
   RewriteCond %{HTTP_HOST} ^www\. [NC]
   RewriteCond %{HTTP_HOST} ^(?:www\.)?(.+)$ [NC]
   RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+
+  # Fichas que se fusionaron en otra: 301 real (Google transfiere la autoridad).
+  # >>> seo-redirects (generado por tools/build-seo.mjs; no editar)
+  RewriteRule ^producto/bielas-federal-vice-160mm-negras\.html$ /producto/bielas-federal-vice.html [R=301,L]
+  RewriteRule ^producto/bielas-federal-vice-2-cromadas-175mm\.html$ /producto/bielas-federal-vice.html [R=301,L]
+  RewriteRule ^producto/bielas-fiend-segment-22mm-cromadas\.html$ /producto/bielas-fiend-segment-22mm.html [R=301,L]
+  RewriteRule ^producto/bielas-fiend-segment-22mm-negras-170mm\.html$ /producto/bielas-fiend-segment-22mm.html [R=301,L]
+  RewriteRule ^producto/brazos-salt-de-seguridad-175-negro\.html$ /producto/bielas-salt-de-seguridad-negras.html [R=301,L]
+  RewriteRule ^producto/buzo-sm-negro\.html$ /producto/buzo-sm-bmx-negro.html [R=301,L]
+  RewriteRule ^producto/caja-de-centro-fate-1019mm-negra\.html$ /producto/caja-de-centro-fate-negra.html [R=301,L]
+  RewriteRule ^producto/caja-de-centro-fate-1022mm-negra\.html$ /producto/caja-de-centro-fate-negra.html [R=301,L]
+  RewriteRule ^producto/caja-de-centro-odyssey-1019mm-negra\.html$ /producto/caja-de-centro-odyssey-negra.html [R=301,L]
+  RewriteRule ^producto/caja-de-centro-odyssey-1022mm-negra\.html$ /producto/caja-de-centro-odyssey-negra.html [R=301,L]
+  RewriteRule ^producto/caja-fiend-centro-mid-22mm-ransom-cromada\.html$ /producto/caja-de-centro-fiend-mid-22mm-ransom.html [R=301,L]
+  RewriteRule ^producto/caja-fiend-centro-mid-22mm-ransom-negra\.html$ /producto/caja-de-centro-fiend-mid-22mm-ransom.html [R=301,L]
+  RewriteRule ^producto/caja-fiend-frente-integrado-ransom-cromada\.html$ /producto/caja-de-frente-fiend-frente-integrado-ransom.html [R=301,L]
+  RewriteRule ^producto/caja-fiend-frente-integrado-ransom-negra\.html$ /producto/caja-de-frente-fiend-frente-integrado-ransom.html [R=301,L]
+  RewriteRule ^producto/camiseta-fate-blanca\.html$ /producto/camiseta-fate-bmx.html [R=301,L]
+  RewriteRule ^producto/camiseta-fate-negra\.html$ /producto/camiseta-fate-bmx.html [R=301,L]
+  RewriteRule ^producto/camiseta-vans-blanca-since-1966-l\.html$ /producto/camiseta-vans-blanca-since-1966.html [R=301,L]
+  RewriteRule ^producto/camiseta-vans-blanca-since-1966-m\.html$ /producto/camiseta-vans-blanca-since-1966.html [R=301,L]
+  RewriteRule ^producto/cana-fiend-mills-fl-cromada\.html$ /producto/cana-fiend-mills-fl.html [R=301,L]
+  RewriteRule ^producto/cana-fiend-mills-fl-gold\.html$ /producto/cana-fiend-mills-fl.html [R=301,L]
+  RewriteRule ^producto/cana-fiend-mills-fl-negra\.html$ /producto/cana-fiend-mills-fl.html [R=301,L]
+  RewriteRule ^producto/cana-fiend-ransom-cromada\.html$ /producto/cana-fiend-ransom.html [R=301,L]
+  RewriteRule ^producto/cana-fiend-ransom-gold\.html$ /producto/cana-fiend-ransom.html [R=301,L]
+  RewriteRule ^producto/cana-fiend-reynolds-v4-cromada\.html$ /producto/cana-fiend-reynolds-v4.html [R=301,L]
+  RewriteRule ^producto/cana-fiend-reynolds-v4-gold\.html$ /producto/cana-fiend-reynolds-v4.html [R=301,L]
+  RewriteRule ^producto/cana-fiend-reynolds-v4-negra\.html$ /producto/cana-fiend-reynolds-v4.html [R=301,L]
+  RewriteRule ^producto/cassette-trueno-v2-negro-derecha\.html$ /producto/cassette-trueno-v2-negro.html [R=301,L]
+  RewriteRule ^producto/cassette-trueno-v2-negro-izquierda\.html$ /producto/cassette-trueno-v2-negro.html [R=301,L]
+  RewriteRule ^producto/chaqueta-nightmare-aguamarina\.html$ /producto/chaqueta-nightmare.html [R=301,L]
+  RewriteRule ^producto/chaqueta-nightmare-negro\.html$ /producto/chaqueta-nightmare.html [R=301,L]
+  RewriteRule ^producto/funda-peg-fate-43\.html$ /producto/cubierta-peg-fate.html [R=301,L]
+  RewriteRule ^producto/funda-peg-fate-45\.html$ /producto/cubierta-peg-fate.html [R=301,L]
+  RewriteRule ^producto/llavero-pedal-kboom-v2-amarillo\.html$ /producto/llavero-pedal-kboom-v2.html [R=301,L]
+  RewriteRule ^producto/llavero-pedal-kboom-v2-azul-aguamarina\.html$ /producto/llavero-pedal-kboom-v2.html [R=301,L]
+  RewriteRule ^producto/manzana-delantera-optimus-azul\.html$ /producto/manzana-delantera-optimus.html [R=301,L]
+  RewriteRule ^producto/manzana-delantera-optimus-cromada\.html$ /producto/manzana-delantera-optimus.html [R=301,L]
+  RewriteRule ^producto/manzana-optimus-gold\.html$ /producto/manzana-delantera-optimus.html [R=301,L]
+  RewriteRule ^producto/marco-fiend-mills-azul\.html$ /producto/marco-fiend-mills.html [R=301,L]
+  RewriteRule ^producto/marco-fiend-mills-negro\.html$ /producto/marco-fiend-mills.html [R=301,L]
+  RewriteRule ^producto/marco-fiend-mills-rojo\.html$ /producto/marco-fiend-mills.html [R=301,L]
+  RewriteRule ^producto/marco-fiend-reynolds-dorado\.html$ /producto/marco-fiend-reynolds.html [R=301,L]
+  RewriteRule ^producto/marco-fiend-reynolds-negro\.html$ /producto/marco-fiend-reynolds.html [R=301,L]
+  RewriteRule ^producto/marco-fiend-reynolds-purpura\.html$ /producto/marco-fiend-reynolds.html [R=301,L]
+  RewriteRule ^producto/marco-fiend-shapershifter-320-blanco\.html$ /producto/marco-fiend-shapershifter-320.html [R=301,L]
+  RewriteRule ^producto/marco-fiend-shapershifter-320-gris-mate\.html$ /producto/marco-fiend-shapershifter-320.html [R=301,L]
+  RewriteRule ^producto/marco-fiend-shapershifter-320-negro\.html$ /producto/marco-fiend-shapershifter-320.html [R=301,L]
+  RewriteRule ^producto/marco-fiend-shapershifter-320-rojo-corsa\.html$ /producto/marco-fiend-shapershifter-320.html [R=301,L]
+  RewriteRule ^producto/pedales-demolition-trooper-azul-blanco\.html$ /producto/pedales-demolition-trooper.html [R=301,L]
+  RewriteRule ^producto/pedales-demolition-trooper-azul-rojo\.html$ /producto/pedales-demolition-trooper.html [R=301,L]
+  RewriteRule ^producto/pedales-demolition-trooper-blanco-negro\.html$ /producto/pedales-demolition-trooper.html [R=301,L]
+  RewriteRule ^producto/pedales-demolition-trooper-morado-amarillo\.html$ /producto/pedales-demolition-trooper.html [R=301,L]
+  RewriteRule ^producto/pedales-demolition-trooper-rojo-blanco\.html$ /producto/pedales-demolition-trooper.html [R=301,L]
+  RewriteRule ^producto/pedales-rant-trill-azul\.html$ /producto/pedales-rant-trill.html [R=301,L]
+  RewriteRule ^producto/pedales-rant-trill-morado\.html$ /producto/pedales-rant-trill.html [R=301,L]
+  RewriteRule ^producto/pedales-rant-trill-negro\.html$ /producto/pedales-rant-trill.html [R=301,L]
+  RewriteRule ^producto/pedales-rant-trill-rojo\.html$ /producto/pedales-rant-trill.html [R=301,L]
+  RewriteRule ^producto/pedales-shadow-surface-morado\.html$ /producto/pedales-shadow-surface.html [R=301,L]
+  RewriteRule ^producto/pedales-shadow-surface-negro\.html$ /producto/pedales-shadow-surface.html [R=301,L]
+  RewriteRule ^producto/pedales-shadow-surface-rojo\.html$ /producto/pedales-shadow-surface.html [R=301,L]
+  RewriteRule ^producto/plato-fiend-omicron-25t\.html$ /producto/plato-fiend-omicron.html [R=301,L]
+  RewriteRule ^producto/plato-fiend-omicron-28t\.html$ /producto/plato-fiend-omicron.html [R=301,L]
+  RewriteRule ^producto/plato-fiend-omicron-cromado-25t\.html$ /producto/plato-fiend-omicron.html [R=301,L]
+  RewriteRule ^producto/plato-fiend-omicron-cromado-28t\.html$ /producto/plato-fiend-omicron.html [R=301,L]
+  RewriteRule ^producto/plato-fiend-omicron-guard-cromado-26t\.html$ /producto/plato-fiend-omicron-guard.html [R=301,L]
+  RewriteRule ^producto/plato-fiend-omicron-guard-negro-28t\.html$ /producto/plato-fiend-omicron-guard.html [R=301,L]
+  RewriteRule ^producto/plato-fiend-omicron-negro-25t\.html$ /producto/plato-fiend-omicron.html [R=301,L]
+  RewriteRule ^producto/plato-fiend-omicron-negro-28t\.html$ /producto/plato-fiend-omicron.html [R=301,L]
+  RewriteRule ^producto/plato-fiend-reynolds-cromado-25t\.html$ /producto/plato-fiend-reynolds-25t.html [R=301,L]
+  RewriteRule ^producto/plato-fiend-reynolds-negro-25t-sin-guardia\.html$ /producto/plato-fiend-reynolds-25t.html [R=301,L]
+  RewriteRule ^producto/plato-gw-corona-negro-25t\.html$ /producto/plato-gw-corona.html [R=301,L]
+  RewriteRule ^producto/plato-gw-corona-negro-28t\.html$ /producto/plato-gw-corona.html [R=301,L]
+  RewriteRule ^producto/plato-mutanty-diamond-cromado\.html$ /producto/plato-mutanty-diamond-con-guardia.html [R=301,L]
+  RewriteRule ^producto/plato-mutanty-diamond-negro\.html$ /producto/plato-mutanty-diamond-con-guardia.html [R=301,L]
+  RewriteRule ^producto/plato-odyssey-utility-pro-negro-25t\.html$ /producto/plato-odyssey-utility-pro-negro.html [R=301,L]
+  RewriteRule ^producto/plato-odyssey-utility-pro-negro-28t\.html$ /producto/plato-odyssey-utility-pro-negro.html [R=301,L]
+  RewriteRule ^producto/poste-pivotal-fiend-185mm-cromado\.html$ /producto/poste-pivotal-fiend-185mm.html [R=301,L]
+  RewriteRule ^producto/poste-pivotal-fiend-185mm-negro\.html$ /producto/poste-pivotal-fiend-185mm.html [R=301,L]
+  RewriteRule ^producto/poste-pivotal-optimus-corto-negro\.html$ /producto/poste-pivotal-optimus.html [R=301,L]
+  RewriteRule ^producto/poste-pivotal-optimus-largo-negro\.html$ /producto/poste-pivotal-optimus.html [R=301,L]
+  RewriteRule ^producto/silla-mutanty-camuflada\.html$ /producto/silla-mutanty.html [R=301,L]
+  RewriteRule ^producto/silla-mutanty-negra\.html$ /producto/silla-mutanty.html [R=301,L]
+  RewriteRule ^producto/tenedor-fiend-invest-v2-26mm-cromado\.html$ /producto/tenedor-fiend-invest-v2-26mm.html [R=301,L]
+  RewriteRule ^producto/tenedor-fiend-invest-v2-26mm-negro\.html$ /producto/tenedor-fiend-invest-v2-26mm.html [R=301,L]
+  RewriteRule ^producto/tenedor-fiend-process-ic-v2-20mm-cromado\.html$ /producto/tenedor-fiend-process-ic-v2-20mm.html [R=301,L]
+  RewriteRule ^producto/tenedor-fiend-process-ic-v2-20mm-negro\.html$ /producto/tenedor-fiend-process-ic-v2-20mm.html [R=301,L]
+  RewriteRule ^producto/timon-fiend-reynolds-cromado\.html$ /producto/timon-fiend-reynolds.html [R=301,L]
+  RewriteRule ^producto/timon-fiend-reynolds-negro\.html$ /producto/timon-fiend-reynolds.html [R=301,L]
+  RewriteRule ^producto/timon-fiend-team-cromado\.html$ /producto/timon-fiend-team.html [R=301,L]
+  RewriteRule ^producto/timon-fiend-team-negro\.html$ /producto/timon-fiend-team.html [R=301,L]
+  RewriteRule ^producto/vielas-de-seguridad-salt-165-negra\.html$ /producto/bielas-salt-de-seguridad-negras.html [R=301,L]
+  # <<< seo-redirects
 
   # Algunos hostings PHP descartan el header Authorization antes de llegar a
   # PHP; api/sales.php lo necesita para validar la clave del panel.
@@ -52,7 +151,7 @@ DirectoryIndex index.html
   # hosting por error. (El deploy ya lo deja fuera: tools/stage-hostinger.sh.)
   RewriteRule ^(tools|vercel-wompi-api|bmx-builder|\.github|node_modules)(/|$) - [F,L]
   RewriteRule ^data/(costs|sales-log|audit-log)\.json$ - [F,L]
-  RewriteRule ^(PROPOSAL|MOTOR|README)\.md$ - [F,L]
+  RewriteRule ^(PROPOSAL|MOTOR|README|SEO)\.md$ - [F,L]
   RewriteRule ^propuesta\.html$ - [F,L]
   RewriteRule ^\.git(/|$) - [F,L]
   RewriteRule ^api/(_lib|_admin|config\.local)\.php$ - [F,L]
@@ -93,6 +192,12 @@ DirectoryIndex index.html
   # cachean, para que un publish se refleje de inmediato.
   <FilesMatch "\.json$">
     Header set Cache-Control "no-cache, max-age=0, must-revalidate"
+  </FilesMatch>
+
+  # Lo que NO es una pagina (la API, el panel, los JSON de datos) nunca se
+  # indexa, aunque alguien lo enlace desde fuera.
+  <FilesMatch "\.(php|json)$">
+    Header set X-Robots-Tag "noindex, nofollow"
   </FilesMatch>
 
   # El service worker del admin (admin-sw.js) no lleva cache HTTP largo:

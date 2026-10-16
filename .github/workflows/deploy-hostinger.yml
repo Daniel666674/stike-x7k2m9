@@ -46,6 +46,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0     # el aviso a IndexNow compara contra el commit anterior
 
       - name: Publish clean copy to hostinger-deploy
         env:
@@ -82,3 +84,11 @@ jobs:
             -H "Authorization: Bearer ${SYNC_TOKEN}" -H "Content-Type: application/json" \
             -d "{\"sha\":\"${SHA}\"}" https://stikebikeshop.com/api/sync
           echo
+
+      # Avisa a Bing (y con eso a Copilot y la busqueda de ChatGPT) de las
+      # paginas que cambiaron. Nunca falla el deploy. Ver tools/indexnow.mjs.
+      - name: Ping IndexNow
+        continue-on-error: true
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: node tools/indexnow.mjs --since "$BEFORE"

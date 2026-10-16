@@ -7,7 +7,7 @@
 
    Que reescribe:
      · producto/<slug>.html   una ficha por producto publicado
-     · sitemap.xml            reconciliado contra el catalogo completo
+     · sitemap.xml            reconciliado contra el catalogo completo (con fotos)
      · robots.txt             la linea del Sitemap
      · <base href> + canonical/og:url/og:image de TODAS las paginas
 
@@ -22,65 +22,9 @@
 import fs from "node:fs";
 import crypto from "node:crypto";
 import path from "node:path";
-import vm from "node:vm";
-import { createRequire } from "node:module";
-import { fileURLToPath } from "node:url";
+import { ROOT, read, rel, SITE, PdpRender, browser, PRODUCTS, VISIBLE, CATEGORIES, navNoscript, sitemapXml, listingPages } from "./lib-catalog.mjs";
 
-const require = createRequire(import.meta.url);
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CHECK_ONLY = process.argv.includes("--check");
-
-const read = (p) => fs.readFileSync(path.join(ROOT, p), "utf8");
-const rel = (p) => path.relative(ROOT, p) || p;
-
-/* --------------------------------------------------------------------------
-   Cargar los archivos del navegador en Node.
-   products-data.js y data.js son scripts de navegador (declaran globals y
-   cuelgan cosas de window), no modulos. Se corren en un sandbox con un
-   window falso en vez de mantener una segunda copia del catalogo para el
-   build, que es justo como los dos se desincronizan.
-   -------------------------------------------------------------------------- */
-function loadBrowserScripts(files, exportNames) {
-  const sandbox = { console };
-  sandbox.window = sandbox;
-  sandbox.globalThis = sandbox;
-  const ctx = vm.createContext(sandbox);
-  for (const f of files) {
-    try {
-      new vm.Script(read(f), { filename: f }).runInContext(ctx);
-    } catch (e) {
-      throw new Error(`No se pudo cargar ${f}: ${e.message}`);
-    }
-  }
-  /* Ojo: data.js declara sus tablas con `const` a nivel de script, y un
-     `const` NO queda colgado del objeto sandbox como lo haria un `var` ni
-     como lo que se asigna a window. Hay que pedirlo por nombre, evaluando
-     en el MISMO contexto. Sin esto, STIKE_CATEGORIES llega undefined y las
-     fichas salen con la categoria en minuscula ("repuestos" en vez de
-     "Repuestos") sin que nada falle: el peor tipo de error. */
-  const out = Object.create(null);
-  for (const name of exportNames) {
-    try { out[name] = vm.runInContext(`typeof ${name} !== "undefined" ? ${name} : undefined`, ctx); }
-    catch { out[name] = undefined; }
-  }
-  return out;
-}
-
-const SITE = require(path.join(ROOT, "assets/js/site.js"));
-const PdpRender = require(path.join(ROOT, "assets/js/pdp-render.js"));
-const browser = loadBrowserScripts(
-  ["assets/js/products-data.js", "assets/js/data.js"],
-  ["STIKE_ALL_PRODUCTS", "STIKE_PRODUCTS", "STIKE_CATEGORIES", "STIKE_PART_PAGES",
-   "stikeIsVisible", "stikeIsOut", "stikeTotalStock", "stikeSellable", "stikeWaText", "stikeWaLabel", "stikePrice",
-   "stikeColorStyle", "stikeHasCombos", "stikeComboUnits", "stikePriceFor", "stikePriceRange", "stikePriceLabel"]
-);
-
-/* El catalogo COMPLETO, borradores incluidos: hay que saber que un borrador
-   existe para no dejar su ficha vieja publicada. data.js ya filtro
-   STIKE_PRODUCTS para el sitio. */
-const PRODUCTS = browser.STIKE_ALL_PRODUCTS || [];
-const VISIBLE = PRODUCTS.filter((p) => p.published !== false);
-const CATEGORIES = browser.STIKE_CATEGORIES || [];
 
 /* --------------------------------------------------------------------------
    Guardas antes de escribir nada
@@ -167,6 +111,10 @@ function write(relPath, content) {
    1. Fichas de producto
    -------------------------------------------------------------------------- */
 const template = read("_template.html");
+const NAV_HTML = navNoscript();
+const LISTINGS = listingPages();
+const SUB_PAGES = LISTINGS.subs.map((s) => s.slug);
+const BRAND_PAGES = Object.fromEntries(LISTINGS.brands.map((b) => [b.brand, b.path]));
 const catName = (slug) => (CATEGORIES.find((c) => c.slug === slug) || {}).name || slug;
 
 for (const p of VISIBLE) {
@@ -176,6 +124,10 @@ for (const p of VISIBLE) {
     categoryName: catName(p.cat),
     whatsapp: SITE.whatsapp,
     placeholderImg: SITE.ogFallback,
+    catalog: VISIBLE,        // para los enlaces de "relacionados" en HTML plano
+    subPages: SUB_PAGES.filter((s) => fs.existsSync(path.join(ROOT, `categoria/${s}.html`))),
+    brandPages: Object.fromEntries(Object.entries(BRAND_PAGES).filter(([, f]) => fs.existsSync(path.join(ROOT, f)))),
+    navHtml: NAV_HTML,       // menu en HTML plano para quien no ejecuta JavaScript
   });
   write(`producto/${p.slug}.html`, withBaseHref(html));
 }
@@ -284,19 +236,7 @@ if (problems.length) {
   process.exit(1);
 }
 
-const partPages = (browser.STIKE_PART_PAGES || []).map((s) => [`categoria/${s}.html`, "0.7", "weekly"]);
-
-let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
-for (const [p, pr, cf] of [...STATIC_PAGES, ...partPages]) {
-  xml += `  <url><loc>${SITE.url(p)}</loc><changefreq>${cf}</changefreq><priority>${pr}</priority></url>\n`;
-}
-/* Un borrador no va al sitemap: pedirle a Google que indexe una pagina que
-   el sitio no enlaza es pedir un error de cobertura en Search Console. */
-for (const p of PRODUCTS.filter((p) => p.published !== false)) {
-  xml += `  <url><loc>${SITE.url(`producto/${p.slug}.html`)}</loc><changefreq>weekly</changefreq><priority>0.5</priority></url>\n`;
-}
-xml += `</urlset>\n`;
-write("sitemap.xml", xml);
+write("sitemap.xml", sitemapXml());
 
 /* --------------------------------------------------------------------------
    4. robots.txt — solo la linea del Sitemap

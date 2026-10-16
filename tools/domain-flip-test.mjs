@@ -39,7 +39,10 @@ const setSite = (domain, basePath) => {
     .replace(/(var DOMAIN\s*=\s*)"[^"]*"/, `$1"${domain}"`)
     .replace(/(var BASE_PATH\s*=\s*)"[^"]*"/, `$1"${basePath}"`));
 };
-const build = (...args) => execFileSync('node', [join(work, 'tools/build-pages.mjs'), ...args], { cwd: work, encoding: 'utf8' });
+const run = (script, ...args) => execFileSync('node', [join(work, 'tools', script), ...args], { cwd: work, encoding: 'utf8' });
+/* Los dos generadores, en el orden del deploy: primero el SEO (paginas de tipo y
+   marca, robots, llms.txt, feed), despues las fichas y el sitemap. */
+const build = (...args) => { run('build-seo.mjs', ...args); return run('build-pages.mjs', ...args); };
 
 /* Todos los .html/.xml/.txt que se publican (sin herramientas ni backends). */
 const files = [];
