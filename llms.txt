@@ -1,6 +1,6 @@
 # Stike Bike Shop
 
-> Tienda BMX en Bogotá: repuestos, protecciones, ropa y armado de BMX a la medida con asesoría de riders. Vendemos 220 productos de marcas como Fiend, Mutanty, Odyssey, Cult, Primitive, Shadow, con envíos a toda Colombia y tienda física en Venecia, Bogotá.
+> Tienda BMX en Bogotá: repuestos, protecciones, ropa y armado de BMX a la medida con asesoría de riders. Vendemos 230 productos de marcas como Fiend, Mutanty, Odyssey, Cult, Primitive, Shadow, con envíos a toda Colombia y tienda física en Venecia, Bogotá.
 
 ## Datos del negocio
 - Nombre: Stike Bike Shop (también "Stike")
@@ -47,6 +47,7 @@
 ### Ropa
 - [Camisetas](https://stikebikeshop.com/categoria/camisetas.html): 34 productos desde $50.000
 - [Busos y Chaquetas](https://stikebikeshop.com/categoria/busos-y-chaquetas.html): 22 productos desde $120.000
+- [Tenis](https://stikebikeshop.com/categoria/tenis.html): 10 productos desde $160.000
 ### Accesorios
 - [Grips](https://stikebikeshop.com/categoria/grips.html): 8 productos desde $20.000
 - [Llaveros](https://stikebikeshop.com/categoria/llaveros.html): 1 producto desde $40.000
@@ -59,6 +60,7 @@
 - [Cult](https://stikebikeshop.com/marca/cult.html): 9 productos
 - [Demolition](https://stikebikeshop.com/marca/demolition.html): 8 productos
 - [Éclat](https://stikebikeshop.com/marca/eclat.html): 2 productos
+- [Fade](https://stikebikeshop.com/marca/fade.html): 2 productos
 - [Federal](https://stikebikeshop.com/marca/federal.html): 4 productos
 - [Fiend](https://stikebikeshop.com/marca/fiend.html): 32 productos
 - [Fit Bike Co.](https://stikebikeshop.com/marca/fit-bike-co.html): 2 productos
@@ -79,6 +81,7 @@
 - [Profile](https://stikebikeshop.com/marca/profile.html): 2 productos
 - [R2 Protect](https://stikebikeshop.com/marca/r2-protect.html): 3 productos
 - [Rant](https://stikebikeshop.com/marca/rant.html): 4 productos
+- [Reding Shoes](https://stikebikeshop.com/marca/reding-shoes.html): 8 productos
 - [S&M Bikes](https://stikebikeshop.com/marca/s-m-bikes.html): 2 productos
 - [Shadow](https://stikebikeshop.com/marca/shadow.html): 9 productos
 - [Stranger](https://stikebikeshop.com/marca/stranger.html): 4 productos
