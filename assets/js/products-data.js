@@ -6764,7 +6764,8 @@ window.STIKE_PRODUCTS = [
       "Talón y puntera termoendurecidos",
       "Cuero reforzado de alto calibre",
       "Suela cosida en caucho de 10 mm",
-      "Corte: bota alta"
+      "Corte: bota alta",
+      "Color: Negro-Negro"
     ],
     "price": 180000,
     "promo": false,
@@ -6780,7 +6781,7 @@ window.STIKE_PRODUCTS = [
     ],
     "sizeLabel": "Talla",
     "imgs": [
-      "assets/img/products/d29634db-c587-4896-bea8-c6b198b24937.jpg",
+      "assets/img/products/332e6c78-f82b-4da7-9276-8089402d0c4b.jpg",
       "assets/img/products/3bfd97f2-b69e-49d2-a219-062687d9d1cd.jpg"
     ],
     "published": true
