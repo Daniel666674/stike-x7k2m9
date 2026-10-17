@@ -7587,5 +7587,300 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/fd3ec827-c40f-4865-b9fa-c2eea97750c6.jpg": "Verde Goma"
     },
     "published": true
+  },
+  {
+    "slug": "camiseta-decaye-franjas-azul-beige",
+    "sku": "ROP-DEC-001",
+    "n": "Camiseta Decaye Franjas Azul y Beige",
+    "brand": "Decaye",
+    "cat": "ropa",
+    "sub": "Camisetas",
+    "spec": [
+      "Marca: Decaye",
+      "Estampado: franjas azul y beige",
+      "Color: Azul y Beige"
+    ],
+    "price": 60000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "L",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "imgs": [
+      "assets/img/products/b1898e1a-c00d-4687-843e-b6d02bf295ed.jpg",
+      "assets/img/products/94fa724a-4faf-48c4-b89c-8f6e1c71801f.jpg",
+      "assets/img/products/09d91c06-24ae-4f03-9fa2-057f2ae3acdb.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "camiseta-decaye-franjas-naranja-beige",
+    "sku": "ROP-DEC-002",
+    "n": "Camiseta Decaye Franjas Naranjas con Beige",
+    "brand": "Decaye",
+    "cat": "ropa",
+    "sub": "Camisetas",
+    "spec": [
+      "Marca: Decaye",
+      "Estampado: franjas naranja y beige",
+      "Color: Naranja y Beige"
+    ],
+    "price": 50000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "XL",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "imgs": [
+      "assets/img/products/484f2455-8e35-4890-bf7c-4fe511bb661d.jpg",
+      "assets/img/products/80c65d9d-3ccc-4789-a31c-7b6f48701488.jpg",
+      "assets/img/products/8677e0d7-d210-4794-82c2-da23262f9d43.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "camiseta-decaye-letras-amarillas",
+    "sku": "ROP-DEC-003",
+    "n": "Camiseta Decaye Letras Amarillas al Frente",
+    "brand": "Decaye",
+    "cat": "ropa",
+    "sub": "Camisetas",
+    "spec": [
+      "Marca: Decaye",
+      "Estampado: letras amarillas al frente"
+    ],
+    "price": 60000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "L",
+        "u": 2
+      }
+    ],
+    "sizeLabel": "Talla",
+    "colors": [
+      {
+        "v": "Gris Oscuro",
+        "u": 1
+      },
+      {
+        "v": "Verde",
+        "u": 1,
+        "price": 50000
+      }
+    ],
+    "combos": [
+      {
+        "s": "L",
+        "c": "Gris Oscuro",
+        "u": 1
+      },
+      {
+        "s": "L",
+        "c": "Verde",
+        "u": 1
+      }
+    ],
+    "imgs": [
+      "assets/img/products/98edcef5-3556-4202-abc9-73acb9aa3423.jpg",
+      "assets/img/products/29598135-a6f1-45cd-a9a1-0b1a28fd6405.jpg",
+      "assets/img/products/f00ea17f-2759-45b8-95d6-0218beb73240.jpg",
+      "assets/img/products/626166ae-aa5b-47f5-b039-f7e1dd6be26d.jpg",
+      "assets/img/products/de6bccfb-b4ad-4ab7-823f-dc6418c51122.jpg"
+    ],
+    "imgColorMap": {
+      "assets/img/products/98edcef5-3556-4202-abc9-73acb9aa3423.jpg": "Gris Oscuro",
+      "assets/img/products/29598135-a6f1-45cd-a9a1-0b1a28fd6405.jpg": "Gris Oscuro",
+      "assets/img/products/f00ea17f-2759-45b8-95d6-0218beb73240.jpg": "Verde",
+      "assets/img/products/626166ae-aa5b-47f5-b039-f7e1dd6be26d.jpg": "Verde",
+      "assets/img/products/de6bccfb-b4ad-4ab7-823f-dc6418c51122.jpg": "Verde"
+    },
+    "published": true
+  },
+  {
+    "slug": "camiseta-decaye-letras-azules-vinotinto",
+    "sku": "ROP-DEC-004",
+    "n": "Camiseta Decaye Letras Azules al Frente",
+    "brand": "Decaye",
+    "cat": "ropa",
+    "sub": "Camisetas",
+    "spec": [
+      "Marca: Decaye",
+      "Estampado: letras azules al frente",
+      "Color: Vinotinto"
+    ],
+    "price": 50000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "XL",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "imgs": [
+      "assets/img/products/c42331f1-c66b-4673-b362-5d1be8ce2d99.jpg",
+      "assets/img/products/60f05b2f-3fab-42f1-aea4-b0324804d8ae.jpg",
+      "assets/img/products/f2309b14-fb76-4b30-b614-5a5578435452.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "camiseta-decaye-letras-verdes-beige",
+    "sku": "ROP-DEC-005",
+    "n": "Camiseta Decaye Letras Verdes al Frente",
+    "brand": "Decaye",
+    "cat": "ropa",
+    "sub": "Camisetas",
+    "spec": [
+      "Marca: Decaye",
+      "Estampado: letras verdes al frente",
+      "Color: Beige"
+    ],
+    "price": 60000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "XL",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "imgs": [
+      "assets/img/products/b99ecd63-f899-44df-9a9b-90292ba6fd01.jpg",
+      "assets/img/products/00a2cdb2-aa49-4e09-9824-8bc40498b8eb.jpg",
+      "assets/img/products/38a501b2-affc-4940-9de2-66fb626baac1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "camiseta-decaye-placa-amarilla",
+    "sku": "ROP-DEC-006",
+    "n": "Camiseta Decaye Placa Amarilla al Frente",
+    "brand": "Decaye",
+    "cat": "ropa",
+    "sub": "Camisetas",
+    "spec": [
+      "Marca: Decaye",
+      "Estampado: placa amarilla D3K4YE 08 Calles de Colombia"
+    ],
+    "price": 60000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "XL",
+        "u": 2
+      }
+    ],
+    "sizeLabel": "Talla",
+    "colors": [
+      {
+        "v": "Negra",
+        "u": 1
+      },
+      {
+        "v": "Verde",
+        "u": 1,
+        "price": 50000
+      }
+    ],
+    "combos": [
+      {
+        "s": "XL",
+        "c": "Negra",
+        "u": 1
+      },
+      {
+        "s": "XL",
+        "c": "Verde",
+        "u": 1
+      }
+    ],
+    "imgs": [
+      "assets/img/products/52603439-743f-4730-ba6f-5e9d1db122cd.jpg",
+      "assets/img/products/79779c9a-75c9-4e24-9b71-9fa0bc48a84e.jpg",
+      "assets/img/products/17b53182-9205-41ed-b690-87c71cb60c30.jpg",
+      "assets/img/products/69d23aaf-4c6f-4f46-a6c9-960912259c07.jpg",
+      "assets/img/products/9d54e104-81f4-4282-b8ea-6181f1900284.jpg",
+      "assets/img/products/59707ae5-ed8f-43f5-8762-5f2333704459.jpg"
+    ],
+    "imgColorMap": {
+      "assets/img/products/52603439-743f-4730-ba6f-5e9d1db122cd.jpg": "Negra",
+      "assets/img/products/79779c9a-75c9-4e24-9b71-9fa0bc48a84e.jpg": "Negra",
+      "assets/img/products/17b53182-9205-41ed-b690-87c71cb60c30.jpg": "Negra",
+      "assets/img/products/69d23aaf-4c6f-4f46-a6c9-960912259c07.jpg": "Verde",
+      "assets/img/products/9d54e104-81f4-4282-b8ea-6181f1900284.jpg": "Verde",
+      "assets/img/products/59707ae5-ed8f-43f5-8762-5f2333704459.jpg": "Verde"
+    },
+    "published": true
+  },
+  {
+    "slug": "pesquero-decaye",
+    "sku": "ROP-DEC-007",
+    "n": "Pesquero Decaye",
+    "brand": "Decaye",
+    "cat": "ropa",
+    "sub": "Gorras",
+    "spec": [
+      "Marca: Decaye",
+      "Parche de cuero Decaye",
+      "Correa ajustable",
+      "Forro con cinta Decaye"
+    ],
+    "price": 70000,
+    "promo": false,
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 1
+      },
+      {
+        "v": "Verde",
+        "u": 1
+      }
+    ],
+    "imgs": [
+      "assets/img/products/17dfb87a-bc80-4e0e-9209-89cdf22557f5.jpg",
+      "assets/img/products/94177596-d48a-4a0a-9a52-a2d797887b5d.jpg",
+      "assets/img/products/0bd294a0-56be-4574-a79a-fb514d02f32b.jpg",
+      "assets/img/products/ade015bb-87b1-4e3a-9336-d9a23bfbec56.jpg"
+    ],
+    "imgColorMap": {
+      "assets/img/products/17dfb87a-bc80-4e0e-9209-89cdf22557f5.jpg": "Negro",
+      "assets/img/products/94177596-d48a-4a0a-9a52-a2d797887b5d.jpg": "Negro",
+      "assets/img/products/0bd294a0-56be-4574-a79a-fb514d02f32b.jpg": "Verde",
+      "assets/img/products/ade015bb-87b1-4e3a-9336-d9a23bfbec56.jpg": "Verde"
+    },
+    "published": true
+  },
+  {
+    "slug": "gorra-decaye-gamuza-cafe",
+    "sku": "ROP-DEC-008",
+    "n": "Gorra Decaye Gamuza",
+    "brand": "Decaye",
+    "cat": "ropa",
+    "sub": "Gorras",
+    "spec": [
+      "Marca: Decaye",
+      "Material: gamuza",
+      "Bordado Decaye al frente",
+      "Visera con interior camuflado",
+      "Cordón tejido",
+      "Color: Café"
+    ],
+    "price": 65000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/9add15be-91ae-4789-91fb-096086ddec7d.jpg",
+      "assets/img/products/75d823e0-66b6-407e-b8ac-8edb254e70c4.jpg"
+    ],
+    "published": true
   }
 ];

@@ -1,6 +1,6 @@
 # Stike Bike Shop
 
-> Tienda BMX en Bogotá: repuestos, protecciones, ropa y armado de BMX a la medida con asesoría de riders. Vendemos 238 productos de marcas como Fiend, Mutanty, Fade, Odyssey, Cult, Primitive, con envíos a toda Colombia y tienda física en Venecia, Bogotá.
+> Tienda BMX en Bogotá: repuestos, protecciones, ropa y armado de BMX a la medida con asesoría de riders. Vendemos 246 productos de marcas como Fiend, Mutanty, Fade, Odyssey, Cult, Primitive, con envíos a toda Colombia y tienda física en Venecia, Bogotá.
 
 ## Datos del negocio
 - Nombre: Stike Bike Shop (también "Stike")
@@ -45,8 +45,9 @@
 - [Espinilleras](https://stikebikeshop.com/categoria/espinilleras.html): 1 producto desde $85.000
 - [Tobilleras](https://stikebikeshop.com/categoria/tobilleras.html): 2 productos desde $60.000
 ### Ropa
-- [Camisetas](https://stikebikeshop.com/categoria/camisetas.html): 34 productos desde $50.000
+- [Camisetas](https://stikebikeshop.com/categoria/camisetas.html): 40 productos desde $50.000
 - [Busos y Chaquetas](https://stikebikeshop.com/categoria/busos-y-chaquetas.html): 22 productos desde $120.000
+- [Gorras](https://stikebikeshop.com/categoria/gorras.html): 2 productos desde $65.000
 ### Zapatillas
 - [Tenis](https://stikebikeshop.com/categoria/tenis.html): 18 productos desde $150.000
 ### Accesorios
@@ -59,6 +60,7 @@
 - [BSD](https://stikebikeshop.com/marca/bsd.html): 2 productos
 - [Cinema](https://stikebikeshop.com/marca/cinema.html): 4 productos
 - [Cult](https://stikebikeshop.com/marca/cult.html): 9 productos
+- [Decaye](https://stikebikeshop.com/marca/decaye.html): 8 productos
 - [Demolition](https://stikebikeshop.com/marca/demolition.html): 8 productos
 - [Éclat](https://stikebikeshop.com/marca/eclat.html): 2 productos
 - [Fade](https://stikebikeshop.com/marca/fade.html): 10 productos
