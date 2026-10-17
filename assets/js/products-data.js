@@ -5617,5 +5617,1172 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/5cb67fe9-9818-4c78-b2e6-e81a53adc649.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "coraza-cult-vans-wafflecup-bmx-negra",
+    "sku": "REP-CUL-006",
+    "n": "Coraza Cult Vans Wafflecup BMX",
+    "brand": "Cult",
+    "cat": "repuestos",
+    "sub": "Llantas",
+    "spec": [
+      "Medida: 20\" x 2.4\"",
+      "Pared lateral: 60 TPI",
+      "Presión máxima: 110 PSI",
+      "Suela Vans Wafflecup",
+      "Color: Negro",
+      "Venta por unidad"
+    ],
+    "price": 180000,
+    "promo": false,
+    "units": 2,
+    "imgs": [
+      "assets/img/products/97d57e1a-0a4f-42dd-99a4-ca08f71d4b33.jpg",
+      "assets/img/products/df76c6b1-8f16-4f3f-8d57-d4222a4e6de4.jpg",
+      "assets/img/products/41f81062-9a0f-4e60-bd32-978fa3d3fd80.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "coraza-demolition-hammerhead-s-negra",
+    "sku": "REP-DEM-006",
+    "n": "Coraza Demolition Hammerhead-S",
+    "brand": "Demolition",
+    "cat": "repuestos",
+    "sub": "Llantas",
+    "spec": [
+      "Firma de Mike \"Hucker\" Clark",
+      "Medidas: 2.25\" (557 g) / 2.4\" (740 g)",
+      "Compuesto de caucho Demolition con banda de rodadura envolvente",
+      "Uso: calle",
+      "Color: Negro"
+    ],
+    "price": 160000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/7aba61c9-224c-422d-bd01-ab7b5fce5939.jpg",
+      "assets/img/products/13ae9d32-7280-44c9-b464-a8bcf37cd4cb.jpg",
+      "assets/img/products/241e2ff8-9651-4313-a706-e75e38002288.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "coraza-innova-pro-big-slick",
+    "sku": "REP-INN-001",
+    "n": "Coraza Innova Pro The Big Slick 20x2.4",
+    "brand": "Innova",
+    "cat": "repuestos",
+    "sub": "Llantas",
+    "spec": [
+      "Referencia: IB-3009",
+      "Medida: 20 x 2.4\"",
+      "Construcción: 60 TPI",
+      "Presión máxima: 110 PSI",
+      "Uso: BMX, street y urbano"
+    ],
+    "price": 75000,
+    "promo": false,
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 5
+      },
+      {
+        "v": "Café",
+        "u": 1
+      }
+    ],
+    "imgs": [
+      "assets/img/products/258e8a22-30dc-481c-aa91-6bd4a8000177.jpg",
+      "assets/img/products/06b7aa8e-f37f-4685-847f-79f89d4e17d5.jpg"
+    ],
+    "imgColorMap": {
+      "assets/img/products/258e8a22-30dc-481c-aa91-6bd4a8000177.jpg": "Negro",
+      "assets/img/products/06b7aa8e-f37f-4685-847f-79f89d4e17d5.jpg": "Café"
+    },
+    "published": true
+  },
+  {
+    "slug": "coraza-innova-pro-j-box-negra",
+    "sku": "REP-INN-002",
+    "n": "Coraza Innova Pro J-Box 20x2.2",
+    "brand": "Innova",
+    "cat": "repuestos",
+    "sub": "Llantas",
+    "spec": [
+      "Patrón: IB-2005 (Race)",
+      "Medida: 20 x 2.2\" (56-406)",
+      "Construcción: 60 TPI",
+      "Peso: 425 g",
+      "Presión: 60-110 PSI (4.2-7.8 bar)",
+      "Plegable",
+      "Color: Negro"
+    ],
+    "price": 65000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/a563eea9-caab-4071-b3d9-3f9b311f464a.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "coraza-innova-militar-camuflada",
+    "sku": "REP-INN-003",
+    "n": "Coraza Innova Militar Camuflada 26x2.2",
+    "brand": "Innova",
+    "cat": "repuestos",
+    "sub": "Llantas",
+    "spec": [
+      "Medida: 26 x 2.2\"",
+      "Uso: stunt y dirt jump",
+      "Color: Camuflado negro, gris y azul"
+    ],
+    "price": 75000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/51b438ad-d3f4-43d1-945d-ef72c26a6fd4.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "coraza-merritt-phantom-negra-par",
+    "sku": "REP-MER-004",
+    "n": "Coraza Merritt Phantom 2.50 (Par)",
+    "brand": "Merritt",
+    "cat": "repuestos",
+    "sub": "Llantas",
+    "spec": [
+      "Ancho: 2.50\"",
+      "Venta por par",
+      "Color: Negro"
+    ],
+    "price": 150000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/3b4e21de-b92c-49c9-92ce-e37d7f5be715.jpg",
+      "assets/img/products/9328097a-e048-42d2-8b72-84a91c40a8c1.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "coraza-mutanty-azul",
+    "sku": "REP-MUT-011",
+    "n": "Coraza Mutanty Azul 20x2.40",
+    "brand": "Mutanty",
+    "cat": "repuestos",
+    "sub": "Llantas",
+    "spec": [
+      "Medida: 20 x 2.40\"",
+      "Presión máxima: 100 PSI",
+      "Compuesto resistente y excelente agarre",
+      "Color: Azul con pared negra"
+    ],
+    "price": 95000,
+    "promo": false,
+    "units": 2,
+    "imgs": [
+      "assets/img/products/e0211597-2735-4766-9ebb-0905aff44c45.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "tornillos-cana-mutanty-tornasol",
+    "sku": "REP-MUT-012",
+    "n": "Tornillos de Caña Mutanty Tornasol",
+    "brand": "Mutanty",
+    "cat": "repuestos",
+    "sub": "Espigas",
+    "spec": [
+      "Juego de 6 tornillos Allen",
+      "Color: Tornasol"
+    ],
+    "price": 35000,
+    "promo": false,
+    "units": 2,
+    "imgs": [
+      "assets/img/products/ee38d136-5bf3-4941-9a59-b7f93d682c85.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "bielas-premium-22mm-negras",
+    "sku": "REP-PRM-001",
+    "n": "Bielas Premium Eje 22mm",
+    "brand": "Premium",
+    "cat": "repuestos",
+    "sub": "Bielas",
+    "spec": [
+      "Eje: 22 mm",
+      "Incluye eje y tornillos",
+      "Color: Negro"
+    ],
+    "price": 600000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/776ef972-21f6-474f-839a-54701f6f2e16.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "manzana-trasera-mutanty-mercury-derecha-cromada",
+    "sku": "REP-MUT-013",
+    "n": "Manzana Trasera Mutanty Mercury Derecha Cromada",
+    "brand": "Mutanty",
+    "cat": "repuestos",
+    "sub": "Manzanas",
+    "spec": [
+      "Posición: Trasera (cassette)",
+      "Tracción: Derecha (RHD)",
+      "Incluye protector de manzana",
+      "Color: Cromado"
+    ],
+    "price": 550000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/348b5fdb-b5d6-492b-a651-81e4e4112595.jpg",
+      "assets/img/products/cb814735-c8c3-4afc-b406-0e597735e6a6.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "tuercas-para-cassette-negras",
+    "sku": "REP-GEN-001",
+    "n": "Tuercas para Cassette Negras",
+    "brand": "Genérico",
+    "cat": "repuestos",
+    "sub": "Manzanas",
+    "spec": [
+      "Tuercas de eje para manzana trasera",
+      "Color: Negro"
+    ],
+    "price": 25000,
+    "promo": false,
+    "units": 3,
+    "imgs": [
+      "assets/img/products/0e5db8e5-ca51-4736-8d21-53fe4e99197b.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "manzana-trasera-trueno-alfa-v2-izquierda",
+    "sku": "REP-TRU-004",
+    "n": "Manzana Trasera Trueno Alfa V2 Izquierda",
+    "brand": "Trueno",
+    "cat": "repuestos",
+    "sub": "Manzanas",
+    "spec": [
+      "Posición: Trasera (cassette)",
+      "Tracción: Izquierda (LHD)",
+      "Modelo: Alpha V2"
+    ],
+    "price": 380000,
+    "promo": false,
+    "colors": [
+      {
+        "v": "Cromado",
+        "u": 1
+      },
+      {
+        "v": "Tornasol",
+        "u": 1,
+        "price": 400000
+      }
+    ],
+    "imgs": [
+      "assets/img/products/e6b8337a-714e-4a38-af1d-1e6837213cd7.jpg",
+      "assets/img/products/c4c9716f-70be-4512-a00e-1078370a2225.jpg",
+      "assets/img/products/c67aa6bd-90e5-4656-9494-0e0e5d95b6c6.jpg",
+      "assets/img/products/8084ef72-6b8b-4b61-94cf-aa46dfa0b5a5.jpg"
+    ],
+    "imgColorMap": {
+      "assets/img/products/e6b8337a-714e-4a38-af1d-1e6837213cd7.jpg": "Cromado",
+      "assets/img/products/c4c9716f-70be-4512-a00e-1078370a2225.jpg": "Cromado",
+      "assets/img/products/c67aa6bd-90e5-4656-9494-0e0e5d95b6c6.jpg": "Tornasol",
+      "assets/img/products/8084ef72-6b8b-4b61-94cf-aa46dfa0b5a5.jpg": "Tornasol"
+    },
+    "published": true
+  },
+  {
+    "slug": "silla-fate-pivotal-cuero-negra",
+    "sku": "REP-FAT-018",
+    "n": "Silla Pivotal Fate Cuero Negra",
+    "brand": "Fate BMX Colombia",
+    "cat": "repuestos",
+    "sub": "Sillas y Postes",
+    "spec": [
+      "Tipo: Pivotal",
+      "Material: Cuero",
+      "Corte original",
+      "Color: Negro"
+    ],
+    "price": 130000,
+    "promo": false,
+    "units": 5,
+    "imgs": [
+      "assets/img/products/8e06d778-937d-4c9a-b483-e16790a7db17.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "cana-demolition-50mm-negra",
+    "sku": "REP-DEM-007",
+    "n": "Caña Demolition 50mm Negra",
+    "brand": "Demolition",
+    "cat": "repuestos",
+    "sub": "Espigas",
+    "spec": [
+      "Largo: 50 mm",
+      "Tipo: FrontLoad",
+      "Color: Negro"
+    ],
+    "price": 200000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/1018fa18-ea1d-4e4b-8992-876364990d8e.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "cana-mutant-bikes-rio-v2-50mm-negra",
+    "sku": "REP-MUT-014",
+    "n": "Caña Mutant Bikes Rio V2 50mm Negra",
+    "brand": "Mutanty",
+    "cat": "repuestos",
+    "sub": "Espigas",
+    "spec": [
+      "Modelo: Rio V2",
+      "Largo: 50 mm",
+      "Tipo: TopLoad",
+      "Color: Negro"
+    ],
+    "price": 200000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/403f1538-5272-4f77-87cb-c9331722ef0b.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "cana-shadow-50mm-roja",
+    "sku": "REP-SHA-018",
+    "n": "Caña Shadow 50mm Roja Cromada",
+    "brand": "Shadow",
+    "cat": "repuestos",
+    "sub": "Espigas",
+    "spec": [
+      "Largo: 50 mm",
+      "Tipo: TopLoad",
+      "Color: Rojo / cromado salpicado"
+    ],
+    "price": 170000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/a330d5a4-acec-4555-94d7-471a53545798.jpg",
+      "assets/img/products/04cc03ad-d183-4db7-bf72-f8007663e83d.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "cana-shadow-chula-v2-50mm-negra",
+    "sku": "REP-SHA-019",
+    "n": "Caña Shadow Chula V2 50mm Negra",
+    "brand": "Shadow",
+    "cat": "repuestos",
+    "sub": "Espigas",
+    "spec": [
+      "Modelo: Chula V2",
+      "Largo: 50 mm",
+      "Tipo: TopLoad",
+      "Color: Negro"
+    ],
+    "price": 300000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/4210faa9-3d78-4330-82aa-2f33252e31c1.jpg",
+      "assets/img/products/1fa7b8c3-e02e-4ec6-a577-4c4bd3b896fd.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "cana-verde-50mm-roja",
+    "sku": "REP-VER-001",
+    "n": "Caña Verde 50mm Roja",
+    "brand": "Verde",
+    "cat": "repuestos",
+    "sub": "Espigas",
+    "spec": [
+      "Largo: 50 mm",
+      "Tipo: TopLoad",
+      "Color: Rojo"
+    ],
+    "price": 100000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/48caa4d2-dc4d-47dc-9ef1-3d9a12a4f017.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "grips-odi-soft-negros",
+    "sku": "GRP-ODI-002",
+    "n": "Grips ODI Soft Negros",
+    "brand": "ODI",
+    "cat": "accesorios",
+    "sub": "Grips",
+    "spec": [
+      "Modelo: Soft (Longneck)",
+      "Incluye tapones",
+      "Color: Negro"
+    ],
+    "price": 60000,
+    "promo": false,
+    "units": 5,
+    "imgs": [
+      "assets/img/products/f0e2ecfa-d1d6-47b9-9d8d-de0075415aeb.jpg",
+      "assets/img/products/15ae6643-1ddf-4e5c-b1c1-a6faea6b3344.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "grips-stranger-quan-negros",
+    "sku": "GRP-STR-002",
+    "n": "Grips Stranger Quan Negros",
+    "brand": "Stranger",
+    "cat": "accesorios",
+    "sub": "Grips",
+    "spec": [
+      "Modelo: Quan",
+      "Incluye tapones",
+      "Color: Negro"
+    ],
+    "price": 50000,
+    "promo": false,
+    "units": 3,
+    "imgs": [
+      "assets/img/products/1203643a-71c9-49b1-874d-adcf343cf768.jpg",
+      "assets/img/products/e1ccc926-ec0e-4c83-9042-e9d04b0e0e1a.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "grips-wethepeople-remote-negros",
+    "sku": "GRP-WTP-001",
+    "n": "Grips Wethepeople Remote Negros",
+    "brand": "Wethepeople",
+    "cat": "accesorios",
+    "sub": "Grips",
+    "spec": [
+      "Modelo: Remote",
+      "Color: Negro"
+    ],
+    "price": 50000,
+    "promo": false,
+    "units": 5,
+    "imgs": [
+      "assets/img/products/f382f864-9c7b-4d2a-9357-424dc3c99869.jpg",
+      "assets/img/products/2f08df90-3fbd-4fc5-a511-78fd7fd79f77.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "plato-fiend-reynolds-guard-negro",
+    "sku": "PLT-FND-002",
+    "n": "Plato Fiend Reynolds con Guardia Negro",
+    "brand": "Fiend",
+    "cat": "repuestos",
+    "sub": "Platos",
+    "spec": [
+      "Con guardia",
+      "Color: Negro"
+    ],
+    "price": 280000,
+    "promo": false,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/0595080d-8855-4c54-b852-5f72478f918d.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "caja-de-centro-colony-1022mm",
+    "sku": "REP-COL-001",
+    "n": "Caja de Centro Colony 1022mm",
+    "brand": "Colony",
+    "cat": "repuestos",
+    "sub": "Bielas",
+    "spec": [
+      "Medida: 22 mm (Mid)",
+      "Incluye 2 rodamientos, conos, espaciador y 5 arandelas"
+    ],
+    "price": 130000,
+    "promo": false,
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 1
+      },
+      {
+        "v": "Cromado",
+        "u": 1
+      }
+    ],
+    "imgs": [],
+    "published": false
+  },
+  {
+    "slug": "brazos-gw-negros",
+    "sku": "REP-GWB-002",
+    "n": "Brazos GW Negros",
+    "brand": "GW",
+    "cat": "repuestos",
+    "sub": "Bielas",
+    "spec": [
+      "Material: Cr-Mo",
+      "Incluye eje y tornillería",
+      "Color: Negro"
+    ],
+    "price": 60000,
+    "promo": false,
+    "units": 4,
+    "imgs": [],
+    "published": false
+  },
+  {
+    "slug": "silla-wethepeople-tripode-negra",
+    "sku": "REP-WTP-002",
+    "n": "Silla Wethepeople Trípode Negra",
+    "brand": "Wethepeople",
+    "cat": "repuestos",
+    "sub": "Sillas y Postes",
+    "spec": [
+      "Sistema: Trípode",
+      "Color: Negro"
+    ],
+    "price": 190000,
+    "promo": false,
+    "units": 1,
+    "imgs": [],
+    "published": false
+  },
+  {
+    "slug": "cana-animal-grado-0-50mm-cromada",
+    "sku": "REP-ANI-002",
+    "n": "Caña Animal Inverse Grado 0 50mm Cromada",
+    "brand": "Animal",
+    "cat": "repuestos",
+    "sub": "Espigas",
+    "spec": [
+      "Modelo: Inverse",
+      "Largo: 50 mm",
+      "Color: Cromado"
+    ],
+    "price": 250000,
+    "promo": false,
+    "units": 1,
+    "imgs": [],
+    "published": false
+  },
+  {
+    "slug": "cana-volume-50mm-azul",
+    "sku": "REP-VOL-002",
+    "n": "Caña Volume 50mm Azul",
+    "brand": "Volume",
+    "cat": "repuestos",
+    "sub": "Espigas",
+    "spec": [
+      "Largo: 50 mm",
+      "Tipo: TopLoad",
+      "Color: Azul"
+    ],
+    "price": 110000,
+    "promo": false,
+    "units": 1,
+    "imgs": [],
+    "published": false
+  },
+  {
+    "slug": "zapatilla-reding-promodel-alexanderx-negra",
+    "sku": "ROP-RED-001",
+    "n": "Zapatilla Reding Shoes Promodel AlexanderX Negra",
+    "brand": "Reding Shoes",
+    "cat": "zapatillas",
+    "sub": "Tenis",
+    "spec": [
+      "Material: 100% cuero carnaza",
+      "Suela de caucho con diseño de panal de abejas",
+      "Sistema expulsador de barro",
+      "Excelente agarre para todo tipo de terreno",
+      "Color: Negro con suela blanca"
+    ],
+    "price": 160000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "38",
+        "u": 1
+      },
+      {
+        "v": "39",
+        "u": 1
+      },
+      {
+        "v": "40",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "imgs": [
+      "assets/img/products/d3971df5-8e1b-4c52-a1f5-3f3bf95b6692.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "zapatilla-reding-bota-militar-pixelada",
+    "sku": "ROP-RED-002",
+    "n": "Zapatilla Reding Shoes Bota Negro Militar Pixelada",
+    "brand": "Reding Shoes",
+    "cat": "zapatillas",
+    "sub": "Tenis",
+    "spec": [
+      "Material: 100% cuero carnaza",
+      "Suela de caucho con diseño de panal de abejas",
+      "Sistema expulsador de barro",
+      "Excelente agarre para todo tipo de terreno",
+      "Corte: bota",
+      "Color: Negro con camuflado pixelado gris, suela negra"
+    ],
+    "price": 160000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "39",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "imgs": [
+      "assets/img/products/92d6bff9-036a-4fc2-9201-1d93ce8520b3.jpg",
+      "assets/img/products/c0f0b8cf-8fdf-4e94-9bfc-06647e8d5395.jpg",
+      "assets/img/products/9a8bf896-5fe1-44b7-94c0-ba88ba342b7c.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "zapatilla-reding-cuero-blanco",
+    "sku": "ROP-RED-003",
+    "n": "Zapatilla Reding Shoes Forte Cuero Blanco",
+    "brand": "Reding Shoes",
+    "cat": "zapatillas",
+    "sub": "Tenis",
+    "spec": [
+      "Material: 100% cuero carnaza",
+      "Suela de caucho con diseño de panal de abejas",
+      "Sistema expulsador de barro",
+      "Excelente agarre para todo tipo de terreno",
+      "Color: Blanco"
+    ],
+    "price": 170000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "37",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "imgs": [
+      "assets/img/products/0bdfef7f-9213-4069-a1af-6c17e6d021bf.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "zapatilla-reding-duba",
+    "sku": "ROP-RED-004",
+    "n": "Zapatilla Reding Shoes Duba",
+    "brand": "Reding Shoes",
+    "cat": "zapatillas",
+    "sub": "Tenis",
+    "spec": [
+      "Material: 100% cuero carnaza",
+      "Suela de caucho con diseño de panal de abejas",
+      "Sistema expulsador de barro",
+      "Excelente agarre para todo tipo de terreno"
+    ],
+    "price": 160000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "37",
+        "u": 1
+      },
+      {
+        "v": "39",
+        "u": 2
+      },
+      {
+        "v": "40",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "colors": [
+      {
+        "v": "Negro x Negro",
+        "u": 2
+      },
+      {
+        "v": "Verde x Blanco",
+        "u": 2
+      }
+    ],
+    "combos": [
+      {
+        "s": "37",
+        "c": "Negro x Negro",
+        "u": 1
+      },
+      {
+        "s": "40",
+        "c": "Negro x Negro",
+        "u": 1
+      },
+      {
+        "s": "39",
+        "c": "Verde x Blanco",
+        "u": 2
+      },
+      {
+        "s": "37",
+        "c": "Verde x Blanco",
+        "u": 0
+      },
+      {
+        "s": "39",
+        "c": "Negro x Negro",
+        "u": 0
+      },
+      {
+        "s": "40",
+        "c": "Verde x Blanco",
+        "u": 0
+      }
+    ],
+    "imgs": [
+      "assets/img/products/962453fd-20ab-450e-be72-79becdce519a.jpg",
+      "assets/img/products/7cba0e0f-59f0-4517-97b0-7a4f22a310ea.jpg",
+      "assets/img/products/6352dc0e-7c92-43b0-8bf7-15fbaddbfae7.jpg",
+      "assets/img/products/59dee239-412a-4dea-93ff-0fe7ed2a02df.jpg"
+    ],
+    "imgColorMap": {
+      "assets/img/products/962453fd-20ab-450e-be72-79becdce519a.jpg": "Negro x Negro",
+      "assets/img/products/7cba0e0f-59f0-4517-97b0-7a4f22a310ea.jpg": "Negro x Negro",
+      "assets/img/products/6352dc0e-7c92-43b0-8bf7-15fbaddbfae7.jpg": "Verde x Blanco",
+      "assets/img/products/59dee239-412a-4dea-93ff-0fe7ed2a02df.jpg": "Verde x Blanco"
+    },
+    "published": true
+  },
+  {
+    "slug": "zapatilla-reding-jumper-2-blanco-azul",
+    "sku": "ROP-RED-005",
+    "n": "Zapatilla Reding Shoes Jumper #2 Blanco Azul",
+    "brand": "Reding Shoes",
+    "cat": "zapatillas",
+    "sub": "Tenis",
+    "spec": [
+      "Material: 100% cuero carnaza",
+      "Suela de caucho con diseño de panal de abejas",
+      "Sistema expulsador de barro",
+      "Excelente agarre para todo tipo de terreno",
+      "Corte: bota media",
+      "Color: Blanco con azul"
+    ],
+    "price": 160000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "40",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "imgs": [
+      "assets/img/products/aa689b1a-f2b7-4fd7-b624-b73f047c390f.jpg",
+      "assets/img/products/c092700b-8298-4c52-abe6-61e32f193276.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "zapatilla-reding-jumper",
+    "sku": "ROP-RED-006",
+    "n": "Zapatilla Reding Shoes Jumper",
+    "brand": "Reding Shoes",
+    "cat": "zapatillas",
+    "sub": "Tenis",
+    "spec": [
+      "Material: 100% cuero carnaza",
+      "Suela de caucho con diseño de panal de abejas",
+      "Sistema expulsador de barro",
+      "Excelente agarre para todo tipo de terreno",
+      "Corte: bota media"
+    ],
+    "price": 160000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "38",
+        "u": 5
+      },
+      {
+        "v": "39",
+        "u": 2
+      },
+      {
+        "v": "40",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "colors": [
+      {
+        "v": "Blanco",
+        "u": 4
+      },
+      {
+        "v": "Azul x Blanco",
+        "u": 1
+      },
+      {
+        "v": "Negro Goma",
+        "u": 1
+      },
+      {
+        "v": "Verde x Blanco",
+        "u": 2
+      }
+    ],
+    "combos": [
+      {
+        "s": "38",
+        "c": "Blanco",
+        "u": 2
+      },
+      {
+        "s": "39",
+        "c": "Blanco",
+        "u": 1
+      },
+      {
+        "s": "40",
+        "c": "Blanco",
+        "u": 1
+      },
+      {
+        "s": "38",
+        "c": "Azul x Blanco",
+        "u": 1
+      },
+      {
+        "s": "39",
+        "c": "Negro Goma",
+        "u": 1
+      },
+      {
+        "s": "38",
+        "c": "Verde x Blanco",
+        "u": 2
+      },
+      {
+        "s": "38",
+        "c": "Negro Goma",
+        "u": 0
+      },
+      {
+        "s": "39",
+        "c": "Azul x Blanco",
+        "u": 0
+      },
+      {
+        "s": "39",
+        "c": "Verde x Blanco",
+        "u": 0
+      },
+      {
+        "s": "40",
+        "c": "Azul x Blanco",
+        "u": 0
+      },
+      {
+        "s": "40",
+        "c": "Negro Goma",
+        "u": 0
+      },
+      {
+        "s": "40",
+        "c": "Verde x Blanco",
+        "u": 0
+      }
+    ],
+    "imgs": [
+      "assets/img/products/c8771a6d-4c13-4088-ba46-4ef93ec85763.jpg",
+      "assets/img/products/06802075-2932-4eed-b095-091e7ee32858.jpg",
+      "assets/img/products/5eff8459-9464-4032-a44a-6a93d869a1a7.jpg",
+      "assets/img/products/9c172ca0-2ef7-4c02-bfec-71058132418b.jpg"
+    ],
+    "imgColorMap": {
+      "assets/img/products/c8771a6d-4c13-4088-ba46-4ef93ec85763.jpg": "Blanco",
+      "assets/img/products/06802075-2932-4eed-b095-091e7ee32858.jpg": "Azul x Blanco",
+      "assets/img/products/5eff8459-9464-4032-a44a-6a93d869a1a7.jpg": "Negro Goma",
+      "assets/img/products/9c172ca0-2ef7-4c02-bfec-71058132418b.jpg": "Verde x Blanco"
+    },
+    "published": true
+  },
+  {
+    "slug": "zapatilla-reding-modelo-111",
+    "sku": "ROP-RED-007",
+    "n": "Zapatilla Reding Shoes Modelo 111",
+    "brand": "Reding Shoes",
+    "cat": "zapatillas",
+    "sub": "Tenis",
+    "spec": [
+      "Material: 100% cuero carnaza",
+      "Suela de caucho con diseño de panal de abejas",
+      "Sistema expulsador de barro",
+      "Excelente agarre para todo tipo de terreno"
+    ],
+    "price": 160000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "37",
+        "u": 2
+      },
+      {
+        "v": "38",
+        "u": 1
+      },
+      {
+        "v": "39",
+        "u": 1
+      },
+      {
+        "v": "40",
+        "u": 1
+      },
+      {
+        "v": "43",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 4
+      },
+      {
+        "v": "Azul x Blanco",
+        "u": 1
+      },
+      {
+        "v": "Azul Goma",
+        "u": 1
+      }
+    ],
+    "combos": [
+      {
+        "s": "37",
+        "c": "Negro",
+        "u": 1
+      },
+      {
+        "s": "38",
+        "c": "Negro",
+        "u": 1
+      },
+      {
+        "s": "40",
+        "c": "Negro",
+        "u": 1
+      },
+      {
+        "s": "43",
+        "c": "Negro",
+        "u": 1
+      },
+      {
+        "s": "39",
+        "c": "Azul x Blanco",
+        "u": 1
+      },
+      {
+        "s": "37",
+        "c": "Azul Goma",
+        "u": 1
+      },
+      {
+        "s": "37",
+        "c": "Azul x Blanco",
+        "u": 0
+      },
+      {
+        "s": "38",
+        "c": "Azul x Blanco",
+        "u": 0
+      },
+      {
+        "s": "38",
+        "c": "Azul Goma",
+        "u": 0
+      },
+      {
+        "s": "39",
+        "c": "Negro",
+        "u": 0
+      },
+      {
+        "s": "39",
+        "c": "Azul Goma",
+        "u": 0
+      },
+      {
+        "s": "40",
+        "c": "Azul x Blanco",
+        "u": 0
+      },
+      {
+        "s": "40",
+        "c": "Azul Goma",
+        "u": 0
+      },
+      {
+        "s": "43",
+        "c": "Azul x Blanco",
+        "u": 0
+      },
+      {
+        "s": "43",
+        "c": "Azul Goma",
+        "u": 0
+      }
+    ],
+    "imgs": [
+      "assets/img/products/a61eea15-e9d2-4550-b015-5a153ed5271f.jpg",
+      "assets/img/products/94e62d28-0ceb-474d-a34f-29f3875a81b5.jpg",
+      "assets/img/products/84392157-23bd-4fd0-b627-7275f548b36e.jpg"
+    ],
+    "imgColorMap": {
+      "assets/img/products/a61eea15-e9d2-4550-b015-5a153ed5271f.jpg": "Negro",
+      "assets/img/products/94e62d28-0ceb-474d-a34f-29f3875a81b5.jpg": "Azul x Blanco",
+      "assets/img/products/84392157-23bd-4fd0-b627-7275f548b36e.jpg": "Azul Goma"
+    },
+    "published": true
+  },
+  {
+    "slug": "zapatilla-reding-bota-picelado-negro-militar",
+    "sku": "ROP-RED-008",
+    "n": "Zapatilla Reding Shoes Bota Picelado Negro Militar",
+    "brand": "Reding Shoes",
+    "cat": "zapatillas",
+    "sub": "Tenis",
+    "spec": [
+      "Material: 100% cuero carnaza",
+      "Suela de caucho con diseño de panal de abejas",
+      "Sistema expulsador de barro",
+      "Excelente agarre para todo tipo de terreno",
+      "Corte: bota",
+      "Color: Negro con camuflado militar, suela goma"
+    ],
+    "price": 160000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "38",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "imgs": [
+      "assets/img/products/57ac7b2e-f2fd-4e1e-aa25-3aece4c58c85.jpg",
+      "assets/img/products/140f257f-70ab-40b8-9dac-ff7b54f69edc.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "tenis-fade-joy-negro-blanco",
+    "sku": "ROP-FAD-001",
+    "n": "Tenis Fade Joy Negro Blanco",
+    "brand": "Fade",
+    "cat": "zapatillas",
+    "sub": "Tenis",
+    "spec": [
+      "Suela propia de la marca",
+      "Cosidos para evitar el despegue",
+      "Material de primera calidad",
+      "Hechos en Colombia",
+      "Corte: bota media",
+      "Color: Negro con suela blanca"
+    ],
+    "price": 160000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "40",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "imgs": [
+      "assets/img/products/1785b58d-f8a5-4aa8-8b68-f666a0bbf2f4.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "tenis-fade-x-r2-protect",
+    "sku": "ROP-FAD-002",
+    "n": "Tenis Fade x R2 Protect",
+    "brand": "Fade",
+    "cat": "zapatillas",
+    "sub": "Tenis",
+    "spec": [
+      "Suela propia de la marca",
+      "Cosidos para evitar el despegue",
+      "Material de primera calidad",
+      "Hechos en Colombia",
+      "Protector de tobillo termoformado en plástico de alto impacto",
+      "Refuerzo en espuma de alta densidad",
+      "Talón y puntera termoendurecidos",
+      "Cuero reforzado de alto calibre",
+      "Suela cosida en caucho de 10 mm",
+      "Corte: bota alta"
+    ],
+    "price": 180000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "39",
+        "u": 1
+      },
+      {
+        "v": "40",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "imgs": [
+      "assets/img/products/d29634db-c587-4896-bea8-c6b198b24937.jpg",
+      "assets/img/products/3bfd97f2-b69e-49d2-a219-062687d9d1cd.jpg"
+    ],
+    "published": true
   }
 ];
