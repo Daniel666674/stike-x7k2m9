@@ -6216,7 +6216,7 @@ window.STIKE_PRODUCTS = [
     "sku": "ROP-RED-001",
     "n": "Zapatilla Reding Shoes Promodel AlexanderX Negra",
     "brand": "Reding Shoes",
-    "cat": "ropa",
+    "cat": "zapatillas",
     "sub": "Tenis",
     "spec": [
       "Material: 100% cuero carnaza",
@@ -6252,7 +6252,7 @@ window.STIKE_PRODUCTS = [
     "sku": "ROP-RED-002",
     "n": "Zapatilla Reding Shoes Bota Negro Militar Pixelada",
     "brand": "Reding Shoes",
-    "cat": "ropa",
+    "cat": "zapatillas",
     "sub": "Tenis",
     "spec": [
       "Material: 100% cuero carnaza",
@@ -6283,7 +6283,7 @@ window.STIKE_PRODUCTS = [
     "sku": "ROP-RED-003",
     "n": "Zapatilla Reding Shoes Forte Cuero Blanco",
     "brand": "Reding Shoes",
-    "cat": "ropa",
+    "cat": "zapatillas",
     "sub": "Tenis",
     "spec": [
       "Material: 100% cuero carnaza",
@@ -6311,7 +6311,7 @@ window.STIKE_PRODUCTS = [
     "sku": "ROP-RED-004",
     "n": "Zapatilla Reding Shoes Duba",
     "brand": "Reding Shoes",
-    "cat": "ropa",
+    "cat": "zapatillas",
     "sub": "Tenis",
     "spec": [
       "Material: 100% cuero carnaza",
@@ -6397,7 +6397,7 @@ window.STIKE_PRODUCTS = [
     "sku": "ROP-RED-005",
     "n": "Zapatilla Reding Shoes Jumper #2 Blanco Azul",
     "brand": "Reding Shoes",
-    "cat": "ropa",
+    "cat": "zapatillas",
     "sub": "Tenis",
     "spec": [
       "Material: 100% cuero carnaza",
@@ -6427,7 +6427,7 @@ window.STIKE_PRODUCTS = [
     "sku": "ROP-RED-006",
     "n": "Zapatilla Reding Shoes Jumper",
     "brand": "Reding Shoes",
-    "cat": "ropa",
+    "cat": "zapatillas",
     "sub": "Tenis",
     "spec": [
       "Material: 100% cuero carnaza",
@@ -6552,7 +6552,7 @@ window.STIKE_PRODUCTS = [
     "sku": "ROP-RED-007",
     "n": "Zapatilla Reding Shoes Modelo 111",
     "brand": "Reding Shoes",
-    "cat": "ropa",
+    "cat": "zapatillas",
     "sub": "Tenis",
     "spec": [
       "Material: 100% cuero carnaza",
@@ -6693,7 +6693,7 @@ window.STIKE_PRODUCTS = [
     "sku": "ROP-RED-008",
     "n": "Zapatilla Reding Shoes Bota Picelado Negro Militar",
     "brand": "Reding Shoes",
-    "cat": "ropa",
+    "cat": "zapatillas",
     "sub": "Tenis",
     "spec": [
       "Material: 100% cuero carnaza",
@@ -6723,7 +6723,7 @@ window.STIKE_PRODUCTS = [
     "sku": "ROP-FAD-001",
     "n": "Tenis Fade Joy Negro Blanco",
     "brand": "Fade",
-    "cat": "ropa",
+    "cat": "zapatillas",
     "sub": "Tenis",
     "spec": [
       "Suela propia de la marca",
@@ -6752,7 +6752,7 @@ window.STIKE_PRODUCTS = [
     "sku": "ROP-FAD-002",
     "n": "Tenis Fade x R2 Protect",
     "brand": "Fade",
-    "cat": "ropa",
+    "cat": "zapatillas",
     "sub": "Tenis",
     "spec": [
       "Suela propia de la marca",

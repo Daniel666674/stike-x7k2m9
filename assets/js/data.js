@@ -30,7 +30,14 @@ const STIKE_CATEGORIES = [
     name: "Ropa",
     blurb: "Street wear con actitud",
     color: "c4",
-    subs: ["Camisetas", "Busos y Chaquetas", "Gorras", "Gafas", "Tenis", "Jeans"]
+    subs: ["Camisetas", "Busos y Chaquetas", "Gorras", "Gafas", "Jeans"]
+  },
+  {
+    slug: "zapatillas",
+    name: "Zapatillas",
+    blurb: "Tenis para rodar duro",
+    color: "c4",
+    subs: ["Tenis"]
   },
   {
     slug: "accesorios",
@@ -82,7 +89,7 @@ function stikeSizeRangeFor(sub) {
 }
 
 /* --------------------- Codigos para generar SKU ------------------------- */
-const SKU_CAT_CODES = { repuestos: "REP", protecciones: "PRO", ropa: "ROP", accesorios: "ACC" };
+const SKU_CAT_CODES = { repuestos: "REP", protecciones: "PRO", ropa: "ROP", zapatillas: "ZAP", accesorios: "ACC" };
 function skuBrandCode(brand, taken) {
   taken = taken || new Set();
   const letters = (brand || "GEN").normalize("NFD").replace(/[̀-ͯ]/g, "").toUpperCase().replace(/[^A-Z]/g, "") || "GEN";

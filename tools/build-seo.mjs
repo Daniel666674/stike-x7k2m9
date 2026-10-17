@@ -749,6 +749,7 @@ const GOOGLE_CAT = {
   repuestos: "Sporting Goods > Outdoor Recreation > Cycling > Bicycle Parts",
   protecciones: "Sporting Goods > Outdoor Recreation > Cycling > Bicycle Accessories",
   ropa: "Apparel & Accessories > Clothing",
+  zapatillas: "Apparel & Accessories > Shoes",
   accesorios: "Sporting Goods > Outdoor Recreation > Cycling > Bicycle Accessories",
 };
 const GOOGLE_CAT_SUB = { Tenis: "Apparel & Accessories > Shoes", Gorras: "Apparel & Accessories > Clothing Accessories > Hats", Gafas: "Apparel & Accessories > Clothing Accessories > Sunglasses" };
