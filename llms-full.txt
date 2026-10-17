@@ -38,6 +38,12 @@
 - [Caña Merritt 50mm Cromada](https://stikebikeshop.com/producto/cana-merritt-50mm-cromada.html) — Merritt; $240.000; disponible
 - [Caña Radio 50mm Negra](https://stikebikeshop.com/producto/cana-radio-50mm-negra.html) — Radio; $100.000; disponible
 - [Caña Stolen 50mm Cromada](https://stikebikeshop.com/producto/cana-stolen-50mm-cromada.html) — Stolen; $200.000; disponible
+- [Tornillos de Caña Mutanty Tornasol](https://stikebikeshop.com/producto/tornillos-cana-mutanty-tornasol.html) — Mutanty; $35.000; disponible
+- [Caña Demolition 50mm Negra](https://stikebikeshop.com/producto/cana-demolition-50mm-negra.html) — Demolition; $200.000; disponible
+- [Caña Mutant Bikes Rio V2 50mm Negra](https://stikebikeshop.com/producto/cana-mutant-bikes-rio-v2-50mm-negra.html) — Mutanty; $200.000; disponible
+- [Caña Shadow 50mm Roja Cromada](https://stikebikeshop.com/producto/cana-shadow-50mm-roja.html) — Shadow; $170.000; disponible
+- [Caña Shadow Chula V2 50mm Negra](https://stikebikeshop.com/producto/cana-shadow-chula-v2-50mm-negra.html) — Shadow; $300.000; disponible
+- [Caña Verde 50mm Roja](https://stikebikeshop.com/producto/cana-verde-50mm-roja.html) — Verde; $100.000; disponible
 
 ### Manzanas
 - [Manzana Delantera Optimus](https://stikebikeshop.com/producto/manzana-delantera-optimus.html) — Optimus; desde $95.000; disponible; colores: Cromado, Azul, Dorado
@@ -51,6 +57,9 @@
 - [Freecoaster Fiend Derecho Negro](https://stikebikeshop.com/producto/freecoaster-fiend-derecho-negro.html) — Fiend; $500.000; disponible
 - [Manzana Trasera Merritt Derecha Cromada](https://stikebikeshop.com/producto/manzana-trasera-merritt-derecha-cromada.html) — Merritt; $700.000; disponible
 - [Freecoaster Shadow Derecho Negro](https://stikebikeshop.com/producto/freecoaster-shadow-derecho-negro.html) — Shadow; $500.000; disponible
+- [Manzana Trasera Mutanty Mercury Derecha Cromada](https://stikebikeshop.com/producto/manzana-trasera-mutanty-mercury-derecha-cromada.html) — Mutanty; $550.000; disponible
+- [Tuercas para Cassette Negras](https://stikebikeshop.com/producto/tuercas-para-cassette-negras.html) — Genérico; $25.000; disponible
+- [Manzana Trasera Trueno Alfa V2 Izquierda](https://stikebikeshop.com/producto/manzana-trasera-trueno-alfa-v2-izquierda.html) — Trueno; desde $380.000; disponible; colores: Cromado, Tornasol
 
 ### Marcos
 - [Marco Fate Namaste V2](https://stikebikeshop.com/producto/marco-fate-namaste-v2.html) — Fate BMX Colombia; $1.300.000; disponible; medida: 20.4, 20.75
@@ -103,6 +112,7 @@
 - [Caja de Centro Fate Negra](https://stikebikeshop.com/producto/caja-de-centro-fate-negra.html) — Fate BMX Colombia; $80.000; disponible; medida: 1019mm, 1022mm
 - [Juegos de Rodamiento Optimus 1019mm](https://stikebikeshop.com/producto/juegos-rodamiento-optimus-1019mm-verde.html) — Optimus; $40.000; disponible
 - [Bielas Salt de Seguridad Negras](https://stikebikeshop.com/producto/bielas-salt-de-seguridad-negras.html) — SaltPlus; desde $180.000; disponible; largo: 165mm, 175mm
+- [Bielas Premium Eje 22mm](https://stikebikeshop.com/producto/bielas-premium-22mm-negras.html) — Premium; $600.000; disponible
 
 ### Platos
 - [Plato Fiend Reynolds 25T Sin Guardia](https://stikebikeshop.com/producto/plato-fiend-reynolds-25t.html) — Fiend; $140.000; disponible; colores: Negro, Cromado
@@ -120,6 +130,7 @@
 - [Plato Fate Garuda 28T con Guardia](https://stikebikeshop.com/producto/plato-fate-garuda-28t.html) — Fate BMX Colombia; $230.000; disponible; colores: Negro, Cromado
 - [Plato Cinema Beta Guard Negro 25T](https://stikebikeshop.com/producto/plato-cinema-beta-guard-negro-25t.html) — Cinema; $270.000; disponible
 - [Plato Profile Galaxy Spline Cromado 28T](https://stikebikeshop.com/producto/plato-profile-galaxy-spline-cromado-28t.html) — Profile; $350.000; disponible
+- [Plato Fiend Reynolds con Guardia Negro](https://stikebikeshop.com/producto/plato-fiend-reynolds-guard-negro.html) — Fiend; $280.000; disponible
 
 ### Cadenas
 - [Cadena Fiend Halflink Negra](https://stikebikeshop.com/producto/cadena-fiend-halflink-negra.html) — Fiend; $120.000; disponible
@@ -153,6 +164,7 @@
 - [Poste Pivotal Optimus Negro](https://stikebikeshop.com/producto/poste-pivotal-optimus.html) — Optimus; $45.000; disponible; largo: Corto, Largo
 - [Silla Primo Biscuit Seat Pivotal Pana Negro](https://stikebikeshop.com/producto/silla-primo-biscuit-pivotal-pana-negro.html) — Primo; $190.000; disponible
 - [Silla Trueno Negra](https://stikebikeshop.com/producto/silla-trueno-negra.html) — Trueno; $130.000; disponible
+- [Silla Pivotal Fate Cuero Negra](https://stikebikeshop.com/producto/silla-fate-pivotal-cuero-negra.html) — Fate BMX Colombia; $130.000; disponible
 
 ### Tacos y Protectores de Maza
 - [Peg Fiend Belmont Cromo 4.4mm](https://stikebikeshop.com/producto/peg-fiend-belmont-cromo-4-4mm.html) — Fiend; $80.000; disponible
@@ -179,6 +191,13 @@
 
 ### Llantas
 - [Neumático Kenda Negro](https://stikebikeshop.com/producto/neumatico-kenda-negro.html) — Kenda; $12.000; disponible
+- [Coraza Cult Vans Wafflecup BMX](https://stikebikeshop.com/producto/coraza-cult-vans-wafflecup-bmx-negra.html) — Cult; $180.000; disponible
+- [Coraza Demolition Hammerhead-S](https://stikebikeshop.com/producto/coraza-demolition-hammerhead-s-negra.html) — Demolition; $160.000; disponible
+- [Coraza Innova Pro The Big Slick 20x2.4](https://stikebikeshop.com/producto/coraza-innova-pro-big-slick.html) — Innova; $75.000; disponible; colores: Negro, Café
+- [Coraza Innova Pro J-Box 20x2.2](https://stikebikeshop.com/producto/coraza-innova-pro-j-box-negra.html) — Innova; $65.000; disponible
+- [Coraza Innova Militar Camuflada 26x2.2](https://stikebikeshop.com/producto/coraza-innova-militar-camuflada.html) — Innova; $75.000; disponible
+- [Coraza Merritt Phantom 2.50 (Par)](https://stikebikeshop.com/producto/coraza-merritt-phantom-negra-par.html) — Merritt; $150.000; disponible
+- [Coraza Mutanty Azul 20x2.40](https://stikebikeshop.com/producto/coraza-mutanty-azul.html) — Mutanty; $95.000; disponible
 
 ## Protecciones
 
@@ -257,6 +276,28 @@
 - [Camiseta Kink BMX Verde](https://stikebikeshop.com/producto/camiseta-kink-verde-claro-texto.html) — Kink; $50.000; disponible
 - [Camiseta Kink BMX Calavera Amarilla](https://stikebikeshop.com/producto/camiseta-kink-verde-claro-calavera.html) — Kink; $50.000; disponible
 
+## Zapatillas
+
+### Tenis
+- [Zapatilla Reding Shoes Promodel AlexanderX Negra](https://stikebikeshop.com/producto/zapatilla-reding-promodel-alexanderx-negra.html) — Reding Shoes; $160.000; disponible; talla: 38, 39, 40
+- [Zapatilla Reding Shoes Bota Negro Militar Pixelada](https://stikebikeshop.com/producto/zapatilla-reding-bota-militar-pixelada.html) — Reding Shoes; $160.000; disponible
+- [Zapatilla Reding Shoes Forte Cuero Blanco](https://stikebikeshop.com/producto/zapatilla-reding-cuero-blanco.html) — Reding Shoes; $170.000; disponible
+- [Zapatilla Reding Shoes Duba](https://stikebikeshop.com/producto/zapatilla-reding-duba.html) — Reding Shoes; $160.000; disponible; colores: Negro x Negro, Verde x Blanco; talla: 37, 39, 40
+- [Zapatilla Reding Shoes Jumper #2 Blanco Azul](https://stikebikeshop.com/producto/zapatilla-reding-jumper-2-blanco-azul.html) — Reding Shoes; $160.000; disponible
+- [Zapatilla Reding Shoes Jumper](https://stikebikeshop.com/producto/zapatilla-reding-jumper.html) — Reding Shoes; $160.000; disponible; colores: Blanco, Azul x Blanco, Negro Goma, Verde x Blanco; talla: 38, 39, 40
+- [Zapatilla Reding Shoes Modelo 111](https://stikebikeshop.com/producto/zapatilla-reding-modelo-111.html) — Reding Shoes; $160.000; disponible; colores: Negro, Azul x Blanco, Azul Goma; talla: 37, 38, 39, 40, 43
+- [Zapatilla Reding Shoes Bota Picelado Negro Militar](https://stikebikeshop.com/producto/zapatilla-reding-bota-picelado-negro-militar.html) — Reding Shoes; $160.000; disponible
+- [Tenis Fade Joy Negro Blanco](https://stikebikeshop.com/producto/tenis-fade-joy-negro-blanco.html) — Fade; $160.000; disponible
+- [Tenis Fade x R2 Protect](https://stikebikeshop.com/producto/tenis-fade-x-r2-protect.html) — Fade; $180.000; disponible; talla: 39, 40
+- [Tenis Fade Edge LT](https://stikebikeshop.com/producto/tenis-fade-edge-lt.html) — Fade; desde $170.000; disponible; colores: Azul x Blanco, Blanco Azul Rojo, Blanco x Blanco, Negro x Negro, Blanco x Negro, Negro x Blanco, Rojo, Verde Amarillo; talla: 38, 39, 40, 41
+- [Tenis Fade Hatelow Negro](https://stikebikeshop.com/producto/tenis-fade-hatelow-negro.html) — Fade; $160.000; disponible
+- [Tenis Fade Hatelow 2](https://stikebikeshop.com/producto/tenis-fade-hatelow-2.html) — Fade; desde $160.000; disponible; colores: Negro, Verde Oliva, Blanco; talla: 37, 39, 40, 41, 42
+- [Tenis Fade MST Negro Blanco](https://stikebikeshop.com/producto/tenis-fade-mst-negro-blanco.html) — Fade; $150.000; disponible
+- [Tenis Fade OM 108](https://stikebikeshop.com/producto/tenis-fade-om-108.html) — Fade; $160.000; disponible; colores: Negro x Negro, Negro x Blanco, Café Goma; talla: 38, 39, 40, 41
+- [Tenis Fade Split](https://stikebikeshop.com/producto/tenis-fade-split.html) — Fade; $180.000; disponible; colores: Negro x Negro, Café Goma; talla: 39, 41
+- [Tenis Fade Team](https://stikebikeshop.com/producto/tenis-fade-team.html) — Fade; $170.000; disponible; colores: Negro x Negro, Negro Goma; talla: 39, 40
+- [Tenis Fade Unlimited Bikes](https://stikebikeshop.com/producto/tenis-fade-unlimited-bikes.html) — Fade; desde $160.000; disponible; colores: Negro x Negro, Negro Goma, Verde Goma; talla: 37, 40
+
 ## Accesorios
 
 ### Grips
@@ -265,6 +306,9 @@
 - [Grips Ontrail Yeti](https://stikebikeshop.com/producto/grips-ontrail-yeti.html) — Ontrail; $20.000; disponible
 - [Grips ODI XL](https://stikebikeshop.com/producto/grips-odi-xl.html) — ODI; $70.000; disponible
 - [Grips Cinema Reynolds Negro](https://stikebikeshop.com/producto/grips-cinema-reynolds-negro.html) — Cinema; $50.000; disponible
+- [Grips ODI Soft Negros](https://stikebikeshop.com/producto/grips-odi-soft-negros.html) — ODI; $60.000; disponible
+- [Grips Stranger Quan Negros](https://stikebikeshop.com/producto/grips-stranger-quan-negros.html) — Stranger; $50.000; disponible
+- [Grips Wethepeople Remote Negros](https://stikebikeshop.com/producto/grips-wethepeople-remote-negros.html) — Wethepeople; $50.000; disponible
 
 ### Llaveros
 - [Llavero Pedal Kboom V2](https://stikebikeshop.com/producto/llavero-pedal-kboom-v2.html) — Kboom; $40.000; disponible; colores: Amarillo, Azul aguamarina
