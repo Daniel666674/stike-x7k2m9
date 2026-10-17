@@ -1,0 +1,12 @@
+Logos de la franja de medios de pago
+- wompi.svg: logo oficial de Wompi (version secundaria sobre verde), tomado de los archivos de marca que entrego Wompi
+  (assets/img/brand/wompi/, sin modificar). Solo se recorto el viewBox. Respeta el manual de uso de marca de Wompi:
+  no cambiar colores, no deformar, dejar espacio libre alrededor.
+- visa.svg y mastercard.svg: iconos de Aaron Fagan via react-svg-credit-card-payment-icons (Apache-2.0).
+  Visa y Mastercard son marcas de sus titulares.
+- pse.svg: logo de PSE (Pagos Seguros en Linea, ACH Colombia), tomado del paquete npm @deriv-com/quill-logos-web
+  (licencia MIT, archivo svg/payment-methods/pse-brand.svg). Solo se recorto el viewBox al circulo. PSE es marca de su titular.
+- Nequi y Bancolombia: por ahora se muestran como texto (clase .pay-word); no hay un archivo oficial en el repo.
+  Descargarlos de las fuentes oficiales de cada marca (kit de marca / prensa) o del manual de Wompi, guardarlos aqui
+  (nequi.svg, bancolombia.svg) y agregarlos a PAY_LOGO_FILE en assets/js/app.js. En el inicio (index.html)
+  cambiar el <span class="pay-word"> por un <img> igual al de Visa.

@@ -59,11 +59,18 @@
   }
 
   async function signTransaction(reference, items, shipping, customerEmail) {
-    const res = await fetch(WOMPI_API.sign, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ reference, items, shipping: shipping || null, customerEmail: customerEmail || null }),
-    });
+    let res;
+    try {
+      res = await fetch(WOMPI_API.sign, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reference, items, shipping: shipping || null, customerEmail: customerEmail || null }),
+      });
+    } catch (netErr) {
+      const err = new Error("No se pudo conectar con wompi-sign: " + netErr.message);
+      err.code = "network";
+      throw err;
+    }
     const data = await res.json().catch(() => null);
     if (!res.ok) {
       const err = new Error(`wompi-sign respondio ${res.status}: ${(data && data.error) || "sin detalle"}`);
@@ -164,15 +171,23 @@
     };
     if (customerEmail) checkoutConfig.customerData = { email: customerEmail };
 
-    const checkout = new root.WidgetCheckout(checkoutConfig);
-    checkout.open(result => {
-      /* Wompi deberia redirigir solo (redirectUrl); esto es solo una red
-         de seguridad por si ese redirect automatico no se dispara. */
-      const txn = result && result.transaction;
-      if (txn && txn.id) {
-        location.href = `${wompiRedirectUrl()}?id=${encodeURIComponent(txn.id)}`;
-      }
-    });
+    try {
+      const checkout = new root.WidgetCheckout(checkoutConfig);
+      checkout.open(result => {
+        /* Wompi deberia redirigir solo (redirectUrl); esto es solo una red
+           de seguridad por si ese redirect automatico no se dispara. */
+        const txn = result && result.transaction;
+        if (txn && txn.id) {
+          location.href = `${wompiRedirectUrl()}?id=${encodeURIComponent(txn.id)}`;
+        }
+      });
+    } catch (err) {
+      /* El script cargo pero el widget no abre (version rara, bloqueo del
+         navegador): se cobra igual por la pagina de Wompi. La misma firma
+         sirve para las dos rutas. */
+      console.warn("Wompi widget fallo al abrir, usando redireccion:", err);
+      redirectCheckout(publicKey, reference, amountInCents, signature, customerEmail);
+    }
   }
 
   root.stikeWompiCheckout = stikeWompiCheckout;
