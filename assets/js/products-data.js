@@ -6785,5 +6785,807 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/3bfd97f2-b69e-49d2-a219-062687d9d1cd.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "tenis-fade-edge-lt",
+    "sku": "ZAP-FAD-001",
+    "n": "Tenis Fade Edge LT",
+    "brand": "Fade",
+    "cat": "zapatillas",
+    "sub": "Tenis",
+    "spec": [
+      "Suela propia de la marca",
+      "Cosidos para evitar el despegue",
+      "Material de primera calidad",
+      "Hechos en Colombia"
+    ],
+    "price": 170000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "38",
+        "u": 1
+      },
+      {
+        "v": "39",
+        "u": 6
+      },
+      {
+        "v": "40",
+        "u": 3
+      },
+      {
+        "v": "41",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "colors": [
+      {
+        "v": "Azul x Blanco",
+        "u": 3
+      },
+      {
+        "v": "Blanco Azul Rojo",
+        "u": 1
+      },
+      {
+        "v": "Blanco x Blanco",
+        "u": 1,
+        "price": 180000
+      },
+      {
+        "v": "Negro x Negro",
+        "u": 1,
+        "price": 180000
+      },
+      {
+        "v": "Blanco x Negro",
+        "u": 1
+      },
+      {
+        "v": "Negro x Blanco",
+        "u": 1
+      },
+      {
+        "v": "Rojo",
+        "u": 1,
+        "price": 180000
+      },
+      {
+        "v": "Verde Amarillo",
+        "u": 2
+      }
+    ],
+    "combos": [
+      {
+        "s": "39",
+        "c": "Azul x Blanco",
+        "u": 1
+      },
+      {
+        "s": "40",
+        "c": "Azul x Blanco",
+        "u": 1
+      },
+      {
+        "s": "41",
+        "c": "Azul x Blanco",
+        "u": 1
+      },
+      {
+        "s": "39",
+        "c": "Blanco Azul Rojo",
+        "u": 1
+      },
+      {
+        "s": "38",
+        "c": "Blanco x Blanco",
+        "u": 1
+      },
+      {
+        "s": "39",
+        "c": "Negro x Negro",
+        "u": 1
+      },
+      {
+        "s": "39",
+        "c": "Blanco x Negro",
+        "u": 1
+      },
+      {
+        "s": "39",
+        "c": "Negro x Blanco",
+        "u": 1
+      },
+      {
+        "s": "39",
+        "c": "Rojo",
+        "u": 1
+      },
+      {
+        "s": "40",
+        "c": "Verde Amarillo",
+        "u": 2
+      },
+      {
+        "s": "38",
+        "c": "Azul x Blanco",
+        "u": 0
+      },
+      {
+        "s": "38",
+        "c": "Blanco Azul Rojo",
+        "u": 0
+      },
+      {
+        "s": "38",
+        "c": "Negro x Negro",
+        "u": 0
+      },
+      {
+        "s": "38",
+        "c": "Blanco x Negro",
+        "u": 0
+      },
+      {
+        "s": "38",
+        "c": "Negro x Blanco",
+        "u": 0
+      },
+      {
+        "s": "38",
+        "c": "Rojo",
+        "u": 0
+      },
+      {
+        "s": "38",
+        "c": "Verde Amarillo",
+        "u": 0
+      },
+      {
+        "s": "39",
+        "c": "Blanco x Blanco",
+        "u": 0
+      },
+      {
+        "s": "39",
+        "c": "Verde Amarillo",
+        "u": 0
+      },
+      {
+        "s": "40",
+        "c": "Blanco Azul Rojo",
+        "u": 0
+      },
+      {
+        "s": "40",
+        "c": "Blanco x Blanco",
+        "u": 0
+      },
+      {
+        "s": "40",
+        "c": "Negro x Negro",
+        "u": 0
+      },
+      {
+        "s": "40",
+        "c": "Blanco x Negro",
+        "u": 0
+      },
+      {
+        "s": "40",
+        "c": "Negro x Blanco",
+        "u": 0
+      },
+      {
+        "s": "40",
+        "c": "Rojo",
+        "u": 0
+      },
+      {
+        "s": "41",
+        "c": "Blanco Azul Rojo",
+        "u": 0
+      },
+      {
+        "s": "41",
+        "c": "Blanco x Blanco",
+        "u": 0
+      },
+      {
+        "s": "41",
+        "c": "Negro x Negro",
+        "u": 0
+      },
+      {
+        "s": "41",
+        "c": "Blanco x Negro",
+        "u": 0
+      },
+      {
+        "s": "41",
+        "c": "Negro x Blanco",
+        "u": 0
+      },
+      {
+        "s": "41",
+        "c": "Rojo",
+        "u": 0
+      },
+      {
+        "s": "41",
+        "c": "Verde Amarillo",
+        "u": 0
+      }
+    ],
+    "imgs": [
+      "assets/img/products/34d7c9fd-8594-4077-af47-ae5b82f3664c.jpg",
+      "assets/img/products/51ba2fe0-dd7c-4187-86b4-65f123c213b0.jpg",
+      "assets/img/products/c8a0ae93-1b99-405f-b1c9-1ad0f80602f6.jpg",
+      "assets/img/products/3febc1c6-9916-4543-911a-264beeb2475d.jpg",
+      "assets/img/products/b1db2eeb-f56b-42b4-82c5-b490237bd36d.jpg",
+      "assets/img/products/bb96f18c-54ae-4b86-8853-7106a44ecdd5.jpg",
+      "assets/img/products/86004995-2986-4e5a-b279-748a62bc1091.jpg",
+      "assets/img/products/a4df2a31-c0e8-4f86-95f1-0e6539dd6bf5.jpg"
+    ],
+    "imgColorMap": {
+      "assets/img/products/34d7c9fd-8594-4077-af47-ae5b82f3664c.jpg": "Azul x Blanco",
+      "assets/img/products/51ba2fe0-dd7c-4187-86b4-65f123c213b0.jpg": "Blanco Azul Rojo",
+      "assets/img/products/c8a0ae93-1b99-405f-b1c9-1ad0f80602f6.jpg": "Blanco x Blanco",
+      "assets/img/products/3febc1c6-9916-4543-911a-264beeb2475d.jpg": "Negro x Negro",
+      "assets/img/products/b1db2eeb-f56b-42b4-82c5-b490237bd36d.jpg": "Blanco x Negro",
+      "assets/img/products/bb96f18c-54ae-4b86-8853-7106a44ecdd5.jpg": "Negro x Blanco",
+      "assets/img/products/86004995-2986-4e5a-b279-748a62bc1091.jpg": "Rojo",
+      "assets/img/products/a4df2a31-c0e8-4f86-95f1-0e6539dd6bf5.jpg": "Verde Amarillo"
+    },
+    "published": true
+  },
+  {
+    "slug": "tenis-fade-hatelow-negro",
+    "sku": "ZAP-FAD-002",
+    "n": "Tenis Fade Hatelow Negro",
+    "brand": "Fade",
+    "cat": "zapatillas",
+    "sub": "Tenis",
+    "spec": [
+      "Suela propia de la marca",
+      "Cosidos para evitar el despegue",
+      "Material de primera calidad",
+      "Hechos en Colombia",
+      "Color: Negro x Negro"
+    ],
+    "price": 160000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "37",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "imgs": [
+      "assets/img/products/08cb925e-795a-4c1b-b443-53f590a0a033.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "tenis-fade-hatelow-2",
+    "sku": "ZAP-FAD-003",
+    "n": "Tenis Fade Hatelow 2",
+    "brand": "Fade",
+    "cat": "zapatillas",
+    "sub": "Tenis",
+    "spec": [
+      "Suela propia de la marca",
+      "Cosidos para evitar el despegue",
+      "Material de primera calidad",
+      "Hechos en Colombia"
+    ],
+    "price": 160000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "37",
+        "u": 1
+      },
+      {
+        "v": "39",
+        "u": 3
+      },
+      {
+        "v": "40",
+        "u": 2
+      },
+      {
+        "v": "41",
+        "u": 1
+      },
+      {
+        "v": "42",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 5
+      },
+      {
+        "v": "Verde Oliva",
+        "u": 1
+      },
+      {
+        "v": "Blanco",
+        "u": 2,
+        "price": 180000
+      }
+    ],
+    "combos": [
+      {
+        "s": "37",
+        "c": "Negro",
+        "u": 1
+      },
+      {
+        "s": "39",
+        "c": "Negro",
+        "u": 3
+      },
+      {
+        "s": "41",
+        "c": "Negro",
+        "u": 1
+      },
+      {
+        "s": "40",
+        "c": "Verde Oliva",
+        "u": 1
+      },
+      {
+        "s": "40",
+        "c": "Blanco",
+        "u": 1
+      },
+      {
+        "s": "42",
+        "c": "Blanco",
+        "u": 1
+      },
+      {
+        "s": "37",
+        "c": "Verde Oliva",
+        "u": 0
+      },
+      {
+        "s": "37",
+        "c": "Blanco",
+        "u": 0
+      },
+      {
+        "s": "39",
+        "c": "Verde Oliva",
+        "u": 0
+      },
+      {
+        "s": "39",
+        "c": "Blanco",
+        "u": 0
+      },
+      {
+        "s": "40",
+        "c": "Negro",
+        "u": 0
+      },
+      {
+        "s": "41",
+        "c": "Verde Oliva",
+        "u": 0
+      },
+      {
+        "s": "41",
+        "c": "Blanco",
+        "u": 0
+      },
+      {
+        "s": "42",
+        "c": "Negro",
+        "u": 0
+      },
+      {
+        "s": "42",
+        "c": "Verde Oliva",
+        "u": 0
+      }
+    ],
+    "imgs": [
+      "assets/img/products/3b8619e8-eaf4-4ea1-8543-48fa14a03126.jpg",
+      "assets/img/products/bf1f1b0c-7fe8-4e40-a71a-30ec72e4c7a9.jpg",
+      "assets/img/products/892cb240-5b2a-4950-bbe1-ceaf5eba67c5.jpg"
+    ],
+    "imgColorMap": {
+      "assets/img/products/3b8619e8-eaf4-4ea1-8543-48fa14a03126.jpg": "Negro",
+      "assets/img/products/bf1f1b0c-7fe8-4e40-a71a-30ec72e4c7a9.jpg": "Verde Oliva",
+      "assets/img/products/892cb240-5b2a-4950-bbe1-ceaf5eba67c5.jpg": "Blanco"
+    },
+    "published": true
+  },
+  {
+    "slug": "tenis-fade-mst-negro-blanco",
+    "sku": "ZAP-FAD-004",
+    "n": "Tenis Fade MST Negro Blanco",
+    "brand": "Fade",
+    "cat": "zapatillas",
+    "sub": "Tenis",
+    "spec": [
+      "Suela propia de la marca",
+      "Cosidos para evitar el despegue",
+      "Material de primera calidad",
+      "Hechos en Colombia",
+      "Capellada en malla",
+      "Color: Negro x Blanco"
+    ],
+    "price": 150000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "41",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "imgs": [
+      "assets/img/products/0c28b43f-6e5e-4778-a31a-4e4c9b18ef72.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "tenis-fade-om-108",
+    "sku": "ZAP-FAD-005",
+    "n": "Tenis Fade OM 108",
+    "brand": "Fade",
+    "cat": "zapatillas",
+    "sub": "Tenis",
+    "spec": [
+      "Suela propia de la marca",
+      "Cosidos para evitar el despegue",
+      "Material de primera calidad",
+      "Hechos en Colombia"
+    ],
+    "price": 160000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "38",
+        "u": 1
+      },
+      {
+        "v": "39",
+        "u": 3
+      },
+      {
+        "v": "40",
+        "u": 1
+      },
+      {
+        "v": "41",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "colors": [
+      {
+        "v": "Negro x Negro",
+        "u": 4
+      },
+      {
+        "v": "Negro x Blanco",
+        "u": 1
+      },
+      {
+        "v": "Café Goma",
+        "u": 1
+      }
+    ],
+    "combos": [
+      {
+        "s": "38",
+        "c": "Negro x Negro",
+        "u": 1
+      },
+      {
+        "s": "39",
+        "c": "Negro x Negro",
+        "u": 2
+      },
+      {
+        "s": "41",
+        "c": "Negro x Negro",
+        "u": 1
+      },
+      {
+        "s": "40",
+        "c": "Negro x Blanco",
+        "u": 1
+      },
+      {
+        "s": "39",
+        "c": "Café Goma",
+        "u": 1
+      },
+      {
+        "s": "38",
+        "c": "Negro x Blanco",
+        "u": 0
+      },
+      {
+        "s": "38",
+        "c": "Café Goma",
+        "u": 0
+      },
+      {
+        "s": "39",
+        "c": "Negro x Blanco",
+        "u": 0
+      },
+      {
+        "s": "40",
+        "c": "Negro x Negro",
+        "u": 0
+      },
+      {
+        "s": "40",
+        "c": "Café Goma",
+        "u": 0
+      },
+      {
+        "s": "41",
+        "c": "Negro x Blanco",
+        "u": 0
+      },
+      {
+        "s": "41",
+        "c": "Café Goma",
+        "u": 0
+      }
+    ],
+    "imgs": [
+      "assets/img/products/a351d2c1-f866-4bd1-b750-e9c72010bcd7.jpg",
+      "assets/img/products/298886af-8c58-4635-89f2-227a58505645.jpg",
+      "assets/img/products/863d4c26-fbdf-4910-9a6d-4ffb044177ab.jpg"
+    ],
+    "imgColorMap": {
+      "assets/img/products/a351d2c1-f866-4bd1-b750-e9c72010bcd7.jpg": "Negro x Negro",
+      "assets/img/products/298886af-8c58-4635-89f2-227a58505645.jpg": "Negro x Blanco",
+      "assets/img/products/863d4c26-fbdf-4910-9a6d-4ffb044177ab.jpg": "Café Goma"
+    },
+    "published": true
+  },
+  {
+    "slug": "tenis-fade-split",
+    "sku": "ZAP-FAD-006",
+    "n": "Tenis Fade Split",
+    "brand": "Fade",
+    "cat": "zapatillas",
+    "sub": "Tenis",
+    "spec": [
+      "Suela propia de la marca",
+      "Cosidos para evitar el despegue",
+      "Material de primera calidad",
+      "Hechos en Colombia"
+    ],
+    "price": 180000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "39",
+        "u": 2
+      },
+      {
+        "v": "41",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "colors": [
+      {
+        "v": "Negro x Negro",
+        "u": 1
+      },
+      {
+        "v": "Café Goma",
+        "u": 2
+      }
+    ],
+    "combos": [
+      {
+        "s": "39",
+        "c": "Negro x Negro",
+        "u": 1
+      },
+      {
+        "s": "39",
+        "c": "Café Goma",
+        "u": 1
+      },
+      {
+        "s": "41",
+        "c": "Café Goma",
+        "u": 1
+      },
+      {
+        "s": "41",
+        "c": "Negro x Negro",
+        "u": 0
+      }
+    ],
+    "imgs": [
+      "assets/img/products/35e62101-f576-4d7e-90fc-c82d3846850c.jpg",
+      "assets/img/products/33eb046b-ec3a-4ce4-bc28-0dfeb66c1aef.jpg"
+    ],
+    "imgColorMap": {
+      "assets/img/products/35e62101-f576-4d7e-90fc-c82d3846850c.jpg": "Negro x Negro",
+      "assets/img/products/33eb046b-ec3a-4ce4-bc28-0dfeb66c1aef.jpg": "Café Goma"
+    },
+    "published": true
+  },
+  {
+    "slug": "tenis-fade-team",
+    "sku": "ZAP-FAD-007",
+    "n": "Tenis Fade Team",
+    "brand": "Fade",
+    "cat": "zapatillas",
+    "sub": "Tenis",
+    "spec": [
+      "Suela propia de la marca",
+      "Cosidos para evitar el despegue",
+      "Material de primera calidad",
+      "Hechos en Colombia",
+      "Corte: bota media con correa"
+    ],
+    "price": 170000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "39",
+        "u": 2
+      },
+      {
+        "v": "40",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "colors": [
+      {
+        "v": "Negro x Negro",
+        "u": 2
+      },
+      {
+        "v": "Negro Goma",
+        "u": 1
+      }
+    ],
+    "combos": [
+      {
+        "s": "39",
+        "c": "Negro x Negro",
+        "u": 1
+      },
+      {
+        "s": "40",
+        "c": "Negro x Negro",
+        "u": 1
+      },
+      {
+        "s": "39",
+        "c": "Negro Goma",
+        "u": 1
+      },
+      {
+        "s": "40",
+        "c": "Negro Goma",
+        "u": 0
+      }
+    ],
+    "imgs": [
+      "assets/img/products/9c94449b-b473-4aa7-8ed0-10aef486770e.jpg",
+      "assets/img/products/6b448b62-f6a7-4fbf-b843-5b66e475ac9a.jpg",
+      "assets/img/products/7c7b2f6e-7be0-4aa7-8be3-fc8f555c2bd9.jpg"
+    ],
+    "imgColorMap": {
+      "assets/img/products/9c94449b-b473-4aa7-8ed0-10aef486770e.jpg": "Negro x Negro",
+      "assets/img/products/6b448b62-f6a7-4fbf-b843-5b66e475ac9a.jpg": "Negro x Negro",
+      "assets/img/products/7c7b2f6e-7be0-4aa7-8be3-fc8f555c2bd9.jpg": "Negro Goma"
+    },
+    "published": true
+  },
+  {
+    "slug": "tenis-fade-unlimited-bikes",
+    "sku": "ZAP-FAD-008",
+    "n": "Tenis Fade Unlimited Bikes",
+    "brand": "Fade",
+    "cat": "zapatillas",
+    "sub": "Tenis",
+    "spec": [
+      "Suela propia de la marca",
+      "Cosidos para evitar el despegue",
+      "Material de primera calidad",
+      "Hechos en Colombia",
+      "Corte: bota media"
+    ],
+    "price": 160000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "37",
+        "u": 2
+      },
+      {
+        "v": "40",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "colors": [
+      {
+        "v": "Negro x Negro",
+        "u": 1
+      },
+      {
+        "v": "Negro Goma",
+        "u": 1,
+        "price": 170000
+      },
+      {
+        "v": "Verde Goma",
+        "u": 1,
+        "price": 170000
+      }
+    ],
+    "combos": [
+      {
+        "s": "37",
+        "c": "Negro x Negro",
+        "u": 1
+      },
+      {
+        "s": "37",
+        "c": "Negro Goma",
+        "u": 1
+      },
+      {
+        "s": "40",
+        "c": "Verde Goma",
+        "u": 1
+      },
+      {
+        "s": "37",
+        "c": "Verde Goma",
+        "u": 0
+      },
+      {
+        "s": "40",
+        "c": "Negro x Negro",
+        "u": 0
+      },
+      {
+        "s": "40",
+        "c": "Negro Goma",
+        "u": 0
+      }
+    ],
+    "imgs": [
+      "assets/img/products/be997b38-2d9c-4763-99aa-b20c137b0839.jpg",
+      "assets/img/products/d7472c92-a63f-4829-9b38-2c9e9ccc161e.jpg",
+      "assets/img/products/fd3ec827-c40f-4865-b9fa-c2eea97750c6.jpg"
+    ],
+    "imgColorMap": {
+      "assets/img/products/be997b38-2d9c-4763-99aa-b20c137b0839.jpg": "Negro x Negro",
+      "assets/img/products/d7472c92-a63f-4829-9b38-2c9e9ccc161e.jpg": "Negro Goma",
+      "assets/img/products/fd3ec827-c40f-4865-b9fa-c2eea97750c6.jpg": "Verde Goma"
+    },
+    "published": true
   }
 ];
