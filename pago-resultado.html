@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css?v=c91a0899">
+  <link rel="stylesheet" href="assets/css/styles.css?v=42ed1b89">
   <link rel="icon" href="assets/img/favicon.png">
 </head>
 <body>
@@ -28,9 +28,9 @@
   <div id="site-footer"></div>
 
   <script src="assets/js/products-data.js?v=3"></script>
-  <script src="assets/js/data.js?v=2e78278d"></script>
-  <script src="assets/js/app.js?v=c85c0e90"></script>
-  <script src="assets/js/wompi.js?v=e5052b66"></script>
+  <script src="assets/js/data.js?v=83e3506f"></script>
+  <script src="assets/js/app.js?v=ab0c2865"></script>
+  <script src="assets/js/wompi.js?v=6e88634b"></script>
   <script>
     stikeInit();
 
@@ -52,6 +52,66 @@
     const X_SVG = `<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
     const CLOCK_SVG = `<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
 
+    /* Consulta el estado a nuestro servidor (que le pregunta a Wompi con la
+       llave privada). Lanza si no se pudo confirmar. */
+    async function fetchTxn(id) {
+      const res = await fetch(`${STATUS_ENDPOINT}?id=${encodeURIComponent(id)}`, { cache: "no-store" });
+      const body = await res.json();
+      if (!res.ok) throw new Error(body?.error || `HTTP ${res.status}`);
+      return body.data || body;
+    }
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
+    /* PSE y Nequi quedan PENDING hasta que el banco / la app confirman (de
+       segundos a unos minutos). Mientras la pestana siga abierta se vuelve a
+       preguntar; si se cierra, el webhook (api/wompi-events) registra el
+       pedido igual cuando Wompi lo apruebe. */
+    const POLL_EVERY_MS = 5000, POLL_FOR_MS = 180000;
+
+    function waLink(text) { return `https://wa.me/${STIKE_CONFIG.whatsapp}?text=${text}`; }
+
+    function showApproved(txn, id) {
+      const ref = txn.reference || id;
+      /* El carrito en localStorage sigue intacto hasta este punto -- es la
+         unica fuente que sabe QUE se compro en el navegador (Wompi solo
+         conoce referencia y monto). Lo leemos antes de vaciarlo para armar
+         el aviso por WhatsApp. El registro de la venta NO sale de aca: el
+         servidor ya guardo el pedido al firmar, y lo registra al confirmar
+         el pago con Wompi (wompi-order / wompi-events). */
+      const cart = stikeGetCart();
+      const shipInfo = stikeGetShipping();
+      const waLines = cart.map(r => {
+        const p = stikeFindProduct(r.slug);
+        if (!p) return "";
+        const variantBits = [];
+        if (r.size) variantBits.push(`Talla ${r.size}`);
+        if (r.color) variantBits.push(`Color ${r.color}`);
+        const variant = variantBits.length ? ` (${variantBits.join(", ")})` : "";
+        return `• ${r.qty}x ${p.n}${variant}, ${stikePrice(stikePriceFor(p, r.size || null, r.color || null) * r.qty)}`;
+      }).filter(Boolean).join("%0A");
+      const amountPesos = Math.round((txn.amount_in_cents || 0) / 100);
+      const shipLines = shipInfo
+        ? `%0A%0AEnviar a:%0A${shipInfo.name} - ${shipInfo.phone}%0A${shipInfo.address}, ${shipInfo.city}` + (shipInfo.notes ? `%0ANotas: ${shipInfo.notes}` : "")
+        : "";
+      const waMsg = `Hola Stike! Ya pague mi pedido por Wompi.%0AReferencia: ${ref}%0A${waLines}%0A%0ATotal pagado: ${stikePrice(amountPesos)}${shipLines}`;
+
+      /* Solo la referencia y el id: el servidor ignora cualquier otro dato del navegador. */
+      fetch(STIKE_WOMPI_API.order, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reference: ref, wompiId: id }),
+      }).then(r => { if (!r.ok) console.error("wompi-order respondio", r.status); })
+        .catch(err => console.error("wompi-order (registro de venta):", err));
+
+      stikeSaveCart([]);
+      stikeClearShipping();
+      renderState({
+        icon: CHECK_SVG, title: "¡Pago exitoso!", orderNo: ref,
+        message: "Avísanos por WhatsApp para confirmar el envío de tu pedido:",
+        extra: `<a class="btn wa block" style="margin-bottom:10px" href="${waLink(waMsg)}" target="_blank" rel="noopener">Avisar por WhatsApp</a>`,
+        actionHref: "tienda.html", actionLabel: "Volver a la tienda",
+      });
+    }
+
     async function run() {
       const params = new URLSearchParams(location.search);
       const id = params.get("id");
@@ -66,10 +126,7 @@
 
       let txn;
       try {
-        const res = await fetch(`${STATUS_ENDPOINT}?id=${encodeURIComponent(id)}`);
-        const body = await res.json();
-        if (!res.ok) throw new Error(body?.error || `HTTP ${res.status}`);
-        txn = body.data || body;
+        txn = await fetchTxn(id);
       } catch (err) {
         renderState({
           icon: X_SVG, title: "No pudimos confirmar el pago",
@@ -79,65 +136,34 @@
         return;
       }
 
-      const ref = txn.reference || id;
-      if (txn.status === "APPROVED") {
-        /* El carrito en localStorage sigue intacto hasta este punto --
-           es la unica fuente que sabe QUE se compro (Wompi solo conoce
-           referencia y monto, nunca los productos). Lo leemos antes de
-           vaciarlo para armar el aviso por WhatsApp y, si existe, mandarlo
-           tambien al backend (ver STIKE_WOMPI_ORDER_ENDPOINT) para que
-           quede en el registro de ventas del panel admin. */
-        const cart = stikeGetCart();
-        const shipInfo = stikeGetShipping();
-        const waLines = cart.map(r => {
-          const p = stikeFindProduct(r.slug);
-          if (!p) return "";
-          const variantBits = [];
-          if (r.size) variantBits.push(`Talla ${r.size}`);
-          if (r.color) variantBits.push(`Color ${r.color}`);
-          const variant = variantBits.length ? ` (${variantBits.join(", ")})` : "";
-          return `• ${r.qty}x ${p.n}${variant}, ${stikePrice(stikePriceFor(p, r.size || null, r.color || null) * r.qty)}`;
-        }).filter(Boolean).join("%0A");
-        const amountPesos = Math.round((txn.amount_in_cents || 0) / 100);
-        const shipLines = shipInfo
-          ? `%0A%0AEnviar a:%0A${shipInfo.name} - ${shipInfo.phone}%0A${shipInfo.address}, ${shipInfo.city}` + (shipInfo.notes ? `%0ANotas: ${shipInfo.notes}` : "")
-          : "";
-        const waMsg = `Hola Stike! Ya pague mi pedido por Wompi.%0AReferencia: ${ref}%0A${waLines}%0A%0ATotal pagado: ${stikePrice(amountPesos)}${shipLines}`;
-
-        const ORDER_ENDPOINT = STIKE_WOMPI_API.order;
-        if (ORDER_ENDPOINT && cart.length) {
-          fetch(ORDER_ENDPOINT, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              reference: ref,
-              wompiId: id,
-              amountInCents: txn.amount_in_cents,
-              customerEmail: txn.customer_email || null,
-              shipping: shipInfo || null,
-              items: cart.map(r => ({ slug: r.slug, qty: r.qty, size: r.size || null, color: r.color || null })),
-            }),
-          }).catch(err => console.error("wompi-order (registro de venta):", err));
-        }
-
-        stikeSaveCart([]);
-        stikeClearShipping();
+      if (txn.status === "PENDING") {
+        const ref = txn.reference || id;
         renderState({
-          icon: CHECK_SVG, title: "¡Pago exitoso!", orderNo: ref,
-          message: "Avísanos por WhatsApp para confirmar el envío de tu pedido:",
-          extra: `<a class="btn wa block" style="margin-bottom:10px" href="https://wa.me/${STIKE_CONFIG.whatsapp}?text=${waMsg}" target="_blank" rel="noopener">Avisar por WhatsApp</a>`,
+          icon: CLOCK_SVG, title: "Confirmando tu pago…", orderNo: ref,
+          message: "Tu banco o Nequi todavía no responde. No cierres esta página: apenas lo confirme te lo mostramos aquí.",
           actionHref: "tienda.html", actionLabel: "Volver a la tienda",
         });
+        const until = Date.now() + POLL_FOR_MS;
+        while (txn.status === "PENDING" && Date.now() < until) {
+          await sleep(POLL_EVERY_MS);
+          try { txn = await fetchTxn(id); } catch (e) { /* un fallo suelto no corta la espera */ }
+        }
+      }
+
+      const ref = txn.reference || id;
+      if (txn.status === "APPROVED") {
+        showApproved(txn, id);
       } else if (txn.status === "PENDING") {
         renderState({
-          icon: CLOCK_SVG, title: "Tu pago está en proceso", orderNo: ref,
-          message: "Algunos medios de pago (PSE, Nequi) tardan unos minutos en confirmar. Te avisamos por WhatsApp apenas se confirme.",
+          icon: CLOCK_SVG, title: "Tu pago sigue en proceso", orderNo: ref,
+          message: "Algunos bancos y Nequi tardan más de lo normal. No tienes que hacer nada: apenas el pago se confirme registramos tu pedido automáticamente. Si en un rato no te escribimos, avísanos por WhatsApp con tu referencia.",
+          extra: `<a class="btn wa block" style="margin-bottom:10px" href="${waLink(`Hola Stike! Mi pago por Wompi sigue en proceso.%0AReferencia: ${ref}`)}" target="_blank" rel="noopener">Escribir por WhatsApp</a>`,
           actionHref: "tienda.html", actionLabel: "Volver a la tienda",
         });
       } else {
         renderState({
           icon: X_SVG, title: "El pago no se completó", orderNo: ref,
-          message: "Puedes intentarlo de nuevo desde tu carrito.",
+          message: "El pago no fue aprobado, así que no se hizo ningún cobro definitivo (si ves un valor retenido, tu banco lo libera solo en unos días). Tu carrito sigue como lo dejaste: puedes intentarlo de nuevo, con otro medio de pago si prefieres.",
           actionHref: "carrito.html", actionLabel: "Volver al carrito",
         });
       }

@@ -108,7 +108,7 @@ try {
   t('sin ventas todavia', (await getSales(KEY)).body, []);
   txns['txn-1001'] = { status: 'APPROVED', reference: 'stike-OTRA-referencia', amount_in_cents: expectedCents };
   t('referencia que no coincide con Wompi -> rechazado', (await post(A.url, 'wompi-order', { reference: R1, wompiId: 'txn-1001' })).body.error, 'reference_mismatch');
-  t('transaccion inexistente en Wompi -> 502', (await post(A.url, 'wompi-order', { reference: R1, wompiId: 'NOEXISTE' })).code, 502);
+  t('transaccion inexistente en Wompi -> 404', (await post(A.url, 'wompi-order', { reference: R1, wompiId: 'NOEXISTE' })).code, 404);
   approve('txn-1001', R1);
   const o1 = await post(A.url, 'wompi-order', { reference: R1, wompiId: 'txn-1001', items: [{ slug: 'trucado', qty: 99 }] });
   t('pago aprobado -> 200', o1.code, 200);
@@ -145,10 +145,74 @@ try {
   const e3 = await post(A.url, 'wompi-events', ev('txn-1003', 'stike-1700000000011-eeeeee', 'DECLINED'));
   t('pago rechazado -> 200, no registra', [e3.code, e3.body.ignored], [200, 'status']);
   t('evento con referencia basura -> 200 ignorado', (await post(A.url, 'wompi-events', ev('txn-1003', 'x; DROP'))).body.ignored, 'invalid_reference');
-  t('evento falso (Wompi no conoce esa transaccion) -> Wompi reintenta', (await post(A.url, 'wompi-events', ev('FALSA', 'stike-1700000000012-ffffff'))).code, 502);
+  t('transaccion que Wompi no conoce con nuestra llave -> 200 ignorada (no es falla nuestra, no se reintenta)', (await post(A.url, 'wompi-events', ev('FALSA', 'stike-1700000000012-ffffff'))).body.ignored, 'transaction_not_found');
   txns['TDOWN'] = 'down';
   t('Wompi caido -> 5xx para que reintente', (await post(A.url, 'wompi-events', ev('TDOWN', 'stike-1700000000013-gggggg'))).code >= 500, true);
   t('ninguno de esos registro nada', (await getSales(KEY)).body.length, 4);
+
+  console.log('\nPSE / Nequi: el pago queda PENDING y se aprueba minutos despues');
+  const R7 = 'stike-1700000000080-pppppp';
+  await post(A.url, 'wompi-sign', order(R7));
+  txns['txn-1007'] = { status: 'PENDING', reference: R7, amount_in_cents: expectedCents };
+  const salesBefore7 = (await getSales(KEY)).body.length;
+  const e7a = await post(A.url, 'wompi-events', ev('txn-1007', R7, 'PENDING'));
+  t('evento PENDING -> 200 y NO se registra', [e7a.code, e7a.body.ignored, (await getSales(KEY)).body.length], [200, 'status', salesBefore7]);
+  t('el pedido sigue guardado esperando el pago', existsSync(join(STORAGE, 'pending', `${R7}.json`)), true);
+  t('no sale correo mientras esta PENDING', emails.length, 2);
+  approve('txn-1007', R7);
+  const e7b = await post(A.url, 'wompi-events', ev('txn-1007', R7, 'APPROVED'));
+  t('minutos despues llega APPROVED -> ahora si se registra', [e7b.code, e7b.body.recorded], [200, 2]);
+  t('y el pedido pendiente se limpia', existsSync(join(STORAGE, 'pending', `${R7}.json`)), false);
+  for (const st of ['DECLINED', 'VOIDED', 'ERROR']) {
+    const Rx = `stike-17000000009${st.length}-${st.toLowerCase().slice(0, 6).padEnd(6, 'x')}`;
+    await post(A.url, 'wompi-sign', order(Rx));
+    txns[`txn-${st}`] = { status: st, reference: Rx, amount_in_cents: expectedCents };
+    const n0 = (await getSales(KEY)).body.length;
+    const ex = await post(A.url, 'wompi-events', ev(`txn-${st}`, Rx, st));
+    const ox = await post(A.url, 'wompi-order', { reference: Rx, wompiId: `txn-${st}` });
+    t(`${st}: evento 200 sin registrar y regreso del navegador rechazado`, [ex.code, ex.body.ignored, ox.body.error, (await getSales(KEY)).body.length], [200, 'status', 'transaction_not_approved', n0]);
+  }
+
+  console.log('\nEstado de la transaccion (wompi-status): solo lo necesario, sin datos del cliente');
+  approve('txn-1008', R7);
+  txns['txn-1008'].customer_email = 'secreto@example.com'; txns['txn-1008'].customer_data = { phone_number: '3000000000' };
+  const st1 = await fetch(`${A.url}/wompi-status.php?id=txn-1008`);
+  const st1b = await st1.json();
+  t('devuelve estado, referencia y monto', [st1.status, st1b.data.status, st1b.data.reference, st1b.data.amount_in_cents], [200, 'APPROVED', R7, expectedCents]);
+  t('NO devuelve correo ni telefono del cliente', [JSON.stringify(st1b).includes('secreto@example.com'), JSON.stringify(st1b).includes('3000000000')], [false, false]);
+  t('id inexistente -> 404', (await fetch(`${A.url}/wompi-status.php?id=NOEXISTE`)).status, 404);
+  t('id con caracteres raros -> 400', (await fetch(`${A.url}/wompi-status.php?id=${encodeURIComponent('a b;c')}`)).status, 400);
+  t('sin id -> 400', (await fetch(`${A.url}/wompi-status.php`)).status, 400);
+  t('POST no permitido', (await fetch(`${A.url}/wompi-status.php?id=txn-1008`, { method: 'POST' })).status, 405);
+
+  console.log('\nFirma de los eventos (con WOMPI_EVENTS_SECRET)');
+  const EVSEC = 'test_events_falso';
+  const C = await startPhp({ ...baseEnv, STORAGE_DIR: STORAGE, ADMIN_API_KEY: KEY, WOMPI_EVENTS_SECRET: EVSEC });
+  const signedEvent = (id, ref, status, secret = EVSEC, ts = 1700000123) => {
+    const tx = { id, reference: ref, status, amount_in_cents: expectedCents };
+    return {
+      event: 'transaction.updated', data: { transaction: tx }, environment: 'test', timestamp: ts, sent_at: '2026-10-17T12:00:00.000Z',
+      signature: { properties: ['transaction.id', 'transaction.status', 'transaction.amount_in_cents'],
+        checksum: createHash('sha256').update(`${tx.id}${tx.status}${tx.amount_in_cents}${ts}${secret}`).digest('hex').toUpperCase() },
+    };
+  };
+  const R8 = 'stike-1700000000090-qqqqqq';
+  await post(A.url, 'wompi-sign', order(R8));
+  approve('txn-1009', R8);
+  const forged = signedEvent('txn-1009', R8, 'APPROVED', 'otro_secreto');
+  t('firma hecha con otro secreto -> 401 y no se registra', [(await post(C.url, 'wompi-events', forged)).code, (await getSales(KEY)).body.filter(x => x.orderRef === R8).length], [401, 0]);
+  const unsigned = signedEvent('txn-1009', R8, 'APPROVED'); delete unsigned.signature;
+  t('evento sin firma -> 401', (await post(C.url, 'wompi-events', unsigned)).code, 401);
+  const tampered = signedEvent('txn-1009', R8, 'DECLINED'); tampered.data.transaction.status = 'APPROVED';
+  t('cuerpo alterado despues de firmar -> 401', (await post(C.url, 'wompi-events', tampered)).code, 401);
+  const good = await post(C.url, 'wompi-events', signedEvent('txn-1009', R8, 'APPROVED'));
+  t('firma valida -> 200 y registra', [good.code, good.body.recorded], [200, 2]);
+  const hdrEv = signedEvent('txn-1009', R8, 'APPROVED'); const hdrSum = hdrEv.signature.checksum; delete hdrEv.signature.checksum;
+  const viaHeader = await fetch(`${C.url}/wompi-events.php`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Event-Checksum': hdrSum }, body: JSON.stringify(hdrEv) });
+  t('checksum solo en el header X-Event-Checksum tambien vale', [viaHeader.status, (await viaHeader.json()).alreadyRecorded], [200, true]);
+  t('eventos de otro tipo no necesitan firma', (await post(C.url, 'wompi-events', { event: 'nequi_token.updated', data: {} })).code, 200);
+  t('verificar la URL (GET) sigue dando 200', (await fetch(`${C.url}/wompi-events.php`)).status, 200);
+  C.proc.kill();
 
   console.log('\nPagos que no cuadran se registran marcados, nunca se pierden');
   const R4 = 'stike-1700000000020-hhhhhh';

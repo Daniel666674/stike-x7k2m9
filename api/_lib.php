@@ -13,6 +13,7 @@
        'WOMPI_PUBLIC_KEY'       => 'pub_prod_...',
        'WOMPI_PRIVATE_KEY'      => 'prv_prod_...',
        'WOMPI_INTEGRITY_SECRET' => 'prod_integrity_...',
+       'WOMPI_EVENTS_SECRET'    => 'prod_events_...',   // opcional: si esta, cada evento se verifica con su firma
        'ADMIN_API_KEY'          => '<cadena larga al azar; se pega en el panel>',
        'RESEND_API_KEY'         => 're_...',            // opcional, ver correo
        'OWNER_NOTIFY_EMAIL'     => 'dueno@correo.com',  // opcional
@@ -477,6 +478,7 @@ function stike_wompi_get_transaction($id) {
   if (!$key) throw new ApiError(500, "server_not_configured", "falta WOMPI_PRIVATE_KEY (env o api/config.local.php)");
   $base = stike_config("WOMPI_API_BASE") ?: (str_starts_with($key, "prv_prod_") ? "https://production.wompi.co/v1" : "https://sandbox.wompi.co/v1");
   $res = stike_http("GET", rtrim($base, "/") . "/transactions/" . rawurlencode($id), ["Authorization: Bearer " . $key]);
+  if ($res["status"] === 404) throw new ApiError(404, "transaction_not_found");   // no es falla nuestra: Wompi no la conoce con esta llave
   if ($res["status"] !== 200 || !isset($res["json"]["data"]) || !is_array($res["json"]["data"])) {
     throw new ApiError(502, "wompi_verify_failed", (string)$res["status"]);
   }
@@ -508,6 +510,30 @@ function stike_wompi_keys() {
     throw new ApiError(500, "server_misconfigured", "las llaves de Wompi no son todas del mismo ambiente (sandbox o produccion)");
   }
   return ["public" => $keys["WOMPI_PUBLIC_KEY"], "private" => $keys["WOMPI_PRIVATE_KEY"], "integrity" => $keys["WOMPI_INTEGRITY_SECRET"], "environment" => reset($envs)];
+}
+
+/* Firma de un EVENTO de Wompi (webhook). Segun la documentacion de Wompi, el
+   checksum es SHA256( valores de event.signature.properties tomados de
+   event.data, en ese orden, pegados + event.timestamp + secreto de eventos ).
+   Llega en event.signature.checksum (y en el header X-Event-Checksum). El
+   secreto de eventos es OTRO distinto al de integridad: panel de Wompi >
+   Desarrolladores > Secretos para integracion tecnica > Eventos. */
+function stike_event_checksum_ok($event, $secret) {
+  $sig = $event["signature"] ?? null;
+  $props = is_array($sig) ? ($sig["properties"] ?? null) : null;
+  $given = is_array($sig) ? ($sig["checksum"] ?? null) : null;
+  if (!is_string($given) || $given === "") $given = $_SERVER["HTTP_X_EVENT_CHECKSUM"] ?? null;
+  $ts = $event["timestamp"] ?? null;
+  if (!is_array($props) || !is_string($given) || $given === "" || (!is_int($ts) && !is_string($ts))) return false;
+  $concat = "";
+  foreach ($props as $path) {
+    if (!is_string($path)) return false;
+    $v = $event["data"] ?? null;
+    foreach (explode(".", $path) as $k) $v = is_array($v) ? ($v[$k] ?? null) : null;
+    if (is_array($v)) return false;
+    $concat .= is_bool($v) ? ($v ? "true" : "false") : (string)($v ?? "");
+  }
+  return hash_equals(strtolower(hash("sha256", $concat . $ts . $secret)), strtolower($given));
 }
 
 /* Confirma un pago con Wompi (llave privada, del lado del servidor) y registra

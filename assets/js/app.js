@@ -585,13 +585,18 @@ function stikeCloseSearch() {
    Una sola fuente para la franja de logos del pie de pagina y del carrito.
    (El inicio la lleva escrita en index.html, con las mismas clases.)
    Visa, Mastercard y Wompi llevan su logo (assets/img/pay/, ver CREDITOS.txt).
-   PSE, Nequi y Efecty van como texto hasta tener sus logos oficiales: al
-   tenerlos, guardar pse.svg / nequi.svg / efecty.svg en esa carpeta y cambiar
-   el <span class="pay-word"> por un <img> igual al de Visa. */
+   Los logos que existan en assets/img/pay/ se muestran solos; los que no, van
+   como texto (clase .pay-word). Para estrenar un logo oficial (PSE, Nequi,
+   Bancolombia): guardar el archivo en esa carpeta, agregarlo a PAY_LOGO_FILE
+   y, si tambien lo quieres en el inicio, cambiar el <span class="pay-word">
+   de index.html por un <img> igual al de Visa. */
+const PAY_LOGO_FILE = { Visa: "visa.svg", Mastercard: "mastercard.svg", PSE: "pse.svg" };
+const PAY_METHODS = ["Visa", "Mastercard", "PSE", "Nequi", "Bancolombia"];
 function stikePayStrip(compact) {
-  const img = (f, alt) => `<li class="pay-chip"><img src="assets/img/pay/${f}.svg" alt="${alt}" loading="lazy" decoding="async"></li>`;
-  const word = t => `<li class="pay-chip"><span class="pay-word">${t}</span></li>`;
-  return `<ul class="pay-logos${compact ? " compact" : ""}" aria-label="Medios de pago aceptados">${img("visa", "Visa")}${img("mastercard", "Mastercard")}${word("PSE")}${word("Nequi")}${word("Efecty")}</ul>`;
+  const chip = m => PAY_LOGO_FILE[m]
+    ? `<li class="pay-chip"><img src="assets/img/pay/${PAY_LOGO_FILE[m]}" alt="${m}" loading="lazy" decoding="async"></li>`
+    : `<li class="pay-chip"><span class="pay-word">${m}</span></li>`;
+  return `<ul class="pay-logos${compact ? " compact" : ""}" aria-label="Medios de pago aceptados">${PAY_METHODS.map(chip).join("")}</ul>`;
 }
 function stikeWompiBadge(compact) {
   return `<a class="wompi-badge${compact ? " compact" : ""}" href="https://wompi.com" target="_blank" rel="noopener" aria-label="Pagos seguros con Wompi (se abre en una pestaña nueva)">

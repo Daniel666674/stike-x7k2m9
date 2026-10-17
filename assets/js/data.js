@@ -258,6 +258,65 @@ function stikeStockFor(p, size, color) {
   return typeof p.units === "number" ? p.units : 0;
 }
 
+/* CARRITO SANO ANTES DE COBRAR. El carrito vive en el navegador (localStorage)
+   y puede quedar viejo: el dueno despublica o renombra un producto, se agota
+   una talla, o alguien teclea 500 en la cantidad. El servidor (api/_lib.php,
+   stike_price_order) rechaza todo eso, y el cliente solo veia un error
+   generico al pagar. Esta funcion deja el carrito en un estado que el
+   servidor va a aceptar, y dice que cambio. Pura (sin DOM): la prueba
+   tools/cart-test.mjs la corre en Node.
+
+   Devuelve { cart, notes, changed }. */
+const STIKE_MAX_QTY = 20;   // igual que STIKE_MAX_QTY en api/_lib.php
+/* Stock para el carrito: MISMA regla que el servidor (stike_stock_for en
+   api/_lib.php). Un producto sin variantes y sin units registradas es
+   "desconocido" (null) y NO bloquea la venta, igual que en stikeSellable. */
+function stikeCartStock(p, size, color) {
+  const plain = !(p.sizes && p.sizes.length) && !(p.colors && p.colors.length);
+  if (plain) return typeof p.units === "number" ? p.units : null;
+  return stikeStockFor(p, size, color);
+}
+function stikeSanitizeCart(cart, products) {
+  const list = products || STIKE_GLOBAL.STIKE_PRODUCTS || [];
+  const bySlug = {};
+  list.forEach(p => { bySlug[p.slug] = p; });
+  const notes = [];
+  const out = [];
+  (Array.isArray(cart) ? cart : []).forEach(r => {
+    const p = r && bySlug[r.slug];
+    if (!p) { notes.push("Un producto de tu carrito ya no está disponible y lo quitamos."); return; }
+    const hasSizes = !!(p.sizes && p.sizes.length), hasColors = !!(p.colors && p.colors.length);
+    const size = hasSizes ? (r.size || null) : null;
+    const color = hasColors ? (r.color || null) : null;
+    if ((hasSizes && !p.sizes.some(x => x.v === size)) || (hasColors && !p.colors.some(x => x.v === color))) {
+      notes.push("Quitamos «" + p.n + "» porque su talla o color ya no existe. Vuelve a elegirlo en la tienda.");
+      return;
+    }
+    const price = stikePriceFor(p, size, color);
+    if (!Number.isInteger(price) || price <= 0) {
+      notes.push("Quitamos «" + p.n + "» porque no tiene precio para pagar en línea. Escríbenos por WhatsApp.");
+      return;
+    }
+    const stock = stikeCartStock(p, size, color);         // null = stock sin registrar: no bloquea
+    if (stock !== null && stock <= 0) {
+      notes.push("Quitamos «" + p.n + "» porque se agotó.");
+      return;
+    }
+    let qty = Number.isInteger(r.qty) && r.qty >= 1 ? r.qty : 1;
+    const cap = Math.min(STIKE_MAX_QTY, stock === null ? STIKE_MAX_QTY : stock);
+    if (qty > cap) {
+      notes.push("De «" + p.n + "» solo puedes llevar " + cap + (cap === 1 ? " unidad" : " unidades") + " por pedido.");
+      qty = cap;
+    }
+    const row = { slug: r.slug, qty };
+    if (size) row.size = size;
+    if (color) row.color = color;
+    out.push(row);
+  });
+  const changed = JSON.stringify(out) !== JSON.stringify(Array.isArray(cart) ? cart : []);
+  return { cart: out, notes, changed };
+}
+
 /* =========================================================================
    MOTOR DE STOCK Y VISIBILIDAD DE STIKE
 
@@ -546,5 +605,6 @@ if (typeof module !== "undefined" && module.exports) {
     stikeTotalStock, stikeSellable, stikeIsOut, stikeIsVisible, stikeIsOutOfStock,
     stikeStockFor, stikePoolStock, stikePoolTotal, stikeCategory, stikePrice,
     stikeWaText, stikeWaLabel, stikeColorStyle, stikeHasCombos, stikeComboUnits, stikePriceFor, stikePriceRange, stikePriceLabel,
+    stikeSanitizeCart, stikeCartStock,
   };
 }

@@ -2248,3 +2248,13 @@ body.fate-page .btn.ghost { color: #e9a58f; border-color: var(--fate-accent); }
 .pay-foot .pay-logos { justify-content: flex-end; }
 .pay-cart { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 14px; }
 @media (max-width: 760px) { .pay-foot { align-items: flex-start; max-width: none; } .pay-foot .pay-logos { justify-content: flex-start; } }
+
+/* ------- CARRITO: avisos de ajuste y error del pago ------- */
+.cart-notice { background: rgba(255,176,32,.1); border: 1px solid rgba(255,176,32,.45); border-radius: 10px; padding: 12px 14px; margin-bottom: 14px; font-size: 14px; line-height: 1.45; }
+.cart-notice p { margin: 0; }
+.cart-notice p + p { margin-top: 6px; }
+.pay-error { margin-top: 12px; padding: 12px 14px; border-radius: 10px; background: rgba(255,80,80,.1); border: 1px solid rgba(255,80,80,.5); font-size: 14px; line-height: 1.45; }
+.pay-error[hidden] { display: none; }
+.pay-error a { color: inherit; font-weight: 700; text-decoration: underline; }
+.summary .btn[disabled] { opacity: .6; cursor: wait; }
+.summary > .line.total { margin-top: 14px; }
