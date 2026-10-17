@@ -581,6 +581,25 @@ function stikeCloseSearch() {
 }
 
 /* ------------------------------ FOOTER --------------------------------- */
+/* ----------------------- MEDIOS DE PAGO + WOMPI ------------------------
+   Una sola fuente para la franja de logos del pie de pagina y del carrito.
+   (El inicio la lleva escrita en index.html, con las mismas clases.)
+   Visa, Mastercard y Wompi llevan su logo (assets/img/pay/, ver CREDITOS.txt).
+   PSE, Nequi y Efecty van como texto hasta tener sus logos oficiales: al
+   tenerlos, guardar pse.svg / nequi.svg / efecty.svg en esa carpeta y cambiar
+   el <span class="pay-word"> por un <img> igual al de Visa. */
+function stikePayStrip(compact) {
+  const img = (f, alt) => `<li class="pay-chip"><img src="assets/img/pay/${f}.svg" alt="${alt}" loading="lazy" decoding="async"></li>`;
+  const word = t => `<li class="pay-chip"><span class="pay-word">${t}</span></li>`;
+  return `<ul class="pay-logos${compact ? " compact" : ""}" aria-label="Medios de pago aceptados">${img("visa", "Visa")}${img("mastercard", "Mastercard")}${word("PSE")}${word("Nequi")}${word("Efecty")}</ul>`;
+}
+function stikeWompiBadge(compact) {
+  return `<a class="wompi-badge${compact ? " compact" : ""}" href="https://wompi.com" target="_blank" rel="noopener" aria-label="Pagos seguros con Wompi (se abre en una pestaña nueva)">
+    <img src="assets/img/pay/wompi.svg" alt="Wompi" loading="lazy" decoding="async">
+    <span><b>Pago 100% seguro</b><small>Procesado por Wompi, la pasarela de pagos de Bancolombia. Tus datos de tarjeta nunca pasan por nuestro sitio.</small></span>
+  </a>`;
+}
+
 function stikeRenderFooter() {
   const C = STIKE_CONFIG;
   const catLinks = STIKE_CATEGORIES.map(c =>
@@ -647,9 +666,7 @@ function stikeRenderFooter() {
           <a href="envios.html">Envíos</a>
           <a href="devoluciones.html">Devoluciones</a>
         </nav>
-        <div class="pay-icons">
-          <span>VISA</span><span>MASTERCARD</span><span>PSE</span><span>NEQUI</span><span>EFECTY</span>
-        </div>
+        <div class="pay-foot">${stikePayStrip(true)}${stikeWompiBadge(true)}</div>
       </div>
     </div>
   </footer>`;

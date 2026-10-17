@@ -1,0 +1,8 @@
+Logos de la franja de medios de pago
+- wompi.svg: logo oficial de Wompi (version secundaria sobre verde), tomado de los archivos de marca que entrego Wompi
+  (assets/img/brand/wompi/, sin modificar). Solo se recorto el viewBox. Respeta el manual de uso de marca de Wompi:
+  no cambiar colores, no deformar, dejar espacio libre alrededor.
+- visa.svg y mastercard.svg: iconos de Aaron Fagan via react-svg-credit-card-payment-icons (Apache-2.0).
+  Visa y Mastercard son marcas de sus titulares.
+- PSE, Nequi y Efecty: por ahora se muestran como texto (clase .pay-word). Para poner el logo oficial, guardar el SVG
+  aqui (pse.svg, nequi.svg, efecty.svg) y cambiar el <span class="pay-word"> por <img> en index.html y app.js.
