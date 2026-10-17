@@ -2244,8 +2244,8 @@ body.fate-page .btn.ghost { color: #e9a58f; border-color: var(--fate-accent); }
 .wompi-badge.compact img { height: 36px; border-radius: 6px; }
 .wompi-badge.compact b { font-size: 15px; }
 .wompi-badge.compact small { font-size: 11px; }
-.pay-foot { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; max-width: 340px; }
-.pay-foot .pay-logos { justify-content: flex-end; }
+.pay-foot { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; max-width: 460px; }
+.pay-foot .pay-logos { justify-content: flex-start; }
 .pay-cart { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 14px; }
 @media (max-width: 760px) { .pay-foot { align-items: flex-start; max-width: none; } .pay-foot .pay-logos { justify-content: flex-start; } }
 
@@ -2258,3 +2258,10 @@ body.fate-page .btn.ghost { color: #e9a58f; border-color: var(--fate-accent); }
 .pay-error a { color: inherit; font-weight: 700; text-decoration: underline; }
 .summary .btn[disabled] { opacity: .6; cursor: wait; }
 .summary > .line.total { margin-top: 14px; }
+
+/* Logos alargados (Nequi, Bancolombia): se miden por ancho, no por alto, para que el texto se lea. */
+.pay-chip.wm { padding: 0 16px; }
+.pay-chip.wm img { width: 112px; height: auto; }
+.pay-logos.compact .pay-chip.wm { padding: 0 8px; }
+.pay-logos.compact .pay-chip.wm img { width: 84px; height: auto; }
+@media (max-width: 760px) { .pay-chip.wm img { width: 96px; } .pay-logos.compact .pay-chip.wm img { width: 76px; } }

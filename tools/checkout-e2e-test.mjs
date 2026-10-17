@@ -173,7 +173,7 @@ try {
     eq('la ficha agrega al carrito', (await cartOf(page)).map(r => [r.slug, r.qty]), [[p.slug, 1]]);
     await page.goto(`${BASE}/carrito.html`, { waitUntil: 'load' });
     eq('el carrito muestra el total con envio', await cartTotalFromScreen(page), totalWithShip(p.price));
-    t('muestra los 5 medios de pago con Bancolombia (y sin Efecty)', (await page.locator('.summary .pay-chip').allInnerTexts().then(a => a.length === 5)) && !(await page.locator('.summary').innerText()).includes('Efecty') && (await page.locator('.summary').innerText()).includes('Bancolombia'));
+    eq('el carrito muestra los 5 medios de pago (con Bancolombia, sin Efecty)', [await page.locator('.summary .pay-chip img').evaluateAll(a => a.map(i => i.alt)), (await page.locator('.summary').innerText()).includes('Efecty')], [['Visa', 'Mastercard', 'PSE', 'Nequi', 'Bancolombia'], false]);
     t('ya no hay codigo promo falso', (await page.locator('#promo').count()) === 0);
     await page.click('#pay-btn');   // sin datos de envio
     t('sin datos de envio no abre Wompi', (await page.evaluate(() => window.__wompiOpened)) !== true);
@@ -449,11 +449,11 @@ try {
     await page.goto(`${BASE}/index.html`, { waitUntil: 'load' });
     await page.waitForTimeout(500);
     const chips = await page.locator('.rd-pay .pay-chip').allInnerTexts();
-    eq(`[${name}] inicio: 5 medios (Visa, Mastercard y PSE con logo; Nequi y Bancolombia en texto)`, [await page.locator('.rd-pay .pay-chip img').count(), chips.filter(x => x.trim()).map(x => x.trim())], [3, ['Nequi', 'Bancolombia']]);
+    eq(`[${name}] inicio: los 5 medios con su logo (Visa, Mastercard, PSE, Nequi, Bancolombia), sin texto suelto`, [await page.locator('.rd-pay .pay-chip img').evaluateAll(a => a.map(i => i.alt)), chips.filter(x => x.trim()).length], [['Visa', 'Mastercard', 'PSE', 'Nequi', 'Bancolombia'], 0]);
     t(`[${name}] los logos cargan`, await page.evaluate(() => [...document.querySelectorAll('.rd-pay img, footer img[src*="/pay/"]')].every(i => i.complete && i.naturalWidth > 0)));
     t(`[${name}] sin scroll horizontal`, (await page.evaluate(() => document.documentElement.scrollWidth)) <= vp.width + 2);
     t(`[${name}] las cifras viejas ya no estan`, !/\+12K|\+800|24 HRS/i.test(await page.locator('body').innerText()));
-    eq(`[${name}] pie: 5 medios + Wompi`, [await page.locator('footer .pay-chip').count(), await page.locator('footer .wompi-badge').count()], [5, 1]);
+    eq(`[${name}] pie: 5 medios con logo + Wompi`, [await page.locator('footer .pay-chip img').count(), await page.locator('footer .wompi-badge').count()], [5, 1]);
     if (SHOTS) {
       await page.locator('.rd-pay').scrollIntoViewIfNeeded();
       await page.waitForTimeout(300);

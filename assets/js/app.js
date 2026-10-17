@@ -585,16 +585,16 @@ function stikeCloseSearch() {
    Una sola fuente para la franja de logos del pie de pagina y del carrito.
    (El inicio la lleva escrita en index.html, con las mismas clases.)
    Visa, Mastercard y Wompi llevan su logo (assets/img/pay/, ver CREDITOS.txt).
-   Los logos que existan en assets/img/pay/ se muestran solos; los que no, van
-   como texto (clase .pay-word). Para estrenar un logo oficial (PSE, Nequi,
-   Bancolombia): guardar el archivo en esa carpeta, agregarlo a PAY_LOGO_FILE
-   y, si tambien lo quieres en el inicio, cambiar el <span class="pay-word">
-   de index.html por un <img> igual al de Visa. */
-const PAY_LOGO_FILE = { Visa: "visa.svg", Mastercard: "mastercard.svg", PSE: "pse.svg" };
+   Cada medio muestra su logo de assets/img/pay/ (ver CREDITOS.txt); si alguno
+   no tuviera archivo, cae a texto (clase .pay-word). Los logos alargados
+   (Nequi, Bancolombia) llevan la clase "wm" para medirse por ancho. Si se
+   agrega un medio nuevo: guardar su logo, anotarlo aqui y en index.html. */
+const PAY_LOGO_FILE = { Visa: "visa.svg", Mastercard: "mastercard.svg", PSE: "pse.svg", Nequi: "nequi.png", Bancolombia: "bancolombia.png" };
+const PAY_WORDMARK = { Nequi: [480, 116], Bancolombia: [480, 67] };   // [ancho, alto] reales del archivo
 const PAY_METHODS = ["Visa", "Mastercard", "PSE", "Nequi", "Bancolombia"];
 function stikePayStrip(compact) {
   const chip = m => PAY_LOGO_FILE[m]
-    ? `<li class="pay-chip"><img src="assets/img/pay/${PAY_LOGO_FILE[m]}" alt="${m}" loading="lazy" decoding="async"></li>`
+    ? `<li class="pay-chip${PAY_WORDMARK[m] ? " wm" : ""}"><img src="assets/img/pay/${PAY_LOGO_FILE[m]}" alt="${m}"${PAY_WORDMARK[m] ? ` width="${PAY_WORDMARK[m][0]}" height="${PAY_WORDMARK[m][1]}"` : ""} loading="lazy" decoding="async"></li>`
     : `<li class="pay-chip"><span class="pay-word">${m}</span></li>`;
   return `<ul class="pay-logos${compact ? " compact" : ""}" aria-label="Medios de pago aceptados">${PAY_METHODS.map(chip).join("")}</ul>`;
 }
