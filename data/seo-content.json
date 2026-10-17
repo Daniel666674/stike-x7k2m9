@@ -54,7 +54,7 @@
       "items": [
         {
           "q": "¿Qué medios de pago aceptan?",
-          "a": "{{payments}}. El pedido se confirma una vez verificado el pago. También puedes coordinar tu compra por WhatsApp al {{phone}}."
+          "a": "{{payments}}. Pagas en el checkout de Wompi, la pasarela de pagos de Bancolombia: nosotros nunca vemos los datos de tu tarjeta. El pedido se confirma una vez verificado el pago. También puedes coordinar tu compra por WhatsApp al {{phone}}."
         }
       ]
     },

@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css?v=87aac53a">
+  <link rel="stylesheet" href="assets/css/styles.css?v=c91a0899">
   <link rel="icon" href="assets/img/favicon.png">
 </head>
 <body>
@@ -31,7 +31,7 @@
 
   <script src="assets/js/products-data.js?v=3"></script>
   <script src="assets/js/data.js?v=b55e1207"></script>
-  <script src="assets/js/app.js?v=4bf78a48"></script>
+  <script src="assets/js/app.js?v=c85c0e90"></script>
   <script src="assets/js/wompi.js?v=e5052b66"></script>
   <script>
     stikeInit();
@@ -290,13 +290,7 @@
           </div>
           <a class="btn wa block" style="margin-top:16px" href="https://wa.me/${STIKE_CONFIG.whatsapp}?text=${waMsg}" target="_blank" rel="noopener">Finalizar por WhatsApp</a>
           <button class="btn block" style="margin-top:10px" onclick="handlePagarAhora(${total})">Pagar ahora</button>
-          <div class="pay-icons" style="justify-content:center;margin-top:14px">
-            <span>VISA</span><span>MASTERCARD</span><span>PSE</span><span>NEQUI</span><span>EFECTY</span>
-          </div>
-          <p style="color:var(--muted);font-size:11px;margin-top:8px;text-align:center;display:flex;align-items:center;justify-content:center;gap:5px">
-            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            Pago seguro procesado por Wompi
-          </p>
+          <div class="pay-cart">${stikePayStrip(true)}${stikeWompiBadge(true)}</div>
         </aside>
       </div>
       ${crossSell.length ? `

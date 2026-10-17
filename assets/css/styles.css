@@ -666,8 +666,6 @@ body.fate-page .card .brand-line .bl-sub { display: inline; }
 .newsletter input { flex: 1; background: var(--bg-3); border: 1px solid var(--line); color: var(--ink); border-radius: 8px; padding: 10px 12px; font-family: var(--body); }
 .newsletter input:focus { outline: none; border-color: var(--accent); }
 .footer-bottom { border-top: 1px solid var(--line); margin-top: 36px; padding-top: 20px; display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; color: var(--muted); font-size: 13px; }
-.pay-icons { display: flex; gap: 8px; }
-.pay-icons span { background: var(--bg-3); border: 1px solid var(--line); border-radius: 6px; padding: 3px 8px; font-size: 11px; font-weight: 700; letter-spacing: .5px; }
 
 /* =========================== BREADCRUMB / PAGE ======================== */
 .page-head { padding: 40px 0 10px; }
@@ -2007,7 +2005,6 @@ body:not(.fate-page) h1 .o1 { color: var(--mint); }
 .footer-bottom { border-top: 1px solid var(--line); color: #8e9795; font-family: var(--cond); font-size: 15px; letter-spacing: .05em; text-transform: uppercase; }
 .footer-legal a { color: #8e9795; }
 .footer-legal a:hover { color: var(--mint); }
-.pay-icons span { background: transparent; border: 1px solid var(--line); color: #c3c9c8; font-family: var(--cond); font-size: 13px; }
 @media (max-width: 1080px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px)  { .footer-grid { gap: 26px 18px; } .footer-brand { grid-column: 1 / -1; } }
 
@@ -2050,10 +2047,6 @@ body:not(.fate-page) h1 .o1 { color: var(--mint); }
 .rd-box p { margin: 0; font-family: var(--cond); font-size: 24px; line-height: 1.2; text-transform: uppercase; letter-spacing: .01em; color: #fff; }
 .rd-box p + p { font-style: italic; font-weight: 300; font-size: 22px; color: #e3e6e5; }
 .rd-box p:last-child { font-style: italic; font-weight: 500; color: #fff; text-decoration: underline; text-underline-offset: 4px; }
-.rd-stats { display: flex; justify-content: center; gap: clamp(16px, 2.6vw, 40px); margin-top: 30px; }
-.rd-stat { display: flex; flex-direction: column; align-items: center; }
-.rd-stat b { font-family: var(--display); font-stretch: 125%; font-weight: 900; font-size: clamp(34px, 4.3vw, 62px); line-height: .9; color: #fff; text-shadow: 0 .05em 0 #8d9392; white-space: nowrap; }
-.rd-stat span { font-family: var(--cond); font-size: 20px; text-transform: uppercase; color: #d4d8d7; margin-top: 8px; letter-spacing: .01em; }
 .rd-place { margin: 26px 0 0; white-space: nowrap; font-family: var(--display); font-stretch: 125%; font-weight: 900; text-transform: uppercase; line-height: 1; font-size: clamp(26px, 4vw, 60px); letter-spacing: .03em; color: rgba(82,240,216,.06); -webkit-text-stroke: .04em var(--mint); text-shadow: 0 0 .2em rgba(82,240,216,.45); }
 .rd-ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(18px, 7vw, 90px); margin-top: 28px; }
 .rd-ctas .btn { min-width: 250px; }
@@ -2111,9 +2104,13 @@ body:not(.fate-page) h1 .o1 { color: var(--mint); }
   .rd-tag { font-size: 18px; gap: 10px; }
   .rd-box { padding: 10px 14px 12px; }
   .rd-box p { font-size: 19px; } .rd-box p + p { font-size: 17px; }
-  .rd-stats { gap: 10px; width: 100%; justify-content: space-between; }
-  .rd-stat b { font-size: 6.9vw; }
-  .rd-stat span { font-size: 14px; text-align: center; }
+  .rd-pay { margin-top: 24px; }
+  .rd-pay-label { font-size: 17px; }
+  .pay-chip { height: 42px; min-width: 72px; padding: 0 10px; }
+  .pay-chip img { height: 28px; }
+  .pay-word { font-size: 16px; }
+  .wompi-badge img { height: 46px; }
+  .wompi-badge b { font-size: 18px; }
   .rd-place { font-size: 6.2vw; }
   .rd-ctas { flex-direction: column; width: 100%; gap: 12px; }
   .rd-ctas .btn { width: 100%; min-width: 0; }
@@ -2127,7 +2124,6 @@ body:not(.fate-page) h1 .o1 { color: var(--mint); }
    quepan siempre a los lados del logo; nada se sale del viewport en movil. */
 @media (min-width: 1101px) { .nav-list > li > a { font-size: clamp(17px, 1.45vw, 22px); } }
 .shop-layout > * { min-width: 0; }
-.pay-icons { flex-wrap: wrap; }
 .product-grid > *, .tile-grid > *, .blog-grid > * { min-width: 0; }
 @media (max-width: 1080px) { .product-grid, .product-grid.cols-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) {
@@ -2225,3 +2221,30 @@ body.fate-page .btn.ghost { color: #e9a58f; border-color: var(--fate-accent); }
   .card.sl-ready .thumb img { transition: none; }
   .card .swatch-row.dots .cdot { transition: none; }
 }
+
+/* ============== MEDIOS DE PAGO + WOMPI (inicio, carrito, pie) ============== */
+.rd-pay { margin-top: 30px; width: min(100%, 700px); display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.rd-pay-label { font-family: var(--cond); font-size: 20px; letter-spacing: .08em; text-transform: uppercase; color: #d4d8d7; }
+.pay-logos { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.pay-chip { display: inline-flex; align-items: center; justify-content: center; height: 48px; min-width: 88px; padding: 0 14px; background: #fff; border-radius: 9px; box-shadow: 0 0 0 1px rgba(0,0,0,.14), 0 8px 16px -10px rgba(0,0,0,.7); }
+.pay-chip img { height: 32px; width: auto; display: block; }
+.pay-word { font-family: var(--display); font-weight: 800; font-size: 18px; letter-spacing: .01em; color: #1b1c1d; line-height: 1; }
+.wompi-badge { display: flex; align-items: center; gap: 14px; max-width: 100%; text-align: left; padding: 8px 18px 8px 8px; border: 1px solid #3a3f40; border-radius: 12px; background: rgba(10,10,10,.55); color: #c3c9c8; text-decoration: none; transition: border-color .25s var(--ease-soft), box-shadow .25s var(--ease-soft); }
+.wompi-badge:hover, .wompi-badge:focus-visible { border-color: #b0f2ae; box-shadow: 0 0 0 1px #b0f2ae; }
+.wompi-badge img { height: 54px; width: auto; border-radius: 8px; display: block; flex: none; }
+.wompi-badge b { display: block; font-family: var(--cond); font-size: 20px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: #fff; }
+.wompi-badge small { display: block; margin-top: 2px; font-family: var(--body, Inter, system-ui, sans-serif); font-size: 12.5px; line-height: 1.4; letter-spacing: 0; text-transform: none; color: #aeb6b5; }
+.rd-pay .wompi-badge { max-width: 560px; }
+/* variante pequeña (pie de pagina y carrito) */
+.pay-logos.compact { gap: 6px; }
+.pay-logos.compact .pay-chip { height: 32px; min-width: 50px; padding: 0 7px; border-radius: 6px; }
+.pay-logos.compact .pay-chip img { height: 20px; }
+.pay-logos.compact .pay-word { font-size: 12.5px; }
+.wompi-badge.compact { padding: 6px 12px 6px 6px; gap: 10px; border-radius: 10px; }
+.wompi-badge.compact img { height: 36px; border-radius: 6px; }
+.wompi-badge.compact b { font-size: 15px; }
+.wompi-badge.compact small { font-size: 11px; }
+.pay-foot { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; max-width: 340px; }
+.pay-foot .pay-logos { justify-content: flex-end; }
+.pay-cart { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 14px; }
+@media (max-width: 760px) { .pay-foot { align-items: flex-start; max-width: none; } .pay-foot .pay-logos { justify-content: flex-start; } }
