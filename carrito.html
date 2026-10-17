@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css?v=c91a089935">
+  <link rel="stylesheet" href="assets/css/styles.css?v=42ed1b89d3">
   <link rel="icon" href="assets/img/favicon.png">
 </head>
 <body>
@@ -30,34 +30,23 @@
   <div id="site-footer"></div>
 
   <script src="assets/js/products-data.js?v=574222e678"></script>
-  <script src="assets/js/data.js?v=2e78278d6f"></script>
-  <script src="assets/js/app.js?v=c85c0e9088"></script>
-  <script src="assets/js/wompi.js?v=e5052b6646"></script>
+  <script src="assets/js/data.js?v=83e3506fb9"></script>
+  <script src="assets/js/app.js?v=ab0c2865d6"></script>
+  <script src="assets/js/wompi.js?v=6e88634b39"></script>
   <script>
     stikeInit();
     const FREE_SHIP = 300000;
     const SHIP_COST = 18000;
 
-    /* ---------------------- Pago (pasarela simulada) --------------------- */
-    let checkoutOverlay;
-    function ensureCheckoutOverlay() {
-      if (checkoutOverlay) return checkoutOverlay;
-      checkoutOverlay = document.createElement("div");
-      checkoutOverlay.className = "checkout-overlay";
-      document.body.appendChild(checkoutOverlay);
-      checkoutOverlay.addEventListener("click", e => { if (e.target === checkoutOverlay) closeCheckout(); });
-      document.addEventListener("keydown", e => { if (e.key === "Escape") closeCheckout(); });
-      return checkoutOverlay;
-    }
-    function closeCheckout() { if (checkoutOverlay) checkoutOverlay.classList.remove("open"); }
+    /* ------------------------------- Pago -------------------------------
+       El boton manda al checkout de Wompi (widget embebido; si no carga,
+       redireccion), ver assets/js/wompi.js. La firma y el monto los calcula
+       el servidor (api/wompi-sign.php) con el catalogo: el navegador solo
+       dice QUE se compra. La venta se registra cuando Wompi confirma el
+       dinero (api/wompi-events.php / api/wompi-order.php), nunca aca.
 
-    /* TEMPORAL: mientras se prueba el flujo completo de Wompi contra el
-       sandbox real, el boton manda al checkout real de Wompi (sandbox,
-       no cobra nada) tanto en el sitio en vivo como en local -- la firma
-       la hace el backend temporal en Vercel (ver assets/js/wompi.js).
-       Cuando se confirme que todo funciona y se migre a Hostinger, esto
-       vuelve a la pasarela simulada o pasa a /api/wompi-sign.php segun
-       se decida. */
+       No hay pasarela de mentira de respaldo: si el pago en linea no se
+       puede iniciar, se le dice al cliente y se le ofrece WhatsApp. */
     /* El pago en si no dice a donde entregar -- Wompi solo sabe monto y
        referencia -- asi que estos datos se piden aca, antes de salir del
        sitio, y se guardan en localStorage (sobreviven el viaje de ida y
@@ -79,105 +68,78 @@
     }
     function $ship(id) { return document.getElementById(id); }
 
+    /* Mensajes de error del pago, en palabras del cliente. El codigo tecnico
+       se muestra al final para que, si pasa, soporte sepa que fue. */
+    const PAY_DOWN = ["server_not_configured", "server_misconfigured", "storage_unavailable", "catalog_parse_failed", "internal_error", "github_not_configured"];
+    function payErrorMessage(err) {
+      const code = (err && err.code) || "";
+      const prod = STIKE_PRODUCTS.find(p => p.slug === err.detail);
+      if (code === "price_mismatch") return "Los precios cambiaron. Actualizamos tu carrito: revisa el total y vuelve a pagar.";
+      if (code === "out_of_stock") return `No hay suficientes unidades de ${prod ? "«" + prod.n + "»" : "un producto"}. Ajusta la cantidad en el carrito.`;
+      if (["unknown_product", "product_without_price", "invalid_item", "invalid_qty", "empty_order", "too_many_lines"].includes(code))
+        return "Algo de tu carrito cambió y lo actualizamos. Revísalo y vuelve a pagar.";
+      if (code === "missing_shipping") return "Completa tus datos de envío (nombre, teléfono, dirección y ciudad) antes de pagar.";
+      if (code === "network") return "No pudimos conectar con el servidor. Revisa tu internet e inténtalo de nuevo.";
+      if (PAY_DOWN.includes(code)) return `El pago en línea no está disponible en este momento (código ${code}). Escríbenos por WhatsApp y te ayudamos a completar tu pedido.`;
+      return `No pudimos iniciar el pago${code ? " (código " + code + ")" : ""}. Inténtalo de nuevo o escríbenos por WhatsApp.`;
+    }
+    function showPayError(msg) {
+      const box = document.getElementById("pay-error");
+      if (!box) { stikeToast(msg); return; }
+      box.innerHTML = `${msg} <a href="https://wa.me/${STIKE_CONFIG.whatsapp}" target="_blank" rel="noopener">WhatsApp</a>`;
+      box.hidden = false;
+      box.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    }
+
+    let paying = false;
     function handlePagarAhora(total) {
+      if (paying) return;
+      /* Antes de cobrar: el carrito tiene que ser uno que el servidor acepte. */
+      const clean = stikeSanitizeCart(stikeGetCart());
+      if (clean.changed) {
+        stikeSaveCart(clean.cart);
+        cartNotes = clean.notes;
+        render();
+        showPayError("Actualizamos tu carrito (ver arriba). Revisa el total y vuelve a pagar.");
+        return;
+      }
       const shipInfo = readShippingForm();
       if (!shipInfo) return;
       stikeSaveShipping(shipInfo);
-
-      if (typeof stikeWompiCheckout === "function") {
-        stikeWompiCheckout(stikeGetCart(), total, { shipping: shipInfo }).catch(err => {
-          console.error("wompi checkout:", err);
-          const outName = err.code === "out_of_stock" && (STIKE_PRODUCTS.find(p => p.slug === err.detail) || {}).n;
-          stikeToast(err.code === "price_mismatch"
-            ? "Los precios cambiaron: recarga la página para ver el total actualizado"
-            : err.code === "out_of_stock"
-              ? `No hay suficientes unidades de ${outName || "un producto"}: ajusta la cantidad en el carrito`
-              : "Error al iniciar el pago con Wompi -- revisa la consola");
-        });
+      if (typeof stikeWompiCheckout !== "function") {
+        showPayError("No pudimos cargar el pago en línea. Recarga la página; si sigue igual, escríbenos por WhatsApp.");
         return;
       }
-      openCheckout(total);
-    }
 
-    function openCheckout(total) {
-      const ov = ensureCheckoutOverlay();
-      ov.innerHTML = `
-        <div class="checkout-modal">
-          <button class="co-close" aria-label="Cerrar" onclick="closeCheckout()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-          <h3>Pago con tarjeta</h3>
-          <div class="co-demo-note">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            <span>Pasarela simulada (demo): no se procesan cobros reales ni se guardan datos de tarjeta.</span>
-          </div>
-          <div class="co-total-line"><span>Total a pagar</span><b>${stikePrice(total)}</b></div>
-          <form class="co-form" id="co-form" autocomplete="off">
-            <div>
-              <label for="co-name">Nombre en la tarjeta</label>
-              <input id="co-name" type="text" placeholder="Como aparece en la tarjeta" required>
-            </div>
-            <div>
-              <label for="co-number">Número de tarjeta</label>
-              <input id="co-number" type="text" inputmode="numeric" placeholder="0000 0000 0000 0000" maxlength="19" required>
-            </div>
-            <div class="co-row2">
-              <div>
-                <label for="co-exp">Vencimiento</label>
-                <input id="co-exp" type="text" inputmode="numeric" placeholder="MM/AA" maxlength="5" required>
-              </div>
-              <div>
-                <label for="co-cvv">CVV</label>
-                <input id="co-cvv" type="text" inputmode="numeric" placeholder="123" maxlength="4" required>
-              </div>
-            </div>
-            <button type="submit" class="btn block co-pay-btn"><span class="co-label">Pagar ${stikePrice(total)}</span><span class="co-spinner"></span></button>
-          </form>
-        </div>`;
-      ov.classList.add("open");
-
-      const numEl = document.getElementById("co-number");
-      numEl.addEventListener("input", () => {
-        numEl.value = numEl.value.replace(/[^0-9]/g, "").slice(0, 16).replace(/(.{4})/g, "$1 ").trim();
-      });
-      const expEl = document.getElementById("co-exp");
-      expEl.addEventListener("input", () => {
-        let v = expEl.value.replace(/[^0-9]/g, "").slice(0, 4);
-        if (v.length > 2) v = v.slice(0, 2) + "/" + v.slice(2);
-        expEl.value = v;
-      });
-      const cvvEl = document.getElementById("co-cvv");
-      cvvEl.addEventListener("input", () => { cvvEl.value = cvvEl.value.replace(/[^0-9]/g, "").slice(0, 4); });
-
-      document.getElementById("co-form").addEventListener("submit", e => {
-        e.preventDefault();
-        const btn = e.target.querySelector(".co-pay-btn");
-        if (btn.classList.contains("loading")) return;
-        btn.classList.add("loading");
-        setTimeout(() => showCheckoutSuccess(total), 1400);
+      const btn = document.getElementById("pay-btn");
+      const setBusy = busy => {
+        paying = busy;
+        if (btn) { btn.disabled = busy; btn.textContent = busy ? "Abriendo el pago…" : "Pagar ahora"; }
+      };
+      const box = document.getElementById("pay-error");
+      if (box) box.hidden = true;
+      setBusy(true);
+      stikeWompiCheckout(stikeGetCart(), total, { shipping: shipInfo }).then(() => {
+        /* El widget ya se abrio: se libera el boton por si el cliente lo cierra y reintenta. */
+        setTimeout(() => setBusy(false), 1500);
+      }).catch(err => {
+        console.error("wompi checkout:", err);
+        setBusy(false);
+        if (err && ["price_mismatch", "unknown_product", "product_without_price", "invalid_item", "invalid_qty", "out_of_stock"].includes(err.code)) {
+          const again = stikeSanitizeCart(stikeGetCart());
+          if (again.changed) { stikeSaveCart(again.cart); cartNotes = again.notes; }
+          render();
+        }
+        showPayError(payErrorMessage(err || {}));
       });
     }
 
-    function showCheckoutSuccess(total) {
-      const orderNo = "STK-" + Date.now().toString().slice(-6);
-      const modal = checkoutOverlay.querySelector(".checkout-modal");
-      modal.innerHTML = `
-        <button class="co-close" aria-label="Cerrar" onclick="closeCheckout()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-        <div class="co-success">
-          <div class="co-check"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <h3>¡Pago exitoso!</h3>
-          <div class="co-order-no">Pedido ${orderNo}</div>
-          <p>Pagaste ${stikePrice(total)} (simulado). Te escribiremos por WhatsApp para confirmar tu pedido.</p>
-          <button class="btn block" onclick="finishCheckout()">Volver a la tienda</button>
-        </div>`;
-    }
-
-    function finishCheckout() {
-      stikeSaveCart([]);
-      closeCheckout();
-      render();
-    }
-
+    /* Avisos de "ajustamos tu carrito" (se muestran hasta recargar la pagina). */
+    let cartNotes = [];
     function render() {
-      const cart = stikeGetCart();
+      const clean = stikeSanitizeCart(stikeGetCart());
+      if (clean.changed) { stikeSaveCart(clean.cart); cartNotes = cartNotes.concat(clean.notes.filter(n => !cartNotes.includes(n))); }
+      const cart = clean.cart;
       const mount = document.getElementById("cart-mount");
 
       if (!cart.length) {
@@ -267,6 +229,7 @@
       mount.innerHTML = `
       <div class="cart-layout">
         <div class="cart-items">
+          ${cartNotes.length ? `<div class="cart-notice" role="status">${cartNotes.map(n => `<p>${n.replace(/&/g, "&amp;").replace(/</g, "&lt;")}</p>`).join("")}</div>` : ""}
           ${subtotal < FREE_SHIP ? `<div class="ship-note">Te faltan <b>${stikePrice(missing)}</b> para el <b>envío gratis</b>.</div>` : `<div class="ship-note"><b>Envío gratis</b> aplicado a tu pedido.</div>`}
           ${rows}
           <a href="tienda.html" class="link-more" style="margin-top:8px;display:inline-block">← Seguir comprando</a>
@@ -275,10 +238,6 @@
           <h3>Resumen</h3>
           <div class="line"><span>Subtotal</span><span>${stikePrice(subtotal)}</span></div>
           <div class="line"><span>Envío</span><span>${shipping === 0 ? "Gratis" : stikePrice(shipping)}</span></div>
-          <div class="promo-input">
-            <input type="text" placeholder="Código promo" id="promo">
-            <button class="btn sm" onclick="stikeToast('Código aplicado en el pago')">Aplicar</button>
-          </div>
           <div class="line total"><span>Total</span><span>${stikePrice(total)}</span></div>
           <div class="co-form" id="ship-form" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--line)">
             <label for="ship-name" style="margin-bottom:0">Datos de envío</label>
@@ -289,7 +248,8 @@
             <input type="text" id="ship-notes" placeholder="Notas para la entrega (opcional)" value="${escAttr(ship.notes)}">
           </div>
           <a class="btn wa block" style="margin-top:16px" href="https://wa.me/${STIKE_CONFIG.whatsapp}?text=${waMsg}" target="_blank" rel="noopener">Finalizar por WhatsApp</a>
-          <button class="btn block" style="margin-top:10px" onclick="handlePagarAhora(${total})">Pagar ahora</button>
+          <button class="btn block" id="pay-btn" style="margin-top:10px" onclick="handlePagarAhora(${total})">Pagar ahora</button>
+          <div class="pay-error" id="pay-error" role="alert" hidden></div>
           <div class="pay-cart">${stikePayStrip(true)}${stikeWompiBadge(true)}</div>
         </aside>
       </div>

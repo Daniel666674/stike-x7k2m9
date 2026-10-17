@@ -81,7 +81,7 @@
         "https://www.facebook.com/share/1Cz3ezfUvL/",
         "https://tiktok.com/@stikebikeshop"
       ],
-      payments: ["Tarjeta de crédito o débito", "PSE", "Nequi", "Efecty"]
+      payments: ["Tarjeta de crédito o débito", "PSE", "Nequi", "Bancolombia"]
     },
 
     /* Envio del carrito (api/_lib.php STIKE_FREE_SHIP / STIKE_SHIP_COST y

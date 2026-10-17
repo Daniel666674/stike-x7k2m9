@@ -9,12 +9,15 @@
    URL de eventos (se configura en el panel de Wompi, Desarrolladores):
      https://stikebikeshop.com/api/wompi-events
 
-   Por que NO se verifica el checksum del evento: este endpoint trata el evento
-   solo como un aviso ("mira la transaccion X"). Ignora todo lo que el cuerpo
-   afirme y le pregunta a Wompi directamente, con la llave privada, que paso con
-   esa transaccion (stike_finalize_order). Un evento falso no puede registrar
-   una venta que Wompi no confirme, y uno real y repetido no duplica nada. Lo
-   unico que un atacante logra es hacernos consultar a Wompi.
+   Doble candado. (1) Un evento NUNCA registra una venta por lo que diga su
+   cuerpo: se toma como un aviso ("mira la transaccion X"), se ignora todo lo
+   que afirme y se le pregunta a Wompi directamente, con la llave privada, que
+   paso con esa transaccion (stike_finalize_order). Un evento falso no puede
+   registrar una venta que Wompi no confirme, y uno real y repetido no
+   duplica nada. (2) Si esta WOMPI_EVENTS_SECRET (api/config.local.php), ademas
+   se exige que el checksum del evento sea valido; uno sin firma o con firma
+   mala se rechaza con 401 sin molestar a Wompi. Sin ese secreto solo opera el
+   candado (1), que por si solo ya es suficiente.
 
    Responde 200 a todo lo que no sea una falla nuestra (verificacion de la URL,
    cuerpo vacio, evento de otro tipo,
@@ -37,6 +40,11 @@ stike_run(function () {
   if (!is_array($event)) respond(200, ["ok" => true, "ignored" => "empty"]);
 
   if (($event["event"] ?? "") !== "transaction.updated") respond(200, ["ok" => true, "ignored" => "event"]);
+  $eventsSecret = stike_config("WOMPI_EVENTS_SECRET");
+  if ($eventsSecret && !stike_event_checksum_ok($event, $eventsSecret)) {
+    error_log("[stike] evento de Wompi con firma invalida (revisa WOMPI_EVENTS_SECRET: debe ser el secreto de EVENTOS del mismo ambiente)");
+    respond(401, ["error" => "bad_signature"]);
+  }
   $txn = $event["data"]["transaction"] ?? null;
   if (!is_array($txn)) respond(200, ["ok" => true, "ignored" => "payload"]);
 
