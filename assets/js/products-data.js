@@ -7871,16 +7871,34 @@ window.STIKE_PRODUCTS = [
       "Material: gamuza",
       "Bordado Decaye al frente",
       "Visera con interior camuflado",
-      "Cordón tejido",
-      "Color: Café"
+      "Cordón tejido"
     ],
     "price": 65000,
     "promo": false,
-    "units": 1,
     "imgs": [
       "assets/img/products/9add15be-91ae-4789-91fb-096086ddec7d.jpg",
-      "assets/img/products/75d823e0-66b6-407e-b8ac-8edb254e70c4.jpg"
+      "assets/img/products/75d823e0-66b6-407e-b8ac-8edb254e70c4.jpg",
+      "assets/img/products/a3c933bf-ffb5-41c0-8cc2-823e4e95246f.jpg",
+      "assets/img/products/445a0e2e-ba18-48dc-9bbc-b376249a4485.jpg",
+      "assets/img/products/a1676fd5-959e-4cf1-8578-0af21ad5b565.jpg"
     ],
-    "published": true
+    "published": true,
+    "colors": [
+      {
+        "v": "Café",
+        "u": 1
+      },
+      {
+        "v": "Rosada",
+        "u": 1
+      }
+    ],
+    "imgColorMap": {
+      "assets/img/products/9add15be-91ae-4789-91fb-096086ddec7d.jpg": "Café",
+      "assets/img/products/75d823e0-66b6-407e-b8ac-8edb254e70c4.jpg": "Café",
+      "assets/img/products/a3c933bf-ffb5-41c0-8cc2-823e4e95246f.jpg": "Rosada",
+      "assets/img/products/445a0e2e-ba18-48dc-9bbc-b376249a4485.jpg": "Rosada",
+      "assets/img/products/a1676fd5-959e-4cf1-8578-0af21ad5b565.jpg": "Rosada"
+    }
   }
 ];

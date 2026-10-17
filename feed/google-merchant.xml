@@ -9432,12 +9432,15 @@
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
     <item>
-      <g:id>ROP-DEC-008</g:id>
-      <g:title>Gorra Decaye Gamuza</g:title>
-      <g:description>Gorra Decaye Gamuza. Marca Decaye. Material gamuza. Bordado Decaye al frente. Visera con interior camuflado. Cordón tejido. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/gorra-decaye-gamuza-cafe.html</g:link>
+      <g:id>ROP-DEC-008-cafe</g:id>
+      <g:title>Gorra Decaye Gamuza - Café</g:title>
+      <g:description>Gorra Decaye Gamuza. Marca Decaye. Material gamuza. Bordado Decaye al frente. Visera con interior camuflado. Cordón tejido. Disponible en colores Café, Rosada. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/gorra-decaye-gamuza-cafe.html?color=Caf%C3%A9</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/9add15be-91ae-4789-91fb-096086ddec7d.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/75d823e0-66b6-407e-b8ac-8edb254e70c4.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/a3c933bf-ffb5-41c0-8cc2-823e4e95246f.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/445a0e2e-ba18-48dc-9bbc-b376249a4485.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/a1676fd5-959e-4cf1-8578-0af21ad5b565.jpg</g:additional_image_link>
       <g:availability>in_stock</g:availability>
       <g:price>65000.00 COP</g:price>
       <g:condition>new</g:condition>
@@ -9445,6 +9448,29 @@
       <g:identifier_exists>no</g:identifier_exists>
       <g:product_type>Ropa &gt; Gorras</g:product_type>
       <g:google_product_category>Apparel &amp; Accessories &gt; Clothing Accessories &gt; Hats</g:google_product_category>
+      <g:item_group_id>ROP-DEC-008</g:item_group_id>
+      <g:color>Café</g:color>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-DEC-008-rosada</g:id>
+      <g:title>Gorra Decaye Gamuza - Rosada</g:title>
+      <g:description>Gorra Decaye Gamuza. Marca Decaye. Material gamuza. Bordado Decaye al frente. Visera con interior camuflado. Cordón tejido. Disponible en colores Café, Rosada. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/gorra-decaye-gamuza-cafe.html?color=Rosada</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/a3c933bf-ffb5-41c0-8cc2-823e4e95246f.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/9add15be-91ae-4789-91fb-096086ddec7d.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/75d823e0-66b6-407e-b8ac-8edb254e70c4.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/445a0e2e-ba18-48dc-9bbc-b376249a4485.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/a1676fd5-959e-4cf1-8578-0af21ad5b565.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>65000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Decaye</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Gorras</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing Accessories &gt; Hats</g:google_product_category>
+      <g:item_group_id>ROP-DEC-008</g:item_group_id>
+      <g:color>Rosada</g:color>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
   </channel>
