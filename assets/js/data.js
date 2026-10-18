@@ -30,7 +30,7 @@ const STIKE_CATEGORIES = [
     name: "Ropa",
     blurb: "Street wear con actitud",
     color: "c4",
-    subs: ["Camisetas", "Busos y Chaquetas", "Gorras", "Gafas", "Jeans"]
+    subs: ["Camisetas", "Busos y Chaquetas", "Gorras", "Medias", "Gafas", "Jeans"]
   },
   {
     slug: "zapatillas",
@@ -593,9 +593,9 @@ STIKE_GLOBAL.STIKE_ALL_PRODUCTS = STIKE_GLOBAL.STIKE_PRODUCTS || [];
 STIKE_GLOBAL.STIKE_PRODUCTS = STIKE_GLOBAL.STIKE_ALL_PRODUCTS.filter(stikeIsVisible);
 
 /* Part types that have their own landing page (categoria/<slug>.html). */
-STIKE_GLOBAL.STIKE_PART_PAGES = ["bielas","bombas","busos-y-chaquetas","cadenas","camisetas","cascos","espigas","espinilleras","frenos","gafas","gorras","grips","guantes","herramientas","llantas","llaveros","manubrios","manzanas","marcos","pedales","platos","rines","rodilleras","sillas-y-postes","tacos-y-protectores-de-maza","tenedores","tenis","timones","tobilleras"];
+STIKE_GLOBAL.STIKE_PART_PAGES = ["bielas","bombas","busos-y-chaquetas","cadenas","camisetas","cascos","espigas","espinilleras","frenos","gafas","gorras","grips","guantes","herramientas","jeans","llantas","llaveros","manubrios","manzanas","marcos","medias","pedales","platos","rines","rodilleras","sillas-y-postes","tacos-y-protectores-de-maza","tenedores","tenis","timones","tobilleras"];
 /* Marcas con pagina propia (marca/<slug>.html): lo escribe tools/build-seo.mjs. */
-STIKE_GLOBAL.STIKE_BRAND_PAGES = {"Animal":"marca/animal.html","Brainstorm":"marca/brainstorm.html","BSD":"marca/bsd.html","Cinema":"marca/cinema.html","Cult":"marca/cult.html","Decaye":"marca/decaye.html","Demolition":"marca/demolition.html","Éclat":"marca/eclat.html","Fade":"marca/fade.html","Federal":"marca/federal.html","Fiend":"marca/fiend.html","Fit Bike Co.":"marca/fit-bike-co.html","Fox":"marca/fox.html","GW":"marca/gw.html","Helio Brand":"marca/helio-brand.html","Innova":"marca/innova.html","Kink":"marca/kink.html","Merritt":"marca/merritt.html","Mutanty":"marca/mutanty.html","Nightmare":"marca/nightmare.html","Nike":"marca/nike.html","ODI":"marca/odi.html","Odyssey":"marca/odyssey.html","Optimus":"marca/optimus.html","Primitive":"marca/primitive.html","Primo":"marca/primo.html","Profile":"marca/profile.html","R2 Protect":"marca/r2-protect.html","Rant":"marca/rant.html","Reding Shoes":"marca/reding-shoes.html","S&M Bikes":"marca/s-m-bikes.html","Shadow":"marca/shadow.html","Stranger":"marca/stranger.html","Subrosa":"marca/subrosa.html","Sunday":"marca/sunday.html","Total BMX":"marca/total-bmx.html","Trueno":"marca/trueno.html","Vans":"marca/vans.html","Wethepeople":"marca/wethepeople.html","XOXO":"marca/xoxo.html"};
+STIKE_GLOBAL.STIKE_BRAND_PAGES = {"Animal":"marca/animal.html","Brainstorm":"marca/brainstorm.html","BSD":"marca/bsd.html","Cinema":"marca/cinema.html","Cult":"marca/cult.html","Decaye":"marca/decaye.html","Demolition":"marca/demolition.html","Éclat":"marca/eclat.html","Fade":"marca/fade.html","Federal":"marca/federal.html","Fiend":"marca/fiend.html","Fit Bike Co.":"marca/fit-bike-co.html","Fox":"marca/fox.html","Freaak":"marca/freaak.html","GW":"marca/gw.html","Helio Brand":"marca/helio-brand.html","Innova":"marca/innova.html","Kink":"marca/kink.html","Merritt":"marca/merritt.html","Mutanty":"marca/mutanty.html","Nightmare":"marca/nightmare.html","Nike":"marca/nike.html","ODI":"marca/odi.html","Odyssey":"marca/odyssey.html","Optimus":"marca/optimus.html","Primitive":"marca/primitive.html","Primo":"marca/primo.html","Profile":"marca/profile.html","R2 Protect":"marca/r2-protect.html","Rant":"marca/rant.html","Reding Shoes":"marca/reding-shoes.html","S&M Bikes":"marca/s-m-bikes.html","Shadow":"marca/shadow.html","Stranger":"marca/stranger.html","Subrosa":"marca/subrosa.html","Sunday":"marca/sunday.html","Total BMX":"marca/total-bmx.html","Trueno":"marca/trueno.html","Vans":"marca/vans.html","Wethepeople":"marca/wethepeople.html","XOXO":"marca/xoxo.html"};
 
 /* Doble export: el sitio lo carga con <script>, y tools/build-pages.mjs lo
    consume desde Node para generar las fichas con exactamente estas reglas. */
