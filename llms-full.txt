@@ -21,7 +21,7 @@
 
 ## Repuestos
 
-### Espigas
+### Cañas
 - [Caña Shadow Finest Negra TopLoad](https://stikebikeshop.com/producto/cana-shadow-finest-negra-topload.html) — Shadow; $310.000; disponible
 - [Caña Mutanty Savage V2](https://stikebikeshop.com/producto/mutanty-savage-v2-stem-plata.html) — Mutanty; $220.000; agotado por ahora
 - [Caña Fiend Mills - TopLoad](https://stikebikeshop.com/producto/cana-fiend-mills-topload.html) — Fiend; $320.000; agotado por ahora
@@ -45,21 +45,8 @@
 - [Caña Shadow Chula V2 50mm Negra](https://stikebikeshop.com/producto/cana-shadow-chula-v2-50mm-negra.html) — Shadow; $300.000; disponible
 - [Caña Verde 50mm Roja](https://stikebikeshop.com/producto/cana-verde-50mm-roja.html) — Verde; $100.000; disponible
 
-### Manzanas
+### Manzana Delantera
 - [Manzana Delantera Optimus](https://stikebikeshop.com/producto/manzana-delantera-optimus.html) — Optimus; desde $95.000; disponible; colores: Cromado, Azul, Dorado
-- [Kit Trinquetes y Resortes Tall Order Drone](https://stikebikeshop.com/producto/kit-trinquetes-tall-order-drone.html) — Tall Order; $70.000; disponible
-- [Kit Trinquetes y Resortes Primo Remix](https://stikebikeshop.com/producto/kit-trinquetes-primo-remix.html) — Primo; $60.000; disponible
-- [Cassette Federal Stance Negro](https://stikebikeshop.com/producto/cassette-federal-stance-negro.html) — Federal; $710.000; disponible
-- [Cassette Mutanty Mercury Elite Negro](https://stikebikeshop.com/producto/cassette-mutanty-mercury-elite-negro.html) — Mutanty; $550.000; disponible
-- [Cassette Profile Mini Cromado](https://stikebikeshop.com/producto/cassette-profile-mini-cromado.html) — Profile; $900.000; disponible
-- [Cassette Trueno V2 Negro](https://stikebikeshop.com/producto/cassette-trueno-v2-negro.html) — Trueno; $380.000; disponible; lado: Derecho (RHD), Izquierdo (LHD)
-- [Manzana Trasera Federal Derecha Negra 9T](https://stikebikeshop.com/producto/manzana-trasera-federal-derecha-negra-9t.html) — Federal; $500.000; disponible
-- [Freecoaster Fiend Derecho Negro](https://stikebikeshop.com/producto/freecoaster-fiend-derecho-negro.html) — Fiend; $500.000; disponible
-- [Manzana Trasera Merritt Derecha Cromada](https://stikebikeshop.com/producto/manzana-trasera-merritt-derecha-cromada.html) — Merritt; $700.000; disponible
-- [Freecoaster Shadow Derecho Negro](https://stikebikeshop.com/producto/freecoaster-shadow-derecho-negro.html) — Shadow; $500.000; disponible
-- [Manzana Trasera Mutanty Mercury Derecha Cromada](https://stikebikeshop.com/producto/manzana-trasera-mutanty-mercury-derecha-cromada.html) — Mutanty; $550.000; disponible
-- [Tuercas para Cassette Negras](https://stikebikeshop.com/producto/tuercas-para-cassette-negras.html) — Genérico; $25.000; disponible
-- [Manzana Trasera Trueno Alfa V2 Izquierda](https://stikebikeshop.com/producto/manzana-trasera-trueno-alfa-v2-izquierda.html) — Trueno; desde $380.000; disponible; colores: Cromado, Tornasol
 
 ### Marcos
 - [Marco Fate Namaste V2](https://stikebikeshop.com/producto/marco-fate-namaste-v2.html) — Fate BMX Colombia; $1.300.000; disponible; medida: 20.4, 20.75
@@ -166,13 +153,13 @@
 - [Silla Trueno Negra](https://stikebikeshop.com/producto/silla-trueno-negra.html) — Trueno; $130.000; disponible
 - [Silla Pivotal Fate Cuero Negra](https://stikebikeshop.com/producto/silla-fate-pivotal-cuero-negra.html) — Fate BMX Colombia; $130.000; disponible
 
-### Tacos y Protectores de Maza
+### Pegs y Protectores
 - [Peg Fiend Belmont Cromo 4.4mm](https://stikebikeshop.com/producto/peg-fiend-belmont-cromo-4-4mm.html) — Fiend; $80.000; disponible
 - [Peg Fiend Belmont Cromo Plástico 4.5mm](https://stikebikeshop.com/producto/peg-fiend-belmont-cromo-plastico-4-5mm.html) — Fiend; $90.000; disponible
 - [Peg Fiend 7K Aluminio Plástico 4.5mm](https://stikebikeshop.com/producto/peg-fiend-7k-aluminio-plastico-4-5mm.html) — Fiend; $90.000; disponible
 - [Cubierta Peg Fate](https://stikebikeshop.com/producto/cubierta-peg-fate.html) — Fate BMX Colombia; desde $15.000; disponible; medida: 4.3", 4.5"
 - [Cubierta Peg Odyssey Graduate 4.75"](https://stikebikeshop.com/producto/funda-peg-odyssey-graduate-475.html) — Odyssey; $30.000; disponible
-- [Protector de Maza Odyssey Clutch V2 Negro](https://stikebikeshop.com/producto/protector-maza-odyssey-clutch-v2-negro.html) — Odyssey; $28.000; disponible
+- [Protector de Manzana Trasera Odyssey Clutch V2 Negro](https://stikebikeshop.com/producto/protector-manzana-trasera-odyssey-clutch-v2-negro.html) — Odyssey; $28.000; disponible
 - [Hub Guard Delantero Brainstorm Cromo](https://stikebikeshop.com/producto/hub-guard-delantero-cromo-brainstorm.html) — Brainstorm; $75.000; disponible
 - [Hub Guard Delantero Brainstorm Medio Nylon](https://stikebikeshop.com/producto/hub-guard-delantero-medio-brainstorm.html) — Brainstorm; $40.000; disponible
 - [Hub Guard Trasero Brainstorm Normal Nylon](https://stikebikeshop.com/producto/hub-guard-trasero-normal-brainstorm.html) — Brainstorm; $30.000; disponible
@@ -188,6 +175,21 @@
 - [Aro Shadow La Calle Cromado](https://stikebikeshop.com/producto/aro-shadow-la-calle-cromado.html) — Shadow; $360.000; disponible
 - [Aro Stranger Crux XL Negro](https://stikebikeshop.com/producto/aro-stranger-crux-xl-negro.html) — Stranger; $290.000; disponible
 - [Protector de Rin Mutanty Elite (x2)](https://stikebikeshop.com/producto/protector-rin-mutanty-elite.html) — Mutanty; $14.000; disponible
+
+### Manzana Trasera
+- [Kit Trinquetes y Resortes Tall Order Drone](https://stikebikeshop.com/producto/kit-trinquetes-tall-order-drone.html) — Tall Order; $70.000; disponible
+- [Kit Trinquetes y Resortes Primo Remix](https://stikebikeshop.com/producto/kit-trinquetes-primo-remix.html) — Primo; $60.000; disponible
+- [Cassette Federal Stance Negro](https://stikebikeshop.com/producto/cassette-federal-stance-negro.html) — Federal; $710.000; disponible
+- [Cassette Mutanty Mercury Elite Negro](https://stikebikeshop.com/producto/cassette-mutanty-mercury-elite-negro.html) — Mutanty; $550.000; disponible
+- [Cassette Profile Mini Cromado](https://stikebikeshop.com/producto/cassette-profile-mini-cromado.html) — Profile; $900.000; disponible
+- [Cassette Trueno V2 Negro](https://stikebikeshop.com/producto/cassette-trueno-v2-negro.html) — Trueno; $380.000; disponible; lado: Derecho (RHD), Izquierdo (LHD)
+- [Manzana Trasera Federal Derecha Negra 9T](https://stikebikeshop.com/producto/manzana-trasera-federal-derecha-negra-9t.html) — Federal; $500.000; disponible
+- [Freecoaster Fiend Derecho Negro](https://stikebikeshop.com/producto/freecoaster-fiend-derecho-negro.html) — Fiend; $500.000; disponible
+- [Manzana Trasera Merritt Derecha Cromada](https://stikebikeshop.com/producto/manzana-trasera-merritt-derecha-cromada.html) — Merritt; $700.000; disponible
+- [Freecoaster Shadow Derecho Negro](https://stikebikeshop.com/producto/freecoaster-shadow-derecho-negro.html) — Shadow; $500.000; disponible
+- [Manzana Trasera Mutanty Mercury Derecha Cromada](https://stikebikeshop.com/producto/manzana-trasera-mutanty-mercury-derecha-cromada.html) — Mutanty; $550.000; disponible
+- [Tuercas para Cassette Negras](https://stikebikeshop.com/producto/tuercas-para-cassette-negras.html) — Genérico; $25.000; disponible
+- [Manzana Trasera Trueno Alfa V2 Izquierda](https://stikebikeshop.com/producto/manzana-trasera-trueno-alfa-v2-izquierda.html) — Trueno; desde $380.000; disponible; colores: Cromado, Tornasol
 
 ### Llantas
 - [Neumático Kenda Negro](https://stikebikeshop.com/producto/neumatico-kenda-negro.html) — Kenda; $12.000; disponible

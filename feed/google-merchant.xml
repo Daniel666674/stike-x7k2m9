@@ -17,7 +17,7 @@
       <g:condition>new</g:condition>
       <g:brand>Shadow</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Espigas</g:product_type>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -33,7 +33,7 @@
       <g:condition>new</g:condition>
       <g:brand>Mutanty</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Espigas</g:product_type>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -49,7 +49,7 @@
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Espigas</g:product_type>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -68,7 +68,7 @@
       <g:condition>new</g:condition>
       <g:brand>Optimus</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Manzanas</g:product_type>
+      <g:product_type>Repuestos &gt; Manzana Delantera</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-OPT-001</g:item_group_id>
       <g:color>Cromado</g:color>
@@ -89,7 +89,7 @@
       <g:condition>new</g:condition>
       <g:brand>Optimus</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Manzanas</g:product_type>
+      <g:product_type>Repuestos &gt; Manzana Delantera</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-OPT-001</g:item_group_id>
       <g:color>Azul</g:color>
@@ -110,7 +110,7 @@
       <g:condition>new</g:condition>
       <g:brand>Optimus</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Manzanas</g:product_type>
+      <g:product_type>Repuestos &gt; Manzana Delantera</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-OPT-001</g:item_group_id>
       <g:color>Dorado</g:color>
@@ -233,7 +233,7 @@
       <g:condition>new</g:condition>
       <g:brand>Odyssey</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Espigas</g:product_type>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -248,7 +248,7 @@
       <g:condition>new</g:condition>
       <g:brand>BSD</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Espigas</g:product_type>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -265,7 +265,7 @@
       <g:condition>new</g:condition>
       <g:brand>Kink</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Espigas</g:product_type>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -597,7 +597,7 @@
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Espigas</g:product_type>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-FIE-012</g:item_group_id>
       <g:color>Negro</g:color>
@@ -617,7 +617,7 @@
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Espigas</g:product_type>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-FIE-012</g:item_group_id>
       <g:color>Cromado</g:color>
@@ -637,7 +637,7 @@
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Espigas</g:product_type>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-FIE-012</g:item_group_id>
       <g:color>Dorado</g:color>
@@ -655,7 +655,7 @@
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Espigas</g:product_type>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-FIE-014</g:item_group_id>
       <g:color>Dorado</g:color>
@@ -673,7 +673,7 @@
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Espigas</g:product_type>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-FIE-014</g:item_group_id>
       <g:color>Cromado</g:color>
@@ -692,7 +692,7 @@
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Espigas</g:product_type>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-FIE-016</g:item_group_id>
       <g:color>Negro</g:color>
@@ -711,7 +711,7 @@
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Espigas</g:product_type>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-FIE-016</g:item_group_id>
       <g:color>Dorado</g:color>
@@ -730,7 +730,7 @@
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Espigas</g:product_type>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-FIE-016</g:item_group_id>
       <g:color>Cromado</g:color>
@@ -1132,7 +1132,7 @@
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Tacos y Protectores de Maza</g:product_type>
+      <g:product_type>Repuestos &gt; Pegs y Protectores</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -1147,7 +1147,7 @@
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Tacos y Protectores de Maza</g:product_type>
+      <g:product_type>Repuestos &gt; Pegs y Protectores</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -1376,7 +1376,7 @@
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Tacos y Protectores de Maza</g:product_type>
+      <g:product_type>Repuestos &gt; Pegs y Protectores</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -3023,7 +3023,7 @@
       <g:condition>new</g:condition>
       <g:brand>Sunday</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Espigas</g:product_type>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -3039,7 +3039,7 @@
       <g:condition>new</g:condition>
       <g:brand>Animal</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Espigas</g:product_type>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -3842,7 +3842,7 @@
       <g:condition>new</g:condition>
       <g:brand>Fate BMX Colombia</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Tacos y Protectores de Maza</g:product_type>
+      <g:product_type>Repuestos &gt; Pegs y Protectores</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-FAT-011</g:item_group_id>
       <g:size>4.3"</g:size>
@@ -3860,7 +3860,7 @@
       <g:condition>new</g:condition>
       <g:brand>Fate BMX Colombia</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Tacos y Protectores de Maza</g:product_type>
+      <g:product_type>Repuestos &gt; Pegs y Protectores</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-FAT-011</g:item_group_id>
       <g:size>4.5"</g:size>
@@ -3878,7 +3878,7 @@
       <g:condition>new</g:condition>
       <g:brand>Odyssey</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Tacos y Protectores de Maza</g:product_type>
+      <g:product_type>Repuestos &gt; Pegs y Protectores</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -4087,18 +4087,18 @@
     </item>
     <item>
       <g:id>REP-ODY-012</g:id>
-      <g:title>Protector de Maza Odyssey Clutch V2 Negro</g:title>
-      <g:description>Protector de Maza Odyssey Clutch V2 Negro. Compatible con maza Odyssey Clutch V2. Color Negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/protector-maza-odyssey-clutch-v2-negro.html</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/protector-maza-odyssey-clutch-v2-negro-1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/protector-maza-odyssey-clutch-v2-negro-2.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/protector-maza-odyssey-clutch-v2-negro-3.jpg</g:additional_image_link>
+      <g:title>Protector de Manzana Trasera Odyssey Clutch V2 Negro</g:title>
+      <g:description>Protector de Manzana Trasera Odyssey Clutch V2 Negro. Compatible con manzana trasera Odyssey Clutch V2. Color Negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/protector-manzana-trasera-odyssey-clutch-v2-negro.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/protector-manzana-trasera-odyssey-clutch-v2-negro-1.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/protector-manzana-trasera-odyssey-clutch-v2-negro-2.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/protector-manzana-trasera-odyssey-clutch-v2-negro-3.jpg</g:additional_image_link>
       <g:availability>in_stock</g:availability>
       <g:price>28000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Odyssey</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Tacos y Protectores de Maza</g:product_type>
+      <g:product_type>Repuestos &gt; Pegs y Protectores</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -4114,7 +4114,7 @@
       <g:condition>new</g:condition>
       <g:brand>Brainstorm</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Tacos y Protectores de Maza</g:product_type>
+      <g:product_type>Repuestos &gt; Pegs y Protectores</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -4130,7 +4130,7 @@
       <g:condition>new</g:condition>
       <g:brand>Brainstorm</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Tacos y Protectores de Maza</g:product_type>
+      <g:product_type>Repuestos &gt; Pegs y Protectores</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -4145,7 +4145,7 @@
       <g:condition>new</g:condition>
       <g:brand>Brainstorm</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Tacos y Protectores de Maza</g:product_type>
+      <g:product_type>Repuestos &gt; Pegs y Protectores</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -4160,14 +4160,14 @@
       <g:condition>new</g:condition>
       <g:brand>Brainstorm</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Tacos y Protectores de Maza</g:product_type>
+      <g:product_type>Repuestos &gt; Pegs y Protectores</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
     <item>
       <g:id>REP-TAL-001</g:id>
       <g:title>Kit Trinquetes y Resortes Tall Order Drone</g:title>
-      <g:description>Kit Trinquetes y Resortes Tall Order Drone. Juego de muelles y trinquetes para maza cassette Tall Order Drone. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:description>Kit Trinquetes y Resortes Tall Order Drone. Juego de muelles y trinquetes para manzana trasera cassette Tall Order Drone. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/kit-trinquetes-tall-order-drone.html</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/kit-trinquetes-tall-order-drone-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/kit-trinquetes-tall-order-drone-2.jpg</g:additional_image_link>
@@ -4176,14 +4176,14 @@
       <g:condition>new</g:condition>
       <g:brand>Tall Order</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Manzanas</g:product_type>
+      <g:product_type>Repuestos &gt; Manzana Trasera</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
     <item>
       <g:id>REP-PRI-004</g:id>
       <g:title>Kit Trinquetes y Resortes Primo Remix</g:title>
-      <g:description>Kit Trinquetes y Resortes Primo Remix. Material Cr-mo tratado. Compatible con maza Primo Remix V1 y V2, y Cult Match. Incluye pestañas y trinquetes. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:description>Kit Trinquetes y Resortes Primo Remix. Material Cr-mo tratado. Compatible con manzana trasera Primo Remix V1 y V2, y Cult Match. Incluye pestañas y trinquetes. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/kit-trinquetes-primo-remix.html</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/kit-trinquetes-primo-remix-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/kit-trinquetes-primo-remix-2.jpg</g:additional_image_link>
@@ -4192,7 +4192,7 @@
       <g:condition>new</g:condition>
       <g:brand>Primo</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Manzanas</g:product_type>
+      <g:product_type>Repuestos &gt; Manzana Trasera</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -4395,7 +4395,7 @@
       <g:condition>new</g:condition>
       <g:brand>Federal</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Manzanas</g:product_type>
+      <g:product_type>Repuestos &gt; Manzana Trasera</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -4412,7 +4412,7 @@
       <g:condition>new</g:condition>
       <g:brand>Mutanty</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Manzanas</g:product_type>
+      <g:product_type>Repuestos &gt; Manzana Trasera</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -4427,7 +4427,7 @@
       <g:condition>new</g:condition>
       <g:brand>Profile</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Manzanas</g:product_type>
+      <g:product_type>Repuestos &gt; Manzana Trasera</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -4443,7 +4443,7 @@
       <g:condition>new</g:condition>
       <g:brand>Trueno</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Manzanas</g:product_type>
+      <g:product_type>Repuestos &gt; Manzana Trasera</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-TRU-001</g:item_group_id>
       <g:size>Derecho (RHD)</g:size>
@@ -4461,7 +4461,7 @@
       <g:condition>new</g:condition>
       <g:brand>Trueno</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Manzanas</g:product_type>
+      <g:product_type>Repuestos &gt; Manzana Trasera</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-TRU-001</g:item_group_id>
       <g:size>Izquierdo (LHD)</g:size>
@@ -4479,7 +4479,7 @@
       <g:condition>new</g:condition>
       <g:brand>Demolition</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Espigas</g:product_type>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -4497,7 +4497,7 @@
       <g:condition>used</g:condition>
       <g:brand>Volume</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Espigas</g:product_type>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -5717,7 +5717,7 @@
       <g:condition>new</g:condition>
       <g:brand>Cinema</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Tacos y Protectores de Maza</g:product_type>
+      <g:product_type>Repuestos &gt; Pegs y Protectores</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -5765,7 +5765,7 @@
       <g:condition>new</g:condition>
       <g:brand>Demolition</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Tacos y Protectores de Maza</g:product_type>
+      <g:product_type>Repuestos &gt; Pegs y Protectores</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -5796,7 +5796,7 @@
       <g:condition>new</g:condition>
       <g:brand>Federal</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Manzanas</g:product_type>
+      <g:product_type>Repuestos &gt; Manzana Trasera</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -5812,7 +5812,7 @@
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Manzanas</g:product_type>
+      <g:product_type>Repuestos &gt; Manzana Trasera</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -5900,7 +5900,7 @@
       <g:condition>new</g:condition>
       <g:brand>Merritt</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Espigas</g:product_type>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -5916,7 +5916,7 @@
       <g:condition>new</g:condition>
       <g:brand>Merritt</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Manzanas</g:product_type>
+      <g:product_type>Repuestos &gt; Manzana Trasera</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -6075,7 +6075,7 @@
       <g:condition>new</g:condition>
       <g:brand>Radio</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Espigas</g:product_type>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -6206,7 +6206,7 @@
       <g:condition>new</g:condition>
       <g:brand>Shadow</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Manzanas</g:product_type>
+      <g:product_type>Repuestos &gt; Manzana Trasera</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -6295,7 +6295,7 @@
       <g:condition>new</g:condition>
       <g:brand>Stolen</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Espigas</g:product_type>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -6487,7 +6487,7 @@
       <g:condition>new</g:condition>
       <g:brand>Mutanty</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Espigas</g:product_type>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -6518,7 +6518,7 @@
       <g:condition>new</g:condition>
       <g:brand>Mutanty</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Manzanas</g:product_type>
+      <g:product_type>Repuestos &gt; Manzana Trasera</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -6533,7 +6533,7 @@
       <g:condition>new</g:condition>
       <g:brand>Genérico</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Manzanas</g:product_type>
+      <g:product_type>Repuestos &gt; Manzana Trasera</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -6551,7 +6551,7 @@
       <g:condition>new</g:condition>
       <g:brand>Trueno</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Manzanas</g:product_type>
+      <g:product_type>Repuestos &gt; Manzana Trasera</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-TRU-004</g:item_group_id>
       <g:color>Cromado</g:color>
@@ -6571,7 +6571,7 @@
       <g:condition>new</g:condition>
       <g:brand>Trueno</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Manzanas</g:product_type>
+      <g:product_type>Repuestos &gt; Manzana Trasera</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-TRU-004</g:item_group_id>
       <g:color>Tornasol</g:color>
@@ -6603,7 +6603,7 @@
       <g:condition>new</g:condition>
       <g:brand>Demolition</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Espigas</g:product_type>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -6618,7 +6618,7 @@
       <g:condition>new</g:condition>
       <g:brand>Mutanty</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Espigas</g:product_type>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -6634,7 +6634,7 @@
       <g:condition>new</g:condition>
       <g:brand>Shadow</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Espigas</g:product_type>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -6650,7 +6650,7 @@
       <g:condition>new</g:condition>
       <g:brand>Shadow</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Espigas</g:product_type>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -6665,7 +6665,7 @@
       <g:condition>new</g:condition>
       <g:brand>Verde</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Espigas</g:product_type>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>

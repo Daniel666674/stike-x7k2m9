@@ -1,0 +1,6 @@
+{
+  "_nota": "Paginas de tipo (categoria/<slug>.html) que cambiaron de nombre: {slugViejo: slugNuevo}. tools/build-seo.mjs las vuelve reglas 301 en .htaccess.",
+  "espigas": "canas",
+  "manzanas": "manzana-trasera",
+  "tacos-y-protectores-de-maza": "pegs-y-protectores"
+}

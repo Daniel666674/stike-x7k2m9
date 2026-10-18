@@ -119,6 +119,7 @@ DirectoryIndex index.html
   RewriteRule ^producto/poste-pivotal-fiend-185mm-negro\.html$ /producto/poste-pivotal-fiend-185mm.html [R=301,L]
   RewriteRule ^producto/poste-pivotal-optimus-corto-negro\.html$ /producto/poste-pivotal-optimus.html [R=301,L]
   RewriteRule ^producto/poste-pivotal-optimus-largo-negro\.html$ /producto/poste-pivotal-optimus.html [R=301,L]
+  RewriteRule ^producto/protector-maza-odyssey-clutch-v2-negro\.html$ /producto/protector-manzana-trasera-odyssey-clutch-v2-negro.html [R=301,L]
   RewriteRule ^producto/silla-mutanty-camuflada\.html$ /producto/silla-mutanty.html [R=301,L]
   RewriteRule ^producto/silla-mutanty-negra\.html$ /producto/silla-mutanty.html [R=301,L]
   RewriteRule ^producto/tenedor-fiend-invest-v2-26mm-cromado\.html$ /producto/tenedor-fiend-invest-v2-26mm.html [R=301,L]
@@ -130,6 +131,9 @@ DirectoryIndex index.html
   RewriteRule ^producto/timon-fiend-team-cromado\.html$ /producto/timon-fiend-team.html [R=301,L]
   RewriteRule ^producto/timon-fiend-team-negro\.html$ /producto/timon-fiend-team.html [R=301,L]
   RewriteRule ^producto/vielas-de-seguridad-salt-165-negra\.html$ /producto/bielas-salt-de-seguridad-negras.html [R=301,L]
+  RewriteRule ^categoria/espigas\.html$ /categoria/canas.html [R=301,L]
+  RewriteRule ^categoria/manzanas\.html$ /categoria/manzana-trasera.html [R=301,L]
+  RewriteRule ^categoria/tacos-y-protectores-de-maza\.html$ /categoria/pegs-y-protectores.html [R=301,L]
   # <<< seo-redirects
 
   # Algunos hostings PHP descartan el header Authorization antes de llegar a

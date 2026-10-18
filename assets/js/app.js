@@ -97,7 +97,7 @@ function stikeAddToCart(slug, qty, size, color) {
   stikeSaveCart(cart);
   const p = stikeFindProduct(slug);
   const variant = [size, color].filter(Boolean).join(" / ");
-  stikeToast((p ? p.n : "Producto") + (variant ? " (" + variant + ")" : "") + " agregado al carrito");
+  stikeToast((p ? p.n : "Producto") + (variant ? " (" + variant + ")" : "") + " ya está en tu carrito");
 }
 /* Actualizar / quitar operan por clave de línea (slug + talla + color) */
 function stikeUpdateQty(key, qty) {
@@ -338,19 +338,58 @@ function stikeStockedSubs(cat) {
   return cat.subs.filter(s => counts[s]);
 }
 
+/* Mega menu de Repuestos: tipos agrupados por sistema de la bici (con una linea
+   que dice para que sirve cada uno y cuantas piezas hay), una tarjeta para
+   armar la BMX, lo ultimo que llego y las marcas con mas repuestos. Todo sale
+   del catalogo: si un tipo se queda sin stock, desaparece del menu solo. */
+function stikeMegaParts(cat) {
+  const subs = stikeStockedSubs(cat);
+  const counts = stikeSubCounts(cat.slug);
+  const hints = typeof STIKE_SUB_HINTS !== "undefined" ? STIKE_SUB_HINTS : {};
+  const groups = (typeof STIKE_PART_GROUPS !== "undefined" ? STIKE_PART_GROUPS : [])
+    .map(g => ({ name: g.name, subs: g.subs.filter(x => subs.indexOf(x) !== -1) }));
+  const placed = [].concat.apply([], groups.map(g => g.subs));
+  const rest = subs.filter(x => placed.indexOf(x) === -1);
+  if (rest.length) groups.push({ name: "Más piezas", subs: rest });
+  const cols = groups.filter(g => g.subs.length).map(g => `
+      <section class="mg-col"><h4>${g.name}</h4>${g.subs.map(x =>
+        `<a class="mg-link" href="${stikeSubUrl(cat.slug, x)}"><span><b>${x}</b>${hints[x] ? `<small>${hints[x]}</small>` : ""}</span><i>${counts[x]}</i></a>`).join("")}
+      </section>`).join("");
+  const total = subs.reduce((n, x) => n + counts[x], 0);
+
+  const all = window.STIKE_PRODUCTS || [];
+  const fresh = all.filter(p => p.cat === cat.slug && !stikeIsOut(p)).slice(-3).reverse();
+  const freshHtml = fresh.length ? `<div class="mg-new"><h4>Recién llegado</h4>${fresh.map(p =>
+    `<a class="mg-prod" href="${stikeProductUrl(p)}"><span class="mg-pimg"><img data-src="${stikeProductImage(p, 120)}" alt="" width="46" height="46"></span><span class="mg-pmeta"><b>${p.n}</b><em>${stikePriceLabel(p)}</em></span></a>`).join("")}</div>` : "";
+
+  const byBrand = {};
+  all.forEach(p => { if (p.cat === cat.slug && p.brand) byBrand[p.brand] = (byBrand[p.brand] || 0) + 1; });
+  const pages = window.STIKE_BRAND_PAGES || {};
+  const brands = Object.keys(byBrand).filter(b => pages[b]).sort((a, b) => byBrand[b] - byBrand[a]).slice(0, 7)
+    .map(b => `<a href="${pages[b]}">${b}</a>`).join("");
+
+  const wa = `https://wa.me/${STIKE_CONFIG.whatsapp}?text=${encodeURIComponent("Hola Stike, necesito ayuda para encontrar un repuesto para mi BMX")}`;
+  return `<div class="dropdown mega-parts" role="group" aria-label="Repuestos BMX">
+      <div class="mg-head"><strong>Repuestos BMX</strong><span>${total} piezas en bodega · ${subs.length} tipos</span><a class="mg-all" href="tienda.html?cat=${cat.slug}">Ver todo →</a></div>
+      <div class="mg-body">
+        <div class="mg-cols">${cols}</div>
+        <aside class="mg-side">
+          <a class="mg-build" href="armar.html"><em>Arma tu BMX</em><strong>Armada a tu medida, parce</strong><small>Te avisamos si una pieza no encaja con otra.</small><span class="mg-cta">Armar mi BMX →</span></a>
+          ${freshHtml}
+        </aside>
+      </div>
+      <div class="mg-foot">${brands ? `<span class="mg-brands"><b>Por marca</b>${brands}</span>` : ""}<a class="mg-help" href="${wa}" target="_blank" rel="noopener">¿No sabes qué pieza necesitas? Escríbenos →</a></div>
+    </div>`;
+}
+
 function stikeNavDropdown(cat) {
   const subs = stikeStockedSubs(cat);
   if (!subs.length) return "";
+  if (cat.slug === "repuestos") return stikeMegaParts(cat);
   const counts = stikeSubCounts(cat.slug);
   const items = subs.map(s =>
     `<a href="${stikeSubUrl(cat.slug, s)}">${s}<i>${counts[s]}</i></a>`).join("");
-  if (cat.slug === "repuestos") {
-    return `<div class="dropdown mega">
-      <a href="tienda.html?cat=${cat.slug}" style="grid-column:1/-1" class="col-title">Ver todos los repuestos →</a>
-      ${items}
-    </div>`;
-  }
-  return `<div class="dropdown">${items}</div>`;
+  return `<div class="dropdown">${items}<a class="dd-all" href="tienda.html?cat=${cat.slug}">Ver todo →</a></div>`;
 }
 
 /* ------------------------------ HEADER --------------------------------- */
@@ -391,11 +430,11 @@ function stikeRenderHeader(active) {
           <a href="${C.fb}" target="_blank" rel="noopener" aria-label="Facebook">${SOCICO_FB}</a>
           <a href="${C.tiktok}" target="_blank" rel="noopener" aria-label="TikTok">${SOCICO_TT}</a>
         </div>
-        <p class="hdr-promo">Envíos a toda Colombia <i></i> Ensamble BMX gratis</p>
+        <p class="hdr-promo">Enviamos a todo el país <i></i> Armado BMX gratis</p>
       </div>
       <a class="brand" href="index.html" aria-label="Stike Bike Shop, inicio">${stikeLogoSVG(96)}</a>
       <div class="hdr-side hdr-right">
-        <p class="hdr-promo">3 cuotas sin interés <i></i> <span>Comunidad <b>Stike</b> Bogotá</span></p>
+        <p class="hdr-promo">3 cuotas sin interés <i></i> <span>El parche <b>Stike</b> Bogotá</span></p>
         <div class="header-actions">
           <button class="icon-btn search-trigger" onclick="stikeOpenSearch()" title="Buscar" aria-label="Buscar">${HDR_ICO_SEARCH}</button>
           <a class="icon-btn hdr-contact" href="contacto.html" title="Contacto" aria-label="Contacto">${HDR_ICO_USER}</a>
@@ -476,12 +515,75 @@ function stikeBindHeader() {
     const caret = li.querySelector(".caret");
     if (!caret) return;
     li.querySelector("a").addEventListener("click", (e) => {
-      if (window.innerWidth <= 760 && li.querySelector(".dropdown")) {
+      if (window.innerWidth <= 1100 && li.querySelector(".dropdown")) {
         e.preventDefault();
         li.classList.toggle("open-sub");
         stikeFloatNavPosition();
       }
     });
+  });
+  if (nav) stikeBindNavHover(nav);
+}
+
+/* Menus de escritorio con "intencion": abren apenas el mouse se posa (90 ms,
+   para no abrirse al cruzar el menu de paso) y se cierran con 350 ms de gracia,
+   asi un pulso torcido o cruzar el espacio entre el link y el panel no lo
+   cierra. Pasar de un menu a otro es instantaneo. Teclado: Tab/flecha abajo
+   abre, Escape cierra. En pantallas tactiles el primer toque abre el panel y
+   el segundo entra a la categoria. */
+function stikeBindNavHover(nav) {
+  const OPEN_MS = 90, CLOSE_MS = 350;
+  const desktop = () => window.matchMedia("(min-width: 1101px)").matches;
+  const touchOnly = () => window.matchMedia("(hover: none)").matches;
+  const items = Array.prototype.slice.call(nav.querySelectorAll(".nav-list > li.has-mega"));
+  const timers = new WeakMap();
+  let quiet = false;   /* true mientras devolvemos el foco al link: no debe reabrir el panel */
+  const clear = li => { const t = timers.get(li); if (t) { clearTimeout(t); timers.delete(li); } };
+  const link = li => li.querySelector(":scope > a");
+  function open(li) {
+    clear(li);
+    items.forEach(o => { if (o !== li) close(o, true); });
+    li.classList.add("is-open");
+    link(li).setAttribute("aria-expanded", "true");
+    li.querySelectorAll("img[data-src]").forEach(img => { img.src = img.getAttribute("data-src"); img.removeAttribute("data-src"); });
+  }
+  function close(li) {
+    clear(li);
+    li.classList.remove("is-open");
+    link(li).setAttribute("aria-expanded", "false");
+  }
+  function later(li, fn, ms) { clear(li); timers.set(li, setTimeout(fn, ms)); }
+  items.forEach(li => {
+    link(li).setAttribute("aria-haspopup", "true");
+    link(li).setAttribute("aria-expanded", "false");
+    li.addEventListener("pointerenter", e => {
+      if (e.pointerType === "touch" || !desktop()) return;
+      clear(li);
+      if (items.some(o => o !== li && o.classList.contains("is-open"))) open(li);
+      else if (!li.classList.contains("is-open")) later(li, () => open(li), OPEN_MS);
+    });
+    li.addEventListener("pointerleave", e => {
+      if (e.pointerType === "touch" || !desktop()) return;
+      later(li, () => close(li), CLOSE_MS);
+    });
+    li.addEventListener("focusin", () => { if (desktop() && !quiet) open(li); });
+    li.addEventListener("focusout", e => { if (desktop() && !li.contains(e.relatedTarget)) close(li); });
+    li.addEventListener("keydown", e => {
+      if (!desktop()) return;
+      if (e.key === "Escape" && li.classList.contains("is-open")) {
+        close(li); quiet = true; link(li).focus(); quiet = false; e.stopPropagation();
+      }
+      if (e.key === "ArrowDown" && e.target === link(li)) {
+        const first = li.querySelector(".dropdown .mg-link") || li.querySelector(".dropdown a"); if (first) { e.preventDefault(); open(li); first.focus(); }
+      }
+    });
+    link(li).addEventListener("click", e => {
+      if (desktop() && touchOnly() && !li.classList.contains("is-open")) { e.preventDefault(); open(li); }
+    });
+  });
+  document.addEventListener("pointerdown", e => {
+    if (!desktop()) return;
+    items.forEach(li => { if (!li.contains(e.target)) close(li); });
   });
 }
 
@@ -545,7 +647,7 @@ function stikeSearchRender(q) {
     html += `<div class="sr-section"><div class="sr-head">Productos</div>${prods.map(stikeSearchRow).join("")}</div>`;
     html += `<a class="sr-all" href="tienda.html?q=${encodeURIComponent(q)}">Ver todos los resultados de “${q}” →</a>`;
   } else if (!cats.length && !brands.length) {
-    html = `<div class="sr-empty">Sin resultados para “${q}”.<br><a href="tienda.html?q=${encodeURIComponent(q)}">Buscar en toda la tienda →</a></div>`;
+    html = `<div class="sr-empty">No salió nada para “${q}”, parce.<br><a href="tienda.html?q=${encodeURIComponent(q)}">Buscar en toda la tienda →</a></div>`;
   }
   box.innerHTML = html;
 }
@@ -613,7 +715,7 @@ function stikeRenderFooter() {
   const strip = document.querySelector(".rd-strip") ? "" : `
   <div class="strip-band" aria-hidden="true">
     <div class="strip-track">
-      ${Array(2).fill(`<span>Flatland</span><span>Comunidad Stike BMX</span><span>Ensamble gratis</span><span>Envíos nacionales</span><span>Street</span><span>Park</span><span>Asesoría de riders</span><span>3 cuotas sin interés</span>`).join("")}
+      ${Array(2).fill(`<span>Flatland</span><span>El parche Stike</span><span>Armado gratis</span><span>Enviamos a todo el país</span><span>Street</span><span>Park</span><span>Te asesoran riders</span><span>3 cuotas sin interés</span>`).join("")}
     </div>
   </div>`;
   const footer = strip + `
@@ -621,10 +723,10 @@ function stikeRenderFooter() {
     <div class="wrap">
       <div>
         <span class="kicker">Bogotá — Venecia</span>
-        <h2>¿Listo para <em>rodar?</em></h2>
-        <p>Escríbenos por WhatsApp y arma tu BMX con asesoría real de riders.</p>
+        <h2>¿Listo pa' <em>rodar?</em></h2>
+        <p>Escríbenos por WhatsApp: te asesoran riders de verdad, sin carreta, y armamos tu BMX como la quieres.</p>
       </div>
-      <a class="btn wa" href="https://wa.me/${C.whatsapp}" target="_blank" rel="noopener">Hablar por WhatsApp</a>
+      <a class="btn wa" href="https://wa.me/${C.whatsapp}" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
     </div>
   </section>
   <footer class="site-footer">
@@ -632,7 +734,7 @@ function stikeRenderFooter() {
       <div class="footer-grid">
         <div class="footer-brand">
           <a href="index.html" class="foot-logo" aria-label="Stike Bike Shop">${stikeLogoSVG(84)}</a>
-          <p>La casa de todo el que rueda. Repuestos, armado a tu medida y asesoría real de riders en Venecia, Bogotá.</p>
+          <p>La casa de todo el que rueda. Repuestos que aguantan, tu BMX armada a tu medida y riders de verdad que te asesoran, en Venecia, Bogotá.</p>
           <div class="foot-social">
             <a href="${C.ig}" target="_blank" rel="noopener" class="soc soc-ig" title="Instagram" aria-label="Instagram">${SOCICO_IG}</a>
             <a href="${C.fb}" target="_blank" rel="noopener" class="soc soc-fb" title="Facebook" aria-label="Facebook">${SOCICO_FB}</a>
@@ -742,7 +844,7 @@ function stikeContact(e) {
       const text = `Hola Stike! Soy ${nombre}.\nTema: ${tema}\n${mensaje}\nMi WhatsApp/Tel: ${tel}`;
       window.open("https://wa.me/" + STIKE_CONFIG.whatsapp + "?text=" + encodeURIComponent(text), "_blank", "noopener");
       form.reset();
-      stikeToast("Te llevamos a WhatsApp para enviar tu mensaje");
+      stikeToast("Te llevamos a WhatsApp pa' que nos escribas");
     });
 }
 
@@ -763,7 +865,7 @@ function stikeNewsletterFallback(form, email, origen) {
     const text = `Nuevo suscriptor al boletín (${origen}): ${email}`;
     window.open("https://wa.me/" + STIKE_CONFIG.whatsapp + "?text=" + encodeURIComponent(text), "_blank", "noopener");
     form.reset();
-    stikeToast("¡Gracias! Te sumamos por WhatsApp.");
+    stikeToast("¡Listo, parce! Te sumamos por WhatsApp.");
   };
 }
 
@@ -870,7 +972,7 @@ function stikeFloatingCart() {
   function renderPanel() {
     const cart = stikeGetCart();
     if (!cart.length) {
-      panel.innerHTML = `<div class="cfp-empty">Tu carrito está vacío.<br><a href="tienda.html">Ir a la tienda →</a></div>`;
+      panel.innerHTML = `<div class="cfp-empty">Tu carrito está vacío, parce.<br><a href="tienda.html">Ir a la tienda →</a></div>`;
       return;
     }
     const rows = cart.map(r => {
