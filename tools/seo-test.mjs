@@ -167,7 +167,8 @@ for (const f of ["llms.txt", "llms-full.txt"]) {
   const rules = [...ht.matchAll(/RewriteRule \^producto\/([^$]+)\\\.html\$ \/producto\/([^ ]+)\.html \[R=301,L\]/g)];
   const live = new Set(VISIBLE.map((p) => p.slug));
   const redirects = exists("data/redirects.json") ? Object.keys(JSON.parse(read("data/redirects.json"))).length : 0;
-  ok(rules.length > 0 && rules.length <= redirects, `.htaccess: ${rules.length} reglas 301 para ${redirects} redirecciones`);
+  const catRedirects = exists("data/redirects-categorias.json") ? Object.keys(JSON.parse(read("data/redirects-categorias.json"))).filter((k) => !k.startsWith("_")).length : 0;
+  ok(rules.length > 0 && rules.length <= redirects + catRedirects, `.htaccess: ${rules.length} reglas 301 para ${redirects} redirecciones`);
   for (const [, from, to] of rules) {
     ok(live.has(to), `301 ${from} -> ${to}: el destino no es un producto publicado`);
     ok(!live.has(from.replace(/\\/g, "")), `301 ${from}: el origen es un producto publicado`);

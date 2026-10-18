@@ -819,6 +819,11 @@ ${items.join("\n")}
     if (!live.has(to) || to === old) continue;
     rules.push(`  RewriteRule ^producto/${reEsc(old)}\\.html$ /producto/${to}.html [R=301,L]`);
   }
+  /* Paginas de tipo que cambiaron de nombre (data/redirects-categorias.json). */
+  const CAT_REDIRECTS = exists("data/redirects-categorias.json") ? JSON.parse(read("data/redirects-categorias.json")) : {};
+  for (const old of Object.keys(CAT_REDIRECTS).filter((k) => !k.startsWith("_")).sort()) {
+    rules.push(`  RewriteRule ^categoria/${reEsc(old)}\\.html$ /categoria/${CAT_REDIRECTS[old]}.html [R=301,L]`);
+  }
   /* Tipos y marcas que se quedaron sin productos NO se redirigen: siguen con
      su pagina (noindex) para que el enlace no se rompa. */
   const S = "  # >>> seo-redirects (generado por tools/build-seo.mjs; no editar)", E = "  # <<< seo-redirects";

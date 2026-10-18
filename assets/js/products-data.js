@@ -11,7 +11,7 @@ window.STIKE_PRODUCTS = [
     "n": "Caña Shadow Finest Negra TopLoad",
     "brand": "Shadow",
     "cat": "repuestos",
-    "sub": "Espigas",
+    "sub": "Cañas",
     "spec": [
       "Tipo: TopLoad",
       "Color: Negro"
@@ -32,7 +32,7 @@ window.STIKE_PRODUCTS = [
     "n": "Caña Mutanty Savage V2",
     "brand": "Mutanty",
     "cat": "repuestos",
-    "sub": "Espigas",
+    "sub": "Cañas",
     "spec": [
       "Modelo: Savage V2",
       "Color: Plata"
@@ -52,7 +52,7 @@ window.STIKE_PRODUCTS = [
     "n": "Caña Fiend Mills - TopLoad",
     "brand": "Fiend",
     "cat": "repuestos",
-    "sub": "Espigas",
+    "sub": "Cañas",
     "spec": [
       "Modelo: Mills",
       "Tipo: TopLoad",
@@ -73,7 +73,7 @@ window.STIKE_PRODUCTS = [
     "n": "Manzana Delantera Optimus",
     "brand": "Optimus",
     "cat": "repuestos",
-    "sub": "Manzanas",
+    "sub": "Manzana Delantera",
     "spec": [
       "Posición: Delantera",
       "Agujeros: 36",
@@ -233,7 +233,7 @@ window.STIKE_PRODUCTS = [
     "n": "Caña Odyssey Broc Negra",
     "brand": "Odyssey",
     "cat": "repuestos",
-    "sub": "Espigas",
+    "sub": "Cañas",
     "spec": [
       "Modelo: Broc",
       "Color: Negro"
@@ -255,7 +255,7 @@ window.STIKE_PRODUCTS = [
     "n": "Caña BSD Front Load Negra",
     "brand": "BSD",
     "cat": "repuestos",
-    "sub": "Espigas",
+    "sub": "Cañas",
     "spec": [
       "Tipo: Front Load",
       "Color: Negro"
@@ -274,7 +274,7 @@ window.STIKE_PRODUCTS = [
     "n": "Caña Kink Front Load Negra",
     "brand": "Kink",
     "cat": "repuestos",
-    "sub": "Espigas",
+    "sub": "Cañas",
     "spec": [
       "Tipo: Front Load",
       "Color: Negro"
@@ -528,7 +528,7 @@ window.STIKE_PRODUCTS = [
     "n": "Caña Fiend Reynolds V4",
     "brand": "Fiend",
     "cat": "repuestos",
-    "sub": "Espigas",
+    "sub": "Cañas",
     "spec": [
       "Modelo: Reynolds V4"
     ],
@@ -568,7 +568,7 @@ window.STIKE_PRODUCTS = [
     "n": "Caña Fiend Ransom",
     "brand": "Fiend",
     "cat": "repuestos",
-    "sub": "Espigas",
+    "sub": "Cañas",
     "spec": [
       "Modelo: Ransom"
     ],
@@ -600,7 +600,7 @@ window.STIKE_PRODUCTS = [
     "n": "Caña Fiend Mills FL",
     "brand": "Fiend",
     "cat": "repuestos",
-    "sub": "Espigas",
+    "sub": "Cañas",
     "spec": [
       "Modelo: Mills",
       "Tipo: Front Load"
@@ -995,7 +995,7 @@ window.STIKE_PRODUCTS = [
     "n": "Peg Fiend Belmont Cromo 4.4mm",
     "brand": "Fiend",
     "cat": "repuestos",
-    "sub": "Tacos y Protectores de Maza",
+    "sub": "Pegs y Protectores",
     "spec": [
       "Material: Cromoly",
       "Diámetro: 4.4mm"
@@ -1014,7 +1014,7 @@ window.STIKE_PRODUCTS = [
     "n": "Peg Fiend Belmont Cromo Plástico 4.5mm",
     "brand": "Fiend",
     "cat": "repuestos",
-    "sub": "Tacos y Protectores de Maza",
+    "sub": "Pegs y Protectores",
     "spec": [
       "Material: Cromoly con funda plástica",
       "Diámetro: 4.5mm"
@@ -1196,7 +1196,7 @@ window.STIKE_PRODUCTS = [
     "n": "Peg Fiend 7K Aluminio Plástico 4.5mm",
     "brand": "Fiend",
     "cat": "repuestos",
-    "sub": "Tacos y Protectores de Maza",
+    "sub": "Pegs y Protectores",
     "spec": [
       "Material: Aluminio con funda plástica",
       "Diámetro: 4.5mm"
@@ -2178,7 +2178,7 @@ window.STIKE_PRODUCTS = [
     "n": "Caña Sunday Freeze TopLoad Negra",
     "brand": "Sunday",
     "cat": "repuestos",
-    "sub": "Espigas",
+    "sub": "Cañas",
     "spec": [
       "Tipo: TopLoad",
       "Alcance: 48mm",
@@ -2203,7 +2203,7 @@ window.STIKE_PRODUCTS = [
     "n": "Caña Animal Negra",
     "brand": "Animal",
     "cat": "repuestos",
-    "sub": "Espigas",
+    "sub": "Cañas",
     "spec": [
       "Color: Negro"
     ],
@@ -3048,7 +3048,7 @@ window.STIKE_PRODUCTS = [
     "n": "Cubierta Peg Fate",
     "brand": "Fate BMX Colombia",
     "cat": "repuestos",
-    "sub": "Tacos y Protectores de Maza",
+    "sub": "Pegs y Protectores",
     "spec": [
       "Color: Negro"
     ],
@@ -3078,7 +3078,7 @@ window.STIKE_PRODUCTS = [
     "n": "Cubierta Peg Odyssey Graduate 4.75\"",
     "brand": "Odyssey",
     "cat": "repuestos",
-    "sub": "Tacos y Protectores de Maza",
+    "sub": "Pegs y Protectores",
     "spec": [
       "Medida: 4.75\"",
       "Unidad individual",
@@ -3278,23 +3278,23 @@ window.STIKE_PRODUCTS = [
     ]
   },
   {
-    "slug": "protector-maza-odyssey-clutch-v2-negro",
+    "slug": "protector-manzana-trasera-odyssey-clutch-v2-negro",
     "sku": "REP-ODY-012",
-    "n": "Protector de Maza Odyssey Clutch V2 Negro",
+    "n": "Protector de Manzana Trasera Odyssey Clutch V2 Negro",
     "brand": "Odyssey",
     "cat": "repuestos",
-    "sub": "Tacos y Protectores de Maza",
+    "sub": "Pegs y Protectores",
     "spec": [
-      "Compatible con maza Odyssey Clutch V2",
+      "Compatible con manzana trasera Odyssey Clutch V2",
       "Color: Negro"
     ],
     "price": 28000,
     "promo": false,
     "units": 1,
     "imgs": [
-      "assets/img/products/protector-maza-odyssey-clutch-v2-negro-1.jpg",
-      "assets/img/products/protector-maza-odyssey-clutch-v2-negro-2.jpg",
-      "assets/img/products/protector-maza-odyssey-clutch-v2-negro-3.jpg"
+      "assets/img/products/protector-manzana-trasera-odyssey-clutch-v2-negro-1.jpg",
+      "assets/img/products/protector-manzana-trasera-odyssey-clutch-v2-negro-2.jpg",
+      "assets/img/products/protector-manzana-trasera-odyssey-clutch-v2-negro-3.jpg"
     ],
     "published": true
   },
@@ -3304,7 +3304,7 @@ window.STIKE_PRODUCTS = [
     "n": "Hub Guard Delantero Brainstorm Cromo",
     "brand": "Brainstorm",
     "cat": "repuestos",
-    "sub": "Tacos y Protectores de Maza",
+    "sub": "Pegs y Protectores",
     "spec": [
       "Posición: Delantera",
       "Color: Cromado"
@@ -3324,7 +3324,7 @@ window.STIKE_PRODUCTS = [
     "n": "Hub Guard Delantero Brainstorm Medio Nylon",
     "brand": "Brainstorm",
     "cat": "repuestos",
-    "sub": "Tacos y Protectores de Maza",
+    "sub": "Pegs y Protectores",
     "spec": [
       "Posición: Delantera",
       "Material: Nylon de alta resistencia",
@@ -3345,7 +3345,7 @@ window.STIKE_PRODUCTS = [
     "n": "Hub Guard Trasero Brainstorm Normal Nylon",
     "brand": "Brainstorm",
     "cat": "repuestos",
-    "sub": "Tacos y Protectores de Maza",
+    "sub": "Pegs y Protectores",
     "spec": [
       "Posición: Trasera",
       "Material: Nylon de alta resistencia",
@@ -3365,7 +3365,7 @@ window.STIKE_PRODUCTS = [
     "n": "Hub Guard Trasero Brainstorm Drive Nylon",
     "brand": "Brainstorm",
     "cat": "repuestos",
-    "sub": "Tacos y Protectores de Maza",
+    "sub": "Pegs y Protectores",
     "spec": [
       "Posición: Trasera, lado de la cadena (drive)",
       "Material: Plástico de alta resistencia",
@@ -3385,9 +3385,9 @@ window.STIKE_PRODUCTS = [
     "n": "Kit Trinquetes y Resortes Tall Order Drone",
     "brand": "Tall Order",
     "cat": "repuestos",
-    "sub": "Manzanas",
+    "sub": "Manzana Trasera",
     "spec": [
-      "Juego de muelles y trinquetes para maza cassette Tall Order Drone"
+      "Juego de muelles y trinquetes para manzana trasera cassette Tall Order Drone"
     ],
     "price": 70000,
     "promo": false,
@@ -3404,10 +3404,10 @@ window.STIKE_PRODUCTS = [
     "n": "Kit Trinquetes y Resortes Primo Remix",
     "brand": "Primo",
     "cat": "repuestos",
-    "sub": "Manzanas",
+    "sub": "Manzana Trasera",
     "spec": [
       "Material: Cr-mo tratado",
-      "Compatible con maza Primo Remix V1 y V2, y Cult Match",
+      "Compatible con manzana trasera Primo Remix V1 y V2, y Cult Match",
       "Incluye pestañas y trinquetes"
     ],
     "price": 60000,
@@ -3585,7 +3585,7 @@ window.STIKE_PRODUCTS = [
     "n": "Cassette Federal Stance Negro",
     "brand": "Federal",
     "cat": "repuestos",
-    "sub": "Manzanas",
+    "sub": "Manzana Trasera",
     "spec": [
       "Color: Negro",
       "Hub trasero completo (cassette)"
@@ -3605,7 +3605,7 @@ window.STIKE_PRODUCTS = [
     "n": "Cassette Mutanty Mercury Elite Negro",
     "brand": "Mutanty",
     "cat": "repuestos",
-    "sub": "Manzanas",
+    "sub": "Manzana Trasera",
     "spec": [
       "Color: Negro",
       "Hub trasero completo (cassette)"
@@ -3626,7 +3626,7 @@ window.STIKE_PRODUCTS = [
     "n": "Cassette Profile Mini Cromado",
     "brand": "Profile",
     "cat": "repuestos",
-    "sub": "Manzanas",
+    "sub": "Manzana Trasera",
     "spec": [
       "Color: Cromado",
       "Hub trasero completo (cassette)"
@@ -3645,7 +3645,7 @@ window.STIKE_PRODUCTS = [
     "n": "Cassette Trueno V2 Negro",
     "brand": "Trueno",
     "cat": "repuestos",
-    "sub": "Manzanas",
+    "sub": "Manzana Trasera",
     "spec": [
       "Color: Negro"
     ],
@@ -3674,7 +3674,7 @@ window.STIKE_PRODUCTS = [
     "n": "Caña Demolition Josh Dave Cromada",
     "brand": "Demolition",
     "cat": "repuestos",
-    "sub": "Espigas",
+    "sub": "Cañas",
     "spec": [
       "Medida: 50mm",
       "Color: Cromado"
@@ -3694,7 +3694,7 @@ window.STIKE_PRODUCTS = [
     "n": "Caña Volume Bison Negra FrontLoad (Segunda)",
     "brand": "Volume",
     "cat": "repuestos",
-    "sub": "Espigas",
+    "sub": "Cañas",
     "spec": [
       "Medida: 50mm",
       "Color: Negro",
@@ -4953,7 +4953,7 @@ window.STIKE_PRODUCTS = [
     "n": "Peg Cinema Negro",
     "brand": "Cinema",
     "cat": "repuestos",
-    "sub": "Tacos y Protectores de Maza",
+    "sub": "Pegs y Protectores",
     "spec": [
       "Color: Negro"
     ],
@@ -5011,7 +5011,7 @@ window.STIKE_PRODUCTS = [
     "n": "Peg Demolition Negro",
     "brand": "Demolition",
     "cat": "repuestos",
-    "sub": "Tacos y Protectores de Maza",
+    "sub": "Pegs y Protectores",
     "spec": [
       "Color: Negro"
     ],
@@ -5051,7 +5051,7 @@ window.STIKE_PRODUCTS = [
     "n": "Manzana Trasera Federal Derecha Negra 9T",
     "brand": "Federal",
     "cat": "repuestos",
-    "sub": "Manzanas",
+    "sub": "Manzana Trasera",
     "spec": [
       "Posición: Trasera (cassette)",
       "Piñón: 9T",
@@ -5072,7 +5072,7 @@ window.STIKE_PRODUCTS = [
     "n": "Freecoaster Fiend Derecho Negro",
     "brand": "Fiend",
     "cat": "repuestos",
-    "sub": "Manzanas",
+    "sub": "Manzana Trasera",
     "spec": [
       "Tipo: Freecoaster",
       "Posición: Trasera",
@@ -5170,7 +5170,7 @@ window.STIKE_PRODUCTS = [
     "n": "Caña Merritt 50mm Cromada",
     "brand": "Merritt",
     "cat": "repuestos",
-    "sub": "Espigas",
+    "sub": "Cañas",
     "spec": [
       "Largo: 50mm",
       "Color: Cromada"
@@ -5190,7 +5190,7 @@ window.STIKE_PRODUCTS = [
     "n": "Manzana Trasera Merritt Derecha Cromada",
     "brand": "Merritt",
     "cat": "repuestos",
-    "sub": "Manzanas",
+    "sub": "Manzana Trasera",
     "spec": [
       "Posición: Trasera (cassette)",
       "Color: Cromada"
@@ -5365,7 +5365,7 @@ window.STIKE_PRODUCTS = [
     "n": "Caña Radio 50mm Negra",
     "brand": "Radio",
     "cat": "repuestos",
-    "sub": "Espigas",
+    "sub": "Cañas",
     "spec": [
       "Largo: 50mm",
       "Color: Negra"
@@ -5459,7 +5459,7 @@ window.STIKE_PRODUCTS = [
     "n": "Freecoaster Shadow Derecho Negro",
     "brand": "Shadow",
     "cat": "repuestos",
-    "sub": "Manzanas",
+    "sub": "Manzana Trasera",
     "spec": [
       "Tipo: Freecoaster",
       "Eje: 14mm macho",
@@ -5543,7 +5543,7 @@ window.STIKE_PRODUCTS = [
     "n": "Caña Stolen 50mm Cromada",
     "brand": "Stolen",
     "cat": "repuestos",
-    "sub": "Espigas",
+    "sub": "Cañas",
     "spec": [
       "Largo: 50mm",
       "Color: Cromada"
@@ -5795,7 +5795,7 @@ window.STIKE_PRODUCTS = [
     "n": "Tornillos de Caña Mutanty Tornasol",
     "brand": "Mutanty",
     "cat": "repuestos",
-    "sub": "Espigas",
+    "sub": "Cañas",
     "spec": [
       "Juego de 6 tornillos Allen",
       "Color: Tornasol"
@@ -5834,7 +5834,7 @@ window.STIKE_PRODUCTS = [
     "n": "Manzana Trasera Mutanty Mercury Derecha Cromada",
     "brand": "Mutanty",
     "cat": "repuestos",
-    "sub": "Manzanas",
+    "sub": "Manzana Trasera",
     "spec": [
       "Posición: Trasera (cassette)",
       "Tracción: Derecha (RHD)",
@@ -5856,7 +5856,7 @@ window.STIKE_PRODUCTS = [
     "n": "Tuercas para Cassette Negras",
     "brand": "Genérico",
     "cat": "repuestos",
-    "sub": "Manzanas",
+    "sub": "Manzana Trasera",
     "spec": [
       "Tuercas de eje para manzana trasera",
       "Color: Negro"
@@ -5875,7 +5875,7 @@ window.STIKE_PRODUCTS = [
     "n": "Manzana Trasera Trueno Alfa V2 Izquierda",
     "brand": "Trueno",
     "cat": "repuestos",
-    "sub": "Manzanas",
+    "sub": "Manzana Trasera",
     "spec": [
       "Posición: Trasera (cassette)",
       "Tracción: Izquierda (LHD)",
@@ -5935,7 +5935,7 @@ window.STIKE_PRODUCTS = [
     "n": "Caña Demolition 50mm Negra",
     "brand": "Demolition",
     "cat": "repuestos",
-    "sub": "Espigas",
+    "sub": "Cañas",
     "spec": [
       "Largo: 50 mm",
       "Tipo: FrontLoad",
@@ -5955,7 +5955,7 @@ window.STIKE_PRODUCTS = [
     "n": "Caña Mutant Bikes Rio V2 50mm Negra",
     "brand": "Mutanty",
     "cat": "repuestos",
-    "sub": "Espigas",
+    "sub": "Cañas",
     "spec": [
       "Modelo: Rio V2",
       "Largo: 50 mm",
@@ -5976,7 +5976,7 @@ window.STIKE_PRODUCTS = [
     "n": "Caña Shadow 50mm Roja Cromada",
     "brand": "Shadow",
     "cat": "repuestos",
-    "sub": "Espigas",
+    "sub": "Cañas",
     "spec": [
       "Largo: 50 mm",
       "Tipo: TopLoad",
@@ -5997,7 +5997,7 @@ window.STIKE_PRODUCTS = [
     "n": "Caña Shadow Chula V2 50mm Negra",
     "brand": "Shadow",
     "cat": "repuestos",
-    "sub": "Espigas",
+    "sub": "Cañas",
     "spec": [
       "Modelo: Chula V2",
       "Largo: 50 mm",
@@ -6019,7 +6019,7 @@ window.STIKE_PRODUCTS = [
     "n": "Caña Verde 50mm Roja",
     "brand": "Verde",
     "cat": "repuestos",
-    "sub": "Espigas",
+    "sub": "Cañas",
     "spec": [
       "Largo: 50 mm",
       "Tipo: TopLoad",
@@ -6181,7 +6181,7 @@ window.STIKE_PRODUCTS = [
     "n": "Caña Animal Inverse Grado 0 50mm Cromada",
     "brand": "Animal",
     "cat": "repuestos",
-    "sub": "Espigas",
+    "sub": "Cañas",
     "spec": [
       "Modelo: Inverse",
       "Largo: 50 mm",
@@ -6199,7 +6199,7 @@ window.STIKE_PRODUCTS = [
     "n": "Caña Volume 50mm Azul",
     "brand": "Volume",
     "cat": "repuestos",
-    "sub": "Espigas",
+    "sub": "Cañas",
     "spec": [
       "Largo: 50 mm",
       "Tipo: TopLoad",

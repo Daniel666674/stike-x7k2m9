@@ -9,10 +9,6 @@
       "h1": "Busos y chaquetas BMX",
       "intro": "Busos, hoodies y chaquetas de marcas BMX y street wear para rodar en Bogotá, donde el clima cambia varias veces al día. Elige tu talla en cada producto."
     },
-    "espigas": {
-      "h1": "Espigas BMX",
-      "intro": "Espigas (pegs) para grinds y stalls: se instalan en el eje de la rueda delantera o trasera. Revisa el diámetro de tu eje (14 mm o 3/8\") antes de comprar."
-    },
     "espinilleras": {
       "h1": "Espinilleras BMX",
       "intro": "Espinilleras para proteger la tibia de los golpes de pedal. Elige tu talla en cada producto."
@@ -24,6 +20,82 @@
     "llaveros": {
       "h1": "Llaveros BMX",
       "intro": "Llaveros BMX para llevar la marca contigo."
+    },
+    "canas": {
+      "h1": "Cañas BMX (stem)",
+      "intro": "Cañas (stem) top load y front load, en 50 mm y otras medidas: la pieza que amarra tu timón al tenedor. Escoge la tuya según tu estilo de montaje y qué tan liviana la quieres."
+    },
+    "pegs-y-protectores": {
+      "h1": "Pegs y protectores BMX",
+      "intro": "Pegs, cubiertas y hub guards para grinds y stalls. Los pegs van en el eje de la manzana delantera o trasera: confirma si tu eje es de 14 mm o de 3/8\" antes de pagar."
+    },
+    "manzana-delantera": {
+      "h1": "Manzanas delanteras BMX",
+      "intro": "El eje de tu rueda de adelante. Fíjate en el número de huecos para que coincida con tu aro, y en el eje (14 mm o 3/8\") si vas a montar pegs."
+    },
+    "manzana-trasera": {
+      "h1": "Manzanas traseras BMX",
+      "intro": "Cassette, freecoaster y repuestos para la rueda de atrás. Revisa el lado de tracción (derecha o izquierda) y los dientes del piñón: de ahí sale tu relación de marcha."
+    },
+    "marcos": {
+      "h1": "Marcos BMX",
+      "intro": "Marcos de BMX para street, park y dirt. Mira el top tube y escoge el que te quede a tu estatura; si dudas, te asesoramos por WhatsApp antes de que pagues."
+    },
+    "tenedores": {
+      "h1": "Tenedores, cajas de dirección y conix BMX",
+      "intro": "Lo que sostiene tu rueda de adelante y deja girar el timón sin trabas. Revisa el diámetro del eje y el offset antes de comprar."
+    },
+    "timones": {
+      "h1": "Timones BMX",
+      "intro": "Timones de 8.5\" a 9.5\" de alto: más rise para street, más bajo para dirt. Escoge el que te dé control en cada maniobra."
+    },
+    "bielas": {
+      "h1": "Bielas y cajas de centro BMX",
+      "intro": "Bielas, cajas de centro y rodamientos en 19, 22 y 24 mm. El eje de tus bielas tiene que coincidir con la caja de centro, así que míralo bien."
+    },
+    "platos": {
+      "h1": "Platos BMX",
+      "intro": "Platos de 25T y 28T, con y sin guardia. Más dientes, más velocidad; menos dientes, más arranque. Tú decides cómo quieres rodar."
+    },
+    "cadenas": {
+      "h1": "Cadenas BMX",
+      "intro": "Cadenas para que la transmisión jale parejo, de media eslabón o completas."
+    },
+    "pedales": {
+      "h1": "Pedales BMX",
+      "intro": "Pedales de plástico y aluminio con pines que muerden la suela. Es tu único contacto con la bici: que sea firme."
+    },
+    "rines": {
+      "h1": "Aros y rines BMX",
+      "intro": "Aros de 20\" con 36 huecos, para armar una rueda que aguante caídas y aterrizajes duros."
+    },
+    "llantas": {
+      "h1": "Corazas y llantas BMX",
+      "intro": "Corazas de 20\" entre 2.2\" y 2.5\": más anchas dan más agarre, más angostas ruedan más rápido. Revisa la presión máxima antes de inflar."
+    },
+    "grips": {
+      "h1": "Grips BMX",
+      "intro": "Grips para agarrar duro y no resbalar, con tapones incluidos. Elige tu marca, tu grosor y tu color."
+    },
+    "sillas-y-postes": {
+      "h1": "Sillas y postes BMX",
+      "intro": "Sillas pivotal y postes para dejar tu asiento a la altura exacta. Que no estorbe cuando saltas."
+    },
+    "tenis": {
+      "h1": "Tenis y zapatillas para BMX",
+      "intro": "Suela que agarra el pedal y cuero que aguanta la calle. Elige tu talla y tu color en cada producto."
+    },
+    "gorras": {
+      "h1": "Gorras y pesqueros BMX",
+      "intro": "Gorras, pesqueros y sombreros para el sol de la calle y el parche. Hechos por marcas que ruedan."
+    },
+    "medias": {
+      "h1": "Medias BMX",
+      "intro": "Medias con diseño de marcas BMX: del parche a la pista, que no se vean aburridas."
+    },
+    "jeans": {
+      "h1": "Pantalones y jeans BMX",
+      "intro": "Pantalones resistentes para rodar: dril, jean y cargo con bolsillos. Elige tu talla en cada producto."
     }
   },
   "brands": {},

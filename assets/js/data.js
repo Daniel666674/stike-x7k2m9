@@ -10,50 +10,88 @@ const STIKE_CATEGORIES = [
   {
     slug: "repuestos",
     name: "Repuestos",
-    blurb: "Cada parte de tu BMX",
+    blurb: "Todo lo que lleva tu bici, pieza por pieza",
     color: "c2",
     subs: [
       "Marcos", "Tenedores", "Timones", "Manubrios", "Bielas", "Platos",
-      "Cadenas", "Frenos", "Manzanas", "Rines", "Llantas", "Pedales",
-      "Sillas y Postes", "Tacos y Protectores de Maza", "Espigas"
+      "Cadenas", "Frenos", "Manzana Delantera", "Manzana Trasera", "Rines", "Llantas", "Pedales",
+      "Sillas y Postes", "Pegs y Protectores", "Cañas"
     ]
   },
   {
     slug: "protecciones",
     name: "Protecciones",
-    blurb: "Cascos, rodilleras y mas",
+    blurb: "Pa' que te levantes y sigas rodando",
     color: "c3",
     subs: ["Cascos", "Rodilleras", "Coderas", "Guantes", "Espinilleras", "Tobilleras"]
   },
   {
     slug: "ropa",
     name: "Ropa",
-    blurb: "Street wear con actitud",
+    blurb: "Pa' la calle, la rampa y el parche",
     color: "c4",
     subs: ["Camisetas", "Busos y Chaquetas", "Gorras", "Medias", "Gafas", "Jeans"]
   },
   {
     slug: "zapatillas",
     name: "Zapatillas",
-    blurb: "Tenis para rodar duro",
+    blurb: "Suela que agarra el pedal y aguanta la calle",
     color: "c4",
     subs: ["Tenis"]
   },
   {
     slug: "accesorios",
     name: "Accesorios",
-    blurb: "Detalles que marcan",
+    blurb: "Los detalles que hacen la diferencia",
     color: "c5",
     subs: ["Herramientas", "Grips", "Pegatinas", "Maletas", "Bombas", "Luces", "Llaveros"]
   },
   {
     slug: "promo",
     name: "Promo",
-    blurb: "Ofertas que vuelan",
+    blurb: "Ofertas que no duran, parce",
     color: "c6",
     subs: []
   }
 ];
+
+/* --------------- Repuestos agrupados por sistema de la bici -------------- */
+/* Lo usa el mega menu de "Repuestos" (app.js). El orden sigue como se arma una
+   BMX de adelante hacia atras. Los nombres de sub son unicos en toda la
+   taxonomia, asi que Grips (que vive en "accesorios") tambien entra aca. */
+const STIKE_PART_GROUPS = [
+  { name: "Cuadro y dirección", subs: ["Marcos", "Tenedores", "Cañas", "Timones", "Manubrios"] },
+  { name: "Transmisión", subs: ["Bielas", "Platos", "Cadenas", "Pedales"] },
+  { name: "Ruedas", subs: ["Rines", "Llantas", "Manzana Delantera", "Manzana Trasera"] },
+  { name: "Control y contacto", subs: ["Sillas y Postes", "Grips", "Pegs y Protectores", "Frenos"] }
+];
+/* Texto corto debajo de cada tipo en el mega menu: dice para que sirve. */
+const STIKE_SUB_HINTS = {
+  "Marcos": "La base de la bici",
+  "Tenedores": "Donde va la rueda delantera",
+  "Cañas": "Stem: une timón y tenedor",
+  "Timones": "Control y palanca",
+  "Manubrios": "Barras y repuestos",
+  "Bielas": "Bielas y cajas de centro",
+  "Platos": "Tu relación de marcha",
+  "Cadenas": "Para que todo jale",
+  "Pedales": "Tu único contacto con la bici",
+  "Rines": "Aros y protectores",
+  "Llantas": "Corazas y cámaras",
+  "Manzana Delantera": "El eje de la rueda de adelante",
+  "Manzana Trasera": "Cassette, freecoaster y repuestos",
+  "Sillas y Postes": "Sillas y postes pivotal",
+  "Grips": "Puños para agarrar duro",
+  "Pegs y Protectores": "Grinds y hub guards",
+  "Frenos": "Para frenar cuando toca"
+};
+/* Nombres viejos de subcategoria -> nombre nuevo. Mantiene vivos los links
+   guardados (tienda.html?sub=Espigas) despues del cambio de nombres. */
+const STIKE_SUB_ALIASES = {
+  "Espigas": "Cañas",
+  "Manzanas": "Manzana Trasera",
+  "Tacos y Protectores de Maza": "Pegs y Protectores"
+};
 
 /* ------------------------------- Marcas -------------------------------- */
 const STIKE_BRANDS = [
@@ -412,21 +450,22 @@ function stikeIsOutOfStock(p) { return stikeIsOut(p); }
 
    Se excluye el producto actual y todo lo agotado, en cada nivel. */
 var STIKE_RELATED_SUB_MAP = {
-  "Espigas": ["Timones", "Tenedores", "Sillas y Postes"],
-  "Tenedores": ["Espigas", "Timones", "Rines"],
+  "Cañas": ["Timones", "Tenedores", "Sillas y Postes"],
+  "Tenedores": ["Cañas", "Timones", "Rines"],
   "Bielas": ["Platos", "Pedales", "Cadenas"],
-  "Platos": ["Bielas", "Cadenas"],
+  "Platos": ["Bielas", "Cadenas", "Manzana Trasera"],
   "Cadenas": ["Platos", "Bielas"],
-  "Manzanas": ["Rines", "Tacos y Protectores de Maza"],
-  "Tacos y Protectores de Maza": ["Manzanas", "Rines"],
-  "Rines": ["Llantas", "Manzanas", "Tacos y Protectores de Maza"],
+  "Manzana Delantera": ["Rines", "Llantas", "Pegs y Protectores"],
+  "Manzana Trasera": ["Rines", "Platos", "Pegs y Protectores"],
+  "Pegs y Protectores": ["Manzana Trasera", "Manzana Delantera", "Rines"],
+  "Rines": ["Llantas", "Manzana Delantera", "Manzana Trasera"],
   "Llantas": ["Rines"],
-  "Timones": ["Espigas", "Grips", "Manubrios"],
+  "Timones": ["Cañas", "Grips", "Manubrios"],
   "Manubrios": ["Timones", "Grips"],
   "Grips": ["Timones", "Manubrios"],
   "Frenos": ["Timones", "Rines"],
   "Marcos": ["Tenedores", "Bielas"],
-  "Sillas y Postes": ["Espigas"],
+  "Sillas y Postes": ["Cañas"],
   "Pedales": ["Bielas"],
 };
 
@@ -593,7 +632,7 @@ STIKE_GLOBAL.STIKE_ALL_PRODUCTS = STIKE_GLOBAL.STIKE_PRODUCTS || [];
 STIKE_GLOBAL.STIKE_PRODUCTS = STIKE_GLOBAL.STIKE_ALL_PRODUCTS.filter(stikeIsVisible);
 
 /* Part types that have their own landing page (categoria/<slug>.html). */
-STIKE_GLOBAL.STIKE_PART_PAGES = ["bielas","bombas","busos-y-chaquetas","cadenas","camisetas","cascos","espigas","espinilleras","frenos","gafas","gorras","grips","guantes","herramientas","jeans","llantas","llaveros","manubrios","manzanas","marcos","medias","pedales","platos","rines","rodilleras","sillas-y-postes","tacos-y-protectores-de-maza","tenedores","tenis","timones","tobilleras"];
+STIKE_GLOBAL.STIKE_PART_PAGES = ["bielas","bombas","busos-y-chaquetas","cadenas","camisetas","canas","cascos","espinilleras","frenos","gafas","gorras","grips","guantes","herramientas","jeans","llantas","llaveros","manubrios","manzana-delantera","manzana-trasera","marcos","medias","pedales","pegs-y-protectores","platos","rines","rodilleras","sillas-y-postes","tenedores","tenis","timones","tobilleras"];
 /* Marcas con pagina propia (marca/<slug>.html): lo escribe tools/build-seo.mjs. */
 STIKE_GLOBAL.STIKE_BRAND_PAGES = {"Animal":"marca/animal.html","Brainstorm":"marca/brainstorm.html","BSD":"marca/bsd.html","Cinema":"marca/cinema.html","Cult":"marca/cult.html","Decaye":"marca/decaye.html","Demolition":"marca/demolition.html","Éclat":"marca/eclat.html","Fade":"marca/fade.html","Federal":"marca/federal.html","Fiend":"marca/fiend.html","Fit Bike Co.":"marca/fit-bike-co.html","Fox":"marca/fox.html","Freaak":"marca/freaak.html","GW":"marca/gw.html","Helio Brand":"marca/helio-brand.html","Innova":"marca/innova.html","Kink":"marca/kink.html","Merritt":"marca/merritt.html","Mutanty":"marca/mutanty.html","Nightmare":"marca/nightmare.html","Nike":"marca/nike.html","ODI":"marca/odi.html","Odyssey":"marca/odyssey.html","Optimus":"marca/optimus.html","Primitive":"marca/primitive.html","Primo":"marca/primo.html","Profile":"marca/profile.html","R2 Protect":"marca/r2-protect.html","Rant":"marca/rant.html","Reding Shoes":"marca/reding-shoes.html","S&M Bikes":"marca/s-m-bikes.html","Shadow":"marca/shadow.html","Stranger":"marca/stranger.html","Subrosa":"marca/subrosa.html","Sunday":"marca/sunday.html","Total BMX":"marca/total-bmx.html","Trueno":"marca/trueno.html","Vans":"marca/vans.html","Wethepeople":"marca/wethepeople.html","XOXO":"marca/xoxo.html"};
 
