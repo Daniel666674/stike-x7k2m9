@@ -1,6 +1,6 @@
 # Stike Bike Shop
 
-> Tienda BMX en Bogotá: repuestos, protecciones, ropa y armado de BMX a la medida con asesoría de riders. Vendemos 246 productos de marcas como Fiend, Mutanty, Fade, Odyssey, Cult, Primitive, con envíos a toda Colombia y tienda física en Venecia, Bogotá.
+> Tienda BMX en Bogotá: repuestos, protecciones, ropa y armado de BMX a la medida con asesoría de riders. Vendemos 255 productos de marcas como Fiend, Mutanty, Fade, Odyssey, Cult, Decaye, con envíos a toda Colombia y tienda física en Venecia, Bogotá.
 
 ## Datos del negocio
 - Nombre: Stike Bike Shop (también "Stike")
@@ -45,9 +45,11 @@
 - [Espinilleras](https://stikebikeshop.com/categoria/espinilleras.html): 1 producto desde $85.000
 - [Tobilleras](https://stikebikeshop.com/categoria/tobilleras.html): 2 productos desde $60.000
 ### Ropa
-- [Camisetas](https://stikebikeshop.com/categoria/camisetas.html): 40 productos desde $50.000
+- [Camisetas](https://stikebikeshop.com/categoria/camisetas.html): 47 productos desde $50.000
 - [Busos y Chaquetas](https://stikebikeshop.com/categoria/busos-y-chaquetas.html): 22 productos desde $120.000
 - [Gorras](https://stikebikeshop.com/categoria/gorras.html): 2 productos desde $65.000
+- [Medias](https://stikebikeshop.com/categoria/medias.html): 1 producto desde $25.000
+- [Jeans](https://stikebikeshop.com/categoria/jeans.html): 1 producto desde $110.000
 ### Zapatillas
 - [Tenis](https://stikebikeshop.com/categoria/tenis.html): 18 productos desde $150.000
 ### Accesorios
@@ -60,7 +62,7 @@
 - [BSD](https://stikebikeshop.com/marca/bsd.html): 2 productos
 - [Cinema](https://stikebikeshop.com/marca/cinema.html): 4 productos
 - [Cult](https://stikebikeshop.com/marca/cult.html): 9 productos
-- [Decaye](https://stikebikeshop.com/marca/decaye.html): 8 productos
+- [Decaye](https://stikebikeshop.com/marca/decaye.html): 9 productos
 - [Demolition](https://stikebikeshop.com/marca/demolition.html): 8 productos
 - [Éclat](https://stikebikeshop.com/marca/eclat.html): 2 productos
 - [Fade](https://stikebikeshop.com/marca/fade.html): 10 productos
@@ -68,8 +70,9 @@
 - [Fiend](https://stikebikeshop.com/marca/fiend.html): 32 productos
 - [Fit Bike Co.](https://stikebikeshop.com/marca/fit-bike-co.html): 2 productos
 - [Fox](https://stikebikeshop.com/marca/fox.html): 4 productos
+- [Freaak](https://stikebikeshop.com/marca/freaak.html): 8 productos
 - [GW](https://stikebikeshop.com/marca/gw.html): 4 productos
-- [Helio Brand](https://stikebikeshop.com/marca/helio-brand.html): 2 productos
+- [Helio Brand](https://stikebikeshop.com/marca/helio-brand.html): 3 productos
 - [Innova](https://stikebikeshop.com/marca/innova.html): 3 productos
 - [Kink](https://stikebikeshop.com/marca/kink.html): 4 productos
 - [Merritt](https://stikebikeshop.com/marca/merritt.html): 4 productos

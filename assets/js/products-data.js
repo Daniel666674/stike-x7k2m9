@@ -7900,5 +7900,265 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/445a0e2e-ba18-48dc-9bbc-b376249a4485.jpg": "Rosada",
       "assets/img/products/a1676fd5-959e-4cf1-8578-0af21ad5b565.jpg": "Rosada"
     }
+  },
+  {
+    "slug": "camiseta-freaak-letras-blancas-vinotinto",
+    "n": "Camiseta Freaak Letras Blancas al Frente",
+    "brand": "Freaak",
+    "sub": "Camisetas",
+    "spec": [
+      "Marca: Freaak",
+      "Estampado: letras blancas al frente",
+      "Color: Vinotinto"
+    ],
+    "price": 50000,
+    "sizes": [
+      {
+        "v": "XL",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "imgs": [
+      "assets/img/products/d9bed4d4-a31e-48ff-802c-3a2fa02c586f.jpg"
+    ],
+    "sku": "ROP-FRE-003",
+    "cat": "ropa",
+    "promo": false,
+    "published": true
+  },
+  {
+    "slug": "camiseta-freaak-letras-blancas-rojo-beige",
+    "n": "Camiseta Freaak Letras Blancas con Rojo al Frente",
+    "brand": "Freaak",
+    "sub": "Camisetas",
+    "spec": [
+      "Marca: Freaak",
+      "Estampado: letras blancas con rojo al frente",
+      "Color: Beige"
+    ],
+    "price": 50000,
+    "sizes": [
+      {
+        "v": "XL",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "imgs": [
+      "assets/img/products/e5388e8d-0f35-4cea-a2ac-7e584242e890.jpg"
+    ],
+    "sku": "ROP-FRE-004",
+    "cat": "ropa",
+    "promo": false,
+    "published": true
+  },
+  {
+    "slug": "camiseta-freaak-letras-rojo-blanco",
+    "n": "Camiseta Freaak Letras Rojo Blanco al Frente",
+    "brand": "Freaak",
+    "sub": "Camisetas",
+    "spec": [
+      "Marca: Freaak",
+      "Estampado: letras rojo y blanco al frente, logo \"Siempre sobre ruedas\" en la espalda",
+      "Color: Blanca"
+    ],
+    "price": 50000,
+    "sizes": [
+      {
+        "v": "L",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "imgs": [
+      "assets/img/products/28584f1e-2a2a-4968-85c2-0d15c5ffed41.jpg",
+      "assets/img/products/86a87c94-067a-4586-98e0-4928aef13f82.jpg"
+    ],
+    "sku": "ROP-FRE-005",
+    "cat": "ropa",
+    "promo": false,
+    "published": true
+  },
+  {
+    "slug": "camiseta-freaak-letras-de-colores",
+    "n": "Camiseta Freaak Letras de Colores al Frente",
+    "brand": "Freaak",
+    "sub": "Camisetas",
+    "spec": [
+      "Marca: Freaak",
+      "Estampado: letras de colores al frente",
+      "Color: Verde Claro"
+    ],
+    "price": 50000,
+    "sizes": [
+      {
+        "v": "XL",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "imgs": [
+      "assets/img/products/48702698-9503-4925-abf4-910c5da752a7.jpg"
+    ],
+    "sku": "ROP-FRE-006",
+    "cat": "ropa",
+    "promo": false,
+    "published": true
+  },
+  {
+    "slug": "camiseta-freaak-logo-leon",
+    "n": "Camiseta Freaak Logo de León",
+    "brand": "Freaak",
+    "sub": "Camisetas",
+    "spec": [
+      "Marca: Freaak",
+      "Estampado: logo de león, pequeño al frente y grande en la espalda",
+      "Color: Blanca"
+    ],
+    "price": 70000,
+    "sizes": [
+      {
+        "v": "L",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "imgs": [
+      "assets/img/products/e4a1ed46-771b-4590-b2b5-4509d820184b.jpg",
+      "assets/img/products/2ab9afb9-c7ba-4bf9-ab45-1c1b0061ea13.jpg"
+    ],
+    "sku": "ROP-FRE-007",
+    "cat": "ropa",
+    "promo": false,
+    "published": true
+  },
+  {
+    "slug": "camiseta-freaak-pizza",
+    "n": "Camiseta Freaak Pizza Death Cut",
+    "brand": "Freaak",
+    "sub": "Camisetas",
+    "spec": [
+      "Marca: Freaak",
+      "Estampado: pizza Death Cut, pequeña al frente y grande en la espalda",
+      "Color: Blanca"
+    ],
+    "price": 50000,
+    "sizes": [
+      {
+        "v": "XL",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "imgs": [
+      "assets/img/products/a31ee01b-410f-4662-a71e-da5817f79fc6.jpg",
+      "assets/img/products/ff3bbd95-3854-4b91-ba95-9c0c3c68a6e5.jpg"
+    ],
+    "sku": "ROP-FRE-008",
+    "cat": "ropa",
+    "promo": false,
+    "published": true
+  },
+  {
+    "slug": "camiseta-helio-brand-lineas-blancas-azul",
+    "n": "Camiseta Helio Brand Líneas Blancas con Azul",
+    "brand": "Helio Brand",
+    "sub": "Camisetas",
+    "spec": [
+      "Marca: Helio Brand",
+      "Corte oversize",
+      "Estampado: jaspeado líneas blancas y azules",
+      "Color: Blanco y Azul"
+    ],
+    "price": 79000,
+    "sizes": [
+      {
+        "v": "M",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Talla",
+    "imgs": [
+      "assets/img/products/0fce3367-d87b-4ce1-9297-4945e410daf1.jpg"
+    ],
+    "sku": "ROP-HEL-004",
+    "cat": "ropa",
+    "promo": false,
+    "published": true
+  },
+  {
+    "slug": "pantalon-freaak-dril-negro",
+    "n": "Pantalón Freaak Dril Negro",
+    "brand": "Freaak",
+    "sub": "Jeans",
+    "spec": [
+      "Marca: Freaak",
+      "Tela: dril",
+      "Estilo: cargo con bolsillos laterales",
+      "Color: Negro"
+    ],
+    "price": 110000,
+    "sizes": [
+      {
+        "v": "30",
+        "u": 1
+      },
+      {
+        "v": "32",
+        "u": 2
+      }
+    ],
+    "sizeLabel": "Talla",
+    "imgs": [
+      "assets/img/products/82b1fe69-daad-4e2b-b47a-7ab7efa62c89.jpg",
+      "assets/img/products/e6c471ec-235c-4834-83d3-7e61669c87db.jpg"
+    ],
+    "sku": "ROP-FRE-009",
+    "cat": "ropa",
+    "promo": false,
+    "published": true
+  },
+  {
+    "slug": "medias-decaye",
+    "n": "Medias Decaye",
+    "brand": "Decaye",
+    "sub": "Medias",
+    "spec": [
+      "Marca: Decaye",
+      "Estampado: logo Decaye en todo el tejido",
+      "Venta por par"
+    ],
+    "price": 25000,
+    "colors": [
+      {
+        "v": "Amarilla",
+        "u": 2
+      },
+      {
+        "v": "Verde",
+        "u": 2
+      },
+      {
+        "v": "Negra",
+        "u": 3
+      }
+    ],
+    "imgs": [
+      "assets/img/products/354d40f9-841b-4a4b-8285-3ef858f3655c.jpg",
+      "assets/img/products/1953f988-d228-4ccf-b3ba-e78a1fdb631c.jpg",
+      "assets/img/products/4bf0bcf7-da5a-472c-83bc-e09dc8effeeb.jpg",
+      "assets/img/products/c1f489a9-9e03-43c2-b093-2efddccc698a.jpg"
+    ],
+    "imgColorMap": {
+      "assets/img/products/354d40f9-841b-4a4b-8285-3ef858f3655c.jpg": "Amarilla",
+      "assets/img/products/1953f988-d228-4ccf-b3ba-e78a1fdb631c.jpg": "Verde",
+      "assets/img/products/4bf0bcf7-da5a-472c-83bc-e09dc8effeeb.jpg": "Negra",
+      "assets/img/products/c1f489a9-9e03-43c2-b093-2efddccc698a.jpg": "Negra"
+    },
+    "sku": "ROP-DEC-009",
+    "cat": "ropa",
+    "promo": false,
+    "published": true
   }
 ];
