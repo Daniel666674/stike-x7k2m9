@@ -1971,7 +1971,7 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "buzo-vans",
     "sku": "ROP-VAN-001",
-    "n": "Buzo Vans Verde ",
+    "n": "Buzo Vans Verde",
     "brand": "Vans",
     "cat": "ropa",
     "sub": "Busos y Chaquetas",
@@ -2702,7 +2702,10 @@ window.STIKE_PRODUCTS = [
     "brand": "Demolition",
     "cat": "repuestos",
     "sub": "Pedales",
-    "spec": [],
+    "spec": [
+      "Rosca: 9/16\" (para bielas de 3 piezas)",
+      "Eje: Cromoly"
+    ],
     "price": 95000,
     "promo": false,
     "colors": [
@@ -4313,7 +4316,7 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "camiseta-fox-blanca-race-crew",
     "sku": "ROP-FOX-005",
-    "n": "Camiseta Fox Race ",
+    "n": "Camiseta Fox Race",
     "brand": "Fox",
     "cat": "ropa",
     "sub": "Camisetas",
@@ -4451,7 +4454,7 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "camiseta-odyssey-negra-40-anos",
     "sku": "ROP-ODY-002",
-    "n": "Camiseta Nike 6.0 Verde ",
+    "n": "Camiseta Nike 6.0 Verde",
     "brand": "Odyssey",
     "cat": "ropa",
     "sub": "Camisetas",
@@ -4478,7 +4481,7 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "camiseta-helio-rayas-azul",
     "sku": "ROP-HEL-001",
-    "n": "Camiseta Odyssey Negra 40 ",
+    "n": "Camiseta Odyssey Negra 40",
     "brand": "Odyssey",
     "cat": "ropa",
     "sub": "Camisetas",
@@ -5387,7 +5390,13 @@ window.STIKE_PRODUCTS = [
     "brand": "Rant",
     "cat": "repuestos",
     "sub": "Pedales",
-    "spec": [],
+    "spec": [
+      "Cuerpo: nylon con fibra de vidrio",
+      "Eje: Cromoly",
+      "Rosca: 9/16\" (para bielas de 3 piezas)",
+      "Rodamientos: bolas sueltas",
+      "Plataforma: aprox. 95 x 100 mm"
+    ],
     "price": 73000,
     "promo": false,
     "colors": [
@@ -5605,11 +5614,14 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "cadena-fate-x-kmc",
     "sku": "REP-FAT-017",
-    "n": "cadena fate x kmc ",
+    "n": "Cadena Fate x KMC",
     "brand": "Fate BMX Colombia",
     "cat": "repuestos",
     "sub": "Cadenas",
-    "spec": [],
+    "spec": [
+      "Cadena BMX de una velocidad",
+      "Colaboración Fate x KMC"
+    ],
     "price": 80000,
     "promo": false,
     "units": 139,
