@@ -8247,7 +8247,7 @@ window.STIKE_PRODUCTS = [
     "sizes": [
       {
         "v": "S",
-        "u": 0
+        "u": 2
       },
       {
         "v": "M",
@@ -8257,14 +8257,14 @@ window.STIKE_PRODUCTS = [
     "colors": [
       {
         "v": "rrojouevo color",
-        "u": 2
+        "u": 4
       }
     ],
     "combos": [
       {
         "s": "S",
         "c": "rrojouevo color",
-        "u": 0
+        "u": 2
       },
       {
         "s": "M",
@@ -8275,6 +8275,6 @@ window.STIKE_PRODUCTS = [
     "imgs": [
       "assets/img/products/fe1e3c37-82d0-4a1c-8f21-35d061350025.jpg"
     ],
-    "published": false
+    "published": true
   }
 ];
