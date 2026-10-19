@@ -8275,6 +8275,6 @@ window.STIKE_PRODUCTS = [
     "imgs": [
       "assets/img/products/fe1e3c37-82d0-4a1c-8f21-35d061350025.jpg"
     ],
-    "published": false
+    "published": true
   }
 ];
