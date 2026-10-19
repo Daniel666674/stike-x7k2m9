@@ -4183,13 +4183,13 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "camiseta-ac-negra",
     "sku": "ROP-AC-001",
-    "n": "Camiseta Vans Blanca",
+    "n": "Camiseta Vans Blanca The Original",
     "brand": "Vans",
     "cat": "ropa",
     "sub": "Camisetas",
     "spec": [
-      "Color: Negro",
-      "3 franjas blancas y logo águila en la espalda"
+      "Color: Blanco",
+      "Estampado: \"The Original Vans · Off The Wall · Since 1966\" al frente"
     ],
     "price": 50000,
     "promo": false,
@@ -4208,13 +4208,13 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "camiseta-we-the-people-cafe-claro",
     "sku": "ROP-WTP-001",
-    "n": "Camiseta Vans Blanca",
+    "n": "Camiseta Vans Blanca Logo Pequeño",
     "brand": "Vans",
     "cat": "ropa",
     "sub": "Camisetas",
     "spec": [
-      "Color: Café claro",
-      "Letras \"We The People\" al frente"
+      "Color: Blanco",
+      "Logo Vans pequeño al pecho"
     ],
     "price": 50000,
     "promo": false,
@@ -4289,13 +4289,13 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "camiseta-primitive-verde-6-0",
     "sku": "ROP-PRM-002",
-    "n": "Camiseta Vans Blanca",
-    "brand": "Primitive",
+    "n": "Camiseta Vans Blanca Off The Wall",
+    "brand": "Vans",
     "cat": "ropa",
     "sub": "Camisetas",
     "spec": [
-      "Color: Verde",
-      "Logo \"6.0\" al frente"
+      "Color: Blanco",
+      "Estampado: \"Vans Off The Wall · Since 1966\" al frente"
     ],
     "price": 50000,
     "promo": false,

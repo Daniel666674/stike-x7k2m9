@@ -83,7 +83,7 @@
 - [ODI](https://stikebikeshop.com/marca/odi.html): 2 productos
 - [Odyssey](https://stikebikeshop.com/marca/odyssey.html): 10 productos
 - [Optimus](https://stikebikeshop.com/marca/optimus.html): 3 productos
-- [Primitive](https://stikebikeshop.com/marca/primitive.html): 9 productos
+- [Primitive](https://stikebikeshop.com/marca/primitive.html): 8 productos
 - [Primo](https://stikebikeshop.com/marca/primo.html): 6 productos
 - [Profile](https://stikebikeshop.com/marca/profile.html): 2 productos
 - [R2 Protect](https://stikebikeshop.com/marca/r2-protect.html): 3 productos
@@ -96,7 +96,7 @@
 - [Sunday](https://stikebikeshop.com/marca/sunday.html): 2 productos
 - [Total BMX](https://stikebikeshop.com/marca/total-bmx.html): 4 productos
 - [Trueno](https://stikebikeshop.com/marca/trueno.html): 4 productos
-- [Vans](https://stikebikeshop.com/marca/vans.html): 8 productos
+- [Vans](https://stikebikeshop.com/marca/vans.html): 9 productos
 - [Wethepeople](https://stikebikeshop.com/marca/wethepeople.html): 2 productos
 - [XOXO](https://stikebikeshop.com/marca/xoxo.html): 2 productos
 - [Fate BMX Colombia](https://stikebikeshop.com/fate/): marca aliada 100% bogotana
