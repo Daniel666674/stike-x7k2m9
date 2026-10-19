@@ -2650,7 +2650,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 95000,
     "promo": false,
-    "units": 1,
+    "units": 0,
     "imgs": [
       "assets/img/products/pedales-cinema-tilt-negro-1.jpg"
     ],
@@ -8230,5 +8230,51 @@ window.STIKE_PRODUCTS = [
     "cat": "ropa",
     "promo": false,
     "published": true
+  },
+  {
+    "slug": "casco-tsg-evolution",
+    "sku": "PRO-TSG-001",
+    "n": "CASCO TSG EVOLUTION",
+    "brand": "TSG",
+    "cat": "protecciones",
+    "sub": "Cascos",
+    "spec": [
+      "CASO TSG EVOLUTION PROFESIONAL"
+    ],
+    "price": 330000,
+    "old": 350000,
+    "promo": true,
+    "sizes": [
+      {
+        "v": "S",
+        "u": 0
+      },
+      {
+        "v": "M",
+        "u": 2
+      }
+    ],
+    "colors": [
+      {
+        "v": "rrojouevo color",
+        "u": 2
+      }
+    ],
+    "combos": [
+      {
+        "s": "S",
+        "c": "rrojouevo color",
+        "u": 0
+      },
+      {
+        "s": "M",
+        "c": "rrojouevo color",
+        "u": 2
+      }
+    ],
+    "imgs": [
+      "assets/img/products/fe1e3c37-82d0-4a1c-8f21-35d061350025.jpg"
+    ],
+    "published": false
   }
 ];
