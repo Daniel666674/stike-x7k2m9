@@ -2462,7 +2462,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 45000,
     "promo": false,
-    "units": 8,
+    "units": 6,
     "imgs": [
       "assets/img/products/grips-stranger-piston-1.jpg"
     ],
@@ -3536,7 +3536,7 @@ window.STIKE_PRODUCTS = [
       },
       {
         "v": "1022mm",
-        "u": 58
+        "u": 56
       }
     ],
     "sizeLabel": "Medida",
@@ -3735,7 +3735,7 @@ window.STIKE_PRODUCTS = [
       },
       {
         "v": "Cromado",
-        "u": 17
+        "u": 15
       }
     ],
     "imgs": [
@@ -4943,7 +4943,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "units": 1,
+    "units": 0,
     "imgs": [
       "assets/img/products/grips-cinema-reynolds-negro-1.jpg",
       "assets/img/products/grips-cinema-reynolds-negro-2.jpg"
@@ -5624,7 +5624,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 80000,
     "promo": false,
-    "units": 139,
+    "units": 137,
     "imgs": [
       "assets/img/products/5cb67fe9-9818-4c78-b2e6-e81a53adc649.jpg"
     ],

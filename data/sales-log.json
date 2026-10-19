@@ -22,5 +22,65 @@
     "admin": "jparra375@gmail.com",
     "invoice": 3782,
     "payment": "Efectivo"
+  },
+  {
+    "ts": "2026-10-19T23:07:12.288Z",
+    "slug": "plato-fate-garuda-28t",
+    "name": "Plato Fate Garuda 28T con Guardia",
+    "size": null,
+    "color": "Cromado",
+    "qty": 2,
+    "unitPrice": 230000,
+    "total": 460000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
+  },
+  {
+    "ts": "2026-10-19T23:07:36.999Z",
+    "slug": "cadena-fate-x-kmc",
+    "name": "Cadena Fate x KMC",
+    "size": null,
+    "color": null,
+    "qty": 2,
+    "unitPrice": 80000,
+    "total": 160000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
+  },
+  {
+    "ts": "2026-10-19T23:09:33.271Z",
+    "slug": "grips-cinema-reynolds-negro",
+    "name": "Grips Cinema Reynolds Negro",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 50000,
+    "total": 50000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
+  },
+  {
+    "ts": "2026-10-19T23:11:44.248Z",
+    "slug": "caja-de-centro-fate-negra",
+    "name": "Caja de Centro Fate Negra",
+    "size": "1022mm",
+    "color": null,
+    "qty": 2,
+    "unitPrice": 80000,
+    "total": 160000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
+  },
+  {
+    "ts": "2026-10-19T23:13:04.181Z",
+    "slug": "grips-stranger-piston",
+    "name": "Grips Stranger Piston",
+    "size": null,
+    "color": null,
+    "qty": 2,
+    "unitPrice": 45000,
+    "total": 90000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
