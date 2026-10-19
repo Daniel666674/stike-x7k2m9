@@ -4943,7 +4943,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "units": 1,
+    "units": 0,
     "imgs": [
       "assets/img/products/grips-cinema-reynolds-negro-1.jpg",
       "assets/img/products/grips-cinema-reynolds-negro-2.jpg"
