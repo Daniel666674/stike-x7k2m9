@@ -2462,7 +2462,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 45000,
     "promo": false,
-    "units": 8,
+    "units": 6,
     "imgs": [
       "assets/img/products/grips-stranger-piston-1.jpg"
     ],
