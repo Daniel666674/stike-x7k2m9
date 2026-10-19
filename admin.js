@@ -435,7 +435,9 @@ function validateCatalog(catalog) {
     if (vRows.some(r => r.price != null && !(Number.isInteger(r.price) && r.price > 0))) errors.push(`${label}: un precio por opción es inválido`);
     if ((p.sizes || []).some(r => r.price > 0) && (p.colors || []).some(r => r.price > 0)) errors.push(`${label}: el precio por opción va en las tallas O en los colores, no en los dos`);
     if (vRows.some(r => r.price > 0 && r.price < p.price)) errors.push(`${label}: el precio base debe ser el más bajo (hay una opción más barata que el base)`);
-    if (!(p.imgs && p.imgs.length)) errors.push(`${label}: falta la foto (al menos una)`);
+    /* Un borrador no sale al sitio, asi que puede esperar su foto sin bloquear
+       el resto de los cambios; al publicarlo si se exige. */
+    if (p.published !== false && !(p.imgs && p.imgs.length)) errors.push(`${label}: falta la foto (al menos una)`);
   });
   return errors;
 }
