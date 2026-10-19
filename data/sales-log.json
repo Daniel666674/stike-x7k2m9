@@ -22,5 +22,17 @@
     "admin": "jparra375@gmail.com",
     "invoice": 3782,
     "payment": "Efectivo"
+  },
+  {
+    "ts": "2026-10-19T23:07:12.288Z",
+    "slug": "plato-fate-garuda-28t",
+    "name": "Plato Fate Garuda 28T con Guardia",
+    "size": null,
+    "color": "Cromado",
+    "qty": 2,
+    "unitPrice": 230000,
+    "total": 460000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
