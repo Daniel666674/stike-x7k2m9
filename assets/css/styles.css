@@ -2136,20 +2136,17 @@ body:not(.fate-page) h1 .o1 { color: var(--mint); }
 .rd-hero > .rd-vid.r { border-right: 0; }
 .rd-core { text-align: center; display: flex; flex-direction: column; align-items: center; padding: 8px 0 0; min-width: 0; }
 .rd-title { margin: 0; text-shadow: none; }
-/* Titular "natural": Anton, sin estirar ni extruir (antes Archivo 125% con relieve), y el
-   "Vive BMX" a marcador, como el logo de Stike que también es de mano. */
-.rd-d { font-family: "Anton", "Archivo Narrow", Impact, "Arial Narrow", sans-serif; font-stretch: 100%; font-weight: 400; text-transform: uppercase; line-height: .98; letter-spacing: .02em; }
-.rd-d1 { font-size: clamp(46px, 6.6vw, 100px); color: #fff; text-shadow: 0 .05em .1em rgba(0,0,0,.5); }
-.rd-d2 { font-size: clamp(88px, 13vw, 200px); color: #fff; text-shadow: 0 .04em .12em rgba(0,0,0,.55); margin-top: -.03em; }
-.rd-d3 { font-family: "Permanent Marker", "Anton", Impact, sans-serif; font-size: clamp(36px, 5.4vw, 82px); letter-spacing: .01em; text-transform: none; line-height: 1.05; margin-top: .12em; transform: rotate(-2.5deg); }
-.rd-d3.stk { color: var(--mint); -webkit-text-stroke: 0; text-shadow: 0 0 .3em rgba(82,240,216,.5), 0 .04em .08em rgba(0,0,0,.5); }
-.rd-tag { margin: 22px 0 0; font-family: "Barlow", var(--body); font-style: normal; font-weight: 500; font-size: 21px; letter-spacing: .02em; text-transform: none; color: var(--mint); display: flex; align-items: center; gap: 16px; }
+.rd-d { font-family: var(--display); font-stretch: 125%; font-weight: 900; text-transform: uppercase; line-height: .86; letter-spacing: .01em; }
+.rd-d1 { font-size: clamp(44px, 6.2vw, 94px); color: #fff; text-shadow: 0 .045em 0 #b9bebd, 0 .1em .2em rgba(0,0,0,.6); }
+.rd-d2 { font-size: clamp(82px, 12vw, 180px); color: #fff; text-shadow: 0 .03em 0 #c9cdcc, 0 .045em 0 #8d9392, 0 .1em .18em rgba(0,0,0,.7); margin-top: .04em; }
+.rd-d3 { font-size: clamp(44px, 6.4vw, 96px); margin-top: .2em; -webkit-text-stroke-width: .035em; }
+.rd-tag { margin: 22px 0 0; font-family: var(--cond); font-style: italic; font-weight: 300; font-size: 22px; letter-spacing: .04em; text-transform: uppercase; color: var(--mint); display: flex; align-items: center; gap: 16px; }
 .rd-tag i { width: 6px; height: 6px; border: 1px solid var(--mint); }
-.rd-box { margin-top: 18px; width: min(100%, 660px); background: rgba(10,10,10,.55); border: 3px solid #7c8081; box-shadow: inset 0 0 0 1px #000; padding: 14px 28px 16px; }
-.rd-box p { margin: 0; text-wrap: balance; font-family: "Barlow", var(--body); font-weight: 600; font-size: 21px; line-height: 1.3; text-transform: none; letter-spacing: 0; color: #fff; }
-.rd-box p + p { font-style: normal; font-weight: 400; font-size: 18px; color: #dfe3e2; margin-top: 4px; }
-.rd-box p:last-child { font-style: normal; font-weight: 600; font-size: 18px; color: var(--mint); text-decoration: none; margin-top: 6px; }
-.rd-place { margin: 26px 0 0; white-space: nowrap; font-family: "Anton", "Archivo Narrow", Impact, sans-serif; font-stretch: 100%; font-weight: 400; text-transform: uppercase; line-height: 1; font-size: clamp(26px, 4vw, 60px); letter-spacing: .08em; color: rgba(82,240,216,.06); -webkit-text-stroke: .03em var(--mint); text-shadow: 0 0 .2em rgba(82,240,216,.45); }
+.rd-box { margin-top: 18px; width: min(100%, 660px); background: rgba(10,10,10,.55); border: 3px solid #7c8081; box-shadow: inset 0 0 0 1px #000; padding: 12px 28px 14px; }
+.rd-box p { margin: 0; font-family: var(--cond); font-size: 24px; line-height: 1.2; text-transform: uppercase; letter-spacing: .01em; color: #fff; }
+.rd-box p + p { font-style: italic; font-weight: 300; font-size: 22px; color: #e3e6e5; }
+.rd-box p:last-child { font-style: italic; font-weight: 500; color: #fff; text-decoration: underline; text-underline-offset: 4px; }
+.rd-place { margin: 26px 0 0; white-space: nowrap; font-family: var(--display); font-stretch: 125%; font-weight: 900; text-transform: uppercase; line-height: 1; font-size: clamp(26px, 4vw, 60px); letter-spacing: .03em; color: rgba(82,240,216,.06); -webkit-text-stroke: .04em var(--mint); text-shadow: 0 0 .2em rgba(82,240,216,.45); }
 .rd-ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(18px, 7vw, 90px); margin-top: 28px; }
 .rd-ctas .btn { min-width: 250px; }
 .rd-hero-mobile-vids { display: none; }
@@ -2202,10 +2199,10 @@ body:not(.fate-page) h1 .o1 { color: var(--mint); }
 }
 @media (max-width: 760px) {
   .rd-hero { padding-left: 16px; padding-right: 16px; }
-  .rd-d1 { font-size: 13vw; } .rd-d2 { font-size: 22vw; } .rd-d3 { font-size: 11vw; }
-  .rd-tag { font-size: 17px; gap: 10px; }
+  .rd-d1 { font-size: 12vw; } .rd-d2 { font-size: 19.5vw; } .rd-d3 { font-size: 10.8vw; }
+  .rd-tag { font-size: 18px; gap: 10px; }
   .rd-box { padding: 10px 14px 12px; }
-  .rd-box p { font-size: 17px; } .rd-box p + p, .rd-box p:last-child { font-size: 15px; }
+  .rd-box p { font-size: 19px; } .rd-box p + p { font-size: 17px; }
   .rd-pay { margin-top: 24px; }
   .rd-pay-label { font-size: 17px; }
   .pay-chip { height: 42px; min-width: 72px; padding: 0 10px; }
