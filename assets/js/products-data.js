@@ -6149,8 +6149,19 @@ window.STIKE_PRODUCTS = [
         "u": 1
       }
     ],
-    "imgs": [],
-    "published": false
+    "imgs": [
+      "assets/img/products/caja-de-centro-colony-1022mm-negro-1.jpg",
+      "assets/img/products/caja-de-centro-colony-1022mm-negro-2.jpg",
+      "assets/img/products/caja-de-centro-colony-1022mm-cromado-1.jpg",
+      "assets/img/products/caja-de-centro-colony-1022mm-cromado-2.jpg"
+    ],
+    "imgColorMap": {
+      "assets/img/products/caja-de-centro-colony-1022mm-negro-1.jpg": "Negro",
+      "assets/img/products/caja-de-centro-colony-1022mm-negro-2.jpg": "Negro",
+      "assets/img/products/caja-de-centro-colony-1022mm-cromado-1.jpg": "Cromado",
+      "assets/img/products/caja-de-centro-colony-1022mm-cromado-2.jpg": "Cromado"
+    },
+    "published": true
   },
   {
     "slug": "brazos-gw-negros",
@@ -6167,8 +6178,10 @@ window.STIKE_PRODUCTS = [
     "price": 60000,
     "promo": false,
     "units": 4,
-    "imgs": [],
-    "published": false
+    "imgs": [
+      "assets/img/products/brazos-gw-negros-1.jpg"
+    ],
+    "published": true
   },
   {
     "slug": "silla-wethepeople-tripode-negra",
@@ -6184,8 +6197,11 @@ window.STIKE_PRODUCTS = [
     "price": 190000,
     "promo": false,
     "units": 1,
-    "imgs": [],
-    "published": false
+    "imgs": [
+      "assets/img/products/silla-wethepeople-tripode-negra-1.jpg",
+      "assets/img/products/silla-wethepeople-tripode-negra-2.jpg"
+    ],
+    "published": true
   },
   {
     "slug": "cana-animal-grado-0-50mm-cromada",
@@ -6202,8 +6218,11 @@ window.STIKE_PRODUCTS = [
     "price": 250000,
     "promo": false,
     "units": 1,
-    "imgs": [],
-    "published": false
+    "imgs": [
+      "assets/img/products/cana-animal-grado-0-50mm-cromada-1.jpg",
+      "assets/img/products/cana-animal-grado-0-50mm-cromada-2.jpg"
+    ],
+    "published": true
   },
   {
     "slug": "cana-volume-50mm-azul",
@@ -6220,8 +6239,11 @@ window.STIKE_PRODUCTS = [
     "price": 110000,
     "promo": false,
     "units": 1,
-    "imgs": [],
-    "published": false
+    "imgs": [
+      "assets/img/products/cana-volume-50mm-azul-1.jpg",
+      "assets/img/products/cana-volume-50mm-azul-2.jpg"
+    ],
+    "published": true
   },
   {
     "slug": "zapatilla-reding-promodel-alexanderx-negra",
@@ -8152,25 +8174,59 @@ window.STIKE_PRODUCTS = [
       {
         "v": "Verde",
         "u": 2
-      },
-      {
-        "v": "Negra",
-        "u": 3
       }
     ],
     "imgs": [
       "assets/img/products/354d40f9-841b-4a4b-8285-3ef858f3655c.jpg",
-      "assets/img/products/1953f988-d228-4ccf-b3ba-e78a1fdb631c.jpg",
-      "assets/img/products/4bf0bcf7-da5a-472c-83bc-e09dc8effeeb.jpg",
-      "assets/img/products/c1f489a9-9e03-43c2-b093-2efddccc698a.jpg"
+      "assets/img/products/1953f988-d228-4ccf-b3ba-e78a1fdb631c.jpg"
     ],
     "imgColorMap": {
       "assets/img/products/354d40f9-841b-4a4b-8285-3ef858f3655c.jpg": "Amarilla",
-      "assets/img/products/1953f988-d228-4ccf-b3ba-e78a1fdb631c.jpg": "Verde",
-      "assets/img/products/4bf0bcf7-da5a-472c-83bc-e09dc8effeeb.jpg": "Negra",
-      "assets/img/products/c1f489a9-9e03-43c2-b093-2efddccc698a.jpg": "Negra"
+      "assets/img/products/1953f988-d228-4ccf-b3ba-e78a1fdb631c.jpg": "Verde"
     },
     "sku": "ROP-DEC-009",
+    "cat": "ropa",
+    "promo": false,
+    "published": true
+  },
+  {
+    "slug": "medias-decaye-negras-estampado-blanco",
+    "n": "Medias Decaye Negras Estampado Blanco",
+    "brand": "Decaye",
+    "sub": "Medias",
+    "spec": [
+      "Marca: Decaye",
+      "Color: Negro",
+      "Estampado: logo Decaye en blanco en todo el tejido",
+      "Venta por par"
+    ],
+    "price": 25000,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/4bf0bcf7-da5a-472c-83bc-e09dc8effeeb.jpg"
+    ],
+    "sku": "ROP-DEC-010",
+    "cat": "ropa",
+    "promo": false,
+    "published": true
+  },
+  {
+    "slug": "medias-decaye-negras-estampado-cafe",
+    "n": "Medias Decaye Negras Estampado Café",
+    "brand": "Decaye",
+    "sub": "Medias",
+    "spec": [
+      "Marca: Decaye",
+      "Color: Negro",
+      "Estampado: logo Decaye en café en todo el tejido",
+      "Venta por par"
+    ],
+    "price": 25000,
+    "units": 1,
+    "imgs": [
+      "assets/img/products/c1f489a9-9e03-43c2-b093-2efddccc698a.jpg"
+    ],
+    "sku": "ROP-DEC-011",
     "cat": "ropa",
     "promo": false,
     "published": true

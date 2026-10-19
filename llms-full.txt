@@ -44,6 +44,8 @@
 - [Caña Shadow 50mm Roja Cromada](https://stikebikeshop.com/producto/cana-shadow-50mm-roja.html) — Shadow; $170.000; disponible
 - [Caña Shadow Chula V2 50mm Negra](https://stikebikeshop.com/producto/cana-shadow-chula-v2-50mm-negra.html) — Shadow; $300.000; disponible
 - [Caña Verde 50mm Roja](https://stikebikeshop.com/producto/cana-verde-50mm-roja.html) — Verde; $100.000; disponible
+- [Caña Animal Inverse Grado 0 50mm Cromada](https://stikebikeshop.com/producto/cana-animal-grado-0-50mm-cromada.html) — Animal; $250.000; disponible
+- [Caña Volume 50mm Azul](https://stikebikeshop.com/producto/cana-volume-50mm-azul.html) — Volume; $110.000; disponible
 
 ### Manzana Delantera
 - [Manzana Delantera Optimus](https://stikebikeshop.com/producto/manzana-delantera-optimus.html) — Optimus; desde $95.000; disponible; colores: Cromado, Azul, Dorado
@@ -100,6 +102,8 @@
 - [Juegos de Rodamiento Optimus 1019mm](https://stikebikeshop.com/producto/juegos-rodamiento-optimus-1019mm-verde.html) — Optimus; $40.000; disponible
 - [Bielas Salt de Seguridad Negras](https://stikebikeshop.com/producto/bielas-salt-de-seguridad-negras.html) — SaltPlus; desde $180.000; disponible; largo: 165mm, 175mm
 - [Bielas Premium Eje 22mm](https://stikebikeshop.com/producto/bielas-premium-22mm-negras.html) — Premium; $600.000; disponible
+- [Caja de Centro Colony 1022mm](https://stikebikeshop.com/producto/caja-de-centro-colony-1022mm.html) — Colony; $130.000; disponible; colores: Negro, Cromado
+- [Brazos GW Negros](https://stikebikeshop.com/producto/brazos-gw-negros.html) — GW; $60.000; disponible
 
 ### Platos
 - [Plato Fiend Reynolds 25T Sin Guardia](https://stikebikeshop.com/producto/plato-fiend-reynolds-25t.html) — Fiend; $140.000; disponible; colores: Negro, Cromado
@@ -152,6 +156,7 @@
 - [Silla Primo Biscuit Seat Pivotal Pana Negro](https://stikebikeshop.com/producto/silla-primo-biscuit-pivotal-pana-negro.html) — Primo; $190.000; disponible
 - [Silla Trueno Negra](https://stikebikeshop.com/producto/silla-trueno-negra.html) — Trueno; $130.000; disponible
 - [Silla Pivotal Fate Cuero Negra](https://stikebikeshop.com/producto/silla-fate-pivotal-cuero-negra.html) — Fate BMX Colombia; $130.000; disponible
+- [Silla Wethepeople Trípode Negra](https://stikebikeshop.com/producto/silla-wethepeople-tripode-negra.html) — Wethepeople; $190.000; disponible
 
 ### Pegs y Protectores
 - [Peg Fiend Belmont Cromo 4.4mm](https://stikebikeshop.com/producto/peg-fiend-belmont-cromo-4-4mm.html) — Fiend; $80.000; disponible
@@ -299,7 +304,9 @@
 - [Pantalón Freaak Dril Negro](https://stikebikeshop.com/producto/pantalon-freaak-dril-negro.html) — Freaak; $110.000; disponible; talla: 30, 32
 
 ### Medias
-- [Medias Decaye](https://stikebikeshop.com/producto/medias-decaye.html) — Decaye; $25.000; disponible; colores: Amarilla, Verde, Negra
+- [Medias Decaye](https://stikebikeshop.com/producto/medias-decaye.html) — Decaye; $25.000; disponible; colores: Amarilla, Verde
+- [Medias Decaye Negras Estampado Blanco](https://stikebikeshop.com/producto/medias-decaye-negras-estampado-blanco.html) — Decaye; $25.000; disponible
+- [Medias Decaye Negras Estampado Café](https://stikebikeshop.com/producto/medias-decaye-negras-estampado-cafe.html) — Decaye; $25.000; disponible
 
 ## Zapatillas
 

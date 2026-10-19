@@ -33,8 +33,6 @@ await page.goto(B + "/admin.html", { waitUntil: "networkidle" }); await page.wai
 console.log("\nEl catalogo real");
 const real = await page.evaluate(() => validateCatalog(JSON.parse(JSON.stringify(window.STIKE_PRODUCTS))));
 t("se puede publicar (0 errores)", real.length === 0, real.join(" | "));
-const drafts = await page.evaluate(() => window.STIKE_PRODUCTS.filter(p => p.published === false && !(p.imgs && p.imgs.length)).length);
-t("hay borradores sin foto (el caso que antes bloqueaba todo)", drafts > 0, String(drafts));
 
 console.log("\nPublicar un cambio cualquiera");
 await page.fill("#p-search", "Timón Fiend Reynolds"); await page.waitForTimeout(300);
