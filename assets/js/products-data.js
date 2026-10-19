@@ -2650,7 +2650,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 95000,
     "promo": false,
-    "units": 1,
+    "units": 0,
     "imgs": [
       "assets/img/products/pedales-cinema-tilt-negro-1.jpg"
     ],
