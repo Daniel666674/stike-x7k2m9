@@ -8247,7 +8247,7 @@ window.STIKE_PRODUCTS = [
     "sizes": [
       {
         "v": "S",
-        "u": 0
+        "u": 2
       },
       {
         "v": "M",
@@ -8257,14 +8257,14 @@ window.STIKE_PRODUCTS = [
     "colors": [
       {
         "v": "rrojouevo color",
-        "u": 2
+        "u": 4
       }
     ],
     "combos": [
       {
         "s": "S",
         "c": "rrojouevo color",
-        "u": 0
+        "u": 2
       },
       {
         "s": "M",
