@@ -313,7 +313,8 @@
        esconderia mercancia que esta en la vitrina fisica. */
     var out = stock.stikeTotalStock(p);
     var isOut = stock.stikeIsOut(p);
-    var low = !isOut && out > 0 && out <= 5;
+    /* Solo se dice cuantas quedan cuando son menos de 3 (stikeLowStockLabel en data.js). */
+    var lowLabel = !isOut && out > 0 && stock.stikeLowStockLabel ? stock.stikeLowStockLabel(out) : null;
     /* Este texto es el que ya viven las fichas publicadas. Antes el generador
        escribia una version mas pobre ("En stock", sin el conteo), asi que
        cualquier producto que el dueno editara en el panel perdia el texto al
@@ -321,7 +322,7 @@
     var stockHtml = isOut
       ? `<span class="stock out">● Agotado por ahora — te avisamos cuando vuelva</span>`
       : out > 0
-        ? `<span class="stock${low ? " low" : ""}">${low ? `● ¡Solo ${out} disponible${out === 1 ? "" : "s"}!` : `● En stock (${out} disponible${out === 1 ? "" : "s"})`}</span>`
+        ? `<span class="stock${lowLabel ? " low" : ""}">● ${lowLabel || "En stock"}</span>`
         : `<span class="stock">● Disponible — consúltanos por WhatsApp</span>`;
     var oldPrice = p.old ? `<span class="old">${money(p.old)}</span>` : "";
     var discount = p.old ? `<span class="tag-pill" style="background:#18181b;color:#fff;margin-left:10px;font-size:11px;padding:4px 10px">-${Math.round((1 - p.price / p.old) * 100)}%</span>` : "";

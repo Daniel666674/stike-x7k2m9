@@ -123,8 +123,8 @@
 
   <div id="site-footer"></div>
 
-  <script src="assets/js/products-data.js?v=c0ed4f25eb"></script>
-  <script src="assets/js/data.js?v=6f7d5dc8a6"></script>
+  <script src="assets/js/products-data.js?v=1ebd6a9082"></script>
+  <script src="assets/js/data.js?v=5b0270c452"></script>
   <script src="assets/js/app.js?v=f8bcda3447"></script>
   <script>
     stikeInit("armar");
@@ -462,7 +462,7 @@
       Object.keys(use).forEach(key => {
         const u = use[key], pr = stikeFindProduct(u.it.slug); if (!pr || u.steps.length < 2 && u.q <= 1) return;
         const st = stikeCartStock(pr, u.it.size || null, u.it.color || null);
-        if (st != null && st > 0 && u.q > st) out.push({ level: "warn", kind: "stock", steps: u.steps, text: `De ${pr.n} solo quedan ${st} y tu bici necesita ${u.q}.` });
+        if (st != null && st > 0 && u.q > st) out.push({ level: "warn", kind: "stock", steps: u.steps, text: `De ${pr.n} ${stikeLowStockLabel(st) ? "solo quedan " + st : "no hay suficientes"} y tu bici necesita ${u.q}.` });
       });
       const marco = P("marco");
       if (marco) {
@@ -669,7 +669,7 @@
         if (fit === "ok") tags.push(`<span class="bopt-tag good">Medida ideal para tu estatura</span>`);
         if (fit === "off") tags.push(`<span class="bopt-tag soft">Medida distinta a la recomendada</span>`);
         const stock = stikeCartStock(p, dv.size || null, dv.color || null);
-        if (stock != null && step.qty && stock < (sel ? qtyOf(sel) : step.qty)) tags.push(`<span class="bopt-tag soft">Solo quedan ${stock}</span>`);
+        if (stock != null && step.qty && stock < (sel ? qtyOf(sel) : step.qty)) tags.push(`<span class="bopt-tag soft">${stikeLowStockLabel(stock) || "No alcanza para esa cantidad"}</span>`);
       }
       const chips = (!out && (colors.length > 1 || sizes.length > 1)) ? `<span class="bopt-var">` +
         (sizes.length > 1 ? sizes.map(s => `<button type="button" class="vchip ${dv.size === s.v ? "on" : ""}" data-pick="${p.slug}" data-size="${s.v}">${s.v}</button>`).join("") : "") +

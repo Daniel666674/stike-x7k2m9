@@ -62,6 +62,19 @@ function stikePdpInit(slug) {
   function currentStock() {
     return stikeStockFor(p, p.sizes ? selectedSize : undefined, p.colors ? selectedColor : undefined);
   }
+  /* La ficha trae el texto de stock de TODO el producto; al elegir talla/color se afina a esa
+     opcion. Solo se dice cuantas quedan cuando son menos de 3 (stikeLowStockLabel). */
+  const stockEl = document.querySelector(".stock-line .stock");
+  const stockBase = stockEl ? { html: stockEl.innerHTML, cls: stockEl.className } : null;
+  function updateStockLine() {
+    if (!stockEl || !stockBase) return;
+    const st = currentStock();
+    if (st == null || /\bout\b/.test(stockBase.cls)) { stockEl.innerHTML = stockBase.html; stockEl.className = stockBase.cls; return; }
+    if (st <= 0) { stockEl.className = "stock out"; stockEl.innerHTML = "● Agotado en esta opción"; return; }
+    const low = stikeLowStockLabel(st);
+    stockEl.className = "stock" + (low ? " low" : "");
+    stockEl.innerHTML = "● " + (low || "En stock");
+  }
 
   /* El texto lo redacta stikeWaText (assets/js/data.js), el mismo que usa el
      generador al hornear la ficha, para que el mensaje no dependa de si el
@@ -145,6 +158,7 @@ function stikePdpInit(slug) {
     });
   }
   refreshOptions();
+  updateStockLine();
   if (addBtn) {
     const sellable = stikeSellable(p);
     addBtn.disabled = sellable != null && sellable <= 0;
@@ -159,6 +173,7 @@ function stikePdpInit(slug) {
     const req = document.getElementById("size-req"); if (req) req.textContent = "";
     refreshOptions();
     updateWaBuy();
+    updateStockLine();
   }));
   document.querySelectorAll("#color-options .color-opt").forEach(b => b.addEventListener("click", () => {
     if (b.disabled) return;
@@ -168,6 +183,7 @@ function stikePdpInit(slug) {
     const req = document.getElementById("color-req"); if (req) req.textContent = "";
     refreshOptions();
     updateWaBuy();
+    updateStockLine();
     applyColorGallery();
   }));
 
