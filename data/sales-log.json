@@ -70,5 +70,17 @@
     "total": 160000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-10-19T23:13:04.181Z",
+    "slug": "grips-stranger-piston",
+    "name": "Grips Stranger Piston",
+    "size": null,
+    "color": null,
+    "qty": 2,
+    "unitPrice": 45000,
+    "total": 90000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
