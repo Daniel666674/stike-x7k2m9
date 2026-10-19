@@ -9793,5 +9793,41 @@
       <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
+    <item>
+      <g:id>PRO-TSG-001-rrojouevo-color-s</g:id>
+      <g:title>CASCO TSG EVOLUTION - rrojouevo color - S</g:title>
+      <g:description>CASCO TSG EVOLUTION. CASO TSG EVOLUTION PROFESIONAL. Disponible en tallas S, M. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/casco-tsg-evolution.html?color=rrojouevo%20color&amp;size=S</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/fe1e3c37-82d0-4a1c-8f21-35d061350025.jpg</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>330000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>TSG</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Protecciones &gt; Cascos</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Accessories</g:google_product_category>
+      <g:item_group_id>PRO-TSG-001</g:item_group_id>
+      <g:color>rrojouevo color</g:color>
+      <g:size>S</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>PRO-TSG-001-rrojouevo-color-m</g:id>
+      <g:title>CASCO TSG EVOLUTION - rrojouevo color - M</g:title>
+      <g:description>CASCO TSG EVOLUTION. CASO TSG EVOLUTION PROFESIONAL. Disponible en tallas S, M. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/casco-tsg-evolution.html?color=rrojouevo%20color&amp;size=M</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/fe1e3c37-82d0-4a1c-8f21-35d061350025.jpg</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>330000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>TSG</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Protecciones &gt; Cascos</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Accessories</g:google_product_category>
+      <g:item_group_id>PRO-TSG-001</g:item_group_id>
+      <g:color>rrojouevo color</g:color>
+      <g:size>M</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
   </channel>
 </rss>
