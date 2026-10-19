@@ -315,6 +315,64 @@ tr:hover td{background:var(--bg-2)}
 .stockTable{width:100%;border-collapse:collapse;margin-top:6px}
 .stockTable td{padding:4px 6px;border:none}
 .stockTable input{width:100%}
+/* ---- Editor de tallas y colores: grande, con encabezados y atajos de un toque ---- */
+.stk-switch{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1.5px dashed var(--line);border-radius:12px;background:var(--bg-2);cursor:pointer;transition:border-color .15s,background .15s}
+.stk-switch:hover{border-color:var(--accent)}
+.stk-switch:has(input:checked){border-style:solid;border-color:var(--accent);background:var(--accent-soft)}
+.stk-switch b{display:block;font-size:15px;color:var(--ink)}
+.stk-switch small{display:block;font-size:12.5px;color:var(--muted);margin-top:2px;line-height:1.4}
+input.stk-sw{appearance:none;-webkit-appearance:none;flex:none;width:52px;height:30px;padding:0;border:0;border-radius:999px;background:var(--line);position:relative;cursor:pointer;transition:background .15s}
+input.stk-sw::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:transform .15s}
+input.stk-sw:checked{background:var(--accent)}
+input.stk-sw:checked::after{transform:translateX(22px)}
+.stk-block{padding:2px 0}
+#ed-colors-box .stk-block,#ed-combos-box .stk-block{margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}
+.stk-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.stk-title{font-size:15px;font-weight:700;color:var(--ink)}
+.stk-badge{margin-left:8px;padding:2px 9px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-size:11px;font-weight:600;vertical-align:1px}
+.stk-sub{font-size:12.5px;color:var(--muted);margin-top:2px;line-height:1.4}
+.stk-label{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:4px 0 10px;font-size:12.5px;color:var(--muted)}
+.stk-label input{width:170px;height:40px;font-size:14px}
+.stk-chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 14px}
+.stk-chip{display:inline-flex;align-items:center;gap:8px;padding:9px 15px;border-radius:999px;border:1.5px solid var(--line);background:var(--bg-2);color:var(--ink);font-size:14px;font-weight:600;cursor:pointer;transition:border-color .12s,color .12s,background .12s}
+.stk-chip:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.stk-chip .cdot{width:20px;height:20px}
+.stk-cols,.stk-row{display:grid;grid-template-columns:minmax(110px,1fr) 152px 132px 44px;gap:8px;align-items:center}
+.stk-cols{padding:0 10px 6px;font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+.stk-rows{display:flex;flex-direction:column;gap:8px}
+.stk-row{padding:8px 10px;border:1px solid var(--line);border-radius:12px;background:var(--bg-2)}
+.stk-row input{width:100%;height:44px;font-size:15px}
+.stk-row input[type=number]{text-align:center;font-weight:600}
+.stk-namecell{display:flex;align-items:center;gap:10px;min-width:0}
+.stk-namecell .cdot{width:28px;height:28px}
+.stepper{display:grid;grid-template-columns:40px minmax(0,1fr) 40px;height:44px}
+.stepper .stp{border:1px solid var(--line);background:var(--panel-2);color:var(--ink);font-size:22px;line-height:1;cursor:pointer;padding:0;transition:background .12s,border-color .12s}
+.stepper .stp:hover{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.stepper .stp:first-child{border-radius:10px 0 0 10px}
+.stepper .stp:last-child{border-radius:0 10px 10px 0}
+.stepper input{border-radius:0;border-left:0;border-right:0;padding:0 4px;min-width:0;-moz-appearance:textfield}
+.stepper input::-webkit-inner-spin-button,.stepper input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.stepper.ro .stp{opacity:.3;pointer-events:none}
+.stepper.ro input{background:var(--panel-2);color:var(--muted)}
+.stepper.big{width:200px;height:52px}
+.stepper.big input{height:52px;font-size:18px;font-weight:700;text-align:center}
+.stk-rm{width:44px;height:44px;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--muted);font-size:16px;cursor:pointer;transition:background .12s,color .12s,border-color .12s}
+.stk-rm:hover{background:var(--bad);border-color:var(--bad);color:#fff}
+.stk-add{width:100%;margin-top:10px;padding:12px;font-size:14px;border-style:dashed}
+.stk-units{margin-top:16px}
+.stk-units label{display:block;margin-bottom:6px;font-size:12.5px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+.stk-combo-wrap{overflow-x:auto;margin-top:10px}
+.stk-combo{width:auto;border-collapse:separate;border-spacing:6px}
+.stk-combo th{padding:4px 2px;font-size:14px;font-weight:700;color:var(--ink);text-align:center}
+.stk-combo td.rowh{white-space:nowrap;font-weight:600;font-size:14px;padding-right:10px}
+.stk-combo td.rowh .cdot{width:22px;height:22px;vertical-align:-6px;margin-right:6px}
+.stk-combo input{width:84px;height:44px;text-align:center;font-size:15px;font-weight:600}
+@media (max-width:560px){
+  .stk-cols{display:none}
+  .stk-row{grid-template-columns:1fr 44px}
+  .stk-row .stk-namecell{grid-column:1/-1}
+  .stk-row input[data-size-p],.stk-row input[data-color-p]{grid-column:1/2}
+}
 
 
 /* ---- photo manager ---- */
@@ -325,7 +383,7 @@ tr:hover td{background:var(--bg-2)}
 .pthumb .cov-badge{position:absolute;top:4px;left:4px;background:var(--accent);color:var(--accent-ink);font-size:9px;font-weight:800;padding:2px 6px;border-radius:5px;text-transform:uppercase}
 .pthumb .rm{position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.7);color:#fff;border:none;font-size:12px;line-height:1}
 .pthumb .edit{position:absolute;top:4px;right:28px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--accent-ink);border:none;font-size:11px;line-height:1}
-.pthumb select{position:absolute;bottom:4px;left:4px;right:4px;font-size:10px;padding:2px 4px;border-radius:5px}
+.pthumb select{position:absolute;bottom:4px;left:4px;right:4px;font-size:12px;font-weight:600;padding:6px 8px;border-radius:7px}
 .pthumb.dragover{outline:2px dashed var(--accent)}
 .uploadbox{border:1.5px dashed var(--line);border-radius:10px;padding:16px;text-align:center;color:var(--muted);font-size:12.5px;cursor:pointer}
 .uploadbox:hover{border-color:var(--accent)}

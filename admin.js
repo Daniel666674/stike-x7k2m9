@@ -1231,6 +1231,16 @@ function syncBasePrice(d) {
 }
 
 /* ---- Tallas y colores: pools de stock INDEPENDIENTES (ver stikeStockFor) ---- */
+const COLOR_PRESETS = ["Negro", "Blanco", "Cromado", "Dorado", "Rojo", "Azul", "Verde", "Morado", "Rosado", "Gris", "Amarillo", "Naranja", "Café", "Beige", "Camuflado", "Azul Aguamarina", "Oro Rosa", "Tornasol", "Azul/Rojo", "Negro/Blanco"];
+/* Sugerencias de talla de un toque, según la categoría (las de "ropa" y "protecciones" son letras; los tenis, números). */
+function sizePresetsFor(d) {
+  if (d.sub === "Tenis" || d.cat === "zapatillas") return ["36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46"];
+  const range = stikeSizeRangeFor(d.sub);
+  if (range) return range.concat(range.includes("XXL") ? [] : ["XXL"]);
+  if (d.cat === "ropa" || d.cat === "protecciones") return ["S", "M", "L", "XL", "XXL"];
+  return ["Única"];
+}
+function focusStockInput(sel) { const el = document.querySelector("#ed-sizes-box " + sel + ", #ed-colors-box " + sel); if (el) { el.focus(); if (el.select) el.select(); } }
 function renderStockEditor() {
   const d = editorDraft;
   const sizeRequired = SIZE_CATEGORIES.has(d.sub);
@@ -1243,20 +1253,39 @@ function renderStockEditor() {
   const hasSizes = !!(d.sizes && d.sizes.length);
   if (!hasSizes) {
     $("#ed-sizes-box").innerHTML = `
-      <label style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="ed-has-sizes"> Este producto viene en varias tallas o medidas</label>`;
+      <label class="stk-switch">
+        <input type="checkbox" class="stk-sw" id="ed-has-sizes">
+        <span><b>Tallas o medidas</b><small>Actívalo si viene en varias tallas, medidas, dientes o largos. Cada una lleva su propio stock.</small></span>
+      </label>`;
     $("#ed-has-sizes").addEventListener("change", () => { d.sizes = [{ v: "Única", u: 0 }]; renderStockEditor(); });
   } else {
+    const presets = sizePresetsFor(d).filter(v => !d.sizes.some(r => r.v === v));
     $("#ed-sizes-box").innerHTML = `
-      <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:12.5px;text-transform:uppercase;color:var(--muted)">Tallas${sizeRequired ? ` (obligatorio en "${d.sub}")` : ""}</b>
-      <label class="hint muted" style="display:flex;align-items:center;gap:6px">Nombre del selector <input id="ed-size-label" list="ed-size-label-opts" style="width:110px" placeholder="Talla" value="${escAttr(d.sizeLabel || "")}"><datalist id="ed-size-label-opts"><option value="Talla"><option value="Medida"><option value="Dientes"><option value="Largo"></datalist></label>
-      <span style="display:flex;gap:6px">${sizeRequired ? "" : `<button class="btn ghost sm" id="ed-size-off" type="button">Quitar tallas</button>`}<button class="btn ghost sm" id="ed-size-add" type="button">+ talla</button></span></div>
-      <table class="stockTable"><tbody>${d.sizes.map((s, i) => `
-        <tr><td style="width:40%"><input data-size-v="${i}" value="${escAttr(s.v)}"></td>
-        <td><input data-size-u="${i}" type="number" min="0" value="${s.u}"></td>
-        <td style="width:120px"><input data-size-p="${i}" type="number" min="0" step="1000" placeholder="Precio" title="Precio de esta opción. Vacío = precio base" value="${s.price || ""}"></td>
-        <td style="width:30px"><button class="btn ghost sm" data-size-rm="${i}" type="button">✕</button></td></tr>`).join("")}</tbody></table>`;
+      <div class="stk-block">
+        <div class="stk-head">
+          <div>
+            <div class="stk-title">Tallas o medidas${sizeRequired ? `<span class="stk-badge">obligatorio en ${escHtml(d.sub)}</span>` : ""}</div>
+            <div class="stk-sub">Cada talla tiene su stock. Toca una sugerencia para agregarla.</div>
+          </div>
+          ${sizeRequired ? "" : `<button class="btn ghost" id="ed-size-off" type="button">Quitar tallas</button>`}
+        </div>
+        <label class="stk-label">Cómo se llama en la tienda
+          <input id="ed-size-label" list="ed-size-label-opts" placeholder="Talla" value="${escAttr(d.sizeLabel || "")}"><datalist id="ed-size-label-opts"><option value="Talla"><option value="Medida"><option value="Dientes"><option value="Largo"></datalist>
+        </label>
+        ${presets.length ? `<div class="stk-chips" id="ed-size-chips">${presets.map(v => `<button type="button" class="stk-chip" data-add-size="${escAttr(v)}">+ ${escHtml(v)}</button>`).join("")}</div>` : ""}
+        <div class="stk-cols"><span>Talla / medida</span><span>Unidades</span><span>Precio (opcional)</span><span></span></div>
+        <div class="stk-rows">${d.sizes.map((s, i) => `
+          <div class="stk-row">
+            <div class="stk-namecell"><input data-size-v="${i}" value="${escAttr(s.v)}" aria-label="Nombre de la talla"></div>
+            <div class="stepper"><button type="button" class="stp" data-stp="-1" tabindex="-1" aria-label="Una menos">−</button><input data-size-u="${i}" type="number" min="0" value="${s.u}" aria-label="Unidades"><button type="button" class="stp" data-stp="1" tabindex="-1" aria-label="Una más">+</button></div>
+            <input data-size-p="${i}" type="number" min="0" step="1000" placeholder="Igual al base" title="Precio de esta opción. Vacío = precio base" value="${s.price || ""}" aria-label="Precio de esta talla">
+            <button class="stk-rm" data-size-rm="${i}" type="button" title="Quitar esta talla" aria-label="Quitar esta talla">✕</button>
+          </div>`).join("")}</div>
+        <button class="btn ghost stk-add" id="ed-size-add" type="button">+ Agregar otra talla</button>
+      </div>`;
     $("#ed-size-label").addEventListener("input", e => { const v = e.target.value.trim(); if (v && v.toLowerCase() !== "talla") d.sizeLabel = v; else delete d.sizeLabel; });
-    $("#ed-size-add").addEventListener("click", () => { d.sizes.push({ v: "Nueva", u: 0 }); renderStockEditor(); });
+    $("#ed-size-add").addEventListener("click", () => { d.sizes.push({ v: "Nueva", u: 0 }); renderStockEditor(); focusStockInput(`[data-size-v="${d.sizes.length - 1}"]`); });
+    $$("#ed-size-chips [data-add-size]").forEach(btn => btn.addEventListener("click", () => { d.sizes.push({ v: btn.getAttribute("data-add-size"), u: 0 }); renderStockEditor(); focusStockInput(`[data-size-u="${d.sizes.length - 1}"]`); }));
     $$("#ed-sizes-box [data-size-v]").forEach(inp => inp.addEventListener("input", e => { const row = d.sizes[+e.target.getAttribute("data-size-v")]; renameCombo(d, "s", row.v, e.target.value); row.v = e.target.value; renderComboGrid(); }));
     $$("#ed-sizes-box [data-size-u]").forEach(inp => inp.addEventListener("input", e => { d.sizes[+e.target.getAttribute("data-size-u")].u = Math.max(0, parseInt(e.target.value) || 0); }));
     $$("#ed-sizes-box [data-size-p]").forEach(inp => inp.addEventListener("input", e => setRowPrice(d, d.sizes[+e.target.getAttribute("data-size-p")], e.target.value)));
@@ -1266,32 +1295,49 @@ function renderStockEditor() {
 
   // ---- colores: disponibles en cualquier producto, desde 1 color ----
   const hasColors = !!(d.colors && d.colors.length);
+  const colorPresets = COLOR_PRESETS.filter(n => !(d.colors || []).some(c => c.v === n));
   $("#ed-colors-box").innerHTML = `
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:${sizeRequired ? "14px" : "0"}">
-      <label style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="ed-has-colors" ${hasColors ? "checked" : ""}> Indicar color(es) del producto</label>
+    <div class="stk-block">
+      <label class="stk-switch">
+        <input type="checkbox" class="stk-sw" id="ed-has-colors" ${hasColors ? "checked" : ""}>
+        <span><b>Colores</b><small>Actívalo si viene en uno o más colores. Cada color lleva su stock y, si quieres, su precio.</small></span>
+      </label>
+      <datalist id="ed-color-names">${COLOR_PRESETS.map(n => `<option value="${n}">`).join("")}</datalist>
+      ${hasColors && colorPresets.length ? `<div class="stk-sub" style="margin-top:12px">Toca un color para agregarlo:</div>
+      <div class="stk-chips" id="ed-color-chips">${colorPresets.map(n => `<button type="button" class="stk-chip" data-add-color="${escAttr(n)}"><span class="cdot" style="background:${stikeColorStyle(n)}"></span>${escHtml(n)}</button>`).join("")}</div>` : ""}
+      <div id="ed-colors-table" style="${hasColors ? "" : "display:none"}">
+        <div class="stk-cols"><span>Color</span><span>Unidades</span><span>Precio (opcional)</span><span></span></div>
+        <div class="stk-rows">${(d.colors || []).map((c, i) => `
+          <div class="stk-row">
+            <div class="stk-namecell"><span class="cdot" style="background:${stikeColorStyle(c.v)}"></span><input data-color-v="${i}" list="ed-color-names" value="${escAttr(c.v)}" aria-label="Nombre del color"></div>
+            <div class="stepper"><button type="button" class="stp" data-stp="-1" tabindex="-1" aria-label="Una menos">−</button><input data-color-u="${i}" type="number" min="0" value="${c.u}" aria-label="Unidades"><button type="button" class="stp" data-stp="1" tabindex="-1" aria-label="Una más">+</button></div>
+            <input data-color-p="${i}" type="number" min="0" step="1000" placeholder="Igual al base" title="Precio de este color. Vacío = precio base" value="${c.price || ""}" aria-label="Precio de este color">
+            <button class="stk-rm" data-color-rm="${i}" type="button" title="Quitar este color" aria-label="Quitar este color">✕</button>
+          </div>`).join("")}</div>
+        <button class="btn ghost stk-add" id="ed-color-add" type="button">+ Agregar otro color</button>
+      </div>
+      ${!sizeRequired ? `<div class="stk-units" id="ed-units-field" style="${hasColors ? "display:none" : ""}"><label for="ed-units">Unidades en stock</label><div class="stepper big"><button type="button" class="stp" data-stp="-1" tabindex="-1" aria-label="Una menos">−</button><input id="ed-units" type="number" min="0" value="${d.units || 0}"><button type="button" class="stp" data-stp="1" tabindex="-1" aria-label="Una más">+</button></div></div>` : ""}
     </div>
-    <datalist id="ed-color-names">${["Negro", "Blanco", "Cromado", "Dorado", "Rojo", "Azul", "Verde", "Morado", "Rosado", "Gris", "Amarillo", "Naranja", "Café", "Beige", "Camuflado", "Azul Aguamarina", "Oro Rosa", "Tornasol", "Azul/Rojo", "Negro/Blanco"].map(n => `<option value="${n}">`).join("")}</datalist>
-    <div id="ed-colors-table" style="${hasColors ? "" : "display:none"}">
-      <table class="stockTable"><tbody>${(d.colors || []).map((c, i) => `
-        <tr><td style="width:40%;display:flex;align-items:center;gap:8px"><span class="cdot" style="background:${stikeColorStyle(c.v)}"></span><input data-color-v="${i}" list="ed-color-names" value="${escAttr(c.v)}"></td>
-        <td><input data-color-u="${i}" type="number" min="0" value="${c.u}"></td>
-        <td style="width:120px"><input data-color-p="${i}" type="number" min="0" step="1000" placeholder="Precio" title="Precio de este color. Vacío = precio base" value="${c.price || ""}"></td>
-        <td style="width:30px"><button class="btn ghost sm" data-color-rm="${i}" type="button">✕</button></td></tr>`).join("")}</tbody></table>
-      <button class="btn ghost sm" id="ed-color-add" type="button">+ color</button>
-    </div>
-    ${!sizeRequired ? `<div class="field" id="ed-units-field" style="margin-top:12px;${hasColors ? "display:none" : ""}"><label>Unidades</label><input id="ed-units" type="number" min="0" value="${d.units || 0}"></div>` : ""}
   `;
   $("#ed-has-colors").addEventListener("change", e => {
     if (e.target.checked) { if (!d.colors || !d.colors.length) d.colors = [{ v: "Negro", u: 0 }]; }
     else { d.colors = null; }
-    renderStockEditor();
+    renderStockEditor(); renderPhotoGrid();
   });
-  const addColorBtn = $("#ed-color-add"); if (addColorBtn) addColorBtn.addEventListener("click", () => { d.colors.push({ v: "Nuevo color", u: 0 }); renderStockEditor(); renderPhotoGrid(); });
+  const addColorBtn = $("#ed-color-add"); if (addColorBtn) addColorBtn.addEventListener("click", () => { d.colors.push({ v: "Nuevo color", u: 0 }); renderStockEditor(); renderPhotoGrid(); focusStockInput(`[data-color-v="${d.colors.length - 1}"]`); });
+  $$("#ed-color-chips [data-add-color]").forEach(btn => btn.addEventListener("click", () => { d.colors.push({ v: btn.getAttribute("data-add-color"), u: 0 }); renderStockEditor(); renderPhotoGrid(); focusStockInput(`[data-color-u="${d.colors.length - 1}"]`); }));
   $$("#ed-colors-table [data-color-v]").forEach(inp => inp.addEventListener("input", e => { const row = d.colors[+e.target.getAttribute("data-color-v")]; renameCombo(d, "c", row.v, e.target.value); row.v = e.target.value; const dot = e.target.parentElement.querySelector(".cdot"); if (dot) dot.style.background = stikeColorStyle(row.v); renderComboGrid(); renderPhotoGrid(); }));
   $$("#ed-colors-table [data-color-u]").forEach(inp => inp.addEventListener("input", e => { d.colors[+e.target.getAttribute("data-color-u")].u = Math.max(0, parseInt(e.target.value) || 0); }));
   $$("#ed-colors-table [data-color-p]").forEach(inp => inp.addEventListener("input", e => setRowPrice(d, d.colors[+e.target.getAttribute("data-color-p")], e.target.value)));
   $$("#ed-colors-table [data-color-rm]").forEach(btn => btn.addEventListener("click", () => { d.colors.splice(+btn.getAttribute("data-color-rm"), 1); if (!d.colors.length) d.colors = null; renderStockEditor(); renderPhotoGrid(); }));
   const unitsInp = $("#ed-units"); if (unitsInp) unitsInp.addEventListener("input", e => { d.units = Math.max(0, parseInt(e.target.value) || 0); });
+  /* Botones − / + junto a cada cantidad: mueven el número y avisan igual que si se escribiera. */
+  $$("#ed-sizes-box .stp, #ed-colors-box .stp").forEach(btn => btn.addEventListener("click", () => {
+    const inp = btn.parentElement.querySelector("input");
+    if (!inp || inp.readOnly) return;
+    inp.value = Math.max(0, (parseInt(inp.value) || 0) + (+btn.getAttribute("data-stp")));
+    inp.dispatchEvent(new Event("input", { bubbles: true }));
+  }));
   renderComboGrid();
 }
 
@@ -1321,11 +1367,12 @@ function renderComboGrid() {
   }
   d.combos = grid;
   syncPoolsFromCombos(d);
-  box.innerHTML = `<div style="margin-top:14px"><b style="font-size:12.5px;text-transform:uppercase;color:var(--muted)">Stock por talla y color</b>
-    <p class="hint muted" style="margin:4px 0 8px">Las cantidades de arriba son la suma de esta tabla.</p>
-    <table class="stockTable"><thead><tr><th></th>${d.sizes.map(s => `<th>${escHtml(s.v)}</th>`).join("")}</tr></thead><tbody>${d.colors.map(c => `
-      <tr><td style="white-space:nowrap"><span class="cdot" style="background:${stikeColorStyle(c.v)}"></span></td>${d.sizes.map(s => `<td><input type="number" min="0" style="width:64px" data-combo-s="${escAttr(s.v)}" data-combo-c="${escAttr(c.v)}" value="${d.combos.find(r => r.s === s.v && r.c === c.v).u}"></td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
-  $$("#ed-sizes-box [data-size-u], #ed-colors-table [data-color-u]").forEach(inp => { inp.readOnly = true; inp.title = "Suma de la tabla talla x color"; });
+  box.innerHTML = `<div class="stk-block">
+    <div class="stk-title">Stock por talla y color</div>
+    <div class="stk-sub">Escribe cuántas hay de cada combinación. Las cantidades de arriba son la suma de esta tabla.</div>
+    <div class="stk-combo-wrap"><table class="stk-combo"><thead><tr><th></th>${d.sizes.map(s => `<th>${escHtml(s.v)}</th>`).join("")}</tr></thead><tbody>${d.colors.map(c => `
+      <tr><td class="rowh"><span class="cdot" style="background:${stikeColorStyle(c.v)}"></span> ${escHtml(c.v)}</td>${d.sizes.map(s => `<td><input type="number" min="0" data-combo-s="${escAttr(s.v)}" data-combo-c="${escAttr(c.v)}" value="${d.combos.find(r => r.s === s.v && r.c === c.v).u}" aria-label="${escAttr(c.v + " " + s.v)}"></td>`).join("")}</tr>`).join("")}</tbody></table></div></div>`;
+  $$("#ed-sizes-box [data-size-u], #ed-colors-table [data-color-u]").forEach(inp => { inp.readOnly = true; inp.title = "Suma de la tabla talla x color"; const st = inp.closest(".stepper"); if (st) st.classList.add("ro"); });
   $$("#ed-combos-box [data-combo-s]").forEach(inp => inp.addEventListener("input", e => {
     const row = d.combos.find(r => r.s === e.target.getAttribute("data-combo-s") && r.c === e.target.getAttribute("data-combo-c"));
     if (row) row.u = Math.max(0, parseInt(e.target.value) || 0);
