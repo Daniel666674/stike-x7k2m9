@@ -82,5 +82,17 @@
     "total": 90000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-10-19T23:35:30.718Z",
+    "slug": "pedales-cinema-tilt-negro",
+    "name": "Pedales Cinema Tilt Negro",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 95000,
+    "total": 95000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
