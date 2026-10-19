@@ -7655,7 +7655,7 @@ window.STIKE_PRODUCTS = [
       "Marca: Decaye",
       "Estampado: letras amarillas al frente"
     ],
-    "price": 60000,
+    "price": 50000,
     "promo": false,
     "sizes": [
       {
@@ -7667,7 +7667,8 @@ window.STIKE_PRODUCTS = [
     "colors": [
       {
         "v": "Gris Oscuro",
-        "u": 1
+        "u": 1,
+        "price": 60000
       },
       {
         "v": "Verde",
@@ -7770,7 +7771,7 @@ window.STIKE_PRODUCTS = [
       "Marca: Decaye",
       "Estampado: placa amarilla D3K4YE 08 Calles de Colombia"
     ],
-    "price": 60000,
+    "price": 50000,
     "promo": false,
     "sizes": [
       {
@@ -7782,7 +7783,8 @@ window.STIKE_PRODUCTS = [
     "colors": [
       {
         "v": "Negra",
-        "u": 1
+        "u": 1,
+        "price": 60000
       },
       {
         "v": "Verde",
