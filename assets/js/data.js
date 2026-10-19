@@ -343,7 +343,12 @@ function stikeSanitizeCart(cart, products) {
     let qty = Number.isInteger(r.qty) && r.qty >= 1 ? r.qty : 1;
     const cap = Math.min(STIKE_MAX_QTY, stock === null ? STIKE_MAX_QTY : stock);
     if (qty > cap) {
-      notes.push("De «" + p.n + "» solo puedes llevar " + cap + (cap === 1 ? " unidad" : " unidades") + " por pedido.");
+      /* El numero solo se dice si quedan pocas (o si es el tope por pedido); con mas
+         unidades en bodega no se anuncia cuantas hay. */
+      const porInventario = stock !== null && stock < STIKE_MAX_QTY;
+      notes.push(porInventario && cap >= STIKE_SHOW_STOCK_BELOW
+        ? "Ajustamos la cantidad de «" + p.n + "» a lo que hay disponible."
+        : "De «" + p.n + "» solo puedes llevar " + cap + (cap === 1 ? " unidad" : " unidades") + " por pedido.");
       qty = cap;
     }
     const row = { slug: r.slug, qty };
@@ -418,6 +423,15 @@ function stikeSellable(p) {
   if (sizes) return Math.max(0, ...sizes.map(s => s.u || 0));
   if (colors) return Math.max(0, ...colors.map(c => c.u || 0));
   return typeof p.units === "number" ? p.units : null;   // null = sin registrar
+}
+
+/* Cuantas unidades quedan: SOLO se le dice al cliente cuando son muy pocas
+   (menos de STIKE_SHOW_STOCK_BELOW). Con 3 o mas la ficha dice "En stock" a
+   secas, sin numero. Una sola regla para fichas, mensajes y el armador. */
+const STIKE_SHOW_STOCK_BELOW = 3;
+function stikeLowStockLabel(n) {
+  if (typeof n !== "number" || n <= 0 || n >= STIKE_SHOW_STOCK_BELOW) return null;
+  return n === 1 ? "¡Última unidad!" : "¡Solo quedan " + n + "!";
 }
 
 /* true SOLO si sabemos con certeza que no hay nada vendible. */
@@ -644,6 +658,6 @@ if (typeof module !== "undefined" && module.exports) {
     stikeTotalStock, stikeSellable, stikeIsOut, stikeIsVisible, stikeIsOutOfStock,
     stikeStockFor, stikePoolStock, stikePoolTotal, stikeCategory, stikePrice,
     stikeWaText, stikeWaLabel, stikeColorStyle, stikeHasCombos, stikeComboUnits, stikePriceFor, stikePriceRange, stikePriceLabel,
-    stikeSanitizeCart, stikeCartStock,
+    stikeSanitizeCart, stikeCartStock, STIKE_SHOW_STOCK_BELOW, stikeLowStockLabel,
   };
 }

@@ -53,7 +53,7 @@ export const browser = loadBrowserScripts(
   ["assets/js/products-data.js", "assets/js/data.js"],
   ["STIKE_ALL_PRODUCTS", "STIKE_PRODUCTS", "STIKE_CATEGORIES", "STIKE_PART_PAGES",
    "stikeIsVisible", "stikeIsOut", "stikeTotalStock", "stikeSellable", "stikeWaText", "stikeWaLabel", "stikePrice",
-   "stikeColorStyle", "stikeHasCombos", "stikeComboUnits", "stikePriceFor", "stikePriceRange", "stikePriceLabel"]
+   "stikeColorStyle", "stikeHasCombos", "stikeComboUnits", "stikePriceFor", "stikePriceRange", "stikePriceLabel", "stikeLowStockLabel", "STIKE_SHOW_STOCK_BELOW"]
 );
 
 /* El catalogo COMPLETO, borradores incluidos. */
