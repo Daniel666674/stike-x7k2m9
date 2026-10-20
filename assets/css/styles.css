@@ -2166,6 +2166,18 @@ body:not(.fate-page) h1 .o1 { color: var(--mint); }
 .rd-feature figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 16px 22px; background: linear-gradient(transparent, rgba(0,0,0,.85)); color: #fff; font-family: var(--cond); font-style: italic; font-weight: 300; font-size: 24px; text-transform: uppercase; letter-spacing: .04em; }
 .rd-feature figcaption b { color: var(--mint); font-weight: 400; }
 .rd-feature.playing .rd-play, .rd-feature.playing > img { display: none; }
+/* El pie de foto es decoracion: no debe tapar el boton de play (en el celular lo cubria y no se podia tocar) ni
+   los controles de YouTube. */
+.rd-feature figcaption { pointer-events: none; }
+.rd-feature.playing figcaption { display: none; }
+/* YouTube: mientras carga el reproductor se ve la portada con un indicador (antes quedaba una caja negra). */
+.rd-feature.yt.playing:not(.yt-ready) > img { display: block; }
+.rd-feature.yt.playing:not(.yt-ready)::after { content: ""; position: absolute; left: 50%; top: 50%; width: 38px; height: 38px; margin: -19px 0 0 -19px; border-radius: 50%; border: 3px solid rgba(255,255,255,.25); border-top-color: var(--mint); animation: rd-yt-spin .8s linear infinite; z-index: 2; pointer-events: none; }
+@keyframes rd-yt-spin { to { transform: rotate(360deg); } }
+.rd-feature .rd-yt-link { position: absolute; right: 10px; top: 10px; z-index: 3; max-width: calc(100% - 20px); padding: 8px 12px; background: rgba(0,0,0,.82); color: #fff; font: 600 13px/1.2 var(--display, system-ui); letter-spacing: .04em; text-decoration: none; border: 1px solid var(--mint); }
+.rd-feature .rd-yt-link[hidden] { display: none; }
+.rd-feature .rd-yt-link:hover { background: var(--mint); color: var(--mint-ink); }
+@media (prefers-reduced-motion: reduce) { .rd-feature.yt.playing:not(.yt-ready)::after { animation: none; } }
 
 /* Grilla de partes */
 .home-parts .tile-grid { grid-template-columns: repeat(6, 1fr); gap: 16px; }
