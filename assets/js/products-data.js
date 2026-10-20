@@ -8334,5 +8334,44 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/7900c8f8-a59d-4190-bafc-742fe2bfe6eb.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "chaqueta-inspirada-en-alpinestars",
+    "sku": "ROP-ALP-003",
+    "n": "CHAQUETA INSPIRADA EN ALPINESTARS",
+    "brand": "Alpinestars",
+    "cat": "ropa",
+    "sub": "Busos y Chaquetas",
+    "spec": [
+      "CHAQUETA ROMPEVIENTO EN SUPER NYLON DE ALTA CALIDAD CON LOGOS REFLECTIVOS"
+    ],
+    "price": 120000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "M",
+        "u": 1
+      }
+    ],
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 1
+      }
+    ],
+    "combos": [
+      {
+        "s": "M",
+        "c": "Negro",
+        "u": 1
+      }
+    ],
+    "imgs": [
+      "assets/img/products/2ac7d033-de01-4f3a-a75c-acf36f5e2b28.jpg",
+      "assets/img/products/c22cdf56-77db-4260-ab1c-d2619ed2303f.jpg",
+      "assets/img/products/f419e2b1-b5a9-498e-a4d4-793bef521494.jpg",
+      "assets/img/products/6670d1f1-1049-46fd-aead-ffd924794b86.jpg"
+    ],
+    "published": true
   }
 ];
