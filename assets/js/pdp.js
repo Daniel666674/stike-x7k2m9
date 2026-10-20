@@ -267,6 +267,7 @@ function stikePdpInit(slug) {
     document.addEventListener("keydown", e => {
       if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
       if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      if (document.body.classList.contains("vb-lock")) return;      // con el video abierto, las flechas son del reproductor (adelantar/atrasar)
       const t = e.target;
       if (t && (/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) || t.isContentEditable)) return;
       e.preventDefault();
@@ -287,6 +288,57 @@ function stikePdpInit(slug) {
     if (lb) swipe(lb);
     updateGalleryUi();
   }
+
+  /* Video del producto. La ficha trae solo una imagen liviana con un boton de reproducir: el MP4 no se pide
+     hasta que el cliente lo toca (nada de <video> ni preload en la pagina), y al cerrar se suelta la descarga.
+     Asi un video nunca suma al peso inicial ni compite con las fotos y el resto de la pagina por la red. */
+  (function videoPlayer() {
+    const triggers = Array.from(document.querySelectorAll("[data-video-src]"));
+    if (!triggers.length) return;
+    let box = null, opener = null;
+    const close = () => {
+      if (!box || !box.classList.contains("open")) return;
+      const v = box.querySelector("video");
+      if (v) { v.pause(); v.removeAttribute("src"); v.load(); }
+      box.querySelector(".vb-stage").innerHTML = "";
+      box.classList.remove("open");
+      document.body.classList.remove("vb-lock");
+      if (opener && opener.focus) opener.focus();
+    };
+    const build = () => {
+      box = document.createElement("div");
+      box.className = "pdp-videobox";
+      box.setAttribute("role", "dialog");
+      box.setAttribute("aria-modal", "true");
+      box.setAttribute("aria-label", "Video del producto");
+      box.innerHTML = `<button class="lb-close" type="button" aria-label="Cerrar video"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button><div class="vb-stage"></div>`;
+      document.body.appendChild(box);
+      box.addEventListener("click", e => { if (e.target === box || e.target.classList.contains("vb-stage")) close(); });
+      box.querySelector(".lb-close").addEventListener("click", close);
+      document.addEventListener("keydown", e => { if (e.key === "Escape") close(); });
+    };
+    const open = t => {
+      if (!box) build();
+      opener = t;
+      const w = +t.getAttribute("data-video-w") || 16, h = +t.getAttribute("data-video-h") || 9;
+      const poster = t.getAttribute("data-video-poster") || (mainImg && mainImg.getAttribute("src")) || "";
+      const stage = box.querySelector(".vb-stage");
+      stage.innerHTML = "";
+      const v = document.createElement("video");
+      v.controls = true; v.playsInline = true; v.preload = "metadata";
+      v.setAttribute("playsinline", ""); v.setAttribute("controlslist", "nodownload");
+      v.style.setProperty("--ar", (w / h).toFixed(4));
+      if (poster) v.poster = poster;
+      v.setAttribute("aria-label", "Video de " + (t.getAttribute("data-video-label") || "el producto"));
+      v.src = t.getAttribute("data-video-src");
+      stage.appendChild(v);
+      box.classList.add("open");
+      document.body.classList.add("vb-lock");
+      box.querySelector(".lb-close").focus();
+      const pr = v.play(); if (pr && pr.catch) pr.catch(() => {});      // si el navegador no deja arrancar solo, quedan los controles
+    };
+    triggers.forEach(t => t.addEventListener("click", () => open(t)));
+  })();
 
   updateWaBuy();
 

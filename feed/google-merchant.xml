@@ -9829,5 +9829,47 @@
       <g:size>M</g:size>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
+    <item>
+      <g:id>ROP-OAK-002-azul-m</g:id>
+      <g:title>CHAQUETA INSPIRADA OAKLEY - Azul - M</g:title>
+      <g:description>CHAQUETA INSPIRADA OAKLEY. CHAQUETA ROMPEVIENTOS INSPIRADA EN OAKLEY. Disponible en largo M, L. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/chaqueta-inspirada-oakley.html?color=Azul&amp;size=M</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/8547c9bf-1521-4575-9651-7b8a69298ae7.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/a969162a-81e9-4f99-b5da-54f29ca16169.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/eeb032e5-84ae-4bdd-8459-875e3f329b61.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/73910509-19d3-4c12-bba5-122fa42e860d.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Oakley</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-OAK-002</g:item_group_id>
+      <g:color>Azul</g:color>
+      <g:size>M</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-OAK-002-azul-l</g:id>
+      <g:title>CHAQUETA INSPIRADA OAKLEY - Azul - L</g:title>
+      <g:description>CHAQUETA INSPIRADA OAKLEY. CHAQUETA ROMPEVIENTOS INSPIRADA EN OAKLEY. Disponible en largo M, L. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/chaqueta-inspirada-oakley.html?color=Azul&amp;size=L</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/8547c9bf-1521-4575-9651-7b8a69298ae7.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/a969162a-81e9-4f99-b5da-54f29ca16169.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/eeb032e5-84ae-4bdd-8459-875e3f329b61.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/73910509-19d3-4c12-bba5-122fa42e860d.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Oakley</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-OAK-002</g:item_group_id>
+      <g:color>Azul</g:color>
+      <g:size>L</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
   </channel>
 </rss>

@@ -162,15 +162,42 @@ JavaScript.
 Un botón. En este orden:
 
 1. **Fotos nuevas** → `assets/img/products/…`
-2. **Catálogo** → `assets/js/products-data.js`, con fusión campo por campo
-3. **Fichas** → `producto/<slug>.html`, solo las que cambiaron
-4. **Sitemap** → reconciliado contra el catálogo completo
-5. **Costos internos** → `data/costs.json`
-6. **Auditoría** → `data/audit-log.json`
+2. **Videos nuevos** → `assets/video/products/<id>.mp4` y su imagen de vista previa `<id>.jpg`
+3. **Catálogo** → `assets/js/products-data.js`, con fusión campo por campo
+4. **Fichas** → `producto/<slug>.html`, solo las que cambiaron
+5. **Sitemap** → reconciliado contra el catálogo completo
+6. **Videos que ya no se usan** → se borran del repo (quitados de un producto o de un producto eliminado)
+7. **Costos internos** → `data/costs.json`
+8. **Auditoría** → `data/audit-log.json`
 
-Las fotos van primero porque hasta que no están subidas, el producto no
-tiene su ruta definitiva: publicar el catálogo antes dejaría referencias a
-fotos que todavía no existen.
+Las fotos y los videos van primero porque hasta que no están subidos, el
+producto no tiene su ruta definitiva: publicar el catálogo antes dejaría
+referencias a archivos que todavía no existen.
+
+### Videos de producto
+
+`p.videos` es una lista de hasta 2 `{src, poster?, w, h, dur, b, ts}`. El panel
+los revisa **antes de aceptarlos** leyendo el contenedor MP4 (sin decodificarlo;
+`assets/js/video-tools.js`, la misma lógica en el navegador y en las pruebas):
+
+| Regla | Límite |
+|---|---|
+| Formato | MP4 con H.264 (perfil Baseline/Main/High, 8 bits); audio AAC opcional |
+| Peso | máx. 10 MB (ideal < 5 MB) |
+| Duración | 2 a 30 s |
+| Tamaño | máx. 1280×720 (vertical 720×1280); se avisa por debajo de 360 px |
+| Cuadros | ≤ 30 por segundo |
+| Tasa de datos | ≤ 3,2 Mbps (video + audio) |
+| Índice | Fast Start (`moov` antes de `mdat`) |
+| Cantidad | máx. 2 por producto |
+
+En la ficha el video **no existe hasta que el cliente lo toca**: solo hay una
+imagen liviana (el poster) y un botón; el MP4 se pide al abrir el reproductor y
+se suelta al cerrarlo (`pdp.js`). Cada video sale además como `VideoObject` en
+los datos estructurados. `api/gh.php` solo acepta `assets/video/products/<id>.(mp4|jpg)`,
+comprueba que el contenido sea un MP4 de máx. 12 MB y le da más tiempo a la
+subida que a un JSON. Pruebas: `tools/video-tools-test.mjs`,
+`tools/admin-video-test.mjs`, `tools/pdp-video-test.mjs`, `tools/gh-proxy-test.mjs`.
 
 Cada escritura lee el archivo remoto, construye el contenido nuevo **a partir
 de lo que acaba de leer**, y escribe. Si GitHub responde conflicto, reintenta
