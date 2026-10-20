@@ -315,6 +315,61 @@ tr:hover td{background:var(--bg-2)}
 .stockTable{width:100%;border-collapse:collapse;margin-top:6px}
 .stockTable td{padding:4px 6px;border:none}
 .stockTable input{width:100%}
+/* ---- Busqueda global (Ctrl+K) y buscador de la pestaña Ventas ---- */
+.cmdk-trigger{display:inline-flex;align-items:center;gap:10px;flex:1 1 260px;max-width:440px;min-width:0;height:40px;padding:0 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg-2);color:var(--muted);font-size:14px;cursor:text;text-align:left;transition:border-color .15s,color .15s}
+.cmdk-trigger:hover{border-color:var(--accent);color:var(--ink)}
+.cmdk-trigger span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+kbd.k{flex:none;padding:2px 7px;border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;background:var(--panel-2);color:var(--ink-2);font:600 11px/1.5 "Inter",system-ui,sans-serif;letter-spacing:.3px}
+.cmdk{position:fixed;inset:0;z-index:5000;display:none;align-items:flex-start;justify-content:center;padding:9vh 16px 16px;background:rgba(0,0,0,.62);backdrop-filter:blur(2px)}
+.cmdk.open{display:flex}
+.cmdk-box{width:min(720px,100%);max-height:78vh;display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-top:2px solid var(--accent);border-radius:14px;box-shadow:0 30px 70px rgba(0,0,0,.6);overflow:hidden}
+.cmdk-bar,.sale-search-bar{display:flex;align-items:center;gap:12px;padding:0 16px;height:56px;border-bottom:1px solid var(--line);color:var(--muted)}
+.cmdk-bar input,.sale-search-bar input{flex:1;min-width:0;height:100%;border:0;background:transparent;padding:0;font-size:17px;color:var(--ink);outline:0}
+.cmdk-bar input:focus,.sale-search-bar input:focus{outline:0}
+.cmdk-list{overflow-y:auto;padding:6px;flex:1;min-height:0;overscroll-behavior:contain}
+.cmdk-sec{padding:10px 12px 4px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.cmdk-foot{display:flex;flex-wrap:wrap;gap:6px 18px;padding:9px 16px;border-top:1px solid var(--line);background:var(--bg-2);font-size:12px;color:var(--muted)}
+.sr-row{display:flex;align-items:center;gap:12px;padding:8px 10px;border-radius:10px;cursor:pointer;border:1px solid transparent}
+.sr-row.act{background:var(--accent-soft);border-color:#1c4a56}
+.sr-row.dis{opacity:.45;cursor:not-allowed}
+.sr-thumb{flex:none;width:46px;height:46px;border-radius:8px;overflow:hidden;background:#f3f3f3;display:block}
+.sr-thumb img{width:100%;height:100%;object-fit:contain}
+.sr-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.sr-main b{font-size:14.5px;font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sr-main small{font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sr-main mark,.sr-nav mark{background:transparent;color:var(--accent);font-weight:700;text-decoration:underline;text-underline-offset:2px}
+.sr-side{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:3px;font-size:13px}
+.sr-price{font-weight:700;font-variant-numeric:tabular-nums}
+.sr-chip{padding:1px 8px;border-radius:999px;font-size:11px;font-weight:600;background:var(--bg-2);border:1px solid var(--line);color:var(--muted)}
+.sr-chip.ok{color:var(--good);border-color:transparent;background:var(--good-soft)}
+.sr-chip.low{color:#ffb38a;border-color:transparent;background:rgba(255,179,138,.12)}
+.sr-chip.out{color:var(--bad);border-color:transparent;background:rgba(255,107,115,.12)}
+.sr-btns{flex:none;display:flex;gap:6px}
+.sr-btns .btn{padding:7px 12px;font-size:12.5px}
+.sr-nav{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;cursor:pointer;border:1px solid transparent;color:var(--ink)}
+.sr-nav.act{background:var(--accent-soft);border-color:#1c4a56}
+.sr-nav .ico{flex:none;width:30px;height:30px;border-radius:8px;background:var(--bg-2);display:grid;place-items:center;font-size:15px}
+.sr-nav small{margin-left:auto;color:var(--muted);font-size:12px}
+.sr-empty{padding:26px 14px;text-align:center;color:var(--muted);font-size:14px}
+.sale-search{margin-bottom:16px}
+.sale-search label{display:block;margin-bottom:6px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+.sale-search-bar{height:60px;border:2px solid var(--line);border-radius:12px;background:var(--bg-2);transition:border-color .15s}
+.sale-search-bar:focus-within{border-color:var(--accent)}
+.sale-results{margin-top:6px;max-height:340px;overflow-y:auto;border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:6px;box-shadow:0 14px 34px rgba(0,0,0,.35)}
+.sale-results[hidden]{display:none}
+.sale-picked{display:flex;align-items:center;gap:14px;padding:12px 14px;margin-bottom:14px;border:1px dashed var(--line);border-radius:12px;color:var(--muted);font-size:13.5px}
+.sale-picked.has{border:1.5px solid var(--accent);background:var(--accent-soft);color:var(--ink)}
+.sale-picked .sr-thumb{width:56px;height:56px}
+@media (max-width:700px){.cmdk-trigger{flex-basis:100%;max-width:none;order:3}.cmdk{padding-top:4vh}.sr-btns{display:none}.sr-btns.always{display:flex}}
+.sale-search-bar.sm{height:48px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg-2)}
+.sale-search-bar.sm input{font-size:15px}
+.sale-search-bar.sm:focus-within{border-color:var(--accent)}
+.sales-chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 12px}
+.chip-btn{padding:7px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--bg-2);color:var(--ink-2);font-size:13px;font-weight:600;cursor:pointer;transition:border-color .12s,color .12s,background .12s}
+.chip-btn:hover{border-color:var(--accent);color:var(--accent)}
+.chip-btn.active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+#sales-tbody mark{background:transparent;color:var(--accent);font-weight:700;text-decoration:underline;text-underline-offset:2px}
+.sr-sale .sr-thumb{display:grid;place-items:center;font-size:22px;background:var(--bg-2)}
 /* ---- Editor de tallas y colores: grande, con encabezados y atajos de un toque ---- */
 .stk-switch{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1.5px dashed var(--line);border-radius:12px;background:var(--bg-2);cursor:pointer;transition:border-color .15s,background .15s}
 .stk-switch:hover{border-color:var(--accent)}
@@ -515,6 +570,10 @@ body.role-staff .staff-hide{display:none!important}
   <main>
     <div class="topbar">
       <h2 id="panel-title">Productos</h2>
+      <button type="button" class="cmdk-trigger" id="cmdk-open" aria-label="Buscar en todo el panel (Ctrl+K)">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <span>Buscar producto, SKU o sección…</span><kbd class="k" id="cmdk-kbd">Ctrl K</kbd>
+      </button>
       <div class="topbar-actions">
         <span class="pill dirty" id="dirty-pill" style="display:none"></span>
         <div class="notif-wrap">
@@ -601,8 +660,18 @@ body.role-staff .staff-hide{display:none!important}
     <section class="panel" id="panel-ventas">
       <div class="card">
         <h3 style="margin-bottom:12px">Registrar venta</h3>
+        <div class="sale-search">
+          <label for="sale-q">Buscar el producto que se vendió</label>
+          <div class="sale-search-bar">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+            <input id="sale-q" type="text" placeholder="Escribe el nombre, la marca, el color o el SKU…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore aria-label="Buscar producto para vender" role="combobox" aria-expanded="false" aria-controls="sale-results">
+            <kbd class="k">Enter</kbd>
+          </div>
+          <div class="sale-results" id="sale-results" role="listbox" hidden></div>
+        </div>
+        <div class="sale-picked" id="sale-picked"></div>
         <div class="row3">
-          <div class="field"><label>Producto</label><select id="sale-product"></select></div>
+          <div class="field"><label>Producto elegido</label><select id="sale-product"></select></div>
           <div class="field" id="sale-size-field" style="display:none"><label>Talla</label><select id="sale-size"></select></div>
           <div class="field" id="sale-color-field" style="display:none"><label>Color</label><select id="sale-color"></select></div>
         </div>
@@ -620,8 +689,19 @@ body.role-staff .staff-hide{display:none!important}
         <svg id="sales-month-chart" class="spark" viewBox="0 0 600 170" width="100%" height="170"></svg>
       </div>
       <div class="card">
-        <h3 style="margin-bottom:4px">Historial de ventas</h3>
-        <p class="hint muted" id="sales-count" style="margin:0 0 10px"></p>
+        <h3 style="margin-bottom:10px">Historial de ventas</h3>
+        <div class="sale-search-bar sm" id="sales-search-bar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input id="sales-q" type="search" placeholder="Buscar en las ventas hechas: producto, SKU, talla, color, vendedor, factura, fecha…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore aria-label="Buscar en las ventas registradas">
+        </div>
+        <div class="sales-chips" id="sales-range" role="group" aria-label="Periodo">
+          <button type="button" class="chip-btn active" data-range="all">Todas</button>
+          <button type="button" class="chip-btn" data-range="today">Hoy</button>
+          <button type="button" class="chip-btn" data-range="7">7 días</button>
+          <button type="button" class="chip-btn" data-range="30">30 días</button>
+        </div>
+        <p class="hint muted" id="sales-count" style="margin:0 0 2px"></p>
+        <p id="sales-summary" style="margin:0 0 10px;font-size:13.5px;font-weight:600"></p>
         <p class="hint" id="sales-online-note" style="margin:0 0 10px;display:none"></p>
         <div style="overflow:auto">
           <table><thead><tr><th>Fecha</th><th>Producto</th><th>Variante</th><th>Cant.</th><th>Total</th><th>Vendedor</th></tr></thead>
@@ -698,12 +778,24 @@ body.role-staff .staff-hide{display:none!important}
 <div class="overlay center" id="confirm-overlay"><div class="modal" id="confirm-modal"></div></div>
 <div class="status" id="status-box"></div>
 
+<div class="cmdk" id="cmdk" role="dialog" aria-modal="true" aria-label="Búsqueda global">
+  <div class="cmdk-box">
+    <div class="cmdk-bar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input id="cmdk-q" type="text" placeholder="Escribe el nombre, la marca o el SKU…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore aria-label="Buscar en todo el panel" role="combobox" aria-expanded="true" aria-controls="cmdk-list">
+      <kbd class="k">Esc</kbd>
+    </div>
+    <div class="cmdk-list" id="cmdk-list" role="listbox"></div>
+    <div class="cmdk-foot" id="cmdk-foot"></div>
+  </div>
+</div>
+
 <script src="assets/js/site.js?v=2ef56de4"></script>
 <script src="assets/js/products-data.js?v=3"></script>
 <script src="assets/js/data.js?v=5b0270c4"></script>
 <script src="assets/js/pdp-render.js?v=795a3156"></script>
 <script src="assets/js/photo-editor.js?v=6f906ace"></script>
-<script src="assets/js/select-search.js?v=cccc945f"></script>
+<script src="assets/js/select-search.js?v=f8893cc5"></script>
 <script src="admin.js?v=15"></script>
 <script>
   // Service worker propio del panel: solo cachea el logo del shell, nunca
