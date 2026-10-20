@@ -8333,6 +8333,6 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/91227cef-b4b3-42f7-81b0-0a564b713917.jpg",
       "assets/img/products/7900c8f8-a59d-4190-bafc-742fe2bfe6eb.jpg"
     ],
-    "published": false
+    "published": true
   }
 ];
