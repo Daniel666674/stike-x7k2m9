@@ -8276,5 +8276,54 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/fe1e3c37-82d0-4a1c-8f21-35d061350025.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "chaqueta-inspirada-oakley",
+    "sku": "ROP-OAK-002",
+    "n": "CHAQUETA INSPIRADA OAKLEY",
+    "brand": "Oakley",
+    "cat": "ropa",
+    "sub": "Busos y Chaquetas",
+    "spec": [
+      "CHAQUETA ROMPEVIENTOS INSPIRADA EN OAKLEY"
+    ],
+    "price": 120000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "M",
+        "u": 1
+      },
+      {
+        "v": "L",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Largo",
+    "colors": [
+      {
+        "v": "Azul",
+        "u": 2
+      }
+    ],
+    "combos": [
+      {
+        "s": "M",
+        "c": "Azul",
+        "u": 1
+      },
+      {
+        "s": "L",
+        "c": "Azul",
+        "u": 1
+      }
+    ],
+    "imgs": [
+      "assets/img/products/eeb032e5-84ae-4bdd-8459-875e3f329b61.jpg",
+      "assets/img/products/73910509-19d3-4c12-bba5-122fa42e860d.jpg",
+      "assets/img/products/a969162a-81e9-4f99-b5da-54f29ca16169.jpg",
+      "assets/img/products/8547c9bf-1521-4575-9651-7b8a69298ae7.jpg"
+    ],
+    "published": false
   }
 ];
