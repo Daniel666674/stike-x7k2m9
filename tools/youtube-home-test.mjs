@@ -25,23 +25,42 @@ const htaccess = fs.readFileSync(ROOT + "/.htaccess", "utf8");
 const CSP = (htaccess.match(/Header set Content-Security-Policy "([^"]+)"/) || [])[1];
 const VIDEO_ID = (fs.readFileSync(ROOT + "/index.html", "utf8").match(/FEATURE_YOUTUBE_ID = "([^"]+)"/) || [])[1];
 
-/* Una API de YouTube de mentira: crea el iframe como lo hace la real. */
+/* Una API de YouTube de mentira: crea el iframe como lo hace la real y anota lo que se le pide (window.__yt).
+   window.__ytBehavior = "blocked" simula un navegador que NO deja arrancar el video solo. */
 const FAKE_API = `
-window.YT = { PlayerState: { PLAYING: 1 }, Player: function (id, o) {
+window.__yt = { created: 0, vars: null, calls: [] };
+window.YT = { PlayerState: { PLAYING: 1, PAUSED: 2 }, Player: function (id, o) {
+  var log = function (c) { window.__yt.calls.push(c); };
+  window.__yt.created++; window.__yt.vars = o.playerVars;
   var el = document.getElementById(id), f = document.createElement("iframe");
-  f.id = id; f.src = "https://www.youtube.com/embed/" + o.videoId + "?enablejsapi=1&autoplay=1";
-  f.allow = "autoplay; encrypted-media"; el.replaceWith(f);
-  setTimeout(function () { o.events && o.events.onReady && o.events.onReady({ target: { setPlaybackQuality: function () {}, playVideo: function () {} } }); }, 50);
+  f.id = id; f.src = "https://www.youtube.com/embed/" + o.videoId + "?enablejsapi=1&autoplay=1"; f.allow = "autoplay; encrypted-media"; el.replaceWith(f);
+  var muted = !!(o.playerVars && o.playerVars.mute), state = -1;
+  var t = {
+    setPlaybackQuality: function () {}, mute: function () { muted = true; log("mute"); }, unMute: function () { muted = false; log("unMute"); },
+    isMuted: function () { return muted; }, setVolume: function (v) { log("setVolume:" + v); }, getPlayerState: function () { return state; },
+    playVideo: function () { log("play"); if (window.__ytBehavior !== "blocked") { state = 1; o.events.onStateChange({ data: 1, target: t }); } },
+    pauseVideo: function () { log("pause"); state = 2; }, destroy: function () { log("destroy"); f.remove(); }
+  };
+  setTimeout(function () { o.events.onReady({ target: t }); }, 50);
 } };
 setTimeout(function () { window.onYouTubeIframeAPIReady && window.onYouTubeIframeAPIReady(); }, 20);`;
 
-async function open({ api = "ok", embed = "ok", viewport = { width: 1300, height: 900 } } = {}) {
-  const ctx = await br.newContext({ viewport });
+/* Por defecto SIN arranque automatico (movimiento reducido): las pruebas de "tocar play" siguen siendo las de siempre.
+   auto: true = como un visitante normal; saveData / effectiveType simulan datos limitados; behavior "blocked" = el
+   navegador no deja arrancar solo; holdIdle = el arranque automatico no corre hasta que la prueba lo suelte. */
+async function open({ api = "ok", embed = "ok", viewport = { width: 1300, height: 900 }, auto = false, saveData = false, effectiveType = "4g", behavior = "plays", holdIdle = false } = {}) {
+  const ctx = await br.newContext({ viewport, reducedMotion: auto ? "no-preference" : "reduce" });
   const page = await ctx.newPage();
+  await page.addInitScript(({ saveData, effectiveType, behavior, holdIdle }) => {
+    window.__ytBehavior = behavior;
+    Object.defineProperty(navigator, "connection", { value: { saveData, effectiveType }, configurable: true });
+    if (holdIdle) window.requestIdleCallback = cb => { window.__idleCb = cb; return 1; };
+  }, { saveData, effectiveType, behavior, holdIdle });
   const errs = [], violations = [], requests = [];
   page.on("pageerror", e => errs.push(e.message));
   page.on("console", m => { if (/Content Security Policy|Refused to/i.test(m.text())) violations.push(m.text().slice(0, 160)); });
-  page.on("request", r => { if (/youtube/.test(r.url())) requests.push(r.url()); });
+  const stamps = []; page._stamps = stamps;
+  page.on("request", r => { if (/youtube/.test(r.url()) && !/img\.youtube\.com/.test(r.url())) { requests.push(r.url()); stamps.push({ url: r.url(), at: Date.now() }); } });
   await page.addInitScript(() => document.addEventListener("DOMContentLoaded", () => { const st = document.createElement("style"); st.textContent = "[class*=cookie],#newsletter-overlay{display:none!important}"; document.head.appendChild(st); }));
   /* La pagina sale con la politica de seguridad real, como en el hosting. */
   await page.route(/\/(index\.html)?$/, async r => {
@@ -54,7 +73,7 @@ async function open({ api = "ok", embed = "ok", viewport = { width: 1300, height
   await page.route(/https:\/\/www\.youtube(-nocookie)?\.com\/embed\/.*/, r => embed === "blocked" ? r.abort() : r.fulfill({ contentType: "text/html", body: "<!doctype html><title>youtube</title><body style='background:#222'>reproductor</body>" }));
   await page.goto(B + "/index.html", { waitUntil: "networkidle" });
   await wait(300);
-  return { page, ctx, errs, violations, requests };
+  return { page, ctx, errs, violations, requests, stamps };
 }
 const frameInfo = page => page.evaluate(() => { const f = document.querySelector(".rd-feature iframe"); return f ? { src: f.src, w: f.getBoundingClientRect().width, h: f.getBoundingClientRect().height } : null; });
 
@@ -137,6 +156,94 @@ console.log("\nSi nada de YouTube carga: hay salida");
   await wait(7000);
   t("a los 7 s aparece «Verlo en YouTube»", await page.locator(".rd-feature .rd-yt-link").isVisible(), "no visible");
   t("y lleva al video correcto", (await page.locator(".rd-feature .rd-yt-link").getAttribute("href")) === `https://www.youtube.com/watch?v=${VIDEO_ID}`);
+  await ctx.close();
+}
+
+console.log("\nArranque automático al cargar la página");
+const yt = page => page.evaluate(() => window.__yt || { created: 0, vars: null, calls: [] });
+{
+  const { page, ctx, violations, stamps, errs } = await open({ auto: true });
+  await wait(2500);
+  const f = await frameInfo(page), y = await yt(page);
+  t("el video arranca solo, sin tocar nada", !!f && f.src.includes(`/embed/${VIDEO_ID}`) && y.created === 1, JSON.stringify([f, y.created]));
+  t("arranca SIN SONIDO (así lo exigen los navegadores)", y.vars && y.vars.mute === 1 && y.vars.autoplay === 1, JSON.stringify(y.vars));
+  t("y en bucle, para que no salgan videos sugeridos al terminar", y.vars && y.vars.loop === 1 && y.vars.playlist === VIDEO_ID);
+  t("aparece el botón «Activar sonido»", await page.locator(".rd-sound").isVisible());
+  t("el botón de play desaparece (ya está sonando)", !(await page.locator(".rd-feature .rd-play").isVisible()));
+  t("el navegador no bloquea nada de YouTube", violations.length === 0, violations.join(" || "));
+  t("sin errores de JavaScript", errs.length === 0, errs.join(" | "));
+  const loadEnd = await page.evaluate(() => performance.timeOrigin + performance.getEntriesByType("navigation")[0].loadEventEnd);
+  t("YouTube se pide DESPUÉS de que la página terminó de cargar (no la frena)", stamps.length > 0 && stamps.every(x => x.at >= loadEnd - 5), `${stamps.length} peticiones; primera ${stamps[0] && stamps[0].at - loadEnd} ms después del load`);
+  await page.locator(".rd-sound").click(); await wait(200);
+  const y2 = await yt(page);
+  t("«Activar sonido» le quita el silencio y sube el volumen", y2.calls.includes("unMute") && y2.calls.includes("setVolume:100"), y2.calls.join(","));
+  t("y el botón se va", !(await page.locator(".rd-sound").isVisible()));
+  await ctx.close();
+}
+{
+  const { page, ctx } = await open({ auto: true });
+  await wait(2500);
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await wait(600);
+  let y = await yt(page);
+  t("si el video sale de la pantalla (y sigue mudo) se pausa", y.calls.includes("pause"), y.calls.join(","));
+  const playsBefore = y.calls.filter(c => c === "play").length;
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await wait(600);
+  y = await yt(page);
+  t("y al volver a verlo, sigue", y.calls.filter(c => c === "play").length === playsBefore + 1, y.calls.join(","));
+  await ctx.close();
+}
+{
+  const { page, ctx } = await open({ auto: true });
+  await wait(2500);
+  await page.locator(".rd-sound").click();
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await wait(600);
+  t("con el sonido activado NO se pausa al salir de la pantalla (lo decide la persona)", !(await yt(page)).calls.includes("pause"));
+  await ctx.close();
+}
+
+console.log("\nCuándo NO arranca solo");
+for (const [label, opts] of [["menos movimiento (accesibilidad)", { auto: false }], ["ahorro de datos activado", { auto: true, saveData: true }], ["conexión lenta (3G)", { auto: true, effectiveType: "3g" }], ["conexión muy lenta (2G)", { auto: true, effectiveType: "2g" }]]) {
+  const { page, ctx, requests } = await open(opts);
+  await wait(2800);
+  t(`${label}: queda la portada con su botón de play`, await page.locator(".rd-feature .rd-play").isVisible() && await page.locator(".rd-feature > img").isVisible() && await page.locator(".rd-feature iframe").count() === 0);
+  t(`${label}: no se pide nada a YouTube`, requests.length === 0, requests.join(","));
+  await ctx.close();
+}
+{
+  const { page, ctx } = await open({ auto: true, effectiveType: "4g" });
+  await wait(2500);
+  t("con 4G sí arranca", await page.locator(".rd-feature iframe").count() === 1);
+  await ctx.close();
+}
+
+console.log("\nSi el navegador no deja arrancar solo");
+{
+  const { page, ctx } = await open({ auto: true, behavior: "blocked" });
+  await wait(2500);
+  t("primero lo intenta (hay reproductor)", await page.locator(".rd-feature iframe").count() === 1);
+  await wait(6500);
+  const y = await yt(page);
+  t("a los 6 s sin arrancar, vuelve a la portada con su botón de play", await page.locator(".rd-feature .rd-play").isVisible() && await page.locator(".rd-feature iframe").count() === 0 && y.calls.includes("destroy"), y.calls.join(","));
+  t("sin dejar restos (botón de sonido, enlace, clases)", await page.locator(".rd-sound, .rd-yt-link").count() === 0 && !(await page.evaluate(() => document.querySelector(".rd-feature").className.match(/playing|yt/))));
+  await page.evaluate(() => { window.__ytBehavior = "plays"; });
+  await page.locator(".rd-feature .rd-play").click(); await wait(600);
+  const y2 = await yt(page);
+  t("tocar play funciona, esta vez CON sonido", y2.created === 2 && !y2.vars.mute && !y2.vars.loop && await page.locator(".rd-feature iframe").count() === 1 && !(await page.locator(".rd-sound").count()), JSON.stringify(y2.vars));
+  await ctx.close();
+}
+
+console.log("\nAlguien toca play antes del arranque automático");
+{
+  const { page, ctx } = await open({ auto: true, holdIdle: true });
+  await wait(500);
+  await page.locator(".rd-feature .rd-play").click(); await wait(500);
+  await page.evaluate(() => window.__idleCb && window.__idleCb());
+  await wait(1500);
+  const y = await yt(page);
+  t("queda UN solo reproductor, con sonido (el que pidió la persona)", y.created === 1 && !y.vars.mute, JSON.stringify([y.created, y.vars]));
   await ctx.close();
 }
 
