@@ -213,7 +213,9 @@ DirectoryIndex index.html
 
   # ------------------------------- Seguridad ---------------------------------
   # CSP: solo los terceros que el sitio realmente usa — Google Fonts, el embed de Google Maps
-  # (contacto.html) y Wompi (el widget de pago: script, iframe y, si el widget
+  # (contacto.html), el video de YouTube del inicio (index.html: script de la API en script-src y el
+  # reproductor en frame-src; sin esto el navegador los bloquea y el recuadro queda negro; lo cubre
+  # tools/youtube-home-test.mjs, que lee esta misma linea) y Wompi (el widget de pago: script, iframe y, si el widget
   # no carga, el formulario de respaldo). Nuestra propia API (/api/...) es del
   # mismo origen, no necesita permiso aparte. Sin wildcards, salvo *.wompi.co:
   # el widget de Wompi usa varios de sus subdominios (checkout, production,
@@ -231,7 +233,7 @@ DirectoryIndex index.html
   # llega a checkout.wompi.co). Despues del primer deploy: abrir el carrito, dar
   # "Pagar ahora" y mirar la consola del navegador; cualquier linea
   # "Refused to ..." dice exactamente que host falta agregar aca.
-  Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://accounts.google.com https://*.wompi.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self'; connect-src 'self' https://accounts.google.com https://*.wompi.co; frame-src https://maps.google.com https://www.google.com https://accounts.google.com https://*.wompi.co; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://*.wompi.co; object-src 'none'"
+  Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://accounts.google.com https://www.youtube.com https://*.wompi.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self'; connect-src 'self' https://accounts.google.com https://*.wompi.co; frame-src https://maps.google.com https://www.google.com https://accounts.google.com https://www.youtube.com https://www.youtube-nocookie.com https://*.wompi.co; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://*.wompi.co; object-src 'none'"
   Header set X-Content-Type-Options "nosniff"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
   Header set X-Frame-Options "SAMEORIGIN"
