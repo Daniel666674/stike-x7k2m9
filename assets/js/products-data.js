@@ -2507,11 +2507,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 70000,
     "promo": false,
-    "units": 1,
+    "units": 0,
     "imgs": [
       "assets/img/products/grips-odi-xl-1.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "poste-counter-layback-cromado",
