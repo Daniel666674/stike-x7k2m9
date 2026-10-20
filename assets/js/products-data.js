@@ -4830,7 +4830,7 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "chaqueta-nike-beige-negro",
     "sku": "ROP-NIK-002",
-    "n": "Chaqueta Nike Beige y Negro",
+    "n": "Chaqueta Nike Gris  Negro",
     "brand": "Nike",
     "cat": "ropa",
     "sub": "Busos y Chaquetas",
