@@ -8319,11 +8319,11 @@ window.STIKE_PRODUCTS = [
       }
     ],
     "imgs": [
-      "assets/img/products/eeb032e5-84ae-4bdd-8459-875e3f329b61.jpg",
-      "assets/img/products/73910509-19d3-4c12-bba5-122fa42e860d.jpg",
+      "assets/img/products/8547c9bf-1521-4575-9651-7b8a69298ae7.jpg",
       "assets/img/products/a969162a-81e9-4f99-b5da-54f29ca16169.jpg",
-      "assets/img/products/8547c9bf-1521-4575-9651-7b8a69298ae7.jpg"
+      "assets/img/products/eeb032e5-84ae-4bdd-8459-875e3f329b61.jpg",
+      "assets/img/products/73910509-19d3-4c12-bba5-122fa42e860d.jpg"
     ],
-    "published": false
+    "published": true
   }
 ];
