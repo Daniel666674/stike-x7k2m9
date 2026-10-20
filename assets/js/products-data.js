@@ -4828,30 +4828,6 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "chaqueta-alpinestars-negra",
-    "sku": "ROP-ALP-002",
-    "n": "Chaqueta Alpinestars Negra",
-    "brand": "Alpinestars",
-    "cat": "ropa",
-    "sub": "Busos y Chaquetas",
-    "spec": [
-      "Rompevientos",
-      "Logo reflectivo"
-    ],
-    "price": 120000,
-    "promo": false,
-    "sizes": [
-      {
-        "v": "L",
-        "u": 1
-      }
-    ],
-    "imgs": [
-      "assets/img/products/chaqueta-alpinestars-negra-1.jpg"
-    ],
-    "published": true
-  },
-  {
     "slug": "chaqueta-nike-beige-negro",
     "sku": "ROP-NIK-002",
     "n": "Chaqueta Nike Beige y Negro",
@@ -4897,9 +4873,13 @@ window.STIKE_PRODUCTS = [
       }
     ],
     "imgs": [
-      "assets/img/products/chaqueta-vans-beige-negro-1.jpg"
+      "assets/img/products/85839f4a-f6ad-49e3-9f54-a3f3cceb7697.jpg",
+      "assets/img/products/4352afae-5224-4423-8be0-7f99dca5ad8e.jpg",
+      "assets/img/products/42e2b523-0b61-4dc6-be54-796567f46132.jpg",
+      "assets/img/products/306e99ca-7a50-42e1-97ee-f3a38595caae.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "grips-cinema-reynolds-negro",

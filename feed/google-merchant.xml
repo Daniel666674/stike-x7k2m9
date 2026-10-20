@@ -5605,22 +5605,6 @@
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
     <item>
-      <g:id>ROP-ALP-002</g:id>
-      <g:title>Chaqueta Alpinestars Negra - L</g:title>
-      <g:description>Chaqueta Alpinestars Negra. Rompevientos. Logo reflectivo. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/chaqueta-alpinestars-negra.html</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/chaqueta-alpinestars-negra-1.jpg</g:image_link>
-      <g:availability>in_stock</g:availability>
-      <g:price>120000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Alpinestars</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
-      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
-      <g:size>L</g:size>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
       <g:id>ROP-NIK-002</g:id>
       <g:title>Chaqueta Nike Beige y Negro - M</g:title>
       <g:description>Chaqueta Nike Beige y Negro. Rompevientos. Color Beige y negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
@@ -5643,7 +5627,10 @@
       <g:title>Chaqueta Vans Beige y Negro - M</g:title>
       <g:description>Chaqueta Vans Beige y Negro. Rompevientos. Color Beige y negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/chaqueta-vans-beige-negro.html</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/chaqueta-vans-beige-negro-1.jpg</g:image_link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/85839f4a-f6ad-49e3-9f54-a3f3cceb7697.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/4352afae-5224-4423-8be0-7f99dca5ad8e.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/42e2b523-0b61-4dc6-be54-796567f46132.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/306e99ca-7a50-42e1-97ee-f3a38595caae.jpg</g:additional_image_link>
       <g:availability>in_stock</g:availability>
       <g:price>120000.00 COP</g:price>
       <g:condition>new</g:condition>
