@@ -8343,7 +8343,7 @@ window.STIKE_PRODUCTS = [
     "cat": "ropa",
     "sub": "Busos y Chaquetas",
     "spec": [
-      "CHAQUETA ROMPEVIENTO EN SUPER NYLON DE ALTA CALIDAD CON LOGOS REFLECTIVOS"
+      "ROMPEVIENTOS EN SUPER NYLON DE ALTA CALIDAD CON LOGOS REFLECTIVOS"
     ],
     "price": 120000,
     "promo": false,
