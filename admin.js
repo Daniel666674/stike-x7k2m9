@@ -77,8 +77,10 @@ function applyRoleUi() {
 
 /* ============================== BASE64 (UTF-8 y binario safe) =========== */
 function b64EncodeBytes(bytes) {
+  /* Por bloques: un video de 10 MB construido byte a byte tarda segundos y
+     congela la pantalla; String.fromCharCode.apply(bloque) lo hace casi al instante. */
   let bin = "";
-  for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+  for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
   return btoa(bin);
 }
 function b64DecodeBytes(b64) {
@@ -173,7 +175,11 @@ const CATALOG_HEADER = `/* =====================================================
    Ver assets/js/data.js para SIZE_CATEGORIES, helpers de stock y variantes.
    ========================================================================= */\n`;
 const CATALOG_KEY_ORDER = ["slug", "sku", "n", "brand", "cat", "sub", "spec", "price", "old", "promo", "tag",
-  "units", "sizes", "sizeLabel", "colors", "combos", "imgs", "imgColorMap", "imgFit", "imgZoom", "imgPos", "published"];
+  "units", "sizes", "sizeLabel", "colors", "combos", "imgs", "imgColorMap", "imgFit", "imgZoom", "imgPos", "videos", "published"];
+
+/* Videos: viven en assets/video/products/ (nombre aleatorio, igual que las fotos); su imagen de vista previa
+   (poster) es un JPG con el mismo nombre, en la misma carpeta. Las reglas de peso/formato salen de assets/js/video-tools.js. */
+const VIDEO_SRC_RE = /^assets\/video\/products\/[A-Za-z0-9._-]+\.mp4$/;
 
 function parseCatalogFile(text) {
   const i = text.indexOf(CATALOG_MARKER);
@@ -195,6 +201,7 @@ function toSiteProduct(p) {
     if (k === "imgZoom" && (!p.imgZoom || p.imgZoom <= 100)) continue;
     if (k === "imgPos" && (!p.imgPos || p.imgPos === "center center")) continue;
     if (k === "imgColorMap" && (!p.imgColorMap || !Object.keys(p.imgColorMap).length)) continue;
+    if (k === "videos" && !(p.videos && p.videos.length)) continue;
     if (k === "sizes" && !(p.sizes && p.sizes.length)) continue;
     if (k === "colors" && !(p.colors && p.colors.length)) continue;
     if (k === "units" && (p.sizes && p.sizes.length || p.colors && p.colors.length)) continue;
@@ -217,6 +224,7 @@ let onlineSalesState = { configured: false, ok: false, error: "" };
 let auditLog = [];
 let siteContent = {};
 let pendingUploads = new Map();    // path reservado -> File original (sin comprimir)
+let pendingVideos = new Map();     // ruta del .mp4 reservada -> { file, poster: Blob|null, posterPath }
 let templateCache = null;
 let catalogLoaded = false;
 
@@ -313,6 +321,7 @@ function seedDemoData() {
   baseline = new Map();
   dirtySlugs = new Set(); deletedSlugs = new Set(); renamedFrom = new Map();
   pendingUploads = new Map();
+  pendingVideos = new Map();
   window.STIKE_PRODUCTS = workingCatalog;
   salesLog = generateDemoSales(workingCatalog, 120);
   auditLog = generateDemoAudit();
@@ -394,6 +403,7 @@ async function loadAll() {
   deletedSlugs = new Set();
   renamedFrom = new Map();
   pendingUploads = new Map();
+  pendingVideos = new Map();
   window.STIKE_PRODUCTS = workingCatalog; // reusa helpers de data.js (stikeStockFor, stikeCategory, ...)
   catalogLoaded = true;
   demoMode = false;       // ya hay datos reales: se apaga la demo
@@ -438,6 +448,8 @@ function validateCatalog(catalog) {
     /* Un borrador no sale al sitio, asi que puede esperar su foto sin bloquear
        el resto de los cambios; al publicarlo si se exige. */
     if (p.published !== false && !(p.imgs && p.imgs.length)) errors.push(`${label}: falta la foto (al menos una)`);
+    if ((p.videos || []).length > StikeVideo.RULES.maxPerProduct) errors.push(`${label}: máximo ${StikeVideo.RULES.maxPerProduct} videos por producto`);
+    (p.videos || []).forEach(v => { if (!v || !VIDEO_SRC_RE.test(v.src || "")) errors.push(`${label}: un video tiene una ruta inválida`); });
   });
   return errors;
 }
@@ -563,6 +575,62 @@ async function uploadPendingPhotos(scopeSlugs, statusLines) {
   }
 }
 
+/* Subida con reintentos: un video de varios MB por una red de tienda se corta mas facil que un JSON.
+   Solo se reintenta lo que no es un conflicto de sha (esos los maneja ghPutOnce/quien llama). */
+async function putWithRetry(path, bytes, message, tries = 3) {
+  let last;
+  for (let i = 1; i <= tries; i++) {
+    try {
+      const existing = await ghGetMeta(path);
+      return await ghPutOnce(path, b64EncodeBytes(bytes), message, existing ? existing.sha : undefined);
+    } catch (e) {
+      last = e;
+      if (e.status && e.status >= 400 && e.status < 500 && !e.conflict) break;   // rechazado a proposito: no insistir
+      if (i < tries) await sleep(backoffMs(i));
+    }
+  }
+  throw last;
+}
+/* Sube los videos nuevos (y su imagen de vista previa) de los productos en alcance. Va ANTES de fusionar el
+   catalogo, como las fotos: el catalogo nunca apunta a un archivo que todavia no existe. */
+async function uploadPendingVideos(scopeSlugs) {
+  const slugs = scopeSlugs || dirtySlugs;
+  for (const slug of slugs) {
+    const d = workingCatalog.find(p => p.slug === slug);
+    if (!d || !d.videos) continue;
+    for (const v of d.videos) {
+      const pend = pendingVideos.get(v.src);
+      if (!pend) continue;
+      if (pend.poster && v.poster) {
+        pushStatus(`Subiendo la vista previa del video de ${d.n}...`);
+        await putWithRetry(v.poster, new Uint8Array(await pend.poster.arrayBuffer()), `Vista previa de video para ${d.n}`);
+      }
+      pushStatus(`Subiendo video de ${d.n} (${StikeVideo.mb(pend.file.size)}); puede tardar un minuto...`);
+      await putWithRetry(v.src, new Uint8Array(await pend.file.arrayBuffer()), `Video para ${d.n}`);
+      pendingVideos.delete(v.src);
+    }
+  }
+}
+/* Borra de GitHub los videos que dejaron de usarse: quitados de un producto, o de un producto eliminado.
+   Un video pesa decenas de veces mas que una foto; dejarlos huerfanos infla el repo y cada despliegue.
+   Si falla, no tumba la publicacion (un archivo suelto no rompe el sitio): solo avisa. */
+async function deleteUnusedVideos(merged, scopeSlugs, commitMessage) {
+  const files = new Set();
+  const consider = row => (row && row.videos || []).forEach(v => { if (v.src) files.add(v.src); if (v.poster) files.add(v.poster); });
+  const slugs = scopeSlugs || new Set([...dirtySlugs, ...deletedSlugs]);
+  for (const slug of slugs) {
+    const own = findOwnBaselineSlug(slug) || (deletedSlugs.has(slug) ? slug : null);
+    if (own && baseline.has(own)) consider(baseline.get(own));
+  }
+  const inUse = new Set();
+  merged.forEach(r => (r.videos || []).forEach(v => { inUse.add(v.src); if (v.poster) inUse.add(v.poster); }));
+  const stale = [...files].filter(f => !inUse.has(f) && /^assets\/video\/products\/[A-Za-z0-9._-]+\.(mp4|jpg)$/.test(f));
+  for (const f of stale) {
+    try { pushStatus(`Borrando ${f.split("/").pop()} (ya no se usa)...`); await ghDeleteIfExists(f, commitMessage); }
+    catch (e) { pushStatus(`Aviso: no se pudo borrar ${f.split("/").pop()} (queda sin usar en el repo): ${e.message}`); }
+  }
+}
+
 async function regenerateProductPages(merged, scopeSlugs, commitMessage) {
   if (!templateCache) { const t = await ghGetFile(CONFIG.paths.template); templateCache = t ? t.text : null; }
   if (!templateCache) return; // sin plantilla no se puede regenerar (no debería pasar en este repo)
@@ -650,12 +718,17 @@ async function publishCatalog(opts = {}) {
     const owner = workingCatalog.find(x => x.imgs && x.imgs.includes(p));
     return owner && (!scopeSlugs || scopeSlugs.has(owner.slug));
   }).length;
-  const summary = opts.auditNote || `${created} creado(s), ${edited} editado(s), ${deleted} eliminado(s), ${photosCount} foto(s)`;
+  const videosCount = [...pendingVideos.keys()].filter(src => {
+    const owner = workingCatalog.find(x => (x.videos || []).some(v => v.src === src));
+    return owner && (!scopeSlugs || scopeSlugs.has(owner.slug));
+  }).length;
+  const summary = opts.auditNote || `${created} creado(s), ${edited} editado(s), ${deleted} eliminado(s), ${photosCount} foto(s)${videosCount ? `, ${videosCount} video(s)` : ""}`;
   LOG.note = summary;
 
   try {
     push("Subiendo fotos nuevas...");
     await uploadPendingPhotos(scopeSlugs, lines);
+    if (videosCount) { push("Subiendo videos nuevos..."); await uploadPendingVideos(scopeSlugs); }
 
     push("Fusionando catálogo con la versión más reciente...");
     const merged = await writeCatalogWithMergeRetry(summary, scopeSlugs);
@@ -665,6 +738,8 @@ async function publishCatalog(opts = {}) {
 
     push("Actualizando sitemap...");
     await regenerateSitemap(merged, summary);
+
+    await deleteUnusedVideos(merged, scopeSlugs, summary);
 
     push("Guardando costos internos...");
     const costUpdates = {}; const costDeletions = [];
@@ -682,7 +757,7 @@ async function publishCatalog(opts = {}) {
     push("Escribiendo auditoría...");
     auditLog = await appendJsonLog(CONFIG.paths.auditLog, [{
       ts: new Date().toISOString(), admin: session.email, summary,
-      created, edited, deleted, photos: photosCount,
+      created, edited, deleted, photos: photosCount, ...(videosCount ? { videos: videosCount } : {}),
     }], summary);
 
     // limpiar estado de sesion solo para lo publicado en este scope
@@ -1120,7 +1195,7 @@ function renderProductTable(visible) {
 function blankProduct() {
   return { slug: "", sku: "", n: "", brand: STIKE_BRANDS[0], cat: STIKE_CATEGORIES[0].slug, sub: "",
     spec: [], price: 0, cost: 0, old: null, promo: false, tag: "", imgs: [], imgColorMap: {},
-    imgFit: "auto", imgZoom: 100, imgPos: "center center", published: true, units: 0, sizes: null, colors: null };
+    imgFit: "auto", imgZoom: 100, imgPos: "center center", videos: [], published: true, units: 0, sizes: null, colors: null };
 }
 let editorDraft = null;
 let editorBaseline = "";
@@ -1140,7 +1215,17 @@ function openEditor(slug) {
   editorBaseline = JSON.stringify(editorDraft);     // para saber luego si hay cambios sin guardar
   $("#editor-overlay").classList.add("open");
 }
-function closeEditor() { $("#editor-overlay").classList.remove("open"); editorDraft = null; editorOriginalSlug = null; }
+function closeEditor() {
+  $("#editor-overlay").classList.remove("open"); editorDraft = null; editorOriginalSlug = null;
+  /* Un video agregado y no guardado no pertenece a ningun producto: se suelta su archivo de la memoria. */
+  const used = new Set(workingCatalog.flatMap(p => (p.videos || []).map(v => v.src)));
+  for (const [src, pend] of pendingVideos) {
+    if (used.has(src)) continue;
+    if (pend.url) URL.revokeObjectURL(pend.url);
+    if (pend.posterUrl) URL.revokeObjectURL(pend.posterUrl);
+    pendingVideos.delete(src);
+  }
+}
 
 function subsFor(cat) { const c = STIKE_CATEGORIES.find(x => x.slug === cat); return c ? c.subs : []; }
 
@@ -1209,6 +1294,16 @@ function renderEditor() {
         </label>
         <div id="ed-cover-crop"></div>
       </div>
+
+      <h4 class="ed-section">Videos <span class="hint" style="text-transform:none;letter-spacing:0">— opcional · máximo ${StikeVideo.RULES.maxPerProduct} · el cliente los baja solo si les da clic</span></h4>
+      <div class="card" style="padding:14px;margin:0">
+        <div id="ed-videos"></div>
+        <label class="uploadbox" id="ed-video-drop" style="margin-top:10px;display:block">
+          + Agregar video (MP4)<input type="file" id="ed-video-input" accept="video/mp4,.mp4" style="display:none">
+        </label>
+        <div id="ed-video-msg" class="vid-msg" aria-live="polite"></div>
+        <div id="ed-video-req"></div>
+      </div>
     </div>
 
     <div class="ed-foot">
@@ -1236,11 +1331,13 @@ function renderEditor() {
   if (editorIsNew && !d.sku) { d.sku = generateSku(d.cat, d.brand); $("#ed-sku").value = d.sku; }
 
   $("#ed-photo-input").addEventListener("change", e => { addPhotosToDraft(Array.from(e.target.files || [])); e.target.value = ""; });
+  $("#ed-video-input").addEventListener("change", e => { const f = (e.target.files || [])[0]; e.target.value = ""; if (f) addVideoToDraft(f); });
   $("#ed-save").addEventListener("click", saveEditorDraft);
   const delBtn = $("#ed-delete"); if (delBtn) delBtn.addEventListener("click", deleteFromEditor);
 
   renderStockEditor();
   renderPhotoGrid();
+  renderVideoSection();
   validateSlugField();
   validateSkuField();
   disableAutofill($("#editor-drawer")); // el drawer se genera por JS en cada apertura
@@ -1514,6 +1611,176 @@ function renderPhotoGrid() {
   });
 
   renderCoverCrop();
+}
+/* ---- Videos: se revisan ANTES de aceptarlos (ver assets/js/video-tools.js), se suben al publicar ---- */
+const fmtSecs = n => (n < 10 ? n.toFixed(1).replace(".", ",") : String(Math.round(n))) + " s";
+function videoPosterSrc(v) {
+  const pend = pendingVideos.get(v.src);
+  if (pend && pend.poster) { pend.posterUrl = pend.posterUrl || URL.createObjectURL(pend.poster); return pend.posterUrl; }
+  if (v.poster && !pend) return v.poster;
+  const d = editorDraft;
+  return d && d.imgs && d.imgs[0] ? previewSrcFor(d.imgs[0]) : "";     // sin imagen propia: la foto de portada
+}
+function videoPlayableSrc(v) {
+  const pend = pendingVideos.get(v.src);
+  if (!pend) return v.src;
+  pend.url = pend.url || URL.createObjectURL(pend.file);
+  return pend.url;
+}
+function renderVideoRequirements() {
+  const R = StikeVideo.RULES;
+  return `<div class="vid-req">
+    <h5>Requisitos de cada video</h5>
+    <ul>
+      <li><b>Formato:</b> MP4 con video <b>H.264</b> (audio AAC, opcional)</li>
+      <li><b>Peso:</b> máximo <b>${R.maxBytes / 1048576} MB</b> · lo ideal, menos de ${R.niceBytes / 1048576} MB</li>
+      <li><b>Duración:</b> entre ${R.minSec} y <b>${R.maxSec} segundos</b></li>
+      <li><b>Tamaño:</b> máximo <b>${R.maxLong}×${R.maxShort}</b> (en vertical ${R.maxShort}×${R.maxLong})</li>
+      <li><b>Cuadros:</b> 30 por segundo o menos</li>
+      <li><b>Fast Start</b> activado (en HandBrake: «Web optimizado»)</li>
+      <li><b>Cantidad:</b> máximo ${R.maxPerProduct} videos por producto</li>
+    </ul>
+    ${(() => {
+      /* Todo video vive en el repo y viaja en cada despliegue: conviene dejarlos para los productos que lo merecen. */
+      const all = workingCatalog.flatMap(p => p.videos || []);
+      const bytes = all.reduce((a, v) => a + (v.b || 0), 0);
+      const over = all.length > R.softMaxVideos || bytes > R.softMaxBytes;
+      return `<p class="${over ? "vm warn" : "muted"}" style="margin:10px 0 0">En la tienda hay <b>${all.length}</b> video${all.length === 1 ? "" : "s"} (${StikeVideo.mb(bytes)}). Recomendado: no pasar de ${R.softMaxVideos} videos ni ${Math.round(R.softMaxBytes / 1048576)} MB en total; déjalos para los productos que más se venden.</p>`;
+    })()}
+    <p class="muted">El panel revisa todo esto al elegir el archivo y te dice qué arreglar. En la tienda el video <b>no se descarga</b> hasta que el cliente toca «Ver video»; mientras tanto solo carga una imagen liviana.</p>
+    <details>
+      <summary>Cómo preparar el video</summary>
+      <ol>
+        <li><b>Desde el celular:</b> en iPhone, antes de grabar, entra a Ajustes › Cámara › Formatos y elige <b>«Más compatible»</b> (si no, graba en HEVC y el panel lo rechaza). Graba en 1080p a 30 fps y recórtalo a máximo ${R.maxSec} s.</li>
+        <li><b>Para bajarle peso (gratis, HandBrake):</b> abre el video › preset <b>«Fast 720p30»</b> › formato <b>MP4</b> › marca <b>«Web optimizado»</b> › Video: códec H.264, calidad RF 26 › Audio: quítalo si no hace falta › Iniciar.</li>
+        <li><b>Con ffmpeg (si lo tienes):</b><br><code>ffmpeg -i entrada.mov -t 30 -vf "scale='if(gt(iw,ih),-2,min(720,iw))':'if(gt(iw,ih),min(720,ih),-2)',fps=30" -c:v libx264 -profile:v high -pix_fmt yuv420p -crf 26 -preset slow -an -movflags +faststart salida.mp4</code></li>
+      </ol>
+    </details>
+  </div>`;
+}
+function setVideoMsg(m) {
+  const box = $("#ed-video-msg"); if (!box) return;
+  if (!m) { box.innerHTML = ""; return; }
+  if (m.busy) { box.innerHTML = `<div class="vm now">${escHtml(m.busy)}</div>`; return; }
+  box.innerHTML = (m.errors || []).map(t => `<div class="vm bad">✕ ${escHtml(t)}</div>`).join("")
+    + (m.ok ? `<div class="vm ok">✔ ${escHtml(m.ok)}</div>` : "")
+    + (m.warnings || []).map(t => `<div class="vm warn">⚠ ${escHtml(t)}</div>`).join("")
+    + (m.notes || []).map(t => `<div class="vm note">${escHtml(t)}</div>`).join("");
+}
+function renderVideoSection() {
+  const d = editorDraft, box = $("#ed-videos");
+  if (!box) return;
+  const vids = d.videos || [];
+  const R = StikeVideo.RULES;
+  box.innerHTML = vids.map((v, i) => {
+    const pend = pendingVideos.get(v.src);
+    const poster = videoPosterSrc(v);
+    const size = pend ? pend.file.size : v.b;
+    return `<div class="vid-row" data-vid="${i}">
+      <button type="button" class="vid-poster" data-vid-play="${i}" aria-label="Ver el video ${i + 1}" title="Ver el video">
+        ${poster ? `<img src="${poster}" alt="">` : ""}<span class="vid-play">▶</span>
+      </button>
+      <div class="vid-meta">
+        <b>Video ${i + 1}</b>
+        <span class="pill ${pend ? "draft" : "good"}">${pend ? "Nuevo · se sube al publicar" : "Publicado"}</span>
+        <div class="muted">${v.w}×${v.h} · ${fmtSecs(v.dur || 0)}${size ? " · " + StikeVideo.mb(size) : ""}</div>
+        ${pend && pend.poster && pend.dur > 2 ? `<label class="vid-frame">Imagen de vista previa
+          <input type="range" min="0" max="${Math.max(0, pend.dur - 0.2).toFixed(1)}" step="0.1" value="${pend.at}" data-vid-frame="${i}">
+          <span>${fmtSecs(pend.at)}</span></label>` : ""}
+        ${pend && !pend.poster ? `<div class="muted">Este navegador no pudo sacar una imagen del video: en la tienda se usará la foto de portada.</div>` : ""}
+      </div>
+      <button type="button" class="btn bad sm" data-vid-rm="${i}">Quitar</button>
+      <div class="vid-preview" id="vid-preview-${i}"></div>
+    </div>`;
+  }).join("") || `<p class="muted" style="font-size:12.5px;margin:0">Sin videos todavía.</p>`;
+  $("#ed-video-drop").style.display = vids.length >= R.maxPerProduct ? "none" : "block";
+  $("#ed-video-req").innerHTML = renderVideoRequirements();
+
+  $$("#ed-videos [data-vid-rm]").forEach(b => b.addEventListener("click", () => {
+    const i = +b.getAttribute("data-vid-rm");
+    const [gone] = d.videos.splice(i, 1);
+    const pend = pendingVideos.get(gone.src);
+    if (pend) {                                    // nunca se subio: se libera la memoria y listo
+      if (pend.url) URL.revokeObjectURL(pend.url);
+      if (pend.posterUrl) URL.revokeObjectURL(pend.posterUrl);
+      pendingVideos.delete(gone.src);
+    }
+    setVideoMsg(null);
+    renderVideoSection();                           // si ya estaba publicado, se borra del repo al publicar
+  }));
+  $$("#ed-videos [data-vid-play]").forEach(b => b.addEventListener("click", () => {
+    const i = +b.getAttribute("data-vid-play");
+    const slot = $("#vid-preview-" + i);
+    if (slot.firstChild) { const vid = slot.querySelector("video"); if (vid) vid.pause(); slot.innerHTML = ""; return; }
+    slot.innerHTML = `<video controls playsinline preload="metadata" src="${videoPlayableSrc(d.videos[i])}"></video>`;
+    const vid = slot.querySelector("video"); vid.play().catch(() => {});
+  }));
+  $$("#ed-videos [data-vid-frame]").forEach(r => {
+    r.addEventListener("input", () => { r.nextElementSibling.textContent = fmtSecs(+r.value); });
+    r.addEventListener("change", async () => {
+      const v = d.videos[+r.getAttribute("data-vid-frame")], pend = pendingVideos.get(v.src);
+      if (!pend) return;
+      try {
+        pend.at = +r.value;
+        pend.poster = await captureVideoFrame(pend.file, pend.at);
+        if (pend.posterUrl) URL.revokeObjectURL(pend.posterUrl);
+        pend.posterUrl = null;
+      } catch (e) { setVideoMsg({ errors: ["No se pudo sacar esa imagen del video. Prueba con otro momento."] }); }
+      renderVideoSection();
+    });
+  });
+}
+/* Un cuadro del video como JPEG (max 720 px de ancho, liviano). Necesita que ESTE navegador decodifique el
+   video: si no puede, el que llama sigue sin imagen propia y la ficha usa la foto de portada. */
+async function captureVideoFrame(file, atSec) {
+  const url = URL.createObjectURL(file);
+  try {
+    const v = document.createElement("video");
+    v.muted = true; v.playsInline = true; v.preload = "auto"; v.src = url;
+    const once = (ev, ms) => new Promise((res, rej) => {
+      const t = setTimeout(() => rej(new Error("tiempo agotado")), ms || 10000);
+      v.addEventListener(ev, () => { clearTimeout(t); res(); }, { once: true });
+      v.addEventListener("error", () => { clearTimeout(t); rej(new Error("no se pudo abrir el video")); }, { once: true });
+    });
+    await once("loadeddata");
+    if (atSec > 0) { const sk = once("seeked"); v.currentTime = Math.min(atSec, Math.max(0, (v.duration || atSec) - 0.1)); await sk; }
+    const w0 = v.videoWidth, h0 = v.videoHeight;
+    if (!w0 || !h0) throw new Error("sin imagen");
+    const k = Math.min(1, 720 / w0);
+    const c = document.createElement("canvas"); c.width = Math.round(w0 * k); c.height = Math.round(h0 * k);
+    c.getContext("2d").drawImage(v, 0, 0, c.width, c.height);
+    const blob = await new Promise(res => c.toBlob(res, "image/jpeg", 0.8));
+    if (!blob) throw new Error("sin imagen");
+    return blob;
+  } finally { URL.revokeObjectURL(url); }
+}
+async function addVideoToDraft(file) {
+  const d = editorDraft, R = StikeVideo.RULES;
+  d.videos = d.videos || [];
+  if (d.videos.length >= R.maxPerProduct) { setVideoMsg({ errors: [`Este producto ya tiene ${R.maxPerProduct} videos (el máximo). Quita uno para agregar otro.`] }); return; }
+  const ext = ((file.name.match(/\.([A-Za-z0-9]+)$/) || [])[1] || "").toLowerCase();
+  if (ext !== "mp4") { setVideoMsg({ errors: [`«${file.name}» ${ext ? "es un archivo ." + ext.toUpperCase() : "no tiene extensión"} y tiene que ser MP4 (H.264). Mira «Cómo preparar el video» más abajo para convertirlo.`] }); return; }
+  setVideoMsg({ busy: "Revisando el video…" });
+  let info = null;
+  if (file.size <= R.maxReadBytes) {
+    try { info = StikeVideo.inspect(new Uint8Array(await file.arrayBuffer())); } catch (e) { info = { ok: false, error: "unreadable" }; }
+  }
+  const res = StikeVideo.check(info, file.size);
+  if (res.errors.length) { setVideoMsg({ errors: res.errors }); return; }       // rechazado: solo lo que hay que arreglar, sin notas de color
+
+  const dur = info.duration;
+  const at = Math.round(Math.min(Math.max(1, dur * 0.2), Math.max(0, dur - 0.3)) * 10) / 10;
+  let poster = null;
+  try { poster = await captureVideoFrame(file, at); } catch (e) { /* este navegador no lo decodifica: sin imagen propia */ }
+  const id = randomFilename("x").split(".")[0];
+  const src = `assets/video/products/${id}.mp4`, posterPath = `assets/video/products/${id}.jpg`;
+  pendingVideos.set(src, { file, poster, dur, at });
+  d.videos.push({ src, ...(poster ? { poster: posterPath } : {}), w: info.video.w, h: info.video.h, dur: Math.round(dur * 10) / 10, b: file.size, ts: new Date().toISOString().slice(0, 10) });
+  renderVideoSection();
+  setVideoMsg({
+    ok: `Cumple todo: ${info.video.w}×${info.video.h} · ${fmtSecs(dur)} · ${Math.round(info.video.fps)} fps · ${StikeVideo.mb(file.size)}`,
+    warnings: res.warnings, notes: res.notes.concat(poster ? [] : ["Este navegador no pudo sacar la imagen de vista previa; en la tienda se usará la foto de portada."]),
+  });
 }
 const CROP_POSITIONS = ["top left", "top center", "top right", "center left", "center center", "center right", "bottom left", "bottom center", "bottom right"];
 function renderCoverCrop() {

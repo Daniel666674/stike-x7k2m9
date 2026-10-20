@@ -442,6 +442,36 @@ input.stk-sw:checked::after{transform:translateX(22px)}
 .pthumb.dragover{outline:2px dashed var(--accent)}
 .uploadbox{border:1.5px dashed var(--line);border-radius:10px;padding:16px;text-align:center;color:var(--muted);font-size:12.5px;cursor:pointer}
 .uploadbox:hover{border-color:var(--accent)}
+/* Videos del producto: lista, mensajes de revision y tarjeta de requisitos */
+.vid-row{display:grid;grid-template-columns:96px 1fr auto;gap:12px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--bg-2)}
+.vid-row+.vid-row{margin-top:8px}
+.vid-poster{position:relative;width:96px;height:96px;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:#0c0d10;padding:0;cursor:pointer}
+.vid-poster img{width:100%;height:100%;object-fit:cover;display:block}
+.vid-play{position:absolute;inset:0;margin:auto;width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.65);color:#fff;font-size:14px;display:flex;align-items:center;justify-content:center;padding-left:2px}
+.vid-meta{min-width:0;font-size:13px}
+.vid-meta .pill{margin-left:6px}
+.vid-meta .muted{font-size:12px;margin-top:3px}
+.vid-frame{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:12px;color:var(--muted)}
+.vid-frame input{flex:1;min-width:80px;accent-color:var(--accent)}
+.vid-frame span{min-width:42px;text-align:right;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.vid-preview{grid-column:1/-1}
+.vid-preview video{display:block;width:100%;max-height:300px;background:#000;border-radius:8px;margin-top:4px}
+.vid-msg{margin-top:10px}
+.vm{font-size:12.5px;line-height:1.45;padding:8px 10px;border-radius:8px;margin-top:6px}
+.vm.bad{background:var(--bad-soft);color:var(--bad)}
+.vm.ok{background:var(--good-soft);color:var(--good);font-weight:600}
+.vm.warn{background:var(--warn-soft);color:var(--warn)}
+.vm.note,.vm.now{background:var(--panel-2);color:var(--ink-2)}
+.vid-req{margin-top:14px;padding:12px 14px;border:1px solid var(--line-soft);border-radius:var(--radius-sm);background:var(--panel-2);font-size:12.5px}
+.vid-req h5{margin:0 0 8px;font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+.vid-req ul{margin:0;padding-left:18px;line-height:1.7}
+.vid-req p{margin:10px 0 0;line-height:1.5}
+.vid-req details{margin-top:10px}
+.vid-req summary{cursor:pointer;color:var(--accent);font-weight:600}
+.vid-req ol{padding-left:18px;line-height:1.55}
+.vid-req li{margin-top:6px}
+.vid-req code{display:block;margin-top:6px;padding:8px 10px;background:var(--bg);border:1px solid var(--line);border-radius:6px;font-size:11.5px;word-break:break-all;user-select:all}
+@media(max-width:560px){.vid-row{grid-template-columns:72px 1fr}.vid-row .btn{grid-column:1/-1}.vid-poster{width:72px;height:72px}}
 .cropbox{display:flex;gap:14px;align-items:center;margin-top:10px}
 .crop-grid{display:grid;grid-template-columns:repeat(3,22px);gap:4px}
 .crop-grid button{width:22px;height:22px;border-radius:4px;border:1px solid var(--line);background:var(--bg-2)}
@@ -812,10 +842,11 @@ body.role-staff .staff-hide{display:none!important}
 <script src="assets/js/site.js?v=2ef56de463"></script>
 <script src="assets/js/products-data.js?v=c9412a204c"></script>
 <script src="assets/js/data.js?v=07e30c9fd6"></script>
-<script src="assets/js/pdp-render.js?v=795a3156b1"></script>
+<script src="assets/js/pdp-render.js?v=1c26f1c322"></script>
 <script src="assets/js/photo-editor.js?v=6f906ace1e"></script>
 <script src="assets/js/select-search.js?v=f8893cc573"></script>
-<script src="admin.js?v=15"></script>
+<script src="assets/js/video-tools.js?v=c601fcb4f2"></script>
+<script src="admin.js?v=16"></script>
 <script>
   // Service worker propio del panel: solo cachea el logo del shell, nunca
   // admin.html/admin.js (ver admin-sw.js).

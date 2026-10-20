@@ -16,7 +16,11 @@
    ========================================================================= */
 require __DIR__ . "/_admin.php";
 
-const STIKE_GH_ALLOWED = '#^(assets/js/products-data\.js|data/(costs|sales-log|audit-log|site-content|stock-applied)\.json|sitemap\.xml|_template\.html|producto/[a-z0-9-]+\.html|assets/img/products/[A-Za-z0-9._-]+\.(jpg|jpeg|png|webp))$#';
+const STIKE_GH_ALLOWED = '#^(assets/js/products-data\.js|data/(costs|sales-log|audit-log|site-content|stock-applied)\.json|sitemap\.xml|_template\.html|producto/[a-z0-9-]+\.html|assets/img/products/[A-Za-z0-9._-]+\.(jpg|jpeg|png|webp)|assets/video/products/[A-Za-z0-9._-]+\.(mp4|jpg))$#';
+
+/* Un video del panel pesa hasta 10 MB (el panel lo exige). Aca se pone un tope un poco mayor
+   como segunda barrera: que no entre nada gigante ni un archivo que no sea MP4. */
+const STIKE_GH_VIDEO_MAX_BYTES = 12 * 1024 * 1024;
 
 stike_run(function () {
   $session = stike_admin_require();
@@ -47,10 +51,18 @@ stike_run(function () {
     if ($method === "PUT") {
       if (!isset($in["content"]) || !is_string($in["content"])) throw new ApiError(400, "missing_content");
       $body["content"] = $in["content"];
+      if (preg_match('#\.mp4$#', $path)) {
+        $bytes = (int)(strlen($in["content"]) * 3 / 4);
+        if ($bytes > STIKE_GH_VIDEO_MAX_BYTES) throw new ApiError(413, "video_too_large", (string)$bytes);
+        $head = base64_decode(substr($in["content"], 0, 16), true);        // 12 bytes: tamaño de caja + "ftyp"
+        if ($head === false || substr($head, 4, 4) !== "ftyp") throw new ApiError(400, "not_an_mp4");
+      }
     }
   }
 
-  $res = stike_gh($method, $path, $body);
+  // Subir un video por la API de GitHub tarda bastante mas que una foto o un JSON.
+  if ($method === "PUT" && preg_match('#\.mp4$#', $path)) { @set_time_limit(170); }
+  $res = stike_gh($method, $path, $body, ($method === "PUT" && preg_match('#\.mp4$#', $path)) ? 150 : 15);
   http_response_code($res["status"] ?: 502);
   header("Cache-Control: no-store");
   echo $res["body"] !== "" ? $res["body"] : "{}";

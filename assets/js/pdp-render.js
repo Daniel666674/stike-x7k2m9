@@ -61,13 +61,28 @@
     return `<span id="pdp-price">${money(p.price)}</span> ${oldPrice}${discount}`;
   }
 
+  /* Videos del producto (p.videos, los sube el panel). En la ficha NO hay <video>: solo una imagen liviana
+     (el poster) con un boton de reproducir. El MP4 se pide recien cuando el cliente lo toca (pdp.js abre el
+     reproductor), asi un video nunca cuenta en el peso inicial de la pagina. Los botones llevan
+     data-video-* y NO data-thumb, para que la galeria de fotos (flechas, lightbox) los ignore. */
+  function productVideos(p) { return (p.videos || []).filter(function (v) { return v && v.src; }); }
+  function videoAttrs(p, v, cover) {
+    return `data-video-src="${esc(v.src)}" data-video-poster="${esc(v.poster || "")}" data-video-w="${esc(v.w || 0)}" data-video-h="${esc(v.h || 0)}" data-video-label="${esc(p.n)}"`;
+  }
+
   function renderGallery(p, coverUrl) {
     var imgs = (p.imgs && p.imgs.length) ? p.imgs : [coverUrl];
-    var main = `<div class="main"><img id="main-img" src="${esc(imgs[0])}" alt="${esc(nameBrand(p))}: foto principal" width="900" height="900" fetchpriority="high" decoding="async"></div>`;
+    var vids = productVideos(p);
+    var play = '<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 001.5.86l10.5-6.5a1 1 0 000-1.72L9.5 4.64A1 1 0 008 5.5z"/></svg>';
+    var pill = vids.length ? `<button type="button" class="pdp-videobtn" ${videoAttrs(p, vids[0])}>${play}<span>Ver video</span></button>` : "";
+    var main = `<div class="main"><img id="main-img" src="${esc(imgs[0])}" alt="${esc(nameBrand(p))}: foto principal" width="900" height="900" fetchpriority="high" decoding="async">${pill}</div>`;
     var thumbs = imgs.map((src, i) =>
       `<button class="${i === 0 ? "active" : ""}" data-thumb data-src="${esc(src)}" aria-label="Vista ${i + 1}"><img src="${esc(src)}" alt="${esc(p.n)}: vista ${i + 1}" width="86" height="86" loading="lazy" decoding="async"></button>`
     ).join("");
-    return `<div class="pdp-gallery">${main}<div class="pdp-thumbs">${thumbs}</div></div>`;
+    var vthumbs = vids.map((v, i) =>
+      `<button type="button" class="vid-thumb" ${videoAttrs(p, v)} aria-label="Ver video ${vids.length > 1 ? (i + 1) + " " : ""}de ${esc(p.n)}"><img src="${esc(v.poster || imgs[0])}" alt="" width="86" height="86" loading="lazy" decoding="async"><span class="vid-badge">${play}</span></button>`
+    ).join("");
+    return `<div class="pdp-gallery">${main}<div class="pdp-thumbs">${thumbs}${vthumbs}</div></div>`;
   }
 
   function renderSizeBlock(p) {
@@ -156,6 +171,11 @@
   function pageTitle(p, site, categoryName) {
     var a = p.n + " | " + (p.sub || categoryName) + " BMX | " + site.name;
     return a.length <= 68 ? a : cut(p.n + " | " + site.name, 68);
+  }
+  /* 12.4 s -> PT12S (VideoObject.duration) */
+  function isoDuration(sec) {
+    var t = Math.max(1, Math.round(sec || 0)), m = Math.floor(t / 60), r = t % 60;
+    return "PT" + (m ? m + "M" : "") + (r || !m ? r + "S" : "");
   }
   function absoluteUrl(site, u) { return u && u.indexOf("http") === 0 ? u : site.url(u); }
 
@@ -253,7 +273,19 @@
       "@type": "BreadcrumbList",
       "itemListElement": crumbs.map(function (c, i) { return { "@type": "ListItem", "position": i + 1, "name": c[0], "item": c[1] }; })
     };
-    return JSON.stringify({ "@context": "https://schema.org", "@graph": [node, breadcrumb] }).replace(/</g, "\\u003c");
+    /* Cada video, como VideoObject propio que apunta al producto: Google puede mostrarlo como resultado de video. */
+    var videoNodes = productVideos(p).filter(function (v) { return v.ts; }).map(function (v, i) {
+      var n = {
+        "@type": "VideoObject", "@id": canonical + "#video-" + (i + 1),
+        "name": p.n + (productVideos(p).length > 1 ? " (video " + (i + 1) + ")" : " (video)"),
+        "description": desc, "thumbnailUrl": [absoluteUrl(site, v.poster || (p.imgs && p.imgs[0]) || ogImage)],
+        "uploadDate": v.ts, "contentUrl": absoluteUrl(site, v.src), "about": { "@id": canonical + "#product" }
+      };
+      if (v.dur) n.duration = isoDuration(v.dur);
+      if (v.w && v.h) { n.width = v.w; n.height = v.h; }
+      return n;
+    });
+    return JSON.stringify({ "@context": "https://schema.org", "@graph": [node, breadcrumb].concat(videoNodes) }).replace(/</g, "\\u003c");
   }
 
   /* Etiquetas <meta> extra de la ficha: robots, idioma, Open Graph de producto. */

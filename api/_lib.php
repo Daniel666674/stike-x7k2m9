@@ -109,13 +109,13 @@ function stike_valid_wompi_id($v) {
 }
 
 /* ------------------------------ HTTP saliente ----------------------------- */
-function stike_http($method, $url, $headers = [], $body = null) {
+function stike_http($method, $url, $headers = [], $body = null, $timeout = 15) {
   $ch = curl_init($url);
   $opts = [
     CURLOPT_CUSTOMREQUEST => $method,
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_HTTPHEADER => $headers,
-    CURLOPT_TIMEOUT => 15,
+    CURLOPT_TIMEOUT => $timeout,
   ];
   if ($body !== null) $opts[CURLOPT_POSTFIELDS] = $body;
   curl_setopt_array($ch, $opts);
@@ -284,7 +284,7 @@ function stike_clean_email($v) {
 const STIKE_GH_REPO = "Daniel666674/stike-x7k2m9";
 const STIKE_GH_BRANCH = "claude/sweet-albattani-ti0w0e";
 
-function stike_gh($method, $path, $body = null) {
+function stike_gh($method, $path, $body = null, $timeout = 15) {
   $token = stike_config("GITHUB_TOKEN");
   if (!$token) throw new ApiError(500, "github_not_configured");
   $base = getenv("STIKE_GITHUB_API") ?: "https://api.github.com";   // solo pruebas; un visitante no controla el entorno
@@ -292,7 +292,7 @@ function stike_gh($method, $path, $body = null) {
   $res = stike_http($method, $url, [
     "Authorization: Bearer " . $token, "Accept: application/vnd.github+json",
     "User-Agent: stike-server", "Content-Type: application/json",
-  ], $body === null ? null : json_encode($body, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+  ], $body === null ? null : json_encode($body, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES), $timeout);
   return $res;
 }
 function stike_gh_get_text($path) {
