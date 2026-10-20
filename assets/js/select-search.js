@@ -76,6 +76,9 @@
     return out + esc(text.slice(pos));
   }
 
+  /* Utilidades de texto que reutiliza la busqueda global del panel (admin.js). */
+  window.stikeSearchUtil = { fold: fold, highlight: highlight, esc: esc };
+
   /* ---- ventana unica, compartida por todos los desplegables ---- */
   var pop, qInput, listEl, countEl, clearBtn;
   var curSel = null, all = [], view = [], active = -1, uid = 0;

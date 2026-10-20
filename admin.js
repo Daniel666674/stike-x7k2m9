@@ -1068,6 +1068,7 @@ function blankProduct() {
     imgFit: "auto", imgZoom: 100, imgPos: "center center", published: true, units: 0, sizes: null, colors: null };
 }
 let editorDraft = null;
+let editorBaseline = "";
 let editorIsNew = false;
 let editorSlugManual = false;
 let editorSkuManual = false;
@@ -1081,6 +1082,7 @@ function openEditor(slug) {
   editorSlugManual = !editorIsNew;
   editorSkuManual = !editorIsNew;
   renderEditor();
+  editorBaseline = JSON.stringify(editorDraft);     // para saber luego si hay cambios sin guardar
   $("#editor-overlay").classList.add("open");
 }
 function closeEditor() { $("#editor-overlay").classList.remove("open"); editorDraft = null; editorOriginalSlug = null; }
@@ -1541,7 +1543,11 @@ function deleteFromEditor() {
 function populateSaleProductSelect() {
   const sel = $("#sale-product");
   const prev = sel.value;
-  sel.innerHTML = workingCatalog.filter(p => p.published !== false).map(p => `<option value="${p.slug}">${p.n} (${p.sku})</option>`).join("");
+  /* Sin producto elegido de entrada: antes quedaba el primero de la lista y una venta
+     "al apuro" se registraba sobre un producto que nadie busco. El buscador de arriba
+     (y Ctrl+K) es la forma rapida de elegirlo. */
+  sel.innerHTML = `<option value="">— Elige un producto (usa el buscador de arriba) —</option>` +
+    workingCatalog.filter(p => p.published !== false).map(p => `<option value="${p.slug}">${p.n} (${p.sku})</option>`).join("");
   if (prev && workingCatalog.some(p => p.slug === prev)) sel.value = prev;
   onSaleProductChange();
 }
@@ -1554,6 +1560,7 @@ function onSaleProductChange() {
   if (p && p.colors) $("#sale-color").innerHTML = p.colors.map(c => `<option value="${escAttr(c.v)}" ${c.u <= 0 ? "disabled" : ""}>${c.v} (${c.u} disp.)</option>`).join("");
   if (p) $("#sale-price").value = stikePriceFor(p, p.sizes && p.sizes[0] ? $("#sale-size").value : null, p.colors && p.colors[0] ? $("#sale-color").value : null);
   else $("#sale-price").value = "";
+  renderSalePicked(p);
   updateSaleStockHint();
 }
 function updateSaleStockHint() {
@@ -1742,6 +1749,7 @@ async function registrarVenta() {
     customer, invWin,
   });
   if (!ok && invWin) invWin.close();
+  if (ok) resetSaleForm();
 }
 
 /* ===================== Entrada 2: venta rapida desde la tarjeta ==============
@@ -1903,15 +1911,54 @@ function renderSalesTab() {
       <text x="${(x + bw / 2).toFixed(1)}" y="${H - 9}" text-anchor="middle" font-size="11" fill="#93979f">${m.label}</text>`;
   }).join("") + `<line x1="${padX}" y1="${H - padB}" x2="${W - padX}" y2="${H - padB}" stroke="#33373f"/>`;
 
-  const rows = salesLog.slice().reverse();
-  $("#sales-count").textContent = rows.length
-    ? `${rows.length} venta${rows.length === 1 ? "" : "s"} registrada${rows.length === 1 ? "" : "s"}${rows.length > 200 ? " — mostrando las 200 más recientes" : ""}`
-    : "";
+  renderSalesHistory();
+}
+
+/* Historial de ventas con buscador: producto, SKU, marca, talla/color, vendedor, factura, pago, cliente
+   (las online), origen (tienda / online) y fecha ("octubre", "19/10", "hoy"). Se combina con el
+   periodo (Todas / Hoy / 7 / 30 dias). Se vuelve a dibujar solo cuando entra una venta nueva. */
+let salesRange = "all";
+const saleHayCache = new WeakMap();
+function saleHaystack(s) {
+  let h = saleHayCache.get(s);
+  if (h) return h;
+  const prod = workingCatalog.find(p => p.slug === s.slug);
+  const d = new Date(s.ts), okDate = !isNaN(d);
+  const parts = [
+    s.name, s.slug, prod && prod.sku, prod && prod.brand, s.size, s.color, s.admin,
+    s.invoice && ("factura " + s.invoice), s.payment, s.orderRef, s.customerEmail,
+    s.source === "wompi" ? "online wompi pagina web" : "tienda mostrador",
+    s.shipping && [s.shipping.name, s.shipping.city, s.shipping.phone].join(" "),
+    okDate && [d.toLocaleString("es-CO"), d.toISOString().slice(0, 10), d.toLocaleDateString("es-CO", { day: "numeric", month: "long", year: "numeric" }), d.toLocaleDateString("es-CO", { weekday: "long" })].join(" "),
+  ];
+  h = searchFold(parts.filter(Boolean).join(" "));
+  saleHayCache.set(s, h);
+  return h;
+}
+function salesMatching(q, range) {
+  const words = searchWords(q);
+  const start = range === "today" ? new Date(new Date().setHours(0, 0, 0, 0)).getTime()
+    : range === "7" ? Date.now() - 7 * 864e5 : range === "30" ? Date.now() - 30 * 864e5 : 0;
+  return salesLog.slice().reverse().filter(s => (!start || new Date(s.ts).getTime() >= start) && words.every(w => saleHaystack(s).includes(w)));
+}
+function renderSalesHistory() {
+  const qEl = $("#sales-q"); if (!qEl) return;
+  const q = qEl.value, words = searchWords(q), U = window.stikeSearchUtil;
+  const hl = t => U && words.length ? U.highlight(String(t), U.fold(String(t)), words) : escHtml(t);
+  const all = salesLog.length;
+  const rows = salesMatching(q, salesRange);
+  const filtering = words.length > 0 || salesRange !== "all";
+  $("#sales-count").textContent = !all ? ""
+    : filtering ? `${rows.length} de ${all} venta${all === 1 ? "" : "s"}${rows.length > 200 ? " — mostrando las 200 más recientes" : ""}`
+    : `${all} venta${all === 1 ? "" : "s"} registrada${all === 1 ? "" : "s"}${all > 200 ? " — mostrando las 200 más recientes" : ""}`;
+  const units = rows.reduce((a, s) => a + (Number(s.qty) || 0), 0), total = rows.reduce((a, s) => a + (Number(s.total) || 0), 0);
+  $("#sales-summary").textContent = filtering && rows.length
+    ? `${rows.length} venta${rows.length === 1 ? "" : "s"} · ${units} unidad${units === 1 ? "" : "es"}${seesFinance() ? " · " + money(total) : ""}` : "";
   $("#sales-tbody").innerHTML = rows.slice(0, 200).map((s, i) => `
     <tr data-sale-idx="${i}" style="cursor:pointer" title="Ver detalle">
-      <td>${new Date(s.ts).toLocaleString("es-CO")}</td><td>${escHtml(s.name || s.slug)}</td>
-      <td>${escHtml([s.size, s.color].filter(Boolean).join(" / ")) || "—"}</td><td>${s.qty}</td><td>${money(s.total)}</td><td>${escHtml(s.admin || "")}</td></tr>`).join("")
-    || `<tr><td colspan="6" class="muted" style="padding:16px;text-align:center">Sin ventas registradas.</td></tr>`;
+      <td>${new Date(s.ts).toLocaleString("es-CO")}</td><td>${hl(s.name || s.slug)}</td>
+      <td>${hl([s.size, s.color].filter(Boolean).join(" / ")) || "—"}</td><td>${s.qty}</td><td>${money(s.total)}</td><td>${hl(s.admin || "")}</td></tr>`).join("")
+    || `<tr><td colspan="6" class="muted" style="padding:16px;text-align:center">${all ? `No hay ventas que coincidan${words.length ? ` con «${escHtml(q.trim())}»` : ""}.` : "Sin ventas registradas."}</td></tr>`;
   $("#sales-tbody").querySelectorAll("tr[data-sale-idx]").forEach(tr => {
     tr.addEventListener("click", () => openSaleDetail(rows[Number(tr.getAttribute("data-sale-idx"))]));
   });
@@ -2516,6 +2563,284 @@ function resetSearchFilter(rerender) {
 // bfcache / boton atras: el navegador reinyecta el valor viejo despues de load.
 window.addEventListener("pageshow", () => resetSearchFilter(true));
 
+
+/* ============================ BUSQUEDA GLOBAL (Ctrl+K) ========================
+   Una sola barra para todo el panel: productos (nombre, marca, SKU, color,
+   talla), secciones y acciones. Se abre con Ctrl+K (⌘K en Mac), con "/" fuera
+   de un campo, o con la barra de arriba. Cada producto trae sus dos acciones:
+   Editar y Vender. En la pestaña Ventas el Enter elige el producto para el
+   formulario de venta. El mismo motor alimenta el buscador de esa pestaña. */
+const searchFold = s => String(s == null ? "" : s).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+const searchWords = q => searchFold(q).trim().split(/\s+/).filter(Boolean);
+
+function searchProducts(q, limit) {
+  const words = searchWords(q);
+  if (!words.length) return [];
+  const out = [];
+  for (const p of workingCatalog) {
+    const cat = (STIKE_CATEGORIES.find(c => c.slug === p.cat) || {}).name || "";
+    const hay = searchFold([p.n, p.brand, p.sku, p.sub, cat, p.slug].concat((p.colors || []).map(c => c.v), (p.sizes || []).map(s => s.v)).join(" "));
+    if (!words.every(w => hay.includes(w))) continue;
+    const name = searchFold(p.n), sku = searchFold(p.sku), brand = searchFold(p.brand);
+    let score = 0;
+    words.forEach(w => {
+      if (sku === w) score += 100; else if (sku.startsWith(w)) score += 40;
+      if (name.startsWith(w)) score += 30; else if (name.split(/\s+/).some(t => t.startsWith(w))) score += 15; else if (name.includes(w)) score += 6;
+      if (brand.startsWith(w)) score += 8;
+    });
+    if (p.published === false) score -= 3;
+    out.push({ p, score });
+  }
+  out.sort((a, b) => b.score - a.score || String(a.p.n).localeCompare(String(b.p.n), "es"));
+  return out.slice(0, limit || 40).map(x => x.p);
+}
+
+/* Fila de producto: la misma en la busqueda global y en la de Ventas. mode: "cmdk" (botones
+   Editar/Vender) | "sale" (un solo gesto: elegir). */
+function searchRowHtml(p, words, i, mode, activeIdx) {
+  const U = window.stikeSearchUtil;
+  const hl = t => U && words.length ? U.highlight(String(t), U.fold(String(t)), words) : escHtml(t);
+  const img = (p.imgs && p.imgs[0]) ? previewSrcFor(p.imgs[0]) : stikeProductImage(p, 80);
+  const total = stikeTotalStock(p), out = stikeIsOut(p);
+  const chip = out ? `<span class="sr-chip out">Agotado</span>`
+    : typeof total === "number" && total <= 3 ? `<span class="sr-chip low">Quedan ${total}</span>`
+    : typeof total === "number" ? `<span class="sr-chip ok">${total} en stock</span>` : "";
+  const draft = p.published === false;
+  const blocked = mode === "sale" && (draft || out);
+  const why = mode === "sale" && draft ? "Borrador: no se puede vender" : out ? "Sin stock" : "";
+  return `<div class="sr-row${i === activeIdx ? " act" : ""}${blocked ? " dis" : ""}" role="option" data-slug="${escAttr(p.slug)}" data-i="${i}"${why ? ` title="${escAttr(why)}"` : ""}>
+      <span class="sr-thumb"><img src="${escAttr(img)}" alt="" loading="lazy"></span>
+      <span class="sr-main"><b>${hl(p.n)}</b><small>${escHtml(p.brand || "")} · ${escHtml(p.sub || p.cat || "")} · <span class="mono">${hl(p.sku || "")}</span>${draft ? " · Borrador" : ""}</small></span>
+      <span class="sr-side"><span class="sr-price">${escHtml(stikePriceLabel(p))}</span>${chip}</span>
+      ${mode === "cmdk" ? `<span class="sr-btns"><button type="button" class="btn ghost" data-act="edit">Editar</button><button type="button" class="btn cyan" data-act="sell" ${out ? "disabled title=\"Sin stock\"" : ""}>Vender</button></span>` : ""}
+    </div>`;
+}
+
+/* ---- ventana Ctrl+K ---- */
+let cmdkOpen = false, cmdkItems = [], cmdkActive = -1, cmdkReturnTo = null;
+const IS_MAC = /Mac|iPhone|iPad/.test(navigator.platform || "");
+const PANEL_NAV = [["productos", "Productos", "📦"], ["ventas", "Ventas", "🧾"], ["kpis", "KPIs", "📈"], ["auditoria", "Auditoría", "🕑"], ["contenido", "Contenido del sitio", "✏️"], ["config", "Configuración", "⚙️"]];
+function currentPanelName() { const a = $(".panel.active"); return a ? a.id.replace("panel-", "") : "productos"; }
+function cmdkSections() {
+  const nav = PANEL_NAV.filter(([n]) => seesFinance() || ["productos", "ventas"].includes(n)).map(([n, label, ico]) => ({ type: "nav", name: n, label, ico, hint: n === currentPanelName() ? "estás aquí" : "ir" }));
+  const usable = id => { const b = $(id); return b && b.offsetParent !== null && !b.disabled; };
+  const actions = [
+    { type: "action", key: "sale", label: "Registrar una venta", ico: "➕", hint: "Ventas", run: () => { switchPanel("ventas"); setTimeout(() => $("#sale-q") && $("#sale-q").focus(), 60); } },
+    usable("#btn-new-product") && { type: "action", key: "new", label: "Nuevo producto", ico: "✨", hint: "", run: () => $("#btn-new-product").click() },
+    usable("#btn-publish") && { type: "action", key: "publish", label: "Publicar cambios", ico: "🚀", hint: "", run: () => $("#btn-publish").click() },
+    usable("#btn-refresh") && { type: "action", key: "refresh", label: "Recargar de GitHub", ico: "↻", hint: "", run: () => $("#btn-refresh").click() },
+  ].filter(Boolean);
+  return { nav, actions };
+}
+function openCmdk(prefill) {
+  if (cmdkOpen) { $("#cmdk-q").focus(); return; }
+  cmdkReturnTo = document.activeElement;
+  cmdkOpen = true;
+  $("#cmdk").classList.add("open");
+  const q = $("#cmdk-q"); q.value = prefill || "";
+  renderCmdk();
+  q.focus();
+  if (prefill) q.setSelectionRange(q.value.length, q.value.length);
+}
+function closeCmdk(restore) {
+  if (!cmdkOpen) return;
+  cmdkOpen = false;
+  $("#cmdk").classList.remove("open");
+  if (restore !== false && cmdkReturnTo && document.body.contains(cmdkReturnTo)) { try { cmdkReturnTo.focus(); } catch (e) {} }
+  cmdkReturnTo = null;
+}
+function cmdkDefaultAction() { return currentPanelName() === "ventas" ? "pick" : "edit"; }
+function renderCmdk() {
+  const q = $("#cmdk-q").value, words = searchWords(q), list = $("#cmdk-list");
+  const { nav, actions } = cmdkSections();
+  cmdkItems = [];
+  let html = "";
+  const addNav = (items, title) => {
+    if (!items.length) return;
+    if (title) html += `<div class="cmdk-sec">${title}</div>`;
+    items.forEach(it => { cmdkItems.push(it); html += `<div class="sr-nav" role="option" data-i="${cmdkItems.length - 1}"><span class="ico">${it.ico}</span><span>${escHtml(it.label)}</span><small>${escHtml(it.hint || "")}</small></div>`; });
+  };
+  if (!words.length) {
+    addNav(actions, "Acciones");
+    addNav(nav, "Ir a");
+    html += `<div class="sr-empty">Escribe para buscar entre <b>${workingCatalog.length}</b> productos por nombre, marca, color, talla o SKU.</div>`;
+  } else {
+    const found = searchProducts(q, 40);
+    if (found.length) {
+      html += `<div class="cmdk-sec">Productos · ${found.length}${found.length >= 40 ? "+" : ""}</div>`;
+      found.forEach(p => { cmdkItems.push({ type: "product", p }); html += searchRowHtml(p, words, cmdkItems.length - 1, "cmdk", -1); });
+    }
+    /* ventas ya hechas que coinciden (las 6 mas recientes) */
+    const sold = salesMatching(q, "all");
+    if (sold.length) {
+      html += `<div class="cmdk-sec">Ventas hechas · ${sold.length}</div>`;
+      sold.slice(0, 6).forEach(s => {
+        cmdkItems.push({ type: "sale", s });
+        const v = [s.size, s.color].filter(Boolean).join(" / ");
+        html += `<div class="sr-row sr-sale" role="option" data-i="${cmdkItems.length - 1}"><span class="sr-thumb">🧾</span>
+          <span class="sr-main"><b>${escHtml(s.name || s.slug)}${v ? " · " + escHtml(v) : ""}</b><small>${escHtml(new Date(s.ts).toLocaleString("es-CO"))}${s.admin ? " · " + escHtml(s.admin) : ""}${s.source === "wompi" ? " · online" : ""}</small></span>
+          <span class="sr-side"><span class="sr-price">${s.qty} × ${money(s.unitPrice)}</span><span class="sr-chip">${money(s.total)}</span></span></div>`;
+      });
+      if (sold.length > 6) { cmdkItems.push({ type: "sales-all", q }); html += `<div class="sr-nav" role="option" data-i="${cmdkItems.length - 1}"><span class="ico">🧾</span><span>Ver las ${sold.length} ventas en la pestaña Ventas</span><small>ir</small></div>`; }
+    }
+    const match = it => words.every(w => searchFold(it.label).includes(w));
+    addNav(nav.filter(match).concat(actions.filter(match)), found.length || sold.length ? "Secciones y acciones" : "");
+    if (!cmdkItems.length) html = `<div class="sr-empty">No encontré «${escHtml(q.trim())}». Prueba con otra palabra, la marca o el SKU.</div>`;
+  }
+  list.innerHTML = html;
+  setCmdkActive(cmdkItems.findIndex(it => it.type === "product") > -1 && words.length ? cmdkItems.findIndex(it => it.type === "product") : (cmdkItems.length ? 0 : -1), false);
+  const mod = IS_MAC ? "⌘" : "Ctrl";
+  const def = cmdkDefaultAction();
+  $("#cmdk-foot").innerHTML = `<span><kbd class="k">↑</kbd> <kbd class="k">↓</kbd> moverse</span><span><kbd class="k">Enter</kbd> ${def === "pick" ? "elegir para la venta" : "editar"}</span><span><kbd class="k">${mod}</kbd>+<kbd class="k">Enter</kbd> vender</span><span><kbd class="k">Esc</kbd> cerrar</span>`;
+}
+function setCmdkActive(i, scroll) {
+  cmdkActive = i;
+  $$("#cmdk-list [data-i]").forEach(el => el.classList.toggle("act", +el.getAttribute("data-i") === i));
+  const el = $(`#cmdk-list [data-i="${i}"]`);
+  if (el && scroll !== false) el.scrollIntoView({ block: "nearest" });
+  const q = $("#cmdk-q"); if (el && el.id) q.setAttribute("aria-activedescendant", el.id); else q.removeAttribute("aria-activedescendant");
+}
+function cmdkMove(dir) {
+  if (!cmdkItems.length) return;
+  setCmdkActive((cmdkActive + dir + cmdkItems.length) % cmdkItems.length);
+}
+/* Cambiar de producto en el editor descartaria lo que se esta escribiendo: se pregunta. */
+function editorHasUnsavedChanges() {
+  return !!editorDraft && JSON.stringify(editorDraft) !== editorBaseline;
+}
+function cmdkRun(item, act) {
+  if (!item) return;
+  if (item.type === "nav") { closeCmdk(false); switchPanel(item.name); return; }
+  if (item.type === "sale") { closeCmdk(false); openSaleDetail(item.s); return; }
+  if (item.type === "sales-all") { closeCmdk(false); switchPanel("ventas"); $("#sales-q").value = item.q; renderSalesHistory(); setTimeout(() => { const el = $("#sales-q"); if (el) el.scrollIntoView({ block: "center" }); }, 60); return; }
+  if (item.type === "action") { closeCmdk(false); item.run(); return; }
+  const p = item.p; if (!p) return;
+  const action = act || cmdkDefaultAction();
+  if (action === "sell") {
+    if (stikeIsOut(p)) { showStatus([{ text: `«${p.n}» no tiene stock para vender.`, cls: "bad" }]); return; }
+    closeCmdk(false); openQuickSale(p.slug); return;
+  }
+  if (action === "pick") {
+    if (p.published === false || stikeIsOut(p)) { showStatus([{ text: p.published === false ? `«${p.n}» es un borrador: no se puede vender.` : `«${p.n}» no tiene stock para vender.`, cls: "bad" }]); return; }
+    closeCmdk(false); selectSaleProduct(p.slug); return;
+  }
+  if (editorDraft && editorOriginalSlug !== p.slug && editorHasUnsavedChanges() && !window.confirm("Tienes un producto abierto con cambios sin guardar. ¿Cambiar de producto y descartarlos?")) return;
+  closeCmdk(false); openEditor(p.slug);
+}
+
+/* ---- buscador de la pestaña Ventas ---- */
+let saleItems = [], saleActive = -1;
+function renderSaleResults() {
+  const input = $("#sale-q"), box = $("#sale-results"), q = input.value, words = searchWords(q);
+  if (!words.length) { saleItems = []; saleActive = -1; box.hidden = true; box.innerHTML = ""; input.setAttribute("aria-expanded", "false"); return; }
+  saleItems = searchProducts(q, 30);
+  const firstOk = saleItems.findIndex(p => p.published !== false && !stikeIsOut(p));
+  saleActive = firstOk > -1 ? firstOk : (saleItems.length ? 0 : -1);
+  box.innerHTML = saleItems.length
+    ? saleItems.map((p, i) => searchRowHtml(p, words, i, "sale", saleActive)).join("")
+    : `<div class="sr-empty">No encontré «${escHtml(q.trim())}». Prueba con otra palabra, el color o el SKU.</div>`;
+  box.hidden = false;
+  input.setAttribute("aria-expanded", "true");
+}
+function setSaleActive(i) {
+  saleActive = i;
+  $$("#sale-results [data-i]").forEach(el => el.classList.toggle("act", +el.getAttribute("data-i") === i));
+  const el = $(`#sale-results [data-i="${i}"]`); if (el) el.scrollIntoView({ block: "nearest" });
+}
+function pickSaleResult(i) {
+  const p = saleItems[i]; if (!p) return;
+  if (p.published === false || stikeIsOut(p)) { showStatus([{ text: p.published === false ? `«${p.n}» es un borrador: no se puede vender.` : `«${p.n}» no tiene stock para vender.`, cls: "bad" }]); return; }
+  selectSaleProduct(p.slug);
+}
+function selectSaleProduct(slug) {
+  const p = workingCatalog.find(x => x.slug === slug); if (!p) return;
+  if (currentPanelName() !== "ventas") switchPanel("ventas");
+  const sel = $("#sale-product");
+  if (![...sel.options].some(o => o.value === slug)) populateSaleProductSelect();
+  sel.value = slug;
+  onSaleProductChange();
+  $("#sale-q").value = ""; renderSaleResults();
+  /* el cursor pasa solo a lo siguiente que hay que decidir: talla, color o cantidad */
+  const next = p.sizes && p.sizes.length ? $("#sale-size") : p.colors && p.colors.length ? $("#sale-color") : $("#sale-qty");
+  setTimeout(() => { next.focus(); if (next.select) next.select(); }, 30);
+}
+function renderSalePicked(p) {
+  const box = $("#sale-picked"); if (!box) return;
+  if (!p) { box.className = "sale-picked"; box.innerHTML = `Busca arriba el producto y elígelo: aquí vas a ver su foto, precio y stock antes de registrar la venta.`; return; }
+  const img = (p.imgs && p.imgs[0]) ? previewSrcFor(p.imgs[0]) : stikeProductImage(p, 120);
+  const total = stikeTotalStock(p);
+  box.className = "sale-picked has";
+  box.innerHTML = `<span class="sr-thumb"><img src="${escAttr(img)}" alt=""></span>
+    <span class="sr-main"><b style="white-space:normal">${escHtml(p.n)}</b><small>${escHtml(p.brand || "")} · <span class="mono">${escHtml(p.sku || "")}</span> · ${escHtml(stikePriceLabel(p))}${typeof total === "number" ? ` · ${total} en stock` : ""}</small></span>
+    <button type="button" class="btn ghost sm" id="sale-picked-clear">Cambiar</button>`;
+  $("#sale-picked-clear").addEventListener("click", () => { resetSaleForm(); });
+}
+/* Deja el formulario listo para la siguiente venta: sin producto, cantidad 1 y el cursor en el buscador. */
+function resetSaleForm() {
+  const sel = $("#sale-product"); if (sel) sel.value = "";
+  onSaleProductChange();
+  $("#sale-qty").value = 1;
+  const q = $("#sale-q"); if (q) { q.value = ""; renderSaleResults(); q.focus(); }
+}
+
+function wireSearch() {
+  $("#cmdk-open").addEventListener("click", () => openCmdk());
+  const kbd = $("#cmdk-kbd"); if (kbd) kbd.textContent = IS_MAC ? "⌘ K" : "Ctrl K";
+  /* Ctrl+K / ⌘K desde cualquier parte (incluso dentro de un campo o del editor); "/" solo fuera de campos. */
+  document.addEventListener("keydown", e => {
+    if ((e.ctrlKey || e.metaKey) && !e.shiftKey && !e.altKey && (e.key === "k" || e.key === "K")) {
+      e.preventDefault(); e.stopPropagation();
+      if (cmdkOpen) closeCmdk(); else openCmdk();
+      return;
+    }
+    if (e.key === "/" && !e.ctrlKey && !e.metaKey && !e.altKey && !cmdkOpen) {
+      const t = e.target, tag = t && t.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || (t && t.isContentEditable)) return;
+      e.preventDefault(); openCmdk();
+    }
+  }, true);
+  const q = $("#cmdk-q");
+  q.addEventListener("input", renderCmdk);
+  q.addEventListener("keydown", e => {
+    if (e.key === "ArrowDown") { e.preventDefault(); cmdkMove(1); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); cmdkMove(-1); }
+    else if (e.key === "Enter") { e.preventDefault(); cmdkRun(cmdkItems[cmdkActive], (e.ctrlKey || e.metaKey) ? "sell" : null); }
+    else if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); closeCmdk(); }
+    else if (e.key === "Tab") { e.preventDefault(); cmdkMove(e.shiftKey ? -1 : 1); }
+  });
+  $("#cmdk").addEventListener("mousedown", e => { if (e.target.id === "cmdk") closeCmdk(); });
+  $("#cmdk-list").addEventListener("mousemove", e => { const el = e.target.closest("[data-i]"); if (el && +el.getAttribute("data-i") !== cmdkActive) setCmdkActive(+el.getAttribute("data-i"), false); });
+  $("#cmdk-list").addEventListener("mousedown", e => e.preventDefault());           // que la barra no pierda el foco
+  $("#cmdk-list").addEventListener("click", e => {
+    const el = e.target.closest("[data-i]"); if (!el) return;
+    const btn = e.target.closest("[data-act]");
+    cmdkRun(cmdkItems[+el.getAttribute("data-i")], btn ? btn.getAttribute("data-act") : null);
+  });
+
+  const sq = $("#sale-q");
+  sq.addEventListener("input", renderSaleResults);
+  sq.addEventListener("focus", () => { if (sq.value.trim()) renderSaleResults(); });
+  sq.addEventListener("keydown", e => {
+    if (e.key === "ArrowDown" && saleItems.length) { e.preventDefault(); setSaleActive((saleActive + 1) % saleItems.length); }
+    else if (e.key === "ArrowUp" && saleItems.length) { e.preventDefault(); setSaleActive((saleActive - 1 + saleItems.length) % saleItems.length); }
+    else if (e.key === "Enter") { e.preventDefault(); if (saleActive > -1) pickSaleResult(saleActive); }
+    else if (e.key === "Escape") { if (sq.value) { e.preventDefault(); e.stopPropagation(); sq.value = ""; renderSaleResults(); } }
+  });
+  $("#sale-results").addEventListener("mousedown", e => { e.preventDefault(); const el = e.target.closest("[data-i]"); if (el) pickSaleResult(+el.getAttribute("data-i")); });
+  $("#sale-results").addEventListener("mousemove", e => { const el = e.target.closest("[data-i]"); if (el && +el.getAttribute("data-i") !== saleActive) setSaleActive(+el.getAttribute("data-i")); });
+  document.addEventListener("mousedown", e => { if (!e.target.closest(".sale-search")) { const b = $("#sale-results"); if (b && !b.hidden) { b.hidden = true; } } });
+  renderSalePicked(null);
+
+  /* buscador del historial de ventas */
+  $("#sales-q").addEventListener("input", renderSalesHistory);
+  $("#sales-q").addEventListener("keydown", e => { if (e.key === "Escape" && e.target.value) { e.preventDefault(); e.stopPropagation(); e.target.value = ""; renderSalesHistory(); } });
+  $$("#sales-range [data-range]").forEach(b => b.addEventListener("click", () => {
+    salesRange = b.getAttribute("data-range");
+    $$("#sales-range [data-range]").forEach(x => x.classList.toggle("active", x === b));
+    renderSalesHistory();
+  }));
+}
+
 /* ============================== NAV / PANELES ================================ */
 function switchPanel(name) {
   if (!seesFinance() && !["productos", "ventas"].includes(name)) name = "productos";
@@ -2525,10 +2850,12 @@ function switchPanel(name) {
   $("#panel-title").textContent = titles[name] || name;
   if (name === "kpis") renderKpis();
   if (name === "auditoria") renderAudit();
+  if (name === "ventas") setTimeout(() => { const q = $("#sale-q"); if (q && !cmdkOpen) q.focus(); }, 30);
 }
 $$(".navbtn").forEach(b => b.addEventListener("click", () => switchPanel(b.getAttribute("data-panel"))));
 
 /* ============================== WIRING GENERAL ================================ */
+wireSearch();
 $("#btn-refresh").addEventListener("click", () => loadAll().catch(e => showStatus([{ text: "Error: " + e.message, cls: "bad" }])));
 $("#btn-publish").addEventListener("click", () => publishCatalog());
 $("#btn-notif").addEventListener("click", e => { e.stopPropagation(); toggleNotifPanel(); });
@@ -2594,6 +2921,7 @@ $("#sale-overlay").addEventListener("click", e => { if (e.target.id === "sale-ov
 $("#confirm-overlay").addEventListener("click", e => { if (e.target.id === "confirm-overlay") closeConfirmModal(); });
 document.addEventListener("keydown", e => {
   if (e.key !== "Escape") return;
+  if (cmdkOpen) { closeCmdk(); return; }
   // Antes solo la venta rapida cerraba con Escape; el editor de producto
   // -- la pantalla que mas se usa hoy, cargando inventario -- se quedaba
   // sin esa salida rapida.
