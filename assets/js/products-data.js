@@ -4847,11 +4847,13 @@ window.STIKE_PRODUCTS = [
       }
     ],
     "imgs": [
-      "assets/img/products/chaqueta-nike-beige-negro-1.jpg",
-      "assets/img/products/chaqueta-nike-beige-negro-2.jpg",
-      "assets/img/products/chaqueta-nike-beige-negro-3.jpg"
+      "assets/img/products/6a972223-2e06-4c75-b6f7-4be739d6a923.jpg",
+      "assets/img/products/ee1a2077-0f6e-482d-b071-03b2cd3a2c33.jpg",
+      "assets/img/products/e855d4be-3535-45eb-a501-db664c6330dc.jpg",
+      "assets/img/products/6233a90c-2077-4093-bcf8-012d474fe38b.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "chaqueta-vans-beige-negro",
