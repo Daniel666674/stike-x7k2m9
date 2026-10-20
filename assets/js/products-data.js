@@ -8296,5 +8296,43 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/73910509-19d3-4c12-bba5-122fa42e860d.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "chaqueta-inspirada-en-vans",
+    "sku": "ROP-VAN-009",
+    "n": "CHAQUETA INSPIRADA EN VANS",
+    "brand": "Vans",
+    "cat": "ropa",
+    "sub": "Busos y Chaquetas",
+    "spec": [
+      "CHAQUETA ROMPEVIENTO EN SUPER NYLON DE ALTA CALIDAD"
+    ],
+    "price": 120000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "M",
+        "u": 1
+      }
+    ],
+    "colors": [
+      {
+        "v": "Negro/Blanco",
+        "u": 1
+      }
+    ],
+    "combos": [
+      {
+        "s": "M",
+        "c": "Negro/Blanco",
+        "u": 1
+      }
+    ],
+    "imgs": [
+      "assets/img/products/b7581c9c-0963-49ba-8e59-028f9dabb391.jpg",
+      "assets/img/products/91227cef-b4b3-42f7-81b0-0a564b713917.jpg",
+      "assets/img/products/7900c8f8-a59d-4190-bafc-742fe2bfe6eb.jpg"
+    ],
+    "published": false
   }
 ];
