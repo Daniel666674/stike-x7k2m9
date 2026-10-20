@@ -27,7 +27,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css?v=0ce3018e9d">
+  <link rel="stylesheet" href="assets/css/styles.css?v=0537b292d4">
   <link rel="icon" href="assets/img/favicon.png">
 </head>
 <body>
@@ -158,8 +158,9 @@
        Para un video de YouTube en el recuadro grande ("feature"), usar
        FEATURE_YOUTUBE_ID en vez de feature: el ID es lo que va despues de
        /embed/ en el link para insertar (ej. de
-       "youtube.com/embed/LUhY9ixzp1w" el ID es "LUhY9ixzp1w"). Al tocar
-       play se inserta el iframe de YouTube recien ahi, no antes -- asi la
+       "youtube.com/embed/LUhY9ixzp1w" el ID es "LUhY9ixzp1w"). El iframe de
+       YouTube se inserta recien cuando la pagina termino de cargar (arranca
+       solo, mudo, ver autoStartFeature) o cuando se toca play -- asi la
        portada (la foto de siempre) sigue siendo lo que carga la pagina. */
     const STIKE_HOME_VIDEOS = {
       heroLeft:  "",
@@ -193,8 +194,15 @@
 
     /* Si la API de YouTube no llega (o el reproductor no avisa que esta listo en 6 s), se usa el iframe simple de
        youtube-nocookie.com, que no necesita ningun script. Y si ni eso carga, a los 7 s aparece un enlace para verlo
-       en YouTube: nunca queda una caja negra sin salida. */
-    function startFeatureYouTube(slot) {
+       en YouTube: nunca queda una caja negra sin salida.
+
+       opts.auto = arranque SOLO al cargar la pagina. Los navegadores (Chrome, Safari, Firefox) solo dejan arrancar un
+       video sin que nadie lo toque si va SIN SONIDO, asi que arranca mudo, en bucle, con un boton "Activar sonido".
+       Si el navegador igual lo frena, a los 6 s se vuelve a la portada con su boton de play (con sonido, al tocarlo). */
+    function startFeatureYouTube(slot, opts) {
+      if (slot.dataset.ytStarted === "1") return;
+      slot.dataset.ytStarted = "1";
+      const auto = !!(opts && opts.auto);
       const ID = FEATURE_YOUTUBE_ID, TITLE = "Video: Stike en la calle, Venecia, Bogotá";
       slot.classList.add("playing", "yt");
       const mount = document.createElement("div");
@@ -204,13 +212,19 @@
       link.className = "rd-yt-link"; link.hidden = true; link.target = "_blank"; link.rel = "noopener";
       link.href = "https://www.youtube.com/watch?v=" + ID; link.textContent = "¿No carga? Verlo en YouTube ↗";
       slot.appendChild(link);
-      let settled = false, apiReady = false;     // apiReady: el reproductor de la API avisó que está listo (señal fiable)
+      const sound = document.createElement("button");
+      sound.className = "rd-sound"; sound.type = "button"; sound.hidden = true;
+      sound.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg><span>Activar sonido</span>';
+      if (auto) slot.appendChild(sound);
+      let player = null, settled = false, apiReady = false, pausedByScroll = false;
+      const timers = [];
+      const later = (fn, ms) => { timers.push(setTimeout(fn, ms)); };
       const ready = () => { settled = true; apiReady = true; slot.classList.add("yt-ready"); link.hidden = true; };
       const plain = () => {
         if (settled) return;
         settled = true;
         const f = document.createElement("iframe");
-        f.src = "https://www.youtube-nocookie.com/embed/" + ID + "?autoplay=1&rel=0&playsinline=1&modestbranding=1";
+        f.src = "https://www.youtube-nocookie.com/embed/" + ID + "?autoplay=1&rel=0&playsinline=1&modestbranding=1" + (auto ? "&mute=1&loop=1&playlist=" + ID : "");
         f.title = TITLE; f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen"; f.allowFullscreen = true;
         /* "load" salta aunque el navegador haya bloqueado el iframe (muestra su pagina de error), asi que solo quita
            el indicador de carga; el enlace de salida se queda disponible. */
@@ -218,25 +232,77 @@
         const cur = slot.querySelector("#yt-feature-player");
         if (cur) cur.replaceWith(f); else slot.insertBefore(f, slot.firstChild);
       };
-      setTimeout(() => { if (!apiReady) link.hidden = false; }, 7000);
+      /* Vuelve a la portada con su boton de play, como si nada hubiera arrancado. */
+      const backToPoster = () => {
+        timers.forEach(clearTimeout);
+        try { if (player && player.destroy) player.destroy(); } catch (e) {}
+        player = null;
+        slot.querySelectorAll("#yt-feature-player, iframe, .rd-yt-link, .rd-sound").forEach(n => n.remove());
+        slot.classList.remove("playing", "yt", "yt-ready", "yt-playing");
+        delete slot.dataset.ytStarted;
+      };
+      sound.addEventListener("click", () => { if (player) { player.unMute(); player.setVolume(100); } sound.hidden = true; });
+      later(() => { if (!apiReady) link.hidden = false; }, 7000);
       loadYouTubeApi().then(YT => {
         const forceHd = e => e.target.setPlaybackQuality("hd1080");
+        const vars = { autoplay: 1, rel: 0, playsinline: 1, modestbranding: 1, vq: "hd1080" };
+        if (auto) Object.assign(vars, { mute: 1, loop: 1, playlist: ID });
         new YT.Player("yt-feature-player", {
-          videoId: ID, width: "100%", height: "100%",
-          playerVars: { autoplay: 1, rel: 0, playsinline: 1, modestbranding: 1, vq: "hd1080" },
+          videoId: ID, width: "100%", height: "100%", playerVars: vars,
           events: {
-            onReady: e => { if (settled) return; ready(); forceHd(e); e.target.playVideo(); },
-            onStateChange: e => { if (e.data === YT.PlayerState.PLAYING) forceHd(e); },
+            onReady: e => {
+              if (settled) return;
+              player = e.target; ready(); forceHd(e);
+              if (auto) e.target.mute();
+              e.target.playVideo();
+              if (auto) later(() => { if (!slot.classList.contains("yt-playing")) backToPoster(); }, 6000);   // el navegador no lo dejo arrancar
+            },
+            onStateChange: e => {
+              if (e.data !== YT.PlayerState.PLAYING) return;
+              forceHd(e);
+              slot.classList.add("yt-playing");
+              sound.hidden = !(auto && e.target.isMuted && e.target.isMuted());
+            },
           },
         });
-        setTimeout(() => { if (!settled) plain(); }, 6000);
+        later(() => { if (!settled) plain(); }, 6000);
       }).catch(plain);
+      /* Arranco mudo en segundo plano: si el video sale de la pantalla se pausa, y al volver sigue. Con sonido activado
+         (o si lo puso la persona) no se toca. */
+      if (auto && "IntersectionObserver" in window) {
+        new IntersectionObserver(([en]) => {
+          if (!player || !player.getPlayerState || !player.isMuted) return;
+          if (en.intersectionRatio < 0.25) { if (player.isMuted() && player.getPlayerState() === 1) { player.pauseVideo(); pausedByScroll = true; } }
+          else if (pausedByScroll) { pausedByScroll = false; player.playVideo(); }
+        }, { threshold: [0, 0.25, 0.5] }).observe(slot);
+      }
+    }
+
+    /* Arranque automatico al cargar la pagina. Para no frenar la pagina ni gastar datos de mas, espera a que termine
+       de cargar y haya un momento libre, y NO arranca si la persona pidio menos movimiento, activo el ahorro de datos
+       o la conexion es lenta (2G/3G): en esos casos queda la portada con su boton de play. Tampoco arranca en una
+       pestana en segundo plano ni si el video no esta a la vista. */
+    function autoStartFeature(slot) {
+      const c = navigator.connection || {};
+      const calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (calm || c.saveData || /^(slow-2g|2g|3g)$/.test(c.effectiveType || "")) return;
+      const begin = () => {
+        if (slot.dataset.ytStarted === "1") return;             // ya lo toco alguien
+        if (document.hidden) { document.addEventListener("visibilitychange", begin, { once: true }); return; }
+        if (!("IntersectionObserver" in window)) { startFeatureYouTube(slot, { auto: true }); return; }
+        const io = new IntersectionObserver(([en]) => { if (en.intersectionRatio >= 0.4) { io.disconnect(); startFeatureYouTube(slot, { auto: true }); } }, { threshold: [0.4] });
+        io.observe(slot);
+      };
+      const idle = cb => (window.requestIdleCallback ? window.requestIdleCallback(cb, { timeout: 2500 }) : setTimeout(cb, 600));
+      const go = () => idle(begin);
+      if (document.readyState === "complete") go(); else window.addEventListener("load", go, { once: true });
     }
 
     document.querySelectorAll("[data-video]").forEach(slot => {
       if (slot.dataset.video === "feature" && FEATURE_YOUTUBE_ID) {
         const play = slot.querySelector(".rd-play");
-        if (play) play.addEventListener("click", () => startFeatureYouTube(slot), { once: true });
+        if (play) play.addEventListener("click", () => startFeatureYouTube(slot));
+        autoStartFeature(slot);
         return;
       }
       const src = STIKE_HOME_VIDEOS[slot.dataset.video];

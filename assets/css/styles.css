@@ -2176,6 +2176,12 @@ body:not(.fate-page) h1 .o1 { color: var(--mint); }
 @keyframes rd-yt-spin { to { transform: rotate(360deg); } }
 .rd-feature .rd-yt-link { position: absolute; right: 10px; top: 10px; z-index: 3; max-width: calc(100% - 20px); padding: 8px 12px; background: rgba(0,0,0,.82); color: #fff; font: 600 13px/1.2 var(--display, system-ui); letter-spacing: .04em; text-decoration: none; border: 1px solid var(--mint); }
 .rd-feature .rd-yt-link[hidden] { display: none; }
+/* Boton "Activar sonido": el video arranca mudo al cargar la pagina (los navegadores no dejan otra). */
+.rd-feature .rd-sound { position: absolute; left: 12px; top: 12px; z-index: 3; display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 8px 14px; cursor: pointer; background: rgba(0,0,0,.78); color: #fff; border: 1px solid var(--mint); border-radius: 99px; font: 600 13px/1 var(--display, system-ui); letter-spacing: .04em; animation: rd-sound-in .35s var(--ease) both; }
+.rd-feature .rd-sound[hidden] { display: none; }
+.rd-feature .rd-sound:hover, .rd-feature .rd-sound:focus-visible { background: var(--mint); color: var(--mint-ink); outline: none; }
+@keyframes rd-sound-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .rd-feature .rd-sound { animation: none; } }
 .rd-feature .rd-yt-link:hover { background: var(--mint); color: var(--mint-ink); }
 @media (prefers-reduced-motion: reduce) { .rd-feature.yt.playing:not(.yt-ready)::after { animation: none; } }
 
