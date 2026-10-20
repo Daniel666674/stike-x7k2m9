@@ -60,6 +60,26 @@ const frameInfo = page => page.evaluate(() => { const f = document.querySelector
 
 t("la prueba encontró la política de seguridad y el ID del video", !!CSP && !!VIDEO_ID, `${!!CSP} ${VIDEO_ID}`);
 
+console.log("\nDónde está el video: arriba, donde estaba el titular");
+for (const [name, vp] of [["escritorio", { width: 1300, height: 900 }], ["celular", { width: 390, height: 800 }]]) {
+  const { page, ctx } = await open({ viewport: vp });
+  const pos = await page.evaluate(() => {
+    const r = sel => { const e = document.querySelector(sel); if (!e) return null; const b = e.getBoundingClientRect(); return { top: b.top + scrollY, bottom: b.bottom + scrollY, left: b.left, right: b.right, w: b.width, h: b.height }; };
+    return { feat: r(".rd-core > .rd-feature"), h1: r(".rd-title"), tag: r(".rd-tag"), box: r(".rd-box"), wompi: r(".rd-core .wompi-badge"), ctas: r(".rd-ctas"), hero: r(".rd-hero"), oldSection: !!document.querySelector(".rd-media"), overflow: document.documentElement.scrollWidth - innerWidth, wompiCompact: !!document.querySelector(".rd-core .wompi-badge.compact") };
+  });
+  t(`${name}: el video está dentro del hero, en la columna central`, !!pos.feat && !!pos.hero);
+  t(`${name}: el video va ARRIBA del titular «Rueda Duro Vive BMX» (que queda debajo)`, pos.feat.bottom <= pos.h1.top + 1, JSON.stringify([pos.feat.bottom, pos.h1.top]));
+  t(`${name}: y el texto (frase, caja de texto) queda debajo del video`, pos.tag.top >= pos.feat.bottom && pos.box.top >= pos.feat.bottom);
+  t(`${name}: el video es el primer elemento del hero (nada lo antecede en la columna)`, await page.evaluate(() => document.querySelector(".rd-core").firstElementChild.classList.contains("rd-feature")));
+  t(`${name}: Wompi queda más abajo que el video y el titular, y en versión compacta`, pos.wompi.top > pos.h1.bottom && pos.wompiCompact, JSON.stringify([pos.wompi.top, pos.h1.bottom, pos.wompiCompact]));
+  t(`${name}: el video es 16:9`, Math.abs(pos.feat.w / pos.feat.h - 16 / 9) < 0.05, String(pos.feat.w / pos.feat.h));
+  t(`${name}: ya no existe la sección vieja del video más abajo`, !pos.oldSection && await page.locator("[data-video=feature]").count() === 1);
+  t(`${name}: no se sale del ancho`, pos.overflow <= 1, String(pos.overflow));
+  if (name === "celular") t("celular: el video ocupa el ancho útil", pos.feat.w > 330 && pos.feat.w <= 390, String(pos.feat.w));
+  if (name === "escritorio") t("escritorio: se ve completo en la primera pantalla (sin bajar)", pos.feat.bottom < 900, String(pos.feat.bottom));
+  await ctx.close();
+}
+
 console.log("\nAntes de tocar play");
 {
   const { page, ctx, requests } = await open();

@@ -27,7 +27,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css?v=c850720f">
+  <link rel="stylesheet" href="assets/css/styles.css?v=0ce3018e">
   <link rel="icon" href="assets/img/favicon.png">
 </head>
 <body>
@@ -40,6 +40,13 @@
   <section class="rd-hero">
     <div class="rd-vid l" data-video="heroLeft"><img src="assets/img/hero/bike-l.jpg" alt="" loading="eager"></div>
     <div class="rd-core">
+      <!-- VIDEO DE LA TIENDA (YouTube): va arriba, donde antes estaba el titular; el titular queda debajo.
+           Es una portada con boton de play: YouTube solo se pide al tocarlo (ver startFeatureYouTube abajo). -->
+      <figure class="rd-feature" data-video="feature">
+        <img src="https://img.youtube.com/vi/LUhY9ixzp1w/hqdefault.jpg" alt="Video: Stike en la calle, Venecia, Bogotá" width="480" height="360" loading="eager" fetchpriority="high" decoding="async">
+        <button class="rd-play" type="button" aria-label="Ver video: Stike en la calle, Venecia, Bogotá"></button>
+        <figcaption>Stike en la calle — <b>Venecia, Bogotá</b></figcaption>
+      </figure>
       <h1 class="rd-title">
         <span class="rd-d rd-d1" style="display:block">Rueda</span>
         <span class="rd-d rd-d2" style="display:block">Duro</span>
@@ -61,7 +68,7 @@
           <li class="pay-chip wm"><img src="assets/img/pay/nequi.png" alt="Nequi" width="480" height="116" decoding="async"></li>
           <li class="pay-chip wm"><img src="assets/img/pay/bancolombia.png" alt="Bancolombia" width="480" height="67" decoding="async"></li>
         </ul>
-        <a class="wompi-badge" href="https://wompi.com" target="_blank" rel="noopener" aria-label="Pagos seguros con Wompi (se abre en una pestaña nueva)">
+        <a class="wompi-badge compact" href="https://wompi.com" target="_blank" rel="noopener" aria-label="Pagos seguros con Wompi (se abre en una pestaña nueva)">
           <img src="assets/img/pay/wompi.svg" alt="Wompi" decoding="async">
           <span><b>Pago 100% seguro</b><small>Procesado por Wompi, la pasarela de pagos de Bancolombia. Tus datos de tarjeta nunca pasan por nuestro sitio.</small></span>
         </a>
@@ -82,17 +89,6 @@
   <div class="rd-strip">
     <span>Flatland</span><span>El parche Stike</span><span>Armado gratis</span><span>Enviamos a todo el país</span>
   </div>
-
-  <!-- VIDEO DE COMUNIDAD: el recuadro grande del diseño + dos clips -->
-  <section class="rd-media">
-    <div class="rd-vid" data-video="sideLeft"><img src="assets/img/hero/bike-bl.jpg" alt="" loading="lazy"></div>
-    <figure class="rd-feature" data-video="feature">
-      <img src="https://img.youtube.com/vi/LUhY9ixzp1w/hqdefault.jpg" alt="Video: Stike en la calle, Venecia, Bogotá" loading="lazy">
-      <button class="rd-play" type="button" aria-label="Ver video"></button>
-      <figcaption>Stike en la calle — <b>Venecia, Bogotá</b></figcaption>
-    </figure>
-    <div class="rd-vid" data-video="sideRight"><img src="assets/img/hero/bike-br.jpg" alt="" loading="lazy"></div>
-  </section>
 
   <!-- GRILLA DE PARTES: solo subcategorias con stock real -->
   <section class="section home-parts">
@@ -156,7 +152,8 @@
        para los laterales, horizontal para "feature") a assets/video/ y
        escribir la ruta aca, p. ej. heroLeft: "assets/video/stike-rider-1.mp4".
        Vacio = se queda la foto de siempre. Los laterales corren mudos en
-       bucle; "feature" arranca con sonido al tocar el boton de play.
+       bucle; "feature" (el recuadro grande de arriba, sobre el titular)
+       arranca con sonido al tocar el boton de play.
 
        Para un video de YouTube en el recuadro grande ("feature"), usar
        FEATURE_YOUTUBE_ID en vez de feature: el ID es lo que va despues de
@@ -167,8 +164,6 @@
     const STIKE_HOME_VIDEOS = {
       heroLeft:  "",
       heroRight: "",
-      sideLeft:  "",
-      sideRight: "",
       feature:   "",
     };
     const FEATURE_YOUTUBE_ID = "LUhY9ixzp1w";

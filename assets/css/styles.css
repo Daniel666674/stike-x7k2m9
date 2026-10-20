@@ -2136,6 +2136,8 @@ body:not(.fate-page) h1 .o1 { color: var(--mint); }
 .rd-hero > .rd-vid.r { border-right: 0; }
 .rd-core { text-align: center; display: flex; flex-direction: column; align-items: center; padding: 8px 0 0; min-width: 0; }
 .rd-title { margin: 0; text-shadow: none; }
+/* El video de la tienda ocupa el lugar que antes tenia el titular (arriba del centro del hero); el titular queda debajo. */
+.rd-core > .rd-feature { width: min(100%, 760px); margin: 0 0 30px; }
 .rd-d { font-family: var(--display); font-stretch: 125%; font-weight: 900; text-transform: uppercase; line-height: .86; letter-spacing: .01em; }
 .rd-d1 { font-size: clamp(44px, 6.2vw, 94px); color: #fff; text-shadow: 0 .045em 0 #b9bebd, 0 .1em .2em rgba(0,0,0,.6); }
 .rd-d2 { font-size: clamp(82px, 12vw, 180px); color: #fff; text-shadow: 0 .03em 0 #c9cdcc, 0 .045em 0 #8d9392, 0 .1em .18em rgba(0,0,0,.7); margin-top: .04em; }
@@ -2153,9 +2155,7 @@ body:not(.fate-page) h1 .o1 { color: var(--mint); }
 .rd-strip { display: flex; justify-content: space-around; gap: 20px; padding: 0 16px; overflow-x: auto; scrollbar-width: none; }
 
 /* Videos de comunidad: el recuadro grande del diseño + dos clips */
-.rd-media { max-width: 1280px; margin: 0 auto; padding: 56px 22px 30px; display: grid; grid-template-columns: 230px 1fr 230px; gap: 56px; align-items: center; }
-.rd-media > .rd-vid { aspect-ratio: 188 / 307; }
-.rd-feature { position: relative; aspect-ratio: 16 / 10; background: #0f1011; overflow: hidden; border: 1px solid #3a3f40; box-shadow: 0 30px 60px -20px rgba(0,0,0,.85); margin: 0; }
+.rd-feature { position: relative; aspect-ratio: 16 / 9; background: #0f1011; overflow: hidden; border: 1px solid #3a3f40; box-shadow: 0 30px 60px -20px rgba(0,0,0,.85); margin: 0; }
 .rd-feature video, .rd-feature > img, .rd-feature iframe { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border: 0; }
 .rd-feature > img { filter: grayscale(1) brightness(.6); }
 /* Boton de play estilo YouTube (rectangulo redondeado rojo + triangulo
@@ -2204,8 +2204,6 @@ body:not(.fate-page) h1 .o1 { color: var(--mint); }
   .rd-hero > .rd-vid { display: none; }
   .rd-hero-mobile-vids { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; margin-top: 32px; }
   .rd-hero-mobile-vids .rd-vid { aspect-ratio: 3 / 4; }
-  .rd-media { grid-template-columns: 1fr; padding-top: 40px; }
-  .rd-media > .rd-vid { display: none; }
   .home-parts .tile-grid { grid-template-columns: repeat(3, 1fr); }
   .rd-fate { grid-template-columns: 1fr; }
 }
@@ -2215,6 +2213,10 @@ body:not(.fate-page) h1 .o1 { color: var(--mint); }
   .rd-tag { font-size: 18px; gap: 10px; }
   .rd-box { padding: 10px 14px 12px; }
   .rd-box p { font-size: 19px; } .rd-box p + p { font-size: 17px; }
+  .rd-core > .rd-feature { margin-bottom: 22px; }
+  .rd-feature figcaption { padding: 10px 14px; font-size: 15px; }
+  .rd-play { width: 74px; height: 52px; border-radius: 13px; }
+  .rd-play::after { border-left-width: 21px; border-top-width: 13px; border-bottom-width: 13px; margin-left: 5px; }
   .rd-pay { margin-top: 24px; }
   .rd-pay-label { font-size: 17px; }
   .pay-chip { height: 42px; min-width: 72px; padding: 0 10px; }
