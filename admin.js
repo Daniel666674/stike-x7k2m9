@@ -636,7 +636,10 @@ async function publishCatalog(opts = {}) {
 
   setPublishing(true);
   const lines = [];
-  const push = t => { lines.push({ text: t, cls: "now" }); showStatus(lines); };
+  /* Publicar escribe un registro paso a paso (fotos, fusion, fichas, sitemap...). Es informacion
+     de desarrollo: queda recogido ("Publicando cambios...") y solo se abre solo si algo falla. */
+  const LOG = { log: true, title: "Publicando cambios…", doneTitle: "Publicado", failTitle: "No se pudo publicar" };
+  const push = t => { lines.push({ text: t, cls: "now" }); showStatus(lines, LOG); };
   window.pushStatus = push; // usado por helpers internos (uploadPendingPhotos, retry loop)
 
   const touchedSlugs = scopeSlugs || new Set([...dirtySlugs, ...deletedSlugs]);
@@ -648,6 +651,7 @@ async function publishCatalog(opts = {}) {
     return owner && (!scopeSlugs || scopeSlugs.has(owner.slug));
   }).length;
   const summary = opts.auditNote || `${created} creado(s), ${edited} editado(s), ${deleted} eliminado(s), ${photosCount} foto(s)`;
+  LOG.note = summary;
 
   try {
     push("Subiendo fotos nuevas...");
@@ -694,27 +698,78 @@ async function publishCatalog(opts = {}) {
 
     push("✔ Publicado.");
     lines[lines.length - 1].cls = "ok";
-    showStatus(lines);
+    showStatus(lines, LOG);
     updateDirtyUI();
     renderProductGrid();
     renderAudit();
   } catch (e) {
     lines.push({ text: (e.userFacing ? e.message : "Error: " + e.message), cls: "bad" });
-    showStatus(lines);
+    showStatus(lines, LOG);
     console.error(e);
   } finally {
+    window.pushStatus = null;      // que un aviso posterior no se cuelgue de este registro viejo
     setPublishing(false);
   }
 }
 
 /* ============================== STATUS TOAST ============================== */
-function showStatus(lines) {
+/* Aviso flotante (abajo a la izquierda, para no tapar los botones del editor).
+   - Avisos normales (1-3 lineas): se muestran tal cual y se esconden solos a los 6 s.
+   - Registros paso a paso (publicar): solo se ve "Publicando cambios..." con un indicador; el detalle
+     queda recogido tras "Ver detalles". Si algo FALLA, el aviso se queda con el error a la vista
+     hasta que se cierre.
+   - Todos tienen una ✕ para cerrarlos. Si se cierra a media publicacion, no vuelve a asomar salvo
+     que falle. */
+let statusDetailsOpen = false, statusDismissed = null, statusLast = null;
+function showStatus(lines, opts) {
+  opts = opts || {};
   const box = $("#status-box");
-  box.innerHTML = lines.map(l => `<div class="line ${l.cls || ""}">${l.text}</div>`).join("");
-  box.classList.add("show");
+  const failed = lines.some(l => l.cls === "bad");
+  const isLog = !!opts.log || lines.length >= 4;
+  if (statusDismissed === lines && !failed) return;
+  if (statusDismissed && statusDismissed !== lines) statusDismissed = null;
+  if (statusLast && statusLast.lines !== lines) statusDetailsOpen = false;     // registro nuevo: arranca recogido
+  statusLast = { lines, opts };
+  const x = `<button type="button" class="st-x" data-st="close" aria-label="Cerrar aviso" title="Cerrar">✕</button>`;
+  if (!isLog) {
+    box.className = "status show";
+    box.innerHTML = x + lines.map(l => `<div class="line ${l.cls || ""}">${escHtml(l.text)}</div>`).join("");
+  } else {
+    const done = !failed && lines.some(l => l.cls === "ok");
+    const kind = failed ? "bad" : done ? "ok" : "now";
+    const title = failed ? (opts.failTitle || "No se pudo completar") : done ? (opts.doneTitle || "Listo") : (opts.title || "Trabajando…");
+    const errs = lines.filter(l => l.cls === "bad");
+    const open = statusDetailsOpen;
+    box.className = "status show log " + kind;
+    box.innerHTML = `<div class="st-head">
+        <span class="st-ico">${kind === "now" ? '<i class="st-spin"></i>' : kind === "bad" ? "⚠" : "✓"}</span>
+        <b>${escHtml(title)}</b>
+        <button type="button" class="st-btn" data-st="details" aria-expanded="${open}">${open ? "Ocultar detalles" : "Ver detalles"}</button>
+        ${x}
+      </div>
+      ${done && opts.note ? `<div class="st-note">${escHtml(opts.note)}</div>` : ""}
+      ${errs.length ? `<div class="st-err">${errs.map(l => `<div class="line bad">${escHtml(l.text)}</div>`).join("")}</div>` : ""}
+      ${open ? `<div class="st-lines">${lines.filter(l => l.cls !== "bad").map(l => `<div class="line ${l.cls || ""}">${escHtml(l.text)}</div>`).join("")}</div>` : ""}`;
+  }
   clearTimeout(showStatus._t);
-  if (!publishing) showStatus._t = setTimeout(() => box.classList.remove("show"), 6000);
+  /* Se esconde solo: los avisos normales cuando no hay nada en curso; el registro de publicar, 6 s despues
+     de terminar bien. Si fallo, se queda hasta que se cierre. */
+  const logDone = isLog && !failed && lines.some(l => l.cls === "ok");
+  if (isLog ? logDone : !publishing) showStatus._t = setTimeout(() => box.classList.remove("show"), failed ? 10000 : 6000);
 }
+document.addEventListener("click", e => {
+  const b = e.target.closest && e.target.closest("#status-box [data-st]");
+  if (!b) return;
+  const box = $("#status-box");
+  if (b.getAttribute("data-st") === "close") {
+    box.classList.remove("show");
+    clearTimeout(showStatus._t);
+    if (statusLast) statusDismissed = statusLast.lines;
+  } else if (statusLast) {
+    statusDetailsOpen = !statusDetailsOpen;
+    showStatus(statusLast.lines, statusLast.opts);
+  }
+});
 function pushStatus(text) { window.pushStatus ? window.pushStatus(text) : showStatus([{ text, cls: "now" }]); }
 
 function renderValidationErrors(errors) {

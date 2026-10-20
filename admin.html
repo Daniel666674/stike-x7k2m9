@@ -483,9 +483,28 @@ input.stk-sw:checked::after{transform:translateX(22px)}
   .pe-stage canvas{width:100%;height:auto}
 }
 
-.status{position:fixed;bottom:18px;right:18px;max-width:360px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;font-size:12.5px;box-shadow:0 10px 30px rgba(0,0,0,.4);z-index:200;display:none}
+.status{position:fixed;bottom:18px;left:240px;max-width:400px;min-width:240px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 40px 14px 16px;font-size:12.5px;box-shadow:0 10px 30px rgba(0,0,0,.4);z-index:200;display:none}
 .status.show{display:block}
 .status .line{padding:2px 0;color:var(--muted)}
+.status .st-x{position:absolute;top:8px;right:8px;width:26px;height:26px;border-radius:7px;border:0;background:transparent;color:var(--muted);font-size:14px;line-height:1;cursor:pointer}
+.status .st-x:hover{background:var(--bg-2);color:var(--ink)}
+.status.log{padding:10px 12px 10px 14px}
+.status.log .st-x{position:static;flex:none}
+.status .st-head{display:flex;align-items:center;gap:10px}
+.status .st-head b{flex:1;min-width:0;font-size:13.5px;color:var(--ink)}
+.status.log.ok .st-head b{color:var(--good)}
+.status.log.bad .st-head b{color:var(--bad)}
+.status .st-ico{flex:none;width:18px;text-align:center;font-weight:700}
+.status.log.ok .st-ico{color:var(--good)}
+.status.log.bad .st-ico{color:var(--bad)}
+.status .st-btn{flex:none;border:0;background:transparent;color:var(--accent);font-size:12px;font-weight:600;cursor:pointer;padding:4px 6px;border-radius:6px}
+.status .st-btn:hover{background:var(--accent-soft)}
+.status .st-spin{display:inline-block;width:14px;height:14px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:st-spin .8s linear infinite;vertical-align:-2px}
+@keyframes st-spin{to{transform:rotate(360deg)}}
+.status .st-note{margin:6px 0 0 28px;color:var(--muted)}
+.status .st-err{margin:8px 0 0 28px}
+.status .st-lines{margin:8px 0 0;padding:8px 0 0 28px;border-top:1px solid var(--line);max-height:220px;overflow:auto}
+@media (max-width:900px){.status{left:12px;right:12px;max-width:none;bottom:12px}}
 .status .line.ok{color:var(--good)}
 .status .line.bad{color:var(--bad)}
 .status .line.now{color:var(--ink)}
