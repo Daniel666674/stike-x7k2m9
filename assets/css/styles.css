@@ -2295,6 +2295,18 @@ body.fate-page .btn.ghost { color: #e9a58f; border-color: var(--fate-accent); }
   .pdp-lightbox .lb-nav { width: 44px; height: 44px; } .pdp-lightbox .lb-nav.prev { left: 8px; } .pdp-lightbox .lb-nav.next { right: 8px; }
 }
 
+/* ---- Cambio de foto en la ficha (miniatura con el mouse, flechas, color): la anterior se desvanece y la nueva
+   entra con un acercamiento suave. pdp.js agrega/quita estas clases. ---- */
+.pdp-gallery .main img.pdp-ghost {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none; cursor: default;
+  opacity: 1; transition: opacity .3s var(--ease), transform .6s var(--ease);
+}
+.pdp-gallery .main img.pdp-swap { animation: pdp-swap-in .38s var(--ease); }
+@keyframes pdp-swap-in { from { transform: scale(1.045); } to { transform: scale(1); } }
+.pdp-thumbs button[data-thumb] { transition: border-color .2s, opacity .2s, transform .2s var(--ease); }
+@media (hover: hover) and (pointer: fine) { .pdp-thumbs button[data-thumb]:hover { transform: translateY(-2px); } }
+@media (prefers-reduced-motion: reduce) { .pdp-gallery .main img.pdp-swap { animation: none; } .pdp-gallery .main img.pdp-ghost { display: none; } }
+
 /* ---- Video del producto: boton sobre la foto, miniatura en la tira y reproductor a pantalla completa ----
    El MP4 solo se pide al tocar (ver pdp.js): aca solo hay imagenes livianas. */
 .pdp-videobtn {

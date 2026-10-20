@@ -235,13 +235,31 @@ function stikePdpInit(slug) {
     const lb = document.querySelector(".pdp-lightbox");
     if (lb) lb.querySelectorAll(".lb-nav").forEach(b => { b.hidden = list.length < 2; });
   }
-  function showPhoto(src) {
+  /* Cambio de foto con animacion: la foto anterior queda encima como "fantasma" y se desvanece mientras la nueva
+     entra con un acercamiento suave (ver .pdp-ghost y .pdp-swap en styles.css). Sin animacion si la persona pidio
+     menos movimiento o si la foto no cambia. */
+  const calmMotion = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : { matches: false };
+  function animateSwap(prevSrc) {
+    if (!mainBox || !mainImg || calmMotion.matches || !prevSrc || prevSrc === mainImg.getAttribute("src")) return;
+    mainBox.querySelectorAll(".pdp-ghost").forEach(g => g.remove());
+    const ghost = document.createElement("img");
+    ghost.className = "pdp-ghost"; ghost.alt = ""; ghost.setAttribute("aria-hidden", "true"); ghost.src = prevSrc;
+    mainBox.appendChild(ghost);
+    mainImg.classList.remove("pdp-swap"); void mainImg.offsetWidth;       // reinicia la animacion si cambian varias veces seguidas
+    mainImg.classList.add("pdp-swap");
+    requestAnimationFrame(() => requestAnimationFrame(() => { ghost.style.opacity = "0"; }));
+    setTimeout(() => { ghost.remove(); mainImg.classList.remove("pdp-swap"); }, 420);
+  }
+  function showPhoto(src, opts) {
     if (!mainImg || !src) return;
+    const prev = mainImg.getAttribute("src");
     mainImg.setAttribute("src", src);
+    animateSwap(prev);
     thumbBtns().forEach(b => {
       const on = b.getAttribute("data-src") === src;
       b.classList.toggle("active", on);
-      if (on && thumbsBox && thumbsBox.scrollTo) thumbsBox.scrollTo({ left: Math.max(0, b.offsetLeft - (thumbsBox.clientWidth - b.offsetWidth) / 2), behavior: "smooth" });
+      /* Al pasar el mouse NO se desplaza la tira: moveria la miniatura de debajo del puntero y dispararia la siguiente. */
+      if (on && !(opts && opts.keepScroll) && thumbsBox && thumbsBox.scrollTo) thumbsBox.scrollTo({ left: Math.max(0, b.offsetLeft - (thumbsBox.clientWidth - b.offsetWidth) / 2), behavior: "smooth" });
     });
     const lb = document.querySelector(".pdp-lightbox");
     if (lb && lb.classList.contains("open")) lb.querySelector("img").src = src;
@@ -256,6 +274,18 @@ function stikePdpInit(slug) {
   window.stikePhotoStep = stepPhoto;
   // Miniaturas: cambiar imagen principal
   thumbBtns().forEach(t => t.addEventListener("click", () => showPhoto(t.getAttribute("data-src"))));
+  /* Pasar el mouse por una miniatura muestra esa foto al instante (en pantallas con mouse; en el celular se toca).
+     Una pausa de 60 ms evita el parpadeo cuando el puntero solo cruza por encima de varias miniaturas. */
+  if (window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    let hoverTimer = null;
+    thumbBtns().forEach(t => {
+      t.addEventListener("mouseenter", () => {
+        clearTimeout(hoverTimer);
+        hoverTimer = setTimeout(() => { if (t.getAttribute("data-src") !== mainImg.getAttribute("src")) showPhoto(t.getAttribute("data-src"), { keepScroll: true }); }, 60);
+      });
+      t.addEventListener("mouseleave", () => clearTimeout(hoverTimer));
+    });
+  }
   if (mainBox && mainImg) {
     const mk = (cls, label, svg, d) => { const b = document.createElement("button"); b.type = "button"; b.className = "pdp-nav " + cls; b.setAttribute("aria-label", label); b.innerHTML = svg; b.addEventListener("click", e => { e.stopPropagation(); stepPhoto(d); }); mainBox.appendChild(b); };
     mk("prev", "Foto anterior", '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 5 8 12 15 19"/></svg>', -1);
