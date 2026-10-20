@@ -1,6 +1,6 @@
 # Stike Bike Shop
 
-> Tienda BMX en Bogotá: repuestos, protecciones, ropa y armado de BMX a la medida con asesoría de riders. Vendemos 264 productos de marcas como Fiend, Mutanty, Decaye, Fade, Odyssey, Cult, con envíos a toda Colombia y tienda física en Venecia, Bogotá.
+> Tienda BMX en Bogotá: repuestos, protecciones, ropa y armado de BMX a la medida con asesoría de riders. Vendemos 263 productos de marcas como Fiend, Mutanty, Decaye, Fade, Odyssey, Cult, con envíos a toda Colombia y tienda física en Venecia, Bogotá.
 
 ## Datos del negocio
 - Nombre: Stike Bike Shop (también "Stike")
@@ -47,7 +47,7 @@
 - [Tobilleras](https://stikebikeshop.com/categoria/tobilleras.html): 2 productos desde $60.000
 ### Ropa
 - [Camisetas](https://stikebikeshop.com/categoria/camisetas.html): 47 productos desde $50.000
-- [Busos y Chaquetas](https://stikebikeshop.com/categoria/busos-y-chaquetas.html): 23 productos desde $120.000
+- [Busos y Chaquetas](https://stikebikeshop.com/categoria/busos-y-chaquetas.html): 22 productos desde $120.000
 - [Gorras](https://stikebikeshop.com/categoria/gorras.html): 2 productos desde $65.000
 - [Medias](https://stikebikeshop.com/categoria/medias.html): 3 productos desde $25.000
 - [Jeans](https://stikebikeshop.com/categoria/jeans.html): 1 producto desde $110.000
@@ -81,7 +81,6 @@
 - [Mutanty](https://stikebikeshop.com/marca/mutanty.html): 12 productos
 - [Nightmare](https://stikebikeshop.com/marca/nightmare.html): 3 productos
 - [Nike](https://stikebikeshop.com/marca/nike.html): 2 productos
-- [Oakley](https://stikebikeshop.com/marca/oakley.html): 2 productos
 - [ODI](https://stikebikeshop.com/marca/odi.html): 2 productos
 - [Odyssey](https://stikebikeshop.com/marca/odyssey.html): 10 productos
 - [Optimus](https://stikebikeshop.com/marca/optimus.html): 3 productos

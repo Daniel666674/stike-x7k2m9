@@ -4828,35 +4828,6 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "chaqueta-oakley-azul",
-    "sku": "ROP-OAK-001",
-    "n": "Chaqueta Oakley Azul",
-    "brand": "Oakley",
-    "cat": "ropa",
-    "sub": "Busos y Chaquetas",
-    "spec": [
-      "Rompevientos",
-      "Color: Azul claro y oscuro"
-    ],
-    "price": 120000,
-    "promo": false,
-    "sizes": [
-      {
-        "v": "M",
-        "u": 1
-      },
-      {
-        "v": "L",
-        "u": 1
-      }
-    ],
-    "imgs": [
-      "assets/img/products/chaqueta-oakley-azul-1.jpg",
-      "assets/img/products/chaqueta-oakley-azul-2.jpg"
-    ],
-    "published": true
-  },
-  {
     "slug": "chaqueta-alpinestars-negra",
     "sku": "ROP-ALP-002",
     "n": "Chaqueta Alpinestars Negra",
@@ -8280,12 +8251,12 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "chaqueta-inspirada-oakley",
     "sku": "ROP-OAK-002",
-    "n": "CHAQUETA INSPIRADA OAKLEY",
+    "n": "CHAQUETA OAKLEY",
     "brand": "Oakley",
     "cat": "ropa",
     "sub": "Busos y Chaquetas",
     "spec": [
-      "CHAQUETA ROMPEVIENTOS INSPIRADA EN OAKLEY"
+      "CHAQUETA ROMPEVIENTOS INSPIRADA EN SUPER NYLON DE ALTA CALIDAD"
     ],
     "price": 120000,
     "promo": false,
