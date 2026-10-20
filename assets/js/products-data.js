@@ -4828,62 +4828,9 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "chaqueta-oakley-azul",
-    "sku": "ROP-OAK-001",
-    "n": "Chaqueta Oakley Azul",
-    "brand": "Oakley",
-    "cat": "ropa",
-    "sub": "Busos y Chaquetas",
-    "spec": [
-      "Rompevientos",
-      "Color: Azul claro y oscuro"
-    ],
-    "price": 120000,
-    "promo": false,
-    "sizes": [
-      {
-        "v": "M",
-        "u": 1
-      },
-      {
-        "v": "L",
-        "u": 1
-      }
-    ],
-    "imgs": [
-      "assets/img/products/chaqueta-oakley-azul-1.jpg",
-      "assets/img/products/chaqueta-oakley-azul-2.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "chaqueta-alpinestars-negra",
-    "sku": "ROP-ALP-002",
-    "n": "Chaqueta Alpinestars Negra",
-    "brand": "Alpinestars",
-    "cat": "ropa",
-    "sub": "Busos y Chaquetas",
-    "spec": [
-      "Rompevientos",
-      "Logo reflectivo"
-    ],
-    "price": 120000,
-    "promo": false,
-    "sizes": [
-      {
-        "v": "L",
-        "u": 1
-      }
-    ],
-    "imgs": [
-      "assets/img/products/chaqueta-alpinestars-negra-1.jpg"
-    ],
-    "published": true
-  },
-  {
     "slug": "chaqueta-nike-beige-negro",
     "sku": "ROP-NIK-002",
-    "n": "Chaqueta Nike Beige y Negro",
+    "n": "Chaqueta Nike Gris  Negro",
     "brand": "Nike",
     "cat": "ropa",
     "sub": "Busos y Chaquetas",
@@ -4900,11 +4847,13 @@ window.STIKE_PRODUCTS = [
       }
     ],
     "imgs": [
-      "assets/img/products/chaqueta-nike-beige-negro-1.jpg",
-      "assets/img/products/chaqueta-nike-beige-negro-2.jpg",
-      "assets/img/products/chaqueta-nike-beige-negro-3.jpg"
+      "assets/img/products/6a972223-2e06-4c75-b6f7-4be739d6a923.jpg",
+      "assets/img/products/ee1a2077-0f6e-482d-b071-03b2cd3a2c33.jpg",
+      "assets/img/products/e855d4be-3535-45eb-a501-db664c6330dc.jpg",
+      "assets/img/products/6233a90c-2077-4093-bcf8-012d474fe38b.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "chaqueta-vans-beige-negro",
@@ -4926,9 +4875,13 @@ window.STIKE_PRODUCTS = [
       }
     ],
     "imgs": [
-      "assets/img/products/chaqueta-vans-beige-negro-1.jpg"
+      "assets/img/products/85839f4a-f6ad-49e3-9f54-a3f3cceb7697.jpg",
+      "assets/img/products/4352afae-5224-4423-8be0-7f99dca5ad8e.jpg",
+      "assets/img/products/42e2b523-0b61-4dc6-be54-796567f46132.jpg",
+      "assets/img/products/306e99ca-7a50-42e1-97ee-f3a38595caae.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "grips-cinema-reynolds-negro",
@@ -8280,12 +8233,12 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "chaqueta-inspirada-oakley",
     "sku": "ROP-OAK-002",
-    "n": "CHAQUETA INSPIRADA OAKLEY",
+    "n": "CHAQUETA OAKLEY",
     "brand": "Oakley",
     "cat": "ropa",
     "sub": "Busos y Chaquetas",
     "spec": [
-      "CHAQUETA ROMPEVIENTOS INSPIRADA EN OAKLEY"
+      "CHAQUETA ROMPEVIENTOS INSPIRADA EN SUPER NYLON DE ALTA CALIDAD"
     ],
     "price": 120000,
     "promo": false,
@@ -8323,6 +8276,83 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/a969162a-81e9-4f99-b5da-54f29ca16169.jpg",
       "assets/img/products/eeb032e5-84ae-4bdd-8459-875e3f329b61.jpg",
       "assets/img/products/73910509-19d3-4c12-bba5-122fa42e860d.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "chaqueta-inspirada-en-vans",
+    "sku": "ROP-VAN-009",
+    "n": "CHAQUETA INSPIRADA EN VANS",
+    "brand": "Vans",
+    "cat": "ropa",
+    "sub": "Busos y Chaquetas",
+    "spec": [
+      "CHAQUETA ROMPEVIENTO EN SUPER NYLON DE ALTA CALIDAD"
+    ],
+    "price": 120000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "M",
+        "u": 1
+      }
+    ],
+    "colors": [
+      {
+        "v": "Negro/Blanco",
+        "u": 1
+      }
+    ],
+    "combos": [
+      {
+        "s": "M",
+        "c": "Negro/Blanco",
+        "u": 1
+      }
+    ],
+    "imgs": [
+      "assets/img/products/b7581c9c-0963-49ba-8e59-028f9dabb391.jpg",
+      "assets/img/products/91227cef-b4b3-42f7-81b0-0a564b713917.jpg",
+      "assets/img/products/7900c8f8-a59d-4190-bafc-742fe2bfe6eb.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "chaqueta-inspirada-en-alpinestars",
+    "sku": "ROP-ALP-003",
+    "n": "CHAQUETA INSPIRADA EN ALPINESTARS",
+    "brand": "Alpinestars",
+    "cat": "ropa",
+    "sub": "Busos y Chaquetas",
+    "spec": [
+      "ROMPEVIENTOS EN SUPER NYLON DE ALTA CALIDAD CON LOGOS REFLECTIVOS"
+    ],
+    "price": 120000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "M",
+        "u": 1
+      }
+    ],
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 1
+      }
+    ],
+    "combos": [
+      {
+        "s": "M",
+        "c": "Negro",
+        "u": 1
+      }
+    ],
+    "imgs": [
+      "assets/img/products/c22cdf56-77db-4260-ab1c-d2619ed2303f.jpg",
+      "assets/img/products/f419e2b1-b5a9-498e-a4d4-793bef521494.jpg",
+      "assets/img/products/2ac7d033-de01-4f3a-a75c-acf36f5e2b28.jpg",
+      "assets/img/products/6670d1f1-1049-46fd-aead-ffd924794b86.jpg"
     ],
     "published": true
   }

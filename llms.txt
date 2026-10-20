@@ -1,6 +1,6 @@
 # Stike Bike Shop
 
-> Tienda BMX en Bogotá: repuestos, protecciones, ropa y armado de BMX a la medida con asesoría de riders. Vendemos 264 productos de marcas como Fiend, Mutanty, Decaye, Fade, Odyssey, Cult, con envíos a toda Colombia y tienda física en Venecia, Bogotá.
+> Tienda BMX en Bogotá: repuestos, protecciones, ropa y armado de BMX a la medida con asesoría de riders. Vendemos 264 productos de marcas como Fiend, Mutanty, Decaye, Fade, Odyssey, Vans, con envíos a toda Colombia y tienda física en Venecia, Bogotá.
 
 ## Datos del negocio
 - Nombre: Stike Bike Shop (también "Stike")
@@ -81,7 +81,6 @@
 - [Mutanty](https://stikebikeshop.com/marca/mutanty.html): 12 productos
 - [Nightmare](https://stikebikeshop.com/marca/nightmare.html): 3 productos
 - [Nike](https://stikebikeshop.com/marca/nike.html): 2 productos
-- [Oakley](https://stikebikeshop.com/marca/oakley.html): 2 productos
 - [ODI](https://stikebikeshop.com/marca/odi.html): 2 productos
 - [Odyssey](https://stikebikeshop.com/marca/odyssey.html): 10 productos
 - [Optimus](https://stikebikeshop.com/marca/optimus.html): 3 productos
@@ -98,7 +97,7 @@
 - [Sunday](https://stikebikeshop.com/marca/sunday.html): 2 productos
 - [Total BMX](https://stikebikeshop.com/marca/total-bmx.html): 4 productos
 - [Trueno](https://stikebikeshop.com/marca/trueno.html): 4 productos
-- [Vans](https://stikebikeshop.com/marca/vans.html): 9 productos
+- [Vans](https://stikebikeshop.com/marca/vans.html): 10 productos
 - [Volume](https://stikebikeshop.com/marca/volume.html): 2 productos
 - [Wethepeople](https://stikebikeshop.com/marca/wethepeople.html): 3 productos
 - [XOXO](https://stikebikeshop.com/marca/xoxo.html): 2 productos
