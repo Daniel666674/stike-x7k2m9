@@ -2127,23 +2127,11 @@ body:not(.fate-page) h1 .o1 { color: var(--mint); }
 .newsletter-modal h3 { font-size: 24px; }
 
 /* ============================ HOME: HERO ================================ */
-.rd-hero { position: relative; max-width: 1480px; margin: 30px auto 0; padding: 0 0 30px; display: grid; grid-template-columns: minmax(150px, 250px) 1fr minmax(150px, 250px); gap: 30px; align-items: stretch; }
-/* Marco de video: borde menta + brillo, como los paneles del diseño */
-.rd-vid { position: relative; overflow: hidden; background: #202223; border: 2px solid var(--mint); box-shadow: var(--mint-glow); }
-.rd-vid video, .rd-vid img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.06); }
-.rd-hero > .rd-vid { min-height: 600px; }
-.rd-hero > .rd-vid.l { border-left: 0; }
-.rd-hero > .rd-vid.r { border-right: 0; }
-.rd-core { text-align: center; display: flex; flex-direction: column; align-items: center; padding: 8px 0 0; min-width: 0; }
-.rd-title { margin: 0; text-shadow: none; }
-/* Titulo principal, SOBRE el video. "Rueda Duro Vive BMX" (.rd-title) queda debajo, con letra mas pequeña. */
+.rd-hero { position: relative; max-width: 1480px; margin: 30px auto 0; padding: 0 0 30px; display: block; padding-left: 22px; padding-right: 22px; }
+.rd-core { text-align: center; display: flex; flex-direction: column; align-items: center; padding: 8px 0 0; min-width: 0; max-width: 880px; margin: 0 auto; }
 .rd-top-title { margin: 0 0 24px; max-width: 100%; font-family: var(--display); font-stretch: 125%; font-weight: 900; text-transform: uppercase; font-size: clamp(30px, 4.4vw, 64px); line-height: 1; letter-spacing: .01em; color: #fff; text-wrap: balance; overflow-wrap: anywhere; text-shadow: 0 .045em 0 #b9bebd, 0 .1em .2em rgba(0,0,0,.6); }
-/* El video de la tienda ocupa el lugar que antes tenia el titular (arriba del centro del hero); el titular queda debajo. */
+/* El video de la tienda va arriba del centro del hero, justo debajo del titulo principal. */
 .rd-core > .rd-feature { width: min(100%, 760px); margin: 0 0 30px; }
-.rd-d { font-family: var(--display); font-stretch: 125%; font-weight: 900; text-transform: uppercase; line-height: .86; letter-spacing: .01em; }
-.rd-d1 { font-size: clamp(26px, 3.2vw, 48px); color: #fff; text-shadow: 0 .045em 0 #b9bebd, 0 .1em .2em rgba(0,0,0,.6); }
-.rd-d2 { font-size: clamp(46px, 6.2vw, 92px); color: #fff; text-shadow: 0 .03em 0 #c9cdcc, 0 .045em 0 #8d9392, 0 .1em .18em rgba(0,0,0,.7); margin-top: .04em; }
-.rd-d3 { font-size: clamp(26px, 3.3vw, 50px); margin-top: .2em; -webkit-text-stroke-width: .035em; }
 .rd-tag { margin: 22px 0 0; font-family: var(--cond); font-style: italic; font-weight: 300; font-size: 22px; letter-spacing: .04em; text-transform: uppercase; color: var(--mint); display: flex; align-items: center; gap: 16px; }
 .rd-tag i { width: 6px; height: 6px; border: 1px solid var(--mint); }
 .rd-box { margin-top: 18px; width: min(100%, 660px); background: rgba(10,10,10,.55); border: 3px solid #7c8081; box-shadow: inset 0 0 0 1px #000; padding: 12px 28px 14px; }
@@ -2153,9 +2141,6 @@ body:not(.fate-page) h1 .o1 { color: var(--mint); }
 .rd-place { margin: 26px 0 0; white-space: nowrap; font-family: var(--display); font-stretch: 125%; font-weight: 900; text-transform: uppercase; line-height: 1; font-size: clamp(26px, 4vw, 60px); letter-spacing: .03em; color: rgba(82,240,216,.06); -webkit-text-stroke: .04em var(--mint); text-shadow: 0 0 .2em rgba(82,240,216,.45); }
 .rd-ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(18px, 7vw, 90px); margin-top: 28px; }
 .rd-ctas .btn { min-width: 250px; }
-.rd-hero-mobile-vids { display: none; }
-/* Clip propio dentro de un lateral: tapa la foto de siempre (que sigue ahi, por si el clip se quita). */
-.rd-vid.has-clip > img { display: none; }
 .rd-strip { display: flex; justify-content: space-around; gap: 20px; padding: 0 16px; overflow-x: auto; scrollbar-width: none; }
 
 /* Videos de comunidad: el recuadro grande del diseño + dos clips */
@@ -2212,16 +2197,12 @@ body:not(.fate-page) h1 .o1 { color: var(--mint); }
 
 /* ------------------------------ Responsive ------------------------------ */
 @media (max-width: 1100px) {
-  .rd-hero { grid-template-columns: 1fr; gap: 0; margin-top: 22px; padding-left: 22px; padding-right: 22px; }
-  .rd-hero > .rd-vid { display: none; }
-  .rd-hero-mobile-vids { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; margin-top: 32px; }
-  .rd-hero-mobile-vids .rd-vid { aspect-ratio: 3 / 4; }
+  .rd-hero { margin-top: 22px; }
   .home-parts .tile-grid { grid-template-columns: repeat(3, 1fr); }
   .rd-fate { grid-template-columns: 1fr; }
 }
 @media (max-width: 760px) {
   .rd-hero { padding-left: 16px; padding-right: 16px; }
-  .rd-d1 { font-size: 6.6vw; } .rd-d2 { font-size: 11vw; } .rd-d3 { font-size: 6vw; }
   .rd-top-title { font-size: 8.4vw; margin-bottom: 16px; }
   .rd-tag { font-size: 18px; gap: 10px; }
   .rd-box { padding: 10px 14px 12px; }
@@ -2435,10 +2416,15 @@ body.vb-lock { overflow: hidden; }
 .pay-logos.compact .pay-chip.wm img { width: 84px; height: auto; }
 @media (max-width: 760px) { .pay-chip.wm img { width: 96px; } .pay-logos.compact .pay-chip.wm img { width: 76px; } }
 
-/* ---- Anuncio destacado del inicio (opcional; lo escribe el panel). Sale solo si tiene texto. ---- */
-.rd-announce { margin: 0 0 22px; padding: 9px 20px; border: 1px solid var(--mint); border-radius: 99px; color: var(--mint); background: rgba(82,240,216,.08); font-family: var(--cond); font-size: 19px; letter-spacing: .08em; text-transform: uppercase; line-height: 1.2; max-width: 100%; overflow-wrap: anywhere; }
-.rd-announce[hidden] { display: none; }
-@media (max-width: 760px) { .rd-announce { font-size: 15px; padding: 8px 14px; margin-bottom: 18px; } }
+/* ---- Banner de FIEND (debajo del video del inicio): frase de venta, enlace a la marca y boton de WhatsApp. ---- */
+.rd-fiend { width: min(100%, 660px); margin: 0 0 26px; padding: 20px 22px 22px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; border: 2px solid var(--mint); background: rgba(82,240,216,.07); box-shadow: 0 0 24px rgba(82,240,216,.18), inset 0 0 0 1px #000; }
+.rd-fiend > [hidden] { display: none; }
+.rd-fiend:not(:has(> :not([hidden]))) { display: none; }          /* los tres textos vacios: no queda ni la caja */
+.rd-fiend-title { margin: 0; max-width: 100%; font-family: var(--display); font-stretch: 125%; font-weight: 900; text-transform: uppercase; font-size: clamp(22px, 2.7vw, 38px); line-height: 1.05; color: #fff; text-wrap: balance; overflow-wrap: anywhere; text-shadow: 0 .045em 0 #b9bebd, 0 .1em .2em rgba(0,0,0,.6); }
+.rd-fiend-link { color: var(--mint); font-family: var(--cond); font-size: 22px; letter-spacing: .03em; text-transform: uppercase; text-decoration: underline; text-underline-offset: 5px; line-height: 1.15; }
+.rd-fiend-link:hover, .rd-fiend-link:focus-visible { color: #fff; }
+.rd-fiend-wa { min-width: 260px; margin-top: 4px; }
+@media (max-width: 760px) { .rd-fiend { padding: 16px 14px 18px; margin-bottom: 20px; } .rd-fiend-title { font-size: 6.2vw; } .rd-fiend-link { font-size: 18px; } .rd-fiend-wa { width: 100%; min-width: 0; } }
 
 /* ---- Vista previa dentro del panel (?admin-preview=1): se marcan los textos y videos editables ---- */
 html.admin-preview [data-content-key], html.admin-preview [data-video] { cursor: pointer; }

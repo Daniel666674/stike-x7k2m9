@@ -1121,8 +1121,6 @@ function stikePreviewBridge() {
   if (!STIKE_PREVIEW) return;
   const target = key => {
     if (key === "home.video") return [document.querySelector('[data-video="feature"]')];
-    if (key === "home.clipLeft") return [...document.querySelectorAll('[data-video="heroLeft"]')];
-    if (key === "home.clipRight") return [...document.querySelectorAll('[data-video="heroRight"]')];
     return [...document.querySelectorAll("[data-content-key]")].filter(e => e.getAttribute("data-content-key") === key);
   };
   window.StikePreview = {
@@ -1144,7 +1142,7 @@ function stikePreviewBridge() {
     const el = e.target.closest("[data-content-key], [data-video]");
     if (!el || !window.parent || window.parent === window) return;
     const v = el.getAttribute("data-video");
-    const key = v ? ({ feature: "home.video", heroLeft: "home.clipLeft", heroRight: "home.clipRight" })[v] : el.getAttribute("data-content-key");
+    const key = v ? ({ feature: "home.video" })[v] : el.getAttribute("data-content-key");
     window.parent.postMessage({ type: "stike-preview-select", key }, location.origin);
   }, true);
 }

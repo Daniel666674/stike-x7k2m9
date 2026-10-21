@@ -5,17 +5,12 @@
      home.video      {type:"youtube", id}  |  {type:"mp4", src, poster?, w, h}
                      el recuadro grande de arriba (sin la clave: el de siempre,
                      el de YouTube que trae el HTML en data-yt-id)
-     home.clipLeft   {src, poster?, w, h}  clip vertical, izquierda del titular
-     home.clipRight  {src, poster?, w, h}  clip vertical, derecha del titular
-                     (sin la clave: las fotos de siempre)
 
    Reglas de carga (para no frenar ni saturar el sitio):
    - La portada es una imagen. YouTube / el MP4 solo se piden cuando la pagina
      termino de cargar (arranque automatico, mudo) o cuando se toca play.
    - El arranque automatico NO corre con "menos movimiento", ahorro de datos,
      conexion 2G/3G, pestaña en segundo plano o el video fuera de la pantalla.
-   - Los clips laterales solo se cargan en el lado que se ve (en celular se ven
-     dos abajo; en escritorio, uno a cada lado) y con las mismas protecciones.
 
    En la vista previa del panel (?admin-preview=1) no se pide el manifiesto ni
    arranca nada solo: el panel llama a StikeHomeMedia.applyConfig(...) con lo
@@ -45,7 +40,7 @@
   }
   function fromManifest(m) {
     m = m || {};
-    return { video: cleanVideo(m["home.video"]), clipLeft: cleanClip(m["home.clipLeft"]), clipRight: cleanClip(m["home.clipRight"]) };
+    return { video: cleanVideo(m["home.video"]) };
   }
 
   /* ---- cuando SI se puede arrancar solo ---- */
@@ -252,45 +247,10 @@
     if (doc.readyState === "complete") go(); else root.addEventListener("load", go, { once: true });
   }
 
-  /* ======================= Clips laterales (mudos, en bucle) ======================= */
-  var clips = { heroLeft: null, heroRight: null };
-  function syncClips() {
-    ["heroLeft", "heroRight"].forEach(function (name) {
-      var clip = clips[name];
-      doc.querySelectorAll('[data-video="' + name + '"]').forEach(function (slot) {
-        var shown = slot.getClientRects().length > 0;             // el lado oculto (otro tamaño de pantalla) no carga nada
-        var vid = slot.querySelector("video.rd-clip");
-        var want = clip && shown && (PREVIEW || mayAutoStart());
-        if (!want) {
-          if (vid) { vid.pause(); vid.removeAttribute("src"); vid.load(); vid.remove(); }
-          slot.classList.remove("has-clip");
-          return;
-        }
-        if (vid && vid.getAttribute("data-src") === clip.src) return;
-        if (vid) vid.remove();
-        var img = slot.querySelector(":scope > img");
-        var v = doc.createElement("video");
-        v.className = "rd-clip"; v.setAttribute("data-src", clip.src);
-        v.muted = true; v.loop = true; v.autoplay = true; v.playsInline = true; v.setAttribute("playsinline", ""); v.preload = "metadata";
-        v.setAttribute("aria-hidden", "true");
-        if (clip.poster) v.poster = clip.poster; else if (img) v.poster = img.getAttribute("src");
-        v.src = clip.src;
-        slot.insertBefore(v, slot.firstChild);
-        slot.classList.add("has-clip");
-        var p = v.play(); if (p && p.catch) p.catch(function () {});
-      });
-    });
-  }
-  var resizeTimer = null;
-  root.addEventListener("resize", function () { clearTimeout(resizeTimer); resizeTimer = setTimeout(syncClips, 150); });
-
   /* ======================= API publica ======================= */
   function applyConfig(cfg) {
     cfg = cfg || {};
     renderFeature(cfg.video || null);
-    clips.heroLeft = cfg.clipLeft || null;
-    clips.heroRight = cfg.clipRight || null;
-    syncClips();
   }
   function init() {
     var slot = feature();
@@ -303,7 +263,7 @@
     if (PREVIEW) return;                                          // en la vista previa lo pone el panel
     (root.stikeLoadContent ? root.stikeLoadContent() : Promise.resolve({})).then(function (m) {
       var cfg = fromManifest(m);
-      if (cfg.video || cfg.clipLeft || cfg.clipRight) applyConfig(cfg);
+      if (cfg.video) applyConfig(cfg);
       autoStartFeature(feature());
     });
   }
