@@ -254,6 +254,21 @@ verifica que ese siga respondiendo 200.
 > cuanto el sitio deje GitHub Pages por su hosting propio) o moviendo esos
 > dos archivos a un repositorio aparte.
 
+
+### Contenido del sitio (pestaña del panel)
+
+`data/site-content.json` es un mapa plano que el panel edita; una clave que no está = se queda el original.
+Los **textos** del inicio son los elementos de `index.html` con `data-content-key` (+ `data-content-label`,
+`-group`, `-max`, `-optional`, `-multiline`): el panel los **descubre leyendo index.html**, así que para hacer
+editable un texto nuevo basta con marcarlo en el HTML. Los **videos** del inicio son `home.video`
+(`{type:"youtube", id}` o `{type:"mp4", src, poster, w, h, dur, b, ts}`), `home.clipLeft` y `home.clipRight`
+(clips verticales mudos en bucle); los archivos viven en `assets/video/site/`. Los aplica `assets/js/home-media.js`
+con las mismas protecciones de carga (no arrancan con ahorro de datos, 2G/3G o «menos movimiento»; el lado que no
+se ve no descarga nada; solo se aceptan rutas `assets/video/site/…` e IDs de YouTube bien formados).
+La vista previa del panel es el mismo `index.html`/`tienda.html` con `?admin-preview=1` dentro de un iframe
+(la política de seguridad de `.htaccess` incluye `'self'` en `frame-src` y `blob:` en `img-src`/`media-src` para eso).
+Pruebas: `tools/admin-content-test.mjs`, `tools/home-content-test.mjs`.
+
 ## 6. Herramientas
 
 Todas corren con Node pelado salvo donde se indica.

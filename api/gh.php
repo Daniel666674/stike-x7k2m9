@@ -16,7 +16,7 @@
    ========================================================================= */
 require __DIR__ . "/_admin.php";
 
-const STIKE_GH_ALLOWED = '#^(assets/js/products-data\.js|data/(costs|sales-log|audit-log|site-content|stock-applied)\.json|sitemap\.xml|_template\.html|producto/[a-z0-9-]+\.html|assets/img/products/[A-Za-z0-9._-]+\.(jpg|jpeg|png|webp)|assets/video/products/[A-Za-z0-9._-]+\.(mp4|jpg))$#';
+const STIKE_GH_ALLOWED = '#^(assets/js/products-data\.js|data/(costs|sales-log|audit-log|site-content|stock-applied)\.json|sitemap\.xml|_template\.html|producto/[a-z0-9-]+\.html|assets/img/products/[A-Za-z0-9._-]+\.(jpg|jpeg|png|webp)|assets/video/(products|site)/[A-Za-z0-9._-]+\.(mp4|jpg))$#';
 
 /* Un video del panel pesa hasta 10 MB (el panel lo exige). Aca se pone un tope un poco mayor
    como segunda barrera: que no entre nada gigante ni un archivo que no sea MP4. */

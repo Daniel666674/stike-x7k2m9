@@ -23,7 +23,7 @@ const wait = ms => new Promise(r => setTimeout(r, ms));
 
 const htaccess = fs.readFileSync(ROOT + "/.htaccess", "utf8");
 const CSP = (htaccess.match(/Header set Content-Security-Policy "([^"]+)"/) || [])[1];
-const VIDEO_ID = (fs.readFileSync(ROOT + "/index.html", "utf8").match(/FEATURE_YOUTUBE_ID = "([^"]+)"/) || [])[1];
+const VIDEO_ID = (fs.readFileSync(ROOT + "/index.html", "utf8").match(/data-yt-id="([^"]+)"/) || [])[1];
 
 /* Una API de YouTube de mentira: crea el iframe como lo hace la real y anota lo que se le pide (window.__yt).
    window.__ytBehavior = "blocked" simula un navegador que NO deja arrancar el video solo. */
@@ -84,18 +84,20 @@ for (const [name, vp] of [["escritorio", { width: 1300, height: 900 }], ["celula
   const { page, ctx } = await open({ viewport: vp });
   const pos = await page.evaluate(() => {
     const r = sel => { const e = document.querySelector(sel); if (!e) return null; const b = e.getBoundingClientRect(); return { top: b.top + scrollY, bottom: b.bottom + scrollY, left: b.left, right: b.right, w: b.width, h: b.height }; };
-    return { feat: r(".rd-core > .rd-feature"), h1: r(".rd-title"), tag: r(".rd-tag"), box: r(".rd-box"), wompi: r(".rd-core .wompi-badge"), ctas: r(".rd-ctas"), hero: r(".rd-hero"), oldSection: !!document.querySelector(".rd-media"), overflow: document.documentElement.scrollWidth - innerWidth, wompiCompact: !!document.querySelector(".rd-core .wompi-badge.compact") };
+    return { top: r(".rd-top-title"), d2: parseFloat(getComputedStyle(document.querySelector(".rd-d2")).fontSize), topFont: parseFloat(getComputedStyle(document.querySelector(".rd-top-title")).fontSize), h1count: document.querySelectorAll("h1").length, h1text: (document.querySelector("h1") || {}).textContent, feat: r(".rd-core > .rd-feature"), h1: r(".rd-title"), tag: r(".rd-tag"), box: r(".rd-box"), wompi: r(".rd-core .wompi-badge"), ctas: r(".rd-ctas"), hero: r(".rd-hero"), oldSection: !!document.querySelector(".rd-media"), overflow: document.documentElement.scrollWidth - innerWidth, wompiCompact: !!document.querySelector(".rd-core .wompi-badge.compact") };
   });
   t(`${name}: el video está dentro del hero, en la columna central`, !!pos.feat && !!pos.hero);
-  t(`${name}: el video va ARRIBA del titular «Rueda Duro Vive BMX» (que queda debajo)`, pos.feat.bottom <= pos.h1.top + 1, JSON.stringify([pos.feat.bottom, pos.h1.top]));
+  t(`${name}: el video queda arriba de «Rueda Duro Vive BMX» (que va debajo)`, pos.feat.bottom <= pos.h1.top + 1, JSON.stringify([pos.feat.bottom, pos.h1.top]));
   t(`${name}: y el texto (frase, caja de texto) queda debajo del video`, pos.tag.top >= pos.feat.bottom && pos.box.top >= pos.feat.bottom);
-  t(`${name}: el video es el primer elemento del hero (nada lo antecede en la columna)`, await page.evaluate(() => document.querySelector(".rd-core").firstElementChild.classList.contains("rd-feature")));
+  t(`${name}: «La casa de todo el que rueda» es el título y va ARRIBA del video`, pos.h1count === 1 && /la casa de todo el que rueda/i.test(pos.h1text) && pos.top.bottom <= pos.feat.top + 1, JSON.stringify([pos.h1count, pos.h1text, pos.top.bottom, pos.feat.top]));
+  t(`${name}: el orden es título, video, y debajo «Rueda Duro Vive BMX»`, await page.evaluate(() => { const k = [...document.querySelector(".rd-core").children].map(e => e.className.split(" ")[0]); return k.indexOf("rd-top-title") === 0 && k.indexOf("rd-feature") === 1 && k.indexOf("rd-title") > k.indexOf("rd-feature"); }));
+  t(`${name}: «Rueda Duro Vive BMX» quedó con letra más pequeña que el título de arriba y que antes`, pos.d2 < pos.topFont * 2 && pos.d2 <= (name === "escritorio" ? 95 : 50), `${pos.d2}px vs título ${pos.topFont}px`);
   t(`${name}: Wompi queda más abajo que el video y el titular, y en versión compacta`, pos.wompi.top > pos.h1.bottom && pos.wompiCompact, JSON.stringify([pos.wompi.top, pos.h1.bottom, pos.wompiCompact]));
   t(`${name}: el video es 16:9`, Math.abs(pos.feat.w / pos.feat.h - 16 / 9) < 0.05, String(pos.feat.w / pos.feat.h));
   t(`${name}: ya no existe la sección vieja del video más abajo`, !pos.oldSection && await page.locator("[data-video=feature]").count() === 1);
   t(`${name}: no se sale del ancho`, pos.overflow <= 1, String(pos.overflow));
   if (name === "celular") t("celular: el video ocupa el ancho útil", pos.feat.w > 330 && pos.feat.w <= 390, String(pos.feat.w));
-  if (name === "escritorio") t("escritorio: se ve completo en la primera pantalla (sin bajar)", pos.feat.bottom < 900, String(pos.feat.bottom));
+  if (name === "escritorio") t("escritorio: el video se ve completo en la primera pantalla (sin bajar)", pos.feat.bottom < 900, String(pos.feat.bottom));
   await ctx.close();
 }
 

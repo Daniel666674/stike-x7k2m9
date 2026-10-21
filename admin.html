@@ -119,7 +119,8 @@
 }
 *{box-sizing:border-box}
 html{overflow-x:hidden}
-body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 "Inter",-apple-system,"Segoe UI",Arial,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;max-width:100vw}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 "Inter",-apple-system,"Segoe UI",Arial,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;overflow-x:clip;max-width:100vw}
+/* overflow-x:clip (no hidden): "hidden" vuelve al body un contenedor de scroll y rompe position:sticky (el menu lateral y la barra de Contenido del sitio no se quedaban fijos). */
 h1,h2,h3,h4{font-family:inherit;font-weight:700;letter-spacing:-.01em;margin:0}
 /* La mayuscula+tracking que antes llevaban TODOS los titulos (prestada de
    Oswald, que nunca cargo) se queda solo donde ya es una convencion real de
@@ -441,6 +442,64 @@ input.stk-sw:checked::after{transform:translateX(22px)}
 .pthumb select{position:absolute;bottom:4px;left:4px;right:4px;font-size:12px;font-weight:600;padding:6px 8px;border-radius:7px}
 .pthumb.dragover{outline:2px dashed var(--accent)}
 .uploadbox{border:1.5px dashed var(--line);border-radius:10px;padding:16px;text-align:center;color:var(--muted);font-size:12.5px;cursor:pointer}
+/* Contenido del sitio: editor + vista previa en vivo */
+.ct-bar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 14px;margin:0 0 14px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.ct-bar-actions{display:flex;gap:8px;align-items:center}
+.ct-layout{display:grid;grid-template-columns:minmax(340px,480px) minmax(0,1fr);gap:18px;align-items:start}
+.ct-edit [hidden]{display:none!important}
+.ct-edit .ct-card{margin:0 0 14px}
+.ct-edit .ct-card h3{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 4px}
+.ct-edit .ct-card>.hint{margin:0 0 12px;font-size:12.5px}
+.ct-preview{position:sticky;top:64px}
+.ct-pv-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.ct-pv-head b{margin-right:auto;font-size:13px}
+.ct-pv-head select{width:auto;max-width:190px}
+.ct-seg{display:inline-flex;border:1px solid var(--line);border-radius:var(--radius-sm);overflow:hidden}
+.ct-seg button{background:transparent;color:var(--muted);border:none;padding:6px 12px;font-size:12px;cursor:pointer}
+.ct-seg button.active{background:var(--accent-soft);color:var(--accent)}
+.ct-pv-frame{position:relative;height:calc(100vh - 210px);min-height:440px;background:#0b0c0e;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.ct-pv-frame iframe{position:absolute;top:0;left:0;border:0;background:#17191d;transform-origin:top left}
+.ct-pv-frame.phone{background:#0b0c0e radial-gradient(circle at 50% 0,#1c1f24,#0b0c0e 70%)}
+.ct-pv-frame.phone iframe{border-radius:18px;box-shadow:0 0 0 6px #23262c,0 0 0 7px #3a3f48}
+.ct-preview .hint{margin:8px 2px 0;font-size:12px;line-height:1.5}
+.ct-field{padding:10px 0;border-top:1px solid var(--line-soft)}
+.ct-field:first-of-type{border-top:none;padding-top:2px}
+.ct-field.ct-unpub{box-shadow:inset 3px 0 0 var(--draft);padding-left:10px}
+.ct-flabel{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:5px}
+.ct-flabel label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin:0}
+.ct-flabel .pill{padding:2px 8px}
+.ct-restore{margin-left:auto;background:transparent;border:1px solid var(--line);color:var(--ink-2);border-radius:var(--radius-sm);padding:3px 9px;font-size:11.5px;cursor:pointer}
+.ct-restore:hover{border-color:var(--accent);color:var(--accent)}
+.ct-field input,.ct-field textarea{width:100%}
+.ct-field textarea{resize:vertical;min-height:70px}
+.ct-fhint{display:flex;justify-content:space-between;gap:10px;margin-top:4px;font-size:11.5px;color:var(--muted);min-height:1.2em}
+.ct-fhint .ct-warn{color:var(--warn)}
+.ct-fhint .ct-count{margin-left:auto;font-variant-numeric:tabular-nums}
+.ct-pill-changed{color:var(--accent);background:var(--accent-soft);border-color:transparent}
+.ct-flash{animation:ct-flash 1.2s ease-out}
+@keyframes ct-flash{0%{background:var(--accent-soft)}100%{background:transparent}}
+.ct-media{padding:12px;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--bg-2)}
+.ct-media+.ct-clips{margin-top:10px}
+.ct-clips{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ct-media-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;font-size:13px}
+.ct-media-body{display:flex;gap:12px;align-items:flex-start}
+.ct-thumb{position:relative;flex:none;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:#0c0d10;display:flex;align-items:center;justify-content:center}
+.ct-thumb.wide{width:176px;aspect-ratio:16/9}
+.ct-thumb.tall{width:74px;aspect-ratio:3/5}
+.ct-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.ct-thumb .vid-play{width:30px;height:30px;font-size:12px}
+.ct-media-info{min-width:0;font-size:12.5px;color:var(--ink-2);line-height:1.5;word-break:break-word}
+.ct-media-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.ct-upload{cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.ct-yt-row{display:flex;gap:8px;margin-top:10px}
+.ct-yt-row input{flex:1;min-width:0}
+.ct-media-msg:empty{display:none}
+.ct-media-msg{margin-top:8px}
+.ct-req{margin-top:10px}
+.ct-req code{display:block}
+.navbtn.has-dirty::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--draft);margin-left:auto}
+@media(max-width:1100px){.ct-layout{grid-template-columns:1fr}.ct-preview{position:static;order:-1}.ct-pv-frame{height:380px;min-height:0}}
+@media(max-width:560px){.ct-clips{grid-template-columns:1fr}.ct-thumb.wide{width:130px}}
 .uploadbox:hover{border-color:var(--accent)}
 /* Videos del producto: lista, mensajes de revision y tarjeta de requisitos */
 .vid-row{display:grid;grid-template-columns:96px 1fr auto;gap:12px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--bg-2)}
@@ -799,11 +858,28 @@ body.role-staff .staff-hide{display:none!important}
 
     <!-- ---------------- Contenido del sitio ---------------- -->
     <section class="panel" id="panel-contenido">
-      <div class="card">
-        <h3 style="margin-bottom:6px">Textos editables</h3>
-        <p class="hint muted" style="margin-bottom:14px">Un campo que dejas vacío a propósito se publica vacío. Un campo que nunca tocas mantiene el texto por defecto del sitio.</p>
-        <div id="content-fields"></div>
-        <button class="btn cyan" id="btn-save-content" style="margin-top:10px">Guardar en el borrador</button>
+      <div class="ct-bar" id="ct-bar">
+        <div id="ct-status"></div>
+        <div class="ct-bar-actions">
+          <button class="btn ghost sm" id="btn-discard-content" type="button" disabled>Descartar cambios</button>
+          <button class="btn cyan" id="btn-save-content" type="button" disabled>Publicar contenido del sitio</button>
+        </div>
+      </div>
+      <div class="ct-layout">
+        <div class="ct-edit" id="ct-edit"><div class="card"><p class="muted">Abriendo el editor…</p></div></div>
+        <aside class="ct-preview">
+          <div class="ct-pv-head">
+            <b>Vista previa</b>
+            <select id="ct-pv-page" aria-label="Página que se muestra"></select>
+            <div class="ct-seg" role="group" aria-label="Tamaño de pantalla">
+              <button type="button" class="active" data-ct-mode="desktop">Computador</button>
+              <button type="button" data-ct-mode="phone">Celular</button>
+            </div>
+            <button type="button" class="btn ghost sm" id="ct-pv-reload" title="Volver a cargar la vista previa" aria-label="Volver a cargar la vista previa">↻</button>
+          </div>
+          <div class="ct-pv-frame" id="ct-pv-frame"><iframe id="ct-pv" title="Vista previa del sitio" tabindex="-1"></iframe></div>
+          <p class="hint muted">Es el sitio de verdad. Haz clic en un texto o en un video para editarlo: lo que escribes cambia aquí al instante, pero no se publica hasta que le des «Publicar contenido del sitio».</p>
+        </aside>
       </div>
     </section>
 
@@ -845,8 +921,8 @@ body.role-staff .staff-hide{display:none!important}
 <script src="assets/js/pdp-render.js?v=1c26f1c3"></script>
 <script src="assets/js/photo-editor.js?v=6f906ace"></script>
 <script src="assets/js/select-search.js?v=f8893cc5"></script>
-<script src="assets/js/video-tools.js?v=c601fcb4"></script>
-<script src="admin.js?v=16"></script>
+<script src="assets/js/video-tools.js?v=aaa2b1fa"></script>
+<script src="admin.js?v=17"></script>
 <script>
   // Service worker propio del panel: solo cachea el logo del shell, nunca
   // admin.html/admin.js (ver admin-sw.js).

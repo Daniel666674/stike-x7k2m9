@@ -2745,53 +2745,538 @@ async function importFile(file) {
   showStatus([{ text: `Importados: ${created} nuevos, ${updated} actualizados (sin publicar aún).`, cls: "ok" }]);
 }
 
-/* ============================== CONTENIDO DEL SITIO =========================== */
-const CONTENT_FIELDS = [
-  { key: "home.heroTitle", label: "Home · Título del hero" },
-  { key: "home.heroSubtitle", label: "Home · Subtítulo del hero" },
-  { key: "home.promoTitle", label: "Home · Título sección promo" },
-  { key: "cat.repuestos.title", label: "Repuestos · Título de categoría" },
-  { key: "cat.repuestos.subtitle", label: "Repuestos · Subtítulo" },
-  { key: "cat.protecciones.title", label: "Protecciones · Título de categoría" },
-  { key: "cat.protecciones.subtitle", label: "Protecciones · Subtítulo" },
-  { key: "cat.ropa.title", label: "Ropa · Título de categoría" },
-  { key: "cat.ropa.subtitle", label: "Ropa · Subtítulo" },
-  { key: "cat.accesorios.title", label: "Accesorios · Título de categoría" },
-  { key: "cat.accesorios.subtitle", label: "Accesorios · Subtítulo" },
-];
-function renderContentTab() {
-  // "Personalizar" es la señal explícita de intención: si está destildado, la
-  // clave NO se escribe (o se borra) y el sitio usa su texto por defecto. Si
-  // está tildado, se escribe el valor tal cual (incluso vacío = a propósito
-  // en blanco). Sin esto, guardar el formulario sin tocar nada terminaría
-  // publicando las 12 claves en blanco y tapando todos los textos por defecto.
-  $("#content-fields").innerHTML = CONTENT_FIELDS.map(f => {
-    const present = Object.prototype.hasOwnProperty.call(siteContent, f.key);
-    return `<div class="field">
-      <label><input type="checkbox" class="content-toggle" data-toggle-key="${f.key}" ${present ? "checked" : ""}> ${f.label} <span class="hint">— personalizar</span></label>
-      <input data-content-key="${f.key}" value="${escAttr(siteContent[f.key] || "")}" placeholder="(usa el texto por defecto del sitio)" ${present ? "" : "disabled"}>
-    </div>`;
-  }).join("");
-  $$(".content-toggle").forEach(cb => cb.addEventListener("change", () => {
-    const inp = document.querySelector(`[data-content-key="${cb.getAttribute("data-toggle-key")}"]`);
-    inp.disabled = !cb.checked;
-  }));
+/* ============================== CONTENIDO DEL SITIO ===========================
+   Lo que se edita aca llega al sitio por data/site-content.json (un mapa plano, clave -> valor):
+
+     textos    "home.heroLine1": "Rueda"          los textos de index.html marcados con data-content-key
+                                                  (el panel los DESCUBRE leyendo index.html: etiqueta, texto original
+                                                  y largo maximo salen de esos atributos, no se repiten aca)
+               "cat.repuestos.title": "..."       el banner de cada categoria de la tienda
+     videos    "home.video":     {type:"youtube", id}  o  {type:"mp4", src, poster, w, h, dur, b, ts}
+               "home.clipLeft":  {src, poster, w, h, dur, b, ts}     clips verticales de los lados
+               "home.clipRight": idem
+
+   Una clave que no esta en el archivo = se queda el original del sitio. Todo se ve ANTES de publicar en una vista
+   previa real (el mismo index.html dentro de un iframe, con ?admin-preview=1): al escribir cambia al instante, un
+   clic en el sitio elige el campo, y al enfocar un campo se resalta su lugar en la pagina. Los archivos de video
+   se suben recien al publicar, como los de los productos.                                                         */
+const CT_MEDIA_KEYS = ["home.video", "home.clipLeft", "home.clipRight"];
+const CT_MEDIA_LABEL = { "home.video": "Video principal", "home.clipLeft": "Clip izquierdo", "home.clipRight": "Clip derecho" };
+const CT_SITE_FILE_RE = /^assets\/video\/site\/[A-Za-z0-9._-]+\.(mp4|jpg)$/;
+const CT_YT_ID_RE = /^[A-Za-z0-9_-]{11}$/;
+const CT_GROUP_HELP = {
+  "Arriba del inicio": "Lo primero que se ve al entrar: el título, el video, la frase, la caja de texto y los botones.",
+  "Franja de palabras": "La franja gris con cuatro palabras, justo debajo de lo de arriba.",
+  "Repuestos (grilla de partes)": "El título de la sección con los cuadros de repuestos (marcos, timones, cañas…).",
+  "Marca Fate": "La sección de Fate BMX Colombia.",
+  "Arma tu BMX": "La sección que invita a armar la bici pieza por pieza.",
+};
+
+let ctSchema = null;               // { fields: [{key,label,group,max,optional,multiline,def,page}], defaultYt, defaultPosters }
+let ctSchemaPromise = null;
+let ctWork = {};                   // copia de trabajo: lo que se ve en la vista previa (parte de siteContent)
+let ctPending = new Map();         // ruta reservada del .mp4 -> { file, poster: Blob|null, posterPath, dur, at, url, posterUrl }
+let ctMsgs = {};                   // mensajes de revision por tarjeta de video
+let ctYtOpen = {};                 // tarjeta con la casilla del link de YouTube abierta
+let ctOpened = false;
+let ctPage = "home";               // pagina que muestra la vista previa: "home" o "cat:<slug>"
+let ctMode = "desktop";            // "desktop" | "phone"
+let ctFrameReady = false;
+let ctAfterLoad = null;            // accion a hacer cuando termine de cargar la vista previa
+
+const ctClone = o => JSON.parse(JSON.stringify(o));
+const ctIsMedia = k => CT_MEDIA_KEYS.includes(k);
+const ctField = key => (ctSchema ? ctSchema.fields.find(f => f.key === key) : null);
+const ctHas = (obj, k) => Object.prototype.hasOwnProperty.call(obj, k);
+const ctValue = f => (ctHas(ctWork, f.key) && typeof ctWork[f.key] === "string" ? ctWork[f.key] : f.def);
+const ctFrame = () => $("#ct-pv");
+const ctWin = () => { const fr = ctFrame(); try { return fr && fr.contentWindow && fr.contentWindow.StikePreview ? fr.contentWindow : null; } catch (e) { return null; } };
+
+/* Saca el ID de un link de YouTube (watch, youtu.be, embed, shorts, live) o de un ID suelto. */
+function ctParseYouTube(input) {
+  const t = String(input || "").trim();
+  if (CT_YT_ID_RE.test(t)) return t;
+  let u; try { u = new URL(/^https?:\/\//i.test(t) ? t : "https://" + t); } catch (e) { return null; }
+  const host = u.hostname.replace(/^(www|m)\./, "");
+  let id = null;
+  if (host === "youtu.be") id = u.pathname.slice(1).split("/")[0];
+  else if (host === "youtube.com" || host === "youtube-nocookie.com") {
+    if (u.pathname === "/watch") id = u.searchParams.get("v");
+    else { const m = u.pathname.match(/^\/(embed|shorts|live|v)\/([^/?]+)/); if (m) id = m[2]; }
+  }
+  return id && CT_YT_ID_RE.test(id) ? id : null;
 }
-async function saveSiteContent() {
-  const updates = {}; const deletions = [];
-  $$(".content-toggle").forEach(cb => {
-    const key = cb.getAttribute("data-toggle-key");
-    const inp = document.querySelector(`[data-content-key="${key}"]`);
-    if (cb.checked) updates[key] = inp.value; else deletions.push(key);
+const ctYtThumb = id => `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+function ctImageLoads(url) {
+  return new Promise(res => { const i = new Image(); i.onload = () => res(i.naturalWidth >= 200); i.onerror = () => res(false); i.src = url; });
+}
+
+/* ---- Esquema: se lee de index.html (la fuente de la verdad de lo que se puede editar) ---- */
+function ctLoadSchema() {
+  if (ctSchemaPromise) return ctSchemaPromise;
+  ctSchemaPromise = (async () => {
+    const res = await fetch(new URL("index.html?t=" + Date.now(), document.baseURI), { cache: "no-store" });
+    if (!res.ok) throw new Error("No se pudo leer index.html para armar el editor (" + res.status + ")");
+    const doc = new DOMParser().parseFromString(await res.text(), "text/html");
+    const fields = [...doc.querySelectorAll("[data-content-key]")].map(el => ({
+      key: el.getAttribute("data-content-key"),
+      label: el.getAttribute("data-content-label") || el.getAttribute("data-content-key"),
+      group: el.getAttribute("data-content-group") || "Otros",
+      max: +el.getAttribute("data-content-max") || 0,
+      optional: el.hasAttribute("data-content-optional"),
+      multiline: el.hasAttribute("data-content-multiline"),
+      def: el.textContent.replace(/\s+/g, " ").trim(),
+      page: "home",
+    }));
+    STIKE_CATEGORIES.filter(c => c.slug !== "promo").forEach(c => {
+      const group = `Tienda · ${c.name}`;
+      fields.push({ key: `cat.${c.slug}.title`, label: "Título del banner", group, max: 40, optional: false, multiline: false, def: c.name, page: "cat:" + c.slug });
+      fields.push({ key: `cat.${c.slug}.subtitle`, label: "Subtítulo del banner (opcional)", group, max: 140, optional: true, multiline: false, def: "", page: "cat:" + c.slug });
+    });
+    const feat = doc.querySelector('[data-video="feature"]');
+    const posterOf = name => { const im = doc.querySelector(`[data-video="${name}"] img`); return im ? im.getAttribute("src") : ""; };
+    ctSchema = { fields, defaultYt: feat ? feat.getAttribute("data-yt-id") : "", defaultPosters: { "home.clipLeft": posterOf("heroLeft"), "home.clipRight": posterOf("heroRight") } };
+    return ctSchema;
+  })();
+  ctSchemaPromise.catch(() => { ctSchemaPromise = null; });
+  return ctSchemaPromise;
+}
+
+/* ---- Diferencias entre lo que se ve (ctWork) y lo publicado (siteContent) ---- */
+function ctDiff() {
+  const updates = {}, deletions = []; let texts = 0, media = 0;
+  if (!ctSchema) return { updates, deletions, texts, media };
+  [...ctSchema.fields.map(f => f.key), ...CT_MEDIA_KEYS].forEach(k => {
+    const has = ctHas(ctWork, k), had = ctHas(siteContent, k);
+    if (has && JSON.stringify(ctWork[k]) !== JSON.stringify(siteContent[k])) { updates[k] = ctWork[k]; ctIsMedia(k) ? media++ : texts++; }
+    else if (!has && had) { deletions.push(k); ctIsMedia(k) ? media++ : texts++; }
   });
-  setPublishing(true);
+  return { updates, deletions, texts, media };
+}
+const ctHasChanges = () => { const d = ctDiff(); return d.texts + d.media > 0; };
+
+/* Libera de la memoria los archivos que ya no hacen falta (los reemplazados o los de cambios descartados). */
+function ctReleasePending(keep) {
+  const used = new Set(keep || CT_MEDIA_KEYS.map(k => ctWork[k] && ctWork[k].src).filter(Boolean));
+  for (const [src, p] of ctPending) {
+    if (used.has(src)) continue;
+    if (p.url) URL.revokeObjectURL(p.url);
+    if (p.posterUrl) URL.revokeObjectURL(p.posterUrl);
+    ctPending.delete(src);
+  }
+}
+function ctBlobUrl(src) {
+  const p = ctPending.get(src);
+  if (!p) return src;
+  p.url = p.url || URL.createObjectURL(p.file);
+  return p.url;
+}
+function ctPosterUrl(v) {
+  if (!v) return "";
+  const p = ctPending.get(v.src);
+  if (p) { if (!p.poster) return ""; p.posterUrl = p.posterUrl || URL.createObjectURL(p.poster); return p.posterUrl; }
+  return v.poster || "";
+}
+
+/* ---- Barra de estado + publicar / descartar ---- */
+function ctRenderBar() {
+  const bar = $("#ct-bar");
+  if (!bar) return;
+  const d = ctDiff(), n = d.texts + d.media;
+  const parts = [];
+  if (d.texts) parts.push(`${d.texts} texto${d.texts === 1 ? "" : "s"}`);
+  if (d.media) parts.push(`${d.media} video${d.media === 1 ? "" : "s"}`);
+  $("#ct-status").innerHTML = n ? `<span class="pill dirty">${n} cambio${n === 1 ? "" : "s"} sin publicar</span> <span class="muted">${parts.join(" y ")}</span>` : `<span class="muted">Todo publicado. Lo que cambies se ve aquí mismo antes de publicarlo.</span>`;
+  $("#btn-save-content").disabled = !n || publishing;
+  $("#btn-discard-content").disabled = !n || publishing;
+  const nav = document.querySelector('.navbtn[data-panel="contenido"]');
+  if (nav) nav.classList.toggle("has-dirty", n > 0);
+}
+
+/* ---- Vista previa (iframe de index.html / tienda.html con ?admin-preview=1) ---- */
+function ctPageUrl(page) {
+  return new URL(page === "home" ? "index.html?admin-preview=1" : `tienda.html?cat=${page.slice(4)}&admin-preview=1`, document.baseURI).href;
+}
+function ctLoadPreview(page, after) {
+  ctPage = page || ctPage;
+  ctFrameReady = false;
+  ctAfterLoad = after || null;
+  const sel = $("#ct-pv-page"); if (sel) sel.value = ctPage;
+  ctFrame().src = ctPageUrl(ctPage);
+}
+function ctOnPreviewLoad() {
+  const w = ctWin();
+  if (!w) return;
+  ctFrameReady = true;
+  if (ctPage !== "home") {
+    /* La tienda arma su banner por JavaScript: se marcan titulo y subtitulo como campos editables para que el
+       resaltado, el clic y el texto en vivo funcionen igual que en el inicio. */
+    const slug = ctPage.slice(4), doc = w.document;
+    const t = doc.getElementById("page-title"), s = doc.getElementById("page-subtitle");
+    if (t) t.setAttribute("data-content-key", `cat.${slug}.title`);
+    if (s) { s.setAttribute("data-content-key", `cat.${slug}.subtitle`); s.setAttribute("data-content-optional", ""); }
+  }
+  ctPreviewApplyAll();
+  ctFit();
+  if (ctAfterLoad) { const fn = ctAfterLoad; ctAfterLoad = null; fn(); }
+}
+function ctPreviewText(f) {
+  const w = ctWin(); if (!w || !ctFrameReady || f.page !== ctPage) return;
+  w.StikePreview.setText(f.key, ctValue(f));
+  if (f.page !== "home" && f.key.endsWith(".subtitle")) { const el = w.document.getElementById("page-subtitle"); if (el) el.style.display = ctValue(f) ? "" : "none"; }
+}
+function ctMediaConfig() {
+  const clip = k => { const v = ctWork[k]; return v && v.src ? { src: ctBlobUrl(v.src), poster: ctPosterUrl(v), w: v.w, h: v.h } : null; };
+  const m = ctWork["home.video"];
+  const video = !m ? null : m.type === "youtube" ? { type: "youtube", id: m.id } : (m.src ? { type: "mp4", src: ctBlobUrl(m.src), poster: ctPosterUrl(m), w: m.w, h: m.h } : null);
+  return { video, clipLeft: clip("home.clipLeft"), clipRight: clip("home.clipRight") };
+}
+function ctPreviewMedia() {
+  const w = ctWin(); if (!w || !ctFrameReady || ctPage !== "home" || !w.StikeHomeMedia) return;
+  w.StikeHomeMedia.applyConfig(ctMediaConfig());
+}
+function ctPreviewApplyAll() {
+  (ctSchema ? ctSchema.fields : []).filter(f => f.page === ctPage).forEach(f => { if (ctValue(f) !== f.def || ctHas(ctWork, f.key)) ctPreviewText(f); });
+  ctPreviewMedia();
+}
+/* El sitio se escala para que quepa en la columna: 1280 px de ancho en "Computador", 390 en "Celular". */
+function ctFit() {
+  const wrap = $("#ct-pv-frame"), fr = ctFrame();
+  if (!wrap || !fr || !wrap.clientWidth) return;
+  const W = wrap.clientWidth, H = wrap.clientHeight, vw = ctMode === "phone" ? 390 : 1280;
+  const k = Math.min(1, W / vw);
+  fr.style.width = vw + "px";
+  fr.style.height = Math.round(H / k) + "px";
+  fr.style.transform = `scale(${k})`;
+  fr.style.left = Math.max(0, Math.round((W - vw * k) / 2)) + "px";
+  wrap.classList.toggle("phone", ctMode === "phone");
+}
+function ctHighlight(key) {
+  const f = ctField(key), page = f ? f.page : "home";
+  const go = () => { const w = ctWin(); if (w) w.StikePreview.highlight(key); };
+  if (page !== ctPage) ctLoadPreview(page, go); else if (ctFrameReady) go();
+}
+/* Clic en el sitio -> se elige el campo en el editor (y se destella). */
+function ctSelect(key) {
+  const sel = ctIsMedia(key) ? `[data-ct-media="${key}"]` : `[data-ct-field="${key}"]`;
+  const el = document.querySelector(sel);
+  if (!el) return;
+  el.scrollIntoView({ block: "center", behavior: "smooth" });
+  const inp = el.querySelector("input[data-ct-input], textarea[data-ct-input]");
+  if (inp) inp.focus({ preventScroll: true });
+  el.classList.remove("ct-flash"); void el.offsetWidth; el.classList.add("ct-flash");
+  ctHighlight(key);
+}
+window.addEventListener("message", e => {
+  if (e.origin !== location.origin || !e.data || e.data.type !== "stike-preview-select") return;
+  if (ctIsMedia(e.data.key) || ctField(e.data.key)) ctSelect(e.data.key);
+});
+
+/* ---- Editor: textos ---- */
+function ctFieldHtml(f) {
+  const v = ctValue(f);
+  const input = f.multiline
+    ? `<textarea id="ct-in-${f.key}" data-ct-input="${f.key}" rows="3" ${f.max ? `maxlength="${f.max}"` : ""} placeholder="${escAttr(f.def)}">${escHtml(v)}</textarea>`
+    : `<input id="ct-in-${f.key}" data-ct-input="${f.key}" type="text" ${f.max ? `maxlength="${f.max}"` : ""} value="${escAttr(v)}" placeholder="${escAttr(f.def || (f.optional ? "(déjalo vacío para no mostrarlo)" : ""))}" autocomplete="off">`;
+  return `<div class="ct-field" data-ct-field="${f.key}">
+    <div class="ct-flabel"><label for="ct-in-${f.key}">${escHtml(f.label)}</label>
+      <span class="pill ct-pill-changed" hidden>Cambiado</span><span class="pill dirty ct-pill-unpub" hidden>Sin publicar</span>
+      <button type="button" class="ct-restore" data-ct-restore="${f.key}" hidden title="Volver al texto original del sitio">↺ Original</button></div>
+    ${input}
+    <div class="ct-fhint"><span class="ct-orig" hidden></span><span class="ct-warn" hidden></span><span class="ct-count"></span></div>
+  </div>`;
+}
+/* Pone al dia la fila de UN campo (sin volver a dibujar todo: no se puede perder el cursor al escribir). */
+function ctRefreshField(key) {
+  const f = ctField(key), row = document.querySelector(`[data-ct-field="${key}"]`);
+  if (!f || !row) return;
+  const v = ctValue(f), inp = row.querySelector("[data-ct-input]");
+  const changed = v !== f.def, unpub = JSON.stringify(ctWork[key]) !== JSON.stringify(siteContent[key]);
+  row.querySelector(".ct-pill-changed").hidden = !changed || unpub;
+  row.querySelector(".ct-pill-unpub").hidden = !unpub;
+  row.querySelector("[data-ct-restore]").hidden = !changed && !unpub;
+  row.classList.toggle("ct-unpub", unpub);
+  const orig = row.querySelector(".ct-orig");
+  orig.hidden = !changed; orig.textContent = changed ? `Original: «${f.def || "(vacío)"}»` : "";
+  const blank = inp.value.trim() === "" && !f.optional;
+  const warn = row.querySelector(".ct-warn");
+  warn.hidden = !blank; warn.textContent = blank ? "Vacío: se usa el texto original." : "";
+  row.querySelector(".ct-count").textContent = f.max ? `${inp.value.length}/${f.max}` : "";
+}
+function ctSetText(key, raw) {
+  const f = ctField(key); if (!f) return;
+  const t = String(raw).trim();
+  if ((t === "" && !f.optional) || t === f.def) delete ctWork[key]; else ctWork[key] = t;
+  ctRefreshField(key); ctPreviewText(f); ctRenderBar();
+}
+
+/* ---- Editor: videos ---- */
+function ctRequirementsHtml(key) {
+  const kind = key === "home.video" ? "hero" : "clip";
+  const R = Object.assign({}, StikeVideo.RULES, StikeVideo.PRESETS[kind]);
+  const M = n => Math.round(n / 1048576);
+  const cmd = kind === "hero"
+    ? `ffmpeg -i entrada.mov -t 60 -vf "scale='if(gt(iw,ih),-2,min(720,iw))':'if(gt(iw,ih),min(720,ih),-2)',fps=30" -c:v libx264 -profile:v high -pix_fmt yuv420p -crf 26 -preset slow -c:a aac -b:a 96k -movflags +faststart salida.mp4`
+    : `ffmpeg -i entrada.mov -t 20 -vf "scale='min(540,iw)':-2,fps=30" -c:v libx264 -profile:v high -pix_fmt yuv420p -crf 28 -preset slow -an -movflags +faststart clip.mp4`;
+  return `<details class="vid-req ct-req"><summary>Requisitos del video y cómo prepararlo</summary>
+    <ul>
+      <li><b>Formato:</b> MP4 con video <b>H.264</b>${kind === "hero" ? " (audio AAC, opcional)" : " (sin audio: se ve sin sonido)"}</li>
+      <li><b>Peso:</b> máximo <b>${M(R.maxBytes)} MB</b> · lo ideal, menos de ${M(R.niceBytes)} MB</li>
+      <li><b>Duración:</b> de ${R.minSec} a <b>${R.maxSec} segundos</b>${kind === "clip" ? " (se repite en bucle)" : ""}</li>
+      <li><b>Tamaño:</b> máximo ${R.maxLong}×${R.maxShort} ${kind === "clip" ? "· <b>vertical</b> (540×960 o 720×1280)" : "· <b>horizontal 16:9</b> (1280×720)"}</li>
+      <li><b>Cuadros:</b> 30 por segundo o menos · <b>Fast Start</b> activado</li>
+    </ul>
+    <p class="muted">${kind === "hero" ? "Arranca solo y sin sonido al cargar el inicio (con un botón «Activar sonido»); en conexiones lentas, con ahorro de datos o «menos movimiento» queda la portada con su botón de play." : "Arranca solo, mudo y en bucle; en conexiones lentas o con ahorro de datos se queda la foto de siempre."} Si prefieres no subir un archivo${kind === "hero" ? ", pega el link de YouTube" : ""}.</p>
+    <p style="margin:8px 0 0">Para convertir (ffmpeg): <code>${escHtml(cmd)}</code></p>
+    <p class="muted" style="margin:8px 0 0">O con HandBrake (gratis): preset «Fast 720p30», formato MP4, «Web optimizado»${kind === "clip" ? ", y quita el audio" : ""}.</p>
+  </details>`;
+}
+function ctMediaStatus(key) {
+  const v = ctWork[key], had = ctHas(siteContent, key);
+  if (!v) return had ? ["Se quitará al publicar", "dirty"] : ["Original", ""];
+  const pend = v.src ? ctPending.get(v.src) : null;
+  if (pend && !pend.uploaded) return ["Nuevo · se sube al publicar", "dirty"];
+  if (JSON.stringify(v) !== JSON.stringify(siteContent[key])) return ["Cambiado · sin publicar", "dirty"];
+  return ["Publicado", "good"];
+}
+function ctMediaCardHtml(key) {
+  const v = ctWork[key], main = key === "home.video";
+  const [stText, stCls] = ctMediaStatus(key);
+  let thumb = "", info = "", yt = null;
+  if (main && (!v || v.type === "youtube")) {
+    yt = v ? v.id : ctSchema.defaultYt;
+    thumb = ctYtThumb(yt);
+    info = `YouTube · <span class="mono">${escHtml(yt)}</span> · <a href="https://www.youtube.com/watch?v=${encodeURIComponent(yt)}" target="_blank" rel="noopener">abrir ↗</a>${v ? "" : " · el de siempre"}`;
+  } else if (v && v.src) {
+    thumb = ctPosterUrl(v) || (main ? "" : ctSchema.defaultPosters[key]);
+    const pend = ctPending.get(v.src), size = pend ? pend.file.size : v.b;
+    info = `Video propio · ${v.w}×${v.h} · ${fmtSecs(v.dur || 0)}${size ? " · " + StikeVideo.mb(size) : ""}`;
+  } else {
+    thumb = ctSchema.defaultPosters[key];
+    info = "Las fotos de siempre (sin video)";
+  }
+  const pend = v && v.src ? ctPending.get(v.src) : null;
+  const slider = pend && pend.poster && pend.dur > 2 ? `<label class="vid-frame">Imagen de portada
+      <input type="range" min="0" max="${Math.max(0, pend.dur - 0.2).toFixed(1)}" step="0.1" value="${pend.at}" data-ct-frame="${key}"><span>${fmtSecs(pend.at)}</span></label>` : "";
+  const m = ctMsgs[key];
+  const msg = m ? (m.errors || []).map(t => `<div class="vm bad">✕ ${escHtml(t)}</div>`).join("") + (m.ok ? `<div class="vm ok">✔ ${escHtml(m.ok)}</div>` : "")
+    + (m.warnings || []).map(t => `<div class="vm warn">⚠ ${escHtml(t)}</div>`).join("") + (m.notes || []).map(t => `<div class="vm note">${escHtml(t)}</div>`).join("") : "";
+  const canRevert = main ? !!v : !!v;
+  return `<div class="ct-media ${main ? "ct-media-main" : ""}" data-ct-media="${key}">
+    <div class="ct-media-head"><b>${CT_MEDIA_LABEL[key]}</b><span class="pill ${stCls}">${stText}</span></div>
+    <div class="ct-media-body">
+      <div class="ct-thumb ${main ? "wide" : "tall"}">${thumb ? `<img src="${escAttr(thumb)}" alt="">` : `<span class="muted">sin imagen</span>`}<span class="vid-play">▶</span></div>
+      <div class="ct-media-info"><div>${info}</div>${slider}</div>
+    </div>
+    <div class="ct-media-actions">
+      <label class="btn cyan sm ct-upload">⬆ ${main ? "Subir video propio (MP4)" : "Subir clip (MP4 vertical)"}<input type="file" accept="video/mp4,.mp4" data-ct-upload="${key}" hidden></label>
+      ${main ? `<button type="button" class="btn ghost sm" data-ct-yt-toggle="${key}">▶ Usar un link de YouTube</button>` : ""}
+      ${canRevert ? `<button type="button" class="btn ghost sm" data-ct-revert="${key}">${main ? "↺ Volver al video de siempre" : "✕ Quitar (vuelven las fotos)"}</button>` : ""}
+    </div>
+    ${main && ctYtOpen[key] ? `<div class="ct-yt-row"><input type="text" id="ct-yt-input" placeholder="Pega aquí el link del video de YouTube" autocomplete="off"><button type="button" class="btn cyan sm" data-ct-yt-apply="${key}">Usar este video</button></div>` : ""}
+    <div class="ct-media-msg">${msg}</div>
+    ${ctRequirementsHtml(key)}
+  </div>`;
+}
+function ctRenderMedia() {
+  const box = $("#ct-media"); if (!box) return;
+  box.innerHTML = ctMediaCardHtml("home.video") + `<div class="ct-clips">${ctMediaCardHtml("home.clipLeft")}${ctMediaCardHtml("home.clipRight")}</div>`;
+  ctRenderBar();
+}
+function ctMediaChanged() { ctRenderMedia(); ctPreviewMedia(); }
+
+async function ctAddVideo(key, file) {
+  const main = key === "home.video", preset = main ? "hero" : "clip", R = StikeVideo.RULES;
+  const ext = ((file.name.match(/\.([A-Za-z0-9]+)$/) || [])[1] || "").toLowerCase();
+  if (ext !== "mp4") { ctMsgs[key] = { errors: [`«${file.name}» ${ext ? "es un archivo ." + ext.toUpperCase() : "no tiene extensión"} y tiene que ser MP4 (H.264). Abajo, en «Requisitos del video y cómo prepararlo», está cómo convertirlo.`] }; ctRenderMedia(); return; }
+  ctMsgs[key] = { notes: ["Revisando el video…"] }; ctRenderMedia();
+  let info = null;
+  if (file.size <= R.maxReadBytes) { try { info = StikeVideo.inspect(new Uint8Array(await file.arrayBuffer())); } catch (e) { info = { ok: false, error: "unreadable" }; } }
+  const res = StikeVideo.check(info, file.size, preset);
+  if (res.errors.length) { ctMsgs[key] = { errors: res.errors }; ctRenderMedia(); return; }
+  const dur = info.duration;
+  const at = Math.round(Math.min(Math.max(1, dur * 0.2), Math.max(0, dur - 0.3)) * 10) / 10;
+  let poster = null;
+  try { poster = await captureVideoFrame(file, at); } catch (e) { /* este navegador no lo decodifica: sin portada propia */ }
+  const id = randomFilename("x").split(".")[0];
+  const src = `assets/video/site/${id}.mp4`, posterPath = `assets/video/site/${id}.jpg`;
+  const prev = ctWork[key] && ctWork[key].src;
+  ctPending.set(src, { file, poster, posterPath, dur, at });
+  const rec = { src, ...(poster ? { poster: posterPath } : {}), w: info.video.w, h: info.video.h, dur: Math.round(dur * 10) / 10, b: file.size, ts: new Date().toISOString().slice(0, 10) };
+  ctWork[key] = main ? { type: "mp4", ...rec } : rec;
+  if (prev && ctPending.has(prev)) { const p = ctPending.get(prev); if (p.url) URL.revokeObjectURL(p.url); if (p.posterUrl) URL.revokeObjectURL(p.posterUrl); ctPending.delete(prev); }
+  ctMsgs[key] = {
+    ok: `Cumple todo: ${info.video.w}×${info.video.h} · ${fmtSecs(dur)} · ${Math.round(info.video.fps)} fps · ${StikeVideo.mb(file.size)}`,
+    warnings: res.warnings, notes: res.notes.concat(poster ? [] : ["Este navegador no pudo sacar la imagen de portada; se usará una imagen genérica hasta que el video arranque."]),
+  };
+  ctMediaChanged();
+}
+async function ctApplyYouTube(key) {
+  const input = $("#ct-yt-input"); if (!input) return;
+  const id = ctParseYouTube(input.value);
+  if (!id) { ctMsgs[key] = { errors: ["Ese no parece un link de YouTube. Copia el link desde la barra de direcciones o el botón «Compartir» del video (youtube.com/watch?v=… o youtu.be/…)."] }; ctRenderMedia(); return; }
+  ctMsgs[key] = { notes: ["Buscando el video en YouTube…"] }; ctRenderMedia();
+  if (!(await ctImageLoads(ctYtThumb(id)))) { ctMsgs[key] = { errors: ["No encontré ese video en YouTube. Revisa el link, y que el video sea público o «no listado» (uno privado no se puede mostrar)."] }; ctYtOpen[key] = true; ctRenderMedia(); return; }
+  const prev = ctWork[key] && ctWork[key].src;
+  if (id === ctSchema.defaultYt) delete ctWork[key]; else ctWork[key] = { type: "youtube", id };
+  if (prev && ctPending.has(prev)) ctReleasePending();
+  ctYtOpen[key] = false;
+  ctMsgs[key] = { ok: id === ctSchema.defaultYt ? "Es el video de siempre." : "Video de YouTube listo. Míralo en la vista previa y publica cuando quieras." };
+  ctMediaChanged();
+}
+function ctRevertMedia(key) {
+  const prev = ctWork[key] && ctWork[key].src;
+  delete ctWork[key]; ctMsgs[key] = null; ctYtOpen[key] = false;
+  if (prev) ctReleasePending();
+  ctMediaChanged();
+}
+
+/* ---- Armar el editor completo ---- */
+function ctRenderAll() {
+  if (!ctSchema) return;
+  const groups = [];
+  ctSchema.fields.forEach(f => { let g = groups.find(x => x.name === f.group); if (!g) groups.push(g = { name: f.group, fields: [] }); g.fields.push(f); });
+  const help = g => CT_GROUP_HELP[g] || (g.startsWith("Tienda · ") ? "El banner de arriba del catálogo cuando se entra a esta categoría. Si lo dejas como está, se usa el nombre de la categoría." : "");
+  const pageOf = g => g.fields[0].page;
+  $("#ct-edit").innerHTML = `
+    <section class="card ct-card" id="ct-media-card">
+      <h3>Videos del inicio</h3>
+      <p class="hint muted">El video grande va arriba, sobre «Rueda Duro Vive BMX»; los dos clips verticales van a los lados (en el celular, abajo). Los videos suben al publicar.</p>
+      <div id="ct-media"></div>
+    </section>
+    ${groups.map(g => `<section class="card ct-card" data-ct-group="${escAttr(g.name)}" data-ct-page="${pageOf(g)}">
+      <h3>${escHtml(g.name)}${pageOf(g) !== "home" ? ` <button type="button" class="btn ghost sm ct-see" data-ct-see="${pageOf(g)}">Ver en la vista previa</button>` : ""}</h3>
+      <p class="hint muted">${escHtml(help(g.name))}</p>
+      ${g.fields.map(ctFieldHtml).join("")}
+    </section>`).join("")}`;
+  ctSchema.fields.forEach(f => ctRefreshField(f.key));
+  ctRenderMedia();
+}
+
+function ctWireOnce() {
+  const edit = $("#ct-edit");
+  edit.addEventListener("input", e => { const i = e.target.closest("[data-ct-input]"); if (i) ctSetText(i.getAttribute("data-ct-input"), i.value); });
+  edit.addEventListener("focusin", e => {
+    const row = e.target.closest("[data-ct-field], [data-ct-media]");
+    if (row) ctHighlight(row.getAttribute("data-ct-field") || row.getAttribute("data-ct-media"));
+  });
+  edit.addEventListener("click", e => {
+    const r = e.target.closest("[data-ct-restore]");
+    if (r) {
+      const key = r.getAttribute("data-ct-restore"), f = ctField(key), inp = document.querySelector(`[data-ct-input="${key}"]`);
+      delete ctWork[key]; if (inp) inp.value = f.def; ctRefreshField(key); ctPreviewText(f); ctRenderBar(); return;
+    }
+    const see = e.target.closest("[data-ct-see]"); if (see) { ctLoadPreview(see.getAttribute("data-ct-see")); return; }
+    const tg = e.target.closest("[data-ct-yt-toggle]"); if (tg) { const k = tg.getAttribute("data-ct-yt-toggle"); ctYtOpen[k] = !ctYtOpen[k]; ctRenderMedia(); const i = $("#ct-yt-input"); if (i) i.focus(); return; }
+    const ap = e.target.closest("[data-ct-yt-apply]"); if (ap) { ctApplyYouTube(ap.getAttribute("data-ct-yt-apply")); return; }
+    const rv = e.target.closest("[data-ct-revert]"); if (rv) { ctRevertMedia(rv.getAttribute("data-ct-revert")); return; }
+  });
+  edit.addEventListener("keydown", e => { if (e.key === "Enter" && e.target.id === "ct-yt-input") { e.preventDefault(); const ap = document.querySelector("[data-ct-yt-apply]"); if (ap) ctApplyYouTube(ap.getAttribute("data-ct-yt-apply")); } });
+  edit.addEventListener("change", async e => {
+    const up = e.target.closest("[data-ct-upload]");
+    if (up) { const f = (up.files || [])[0], k = up.getAttribute("data-ct-upload"); up.value = ""; if (f) await ctAddVideo(k, f); return; }
+    const fr = e.target.closest("[data-ct-frame]");
+    if (fr) {
+      const k = fr.getAttribute("data-ct-frame"), v = ctWork[k], pend = v && ctPending.get(v.src);
+      if (!pend) return;
+      try {
+        pend.at = +fr.value; pend.poster = await captureVideoFrame(pend.file, pend.at);
+        if (pend.posterUrl) URL.revokeObjectURL(pend.posterUrl); pend.posterUrl = null;
+      } catch (err) { ctMsgs[k] = { errors: ["No se pudo sacar esa imagen del video. Prueba con otro momento."] }; }
+      ctMediaChanged();
+    }
+  });
+  edit.addEventListener("input", e => { const fr = e.target.closest("[data-ct-frame]"); if (fr) fr.nextElementSibling.textContent = fmtSecs(+fr.value); });
+  $("#ct-pv").addEventListener("load", ctOnPreviewLoad);
+  $("#ct-pv-page").addEventListener("change", e => ctLoadPreview(e.target.value));
+  $("#ct-pv-reload").addEventListener("click", () => ctLoadPreview(ctPage));
+  $$("[data-ct-mode]").forEach(b => b.addEventListener("click", () => {
+    ctMode = b.getAttribute("data-ct-mode");
+    $$("[data-ct-mode]").forEach(x => x.classList.toggle("active", x === b));
+    ctFit();
+  }));
+  if (window.ResizeObserver) new ResizeObserver(() => ctFit()).observe($("#ct-pv-frame")); else window.addEventListener("resize", ctFit);
+  $("#btn-discard-content").addEventListener("click", ctDiscard);
+  /* La pagina se abre en blanco hasta que se entra a esta pestaña (no se carga el sitio en segundo plano). */
+}
+let ctWired = false;
+async function openContentTab() {
+  if (!ctWired) { ctWireOnce(); ctWired = true; }
   try {
-    siteContent = await mergeFlatMap(CONFIG.paths.siteContent, updates, deletions, "Actualiza textos del sitio");
-    showStatus([{ text: "Textos publicados.", cls: "ok" }]);
-    auditLog = await appendJsonLog(CONFIG.paths.auditLog, [{ ts: new Date().toISOString(), admin: session.email, summary: "Actualizó textos del sitio (contenido editable)", created: 0, edited: 0, deleted: 0, photos: 0 }], "Actualiza textos del sitio");
-    renderAudit();
-  } catch (e) { showStatus([{ text: "Error: " + e.message, cls: "bad" }]); }
-  setPublishing(false);
+    await ctLoadSchema();
+  } catch (e) { $("#ct-edit").innerHTML = `<div class="card"><p class="vm bad">No se pudo abrir el editor: ${escHtml(e.message)}</p></div>`; return; }
+  if (!ctOpened) {
+    ctOpened = true;
+    const sel = $("#ct-pv-page");
+    sel.innerHTML = `<option value="home">Inicio</option>` + STIKE_CATEGORIES.filter(c => c.slug !== "promo").map(c => `<option value="cat:${c.slug}">Tienda · ${escHtml(c.name)}</option>`).join("");
+    ctRenderAll();
+    ctLoadPreview("home");
+  } else { ctFit(); }
+}
+function renderContentTab() {
+  /* Se llama al cargar/refrescar el catalogo: si no hay cambios a medias, la copia de trabajo es lo publicado. */
+  if (!ctHasChanges()) { ctWork = ctClone(siteContent); ctReleasePending(); }
+  if (ctOpened) { ctRenderAll(); ctPreviewApplyAll(); }
+  ctRenderBar();
+}
+function ctDiscard() {
+  if (!ctHasChanges()) return;
+  if (!confirm("¿Descartar todos los cambios sin publicar de esta pestaña? Se pierden los textos y los videos que aún no se han publicado.")) return;
+  ctWork = ctClone(siteContent); ctMsgs = {}; ctYtOpen = {}; ctReleasePending(); ctRenderAll(); ctLoadPreview(ctPage);
+}
+
+async function saveSiteContent() {
+  if (demoMode) { showStatus([{ text: "Modo demo: no se publica nada. Entra con tu cuenta para publicar de verdad.", cls: "bad" }]); return; }
+  if (!ctSchema) return;
+  const d = ctDiff();
+  if (!d.texts && !d.media) { showStatus([{ text: "No hay cambios para publicar.", cls: "muted" }]); return; }
+  setPublishing(true);
+  const lines = [];
+  const LOG = { log: true, title: "Publicando el contenido…", doneTitle: "Contenido publicado", failTitle: "No se pudo publicar el contenido" };
+  const push = t => { lines.push({ text: t, cls: "now" }); showStatus(lines, LOG); };
+  window.pushStatus = push;
+  const summary = `Contenido del sitio: ${[d.texts ? `${d.texts} texto(s)` : "", d.media ? `${d.media} video(s)` : ""].filter(Boolean).join(", ")}`;
+  LOG.note = summary;
+  try {
+    const before = ctClone(siteContent);
+    /* 1) Los archivos nuevos primero (la vista previa de cada video, luego el video): el manifiesto nunca apunta a algo que aun no existe. */
+    for (const k of CT_MEDIA_KEYS) {
+      const v = ctWork[k], pend = v && v.src ? ctPending.get(v.src) : null;
+      if (!pend) continue;
+      if (pend.poster && v.poster) { push(`Subiendo la imagen de portada del ${CT_MEDIA_LABEL[k].toLowerCase()}...`); await putWithRetry(v.poster, new Uint8Array(await pend.poster.arrayBuffer()), `Portada de video del sitio (${CT_MEDIA_LABEL[k]})`); }
+      push(`Subiendo ${CT_MEDIA_LABEL[k].toLowerCase()} (${StikeVideo.mb(pend.file.size)}); puede tardar un minuto...`);
+      await putWithRetry(v.src, new Uint8Array(await pend.file.arrayBuffer()), `Video del sitio (${CT_MEDIA_LABEL[k]})`);
+    }
+    push("Guardando textos y videos...");
+    siteContent = await mergeFlatMap(CONFIG.paths.siteContent, d.updates, d.deletions, summary);
+    /* 2) Los videos que dejaron de usarse (reemplazados o quitados) se borran del repo: pesan mucho y viajan en cada despliegue. */
+    const refs = new Set(); CT_MEDIA_KEYS.forEach(k => { const v = siteContent[k]; if (v) { if (v.src) refs.add(v.src); if (v.poster) refs.add(v.poster); } });
+    const stale = new Set(); CT_MEDIA_KEYS.forEach(k => { const v = before[k]; if (v) { if (v.src) stale.add(v.src); if (v.poster) stale.add(v.poster); } });
+    for (const f of stale) {
+      if (refs.has(f) || !CT_SITE_FILE_RE.test(f)) continue;
+      try { push(`Borrando ${f.split("/").pop()} (ya no se usa)...`); await ghDeleteIfExists(f, summary); }
+      catch (e) { push(`Aviso: no se pudo borrar ${f.split("/").pop()} (queda sin usar en el repo): ${e.message}`); }
+    }
+    push("Escribiendo auditoría...");
+    auditLog = await appendJsonLog(CONFIG.paths.auditLog, [{ ts: new Date().toISOString(), admin: session.email, summary, created: 0, edited: 0, deleted: 0, photos: 0, ...(d.media ? { videos: d.media } : {}) }], summary);
+    ctWork = ctClone(siteContent); ctMsgs = {}; ctYtOpen = {};
+    /* Los archivos ya subidos conservan su copia local: el sitio en linea tarda un par de minutos en tenerlos (se
+       despliega aparte) y mientras tanto la vista previa y las miniaturas siguen viendose. */
+    for (const k of CT_MEDIA_KEYS) { const v = ctWork[k], p = v && v.src ? ctPending.get(v.src) : null; if (p) p.uploaded = true; }
+    ctReleasePending();
+    push("✔ Publicado.");
+    lines[lines.length - 1].cls = "ok";
+    showStatus(lines, LOG);
+    ctRenderAll(); renderAudit();
+  } catch (e) {
+    lines.push({ text: (e.userFacing ? e.message : "Error: " + e.message), cls: "bad" });
+    showStatus(lines, LOG);
+    console.error(e);
+  } finally {
+    window.pushStatus = null;
+    setPublishing(false);
+    ctRenderBar();
+  }
 }
 
 /* ============================== APP SHELL ==================================== */
@@ -3170,6 +3655,7 @@ function switchPanel(name) {
   $$(".panel").forEach(p => p.classList.toggle("active", p.id === "panel-" + name));
   const titles = { productos: "Productos", ventas: "Ventas", kpis: "KPIs", auditoria: "Auditoría", contenido: "Contenido del sitio", config: "Configuración" };
   $("#panel-title").textContent = titles[name] || name;
+  if (name === "contenido") openContentTab();
   if (name === "kpis") renderKpis();
   if (name === "auditoria") renderAudit();
   if (name === "ventas") setTimeout(() => { const q = $("#sale-q"); if (q && !cmdkOpen) q.focus(); }, 30);
