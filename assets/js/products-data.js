@@ -1180,7 +1180,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 180000,
     "promo": false,
-    "units": 2,
+    "units": 0,
     "imgs": [
       "assets/img/products/silla-pivotal-fiend-reynolds-zebra-1.jpg",
       "assets/img/products/silla-pivotal-fiend-reynolds-zebra-2.jpg",
@@ -1188,7 +1188,8 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/silla-pivotal-fiend-reynolds-zebra-4.jpg",
       "assets/img/products/silla-pivotal-fiend-reynolds-zebra-5.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "peg-fiend-7k-aluminio-plastico-4-5mm",
