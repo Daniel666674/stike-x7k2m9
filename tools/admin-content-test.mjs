@@ -46,7 +46,7 @@ let fail = 0;
 const t = (l, ok, x = "") => { if (!ok) fail++; console.log((ok ? "ok    " : "FALLA ") + l + (ok ? "" : "  -> " + x)); };
 const wait = ms => new Promise(r => setTimeout(r, ms));
 
-const MANIFEST0 = JSON.parse(fs.readFileSync(ROOT + "/data/site-content.json", "utf8"));
+const MANIFEST0 = { "home.fiendTitle": "La nueva casa de FIEND, ya en Colombia" };   // lo que ya hay publicado
 const OLD = n => ({ src: `assets/video/site/viejo${n}.mp4`, poster: `assets/video/site/viejo${n}.jpg`, w: 720, h: 1280, dur: 8, b: 900000, ts: "2026-10-01" });
 
 async function open({ manifest = MANIFEST0, viewport = { width: 1500, height: 950 } } = {}) {
@@ -96,11 +96,12 @@ console.log("\nSe abre el editor con la vista previa real");
   const { page, ctx, errs, violations, fr } = await open();
   const nFields = await page.locator("[data-ct-input]").count();
   t("el editor descubre los textos leyendo index.html (inicio + categorías de la tienda)", nFields >= 40, String(nFields));
-  t("cada campo trae su etiqueta en español", await page.locator('label[for="ct-in-home.heroLine2"]').textContent() === "Título · línea 2 (la grande)");
-  t("están los 5 grupos del inicio", (await page.locator("[data-ct-group][data-ct-page=home] h3").allTextContents()).length === 5);
+  t("cada campo trae su etiqueta en español", await page.locator('label[for="ct-in-home.place"]').textContent() === "Lugar (letras grandes)");
+  t("están los 6 grupos del inicio (incluido el banner de FIEND)", (await page.locator("[data-ct-group][data-ct-page=home] h3").allTextContents()).length === 6);
   t("la vista previa es el sitio de verdad (index.html en modo vista previa)", await fr.locator("h1.rd-top-title").textContent() === "La casa de todo el que rueda");
   t("sin avisos flotantes ni banner de cookies dentro de la vista previa", await fr.locator("#newsletter-overlay, .cookie-banner, [class*=cookie], .wa-float, .cart-float").count() === 0);
-  t("el anuncio que ya estaba guardado se ve en el campo y en la vista previa", (await input(page, "home.heroTitle").inputValue()).startsWith("Nuevo distribuidor") && await fr.locator(".rd-announce").isVisible());
+  t("la frase de FIEND que ya estaba guardada se ve en el campo y en la vista previa", (await input(page, "home.fiendTitle").inputValue()).startsWith("La nueva casa de FIEND, ya") && (await fr.locator(".rd-fiend-title").textContent()).startsWith("La nueva casa de FIEND, ya"));
+  t("el banner de FIEND trae enlace y botón de WhatsApp en la vista previa", await fr.locator(".rd-fiend-link").isVisible() && await fr.locator(".rd-fiend-wa").isVisible());
   t("arranca sin cambios pendientes y con Publicar apagado", /Todo publicado/.test(await bar(page)) && await page.locator("#btn-save-content").isDisabled());
   t("la política de seguridad real deja cargar la vista previa dentro del panel", violations.length === 0, violations.join(" || "));
   t("sin errores de JavaScript", errs.length === 0, errs.join(" | "));
@@ -110,18 +111,18 @@ console.log("\nSe abre el editor con la vista previa real");
 console.log("\nTextos: se ven al instante, sin publicar");
 {
   const { page, ctx, errs, fr } = await open();
-  await input(page, "home.heroLine2").fill("Fuerte");
-  t("al escribir, la vista previa cambia al instante", (await fr.locator(".rd-d2").textContent()) === "Fuerte");
-  t("la fila dice «Sin publicar» y el panel cuenta 1 cambio", await page.locator('[data-ct-field="home.heroLine2"] .ct-pill-unpub').isVisible() && /1 cambio sin publicar/i.test(await bar(page)));
+  await input(page, "home.place").fill("Fuerte");
+  t("al escribir, la vista previa cambia al instante", (await fr.locator(".rd-place").textContent()) === "Fuerte");
+  t("la fila dice «Sin publicar» y el panel cuenta 1 cambio", await page.locator('[data-ct-field="home.place"] .ct-pill-unpub').isVisible() && /1 cambio sin publicar/i.test(await bar(page)));
   t("Publicar se enciende", await page.locator("#btn-save-content").isEnabled());
-  t("muestra cuál era el original", /Original: «Duro»/.test(await page.locator('[data-ct-field="home.heroLine2"] .ct-orig').textContent()));
-  t("cuenta los caracteres y respeta el máximo", await input(page, "home.heroLine2").getAttribute("maxlength") === "10" && (await page.locator('[data-ct-field="home.heroLine2"] .ct-count').textContent()) === "6/10");
-  await page.locator('[data-ct-restore="home.heroLine2"]').click();
-  t("«↺ Original» devuelve el texto de siempre", (await fr.locator(".rd-d2").textContent()) === "Duro" && (await input(page, "home.heroLine2").inputValue()) === "Duro" && /Todo publicado/.test(await bar(page)));
-  await input(page, "home.heroLine1").fill("");
-  t("un texto obligatorio que se deja vacío vuelve al original y lo avisa", (await fr.locator(".rd-d1").textContent()) === "Rueda" && await page.locator('[data-ct-field="home.heroLine1"] .ct-warn').isVisible());
-  await input(page, "home.heroTitle").fill("");
-  t("el anuncio (opcional) se puede dejar vacío: desaparece de la página", !(await fr.locator(".rd-announce").isVisible()) && /1 cambio/.test(await bar(page)));
+  t("muestra cuál era el original", /Original: «Bogotá — Venecia»/.test(await page.locator('[data-ct-field="home.place"] .ct-orig').textContent()));
+  t("cuenta los caracteres y respeta el máximo", await input(page, "home.place").getAttribute("maxlength") === "28" && (await page.locator('[data-ct-field="home.place"] .ct-count').textContent()) === "6/28");
+  await page.locator('[data-ct-restore="home.place"]').click();
+  t("«↺ Original» devuelve el texto de siempre", (await fr.locator(".rd-place").textContent()) === "Bogotá — Venecia" && (await input(page, "home.place").inputValue()) === "Bogotá — Venecia" && /Todo publicado/.test(await bar(page)));
+  await input(page, "home.ctaPrimary").fill("");
+  t("un texto obligatorio que se deja vacío vuelve al original y lo avisa", (await fr.locator(".rd-ctas .btn.white").textContent()) === "Arma tu BMX" && await page.locator('[data-ct-field="home.ctaPrimary"] .ct-warn').isVisible());
+  await input(page, "home.fiendTitle").fill("");
+  t("la frase de FIEND (opcional) se puede dejar vacía: esa parte desaparece, el enlace y WhatsApp quedan", !(await fr.locator(".rd-fiend-title").isVisible()) && await fr.locator(".rd-fiend-wa").isVisible() && /1 cambio/.test(await bar(page)), await bar(page));
   await input(page, "home.boxLine2").fill("Texto largo ".repeat(20));
   t("un texto más largo que el máximo se corta", (await input(page, "home.boxLine2").inputValue()).length <= 110);
   t("sin errores de JavaScript", errs.length === 0, errs.join(" | "));
@@ -134,9 +135,9 @@ console.log("\nVisual: resaltar y elegir desde la página");
   await input(page, "home.place").focus();
   await wait(700);
   t("al entrar a un campo se resalta su lugar en la vista previa", await fr.locator(".rd-place.stike-hl").count() === 1);
-  await fr.locator(".rd-d2").click();
+  await fr.locator(".rd-tag").click();
   await wait(500);
-  t("al hacer clic en un texto de la página, se elige ese campo en el editor", await page.evaluate(() => document.activeElement && document.activeElement.getAttribute("data-ct-input")) === "home.heroLine2");
+  t("al hacer clic en un texto de la página, se elige ese campo en el editor", await page.evaluate(() => document.activeElement && document.activeElement.getAttribute("data-ct-input")) === "home.heroTag");
   t("y la página no navega (el clic en un botón del sitio no se va a otra parte)", await (async () => { await fr.locator(".rd-ctas .btn").first().click(); await wait(400); return (await page.locator("#ct-pv").evaluate(f => f.contentWindow.location.pathname)).endsWith("index.html"); })());
   await fr.locator('[data-video="feature"] figcaption').click({ force: true }).catch(() => {});
   await wait(400);
@@ -159,7 +160,7 @@ console.log("\nPublicar textos");
   const put = calls.find(c => c.method === "PUT" && c.path === "data/site-content.json");
   const m = published();
   t("escribe data/site-content.json con los dos textos nuevos", m["home.topTitle"] === "La casa de los que ruedan" && m["home.strip1"] === "Street", JSON.stringify(m));
-  t("sin tocar lo que ya estaba (el anuncio guardado sigue)", m["home.heroTitle"] === MANIFEST0["home.heroTitle"]);
+  t("sin tocar lo que ya estaba (la frase de FIEND guardada sigue)", m["home.fiendTitle"] === MANIFEST0["home.fiendTitle"]);
   t("no se escriben claves de textos que nadie cambió", Object.keys(m).length === Object.keys(MANIFEST0).length + 2, Object.keys(m).join(","));
   t("deja constancia en la auditoría", calls.some(c => c.path === "data/audit-log.json" && /2 texto\(s\)/.test(Buffer.from(c.body.content, "base64").toString())));
   t("al terminar no queda nada pendiente", /Todo publicado/.test(await bar(page)) && await page.locator("#btn-save-content").isDisabled());
@@ -169,10 +170,10 @@ console.log("\nPublicar textos");
 }
 {
   const { page, ctx, calls, published } = await open();
-  await input(page, "home.heroTitle").fill("");            // quitar el anuncio guardado
+  await input(page, "home.fiendTitle").fill("");            // quitar la frase guardada
   await page.locator("#btn-save-content").click();
   await page.waitForFunction(() => /Contenido publicado/.test(document.getElementById("status-box").textContent), null, { timeout: 15000 });
-  t("quitar el anuncio borra su clave (vuelve a no existir)", !("home.heroTitle" in published()), JSON.stringify(published()));
+  t("vaciar la frase se publica como «vacío a propósito» y el sitio la esconde", published()["home.fiendTitle"] === "", JSON.stringify(published()));
   await ctx.close();
 }
 
@@ -273,51 +274,23 @@ console.log("\nVideo principal: subir un MP4 propio");
   await ctx.close();
 }
 
-console.log("\nClips de los lados");
-{
-  const man = { ...MANIFEST0, "home.clipLeft": OLD(1) };
-  const { page, ctx, errs, violations, calls, published, fr } = await open({ manifest: man });
-  await stubPoster(page);
-  const L = '[data-ct-media="home.clipLeft"]', R = '[data-ct-media="home.clipRight"]';
-  t("el clip publicado se ve como «Publicado», con sus datos", /Publicado/i.test(await page.locator(L + " .pill").first().textContent()) && /720×1280/.test(await page.locator(L + " .ct-media-info").textContent()));
-  t("y la vista previa ya lo muestra en el lado izquierdo", await fr.locator('[data-video="heroLeft"] video.rd-clip').count() >= 1);
-  t("el derecho sigue con la foto de siempre", await fr.locator('[data-video="heroRight"] video.rd-clip').count() === 0 && /Las fotos de siempre/.test(await page.locator(R + " .ct-media-info").textContent()));
-  await page.setInputFiles(R + " [data-ct-upload]", wide); await wait(1000);
-  t("un clip horizontal se acepta pero avisa que se recorta", /Cumple todo/.test(await page.locator(R + " .ct-media-msg").textContent()) && /se va a recortar/.test(await page.locator(R + " .ct-media-msg").textContent()));
-  await page.setInputFiles(R + " [data-ct-upload]", tallAudio); await wait(1000);
-  t("un clip con audio avisa que se ve sin sonido", /sin sonido/.test(await page.locator(R + " .ct-media-msg").textContent()));
-  await page.setInputFiles(R + " [data-ct-upload]", tall); await wait(1000);
-  t("el clip vertical se acepta limpio", /Cumple todo: 720×1280/.test(await page.locator(R + " .ct-media-msg").textContent()));
-  t("y aparece en la vista previa, a la derecha (archivo local)", (await fr.locator('[data-video="heroRight"] video.rd-clip').first().getAttribute("data-src") || "").startsWith("blob:") && await fr.locator('[data-video="heroRight"].has-clip').count() >= 1);
-  await page.locator(L + " [data-ct-revert]").click();
-  t("«Quitar» devuelve la foto de siempre en la vista previa", await fr.locator('[data-video="heroLeft"] video.rd-clip').count() === 0 && /Se quitará al publicar/.test(await page.locator(L + " .pill").first().textContent()));
-  await page.locator("#btn-save-content").click();
-  await page.waitForFunction(() => /Contenido publicado/.test(document.getElementById("status-box").textContent) && /Todo publicado/.test(document.getElementById("ct-status").textContent), null, { timeout: 25000 });
-  const dels = calls.filter(c => c.method === "DELETE").map(c => c.path);
-  t("se borra del repositorio el clip quitado (video y portada)", dels.includes("assets/video/site/viejo1.mp4") && dels.includes("assets/video/site/viejo1.jpg"), dels.join(","));
-  const m = published();
-  t("el manifiesto ya no tiene el izquierdo y sí el derecho nuevo", !("home.clipLeft" in m) && m["home.clipRight"] && /^assets\/video\/site\/.+\.mp4$/.test(m["home.clipRight"].src), JSON.stringify(m));
-  t("sin tocar el resto del manifiesto", m["home.heroTitle"] === MANIFEST0["home.heroTitle"]);
-  t("la política de seguridad real no bloquea nada", violations.length === 0, violations.join(" || "));
-  t("sin errores de JavaScript", errs.length === 0, errs.join(" | "));
-  await ctx.close();
-}
-
 console.log("\nDescartar y cuidados");
 {
   const { page, ctx, fr } = await open();
-  await input(page, "home.heroLine3").fill("Otra cosa");
-  await page.setInputFiles('[data-ct-media="home.clipLeft"] [data-ct-upload]', tall); await wait(1000);
+  await input(page, "home.strip4").fill("Otra cosa");
+  await stubPoster(page);
+  await page.setInputFiles('[data-ct-media="home.video"] [data-ct-upload]', wide); await wait(1000);
   t("hay cambios de texto y de video sin publicar", /2 cambios/.test(await bar(page)), await bar(page));
   await page.locator("#btn-discard-content").click();
   await wait(900);
-  t("«Descartar cambios» los quita: textos y videos vuelven a lo publicado", (await input(page, "home.heroLine3").inputValue()) === "Vive BMX" && /Todo publicado/.test(await bar(page)) && await page.locator('[data-ct-media="home.clipLeft"] .ct-media-info').textContent().then(x => /Las fotos de siempre/.test(x)));
-  t("y la vista previa se recarga limpia", (await page.frameLocator("#ct-pv").locator(".rd-d3").textContent()) === "Vive BMX");
+  t("«Descartar cambios» los quita: textos y videos vuelven a lo publicado", (await input(page, "home.strip4").inputValue()) === "Enviamos a todo el país" && /Todo publicado/.test(await bar(page)) && await page.locator('[data-ct-media="home.video"] .ct-media-info').textContent().then(x => /LUhY9ixzp1w/.test(x)));
+  t("y la vista previa se recarga limpia", (await page.frameLocator("#ct-pv").locator('[data-content-key="home.strip4"]').textContent()) === "Enviamos a todo el país");
   await ctx.close();
 }
 {
   const { page, ctx } = await open();
-  await page.setInputFiles('[data-ct-media="home.clipLeft"] [data-ct-upload]', tall); await wait(1000);
+  await stubPoster(page);
+  await page.setInputFiles('[data-ct-media="home.video"] [data-ct-upload]', wide); await wait(1000);
   t("con cambios sin publicar, el menú lateral lo marca con un punto", await page.locator('.navbtn[data-panel="contenido"]').evaluate(b => b.classList.contains("has-dirty")));
   await ctx.close();
 }

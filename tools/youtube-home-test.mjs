@@ -79,24 +79,26 @@ const frameInfo = page => page.evaluate(() => { const f = document.querySelector
 
 t("la prueba encontró la política de seguridad y el ID del video", !!CSP && !!VIDEO_ID, `${!!CSP} ${VIDEO_ID}`);
 
-console.log("\nDónde está el video: arriba, donde estaba el titular");
+console.log("\nDónde está el video: debajo del título, con el banner de FIEND debajo");
 for (const [name, vp] of [["escritorio", { width: 1300, height: 900 }], ["celular", { width: 390, height: 800 }]]) {
   const { page, ctx } = await open({ viewport: vp });
   const pos = await page.evaluate(() => {
-    const r = sel => { const e = document.querySelector(sel); if (!e) return null; const b = e.getBoundingClientRect(); return { top: b.top + scrollY, bottom: b.bottom + scrollY, left: b.left, right: b.right, w: b.width, h: b.height }; };
-    return { top: r(".rd-top-title"), d2: parseFloat(getComputedStyle(document.querySelector(".rd-d2")).fontSize), topFont: parseFloat(getComputedStyle(document.querySelector(".rd-top-title")).fontSize), h1count: document.querySelectorAll("h1").length, h1text: (document.querySelector("h1") || {}).textContent, feat: r(".rd-core > .rd-feature"), h1: r(".rd-title"), tag: r(".rd-tag"), box: r(".rd-box"), wompi: r(".rd-core .wompi-badge"), ctas: r(".rd-ctas"), hero: r(".rd-hero"), oldSection: !!document.querySelector(".rd-media"), overflow: document.documentElement.scrollWidth - innerWidth, wompiCompact: !!document.querySelector(".rd-core .wompi-badge.compact") };
+    const r = sel => { const e = document.querySelector(sel); if (!e) return null; const b = e.getBoundingClientRect(); return { top: b.top + scrollY, bottom: b.bottom + scrollY, w: b.width, h: b.height }; };
+    return { top: r(".rd-top-title"), feat: r(".rd-core > .rd-feature"), fiend: r(".rd-fiend"), tag: r(".rd-tag"), box: r(".rd-box"), wompi: r(".rd-core .wompi-badge"),
+      h1count: document.querySelectorAll("h1").length, h1text: (document.querySelector("h1") || {}).textContent, order: [...document.querySelector(".rd-core").children].map(e => e.className.split(" ")[0]),
+      coreText: document.querySelector(".rd-core").textContent, oldTitle: !!document.querySelector(".rd-title, .rd-d"), oldSection: !!document.querySelector(".rd-media"), overflow: document.documentElement.scrollWidth - innerWidth,
+      wompiCompact: !!document.querySelector(".rd-core .wompi-badge.compact"),
+      link: (document.querySelector(".rd-fiend-link") || {}).getAttribute && document.querySelector(".rd-fiend-link").getAttribute("href"), wa: (document.querySelector(".rd-fiend-wa") || {}).href, waTxt: (document.querySelector(".rd-fiend-wa") || {}).textContent };
   });
-  t(`${name}: el video está dentro del hero, en la columna central`, !!pos.feat && !!pos.hero);
-  t(`${name}: el video queda arriba de «Rueda Duro Vive BMX» (que va debajo)`, pos.feat.bottom <= pos.h1.top + 1, JSON.stringify([pos.feat.bottom, pos.h1.top]));
-  t(`${name}: y el texto (frase, caja de texto) queda debajo del video`, pos.tag.top >= pos.feat.bottom && pos.box.top >= pos.feat.bottom);
-  t(`${name}: «La casa de todo el que rueda» es el título y va ARRIBA del video`, pos.h1count === 1 && /la casa de todo el que rueda/i.test(pos.h1text) && pos.top.bottom <= pos.feat.top + 1, JSON.stringify([pos.h1count, pos.h1text, pos.top.bottom, pos.feat.top]));
-  t(`${name}: el orden es título, video, y debajo «Rueda Duro Vive BMX»`, await page.evaluate(() => { const k = [...document.querySelector(".rd-core").children].map(e => e.className.split(" ")[0]); return k.indexOf("rd-top-title") === 0 && k.indexOf("rd-feature") === 1 && k.indexOf("rd-title") > k.indexOf("rd-feature"); }));
-  t(`${name}: «Rueda Duro Vive BMX» quedó con letra más pequeña que el título de arriba y que antes`, pos.d2 < pos.topFont * 2 && pos.d2 <= (name === "escritorio" ? 95 : 50), `${pos.d2}px vs título ${pos.topFont}px`);
-  t(`${name}: Wompi queda más abajo que el video y el titular, y en versión compacta`, pos.wompi.top > pos.h1.bottom && pos.wompiCompact, JSON.stringify([pos.wompi.top, pos.h1.bottom, pos.wompiCompact]));
+  t(`${name}: «La casa de todo el que rueda» es el único h1 y va ARRIBA del video`, pos.h1count === 1 && /la casa de todo el que rueda/i.test(pos.h1text) && pos.top.bottom <= pos.feat.top + 1, JSON.stringify([pos.h1count, pos.h1text]));
+  t(`${name}: el texto «Rueda Duro Vive BMX» ya no existe en el inicio`, !pos.oldTitle && !/rueda\s+duro/i.test(pos.coreText), pos.coreText.slice(0, 120));
+  t(`${name}: el orden es título, video, banner de FIEND`, pos.order[0] === "rd-top-title" && pos.order[1] === "rd-feature" && pos.order[2] === "rd-fiend", pos.order.join(","));
+  t(`${name}: el banner de FIEND queda debajo del video y antes de la frase y la caja de texto`, pos.fiend.top >= pos.feat.bottom && pos.tag.top >= pos.fiend.bottom && pos.box.top >= pos.fiend.bottom);
+  t(`${name}: el banner trae la frase de venta, el enlace a los productos FIEND y WhatsApp`, /nueva casa de FIEND en Colombia/i.test(await page.locator(".rd-fiend-title").textContent()) && pos.link === "marca/fiend.html" && /wa\.me\/\d+/.test(pos.wa) && /FIEND/.test(decodeURIComponent(pos.wa)) && /whatsapp/i.test(pos.waTxt), JSON.stringify([pos.link, pos.wa, pos.waTxt]));
+  t(`${name}: Wompi queda más abajo que el video y el banner, y en versión compacta`, pos.wompi.top > pos.fiend.bottom && pos.wompiCompact);
   t(`${name}: el video es 16:9`, Math.abs(pos.feat.w / pos.feat.h - 16 / 9) < 0.05, String(pos.feat.w / pos.feat.h));
-  t(`${name}: ya no existe la sección vieja del video más abajo`, !pos.oldSection && await page.locator("[data-video=feature]").count() === 1);
+  t(`${name}: no existe la sección vieja del video más abajo`, !pos.oldSection && await page.locator("[data-video=feature]").count() === 1);
   t(`${name}: no se sale del ancho`, pos.overflow <= 1, String(pos.overflow));
-  if (name === "celular") t("celular: el video ocupa el ancho útil", pos.feat.w > 330 && pos.feat.w <= 390, String(pos.feat.w));
   if (name === "escritorio") t("escritorio: el video se ve completo en la primera pantalla (sin bajar)", pos.feat.bottom < 900, String(pos.feat.bottom));
   await ctx.close();
 }

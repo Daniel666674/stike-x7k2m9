@@ -56,24 +56,30 @@ const V = n => ({ src: `assets/video/site/${n}.mp4`, poster: `assets/video/site/
 
 console.log("\nTextos");
 {
-  const { page, ctx, errs } = await open({ "home.topTitle": "Nuestra casa", "home.heroLine2": "Fuerte", "home.strip3": "Armado gratis ya", "home.ctaPrimary": "Armar ya", "home.heroTitle": "Llegó FIEND", "home.fateText": "Texto nuevo de Fate", "cat.repuestos.title": "no aplica aquí" });
+  const { page, ctx, errs } = await open({ "home.topTitle": "Nuestra casa", "home.place": "Fuerte", "home.strip3": "Armado gratis ya", "home.ctaPrimary": "Armar ya", "home.fiendTitle": "Llegó FIEND", "home.fateText": "Texto nuevo de Fate", "cat.repuestos.title": "no aplica aquí" });
   t("el título de arriba cambia", await txt(page, "h1.rd-top-title") === "Nuestra casa");
-  t("una línea del título pequeño cambia", await txt(page, ".rd-d2") === "Fuerte");
+  t("el lugar (letras grandes) cambia", await txt(page, ".rd-place") === "Fuerte");
   t("la franja, los botones y los textos de las secciones cambian", await txt(page, '[data-content-key="home.strip3"]') === "Armado gratis ya" && await txt(page, ".rd-ctas .btn.white") === "Armar ya" && await txt(page, '[data-content-key="home.fateText"]') === "Texto nuevo de Fate");
-  t("el anuncio opcional aparece cuando tiene texto", await page.locator(".rd-announce").isVisible() && await txt(page, ".rd-announce") === "Llegó FIEND");
-  t("lo que nadie tocó se queda como estaba", await txt(page, ".rd-d1") === "Rueda" && await txt(page, ".rd-tag span") === "Del parche, pa' los que ruedan");
+  t("la frase de venta de FIEND cambia", await txt(page, ".rd-fiend-title") === "Llegó FIEND");
+  t("lo que nadie tocó se queda como estaba (el enlace a FIEND y el botón de WhatsApp siguen)", await txt(page, ".rd-fiend-link") === "Haz clic aquí y mira todos los productos FIEND →" && await page.locator(".rd-fiend-wa").isVisible() && await txt(page, ".rd-tag span") === "Del parche, pa' los que ruedan");
   t("los enlaces de los botones no cambian (solo el texto)", (await page.locator(".rd-ctas .btn.white").getAttribute("href")) === "armar.html");
   t("sin errores de JavaScript", errs.length === 0, errs.join(" | "));
   await ctx.close();
 }
 {
   const { page, ctx } = await open({});
-  t("sin anuncio guardado, no se ve ninguno", !(await page.locator(".rd-announce").isVisible()));
+  t("sin nada guardado, el banner de FIEND sale completo: frase, enlace a la marca y WhatsApp", /nueva casa de FIEND en Colombia/i.test(await txt(page, ".rd-fiend-title")) && (await page.locator(".rd-fiend-link").getAttribute("href")) === "marca/fiend.html" && /^https:\/\/wa\.me\/\d+\?text=/.test(await page.locator(".rd-fiend-wa").getAttribute("href")));
+  t("«Rueda Duro Vive BMX» ya no está en la página", !/rueda\s+duro/i.test(await page.locator(".rd-core").textContent()));
   await ctx.close();
 }
 {
-  const { page, ctx } = await open({ "home.heroTitle": "   " });
-  t("un anuncio en blanco tampoco se ve", !(await page.locator(".rd-announce").isVisible()));
+  const { page, ctx } = await open({ "home.fiendTitle": "   ", "home.fiendLink": "", "home.fiendWa": "" });
+  t("con los tres textos del banner vacíos no queda ni la caja", !(await page.locator(".rd-fiend").isVisible()));
+  await ctx.close();
+}
+{
+  const { page, ctx } = await open({ "home.fiendTitle": "" });
+  t("vaciar solo la frase deja el enlace y WhatsApp", !(await page.locator(".rd-fiend-title").isVisible()) && await page.locator(".rd-fiend-link").isVisible() && await page.locator(".rd-fiend-wa").isVisible());
   await ctx.close();
 }
 
@@ -128,43 +134,12 @@ console.log("\nVideo principal: MP4 propio");
   await ctx.close();
 }
 
-console.log("\nClips de los lados");
-{
-  const { page, ctx, errs, violations, reqs } = await open({ "home.clipLeft": V("izq"), "home.clipRight": V("der") }, { calm: false });
-  await wait(1500);
-  const info = await page.evaluate(() => [...document.querySelectorAll("video.rd-clip")].map(v => ({ side: v.closest("[data-video]").dataset.video, shown: v.closest("[data-video]").getClientRects().length > 0, muted: v.muted, loop: v.loop, src: v.getAttribute("data-src") })));
-  t("en escritorio cada lado tiene su clip (2), mudo y en bucle", info.length === 2 && info.every(i => i.shown && i.muted && i.loop) && info.some(i => /izq/.test(i.src)) && info.some(i => /der/.test(i.src)), JSON.stringify(info));
-  t("no se descarga el clip de los lados que no se ven (celular)", reqs.filter(u => /assets\/video\/site\/(izq|der)\.mp4/.test(u)).length <= 2, reqs.join(","));
-  t("la foto de siempre queda escondida detrás del clip", await page.locator('.rd-hero > .rd-vid.l').evaluate(e => e.classList.contains("has-clip") && getComputedStyle(e.querySelector("img")).display === "none"));
-  t("la política de seguridad no lo bloquea", violations.length === 0, violations.join(" || "));
-  t("sin errores de JavaScript", errs.length === 0, errs.join(" | "));
-  await ctx.close();
-}
-{
-  const { page, ctx, reqs } = await open({ "home.clipLeft": V("izq"), "home.clipRight": V("der") }, { calm: false, viewport: { width: 390, height: 800 } });
-  await wait(1500);
-  const info = await page.evaluate(() => [...document.querySelectorAll("video.rd-clip")].map(v => v.closest("[data-video]").getClientRects().length > 0));
-  t("en celular solo se cargan los dos de abajo (los laterales ocultos no gastan datos)", info.length === 2 && info.every(Boolean), JSON.stringify(info));
-  await ctx.close();
-}
-{
-  const { page, ctx, reqs } = await open({ "home.clipLeft": V("izq"), "home.clipRight": V("der") }, { calm: false, saveData: true });
-  await wait(1500);
-  t("con ahorro de datos se quedan las fotos de siempre (cero videos)", await page.locator("video.rd-clip").count() === 0 && !reqs.some(u => /\.mp4/.test(u)));
-  await ctx.close();
-}
-{
-  const { page, ctx } = await open({ "home.clipLeft": V("izq") }, { calm: true });
-  t("con «menos movimiento» tampoco hay clips en bucle", await page.locator("video.rd-clip").count() === 0);
-  await ctx.close();
-}
-
 console.log("\nLo que NO se acepta del manifiesto");
 {
-  const evil = { "home.video": { type: "mp4", src: "https://evil.com/x.mp4", poster: "", w: 1, h: 1 }, "home.clipLeft": { src: "../../etc/x.mp4" }, "home.clipRight": { src: "assets/video/products/otro.mp4" } };
+  const evil = { "home.video": { type: "mp4", src: "https://evil.com/x.mp4", poster: "", w: 1, h: 1 } };
   const { page, ctx, reqs, errs } = await open(evil, { calm: false });
   await wait(2500);
-  t("un video de otro sitio, una ruta con ../ o de otra carpeta se ignoran", await page.locator("video").count() === 0 && !reqs.some(u => /evil|etc|products\/otro/.test(u)), reqs.join(","));
+  t("un video de otro sitio se ignora", await page.locator("video").count() === 0 && !reqs.some(u => /evil|etc|products\/otro/.test(u)), reqs.join(","));
   t("el video principal sigue siendo el de siempre", (await page.locator(".rd-feature > img").getAttribute("src")).includes("/vi/LUhY9ixzp1w/"));
   t("sin errores de JavaScript", errs.length === 0, errs.join(" | "));
   await ctx.close();
@@ -175,7 +150,7 @@ console.log("\nLo que NO se acepta del manifiesto");
   await ctx.close();
 }
 {
-  const { page, ctx, errs } = await open({ "home.topTitle": { malo: true }, "home.heroLine1": 42, "home.video": "texto" });
+  const { page, ctx, errs } = await open({ "home.topTitle": { malo: true }, "home.heroTag": 42, "home.video": "texto" });
   t("valores de tipo equivocado no rompen la página", await txt(page, "h1.rd-top-title") === "La casa de todo el que rueda" && errs.length === 0, errs.join(" | "));
   await ctx.close();
 }

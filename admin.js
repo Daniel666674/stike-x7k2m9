@@ -2748,24 +2748,23 @@ async function importFile(file) {
 /* ============================== CONTENIDO DEL SITIO ===========================
    Lo que se edita aca llega al sitio por data/site-content.json (un mapa plano, clave -> valor):
 
-     textos    "home.heroLine1": "Rueda"          los textos de index.html marcados con data-content-key
+     textos    "home.topTitle": "La casa de…"    los textos de index.html marcados con data-content-key
                                                   (el panel los DESCUBRE leyendo index.html: etiqueta, texto original
                                                   y largo maximo salen de esos atributos, no se repiten aca)
                "cat.repuestos.title": "..."       el banner de cada categoria de la tienda
      videos    "home.video":     {type:"youtube", id}  o  {type:"mp4", src, poster, w, h, dur, b, ts}
-               "home.clipLeft":  {src, poster, w, h, dur, b, ts}     clips verticales de los lados
-               "home.clipRight": idem
 
    Una clave que no esta en el archivo = se queda el original del sitio. Todo se ve ANTES de publicar en una vista
    previa real (el mismo index.html dentro de un iframe, con ?admin-preview=1): al escribir cambia al instante, un
    clic en el sitio elige el campo, y al enfocar un campo se resalta su lugar en la pagina. Los archivos de video
    se suben recien al publicar, como los de los productos.                                                         */
-const CT_MEDIA_KEYS = ["home.video", "home.clipLeft", "home.clipRight"];
-const CT_MEDIA_LABEL = { "home.video": "Video principal", "home.clipLeft": "Clip izquierdo", "home.clipRight": "Clip derecho" };
+const CT_MEDIA_KEYS = ["home.video"];
+const CT_MEDIA_LABEL = { "home.video": "Video principal" };
 const CT_SITE_FILE_RE = /^assets\/video\/site\/[A-Za-z0-9._-]+\.(mp4|jpg)$/;
 const CT_YT_ID_RE = /^[A-Za-z0-9_-]{11}$/;
 const CT_GROUP_HELP = {
   "Arriba del inicio": "Lo primero que se ve al entrar: el título, el video, la frase, la caja de texto y los botones.",
+  "Banner de FIEND": "La caja con la frase de venta de FIEND, el enlace a todos sus productos y el botón de WhatsApp (debajo del video). Si dejas un texto vacío, ese pedazo no se muestra.",
   "Franja de palabras": "La franja gris con cuatro palabras, justo debajo de lo de arriba.",
   "Repuestos (grilla de partes)": "El título de la sección con los cuadros de repuestos (marcos, timones, cañas…).",
   "Marca Fate": "La sección de Fate BMX Colombia.",
@@ -2834,8 +2833,7 @@ function ctLoadSchema() {
       fields.push({ key: `cat.${c.slug}.subtitle`, label: "Subtítulo del banner (opcional)", group, max: 140, optional: true, multiline: false, def: "", page: "cat:" + c.slug });
     });
     const feat = doc.querySelector('[data-video="feature"]');
-    const posterOf = name => { const im = doc.querySelector(`[data-video="${name}"] img`); return im ? im.getAttribute("src") : ""; };
-    ctSchema = { fields, defaultYt: feat ? feat.getAttribute("data-yt-id") : "", defaultPosters: { "home.clipLeft": posterOf("heroLeft"), "home.clipRight": posterOf("heroRight") } };
+    ctSchema = { fields, defaultYt: feat ? feat.getAttribute("data-yt-id") : "" };
     return ctSchema;
   })();
   ctSchemaPromise.catch(() => { ctSchemaPromise = null; });
@@ -2926,10 +2924,9 @@ function ctPreviewText(f) {
   if (f.page !== "home" && f.key.endsWith(".subtitle")) { const el = w.document.getElementById("page-subtitle"); if (el) el.style.display = ctValue(f) ? "" : "none"; }
 }
 function ctMediaConfig() {
-  const clip = k => { const v = ctWork[k]; return v && v.src ? { src: ctBlobUrl(v.src), poster: ctPosterUrl(v), w: v.w, h: v.h } : null; };
   const m = ctWork["home.video"];
   const video = !m ? null : m.type === "youtube" ? { type: "youtube", id: m.id } : (m.src ? { type: "mp4", src: ctBlobUrl(m.src), poster: ctPosterUrl(m), w: m.w, h: m.h } : null);
-  return { video, clipLeft: clip("home.clipLeft"), clipRight: clip("home.clipRight") };
+  return { video };
 }
 function ctPreviewMedia() {
   const w = ctWin(); if (!w || !ctFrameReady || ctPage !== "home" || !w.StikeHomeMedia) return;
@@ -3080,7 +3077,7 @@ function ctMediaCardHtml(key) {
 }
 function ctRenderMedia() {
   const box = $("#ct-media"); if (!box) return;
-  box.innerHTML = ctMediaCardHtml("home.video") + `<div class="ct-clips">${ctMediaCardHtml("home.clipLeft")}${ctMediaCardHtml("home.clipRight")}</div>`;
+  box.innerHTML = ctMediaCardHtml("home.video");
   ctRenderBar();
 }
 function ctMediaChanged() { ctRenderMedia(); ctPreviewMedia(); }
@@ -3140,8 +3137,8 @@ function ctRenderAll() {
   const pageOf = g => g.fields[0].page;
   $("#ct-edit").innerHTML = `
     <section class="card ct-card" id="ct-media-card">
-      <h3>Videos del inicio</h3>
-      <p class="hint muted">El video grande va arriba, sobre «Rueda Duro Vive BMX»; los dos clips verticales van a los lados (en el celular, abajo). Los videos suben al publicar.</p>
+      <h3>Video del inicio</h3>
+      <p class="hint muted">El video grande va arriba, justo debajo del título. Puede ser un link de YouTube o un MP4 propio, que se sube al publicar.</p>
       <div id="ct-media"></div>
     </section>
     ${groups.map(g => `<section class="card ct-card" data-ct-group="${escAttr(g.name)}" data-ct-page="${pageOf(g)}">
