@@ -21,7 +21,7 @@
 
   /* Los limites. Estan juntos y con su razon: si cambian, cambia el panel,
      la tarjeta de requisitos y las pruebas, todo desde aca. */
-  var RULES = {
+  var BASE = {
     maxBytes: 10 * 1024 * 1024,   // tope duro: GitHub, el hosting y el celular del cliente
     niceBytes: 5 * 1024 * 1024,   // lo ideal: se baja casi al instante con datos moviles
     minSec: 2, maxSec: 30,        // un video de producto muestra, no cuenta una historia
@@ -34,6 +34,14 @@
     softMaxBytes: 400 * 1024 * 1024,
     maxReadBytes: 64 * 1024 * 1024, // por encima ni se abre: ya fallo por peso
     profiles: [66, 77, 100],      // Baseline, Main, High: los que abre cualquier celular
+  };
+
+  /* Reglas por lugar donde va el video. "product" = las de arriba. El video principal del inicio puede durar mas;
+     los clips laterales son pequeños, mudos y en bucle: mas livianos y cortos. kind decide los avisos extra. */
+  var PRESETS = {
+    product: {},
+    hero: { kind: "hero", maxSec: 60 },
+    clip: { kind: "clip", maxSec: 20, maxBytes: 6 * 1024 * 1024, niceBytes: 3 * 1024 * 1024, maxMbps: 2.4 },
   };
 
   function fourcc(dv, o) {
@@ -168,7 +176,8 @@
 
   /* Cada error dice QUE pasa y COMO se arregla: quien sube el video no tiene
      por que saber que es un codec. */
-  function check(info, fileSize) {
+  function check(info, fileSize, preset) {
+    var RULES = Object.assign({}, BASE, typeof preset === "string" ? PRESETS[preset] : preset || {});
     var errors = [], warnings = [], notes = [];
     var size = fileSize || 0;
     if (size > RULES.maxBytes) {
@@ -206,9 +215,9 @@
     }
 
     if (info.duration < RULES.minSec) errors.push("Dura " + info.duration.toFixed(1).replace(".", ",") + " s; mínimo " + RULES.minSec + " s.");
-    else if (info.duration > RULES.maxSec) errors.push("Dura " + Math.round(info.duration) + " s y el máximo es " + RULES.maxSec + " s. Recórtalo: muestra el producto, no cuentes la historia.");
+    else if (info.duration > RULES.maxSec) errors.push("Dura " + Math.round(info.duration) + " s y el máximo es " + RULES.maxSec + " s. Recórtalo" + (RULES.kind ? "." : ": muestra el producto, no cuentes la historia."));
 
-    if (v.fps > RULES.maxFps) errors.push("Va a " + Math.round(v.fps) + " cuadros por segundo; el máximo es 30. A 60 fps pesa el doble y en un producto no se nota.");
+    if (v.fps > RULES.maxFps) errors.push("Va a " + Math.round(v.fps) + " cuadros por segundo; el máximo es 30. A 60 fps pesa el doble y casi no se nota.");
 
     if (info.duration > 0 && size > 0) {
       var mbps = size * 8 / info.duration / 1e6;
@@ -222,11 +231,19 @@
       else notes.push("Tiene sonido. Está bien, pero si no hace falta quítalo: pesa menos.");
     } else notes.push("Sin audio: ideal, pesa menos.");
 
-    if (size > RULES.niceBytes && size <= RULES.maxBytes) warnings.push("Pesa " + mb(size) + ". Funciona, pero lo ideal es menos de 5 MB para que cargue al instante con datos móviles.");
+    if (size > RULES.niceBytes && size <= RULES.maxBytes) warnings.push("Pesa " + mb(size) + ". Funciona, pero lo ideal es menos de " + mb(RULES.niceBytes).replace(",0", "") + " para que cargue al instante con datos móviles.");
+    /* Avisos propios del lugar (no bloquean). */
+    var ratio = v.w && v.h ? v.w / v.h : 0;
+    if (RULES.kind === "hero" && ratio && Math.abs(ratio - 16 / 9) > 0.2) warnings.push("El recuadro del video es horizontal (16:9) y este no: se va a ver entero, con barras negras a los lados.");
+    if (RULES.kind === "clip") {
+      if (ratio && ratio > 1) warnings.push("Los clips de los lados son verticales y este es horizontal: se va a recortar mucho. Graba o recorta en vertical.");
+      if (info.audio) warnings.push("Los clips se ven sin sonido: quítale el audio y pesa menos.");
+    }
     return { errors: errors, warnings: warnings, notes: notes };
   }
 
-  var api = { RULES: RULES, inspect: inspect, check: check, mb: mb, codecName: codecName };
+  var RULES = BASE;
+  var api = { RULES: RULES, PRESETS: PRESETS, inspect: inspect, check: check, mb: mb, codecName: codecName };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.StikeVideo = api;
 })(typeof window !== "undefined" ? window : globalThis);

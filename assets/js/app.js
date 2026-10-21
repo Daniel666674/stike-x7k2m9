@@ -1085,18 +1085,68 @@ function stikeFillConfig(root) {
    admin nunca toco no aparece en el archivo y el elemento se queda con su
    texto por defecto (el que ya trae el HTML); una clave guardada en blanco
    a proposito SI aparece (valor "") y el elemento se vacia. */
+/* El manifiesto se pide UNA vez y lo comparten los textos y los videos del inicio (assets/js/home-media.js). */
+let stikeContentPromise = null;
+function stikeLoadContent() {
+  if (!stikeContentPromise) {
+    stikeContentPromise = fetch("data/site-content.json", { cache: "no-store" })
+      .then(r => r.ok ? r.json() : {})
+      .catch(() => ({}));
+  }
+  return stikeContentPromise;
+}
+
+/* Vista previa dentro del panel (admin.html > Contenido del sitio): la pagina se abre con ?admin-preview=1 y es el
+   PANEL quien le pone los textos y videos (los guardados y los que aun no se publican), asi que aca no se pide el
+   manifiesto, no hay avisos flotantes ni arranque automatico, y un clic elige el campo en vez de navegar. */
+const STIKE_PREVIEW = /[?&]admin-preview=1(&|$)/.test(location.search);
+if (STIKE_PREVIEW) document.documentElement.classList.add("admin-preview");
+
+/* Pone cada texto en su lugar. Un elemento marcado data-content-optional se esconde cuando queda vacio. */
+function stikeApplyContentMap(content, root) {
+  (root || document).querySelectorAll("[data-content-key]").forEach(el => {
+    const key = el.getAttribute("data-content-key");
+    if (!Object.prototype.hasOwnProperty.call(content, key) || typeof content[key] !== "string") return;
+    el.textContent = content[key];
+    if (el.hasAttribute("data-content-optional")) el.hidden = !content[key].trim();
+  });
+}
 function stikeApplyContent() {
-  const els = document.querySelectorAll("[data-content-key]");
-  if (!els.length) return;
-  fetch("data/site-content.json", { cache: "no-store" })
-    .then(r => r.ok ? r.json() : {})
-    .catch(() => ({}))
-    .then(content => {
-      els.forEach(el => {
-        const key = el.getAttribute("data-content-key");
-        if (Object.prototype.hasOwnProperty.call(content, key)) el.textContent = content[key];
-      });
-    });
+  if (STIKE_PREVIEW || !document.querySelector("[data-content-key]")) return;
+  stikeLoadContent().then(content => stikeApplyContentMap(content));
+}
+
+/* Puente de la vista previa: el panel resalta el elemento que se esta editando y recibe el clic sobre uno. */
+function stikePreviewBridge() {
+  if (!STIKE_PREVIEW) return;
+  const target = key => {
+    if (key === "home.video") return [document.querySelector('[data-video="feature"]')];
+    if (key === "home.clipLeft") return [...document.querySelectorAll('[data-video="heroLeft"]')];
+    if (key === "home.clipRight") return [...document.querySelectorAll('[data-video="heroRight"]')];
+    return [...document.querySelectorAll("[data-content-key]")].filter(e => e.getAttribute("data-content-key") === key);
+  };
+  window.StikePreview = {
+    apply: content => stikeApplyContentMap(content),
+    setText(key, value, optional) {
+      target(key).forEach(el => { el.textContent = value; if (optional || el.hasAttribute("data-content-optional")) el.hidden = !String(value).trim(); });
+    },
+    highlight(key) {
+      document.querySelectorAll(".stike-hl").forEach(e => e.classList.remove("stike-hl"));
+      const els = target(key).filter(e => e && e.getClientRects().length);
+      els.forEach(e => e.classList.add("stike-hl"));
+      if (els[0]) els[0].scrollIntoView({ block: "center", behavior: "smooth" });
+    },
+    clear() { document.querySelectorAll(".stike-hl").forEach(e => e.classList.remove("stike-hl")); },
+  };
+  document.addEventListener("click", e => {
+    if (e.target.closest(".rd-play, .rd-sound, .rd-yt-link")) return;          // el video si se puede probar
+    e.preventDefault(); e.stopPropagation();
+    const el = e.target.closest("[data-content-key], [data-video]");
+    if (!el || !window.parent || window.parent === window) return;
+    const v = el.getAttribute("data-video");
+    const key = v ? ({ feature: "home.video", heroLeft: "home.clipLeft", heroRight: "home.clipRight" })[v] : el.getAttribute("data-content-key");
+    window.parent.postMessage({ type: "stike-preview-select", key }, location.origin);
+  }, true);
 }
 
 /* Filtros plegables en movil: en pantallas chicas la columna de filtros
@@ -1132,12 +1182,11 @@ function stikeCollapsibleFilters() {
 function stikeInit(active) {
   stikeRenderHeader(active);
   stikeRenderFooter();
-  stikeFloatingWA();
-  stikeFloatingCart();
+  if (!STIKE_PREVIEW) { stikeFloatingWA(); stikeFloatingCart(); }
   stikeRenderSearchOverlay();
   stikeFillConfig();
-  stikeCookieBanner();
-  stikeRenderNewsletterPopup();
+  if (!STIKE_PREVIEW) { stikeCookieBanner(); stikeRenderNewsletterPopup(); }
   stikeApplyContent();
+  stikePreviewBridge();
   stikeCollapsibleFilters();
 }
