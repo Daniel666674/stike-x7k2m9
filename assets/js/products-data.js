@@ -5026,7 +5026,7 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "freecoaster-fiend-derecho-negro",
     "sku": "REP-FIE-057",
-    "n": "Freecoaster Fiend Derecho Negro",
+    "n": "Freecoaster Fiend Derecho USADO",
     "brand": "Fiend",
     "cat": "repuestos",
     "sub": "Manzana Trasera",
@@ -5042,7 +5042,8 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/freecoaster-fiend-derecho-negro-1.jpg",
       "assets/img/products/freecoaster-fiend-derecho-negro-2.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "llavero-pedal-kboom-v2",
