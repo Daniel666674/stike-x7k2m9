@@ -5420,7 +5420,7 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "freecoaster-shadow-derecho-negro",
     "sku": "REP-SHA-013",
-    "n": "Freecoaster Shadow Derecho Negro",
+    "n": "Freecoaster Shadow Derecho USADO",
     "brand": "Shadow",
     "cat": "repuestos",
     "sub": "Manzana Trasera",
@@ -5437,7 +5437,8 @@ window.STIKE_PRODUCTS = [
     "imgs": [
       "assets/img/products/freecoaster-shadow-derecho-negro-1.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "pedales-shadow-surface",
