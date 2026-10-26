@@ -24,7 +24,7 @@ const freePort = () => new Promise(res => { const s = createNetServer(); s.liste
 const listen = handler => new Promise(res => { const s = createServer(handler); s.listen(0, "127.0.0.1", () => res(s)); });
 
 /* Google falso: el "credential" es el nombre de la persona. */
-const WHO = { owner: "jparra375@gmail.com", staff: "kevinarevalo1996@gmail.com" };
+const WHO = { owner: "jparra375@gmail.com", staff: "kevinarevalo1996@gmail.com", editor: "crystaldonkey18@gmail.com", extrano: "alguien@example.com" };
 const google = await listen((req, res) => {
   const tok = new URL(req.url, "http://x").searchParams.get("id_token");
   if (!WHO[tok]) { res.statusCode = 400; return res.end("{}"); }
@@ -64,7 +64,7 @@ const fakeMp4 = bytes => { const b = Buffer.alloc(bytes); b.writeUInt32BE(24, 0)
 const put = (cookie, path, buf, extra = {}) => gh(cookie, "PUT", path, { message: "prueba", content: buf.toString("base64"), ...extra });
 
 try {
-  const owner = await login("owner"), staff = await login("staff");
+  const owner = await login("owner"), staff = await login("staff"), editor = await login("editor");
 
   console.log("\nSin sesión");
   t("sin sesión: 401", (await put(null, "assets/video/products/a.mp4", fakeMp4(100))).code, 401);
@@ -103,7 +103,30 @@ try {
   t("ni borrarlos", (await gh(staff, "DELETE", "assets/video/products/a1b2-c3.mp4", { message: "x", sha: "abc" })).code, 403);
   t("GitHub no recibió nada de la tienda", seen.length, n);
 
-  console.log("\nSubida lenta");
+  console.log("\nRol «editor» (diseño y contenido: Rubí)");
+  t("el correo de Rubí inicia sesión como editor", (await (await fetch(`${API}/admin-login.php`, { headers: { Cookie: editor } })).json()).role, "editor");
+  n = seen.length;
+  for (const [what, path, buf] of [
+    ["el catálogo", "assets/js/products-data.js", Buffer.from("window.STIKE_PRODUCTS = [];")], ["los textos y videos del sitio", "data/site-content.json", Buffer.from("{}")],
+    ["un video del sitio", "assets/video/site/a1b2.mp4", fakeMp4(100)], ["su portada", "assets/video/site/a1b2.jpg", Buffer.from([0xff, 0xd8, 0xff, 0xd9])],
+    ["un video de producto", "assets/video/products/a1b2.mp4", fakeMp4(100)], ["una foto de producto", "assets/img/products/x.jpg", Buffer.from([1])],
+    ["la ficha de un producto", "producto/algo.html", Buffer.from("<html>")], ["el sitemap", "sitemap.xml", Buffer.from("<urlset/>")], ["la auditoría", "data/audit-log.json", Buffer.from("[]")],
+  ]) t(`puede publicar ${what}`, (await put(editor, path, buf)).code, 201);
+  t("llegaron a GitHub los 9 cambios", seen.length - n, 9);
+  n = seen.length;
+  t("NO ve los costos (para él no existen)", (await gh(editor, "GET", "data/costs.json")).code, 404);
+  t("ni puede escribirlos", (await put(editor, "data/costs.json", Buffer.from("{}"))).code, 404);
+  t("NO ve las ventas (datos de clientes)", (await gh(editor, "GET", "data/sales-log.json")).code, 404);
+  t("ni puede escribirlas", (await put(editor, "data/sales-log.json", Buffer.from("[]"))).code, 404);
+  t("no toca la plantilla de las fichas", (await put(editor, "_template.html", Buffer.from("x"))).code, 403);
+  t("ni el registro de stock", (await put(editor, "data/stock-applied.json", Buffer.from("[]"))).code, 403);
+  t("ni borrar archivos fuera de lo suyo", (await gh(editor, "DELETE", "data/sales-log.json", { message: "x", sha: "abc" })).code, 404);
+  t("GitHub no recibió nada de lo prohibido", seen.length, n);
+  t("las ventas online (datos de clientes) le dan 403", (await fetch(`${API}/sales.php`, { headers: { Cookie: editor } })).status, 403);
+  t("el dueño sí las puede pedir (no es 403)", (await fetch(`${API}/sales.php`, { headers: { Cookie: owner } })).status !== 403, true);
+  t("una cuenta que no está en la lista no entra", await (async () => { const r = await fetch(`${API}/admin-login.php`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ credential: "extrano" }) }); return r.status; })(), 403);
+
+console.log("\nSubida lenta");
   delayMs = 17000;
   const t0 = Date.now();
   const slow = await put(owner, "assets/video/products/lento.mp4", fakeMp4(1024 * 1024));

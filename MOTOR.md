@@ -255,6 +255,19 @@ verifica que ese siga respondiendo 200.
 > dos archivos a un repositorio aparte.
 
 
+### Roles del panel
+
+Quién entra y con qué rol vive en `api/_admin.php` (`STIKE_ADMIN_ROLES`); para sumar a alguien se agrega su correo de Google
+y se publica. El servidor hace cumplir los límites (`api/gh.php`, `api/sales.php`); el panel solo adapta la pantalla.
+
+| Rol | Ve y hace |
+|---|---|
+| `owner`, `developer`, `admin`, `dev_assistant` | Todo: costos, margen, KPIs, ventas, auditoría, contenido, configuración |
+| `editor` (diseño y contenido) | Productos (fotos, videos, textos, precios) y Contenido del sitio. **No** ve costos, margen, KPIs, ventas ni datos de clientes; no toca la plantilla; al publicar no escribe costos |
+| `staff` (tienda) | Productos y stock a la vista, registrar ventas y avisos de ventas |
+
+Pruebas: `tools/gh-proxy-test.mjs` (servidor PHP) y `tools/admin-editor-role-test.mjs` (pantalla).
+
 ### Contenido del sitio (pestaña del panel)
 
 `data/site-content.json` es un mapa plano que el panel edita; una clave que no está = se queda el original.

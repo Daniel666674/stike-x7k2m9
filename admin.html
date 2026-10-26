@@ -654,6 +654,9 @@ input.stk-sw:checked::after{transform:translateX(22px)}
 }
 /* Rol "tienda" (staff): se ocultan las secciones financieras y de edicion. El servidor (api/gh.php) igual las bloquea. */
 body.role-staff .staff-hide{display:none!important}
+/* Rol "editor" (diseño y contenido): sin ventas, KPIs, auditoria ni configuracion, ni avisos de ventas ni el boton Vender. */
+body.role-editor .navbtn[data-panel="ventas"],body.role-editor .navbtn[data-panel="kpis"],body.role-editor .navbtn[data-panel="auditoria"],body.role-editor .navbtn[data-panel="config"],
+body.role-editor #btn-notif,body.role-editor #btn-test-sound,body.role-editor [data-sell],body.role-editor [data-act="sell"]{display:none!important}
 .cdot{display:inline-block;width:16px;height:16px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(255,255,255,.35);flex:none}
 .swatch-row.dots{display:flex;gap:6px}
 </style>
@@ -922,7 +925,7 @@ body.role-staff .staff-hide{display:none!important}
 <script src="assets/js/photo-editor.js?v=6f906ace"></script>
 <script src="assets/js/select-search.js?v=f8893cc5"></script>
 <script src="assets/js/video-tools.js?v=aaa2b1fa"></script>
-<script src="admin.js?v=17"></script>
+<script src="admin.js?v=18"></script>
 <script>
   // Service worker propio del panel: solo cachea el logo del shell, nunca
   // admin.html/admin.js (ver admin-sw.js).

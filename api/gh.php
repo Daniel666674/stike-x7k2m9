@@ -31,9 +31,17 @@ stike_run(function () {
   $path = $_GET["path"] ?? "";
   if (!is_string($path) || strpos($path, "..") !== false || !preg_match(STIKE_GH_ALLOWED, $path)) throw new ApiError(403, "path_not_allowed", $path);
 
+  // Rol "editor" (diseño y contenido): publica productos, fotos, videos y textos del sitio, pero ni lee ni escribe
+  // costos ni ventas (esos archivos "no existen" para el), ni toca la plantilla de las fichas ni el registro de stock.
+  if ($session["role"] === "editor") {
+    if ($path === "data/costs.json" || $path === "data/sales-log.json") throw new ApiError(404, "not_found");
+    if ($method !== "GET" && !preg_match('#^(assets/js/products-data\.js|data/(site-content|audit-log)\.json|sitemap\.xml|producto/[a-z0-9-]+\.html|assets/img/products/[A-Za-z0-9._-]+\.(jpg|jpeg|png|webp)|assets/video/(products|site)/[A-Za-z0-9._-]+\.(mp4|jpg))$#', $path)) {
+      throw new ApiError(403, "role_not_allowed", $path);
+    }
+  }
   // Rol "staff" (tienda): ni lee costos ni escribe nada fuera de lo que
   // necesita una venta (stock del catalogo, log de ventas, auditoria).
-  if (!stike_admin_sees_finance($session["role"])) {
+  elseif (!stike_admin_sees_finance($session["role"])) {
     if ($path === "data/costs.json") throw new ApiError(404, "not_found");
     if ($method !== "GET" && !preg_match('#^(assets/js/products-data\.js|data/(sales-log|audit-log|stock-applied)\.json)$#', $path)) {
       throw new ApiError(403, "role_not_allowed", $path);
