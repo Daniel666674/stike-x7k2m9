@@ -1391,21 +1391,83 @@
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
     <item>
-      <g:id>REP-FIE-045</g:id>
-      <g:title>Barends Process en Aluminio 6061</g:title>
-      <g:description>Barends Process en Aluminio 6061 de Fiend. Material Aluminio 6061. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/barends-process-aluminio.html</g:link>
+      <g:id>REP-FIE-045-negro</g:id>
+      <g:title>Barends Process en Aluminio 6061 - Negro</g:title>
+      <g:description>Barends Process en Aluminio 6061 de Fiend. Material Aluminio 6061. Disponible en colores Negro, Morado, Cromado, Rojo. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/barends-process-aluminio.html?color=Negro</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/barends-process-aluminio-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/barends-process-aluminio-2.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/barends-process-aluminio-3.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/barends-process-aluminio-4.jpg</g:additional_image_link>
       <g:availability>in_stock</g:availability>
-      <g:price>75000.00 COP</g:price>
+      <g:price>80000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
       <g:product_type>Repuestos &gt; Manubrios</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:item_group_id>REP-FIE-045</g:item_group_id>
+      <g:color>Negro</g:color>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>REP-FIE-045-morado</g:id>
+      <g:title>Barends Process en Aluminio 6061 - Morado</g:title>
+      <g:description>Barends Process en Aluminio 6061 de Fiend. Material Aluminio 6061. Disponible en colores Negro, Morado, Cromado, Rojo. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/barends-process-aluminio.html?color=Morado</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/barends-process-aluminio-1.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/barends-process-aluminio-2.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/barends-process-aluminio-3.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/barends-process-aluminio-4.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>80000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fiend</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Manubrios</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:item_group_id>REP-FIE-045</g:item_group_id>
+      <g:color>Morado</g:color>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>REP-FIE-045-cromado</g:id>
+      <g:title>Barends Process en Aluminio 6061 - Cromado</g:title>
+      <g:description>Barends Process en Aluminio 6061 de Fiend. Material Aluminio 6061. Disponible en colores Negro, Morado, Cromado, Rojo. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/barends-process-aluminio.html?color=Cromado</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/barends-process-aluminio-1.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/barends-process-aluminio-2.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/barends-process-aluminio-3.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/barends-process-aluminio-4.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>80000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fiend</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Manubrios</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:item_group_id>REP-FIE-045</g:item_group_id>
+      <g:color>Cromado</g:color>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>REP-FIE-045-rojo</g:id>
+      <g:title>Barends Process en Aluminio 6061 - Rojo</g:title>
+      <g:description>Barends Process en Aluminio 6061 de Fiend. Material Aluminio 6061. Disponible en colores Negro, Morado, Cromado, Rojo. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/barends-process-aluminio.html?color=Rojo</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/barends-process-aluminio-1.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/barends-process-aluminio-2.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/barends-process-aluminio-3.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/barends-process-aluminio-4.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>80000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fiend</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Manubrios</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:item_group_id>REP-FIE-045</g:item_group_id>
+      <g:color>Rojo</g:color>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
     <item>
