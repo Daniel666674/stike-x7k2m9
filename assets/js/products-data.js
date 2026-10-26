@@ -670,7 +670,8 @@ window.STIKE_PRODUCTS = [
     "sub": "Cañas",
     "spec": [
       "Modelo: Mills",
-      "Tipo: Front Load"
+      "Tipo: Front Load",
+      "Medida 50 mm"
     ],
     "price": 295000,
     "promo": false,
@@ -698,7 +699,8 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/cana-fiend-mills-fl-gold-1.jpg": "Dorado",
       "assets/img/products/cana-fiend-mills-fl-cromada-1.jpg": "Cromado"
     },
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "caja-de-frente-fiend-frente-integrado-ransom",
