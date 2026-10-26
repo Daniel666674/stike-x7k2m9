@@ -533,7 +533,7 @@ window.STIKE_PRODUCTS = [
     "spec": [
       "Medida: 9.5\" - 9.75\" X 29\""
     ],
-    "price": 3,
+    "price": 360000,
     "promo": false,
     "colors": [
       {
