@@ -1168,7 +1168,7 @@ window.STIKE_PRODUCTS = [
       },
       {
         "v": "20.75",
-        "u": 3
+        "u": 2
       }
     ],
     "sizeLabel": "Medida",
@@ -1179,7 +1179,7 @@ window.STIKE_PRODUCTS = [
       },
       {
         "v": "Negro",
-        "u": 2
+        "u": 1
       },
       {
         "v": "Púrpura intenso",
@@ -1210,7 +1210,7 @@ window.STIKE_PRODUCTS = [
       {
         "s": "20.75",
         "c": "Negro",
-        "u": 1
+        "u": 0
       },
       {
         "s": "20.75",
