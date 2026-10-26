@@ -1126,7 +1126,8 @@ window.STIKE_PRODUCTS = [
     "imgs": [
       "assets/img/products/peg-fiend-belmont-cromo-4-4mm-1.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "peg-fiend-belmont-cromo-plastico-4-5mm",
@@ -1145,7 +1146,8 @@ window.STIKE_PRODUCTS = [
     "imgs": [
       "assets/img/products/peg-fiend-belmont-cromo-plastico-4-5mm-1.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "marco-fiend-reynolds",
