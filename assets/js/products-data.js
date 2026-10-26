@@ -469,11 +469,11 @@ window.STIKE_PRODUCTS = [
     "colors": [
       {
         "v": "Negro",
-        "u": 4
+        "u": 6
       },
       {
         "v": "Cromado",
-        "u": 3,
+        "u": 5,
         "price": 400000
       }
     ],
@@ -487,7 +487,40 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/timon-fiend-reynolds-negro-2.jpg": "Negro",
       "assets/img/products/timon-fiend-reynolds-cromado-1.jpg": "Cromado"
     },
-    "published": true
+    "published": true,
+    "sizes": [
+      {
+        "v": "9",
+        "u": 2
+      },
+      {
+        "v": "9.25",
+        "u": 9
+      }
+    ],
+    "sizeLabel": "Medida",
+    "combos": [
+      {
+        "s": "9",
+        "c": "Negro",
+        "u": 1
+      },
+      {
+        "s": "9",
+        "c": "Cromado",
+        "u": 1
+      },
+      {
+        "s": "9.25",
+        "c": "Negro",
+        "u": 5
+      },
+      {
+        "s": "9.25",
+        "c": "Cromado",
+        "u": 4
+      }
+    ]
   },
   {
     "slug": "timon-fiend-team",
