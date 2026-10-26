@@ -872,7 +872,7 @@ window.STIKE_PRODUCTS = [
       },
       {
         "v": "Cromado",
-        "u": 2
+        "u": 1
       }
     ],
     "imgs": [
@@ -883,7 +883,8 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/plato-fiend-reynolds-negro-25t-sin-guardia-1.jpg": "Negro",
       "assets/img/products/plato-fiend-reynolds-cromado-25t-1.jpg": "Cromado"
     },
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "plato-fiend-omicron",
