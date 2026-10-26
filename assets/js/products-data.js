@@ -733,7 +733,8 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/caja-fiend-frente-integrado-ransom-negra-1.jpg": "Negro",
       "assets/img/products/caja-fiend-frente-integrado-ransom-cromada-1.jpg": "Cromado"
     },
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "caja-de-centro-fiend-mid-22mm-ransom",
