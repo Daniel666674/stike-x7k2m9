@@ -650,16 +650,11 @@ window.STIKE_PRODUCTS = [
       {
         "v": "Cromado",
         "u": 2
-      },
-      {
-        "v": "negro",
-        "u": 5
       }
     ],
     "imgs": [
       "assets/img/products/cana-fiend-ransom-gold-1.jpg",
-      "assets/img/products/cana-fiend-ransom-cromada-1.jpg",
-      "assets/img/products/d53b0004-0e23-4776-8bc3-44a7288e0b39.jpg"
+      "assets/img/products/cana-fiend-ransom-cromada-1.jpg"
     ],
     "imgColorMap": {
       "assets/img/products/cana-fiend-ransom-gold-1.jpg": "Dorado",

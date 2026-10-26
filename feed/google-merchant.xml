@@ -728,11 +728,10 @@
     <item>
       <g:id>REP-FIE-014-dorado</g:id>
       <g:title>Caña Fiend Ransom - Dorado</g:title>
-      <g:description>Caña Fiend Ransom. Modelo Ransom. Disponible en colores Dorado, Cromado, negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:description>Caña Fiend Ransom. Modelo Ransom. Disponible en colores Dorado, Cromado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/cana-fiend-ransom.html?color=Dorado</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/cana-fiend-ransom-gold-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/cana-fiend-ransom-cromada-1.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/d53b0004-0e23-4776-8bc3-44a7288e0b39.jpg</g:additional_image_link>
       <g:availability>in_stock</g:availability>
       <g:price>295000.00 COP</g:price>
       <g:condition>new</g:condition>
@@ -747,11 +746,10 @@
     <item>
       <g:id>REP-FIE-014-cromado</g:id>
       <g:title>Caña Fiend Ransom - Cromado</g:title>
-      <g:description>Caña Fiend Ransom. Modelo Ransom. Disponible en colores Dorado, Cromado, negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:description>Caña Fiend Ransom. Modelo Ransom. Disponible en colores Dorado, Cromado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/cana-fiend-ransom.html?color=Cromado</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/cana-fiend-ransom-cromada-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/cana-fiend-ransom-gold-1.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/d53b0004-0e23-4776-8bc3-44a7288e0b39.jpg</g:additional_image_link>
       <g:availability>in_stock</g:availability>
       <g:price>295000.00 COP</g:price>
       <g:condition>new</g:condition>
@@ -761,25 +759,6 @@
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-FIE-014</g:item_group_id>
       <g:color>Cromado</g:color>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
-      <g:id>REP-FIE-014-negro</g:id>
-      <g:title>Caña Fiend Ransom - negro</g:title>
-      <g:description>Caña Fiend Ransom. Modelo Ransom. Disponible en colores Dorado, Cromado, negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/cana-fiend-ransom.html?color=negro</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/cana-fiend-ransom-gold-1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/cana-fiend-ransom-cromada-1.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/d53b0004-0e23-4776-8bc3-44a7288e0b39.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
-      <g:price>295000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Fiend</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Cañas</g:product_type>
-      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
-      <g:item_group_id>REP-FIE-014</g:item_group_id>
-      <g:color>negro</g:color>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
     <item>
