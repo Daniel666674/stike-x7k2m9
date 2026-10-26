@@ -767,7 +767,8 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/caja-fiend-centro-mid-22mm-ransom-negra-1.jpg": "Negro",
       "assets/img/products/caja-fiend-centro-mid-22mm-ransom-cromada-1.jpg": "Cromado"
     },
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "bielas-fiend-segment-22mm",
