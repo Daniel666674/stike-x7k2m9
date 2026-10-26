@@ -1052,7 +1052,8 @@ window.STIKE_PRODUCTS = [
     "imgs": [
       "assets/img/products/pedales-fiend-reynolds-blancos-1.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "silla-pivotal-fiend-reynolds-kevlar-negra",
@@ -1072,7 +1073,8 @@ window.STIKE_PRODUCTS = [
     "imgs": [
       "assets/img/products/silla-pivotal-fiend-reynolds-kevlar-negra-1.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "poste-pivotal-fiend-185mm",
