@@ -9862,5 +9862,41 @@
       <g:size>M</g:size>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
+    <item>
+      <g:id>REP-FIE-058-negro</g:id>
+      <g:title>CONIX FIEND - Negro</g:title>
+      <g:description>CONIX FIEND . MEDIDA M24. Disponible en colores Negro, Cromado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/conix-fiend.html?color=Negro</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/8f6aebc2-18aa-4635-94cf-0a10aab802a8.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/ccae10e7-8389-4ab7-86f4-10221c12a260.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>60000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fiend</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Tenedores</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:item_group_id>REP-FIE-058</g:item_group_id>
+      <g:color>Negro</g:color>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>REP-FIE-058-cromado</g:id>
+      <g:title>CONIX FIEND - Cromado</g:title>
+      <g:description>CONIX FIEND . MEDIDA M24. Disponible en colores Negro, Cromado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/conix-fiend.html?color=Cromado</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/8f6aebc2-18aa-4635-94cf-0a10aab802a8.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/ccae10e7-8389-4ab7-86f4-10221c12a260.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>60000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fiend</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Tenedores</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:item_group_id>REP-FIE-058</g:item_group_id>
+      <g:color>Cromado</g:color>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
   </channel>
 </rss>
