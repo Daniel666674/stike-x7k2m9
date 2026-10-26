@@ -464,17 +464,18 @@ window.STIKE_PRODUCTS = [
     "spec": [
       "Medida: 9\" - 9.25\" X 27.25\""
     ],
-    "price": 350000,
+    "price": 360000,
     "promo": false,
     "colors": [
       {
         "v": "Negro",
-        "u": 6
+        "u": 6,
+        "price": 360000
       },
       {
         "v": "Cromado",
         "u": 5,
-        "price": 400000
+        "price": 420000
       }
     ],
     "imgs": [
@@ -532,17 +533,18 @@ window.STIKE_PRODUCTS = [
     "spec": [
       "Medida: 9.5\" - 9.75\" X 29\""
     ],
-    "price": 350000,
+    "price": 3,
     "promo": false,
     "colors": [
       {
         "v": "Negro",
-        "u": 7
+        "u": 7,
+        "price": 360000
       },
       {
         "v": "Cromado",
         "u": 4,
-        "price": 400000
+        "price": 420000
       }
     ],
     "imgs": [
@@ -553,7 +555,40 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/timon-fiend-team-negro-1.jpg": "Negro",
       "assets/img/products/timon-fiend-team-cromado-1.jpg": "Cromado"
     },
-    "published": true
+    "published": true,
+    "sizes": [
+      {
+        "v": "9.5",
+        "u": 7
+      },
+      {
+        "v": "9.75",
+        "u": 4
+      }
+    ],
+    "sizeLabel": "Medida",
+    "combos": [
+      {
+        "s": "9.5",
+        "c": "Negro",
+        "u": 5
+      },
+      {
+        "s": "9.5",
+        "c": "Cromado",
+        "u": 2
+      },
+      {
+        "s": "9.75",
+        "c": "Negro",
+        "u": 2
+      },
+      {
+        "s": "9.75",
+        "c": "Cromado",
+        "u": 2
+      }
+    ]
   },
   {
     "slug": "cana-fiend-reynolds-v4",

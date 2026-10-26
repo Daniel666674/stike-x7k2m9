@@ -518,7 +518,7 @@
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/timon-fiend-reynolds-negro-2.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/timon-fiend-reynolds-cromado-1.jpg</g:additional_image_link>
       <g:availability>in_stock</g:availability>
-      <g:price>350000.00 COP</g:price>
+      <g:price>360000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
@@ -538,7 +538,7 @@
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/timon-fiend-reynolds-negro-1.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/timon-fiend-reynolds-negro-2.jpg</g:additional_image_link>
       <g:availability>in_stock</g:availability>
-      <g:price>400000.00 COP</g:price>
+      <g:price>420000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
@@ -558,7 +558,7 @@
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/timon-fiend-reynolds-negro-2.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/timon-fiend-reynolds-cromado-1.jpg</g:additional_image_link>
       <g:availability>in_stock</g:availability>
-      <g:price>350000.00 COP</g:price>
+      <g:price>360000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
@@ -578,7 +578,7 @@
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/timon-fiend-reynolds-negro-1.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/timon-fiend-reynolds-negro-2.jpg</g:additional_image_link>
       <g:availability>in_stock</g:availability>
-      <g:price>400000.00 COP</g:price>
+      <g:price>420000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
@@ -590,14 +590,14 @@
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
     <item>
-      <g:id>REP-FIE-010-negro</g:id>
-      <g:title>Timón Fiend Team - Negro</g:title>
-      <g:description>Timón Fiend Team. Medida 9.5" - 9.75" X 29". Disponible en colores Negro, Cromado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/timon-fiend-team.html?color=Negro</g:link>
+      <g:id>REP-FIE-010-negro-9-5</g:id>
+      <g:title>Timón Fiend Team - Negro - 9.5</g:title>
+      <g:description>Timón Fiend Team. Medida 9.5" - 9.75" X 29". Disponible en colores Negro, Cromado; medida 9.5, 9.75. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/timon-fiend-team.html?color=Negro&amp;size=9.5</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/timon-fiend-team-negro-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/timon-fiend-team-cromado-1.jpg</g:additional_image_link>
       <g:availability>in_stock</g:availability>
-      <g:price>350000.00 COP</g:price>
+      <g:price>360000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
@@ -605,17 +605,18 @@
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-FIE-010</g:item_group_id>
       <g:color>Negro</g:color>
+      <g:size>9.5</g:size>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
     <item>
-      <g:id>REP-FIE-010-cromado</g:id>
-      <g:title>Timón Fiend Team - Cromado</g:title>
-      <g:description>Timón Fiend Team. Medida 9.5" - 9.75" X 29". Disponible en colores Negro, Cromado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/timon-fiend-team.html?color=Cromado</g:link>
+      <g:id>REP-FIE-010-cromado-9-5</g:id>
+      <g:title>Timón Fiend Team - Cromado - 9.5</g:title>
+      <g:description>Timón Fiend Team. Medida 9.5" - 9.75" X 29". Disponible en colores Negro, Cromado; medida 9.5, 9.75. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/timon-fiend-team.html?color=Cromado&amp;size=9.5</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/timon-fiend-team-cromado-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/timon-fiend-team-negro-1.jpg</g:additional_image_link>
       <g:availability>in_stock</g:availability>
-      <g:price>400000.00 COP</g:price>
+      <g:price>420000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
@@ -623,6 +624,45 @@
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-FIE-010</g:item_group_id>
       <g:color>Cromado</g:color>
+      <g:size>9.5</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>REP-FIE-010-negro-9-75</g:id>
+      <g:title>Timón Fiend Team - Negro - 9.75</g:title>
+      <g:description>Timón Fiend Team. Medida 9.5" - 9.75" X 29". Disponible en colores Negro, Cromado; medida 9.5, 9.75. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/timon-fiend-team.html?color=Negro&amp;size=9.75</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/timon-fiend-team-negro-1.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/timon-fiend-team-cromado-1.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>360000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fiend</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Timones</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:item_group_id>REP-FIE-010</g:item_group_id>
+      <g:color>Negro</g:color>
+      <g:size>9.75</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>REP-FIE-010-cromado-9-75</g:id>
+      <g:title>Timón Fiend Team - Cromado - 9.75</g:title>
+      <g:description>Timón Fiend Team. Medida 9.5" - 9.75" X 29". Disponible en colores Negro, Cromado; medida 9.5, 9.75. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/timon-fiend-team.html?color=Cromado&amp;size=9.75</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/timon-fiend-team-cromado-1.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/timon-fiend-team-negro-1.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>420000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fiend</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Timones</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:item_group_id>REP-FIE-010</g:item_group_id>
+      <g:color>Cromado</g:color>
+      <g:size>9.75</g:size>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
     <item>
