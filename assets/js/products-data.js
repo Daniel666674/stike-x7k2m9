@@ -8459,5 +8459,24 @@ window.STIKE_PRODUCTS = [
     ],
     "imgZoom": 166,
     "published": true
+  },
+  {
+    "slug": "tornillos-para-cana-fiend",
+    "sku": "REP-FIE-059",
+    "n": "TORNILLOS PARA CAÑA FIEND",
+    "brand": "Fiend",
+    "cat": "repuestos",
+    "sub": "Cañas",
+    "spec": [
+      "TORNILLOS PARA CAÑA EN CROMOLIO"
+    ],
+    "price": 40000,
+    "promo": false,
+    "units": 10,
+    "combos": null,
+    "imgs": [
+      "assets/img/products/2f082f36-5914-4b00-ad78-258999bccebd.jpg"
+    ],
+    "published": true
   }
 ];
