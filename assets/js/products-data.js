@@ -965,45 +965,45 @@ window.STIKE_PRODUCTS = [
     "promo": false,
     "sizes": [
       {
-        "v": "26T",
-        "u": 1
+        "v": "25T",
+        "u": 8
       },
       {
         "v": "28T",
-        "u": 1
+        "u": 8
       }
     ],
     "sizeLabel": "Dientes",
     "colors": [
       {
         "v": "Cromado",
-        "u": 1
+        "u": 8
       },
       {
         "v": "Negro",
-        "u": 1
+        "u": 8
       }
     ],
     "combos": [
       {
-        "s": "26T",
+        "s": "25T",
         "c": "Cromado",
-        "u": 1
+        "u": 4
       },
       {
-        "s": "26T",
+        "s": "25T",
         "c": "Negro",
-        "u": 0
+        "u": 4
       },
       {
         "s": "28T",
         "c": "Cromado",
-        "u": 0
+        "u": 4
       },
       {
         "s": "28T",
         "c": "Negro",
-        "u": 1
+        "u": 4
       }
     ],
     "imgs": [

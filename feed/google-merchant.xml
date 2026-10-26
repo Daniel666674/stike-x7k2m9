@@ -1097,10 +1097,10 @@
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
     <item>
-      <g:id>REP-FIE-028-cromado-26t</g:id>
-      <g:title>Plato Fiend Omicron Guard - Cromado - 26T</g:title>
-      <g:description>Plato Fiend Omicron Guard. Con guardia. Disponible en colores Cromado, Negro; dientes 26T, 28T. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/plato-fiend-omicron-guard.html?color=Cromado&amp;size=26T</g:link>
+      <g:id>REP-FIE-028-cromado-25t</g:id>
+      <g:title>Plato Fiend Omicron Guard - Cromado - 25T</g:title>
+      <g:description>Plato Fiend Omicron Guard. Con guardia. Disponible en colores Cromado, Negro; dientes 25T, 28T. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/plato-fiend-omicron-guard.html?color=Cromado&amp;size=25T</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/plato-fiend-omicron-guard-cromado-26t-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/plato-fiend-omicron-guard-negro-28t-1.jpg</g:additional_image_link>
       <g:availability>in_stock</g:availability>
@@ -1112,17 +1112,17 @@
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-FIE-028</g:item_group_id>
       <g:color>Cromado</g:color>
-      <g:size>26T</g:size>
+      <g:size>25T</g:size>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
     <item>
-      <g:id>REP-FIE-028-negro-26t</g:id>
-      <g:title>Plato Fiend Omicron Guard - Negro - 26T</g:title>
-      <g:description>Plato Fiend Omicron Guard. Con guardia. Disponible en colores Cromado, Negro; dientes 26T, 28T. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/plato-fiend-omicron-guard.html?color=Negro&amp;size=26T</g:link>
+      <g:id>REP-FIE-028-negro-25t</g:id>
+      <g:title>Plato Fiend Omicron Guard - Negro - 25T</g:title>
+      <g:description>Plato Fiend Omicron Guard. Con guardia. Disponible en colores Cromado, Negro; dientes 25T, 28T. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/plato-fiend-omicron-guard.html?color=Negro&amp;size=25T</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/plato-fiend-omicron-guard-negro-28t-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/plato-fiend-omicron-guard-cromado-26t-1.jpg</g:additional_image_link>
-      <g:availability>out_of_stock</g:availability>
+      <g:availability>in_stock</g:availability>
       <g:price>340000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
@@ -1131,17 +1131,17 @@
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-FIE-028</g:item_group_id>
       <g:color>Negro</g:color>
-      <g:size>26T</g:size>
+      <g:size>25T</g:size>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
     <item>
       <g:id>REP-FIE-028-cromado-28t</g:id>
       <g:title>Plato Fiend Omicron Guard - Cromado - 28T</g:title>
-      <g:description>Plato Fiend Omicron Guard. Con guardia. Disponible en colores Cromado, Negro; dientes 26T, 28T. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:description>Plato Fiend Omicron Guard. Con guardia. Disponible en colores Cromado, Negro; dientes 25T, 28T. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/plato-fiend-omicron-guard.html?color=Cromado&amp;size=28T</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/plato-fiend-omicron-guard-cromado-26t-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/plato-fiend-omicron-guard-negro-28t-1.jpg</g:additional_image_link>
-      <g:availability>out_of_stock</g:availability>
+      <g:availability>in_stock</g:availability>
       <g:price>340000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
@@ -1156,7 +1156,7 @@
     <item>
       <g:id>REP-FIE-028-negro-28t</g:id>
       <g:title>Plato Fiend Omicron Guard - Negro - 28T</g:title>
-      <g:description>Plato Fiend Omicron Guard. Con guardia. Disponible en colores Cromado, Negro; dientes 26T, 28T. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:description>Plato Fiend Omicron Guard. Con guardia. Disponible en colores Cromado, Negro; dientes 25T, 28T. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/plato-fiend-omicron-guard.html?color=Negro&amp;size=28T</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/plato-fiend-omicron-guard-negro-28t-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/plato-fiend-omicron-guard-cromado-26t-1.jpg</g:additional_image_link>
