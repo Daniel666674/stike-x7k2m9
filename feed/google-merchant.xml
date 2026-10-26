@@ -871,14 +871,14 @@
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
     <item>
-      <g:id>REP-FIE-023-negro</g:id>
-      <g:title>Bielas Fiend Segment 22mm - Negro</g:title>
-      <g:description>Bielas Fiend Segment 22mm. Eje 22mm. Largos negras 170mm · cromadas 160, 165 y 170mm. Disponible en colores Negro, Cromado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/bielas-fiend-segment-22mm.html?color=Negro</g:link>
+      <g:id>REP-FIE-023-negro-170-mm</g:id>
+      <g:title>Bielas Fiend Segment 22mm - Negro - 170 MM</g:title>
+      <g:description>Bielas Fiend Segment 22mm. Eje 22mm. Largos negras 170mm · cromadas 160, 165 y 170mm. Disponible en colores Negro, Cromado; medida 170 MM, 165 MM, 160 MM. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/bielas-fiend-segment-22mm.html?color=Negro&amp;size=170%20MM</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/bielas-fiend-segment-22mm-negras-170mm-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-fiend-segment-22mm-cromadas-1.jpg</g:additional_image_link>
       <g:availability>in_stock</g:availability>
-      <g:price>800000.00 COP</g:price>
+      <g:price>830000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
@@ -886,17 +886,18 @@
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-FIE-023</g:item_group_id>
       <g:color>Negro</g:color>
+      <g:size>170 MM</g:size>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
     <item>
-      <g:id>REP-FIE-023-cromado</g:id>
-      <g:title>Bielas Fiend Segment 22mm - Cromado</g:title>
-      <g:description>Bielas Fiend Segment 22mm. Eje 22mm. Largos negras 170mm · cromadas 160, 165 y 170mm. Disponible en colores Negro, Cromado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/bielas-fiend-segment-22mm.html?color=Cromado</g:link>
+      <g:id>REP-FIE-023-cromado-170-mm</g:id>
+      <g:title>Bielas Fiend Segment 22mm - Cromado - 170 MM</g:title>
+      <g:description>Bielas Fiend Segment 22mm. Eje 22mm. Largos negras 170mm · cromadas 160, 165 y 170mm. Disponible en colores Negro, Cromado; medida 170 MM, 165 MM, 160 MM. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/bielas-fiend-segment-22mm.html?color=Cromado&amp;size=170%20MM</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/bielas-fiend-segment-22mm-cromadas-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-fiend-segment-22mm-negras-170mm-1.jpg</g:additional_image_link>
       <g:availability>in_stock</g:availability>
-      <g:price>890000.00 COP</g:price>
+      <g:price>900000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
@@ -904,6 +905,83 @@
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-FIE-023</g:item_group_id>
       <g:color>Cromado</g:color>
+      <g:size>170 MM</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>REP-FIE-023-negro-165-mm</g:id>
+      <g:title>Bielas Fiend Segment 22mm - Negro - 165 MM</g:title>
+      <g:description>Bielas Fiend Segment 22mm. Eje 22mm. Largos negras 170mm · cromadas 160, 165 y 170mm. Disponible en colores Negro, Cromado; medida 170 MM, 165 MM, 160 MM. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/bielas-fiend-segment-22mm.html?color=Negro&amp;size=165%20MM</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/bielas-fiend-segment-22mm-negras-170mm-1.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-fiend-segment-22mm-cromadas-1.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>830000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fiend</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Bielas</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:item_group_id>REP-FIE-023</g:item_group_id>
+      <g:color>Negro</g:color>
+      <g:size>165 MM</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>REP-FIE-023-cromado-165-mm</g:id>
+      <g:title>Bielas Fiend Segment 22mm - Cromado - 165 MM</g:title>
+      <g:description>Bielas Fiend Segment 22mm. Eje 22mm. Largos negras 170mm · cromadas 160, 165 y 170mm. Disponible en colores Negro, Cromado; medida 170 MM, 165 MM, 160 MM. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/bielas-fiend-segment-22mm.html?color=Cromado&amp;size=165%20MM</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/bielas-fiend-segment-22mm-cromadas-1.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-fiend-segment-22mm-negras-170mm-1.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>900000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fiend</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Bielas</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:item_group_id>REP-FIE-023</g:item_group_id>
+      <g:color>Cromado</g:color>
+      <g:size>165 MM</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>REP-FIE-023-negro-160-mm</g:id>
+      <g:title>Bielas Fiend Segment 22mm - Negro - 160 MM</g:title>
+      <g:description>Bielas Fiend Segment 22mm. Eje 22mm. Largos negras 170mm · cromadas 160, 165 y 170mm. Disponible en colores Negro, Cromado; medida 170 MM, 165 MM, 160 MM. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/bielas-fiend-segment-22mm.html?color=Negro&amp;size=160%20MM</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/bielas-fiend-segment-22mm-negras-170mm-1.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-fiend-segment-22mm-cromadas-1.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>830000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fiend</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Bielas</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:item_group_id>REP-FIE-023</g:item_group_id>
+      <g:color>Negro</g:color>
+      <g:size>160 MM</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>REP-FIE-023-cromado-160-mm</g:id>
+      <g:title>Bielas Fiend Segment 22mm - Cromado - 160 MM</g:title>
+      <g:description>Bielas Fiend Segment 22mm. Eje 22mm. Largos negras 170mm · cromadas 160, 165 y 170mm. Disponible en colores Negro, Cromado; medida 170 MM, 165 MM, 160 MM. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/bielas-fiend-segment-22mm.html?color=Cromado&amp;size=160%20MM</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/bielas-fiend-segment-22mm-cromadas-1.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-fiend-segment-22mm-negras-170mm-1.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>900000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fiend</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Bielas</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:item_group_id>REP-FIE-023</g:item_group_id>
+      <g:color>Cromado</g:color>
+      <g:size>160 MM</g:size>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
     <item>

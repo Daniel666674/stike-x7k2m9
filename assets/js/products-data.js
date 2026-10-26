@@ -781,17 +781,18 @@ window.STIKE_PRODUCTS = [
       "Eje: 22mm",
       "Largos: negras 170mm · cromadas 160, 165 y 170mm"
     ],
-    "price": 800000,
+    "price": 8,
     "promo": false,
     "colors": [
       {
         "v": "Negro",
-        "u": 1
+        "u": 1,
+        "price": 830000
       },
       {
         "v": "Cromado",
         "u": 4,
-        "price": 890000
+        "price": 900000
       }
     ],
     "imgs": [
@@ -802,7 +803,54 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/bielas-fiend-segment-22mm-negras-170mm-1.jpg": "Negro",
       "assets/img/products/bielas-fiend-segment-22mm-cromadas-1.jpg": "Cromado"
     },
-    "published": true
+    "published": true,
+    "sizes": [
+      {
+        "v": "170 MM",
+        "u": 2
+      },
+      {
+        "v": "165 MM",
+        "u": 1
+      },
+      {
+        "v": "160 MM",
+        "u": 2
+      }
+    ],
+    "sizeLabel": "Medida",
+    "combos": [
+      {
+        "s": "170 MM",
+        "c": "Negro",
+        "u": 1
+      },
+      {
+        "s": "170 MM",
+        "c": "Cromado",
+        "u": 1
+      },
+      {
+        "s": "165 MM",
+        "c": "Negro",
+        "u": 0
+      },
+      {
+        "s": "165 MM",
+        "c": "Cromado",
+        "u": 1
+      },
+      {
+        "s": "160 MM",
+        "c": "Negro",
+        "u": 0
+      },
+      {
+        "s": "160 MM",
+        "c": "Cromado",
+        "u": 2
+      }
+    ]
   },
   {
     "slug": "plato-fiend-reynolds-25t",
