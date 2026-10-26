@@ -1180,7 +1180,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 180000,
     "promo": false,
-    "units": 2,
+    "units": 0,
     "imgs": [
       "assets/img/products/silla-pivotal-fiend-reynolds-zebra-1.jpg",
       "assets/img/products/silla-pivotal-fiend-reynolds-zebra-2.jpg",
@@ -1188,7 +1188,8 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/silla-pivotal-fiend-reynolds-zebra-4.jpg",
       "assets/img/products/silla-pivotal-fiend-reynolds-zebra-5.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "peg-fiend-7k-aluminio-plastico-4-5mm",
@@ -5026,7 +5027,7 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "freecoaster-fiend-derecho-negro",
     "sku": "REP-FIE-057",
-    "n": "Freecoaster Fiend Derecho Negro",
+    "n": "Freecoaster Fiend Derecho USADO",
     "brand": "Fiend",
     "cat": "repuestos",
     "sub": "Manzana Trasera",
@@ -5042,7 +5043,8 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/freecoaster-fiend-derecho-negro-1.jpg",
       "assets/img/products/freecoaster-fiend-derecho-negro-2.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "llavero-pedal-kboom-v2",
@@ -5419,7 +5421,7 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "freecoaster-shadow-derecho-negro",
     "sku": "REP-SHA-013",
-    "n": "Freecoaster Shadow Derecho Negro",
+    "n": "Freecoaster Shadow Derecho USADO",
     "brand": "Shadow",
     "cat": "repuestos",
     "sub": "Manzana Trasera",
@@ -5436,7 +5438,8 @@ window.STIKE_PRODUCTS = [
     "imgs": [
       "assets/img/products/freecoaster-shadow-derecho-negro-1.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "pedales-shadow-surface",
