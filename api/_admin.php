@@ -29,6 +29,10 @@ require_once __DIR__ . "/_lib.php";
    - developer (desarrollador): todo.
    - admin     (administrador): todo.
    - dev_assistant (asistente de desarrollo): todo.
+   - editor    (diseño y contenido): sube fotos y videos, edita textos y productos
+               y publica el contenido del sitio. NO ve costos, margen, KPIs,
+               ventas ni auditoria, ni los datos de los clientes (api/sales.php
+               le niega las ventas online), y no toca el codigo (_template.html).
    - staff     (tienda): productos y stock a la vista, registrar ventas y
                notificaciones. NO ve costos, margen, KPIs ni auditoria, y no
                puede crear/editar/eliminar productos ni tocar el sitio. */
@@ -38,6 +42,7 @@ const STIKE_ADMIN_ROLES = [
   "yeimy.hernandez.corredor@gmail.com" => "admin",   // Jeimy
   "kevinarevalo1996@gmail.com"  => "staff",       // Kevin Arevalo (tienda)
   "camilor95@gmail.com"         => "dev_assistant",   // Camilo: asistente de desarrollo
+  "crystaldonkey18@gmail.com"   => "editor",      // Rubí: diseño y contenido del sitio
 ];
 /* Roles que ven la informacion financiera (costos, margen, KPIs). */
 const STIKE_FINANCE_ROLES = ["owner", "developer", "admin", "dev_assistant"];
@@ -56,6 +61,11 @@ function stike_admin_role($email) {
 
 function stike_admin_sees_finance($role) {
   return in_array($role, STIKE_FINANCE_ROLES, true);
+}
+
+/* Las ventas online (api/sales.php) traen nombre, direccion y telefono de cada cliente: el rol "editor" no las ve. */
+function stike_admin_sees_sales($role) {
+  return $role !== "editor";
 }
 
 /* Clave de firma de las cookies. Se deriva de ADMIN_API_KEY (que ya esta en

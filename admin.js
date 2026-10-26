@@ -69,10 +69,14 @@ let session = { name: "demo", email: "demo@stikebikeshop.com", role: "owner", pa
    tambien hace cumplir los limites en api/gh.php; esto solo adapta la
    pantalla). "staff" = la tienda: registra ventas y ve notificaciones,
    sin costos, margen, KPIs, auditoria ni edicion del catalogo/sitio. */
-const ROLE_LABELS = { owner: "Dueño", developer: "Desarrollador", admin: "Administrador", dev_assistant: "Asistente de desarrollo", staff: "Tienda" };
+const ROLE_LABELS = { owner: "Dueño", developer: "Desarrollador", admin: "Administrador", dev_assistant: "Asistente de desarrollo", editor: "Diseño y contenido", staff: "Tienda" };
 const seesFinance = () => ["owner", "developer", "admin", "dev_assistant"].includes(session.role);
+/* Que paneles abre cada rol: la tienda (staff) vende; diseño y contenido (editor) edita productos y el sitio, sin
+   costos, ventas ni clientes; el resto ve todo. El servidor (api/gh.php, api/sales.php) hace cumplir lo mismo. */
+const panelAllowed = name => seesFinance() || (session.role === "editor" ? ["productos", "contenido"] : ["productos", "ventas"]).includes(name);
 function applyRoleUi() {
-  document.body.classList.toggle("role-staff", !seesFinance());
+  document.body.classList.toggle("role-staff", !seesFinance() && session.role !== "editor");
+  document.body.classList.toggle("role-editor", session.role === "editor");
 }
 
 /* ============================== BASE64 (UTF-8 y binario safe) =========== */
@@ -388,7 +392,7 @@ async function loadAll() {
     ghGetFile(CONFIG.paths.salesLog),
     ghGetFile(CONFIG.paths.auditLog),
     ghGetFile(CONFIG.paths.siteContent),
-    fetchOnlineSales(),
+    session.role === "editor" ? Promise.resolve() : fetchOnlineSales(),     // las ventas online traen datos de clientes: el editor no las ve
   ]);
   const arr = catFile ? parseCatalogFile(catFile.text) : [];
   costsMap = costsFile ? JSON.parse(costsFile.text) : {};
@@ -416,8 +420,7 @@ async function loadAll() {
   renderContentTab();
   updateDirtyUI();
   renderNotifBadge();
-  startSalesPolling();
-  reconcileOnlineStock();
+  if (session.role !== "editor") { startSalesPolling(); reconcileOnlineStock(); }
   showStatus([{ text: `Listo: ${workingCatalog.length} productos.`, cls: "ok" }]);
 }
 
@@ -741,18 +744,21 @@ async function publishCatalog(opts = {}) {
 
     await deleteUnusedVideos(merged, scopeSlugs, summary);
 
-    push("Guardando costos internos...");
-    const costUpdates = {}; const costDeletions = [];
-    for (const slug of touchedSlugs) {
-      const d = workingCatalog.find(p => p.slug === slug);
-      if (deletedSlugs.has(slug) && (!scopeSlugs || scopeSlugs.has(slug))) costDeletions.push(slug);
-      else if (d) {
-        costUpdates[d.slug] = d.cost || 0;
-        const oldSlug = renamedFrom.get(d.slug); // producto renombrado esta sesion: limpia la entrada del slug anterior
-        if (oldSlug && oldSlug !== d.slug) costDeletions.push(oldSlug);
+    /* Quien no ve los costos (rol "editor") NO los escribe: su copia trae costo 0 y los pisaria todos. */
+    if (seesFinance()) {
+      push("Guardando costos internos...");
+      const costUpdates = {}; const costDeletions = [];
+      for (const slug of touchedSlugs) {
+        const d = workingCatalog.find(p => p.slug === slug);
+        if (deletedSlugs.has(slug) && (!scopeSlugs || scopeSlugs.has(slug))) costDeletions.push(slug);
+        else if (d) {
+          costUpdates[d.slug] = d.cost || 0;
+          const oldSlug = renamedFrom.get(d.slug); // producto renombrado esta sesion: limpia la entrada del slug anterior
+          if (oldSlug && oldSlug !== d.slug) costDeletions.push(oldSlug);
+        }
       }
+      costsMap = await mergeFlatMap(CONFIG.paths.costs, costUpdates, costDeletions, summary);
     }
-    costsMap = await mergeFlatMap(CONFIG.paths.costs, costUpdates, costDeletions, summary);
 
     push("Escribiendo auditoría...");
     auditLog = await appendJsonLog(CONFIG.paths.auditLog, [{
@@ -3426,10 +3432,10 @@ const IS_MAC = /Mac|iPhone|iPad/.test(navigator.platform || "");
 const PANEL_NAV = [["productos", "Productos", "📦"], ["ventas", "Ventas", "🧾"], ["kpis", "KPIs", "📈"], ["auditoria", "Auditoría", "🕑"], ["contenido", "Contenido del sitio", "✏️"], ["config", "Configuración", "⚙️"]];
 function currentPanelName() { const a = $(".panel.active"); return a ? a.id.replace("panel-", "") : "productos"; }
 function cmdkSections() {
-  const nav = PANEL_NAV.filter(([n]) => seesFinance() || ["productos", "ventas"].includes(n)).map(([n, label, ico]) => ({ type: "nav", name: n, label, ico, hint: n === currentPanelName() ? "estás aquí" : "ir" }));
+  const nav = PANEL_NAV.filter(([n]) => panelAllowed(n)).map(([n, label, ico]) => ({ type: "nav", name: n, label, ico, hint: n === currentPanelName() ? "estás aquí" : "ir" }));
   const usable = id => { const b = $(id); return b && b.offsetParent !== null && !b.disabled; };
   const actions = [
-    { type: "action", key: "sale", label: "Registrar una venta", ico: "➕", hint: "Ventas", run: () => { switchPanel("ventas"); setTimeout(() => $("#sale-q") && $("#sale-q").focus(), 60); } },
+    panelAllowed("ventas") && { type: "action", key: "sale", label: "Registrar una venta", ico: "➕", hint: "Ventas", run: () => { switchPanel("ventas"); setTimeout(() => $("#sale-q") && $("#sale-q").focus(), 60); } },
     usable("#btn-new-product") && { type: "action", key: "new", label: "Nuevo producto", ico: "✨", hint: "", run: () => $("#btn-new-product").click() },
     usable("#btn-publish") && { type: "action", key: "publish", label: "Publicar cambios", ico: "🚀", hint: "", run: () => $("#btn-publish").click() },
     usable("#btn-refresh") && { type: "action", key: "refresh", label: "Recargar de GitHub", ico: "↻", hint: "", run: () => $("#btn-refresh").click() },
@@ -3647,7 +3653,7 @@ function wireSearch() {
 
 /* ============================== NAV / PANELES ================================ */
 function switchPanel(name) {
-  if (!seesFinance() && !["productos", "ventas"].includes(name)) name = "productos";
+  if (!panelAllowed(name)) name = "productos";
   $$(".navbtn").forEach(b => b.classList.toggle("active", b.getAttribute("data-panel") === name));
   $$(".panel").forEach(p => p.classList.toggle("active", p.id === "panel-" + name));
   const titles = { productos: "Productos", ventas: "Ventas", kpis: "KPIs", auditoria: "Auditoría", contenido: "Contenido del sitio", config: "Configuración" };

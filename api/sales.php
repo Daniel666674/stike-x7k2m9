@@ -18,7 +18,9 @@ require __DIR__ . "/_admin.php";
 stike_run(function () {
   stike_require_method("GET");
   // El panel entra con su cookie de sesion (ver api/_admin.php).
-  if (stike_admin_session()) respond(200, stike_read_sales());
+  $sess = stike_admin_session();
+  if ($sess && !stike_admin_sees_sales($sess["role"])) throw new ApiError(403, "role_not_allowed");   // el editor no ve datos de clientes
+  if ($sess) respond(200, stike_read_sales());
   $key = stike_config("ADMIN_API_KEY");
   if (!$key || strlen($key) < 24) throw new ApiError(500, "server_not_configured", "falta ADMIN_API_KEY (minimo 24 caracteres)");
 
