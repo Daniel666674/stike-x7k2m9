@@ -598,7 +598,7 @@ window.STIKE_PRODUCTS = [
     "cat": "repuestos",
     "sub": "Cañas",
     "spec": [
-      "Modelo: Reynolds V4"
+      "Modelo: Reynolds V4 Medida  48mm"
     ],
     "price": 295000,
     "promo": false,
@@ -610,10 +610,6 @@ window.STIKE_PRODUCTS = [
       {
         "v": "Cromado",
         "u": 4
-      },
-      {
-        "v": "Dorado",
-        "u": 2
       }
     ],
     "imgs": [
@@ -628,7 +624,8 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/cana-fiend-reynolds-v4-gold-1.jpg": "Dorado",
       "assets/img/products/cana-fiend-reynolds-v4-gold-2.jpg": "Dorado"
     },
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "cana-fiend-ransom",
@@ -638,7 +635,8 @@ window.STIKE_PRODUCTS = [
     "cat": "repuestos",
     "sub": "Cañas",
     "spec": [
-      "Modelo: Ransom"
+      "Modelo: Ransom",
+      "Medida 50 mm"
     ],
     "price": 295000,
     "promo": false,
