@@ -8360,5 +8360,35 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/6670d1f1-1049-46fd-aead-ffd924794b86.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "conix-fiend",
+    "sku": "REP-FIE-058",
+    "n": "CONIX FIEND ",
+    "brand": "Fiend",
+    "cat": "repuestos",
+    "sub": "Tenedores",
+    "spec": [
+      "MEDIDA M24"
+    ],
+    "price": 60000,
+    "promo": false,
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 5
+      },
+      {
+        "v": "Cromado",
+        "u": 5
+      }
+    ],
+    "combos": null,
+    "imgs": [
+      "assets/img/products/8f6aebc2-18aa-4635-94cf-0a10aab802a8.jpg",
+      "assets/img/products/ccae10e7-8389-4ab7-86f4-10221c12a260.jpg"
+    ],
+    "imgZoom": 166,
+    "published": true
   }
 ];
