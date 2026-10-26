@@ -1086,7 +1086,7 @@ window.STIKE_PRODUCTS = [
     "spec": [
       "Largo: 185mm"
     ],
-    "price": 135000,
+    "price": 140000,
     "promo": false,
     "colors": [
       {
@@ -1106,7 +1106,8 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/poste-pivotal-fiend-185mm-negro-1.jpg": "Negro",
       "assets/img/products/poste-pivotal-fiend-185mm-cromado-1.jpg": "Cromado"
     },
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "peg-fiend-belmont-cromo-4-4mm",
