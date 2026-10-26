@@ -1226,16 +1226,34 @@ window.STIKE_PRODUCTS = [
     "spec": [
       "Material: Aluminio 6061"
     ],
-    "price": 75000,
+    "price": 80000,
     "promo": false,
-    "units": 2,
     "imgs": [
       "assets/img/products/barends-process-aluminio-1.jpg",
       "assets/img/products/barends-process-aluminio-2.jpg",
       "assets/img/products/barends-process-aluminio-3.jpg",
       "assets/img/products/barends-process-aluminio-4.jpg"
     ],
-    "published": true
+    "published": true,
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 10
+      },
+      {
+        "v": "Morado",
+        "u": 5
+      },
+      {
+        "v": "Cromado",
+        "u": 5
+      },
+      {
+        "v": "Rojo",
+        "u": 5
+      }
+    ],
+    "combos": null
   },
   {
     "slug": "silla-pivotal-fiend-reynolds-zebra",
