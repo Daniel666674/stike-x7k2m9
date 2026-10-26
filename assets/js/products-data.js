@@ -1033,7 +1033,8 @@ window.STIKE_PRODUCTS = [
     "imgs": [
       "assets/img/products/cadena-fiend-halflink-negra-1.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "pedales-fiend-reynolds-blancos",
