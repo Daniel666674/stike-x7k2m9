@@ -896,62 +896,58 @@ window.STIKE_PRODUCTS = [
     "spec": [
       "Sin guardia"
     ],
-    "price": 270000,
+    "price": 280000,
     "promo": false,
     "sizes": [
       {
-        "v": "25T",
-        "u": 8
+        "v": "26T",
+        "u": 2
       },
       {
         "v": "28T",
-        "u": 8
+        "u": 2
       }
     ],
     "sizeLabel": "Dientes",
     "colors": [
       {
         "v": "Cromado",
-        "u": 8
+        "u": 2
       },
       {
         "v": "Negro",
-        "u": 8
+        "u": 2
       }
     ],
     "combos": [
       {
-        "s": "25T",
+        "s": "26T",
         "c": "Cromado",
-        "u": 4
+        "u": 1
       },
       {
-        "s": "25T",
+        "s": "26T",
         "c": "Negro",
-        "u": 4
+        "u": 1
       },
       {
         "s": "28T",
         "c": "Cromado",
-        "u": 4
+        "u": 1
       },
       {
         "s": "28T",
         "c": "Negro",
-        "u": 4
+        "u": 1
       }
     ],
     "imgs": [
       "assets/img/products/plato-fiend-omicron-cromado-25t-1.jpg",
-      "assets/img/products/plato-fiend-omicron-negro-25t-1.jpg",
-      "assets/img/products/plato-fiend-omicron-cromado-28t-1.jpg",
-      "assets/img/products/plato-fiend-omicron-negro-28t-1.jpg"
+      "assets/img/products/plato-fiend-omicron-negro-25t-1.jpg"
     ],
     "imgColorMap": {
       "assets/img/products/plato-fiend-omicron-cromado-25t-1.jpg": "Cromado",
-      "assets/img/products/plato-fiend-omicron-negro-25t-1.jpg": "Negro",
-      "assets/img/products/plato-fiend-omicron-cromado-28t-1.jpg": "Cromado",
-      "assets/img/products/plato-fiend-omicron-negro-28t-1.jpg": "Negro"
+      "assets/img/products/plato-fiend-omicron-negro-25t-1.jpg": "Negro"
     },
     "published": true
   },
