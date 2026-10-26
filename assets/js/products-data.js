@@ -299,7 +299,7 @@ window.STIKE_PRODUCTS = [
     "spec": [
       "Tubo superior: 12.75\""
     ],
-    "price": 1790000,
+    "price": 1850000,
     "promo": false,
     "sizes": [
       {
@@ -1037,7 +1037,7 @@ window.STIKE_PRODUCTS = [
     "spec": [
       "Tubo superior: 12.75\""
     ],
-    "price": 1790000,
+    "price": 1850000,
     "promo": false,
     "sizes": [
       {
@@ -1118,7 +1118,7 @@ window.STIKE_PRODUCTS = [
     "spec": [
       "Tubo superior: 20.5\" X 13.1\""
     ],
-    "price": 1790000,
+    "price": 1850000,
     "promo": false,
     "colors": [
       {
@@ -1144,7 +1144,8 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/marco-fiend-mills-negro-1.jpg": "Negro",
       "assets/img/products/marco-fiend-mills-rojo-1.jpg": "Rojo translúcido"
     },
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "barends-process-aluminio",
