@@ -10115,5 +10115,20 @@
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
+    <item>
+      <g:id>REP-FIE-060</g:id>
+      <g:title>JUEGO DE TORNILLOS PARA BIELAS FIEND SEGMENT</g:title>
+      <g:description>JUEGO DE TORNILLOS PARA BIELAS FIEND SEGMENT. JUEGO DE TORNILLOS PARA BIELAS FIEND SEGMENT. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/juego-de-tornillos-para-bielas-fiend-segment.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/eab9550d-8ab5-4ab4-b59a-3235ff3a3539.jpg</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>45000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fiend</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Bielas</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
   </channel>
 </rss>

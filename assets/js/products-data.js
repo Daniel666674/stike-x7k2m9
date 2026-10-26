@@ -8546,5 +8546,24 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/2f082f36-5914-4b00-ad78-258999bccebd.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "juego-de-tornillos-para-bielas-fiend-segment",
+    "sku": "REP-FIE-060",
+    "n": "JUEGO DE TORNILLOS PARA BIELAS FIEND SEGMENT",
+    "brand": "Fiend",
+    "cat": "repuestos",
+    "sub": "Bielas",
+    "spec": [
+      "JUEGO DE TORNILLOS PARA BIELAS FIEND SEGMENT"
+    ],
+    "price": 45000,
+    "promo": false,
+    "units": 2,
+    "combos": null,
+    "imgs": [
+      "assets/img/products/eab9550d-8ab5-4ab4-b59a-3235ff3a3539.jpg"
+    ],
+    "published": true
   }
 ];
