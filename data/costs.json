@@ -111,7 +111,7 @@
   "bicicleta-profir-culver-bmx-gris-oscuro": 0,
   "timon-federal-assaut": 0,
   "timon-colony-rick-4-piezas": 0,
-  "timon-fiend-reynolds": 0,
+  "timon-fiend-reynolds": 196800,
   "marco-gw-destructor-morado": 0,
   "marco-profit-culver-gris-cromolio": 0,
   "marco-wethepeople-message-verde": 0,
@@ -346,5 +346,6 @@
   "marco-fiend-mills": 1068000,
   "marco-fiend-shapershifter-320": 1068000,
   "marco-fiend-reynolds": 1068000,
-  "conix-fiend": 33800
+  "conix-fiend": 33800,
+  "timon-fiend-team": 196800
 }
