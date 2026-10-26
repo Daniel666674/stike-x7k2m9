@@ -84,15 +84,15 @@ for (const [name, vp] of [["escritorio", { width: 1300, height: 900 }], ["celula
   const { page, ctx } = await open({ viewport: vp });
   const pos = await page.evaluate(() => {
     const r = sel => { const e = document.querySelector(sel); if (!e) return null; const b = e.getBoundingClientRect(); return { top: b.top + scrollY, bottom: b.bottom + scrollY, w: b.width, h: b.height }; };
-    return { top: r(".rd-top-title"), feat: r(".rd-core > .rd-feature"), fiend: r(".rd-fiend"), tag: r(".rd-tag"), box: r(".rd-box"), wompi: r(".rd-core .wompi-badge"),
+    return { top: r(".rd-title"), feat: r(".rd-core > .rd-feature"), fiend: r(".rd-fiend"), tag: r(".rd-tag"), box: r(".rd-box"), wompi: r(".rd-core .wompi-badge"),
       h1count: document.querySelectorAll("h1").length, h1text: (document.querySelector("h1") || {}).textContent, order: [...document.querySelector(".rd-core").children].map(e => e.className.split(" ")[0]),
-      coreText: document.querySelector(".rd-core").textContent, oldTitle: !!document.querySelector(".rd-title, .rd-d"), oldSection: !!document.querySelector(".rd-media"), overflow: document.documentElement.scrollWidth - innerWidth,
+      coreText: document.querySelector(".rd-core").textContent, oldSection: !!document.querySelector(".rd-media"), overflow: document.documentElement.scrollWidth - innerWidth,
       wompiCompact: !!document.querySelector(".rd-core .wompi-badge.compact"),
       link: (document.querySelector(".rd-fiend-link") || {}).getAttribute && document.querySelector(".rd-fiend-link").getAttribute("href"), wa: (document.querySelector(".rd-fiend-wa") || {}).href, waTxt: (document.querySelector(".rd-fiend-wa") || {}).textContent };
   });
-  t(`${name}: «La casa de todo el que rueda» es el único h1 y va ARRIBA del video`, pos.h1count === 1 && /la casa de todo el que rueda/i.test(pos.h1text) && pos.top.bottom <= pos.feat.top + 1, JSON.stringify([pos.h1count, pos.h1text]));
-  t(`${name}: el texto «Rueda Duro Vive BMX» ya no existe en el inicio`, !pos.oldTitle && !/rueda\s+duro/i.test(pos.coreText), pos.coreText.slice(0, 120));
-  t(`${name}: el orden es título, video, banner de FIEND`, pos.order[0] === "rd-top-title" && pos.order[1] === "rd-feature" && pos.order[2] === "rd-fiend", pos.order.join(","));
+  t(`${name}: «La casa de todo el que rueda» es el único h1 y va ARRIBA del video`, pos.h1count === 1 && /la\s+casa\s+de\s+todo\s+el\s+que\s+rueda/i.test(pos.h1text) && pos.top.bottom <= pos.feat.top + 1, JSON.stringify([pos.h1count, pos.h1text]));
+  t(`${name}: el texto «Rueda Duro Vive BMX» ya no existe en el inicio`, !/rueda\s+duro/i.test(pos.coreText) && !/vive\s+bmx/i.test(pos.coreText), pos.coreText.slice(0, 120));
+  t(`${name}: el orden es título, video, banner de FIEND`, pos.order[0] === "rd-title" && pos.order[1] === "rd-feature" && pos.order[2] === "rd-fiend", pos.order.join(","));
   t(`${name}: el banner de FIEND queda debajo del video y antes de la frase y la caja de texto`, pos.fiend.top >= pos.feat.bottom && pos.tag.top >= pos.fiend.bottom && pos.box.top >= pos.fiend.bottom);
   t(`${name}: el banner trae la frase de venta, el enlace a los productos FIEND y WhatsApp`, /nueva casa de FIEND en Colombia/i.test(await page.locator(".rd-fiend-title").textContent()) && pos.link === "marca/fiend.html" && /wa\.me\/\d+/.test(pos.wa) && /FIEND/.test(decodeURIComponent(pos.wa)) && /whatsapp/i.test(pos.waTxt), JSON.stringify([pos.link, pos.wa, pos.waTxt]));
   t(`${name}: Wompi queda más abajo que el video y el banner, y en versión compacta`, pos.wompi.top > pos.fiend.bottom && pos.wompiCompact);

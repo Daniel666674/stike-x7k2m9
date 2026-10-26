@@ -27,7 +27,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css?v=adfa3868">
+  <link rel="stylesheet" href="assets/css/styles.css?v=51b2a753">
   <link rel="icon" href="assets/img/favicon.png">
 </head>
 <body>
@@ -38,8 +38,12 @@
        se editan desde el panel: admin > Contenido del sitio. -->
   <section class="rd-hero">
     <div class="rd-core">
-      <!-- TITULO PRINCIPAL: va arriba, sobre el video. -->
-      <h1 class="rd-top-title" data-content-key="home.topTitle" data-content-label="Título sobre el video" data-content-group="Arriba del inicio" data-content-max="40">La casa de todo el que rueda</h1>
+      <!-- TITULO PRINCIPAL: va arriba, sobre el video. Mismo formato de siempre del hero: linea pequeña, linea enorme y linea con contorno verde. -->
+      <h1 class="rd-title">
+        <span class="rd-d rd-d1" style="display:block" data-content-key="home.topLine1" data-content-label="Título · línea 1 (pequeña)" data-content-group="Arriba del inicio" data-content-max="22">La casa de</span>
+        <span class="rd-d rd-d2" style="display:block" data-content-key="home.topLine2" data-content-label="Título · línea 2 (la grande)" data-content-group="Arriba del inicio" data-content-max="14">todo el que</span>
+        <span class="rd-d rd-d3 stk" style="display:block" data-content-key="home.topLine3" data-content-label="Título · línea 3 (contorno verde)" data-content-group="Arriba del inicio" data-content-max="16">rueda</span>
+      </h1>
       <!-- VIDEO DE LA TIENDA: va arriba, donde antes estaba el titular; el titular queda debajo. Es una portada
            con boton de play; el video (YouTube por defecto, o el que se ponga desde el panel en Contenido del sitio)
            se pide recien al cargar la pagina o al tocar play. Ver assets/js/home-media.js. -->

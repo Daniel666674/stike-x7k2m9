@@ -56,8 +56,8 @@ const V = n => ({ src: `assets/video/site/${n}.mp4`, poster: `assets/video/site/
 
 console.log("\nTextos");
 {
-  const { page, ctx, errs } = await open({ "home.topTitle": "Nuestra casa", "home.place": "Fuerte", "home.strip3": "Armado gratis ya", "home.ctaPrimary": "Armar ya", "home.fiendTitle": "Llegó FIEND", "home.fateText": "Texto nuevo de Fate", "cat.repuestos.title": "no aplica aquí" });
-  t("el título de arriba cambia", await txt(page, "h1.rd-top-title") === "Nuestra casa");
+  const { page, ctx, errs } = await open({ "home.topLine1": "Nuestra casa", "home.place": "Fuerte", "home.strip3": "Armado gratis ya", "home.ctaPrimary": "Armar ya", "home.fiendTitle": "Llegó FIEND", "home.fateText": "Texto nuevo de Fate", "cat.repuestos.title": "no aplica aquí" });
+  t("el título de arriba cambia", await txt(page, ".rd-d1") === "Nuestra casa");
   t("el lugar (letras grandes) cambia", await txt(page, ".rd-place") === "Fuerte");
   t("la franja, los botones y los textos de las secciones cambian", await txt(page, '[data-content-key="home.strip3"]') === "Armado gratis ya" && await txt(page, ".rd-ctas .btn.white") === "Armar ya" && await txt(page, '[data-content-key="home.fateText"]') === "Texto nuevo de Fate");
   t("la frase de venta de FIEND cambia", await txt(page, ".rd-fiend-title") === "Llegó FIEND");
@@ -150,8 +150,8 @@ console.log("\nLo que NO se acepta del manifiesto");
   await ctx.close();
 }
 {
-  const { page, ctx, errs } = await open({ "home.topTitle": { malo: true }, "home.heroTag": 42, "home.video": "texto" });
-  t("valores de tipo equivocado no rompen la página", await txt(page, "h1.rd-top-title") === "La casa de todo el que rueda" && errs.length === 0, errs.join(" | "));
+  const { page, ctx, errs } = await open({ "home.topLine1": { malo: true }, "home.heroTag": 42, "home.video": "texto" });
+  t("valores de tipo equivocado no rompen la página", (await txt(page, "h1.rd-title")).replace(/\s+/g, " ") === "La casa de todo el que rueda" && errs.length === 0, errs.join(" | "));
   await ctx.close();
 }
 
