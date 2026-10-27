@@ -8609,7 +8609,7 @@ window.STIKE_PRODUCTS = [
       "Medida : 165mm",
       "Bidireccionales"
     ],
-    "price": 380,
+    "price": 380000,
     "promo": false,
     "colors": [
       {
