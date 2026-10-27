@@ -10139,5 +10139,23 @@
       <g:size>2.40</g:size>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
+    <item>
+      <g:id>REP-ODY-017</g:id>
+      <g:title>TENEDOR ODYSSEY R25</g:title>
+      <g:description>TENEDOR ODYSSEY R25. OFFSET 25MM. MATERIAL CROMOLIO 41 THERMAL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/tenedor-odyssey-r25.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/94a2667a-e9d3-456d-a1bd-9e7e2ea95c2f.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/63fc5c7c-ef99-4ccc-82d2-c8ed9f3b8d9a.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/71fc6c49-a3ca-42ed-a635-4a95289dc589.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/4746b4c3-8c8e-4b8e-b6a5-c87ea86f554e.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>780000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Odyssey</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Tenedores</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
   </channel>
 </rss>
