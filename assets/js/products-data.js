@@ -2977,29 +2977,6 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "caja-frente-fiend-stack",
-    "sku": "CJF-FND-001",
-    "n": "Caja De Frente Fiend Stack Integrada",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Tenedores",
-    "spec": [
-      "Tipo: Integrada",
-      "Rodamientos sellados",
-      "Material: Aluminio",
-      "Tapa: 15mm",
-      "Peso: 0.5 lb"
-    ],
-    "price": 140000,
-    "promo": false,
-    "units": 4,
-    "imgs": [
-      "assets/img/products/caja-frente-fiend-stack-1.jpg",
-      "assets/img/products/caja-frente-fiend-stack-2.jpg"
-    ],
-    "published": true
-  },
-  {
     "slug": "caja-frente-cult-match-v2",
     "sku": "CJF-CLT-001",
     "n": "Caja De Frente Cult Match V2",

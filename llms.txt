@@ -1,6 +1,6 @@
 # Stike Bike Shop
 
-> Tienda BMX en Bogotá: repuestos, protecciones, ropa y armado de BMX a la medida con asesoría de riders. Vendemos 272 productos de marcas como Fiend, Odyssey, Mutanty, Decaye, Fade, Vans, con envíos a toda Colombia y tienda física en Venecia, Bogotá.
+> Tienda BMX en Bogotá: repuestos, protecciones, ropa y armado de BMX a la medida con asesoría de riders. Vendemos 271 productos de marcas como Fiend, Odyssey, Mutanty, Decaye, Fade, Vans, con envíos a toda Colombia y tienda física en Venecia, Bogotá.
 
 ## Datos del negocio
 - Nombre: Stike Bike Shop (también "Stike")
@@ -26,7 +26,7 @@
 ## Categorías
 ### Repuestos
 - [Marcos](https://stikebikeshop.com/categoria/marcos.html): 6 productos desde $1.300.000
-- [Tenedores](https://stikebikeshop.com/categoria/tenedores.html): 20 productos desde $40.000
+- [Tenedores](https://stikebikeshop.com/categoria/tenedores.html): 19 productos desde $40.000
 - [Timones](https://stikebikeshop.com/categoria/timones.html): 8 productos desde $220.000
 - [Manubrios](https://stikebikeshop.com/categoria/manubrios.html): 1 producto desde $80.000
 - [Bielas](https://stikebikeshop.com/categoria/bielas.html): 17 productos desde $20.000
@@ -69,7 +69,7 @@
 - [Éclat](https://stikebikeshop.com/marca/eclat.html): 2 productos
 - [Fade](https://stikebikeshop.com/marca/fade.html): 10 productos
 - [Federal](https://stikebikeshop.com/marca/federal.html): 4 productos
-- [Fiend](https://stikebikeshop.com/marca/fiend.html): 35 productos
+- [Fiend](https://stikebikeshop.com/marca/fiend.html): 34 productos
 - [Fit Bike Co.](https://stikebikeshop.com/marca/fit-bike-co.html): 2 productos
 - [Fox](https://stikebikeshop.com/marca/fox.html): 4 productos
 - [Freaak](https://stikebikeshop.com/marca/freaak.html): 8 productos
