@@ -10122,5 +10122,23 @@
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
+    <item>
+      <g:id>REP-ODY-014</g:id>
+      <g:title>PEDALES ODYSSEY TWISTED PRO PC - Negro</g:title>
+      <g:description>PEDALES ODYSSEY TWISTED PRO PC. TWISTED PRO PC PEDALS. NYLON DE ALTA RESISTENCIA. PLATAFORMA ANCHA PARA MAYOR COMODIDAD. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/pedales-odyssey-twisted-pro-pc.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/0439deb3-bc6a-462f-b624-91037b005fd6.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/00bf3a28-4319-4127-8c54-3f204c803d11.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/3ee2fa43-4ecc-4a2e-8ac9-1473e1e3f38e.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>80000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Odyssey</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Pedales</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:color>Negro</g:color>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
   </channel>
 </rss>
