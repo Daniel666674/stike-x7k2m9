@@ -781,7 +781,7 @@ window.STIKE_PRODUCTS = [
       "Eje: 22mm",
       "Largos: negras 170mm · cromadas 160, 165 y 170mm"
     ],
-    "price": 8,
+    "price": 830000,
     "promo": false,
     "colors": [
       {
