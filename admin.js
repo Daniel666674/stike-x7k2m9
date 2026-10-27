@@ -915,18 +915,21 @@ function loadImageElement(file) {
    los bordes y el centro -- y se rechaza el resultado si los nueve salen
    identicos byte a byte. Una foto real nunca lo es; un cuadrado de un solo
    color, siempre. */
+/* ¿El dibujo salio bien? Un drawImage() que falla en silencio deja el canvas UNIFORME (blanco, por el fondo que se le
+   pone antes). Antes se miraban solo 9 puntos (esquinas, bordes y centro): una foto de producto con fondo blanco y una
+   pieza delgada (un tenedor, una cadena, una biela de perfil) puede dejar los 9 en blanco y se rechazaba por error con
+   "No se pudo procesar la foto". Ahora se recorre la imagen COMPLETA por franjas y basta UN pixel distinto para darla
+   por buena (sale en cuanto lo encuentra: en una foto normal es casi inmediato). Solo una imagen realmente uniforme,
+   sin ningun detalle, se considera fallida. */
 function canvasLooksReal(ctx, w, h) {
-  const mx = w >> 1, my = h >> 1, rx = w - 1, ry = h - 1;
-  const pts = [
-    [0, 0], [mx, 0], [rx, 0],
-    [0, my], [mx, my], [rx, my],
-    [0, ry], [mx, ry], [rx, ry],
-  ];
-  let first = null;
-  for (const [x, y] of pts) {
-    const d = ctx.getImageData(Math.min(Math.max(x, 0), w - 1), Math.min(Math.max(y, 0), h - 1), 1, 1).data;
-    const key = d[0] + "," + d[1] + "," + d[2];
-    if (first === null) first = key; else if (key !== first) return true;
+  const band = 48;                                           // filas por lectura: pocos KB, aguanta celulares con poca memoria
+  let r0 = -1, g0 = 0, b0 = 0, a0 = 0;
+  for (let y = 0; y < h; y += band) {
+    const d = ctx.getImageData(0, y, w, Math.min(band, h - y)).data;
+    if (r0 < 0) { r0 = d[0]; g0 = d[1]; b0 = d[2]; a0 = d[3]; }
+    for (let i = 0; i < d.length; i += 4) {
+      if (d[i] !== r0 || d[i + 1] !== g0 || d[i + 2] !== b0 || d[i + 3] !== a0) return true;
+    }
   }
   return false;
 }
@@ -935,7 +938,7 @@ function canvasLooksReal(ctx, w, h) {
  * para que la calidad sea consistente sin importar cuanto tiempo lleve abierta
  * la pestaña. Guarda contra drawImage() fallando en silencio en moviles con
  * poca memoria (deja el canvas en blanco pero igual "codifica" un JPEG
- * valido): se muestrea una grilla de pixeles y, si salen todos iguales, se
+ * valido): se revisa la imagen (canvasLooksReal) y, si sale toda igual, se
  * reintenta el dibujo.
  */
 async function compressImageFile(file, maxDim = 1600, quality = 0.87) {
