@@ -20,6 +20,11 @@ stike_run(function () {
     $k = stike_wompi_keys();
     $env = $k["environment"];
     $add("wompi_keys", true, "Llaves de Wompi", $env === "prod" ? "Producción (cobros reales)" : "Sandbox (pruebas, no cobra)");
+    // Para comparar a ojo con el panel de Wompi sin exponer el secreto: ambiente, largo y las 4 ultimas letras.
+    $raw = (string)stike_config("WOMPI_INTEGRITY_SECRET");
+    $int = $k["integrity"];
+    $fix = $raw !== $int ? " · tenía espacios o comillas de más (el servidor ya los ignora, pero conviene limpiarlos)" : "";
+    $add("wompi_integrity", true, "Secreto de integridad (el que firma cada cobro)", "Termina en …" . substr($int, -4) . " · " . strlen($int) . " caracteres · " . ($env === "prod" ? "producción" : "sandbox") . ". Si Wompi dice «La firma es inválida», compáralo con Wompi > Desarrolladores > Secretos para integración técnica > Integridad (no el de Eventos)." . $fix);
     $base = stike_config("WOMPI_API_BASE") ?: ($env === "prod" ? "https://production.wompi.co/v1" : "https://sandbox.wompi.co/v1");
     $r = stike_http("GET", rtrim($base, "/") . "/merchants/" . rawurlencode($k["public"]));
     $add("wompi_reach", $r["status"] === 200, "Wompi reconoce la llave pública", $r["status"] === 200 ? "OK" : "Wompi respondió " . ($r["status"] ?: "sin conexión"));

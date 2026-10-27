@@ -103,7 +103,7 @@
 
   <script src="assets/js/products-data.js?v=7cce7089c2"></script>
   <script src="assets/js/data.js?v=5b0270c452"></script>
-  <script src="assets/js/app.js?v=cfe0ff10bd"></script>
+  <script src="assets/js/app.js?v=24af93fdb2"></script>
   <script>
     stikeInit();
 
@@ -149,6 +149,7 @@
       }
       titleEl.textContent = title;
       crumbEl.innerHTML = crumb;
+      if (state.q && searchLoose) subtitle = LOOSE_NOTE;
       subtitleEl.textContent = subtitle;
       subtitleEl.style.display = subtitle ? "" : "none";
     }
@@ -204,13 +205,20 @@
       }));
     }
 
+    const LOOSE_NOTE = "Ningún producto tiene todas esas palabras; estos son los más parecidos.";
+    let searchLoose = false;   /* true si ningun producto cumple todas las palabras y se muestran parecidos */
     function filtered() {
       let list = STIKE_PRODUCTS.slice();
       if (state.cats.length) list = list.filter(p => state.cats.includes(p.cat) || (state.cats.includes("promo") && p.promo));
       if (state.sub) list = list.filter(p => p.sub === state.sub);
       if (state.brand) list = list.filter(p => p.brand === state.brand);
-      if (state.q) list = list.filter(p =>
-        (p.n + " " + p.brand + " " + p.sub + " " + p.cat).toLowerCase().includes(state.q));
+      let searchRank = null;
+      if (state.q) {
+        const res = stikeSearchProducts(state.q);
+        searchLoose = res.loose;
+        searchRank = new Map(res.items.map((p, i) => [p, i]));
+        list = list.filter(p => searchRank.has(p));
+      }
       if (state.price !== "all") {
         const [lo, hi] = state.price.split("-").map(Number);
         list = list.filter(p => p.price >= lo && p.price <= hi);
@@ -218,6 +226,7 @@
       if (state.sort === "price-asc") list.sort((a,b) => a.price - b.price);
       else if (state.sort === "price-desc") list.sort((a,b) => b.price - a.price);
       else if (state.sort === "name") list.sort((a,b) => a.n.localeCompare(b.n));
+      else if (searchRank) list.sort((a, b) => searchRank.get(a) - searchRank.get(b));
       return list;
     }
 
@@ -268,6 +277,7 @@
       buildPartsShelf();
       syncCanonical();
       const list = filtered();
+      if (state.q && searchLoose && list.length) { subtitleEl.textContent = LOOSE_NOTE; subtitleEl.style.display = ""; }
       const shown = list.slice(0, visibleCount);
       const grid = document.getElementById("grid");
       const empty = document.getElementById("empty");

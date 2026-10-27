@@ -40,7 +40,7 @@ stike_run(function () {
   if (!is_array($event)) respond(200, ["ok" => true, "ignored" => "empty"]);
 
   if (($event["event"] ?? "") !== "transaction.updated") respond(200, ["ok" => true, "ignored" => "event"]);
-  $eventsSecret = stike_config("WOMPI_EVENTS_SECRET");
+  $eventsSecret = stike_wompi_clean(stike_config("WOMPI_EVENTS_SECRET"));
   if ($eventsSecret && !stike_event_checksum_ok($event, $eventsSecret)) {
     error_log("[stike] evento de Wompi con firma invalida (revisa WOMPI_EVENTS_SECRET: debe ser el secreto de EVENTOS del mismo ambiente)");
     respond(401, ["error" => "bad_signature"]);
