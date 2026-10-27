@@ -10222,7 +10222,7 @@
     <item>
       <g:id>REP-BSD-006</g:id>
       <g:title>TIMON BSD SAFARI 4 PIEZAS - Negro - 9.6</g:title>
-      <g:description>TIMON BSD SAFARI 4 PIEZAS. MEDIDA 9.6". ALTO 29.5". Upsweep 3°. Backsweep 13°. PESO 1.8 LBS. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:description>TIMON BSD SAFARI 4 PIEZAS. MEDIDA 9.6" LARGO 29.5". Upsweep 3° Backsweep 13°. PESO 1.8 LBS. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/timon-bsd-safari-4-piezas.html</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/d9b0ece7-6a3e-4570-b93d-059609946b39.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/ba6ff186-faef-4a80-88b4-1960e6c70f03.jpg</g:additional_image_link>
@@ -10236,6 +10236,24 @@
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:color>Negro</g:color>
       <g:size>9.6</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>REP-ODY-020</g:id>
+      <g:title>TIMON ODYSSEY SUPER HIGHWAY - Negro - 9.5</g:title>
+      <g:description>TIMON ODYSSEY SUPER HIGHWAY. MEDIDA 9.5 LARGO : 29. Backsweep 11° Upsweep: 1°. PESO . Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/timon-odyssey-super-highway.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/bf25272d-da02-46b4-a1a0-0969ac4eac89.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2f774fa7-7c37-44c6-b57c-a95cf0140863.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>500000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Odyssey</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Timones</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:color>Negro</g:color>
+      <g:size>9.5</g:size>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
   </channel>

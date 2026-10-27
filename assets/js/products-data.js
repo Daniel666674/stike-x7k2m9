@@ -8697,10 +8697,8 @@ window.STIKE_PRODUCTS = [
     "cat": "repuestos",
     "sub": "Timones",
     "spec": [
-      "MEDIDA       9.6\"",
-      "ALTO      \t    29.5\"",
-      "Upsweep\t3°",
-      "Backsweep\t13°",
+      "MEDIDA       9.6\"    LARGO        29.5\"",
+      "Upsweep\t3°    Backsweep\t13°",
       "PESO              1.8 LBS"
     ],
     "price": 380000,
@@ -8729,6 +8727,46 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/d9b0ece7-6a3e-4570-b93d-059609946b39.jpg",
       "assets/img/products/ba6ff186-faef-4a80-88b4-1960e6c70f03.jpg",
       "assets/img/products/fe1a7ef1-1d75-42f4-9aba-5fdd67b68baf.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "timon-odyssey-super-highway",
+    "sku": "REP-ODY-020",
+    "n": "TIMON ODYSSEY SUPER HIGHWAY",
+    "brand": "Odyssey",
+    "cat": "repuestos",
+    "sub": "Timones",
+    "spec": [
+      "MEDIDA :  9.5     LARGO :   29",
+      "Backsweep: 11°  Upsweep: 1°",
+      "PESO :"
+    ],
+    "price": 500000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "9.5",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Medida",
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 1
+      }
+    ],
+    "combos": [
+      {
+        "s": "9.5",
+        "c": "Negro",
+        "u": 1
+      }
+    ],
+    "imgs": [
+      "assets/img/products/bf25272d-da02-46b4-a1a0-0969ac4eac89.jpg",
+      "assets/img/products/2f774fa7-7c37-44c6-b57c-a95cf0140863.jpg"
     ],
     "published": true
   }
