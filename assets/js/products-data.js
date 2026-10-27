@@ -8622,5 +8622,29 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/3da3b9ca-63eb-4628-9da4-f23207d27346.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "tenedor-odyssey-r25",
+    "sku": "REP-ODY-017",
+    "n": "TENEDOR ODYSSEY R25",
+    "brand": "Odyssey",
+    "cat": "repuestos",
+    "sub": "Tenedores",
+    "spec": [
+      "OFFSET : 25MM",
+      "MATERIAL : CROMOLIO 41 THERMAL"
+    ],
+    "price": 780000,
+    "promo": false,
+    "units": 1,
+    "combos": null,
+    "imgs": [
+      "assets/img/products/94a2667a-e9d3-456d-a1bd-9e7e2ea95c2f.jpg",
+      "assets/img/products/63fc5c7c-ef99-4ccc-82d2-c8ed9f3b8d9a.jpg",
+      "assets/img/products/71fc6c49-a3ca-42ed-a635-4a95289dc589.jpg",
+      "assets/img/products/4746b4c3-8c8e-4b8e-b6a5-c87ea86f554e.jpg"
+    ],
+    "imgZoom": 138,
+    "published": true
   }
 ];
