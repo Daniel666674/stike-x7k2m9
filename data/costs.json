@@ -302,7 +302,6 @@
   "caja-frente-fate-negra": 0,
   "caja-frente-fiend-alta-negra": 0,
   "caja-frente-gw": 0,
-  "caja-frente-fiend-stack": 0,
   "caja-frente-cult-match-v2": 0,
   "funda-peg-odyssey-graduate-475": 0,
   "perno-superior-wethepeople-negro": 0,
@@ -369,5 +368,8 @@
   "bielas-sunday-saker-v2": 281200,
   "coraza-odyssey-broc": 1006400,
   "coraza-cult-vans-wafflecup-bmx-negra": 0,
-  "coraza-innova-pro-j-box-negra": 0
+  "coraza-innova-pro-j-box-negra": 0,
+  "tenedor-odyssey-r25": 592800,
+  "coraza-odyssey-path-pro": 106400,
+  "cajas-frente-integrados-odyssey": 91200
 }

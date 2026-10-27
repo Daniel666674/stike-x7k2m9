@@ -871,5 +871,50 @@
     "edited": 3,
     "deleted": 0,
     "photos": 0
+  },
+  {
+    "ts": "2026-10-27T19:16:48.106Z",
+    "admin": "jparra375@gmail.com",
+    "summary": "0 creado(s), 1 editado(s), 0 eliminado(s), 1 foto(s)",
+    "created": 0,
+    "edited": 1,
+    "deleted": 0,
+    "photos": 1
+  },
+  {
+    "ts": "2026-10-27T19:20:22.551Z",
+    "admin": "jparra375@gmail.com",
+    "summary": "1 creado(s), 0 editado(s), 0 eliminado(s), 4 foto(s)",
+    "created": 1,
+    "edited": 0,
+    "deleted": 0,
+    "photos": 4
+  },
+  {
+    "ts": "2026-10-27T19:31:05.732Z",
+    "admin": "jparra375@gmail.com",
+    "summary": "1 creado(s), 1 editado(s), 0 eliminado(s), 3 foto(s)",
+    "created": 1,
+    "edited": 1,
+    "deleted": 0,
+    "photos": 3
+  },
+  {
+    "ts": "2026-10-27T19:35:48.497Z",
+    "admin": "jparra375@gmail.com",
+    "summary": "1 creado(s), 0 editado(s), 0 eliminado(s), 4 foto(s)",
+    "created": 1,
+    "edited": 0,
+    "deleted": 0,
+    "photos": 4
+  },
+  {
+    "ts": "2026-10-27T19:39:07.625Z",
+    "admin": "jparra375@gmail.com",
+    "summary": "0 creado(s), 0 editado(s), 1 eliminado(s), 0 foto(s)",
+    "created": 0,
+    "edited": 0,
+    "deleted": 1,
+    "photos": 0
   }
 ]

@@ -2977,29 +2977,6 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "caja-frente-fiend-stack",
-    "sku": "CJF-FND-001",
-    "n": "Caja De Frente Fiend Stack Integrada",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Tenedores",
-    "spec": [
-      "Tipo: Integrada",
-      "Rodamientos sellados",
-      "Material: Aluminio",
-      "Tapa: 15mm",
-      "Peso: 0.5 lb"
-    ],
-    "price": 140000,
-    "promo": false,
-    "units": 4,
-    "imgs": [
-      "assets/img/products/caja-frente-fiend-stack-1.jpg",
-      "assets/img/products/caja-frente-fiend-stack-2.jpg"
-    ],
-    "published": true
-  },
-  {
     "slug": "caja-frente-cult-match-v2",
     "sku": "CJF-CLT-001",
     "n": "Caja De Frente Cult Match V2",
@@ -8617,8 +8594,96 @@ window.STIKE_PRODUCTS = [
     "sizeLabel": "Medida",
     "combos": null,
     "imgs": [
+      "assets/img/products/0e808c9c-8d05-4f71-a564-6ed739788121.jpg",
       "assets/img/products/372bb2a9-050a-47af-84e5-54117b3c88d1.jpg",
       "assets/img/products/3da3b9ca-63eb-4628-9da4-f23207d27346.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "tenedor-odyssey-r25",
+    "sku": "REP-ODY-017",
+    "n": "TENEDOR ODYSSEY R25",
+    "brand": "Odyssey",
+    "cat": "repuestos",
+    "sub": "Tenedores",
+    "spec": [
+      "OFFSET : 25MM",
+      "MATERIAL : CROMOLIO 41 THERMAL"
+    ],
+    "price": 780000,
+    "promo": false,
+    "units": 1,
+    "combos": null,
+    "imgs": [
+      "assets/img/products/94a2667a-e9d3-456d-a1bd-9e7e2ea95c2f.jpg",
+      "assets/img/products/63fc5c7c-ef99-4ccc-82d2-c8ed9f3b8d9a.jpg",
+      "assets/img/products/71fc6c49-a3ca-42ed-a635-4a95289dc589.jpg",
+      "assets/img/products/4746b4c3-8c8e-4b8e-b6a5-c87ea86f554e.jpg"
+    ],
+    "imgZoom": 188,
+    "published": true
+  },
+  {
+    "slug": "coraza-odyssey-path-pro",
+    "sku": "REP-ODY-018",
+    "n": "CORAZA ODYSSEY PATH PRO",
+    "brand": "Odyssey",
+    "cat": "repuestos",
+    "sub": "Llantas",
+    "spec": [
+      "REFERNCIA : PATH PRO",
+      "65 PSI MAX"
+    ],
+    "price": 140000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "2.40",
+        "u": 4
+      },
+      {
+        "v": "2.25",
+        "u": 2
+      }
+    ],
+    "sizeLabel": "Medida",
+    "combos": null,
+    "imgs": [
+      "assets/img/products/aadc8e15-a9fc-4b48-ad2f-cc7b796c819d.jpg",
+      "assets/img/products/d7eb2bdc-fe19-4853-b6c2-29602b781b4f.jpg",
+      "assets/img/products/3f22cfca-721f-4f30-8f35-21a0e9db9b9f.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "cajas-frente-integrados-odyssey",
+    "sku": "REP-ODY-019",
+    "n": "CAJAS FRENTE INTEGRADOS ODYSSEY",
+    "brand": "Odyssey",
+    "cat": "repuestos",
+    "sub": "Tenedores",
+    "spec": [
+      "REFERENCIA : CONICAL PRO"
+    ],
+    "price": 120000,
+    "promo": false,
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 2
+      },
+      {
+        "v": "Cromado",
+        "u": 2
+      }
+    ],
+    "combos": null,
+    "imgs": [
+      "assets/img/products/7c091a3f-9652-4ff5-bad1-607512712f4a.jpg",
+      "assets/img/products/c0684309-b4e8-4061-8edf-3d439bed1d8a.jpg",
+      "assets/img/products/59ab78f9-13a8-4065-a04f-ebbf6e062272.jpg",
+      "assets/img/products/f15fffc4-e0f0-450d-b36f-daa08bf244d7.jpg"
     ],
     "published": true
   }
