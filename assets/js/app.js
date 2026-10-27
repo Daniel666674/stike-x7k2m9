@@ -593,6 +593,142 @@ function stikeDoSearch(e) {
   window.location.href = "tienda.html?q=" + encodeURIComponent(q);
 }
 
+/* ------------------------- MOTOR DE BUSQUEDA --------------------------- */
+/* Lo usan el buscador en vivo (lupa) y la pagina tienda.html?q=.
+   Antes se buscaba el texto completo, seguido, dentro de "nombre marca sub
+   cat": "tenedor fiend", "cana negra", "llantas 20" o cualquier palabra con
+   tilde no encontraban nada y solo salian las categorias. Ahora:
+   - ignora tildes y mayusculas (cana = Caña), y singular/plural (tenedor = tenedores)
+   - cada palabra se busca por separado (en cualquier orden) en nombre, marca,
+     tipo, categoria, SKU, especificaciones, colores y tallas
+   - entiende sinonimos de BMX (horquilla = tenedor, manubrio = timon...)
+   - perdona un error de tipeo (tenedr, fiedn)
+   - ordena: primero lo que coincide en el nombre y luego en lo demas
+   - si ninguna combinacion calza completa, muestra "parecidos" en vez de nada */
+const STIKE_SEARCH_SYN = [
+  ["tenedor", "horquilla", "fork"], ["cana", "espiga", "stem", "potencia"], ["timon", "manubrio", "handlebar", "bar", "guidon"],
+  ["biela", "crank", "cranks"], ["plato", "sprocket", "chainring", "pinon"], ["cadena", "chain"],
+  ["pedal", "pedales"], ["silla", "sillin", "seat"], ["poste", "post", "seatpost"], ["peg", "taco", "protector"],
+  ["rin", "aro", "rim"], ["llanta", "coraza", "neumatico"], ["grip", "punos", "puno", "manopla"],
+  ["casco", "helmet"], ["marco", "frame", "cuadro"], ["manzana", "hub", "cubo", "maza"],
+  ["camiseta", "camisa", "playera", "tee", "polo"], ["buzo", "sudadera", "hoodie", "saco"], ["chaqueta", "jacket", "chamarra"],
+  ["gorra", "cap", "gorro"], ["tenis", "zapatilla", "zapato", "shoes"], ["rodillera", "knee"], ["espinillera", "shin", "canillera"],
+  ["tobillera", "ankle"], ["pantalon", "jean", "jeans"], ["media", "calcetin", "sock"], ["llavero", "keychain"],
+  ["freno", "brake", "caliper"], ["caja", "headset", "direccion"], ["rueda", "wheel"]
+];
+const STIKE_SEARCH_STOP = ["de", "del", "la", "el", "los", "las", "un", "una", "y", "o", "para", "con", "en", "por", "a", "bmx"];
+let STIKE_SEARCH_INDEX = null;
+
+function stikeFold(s) {
+  return String(s == null ? "" : s).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+}
+/* Singular aproximado: igual a ambos lados (catalogo y consulta), asi que
+   no necesita ser gramaticalmente perfecto, solo consistente. */
+function stikeStem(w) {
+  if (w.length > 4 && /es$/.test(w) && !/(ies|ees)$/.test(w)) return w.slice(0, -2);
+  if (w.length > 3 && /s$/.test(w)) return w.slice(0, -1);
+  return w;
+}
+function stikeWords(s) {
+  return stikeFold(s).split(/[^a-z0-9]+/).filter(Boolean).map(stikeStem);
+}
+function stikeEditDistance(a, b, max) {
+  /* Distancia de edicion con intercambio de letras contiguas ("fiedn" -> "fiend" cuenta 1). */
+  if (Math.abs(a.length - b.length) > max) return max + 1;
+  let prev2 = null, prev = [];
+  for (let j = 0; j <= b.length; j++) prev[j] = j;
+  for (let i = 1; i <= a.length; i++) {
+    const cur = [i]; let best = i;
+    for (let j = 1; j <= b.length; j++) {
+      cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+      if (prev2 && i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) cur[j] = Math.min(cur[j], prev2[j - 2] + 1);
+      if (cur[j] < best) best = cur[j];
+    }
+    if (best > max) return max + 1;
+    prev2 = prev; prev = cur;
+  }
+  return prev[b.length];
+}
+function stikeSearchIndex() {
+  const list = window.STIKE_PRODUCTS || [];
+  if (STIKE_SEARCH_INDEX && STIKE_SEARCH_INDEX.size === list.length) return STIKE_SEARCH_INDEX;
+  const rows = new Map(), vocab = new Set();
+  list.forEach(p => {
+    const cat = typeof stikeCategory === "function" ? stikeCategory(p.cat) : null;
+    const field = (v) => stikeWords(v);
+    const f = {
+      name: field(p.n), brand: field(p.brand), sub: field(p.sub), cat: field((cat && cat.name) || p.cat), sku: field(p.sku),
+      other: field([].concat(p.spec || [], (p.colors || []).map(c => c.v), p.sizes || [], p.combos ? [JSON.stringify(p.combos)] : []).join(" "))
+    };
+    Object.keys(f).forEach(k => f[k].forEach(w => vocab.add(w)));
+    rows.set(p, f);
+  });
+  STIKE_SEARCH_INDEX = { size: list.length, rows, vocab: Array.from(vocab) };
+  return STIKE_SEARCH_INDEX;
+}
+/* Cada palabra de la consulta -> las formas que valen: ella, sus sinonimos
+   y, si no existe en el catalogo, las palabras parecidas (1-2 letras). */
+function stikeQueryAlternatives(token, vocab) {
+  const alts = new Set([token]);
+  STIKE_SEARCH_SYN.forEach(group => {
+    const stems = group.map(stikeStem);
+    if (stems.indexOf(token) !== -1) stems.forEach(s => alts.add(s));
+  });
+  const known = vocab.some(w => w.indexOf(token) !== -1);
+  if (!known && token.length >= 4) {
+    const max = token.length >= 8 ? 2 : 1;
+    vocab.forEach(w => { if (w.length >= 3 && stikeEditDistance(token, w, max) <= max) alts.add(w); });
+  }
+  return Array.from(alts);
+}
+function stikeWordHit(word, alt) {
+  /* 1 letra: exacta; 2-3: al inicio de la palabra (para no confundir "rin" con "primo"); 4+: dentro de la palabra. */
+  if (alt.length <= 1) return word === alt;
+  return alt.length <= 3 ? word.indexOf(alt) === 0 : word.indexOf(alt) !== -1;
+}
+/* Devuelve { items, loose, tokens }. loose = true cuando no hubo un producto
+   que cumpla todas las palabras y se muestran los que cumplen alguna. */
+function stikeSearchProducts(query) {
+  const idx = stikeSearchIndex();
+  const tokens = Array.from(new Set(stikeWords(query).filter(w => STIKE_SEARCH_STOP.indexOf(w) === -1)));
+  if (!tokens.length) return { items: [], loose: false, tokens: [] };
+  const alts = tokens.map(t => stikeQueryAlternatives(t, idx.vocab));
+  const weights = { name: 4, sku: 4, sub: 3, brand: 3, cat: 2, other: 1 };
+  const scored = [];
+  idx.rows.forEach((f, p) => {
+    let matched = 0, score = 0;
+    alts.forEach(group => {
+      let best = 0;
+      Object.keys(weights).forEach(k => {
+        if (f[k].some(w => group.some(a => stikeWordHit(w, a)))) best = Math.max(best, weights[k] + (f[k].some(w => group.indexOf(w) !== -1) ? 1 : 0));
+      });
+      if (best) { matched++; score += best; }
+    });
+    if (matched) scored.push({ p, matched, score });
+  });
+  const byScore = (a, b) => b.matched - a.matched || b.score - a.score;
+  const full = scored.filter(s => s.matched === tokens.length).sort(byScore);
+  if (full.length) return { items: full.map(s => s.p), loose: false, tokens };
+  return { items: scored.sort(byScore).map(s => s.p), loose: scored.length > 0 && tokens.length > 1, tokens };
+}
+/* Tipos de parte y marcas que coinciden con lo escrito (para los atajos). */
+function stikeSearchShortcuts(query) {
+  const idx = stikeSearchIndex();
+  const tokens = Array.from(new Set(stikeWords(query).filter(w => STIKE_SEARCH_STOP.indexOf(w) === -1)));
+  if (!tokens.length) return { cats: [], subs: [], brands: [] };
+  const alts = tokens.map(t => stikeQueryAlternatives(t, idx.vocab));
+  /* Un atajo sirve si CUALQUIERA de las palabras es ese tipo/marca ("tenedor fiend" -> Tenedores y Fiend). */
+  const matches = (text) => { const ws = stikeWords(text); return alts.some(g => ws.some(w => g.some(a => stikeWordHit(w, a)))); };
+  const cats = STIKE_CATEGORIES.filter(c => matches(c.name));
+  const subs = [];
+  STIKE_CATEGORIES.forEach(c => stikeStockedSubs(c).forEach(s => { if (matches(s)) subs.push({ cat: c.slug, name: s }); }));
+  const brands = STIKE_BRANDS.filter(b => matches(b));
+  return { cats, subs, brands };
+}
+function stikeEscHtml(s) {
+  return String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
 /* ------------------------ BUSCADOR EN VIVO (overlay) ------------------- */
 function stikeRenderSearchOverlay() {
   if (document.getElementById("search-overlay")) return;
@@ -624,7 +760,7 @@ function stikeSearchRow(p) {
 function stikeSearchRender(q) {
   const box = document.getElementById("overlay-results");
   if (!box) return;
-  q = (q || "").trim().toLowerCase();
+  q = (q || "").trim();
   if (!q) {
     const cats = STIKE_CATEGORIES.map(c => `<a class="sr-chip" href="tienda.html?cat=${c.slug}">${c.name}</a>`).join("");
     const pop = STIKE_PRODUCTS.slice(0, 4).map(stikeSearchRow).join("");
@@ -632,22 +768,24 @@ function stikeSearchRender(q) {
       <div class="sr-section"><div class="sr-head">Destacados</div>${pop}</div>`;
     return;
   }
-  const prods = STIKE_PRODUCTS.filter(p =>
-    (p.n + " " + p.brand + " " + (p.sub || "") + " " + p.cat).toLowerCase().includes(q)).slice(0, 7);
-  const brands = STIKE_BRANDS.filter(b => b.toLowerCase().includes(q)).slice(0, 4);
-  const cats = STIKE_CATEGORIES.filter(c => c.name.toLowerCase().includes(q));
+  const res = stikeSearchProducts(q);
+  const prods = res.items.slice(0, 7);
+  const sc = stikeSearchShortcuts(q);
+  const brands = sc.brands.slice(0, 4), subs = sc.subs.slice(0, 5), cats = sc.cats;
+  const safe = stikeEscHtml(q);
   let html = "";
-  if (cats.length || brands.length) {
+  if (cats.length || subs.length || brands.length) {
     html += `<div class="sr-section"><div class="sr-head">Sugerencias</div><div class="sr-chips">` +
       cats.map(c => `<a class="sr-chip" href="tienda.html?cat=${c.slug}">${c.name}</a>`).join("") +
-      brands.map(b => `<a class="sr-chip" href="tienda.html?brand=${encodeURIComponent(b)}">${b}</a>`).join("") +
+      subs.map(s => `<a class="sr-chip" href="${stikeSubUrl(s.cat, s.name)}">${stikeEscHtml(s.name)}</a>`).join("") +
+      brands.map(b => `<a class="sr-chip" href="tienda.html?brand=${encodeURIComponent(b)}">${stikeEscHtml(b)}</a>`).join("") +
       `</div></div>`;
   }
   if (prods.length) {
-    html += `<div class="sr-section"><div class="sr-head">Productos</div>${prods.map(stikeSearchRow).join("")}</div>`;
-    html += `<a class="sr-all" href="tienda.html?q=${encodeURIComponent(q)}">Ver todos los resultados de “${q}” →</a>`;
-  } else if (!cats.length && !brands.length) {
-    html = `<div class="sr-empty">No salió nada para “${q}”, parce.<br><a href="tienda.html?q=${encodeURIComponent(q)}">Buscar en toda la tienda →</a></div>`;
+    html += `<div class="sr-section"><div class="sr-head">${res.loose ? "Parecidos a lo que buscas" : "Productos"}</div>${prods.map(stikeSearchRow).join("")}</div>`;
+    html += `<a class="sr-all" href="tienda.html?q=${encodeURIComponent(q)}">Ver los ${res.items.length} resultado${res.items.length === 1 ? "" : "s"} de “${safe}” →</a>`;
+  } else if (!cats.length && !subs.length && !brands.length) {
+    html = `<div class="sr-empty">No salió nada para “${safe}”, parce.<br>Prueba con otra palabra (por ejemplo: tenedor, llanta, Fiend) o <a href="tienda.html">mira toda la tienda →</a></div>`;
   }
   box.innerHTML = html;
 }

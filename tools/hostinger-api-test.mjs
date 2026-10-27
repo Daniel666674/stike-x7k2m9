@@ -296,6 +296,14 @@ try {
   t('el mensaje explica por que y no filtra las llaves', [/mismo ambiente/.test(mezcla.body.detail), JSON.stringify(mezcla.body).includes('prv_test_falsa')], [true, false]);
   t('sin llave publica -> se niega', (await withKeys({ WOMPI_PUBLIC_KEY: '' }, 'stike-1700000000061-mmmmmm')).body.error, 'server_not_configured');
   t('llave con formato que no es de Wompi -> se niega', (await withKeys({ WOMPI_PUBLIC_KEY: 'cualquier-cosa' }, 'stike-1700000000062-nnnnnn')).body.error, 'server_misconfigured');
+  const privEnIntegridad = await withKeys({ WOMPI_INTEGRITY_SECRET: 'prv_test_falsa' }, 'stike-1700000000064-pppppp');
+  t('la llave PRIVADA en la casilla del secreto de integridad -> se niega (antes pasaba y Wompi decia "firma invalida")', [privEnIntegridad.code, privEnIntegridad.body.error], [500, 'server_misconfigured']);
+  t('el mensaje dice que ahi va el de integridad, que lo que hay parece la privada, y no filtra el valor', [/INTEGRIDAD/.test(privEnIntegridad.body.detail), /PRIVADA/.test(privEnIntegridad.body.detail), JSON.stringify(privEnIntegridad.body).includes('prv_test_falsa')], [true, true, false]);
+  const eventosEnIntegridad = await withKeys({ WOMPI_INTEGRITY_SECRET: 'test_events_falso' }, 'stike-1700000000065-qqqqqq');
+  t('el secreto de EVENTOS en la casilla de integridad -> se niega y lo identifica', [eventosEnIntegridad.body.error, /EVENTOS/.test(eventosEnIntegridad.body.detail)], ['server_misconfigured', true]);
+  const sucias = await withKeys({ WOMPI_INTEGRITY_SECRET: ' "test_integrity_falso"\n', WOMPI_PUBLIC_KEY: '\u201Cpub_test_falsa\u201D ' }, 'stike-1700000000066-rrrrrr');
+  t('espacios, saltos de linea y comillas pegados con la llave se ignoran y se firma bien', [sucias.code, sucias.body.public_key], [200, 'pub_test_falsa']);
+  t('y la firma usa el secreto limpio (si no, Wompi dice "firma invalida")', sucias.body.signature, createHash('sha256').update(`stike-1700000000066-rrrrrr${sucias.body.amount_in_cents}COPtest_integrity_falso`).digest('hex'));
   const prod = await withKeys({ WOMPI_PUBLIC_KEY: 'pub_prod_falsa', WOMPI_PRIVATE_KEY: 'prv_prod_falsa', WOMPI_INTEGRITY_SECRET: 'prod_integrity_falso' }, 'stike-1700000000063-oooooo');
   t('juego completo de produccion -> firma bien', [prod.code, prod.body.public_key], [200, 'pub_prod_falsa']);
   t('y la firma usa el secreto de produccion', prod.body.signature, createHash('sha256').update(`stike-1700000000063-oooooo${prod.body.amount_in_cents}COPprod_integrity_falso`).digest('hex'));

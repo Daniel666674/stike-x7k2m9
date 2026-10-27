@@ -290,7 +290,16 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
    ```
    Las llaves de Wompi están en su panel, Desarrolladores → Llaves (en la pestaña
    Sandbox o Producción). **Las tres tienen que ser del mismo ambiente**: si no,
-   el servidor se niega a firmar y dice por qué. `ADMIN_API_KEY` se inventa y se
+   el servidor se niega a firmar y dice por qué. Cada casilla tiene su propio
+   prefijo (`pub_…`, `prv_…`, `test_integrity_…`/`prod_integrity_…`); si pegas la
+   llave privada o el secreto de **Eventos** donde va el de **Integridad**, el
+   servidor lo rechaza y lo dice. Si en el pago Wompi muestra **«signature: La
+   firma es inválida»**, casi siempre es el secreto de integridad: en Wompi →
+   Desarrolladores → Secretos para integración técnica → **Integridad** (del mismo
+   ambiente y comercio que la llave pública) y compara con lo que muestra el panel
+   (Configuración → «Secreto de integridad»: ambiente, largo y últimas 4 letras).
+   Los espacios, saltos de línea y comillas pegados con la llave se ignoran.
+   `ADMIN_API_KEY` se inventa y se
    pega una vez en el panel, pestaña Configuración → "Clave del servidor de
    ventas". Sin `RESEND_API_KEY` el correo sale con el `mail()` del hosting, que
    puede caer en spam; con Resend (gratis, resend.com) llega confiable, y para

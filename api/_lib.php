@@ -474,7 +474,7 @@ function stike_now_iso() {
 
 /* ---------------------------------- Wompi -------------------------------- */
 function stike_wompi_get_transaction($id) {
-  $key = stike_config("WOMPI_PRIVATE_KEY");
+  $key = stike_wompi_clean(stike_config("WOMPI_PRIVATE_KEY"));
   if (!$key) throw new ApiError(500, "server_not_configured", "falta WOMPI_PRIVATE_KEY (env o api/config.local.php)");
   $base = stike_config("WOMPI_API_BASE") ?: (str_starts_with($key, "prv_prod_") ? "https://production.wompi.co/v1" : "https://sandbox.wompi.co/v1");
   $res = stike_http("GET", rtrim($base, "/") . "/transactions/" . rawurlencode($id), ["Authorization: Bearer " . $key]);
@@ -485,26 +485,56 @@ function stike_wompi_get_transaction($id) {
   return $res["json"]["data"];
 }
 
+/* Las llaves se pegan a mano en api/config.local.php, y al copiar desde el
+   panel de Wompi es facil arrastrar un espacio, un salto de linea, unas
+   comillas tipograficas o un caracter invisible. Cualquiera de esos cambia la
+   firma y Wompi responde "La firma es invalida" sin mas pistas. Ninguna llave
+   de Wompi lleva espacios ni comillas, asi que se quitan siempre. */
+function stike_wompi_clean($v) {
+  if (!is_string($v)) return $v;
+  $c = preg_replace('/[\s\x{00A0}\x{200B}-\x{200D}\x{2060}\x{FEFF}]+/u', "", $v);
+  if ($c === null) return trim($v);
+  $c = preg_replace('/^["\'`\x{201C}\x{201D}\x{2018}\x{2019}]+|["\'`\x{201C}\x{201D}\x{2018}\x{2019}]+$/u', "", $c);
+  return $c === null ? trim($v) : $c;
+}
+
+/* Que tipo de llave PARECE ser un valor (solo por su prefijo; nunca se
+   devuelve el valor). Sirve para decir "pusiste la privada donde va el secreto
+   de integridad" en vez de un error sin explicacion. */
+function stike_wompi_kind($v) {
+  if (!is_string($v) || $v === "") return "vacío";
+  if (preg_match('/^pub_(test|prod)_/', $v)) return "la llave PÚBLICA";
+  if (preg_match('/^prv_(test|prod)_/', $v)) return "la llave PRIVADA";
+  if (preg_match('/^(test|prod)_integrity_/', $v)) return "el secreto de INTEGRIDAD";
+  if (preg_match('/^(test|prod)_events_/', $v)) return "el secreto de EVENTOS";
+  return "algo que no tiene formato de llave de Wompi";
+}
+
 /* Las llaves de Wompi que firman un cobro (publica, privada y secreto de
    integridad) tienen que ser TODAS del mismo ambiente. Si se mezclan (la
    publica de produccion con la privada de sandbox, por ejemplo) no se cobra
    nada y el cliente solo ve un error sin explicacion; aca el servidor se niega
    y dice por que. Cambiar de sandbox a produccion es cambiar estas cuatro
-   lineas de api/config.local.php, sin tocar codigo. */
+   lineas de api/config.local.php, sin tocar codigo.
+   Cada casilla se valida con SU prefijo: antes la de integridad aceptaba
+   tambien una llave publica o privada, y el cobro fallaba despues, en el
+   widget de Wompi, con "La firma es invalida". */
 function stike_wompi_keys() {
-  $keys = [
-    "WOMPI_PUBLIC_KEY" => stike_config("WOMPI_PUBLIC_KEY"),
-    "WOMPI_PRIVATE_KEY" => stike_config("WOMPI_PRIVATE_KEY"),
-    "WOMPI_INTEGRITY_SECRET" => stike_config("WOMPI_INTEGRITY_SECRET"),
+  $slots = [
+    "WOMPI_PUBLIC_KEY" => ['/^pub_(test|prod)_/', "la llave PÚBLICA (pub_test_… o pub_prod_…)"],
+    "WOMPI_PRIVATE_KEY" => ['/^prv_(test|prod)_/', "la llave PRIVADA (prv_test_… o prv_prod_…)"],
+    "WOMPI_INTEGRITY_SECRET" => ['/^(test|prod)_integrity_/', "el SECRETO DE INTEGRIDAD (test_integrity_… o prod_integrity_…)"],
   ];
+  $keys = [];
   $envs = [];
-  foreach ($keys as $name => $v) {
+  foreach ($slots as $name => $slot) {
+    $v = stike_wompi_clean(stike_config($name));
     if (!$v) throw new ApiError(500, "server_not_configured", "falta $name (env o api/config.local.php)");
-    // pub_test_..., prv_prod_..., test_integrity_..., prod_integrity_...
-    if (!preg_match('/^(?:pub_|prv_)(test|prod)_|^(test|prod)_integrity_/', $v, $m)) {
-      throw new ApiError(500, "server_misconfigured", "$name no tiene el formato de una llave de Wompi");
+    if (!preg_match($slot[0], $v, $m)) {
+      throw new ApiError(500, "server_misconfigured", "$name debe ser " . $slot[1] . ", pero lo que hay parece " . stike_wompi_kind($v) . ". Copia el valor correcto desde el panel de Wompi (Desarrolladores > Secretos para integración técnica).");
     }
-    $envs[$name] = $m[1] !== "" ? $m[1] : $m[2];
+    $keys[$name] = $v;
+    $envs[$name] = $m[1];
   }
   if (count(array_unique($envs)) !== 1) {
     throw new ApiError(500, "server_misconfigured", "las llaves de Wompi no son todas del mismo ambiente (sandbox o produccion)");
