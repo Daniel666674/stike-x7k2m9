@@ -69,7 +69,6 @@
 - [Caja De Frente GW Integrada](https://stikebikeshop.com/producto/caja-frente-gw.html) — GW; $50.000; disponible
 - [Caja De Frente Fate Integrada Negra](https://stikebikeshop.com/producto/caja-frente-fate-negra.html) — Fate BMX Colombia; $85.000; disponible
 - [Caja De frente Colony Tapa Alta](https://stikebikeshop.com/producto/caja-frente-tall-seat-colony.html) — Colony; $120.000; disponible; colores: Negro, Cromado, Oro Rosa
-- [Caja De Frente Fiend Stack Integrada](https://stikebikeshop.com/producto/caja-frente-fiend-stack.html) — Fiend; $140.000; disponible
 - [Caja De Frente Cult Match V2](https://stikebikeshop.com/producto/caja-frente-cult-match-v2.html) — Cult; $120.000; disponible
 - [Caja De Frente Cult Doble Tapa Negra](https://stikebikeshop.com/producto/caja-frente-cult-crew-negra.html) — Cult; $120.000; disponible
 - [Caja De Frente Merritt Cromada](https://stikebikeshop.com/producto/caja-frente-merritt-cromada.html) — Merritt; $110.000; disponible
@@ -78,6 +77,8 @@
 - [Conix Cult Sect M24 Negro](https://stikebikeshop.com/producto/perno-superior-cult-sect-m24-negro.html) — Cult; $50.000; disponible
 - [Conix Mutanty Negro](https://stikebikeshop.com/producto/perno-superior-mutanty-negro.html) — Mutanty; $40.000; disponible; tallas: M25, M24
 - [CONIX FIEND ](https://stikebikeshop.com/producto/conix-fiend.html) — Fiend; $60.000; disponible; colores: Negro, Cromado
+- [TENEDOR ODYSSEY R25](https://stikebikeshop.com/producto/tenedor-odyssey-r25.html) — Odyssey; $780.000; disponible
+- [CAJAS FRENTE INTEGRADOS ODYSSEY](https://stikebikeshop.com/producto/cajas-frente-integrados-odyssey.html) — Odyssey; $120.000; disponible; colores: Negro, Cromado
 
 ### Timones
 - [Timón Fiend Reynolds](https://stikebikeshop.com/producto/timon-fiend-reynolds.html) — Fiend; desde $360.000; disponible; colores: Negro, Cromado; medida: 9, 9.25
@@ -210,6 +211,7 @@
 - [Coraza Merritt Phantom 2.50 (Par)](https://stikebikeshop.com/producto/coraza-merritt-phantom-negra-par.html) — Merritt; $150.000; disponible
 - [Coraza Mutanty Azul 20x2.40](https://stikebikeshop.com/producto/coraza-mutanty-azul.html) — Mutanty; $95.000; disponible
 - [CORAZA ODYSSEY BROC ](https://stikebikeshop.com/producto/coraza-odyssey-broc.html) — Odyssey; $150.000; disponible
+- [CORAZA ODYSSEY PATH PRO](https://stikebikeshop.com/producto/coraza-odyssey-path-pro.html) — Odyssey; $140.000; disponible; medida: 2.40, 2.25
 
 ## Protecciones
 
