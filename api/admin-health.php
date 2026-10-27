@@ -24,6 +24,14 @@ stike_run(function () {
     $raw = (string)stike_config("WOMPI_INTEGRITY_SECRET");
     $int = $k["integrity"];
     $fix = $raw !== $int ? " · tenía espacios o comillas de más (el servidor ya los ignora, pero conviene limpiarlos)" : "";
+    $src = [];
+    $pisa = false;
+    foreach (["WOMPI_PUBLIC_KEY" => "pública", "WOMPI_PRIVATE_KEY" => "privada", "WOMPI_INTEGRITY_SECRET" => "integridad"] as $n => $lbl) {
+      $x = stike_config_sources($n);
+      $src[] = "$lbl: " . ($x["env"] ? "variable de entorno del hosting" : "api/config.local.php");
+      if ($x["differ"]) $pisa = true;
+    }
+    $add("wompi_source", !$pisa, "De dónde salen las llaves", implode(" · ", $src) . ($pisa ? ". ¡Ojo!: hay una variable de entorno en el hosting distinta a la del archivo, y la variable GANA. Bórrala en hPanel o iguálala." : ""));
     $add("wompi_integrity", true, "Secreto de integridad (el que firma cada cobro)", "Termina en …" . substr($int, -4) . " · " . strlen($int) . " caracteres · " . ($env === "prod" ? "producción" : "sandbox") . ". Si Wompi dice «La firma es inválida», compáralo con Wompi > Desarrolladores > Secretos para integración técnica > Integridad (no el de Eventos)." . $fix);
     $base = stike_config("WOMPI_API_BASE") ?: ($env === "prod" ? "https://production.wompi.co/v1" : "https://sandbox.wompi.co/v1");
     $r = stike_http("GET", rtrim($base, "/") . "/merchants/" . rawurlencode($k["public"]));
@@ -56,7 +64,7 @@ stike_run(function () {
     stike_config("RESEND_API_KEY") ? (stike_config("OWNER_NOTIFY_EMAIL") ? "OK" : "Falta OWNER_NOTIFY_EMAIL") : "Opcional: sin RESEND_API_KEY el aviso sale por el correo del hosting y puede caer en spam");
   $add("https", !empty($_SERVER["HTTPS"]) || ($_SERVER["HTTP_X_FORWARDED_PROTO"] ?? "") === "https", "HTTPS", "Requerido por Wompi");
 
-  $required = ["wompi_keys", "wompi_reach", "wompi_prod", "github", "storage", "https"];
+  $required = ["wompi_keys", "wompi_reach", "wompi_source", "wompi_prod", "github", "storage", "https"];
   $ready = true;
   foreach ($checks as $c) if (in_array($c["id"], $required, true) && !$c["ok"]) $ready = false;
   respond(200, ["ready" => $ready, "checks" => $checks, "eventsUrl" => "https://stikebikeshop.com/api/wompi-events"]);
