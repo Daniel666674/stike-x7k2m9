@@ -5529,37 +5529,6 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "bielas-salt-de-seguridad-negras",
-    "sku": "REP-SAL-001",
-    "n": "Bielas Salt de Seguridad Negras",
-    "brand": "SaltPlus",
-    "cat": "repuestos",
-    "sub": "Bielas",
-    "spec": [
-      "Tipo: Seguridad (safety cranks)",
-      "Color: Negro"
-    ],
-    "price": 180000,
-    "promo": false,
-    "sizes": [
-      {
-        "v": "165mm",
-        "u": 1
-      },
-      {
-        "v": "175mm",
-        "u": 1,
-        "price": 300000
-      }
-    ],
-    "sizeLabel": "Largo",
-    "imgs": [
-      "assets/img/products/vielas-de-seguridad-salt-165-negra-1.jpg",
-      "assets/img/products/brazos-salt-de-seguridad-175-negro-1.jpg"
-    ],
-    "published": true
-  },
-  {
     "slug": "freecoaster-shadow-derecho-negro",
     "sku": "REP-SHA-013",
     "n": "Freecoaster Shadow Derecho USADO",
