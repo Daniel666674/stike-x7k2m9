@@ -8678,5 +8678,36 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/3f22cfca-721f-4f30-8f35-21a0e9db9b9f.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "cajas-frente-integrados-odyssey",
+    "sku": "REP-ODY-019",
+    "n": "CAJAS FRENTE INTEGRADOS ODYSSEY",
+    "brand": "Odyssey",
+    "cat": "repuestos",
+    "sub": "Tenedores",
+    "spec": [
+      "REFERENCIA : CONICAL PRO"
+    ],
+    "price": 120000,
+    "promo": false,
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 2
+      },
+      {
+        "v": "Cromado",
+        "u": 2
+      }
+    ],
+    "combos": null,
+    "imgs": [
+      "assets/img/products/7c091a3f-9652-4ff5-bad1-607512712f4a.jpg",
+      "assets/img/products/c0684309-b4e8-4061-8edf-3d439bed1d8a.jpg",
+      "assets/img/products/59ab78f9-13a8-4065-a04f-ebbf6e062272.jpg",
+      "assets/img/products/f15fffc4-e0f0-450d-b36f-daa08bf244d7.jpg"
+    ],
+    "published": true
   }
 ];
