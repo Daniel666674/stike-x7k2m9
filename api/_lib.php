@@ -485,6 +485,24 @@ function stike_wompi_get_transaction($id) {
   return $res["json"]["data"];
 }
 
+/* De donde sale una config: variable de entorno del hosting (tiene prioridad) o
+   api/config.local.php. Si hay una variable vieja en hPanel, pisa en silencio
+   lo que se pegue en el archivo, y el cobro se firma con la llave equivocada. */
+function stike_config_sources($key) {
+  $env = getenv($key);
+  $env = ($env !== false && $env !== "") ? (string)$env : null;
+  $file = null;
+  $path = __DIR__ . "/config.local.php";
+  if (is_file($path)) {
+    $cfg = include $path;
+    if (is_array($cfg) && isset($cfg[$key]) && $cfg[$key] !== "") $file = (string)$cfg[$key];
+  }
+  return [
+    "env" => $env !== null, "file" => $file !== null,
+    "differ" => $env !== null && $file !== null && stike_wompi_clean($env) !== stike_wompi_clean($file),
+  ];
+}
+
 /* Las llaves se pegan a mano en api/config.local.php, y al copiar desde el
    panel de Wompi es facil arrastrar un espacio, un salto de linea, unas
    comillas tipograficas o un caracter invisible. Cualquiera de esos cambia la
