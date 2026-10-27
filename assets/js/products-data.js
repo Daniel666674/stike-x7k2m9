@@ -8615,7 +8615,8 @@ window.STIKE_PRODUCTS = [
     "sizeLabel": "Medida",
     "combos": null,
     "imgs": [
-      "assets/img/products/372bb2a9-050a-47af-84e5-54117b3c88d1.jpg"
+      "assets/img/products/372bb2a9-050a-47af-84e5-54117b3c88d1.jpg",
+      "assets/img/products/3da3b9ca-63eb-4628-9da4-f23207d27346.jpg"
     ],
     "published": true
   }
