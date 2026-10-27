@@ -1,6 +1,6 @@
 # Stike Bike Shop
 
-> Tienda BMX en Bogotá: repuestos, protecciones, ropa y armado de BMX a la medida con asesoría de riders. Vendemos 264 productos de marcas como Fiend, Mutanty, Decaye, Fade, Odyssey, Vans, con envíos a toda Colombia y tienda física en Venecia, Bogotá.
+> Tienda BMX en Bogotá: repuestos, protecciones, ropa y armado de BMX a la medida con asesoría de riders. Vendemos 269 productos de marcas como Fiend, Mutanty, Odyssey, Decaye, Fade, Vans, con envíos a toda Colombia y tienda física en Venecia, Bogotá.
 
 ## Datos del negocio
 - Nombre: Stike Bike Shop (también "Stike")
@@ -26,20 +26,20 @@
 ## Categorías
 ### Repuestos
 - [Marcos](https://stikebikeshop.com/categoria/marcos.html): 6 productos desde $1.300.000
-- [Tenedores](https://stikebikeshop.com/categoria/tenedores.html): 17 productos desde $40.000
+- [Tenedores](https://stikebikeshop.com/categoria/tenedores.html): 18 productos desde $40.000
 - [Timones](https://stikebikeshop.com/categoria/timones.html): 8 productos desde $220.000
-- [Manubrios](https://stikebikeshop.com/categoria/manubrios.html): 1 producto desde $75.000
-- [Bielas](https://stikebikeshop.com/categoria/bielas.html): 16 productos desde $20.000
+- [Manubrios](https://stikebikeshop.com/categoria/manubrios.html): 1 producto desde $80.000
+- [Bielas](https://stikebikeshop.com/categoria/bielas.html): 17 productos desde $20.000
 - [Platos](https://stikebikeshop.com/categoria/platos.html): 16 productos desde $9.000
 - [Cadenas](https://stikebikeshop.com/categoria/cadenas.html): 5 productos desde $80.000
 - [Manzana Delantera](https://stikebikeshop.com/categoria/manzana-delantera.html): 1 producto desde $95.000
 - [Manzana Trasera](https://stikebikeshop.com/categoria/manzana-trasera.html): 13 productos desde $25.000
 - [Rines](https://stikebikeshop.com/categoria/rines.html): 4 productos desde $14.000
-- [Llantas](https://stikebikeshop.com/categoria/llantas.html): 8 productos desde $12.000
-- [Pedales](https://stikebikeshop.com/categoria/pedales.html): 9 productos desde $73.000
+- [Llantas](https://stikebikeshop.com/categoria/llantas.html): 9 productos desde $12.000
+- [Pedales](https://stikebikeshop.com/categoria/pedales.html): 10 productos desde $73.000
 - [Sillas y Postes](https://stikebikeshop.com/categoria/sillas-y-postes.html): 15 productos desde $45.000
 - [Pegs y Protectores](https://stikebikeshop.com/categoria/pegs-y-protectores.html): 12 productos desde $15.000
-- [Cañas](https://stikebikeshop.com/categoria/canas.html): 24 productos desde $35.000
+- [Cañas](https://stikebikeshop.com/categoria/canas.html): 25 productos desde $35.000
 ### Protecciones
 - [Cascos](https://stikebikeshop.com/categoria/cascos.html): 2 productos desde $65.000
 - [Rodilleras](https://stikebikeshop.com/categoria/rodilleras.html): 1 producto desde $160.000
@@ -69,7 +69,7 @@
 - [Éclat](https://stikebikeshop.com/marca/eclat.html): 2 productos
 - [Fade](https://stikebikeshop.com/marca/fade.html): 10 productos
 - [Federal](https://stikebikeshop.com/marca/federal.html): 4 productos
-- [Fiend](https://stikebikeshop.com/marca/fiend.html): 32 productos
+- [Fiend](https://stikebikeshop.com/marca/fiend.html): 35 productos
 - [Fit Bike Co.](https://stikebikeshop.com/marca/fit-bike-co.html): 2 productos
 - [Fox](https://stikebikeshop.com/marca/fox.html): 4 productos
 - [Freaak](https://stikebikeshop.com/marca/freaak.html): 8 productos
@@ -82,7 +82,7 @@
 - [Nightmare](https://stikebikeshop.com/marca/nightmare.html): 3 productos
 - [Nike](https://stikebikeshop.com/marca/nike.html): 2 productos
 - [ODI](https://stikebikeshop.com/marca/odi.html): 2 productos
-- [Odyssey](https://stikebikeshop.com/marca/odyssey.html): 10 productos
+- [Odyssey](https://stikebikeshop.com/marca/odyssey.html): 12 productos
 - [Optimus](https://stikebikeshop.com/marca/optimus.html): 3 productos
 - [Primitive](https://stikebikeshop.com/marca/primitive.html): 8 productos
 - [Primo](https://stikebikeshop.com/marca/primo.html): 6 productos
@@ -94,7 +94,7 @@
 - [Shadow](https://stikebikeshop.com/marca/shadow.html): 9 productos
 - [Stranger](https://stikebikeshop.com/marca/stranger.html): 4 productos
 - [Subrosa](https://stikebikeshop.com/marca/subrosa.html): 2 productos
-- [Sunday](https://stikebikeshop.com/marca/sunday.html): 2 productos
+- [Sunday](https://stikebikeshop.com/marca/sunday.html): 3 productos
 - [Total BMX](https://stikebikeshop.com/marca/total-bmx.html): 4 productos
 - [Trueno](https://stikebikeshop.com/marca/trueno.html): 4 productos
 - [Vans](https://stikebikeshop.com/marca/vans.html): 10 productos
