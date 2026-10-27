@@ -10121,5 +10121,21 @@
       <g:color>Negro</g:color>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
+    <item>
+      <g:id>REP-ODY-016</g:id>
+      <g:title>CORAZA ODYSSEY BROC - 2.40</g:title>
+      <g:description>CORAZA ODYSSEY BROC . REFERENCIA Broc Raiford. MEDIDA 20X 2.40. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/coraza-odyssey-broc.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/372bb2a9-050a-47af-84e5-54117b3c88d1.jpg</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>150000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Odyssey</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Llantas</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:size>2.40</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
   </channel>
 </rss>
