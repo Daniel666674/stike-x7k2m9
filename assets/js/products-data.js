@@ -5714,13 +5714,14 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 180000,
     "promo": false,
-    "units": 2,
+    "units": 0,
     "imgs": [
       "assets/img/products/97d57e1a-0a4f-42dd-99a4-ca08f71d4b33.jpg",
       "assets/img/products/df76c6b1-8f16-4f3f-8d57-d4222a4e6de4.jpg",
       "assets/img/products/41f81062-9a0f-4e60-bd32-978fa3d3fd80.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "coraza-demolition-hammerhead-s-negra",
@@ -5800,11 +5801,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 65000,
     "promo": false,
-    "units": 1,
+    "units": 0,
     "imgs": [
       "assets/img/products/a563eea9-caab-4071-b3d9-3f9b311f464a.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "coraza-innova-militar-camuflada",
