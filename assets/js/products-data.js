@@ -8592,5 +8592,31 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/9e5cce2f-58e3-43d3-83b3-87acd3a04f72.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "coraza-odyssey-broc",
+    "sku": "REP-ODY-016",
+    "n": "CORAZA ODYSSEY BROC ",
+    "brand": "Odyssey",
+    "cat": "repuestos",
+    "sub": "Llantas",
+    "spec": [
+      "REFERENCIA : Broc Raiford",
+      "MEDIDA : 20X 2.40"
+    ],
+    "price": 150000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "2.40",
+        "u": 12
+      }
+    ],
+    "sizeLabel": "Medida",
+    "combos": null,
+    "imgs": [
+      "assets/img/products/372bb2a9-050a-47af-84e5-54117b3c88d1.jpg"
+    ],
+    "published": true
   }
 ];
