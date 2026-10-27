@@ -1405,11 +1405,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 340000,
     "promo": false,
-    "units": 1,
+    "units": 0,
     "imgs": [
       "assets/img/products/timon-shadow-4-piezas-cromado-1.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "bielas-federal-vice",
@@ -1559,11 +1560,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 220000,
     "promo": false,
-    "units": 1,
+    "units": 0,
     "imgs": [
       "assets/img/products/timon-rant-2-piezas-cromado-95-1.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "buzo-nightmare-gris",
@@ -8684,6 +8686,49 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/c0684309-b4e8-4061-8edf-3d439bed1d8a.jpg",
       "assets/img/products/59ab78f9-13a8-4065-a04f-ebbf6e062272.jpg",
       "assets/img/products/f15fffc4-e0f0-450d-b36f-daa08bf244d7.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "timon-bsd-safari-4-piezas",
+    "sku": "REP-BSD-006",
+    "n": "TIMON BSD SAFARI 4 PIEZAS",
+    "brand": "BSD",
+    "cat": "repuestos",
+    "sub": "Timones",
+    "spec": [
+      "MEDIDA       9.6\"",
+      "ALTO      \t    29.5\"",
+      "Upsweep\t3°",
+      "Backsweep\t13°",
+      "PESO              1.8 LBS"
+    ],
+    "price": 380000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "9.6",
+        "u": 1
+      }
+    ],
+    "sizeLabel": "Medida",
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 1
+      }
+    ],
+    "combos": [
+      {
+        "s": "9.6",
+        "c": "Negro",
+        "u": 1
+      }
+    ],
+    "imgs": [
+      "assets/img/products/d9b0ece7-6a3e-4570-b93d-059609946b39.jpg",
+      "assets/img/products/ba6ff186-faef-4a80-88b4-1960e6c70f03.jpg",
+      "assets/img/products/fe1a7ef1-1d75-42f4-9aba-5fdd67b68baf.jpg"
     ],
     "published": true
   }
