@@ -10157,5 +10157,43 @@
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
+    <item>
+      <g:id>REP-ODY-018-2-40</g:id>
+      <g:title>CORAZA ODYSSEY PATH PRO - 2.40</g:title>
+      <g:description>CORAZA ODYSSEY PATH PRO. REFERNCIA PATH PRO. 65 PSI MAX. Disponible en medida 2.40, 2.25. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/coraza-odyssey-path-pro.html?size=2.40</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/aadc8e15-a9fc-4b48-ad2f-cc7b796c819d.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/d7eb2bdc-fe19-4853-b6c2-29602b781b4f.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/3f22cfca-721f-4f30-8f35-21a0e9db9b9f.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>140000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Odyssey</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Llantas</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:item_group_id>REP-ODY-018</g:item_group_id>
+      <g:size>2.40</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>REP-ODY-018-2-25</g:id>
+      <g:title>CORAZA ODYSSEY PATH PRO - 2.25</g:title>
+      <g:description>CORAZA ODYSSEY PATH PRO. REFERNCIA PATH PRO. 65 PSI MAX. Disponible en medida 2.40, 2.25. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/coraza-odyssey-path-pro.html?size=2.25</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/aadc8e15-a9fc-4b48-ad2f-cc7b796c819d.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/d7eb2bdc-fe19-4853-b6c2-29602b781b4f.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/3f22cfca-721f-4f30-8f35-21a0e9db9b9f.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>140000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Odyssey</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Llantas</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:item_group_id>REP-ODY-018</g:item_group_id>
+      <g:size>2.25</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
   </channel>
 </rss>

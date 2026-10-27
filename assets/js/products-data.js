@@ -8644,7 +8644,39 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/71fc6c49-a3ca-42ed-a635-4a95289dc589.jpg",
       "assets/img/products/4746b4c3-8c8e-4b8e-b6a5-c87ea86f554e.jpg"
     ],
-    "imgZoom": 138,
+    "imgZoom": 188,
+    "published": true
+  },
+  {
+    "slug": "coraza-odyssey-path-pro",
+    "sku": "REP-ODY-018",
+    "n": "CORAZA ODYSSEY PATH PRO",
+    "brand": "Odyssey",
+    "cat": "repuestos",
+    "sub": "Llantas",
+    "spec": [
+      "REFERNCIA : PATH PRO",
+      "65 PSI MAX"
+    ],
+    "price": 140000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "2.40",
+        "u": 4
+      },
+      {
+        "v": "2.25",
+        "u": 2
+      }
+    ],
+    "sizeLabel": "Medida",
+    "combos": null,
+    "imgs": [
+      "assets/img/products/aadc8e15-a9fc-4b48-ad2f-cc7b796c819d.jpg",
+      "assets/img/products/d7eb2bdc-fe19-4853-b6c2-29602b781b4f.jpg",
+      "assets/img/products/3f22cfca-721f-4f30-8f35-21a0e9db9b9f.jpg"
+    ],
     "published": true
   }
 ];
