@@ -1612,7 +1612,7 @@
       <g:description>Timón Shadow 4 Piezas Cromado. Tipo 4 piezas. Color Cromado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/timon-shadow-4-piezas-cromado.html</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/timon-shadow-4-piezas-cromado-1.jpg</g:image_link>
-      <g:availability>in_stock</g:availability>
+      <g:availability>out_of_stock</g:availability>
       <g:price>340000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Shadow</g:brand>
@@ -1765,7 +1765,7 @@
       <g:description>Timón Rant 2 Piezas Cromado 9.5. Altura 9.5". Tipo 2 piezas. Color Cromado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/timon-rant-2-piezas-cromado-95.html</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/timon-rant-2-piezas-cromado-95-1.jpg</g:image_link>
-      <g:availability>in_stock</g:availability>
+      <g:availability>out_of_stock</g:availability>
       <g:price>220000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Rant</g:brand>
@@ -10217,6 +10217,25 @@
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-ODY-019</g:item_group_id>
       <g:color>Cromado</g:color>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>REP-BSD-006</g:id>
+      <g:title>TIMON BSD SAFARI 4 PIEZAS - Negro - 9.6</g:title>
+      <g:description>TIMON BSD SAFARI 4 PIEZAS. MEDIDA 9.6". ALTO 29.5". Upsweep 3°. Backsweep 13°. PESO 1.8 LBS. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/timon-bsd-safari-4-piezas.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/d9b0ece7-6a3e-4570-b93d-059609946b39.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/ba6ff186-faef-4a80-88b4-1960e6c70f03.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/fe1a7ef1-1d75-42f4-9aba-5fdd67b68baf.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>380000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>BSD</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Timones</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:color>Negro</g:color>
+      <g:size>9.6</g:size>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
   </channel>
