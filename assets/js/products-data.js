@@ -8568,5 +8568,33 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/eab9550d-8ab5-4ab4-b59a-3235ff3a3539.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "pedales-odyssey-twisted-pro-pc",
+    "sku": "REP-ODY-014",
+    "n": "PEDALES ODYSSEY TWISTED PRO PC",
+    "brand": "Odyssey",
+    "cat": "repuestos",
+    "sub": "Pedales",
+    "spec": [
+      "TWISTED PRO PC PEDALS",
+      "NYLON DE ALTA RESISTENCIA",
+      "PLATAFORMA ANCHA PARA MAYOR COMODIDAD"
+    ],
+    "price": 80000,
+    "promo": false,
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 6
+      }
+    ],
+    "combos": null,
+    "imgs": [
+      "assets/img/products/0439deb3-bc6a-462f-b624-91037b005fd6.jpg",
+      "assets/img/products/00bf3a28-4319-4127-8c54-3f204c803d11.jpg",
+      "assets/img/products/3ee2fa43-4ecc-4a2e-8ac9-1473e1e3f38e.jpg"
+    ],
+    "published": true
   }
 ];
