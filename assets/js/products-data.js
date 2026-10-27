@@ -8596,5 +8596,32 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/3ee2fa43-4ecc-4a2e-8ac9-1473e1e3f38e.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "bielas-sunday-saker-v2",
+    "sku": "REP-SUN-005",
+    "n": "BIELAS SUNDAY SAKER V2",
+    "brand": "Sunday",
+    "cat": "repuestos",
+    "sub": "Bielas",
+    "spec": [
+      "Referencia : Saker V2",
+      "Medida : 165mm",
+      "Bidireccionales"
+    ],
+    "price": 380,
+    "promo": false,
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 2
+      }
+    ],
+    "combos": null,
+    "imgs": [
+      "assets/img/products/095caa24-d4c3-4043-ade7-71704de86e6c.jpg",
+      "assets/img/products/9e5cce2f-58e3-43d3-83b3-87acd3a04f72.jpg"
+    ],
+    "published": true
   }
 ];
