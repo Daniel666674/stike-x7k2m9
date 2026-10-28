@@ -118,5 +118,17 @@
     "total": 20000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-10-28T12:26:38.444Z",
+    "slug": "coraza-innova-pro-j-box-negra",
+    "name": "Coraza Innova Pro J-Box 20x2.2",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 65000,
+    "total": 65000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
