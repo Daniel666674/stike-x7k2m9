@@ -8785,7 +8785,7 @@ window.STIKE_PRODUCTS = [
     "imgs": [
       "assets/img/products/30c47034-886d-41a0-85f6-794689f33427.jpg"
     ],
-    "published": false
+    "published": true
   },
   {
     "slug": "rodilleras-comunity",
