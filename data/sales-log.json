@@ -106,5 +106,17 @@
     "total": 12000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-10-28T12:24:48.498Z",
+    "slug": "kit-eje-bielas-mutanty",
+    "name": "Kit De Tornillos para Bielas Mutanty x2",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 20000,
+    "total": 20000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
