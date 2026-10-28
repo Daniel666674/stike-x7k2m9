@@ -94,5 +94,17 @@
     "total": 95000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-10-28T12:24:16.081Z",
+    "slug": "neumatico-kenda-negro",
+    "name": "Neumático Kenda Negro",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 12000,
+    "total": 12000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
