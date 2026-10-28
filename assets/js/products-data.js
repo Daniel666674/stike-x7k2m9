@@ -8829,7 +8829,7 @@ window.STIKE_PRODUCTS = [
     "units": 9,
     "combos": null,
     "imgs": [
-      "assets/img/products/30c47034-886d-41a0-85f6-794689f33427.jpg"
+      "assets/img/products/2a3fde16-e103-45c1-9c63-74ba2c811306.jpg"
     ],
     "published": true
   },
