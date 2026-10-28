@@ -252,5 +252,17 @@
     "source": "tienda",
     "invoice": 3783,
     "payment": "Efectivo"
+  },
+  {
+    "ts": "2026-10-28T12:55:50.303Z",
+    "slug": "camibuso-animal-blanca-manga-larga",
+    "name": "Camibuso Animal Blanco",
+    "size": "M",
+    "color": null,
+    "qty": 1,
+    "unitPrice": 60000,
+    "total": 60000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
