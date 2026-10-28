@@ -214,5 +214,17 @@
     "total": 120000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-10-28T12:45:55.139Z",
+    "slug": "chaqueta-inspirada-en-alpinestars",
+    "name": "CHAQUETA INSPIRADA EN ALPINESTARS",
+    "size": "L",
+    "color": "Negro",
+    "qty": 1,
+    "unitPrice": 120000,
+    "total": 120000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
