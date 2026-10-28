@@ -8393,13 +8393,13 @@ window.STIKE_PRODUCTS = [
       },
       {
         "v": "L",
-        "u": 1
+        "u": 0
       }
     ],
     "colors": [
       {
         "v": "Negro/Blanco",
-        "u": 2
+        "u": 1
       }
     ],
     "combos": [
@@ -8411,7 +8411,7 @@ window.STIKE_PRODUCTS = [
       {
         "s": "L",
         "c": "Negro/Blanco",
-        "u": 1
+        "u": 0
       }
     ],
     "imgs": [
