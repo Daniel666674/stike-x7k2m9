@@ -10256,5 +10256,73 @@
       <g:size>9.5</g:size>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
+    <item>
+      <g:id>PRO-VAN-001-s</g:id>
+      <g:title>RODILLERAS COMUNITY - S</g:title>
+      <g:description>RODILLERAS COMUNITY de Total BMX. VENOM PRO. TECNOLOGIA INTELIGENTE PARA IMPACTOS. Disponible en tallas S, M, L, XL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/rodilleras-comunity.html?size=S</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/600c7e6d-32b5-4096-af18-90e304678c66.jpg</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>300000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Protecciones &gt; Rodilleras</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Accessories</g:google_product_category>
+      <g:item_group_id>PRO-VAN-001</g:item_group_id>
+      <g:size>S</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>PRO-VAN-001-m</g:id>
+      <g:title>RODILLERAS COMUNITY - M</g:title>
+      <g:description>RODILLERAS COMUNITY de Total BMX. VENOM PRO. TECNOLOGIA INTELIGENTE PARA IMPACTOS. Disponible en tallas S, M, L, XL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/rodilleras-comunity.html?size=M</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/600c7e6d-32b5-4096-af18-90e304678c66.jpg</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>300000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Protecciones &gt; Rodilleras</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Accessories</g:google_product_category>
+      <g:item_group_id>PRO-VAN-001</g:item_group_id>
+      <g:size>M</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>PRO-VAN-001-l</g:id>
+      <g:title>RODILLERAS COMUNITY - L</g:title>
+      <g:description>RODILLERAS COMUNITY de Total BMX. VENOM PRO. TECNOLOGIA INTELIGENTE PARA IMPACTOS. Disponible en tallas S, M, L, XL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/rodilleras-comunity.html?size=L</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/600c7e6d-32b5-4096-af18-90e304678c66.jpg</g:image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>300000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Protecciones &gt; Rodilleras</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Accessories</g:google_product_category>
+      <g:item_group_id>PRO-VAN-001</g:item_group_id>
+      <g:size>L</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>PRO-VAN-001-xl</g:id>
+      <g:title>RODILLERAS COMUNITY - XL</g:title>
+      <g:description>RODILLERAS COMUNITY de Total BMX. VENOM PRO. TECNOLOGIA INTELIGENTE PARA IMPACTOS. Disponible en tallas S, M, L, XL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/rodilleras-comunity.html?size=XL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/600c7e6d-32b5-4096-af18-90e304678c66.jpg</g:image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>300000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Protecciones &gt; Rodilleras</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Accessories</g:google_product_category>
+      <g:item_group_id>PRO-VAN-001</g:item_group_id>
+      <g:size>XL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
   </channel>
 </rss>
