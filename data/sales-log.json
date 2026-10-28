@@ -142,5 +142,17 @@
     "total": 50000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-10-28T12:39:50.183Z",
+    "slug": "rodilleras-comunity",
+    "name": "RODILLERAS COMUNITY",
+    "size": "M",
+    "color": null,
+    "qty": 1,
+    "unitPrice": 300000,
+    "total": 300000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
