@@ -4177,7 +4177,7 @@ window.STIKE_PRODUCTS = [
     "sizes": [
       {
         "v": "M",
-        "u": 1
+        "u": 0
       }
     ],
     "imgs": [
