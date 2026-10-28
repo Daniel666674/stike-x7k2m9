@@ -264,5 +264,17 @@
     "total": 60000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-10-28T12:57:13.662Z",
+    "slug": "freecoaster-shadow-derecho-negro",
+    "name": "Freecoaster Shadow Derecho USADO",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 500000,
+    "total": 500000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
