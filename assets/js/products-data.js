@@ -5217,7 +5217,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 12000,
     "promo": false,
-    "units": 12,
+    "units": 10,
     "imgs": [
       "assets/img/products/neumatico-kenda-negro-1.jpg",
       "assets/img/products/neumatico-kenda-negro-2.jpg"
