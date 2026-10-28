@@ -4075,7 +4075,7 @@ window.STIKE_PRODUCTS = [
     "sizes": [
       {
         "v": "M",
-        "u": 2
+        "u": 1
       },
       {
         "v": "L",
