@@ -226,5 +226,17 @@
     "total": 120000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-10-28T12:46:39.651Z",
+    "slug": "caja-frente-fate-negra",
+    "name": "Caja De Frente Fate Integrada Negra",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 75000,
+    "total": 75000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
