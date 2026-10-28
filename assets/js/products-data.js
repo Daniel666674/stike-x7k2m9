@@ -2584,13 +2584,27 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 55000,
     "promo": false,
-    "units": 4,
     "imgs": [
       "assets/img/products/grips-cult-vans-morado-1.jpg",
       "assets/img/products/grips-cult-vans-morado-2.jpg",
       "assets/img/products/grips-cult-vans-morado-3.jpg"
     ],
-    "published": true
+    "published": true,
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 4
+      },
+      {
+        "v": "Naranja",
+        "u": 2
+      },
+      {
+        "v": "Morado",
+        "u": 2
+      }
+    ],
+    "combos": null
   },
   {
     "slug": "grips-stranger-piston",

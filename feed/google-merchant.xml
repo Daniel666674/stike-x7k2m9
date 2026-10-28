@@ -3406,10 +3406,10 @@
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
     <item>
-      <g:id>CULT-VANS-PUNOS-MORADO</g:id>
-      <g:title>Grips Cult x Vans Morado</g:title>
-      <g:description>Grips Cult x Vans Morado. Material Goma. Diseño Vans. Color Morado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/grips-cult-vans-morado.html</g:link>
+      <g:id>CULT-VANS-PUNOS-MORADO-negro</g:id>
+      <g:title>Grips Cult x Vans Morado - Negro</g:title>
+      <g:description>Grips Cult x Vans Morado. Material Goma. Diseño Vans. Color Morado. Disponible en colores Negro, Naranja, Morado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/grips-cult-vans-morado.html?color=Negro</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/grips-cult-vans-morado-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/grips-cult-vans-morado-2.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/grips-cult-vans-morado-3.jpg</g:additional_image_link>
@@ -3420,6 +3420,46 @@
       <g:identifier_exists>no</g:identifier_exists>
       <g:product_type>Accesorios &gt; Grips</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Accessories</g:google_product_category>
+      <g:item_group_id>CULT-VANS-PUNOS-MORADO</g:item_group_id>
+      <g:color>Negro</g:color>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>CULT-VANS-PUNOS-MORADO-naranja</g:id>
+      <g:title>Grips Cult x Vans Morado - Naranja</g:title>
+      <g:description>Grips Cult x Vans Morado. Material Goma. Diseño Vans. Color Morado. Disponible en colores Negro, Naranja, Morado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/grips-cult-vans-morado.html?color=Naranja</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/grips-cult-vans-morado-1.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/grips-cult-vans-morado-2.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/grips-cult-vans-morado-3.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>55000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Cult</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Accesorios &gt; Grips</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Accessories</g:google_product_category>
+      <g:item_group_id>CULT-VANS-PUNOS-MORADO</g:item_group_id>
+      <g:color>Naranja</g:color>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>CULT-VANS-PUNOS-MORADO-morado</g:id>
+      <g:title>Grips Cult x Vans Morado - Morado</g:title>
+      <g:description>Grips Cult x Vans Morado. Material Goma. Diseño Vans. Color Morado. Disponible en colores Negro, Naranja, Morado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/grips-cult-vans-morado.html?color=Morado</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/grips-cult-vans-morado-1.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/grips-cult-vans-morado-2.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/grips-cult-vans-morado-3.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>55000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Cult</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Accesorios &gt; Grips</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Accessories</g:google_product_category>
+      <g:item_group_id>CULT-VANS-PUNOS-MORADO</g:item_group_id>
+      <g:color>Morado</g:color>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
     <item>
