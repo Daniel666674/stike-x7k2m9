@@ -154,5 +154,17 @@
     "total": 300000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-10-28T12:40:48.050Z",
+    "slug": "gorra-reding",
+    "name": "GORRA REDING",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 60000,
+    "total": 60000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
