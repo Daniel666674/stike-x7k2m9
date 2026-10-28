@@ -190,5 +190,17 @@
     "total": 50000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-10-28T12:44:04.797Z",
+    "slug": "chaqueta-inspirada-en-vans",
+    "name": "CHAQUETA INSPIRADA EN VANS",
+    "size": "L",
+    "color": "Negro/Blanco",
+    "qty": 1,
+    "unitPrice": 120000,
+    "total": 120000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
