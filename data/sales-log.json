@@ -276,5 +276,17 @@
     "total": 500000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-10-28T12:58:49.048Z",
+    "slug": "tenis-fade-hatelow-negro",
+    "name": "Tenis Fade Hatelow Negro",
+    "size": "39",
+    "color": null,
+    "qty": 1,
+    "unitPrice": 160000,
+    "total": 160000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
