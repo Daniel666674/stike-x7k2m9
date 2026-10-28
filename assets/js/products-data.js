@@ -7157,13 +7157,18 @@ window.STIKE_PRODUCTS = [
       {
         "v": "37",
         "u": 1
+      },
+      {
+        "v": "39",
+        "u": 1
       }
     ],
     "sizeLabel": "Talla",
     "imgs": [
       "assets/img/products/08cb925e-795a-4c1b-b443-53f590a0a033.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "tenis-fade-hatelow-2",
