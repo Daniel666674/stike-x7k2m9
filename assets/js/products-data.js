@@ -2930,7 +2930,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 85000,
     "promo": false,
-    "units": 54,
+    "units": 53,
     "imgs": [
       "assets/img/products/caja-frente-fate-negra-1.jpg"
     ],
@@ -8437,6 +8437,14 @@ window.STIKE_PRODUCTS = [
       {
         "v": "M",
         "u": 1
+      },
+      {
+        "v": "L",
+        "u": 0
+      },
+      {
+        "v": "S",
+        "u": 0
       }
     ],
     "colors": [
@@ -8450,6 +8458,16 @@ window.STIKE_PRODUCTS = [
         "s": "M",
         "c": "Negro",
         "u": 1
+      },
+      {
+        "s": "L",
+        "c": "Negro",
+        "u": 0
+      },
+      {
+        "s": "S",
+        "c": "Negro",
+        "u": 0
       }
     ],
     "imgs": [
