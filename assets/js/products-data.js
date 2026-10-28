@@ -7160,7 +7160,7 @@ window.STIKE_PRODUCTS = [
       },
       {
         "v": "39",
-        "u": 1
+        "u": 0
       }
     ],
     "sizeLabel": "Talla",
