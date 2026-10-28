@@ -238,5 +238,19 @@
     "total": 75000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-10-28T12:53:31.296Z",
+    "slug": "grips-cult-vans-morado",
+    "name": "Grips Cult x Vans Morado",
+    "size": null,
+    "color": "Negro",
+    "qty": 1,
+    "unitPrice": 55000,
+    "total": 55000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda",
+    "invoice": 3783,
+    "payment": "Efectivo"
   }
 ]
