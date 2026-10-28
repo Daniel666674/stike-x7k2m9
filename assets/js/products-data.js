@@ -8437,17 +8437,35 @@ window.STIKE_PRODUCTS = [
       {
         "v": "M",
         "u": 1
+      },
+      {
+        "v": "L",
+        "u": 1
+      },
+      {
+        "v": "S",
+        "u": 1
       }
     ],
     "colors": [
       {
         "v": "Negro",
-        "u": 1
+        "u": 3
       }
     ],
     "combos": [
       {
         "s": "M",
+        "c": "Negro",
+        "u": 1
+      },
+      {
+        "s": "L",
+        "c": "Negro",
+        "u": 1
+      },
+      {
+        "s": "S",
         "c": "Negro",
         "u": 1
       }
