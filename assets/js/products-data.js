@@ -5537,7 +5537,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 500000,
     "promo": false,
-    "units": 1,
+    "units": 0,
     "imgs": [
       "assets/img/products/freecoaster-shadow-derecho-negro-1.jpg"
     ],
