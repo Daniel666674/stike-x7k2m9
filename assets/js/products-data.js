@@ -8769,5 +8769,59 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/2f774fa7-7c37-44c6-b57c-a95cf0140863.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "gorra-reding",
+    "sku": "ROP-VAN-010",
+    "n": "GORRA REDING",
+    "brand": "Total BMX",
+    "cat": "ropa",
+    "sub": "Gorras",
+    "spec": [],
+    "price": 60000,
+    "promo": false,
+    "units": 10,
+    "combos": null,
+    "imgs": [
+      "assets/img/products/30c47034-886d-41a0-85f6-794689f33427.jpg"
+    ],
+    "published": false
+  },
+  {
+    "slug": "rodilleras-comunity",
+    "sku": "PRO-VAN-001",
+    "n": "RODILLERAS COMUNITY",
+    "brand": "Total BMX",
+    "cat": "protecciones",
+    "sub": "Rodilleras",
+    "spec": [
+      "VENOM PRO",
+      "TECNOLOGIA INTELIGENTE PARA IMPACTOS"
+    ],
+    "price": 300000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "S",
+        "u": 3
+      },
+      {
+        "v": "M",
+        "u": 3
+      },
+      {
+        "v": "L",
+        "u": 0
+      },
+      {
+        "v": "XL",
+        "u": 0
+      }
+    ],
+    "combos": null,
+    "imgs": [
+      "assets/img/products/600c7e6d-32b5-4096-af18-90e304678c66.jpg"
+    ],
+    "published": true
   }
 ];
