@@ -3316,7 +3316,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 20000,
     "promo": false,
-    "units": 7,
+    "units": 6,
     "imgs": [
       "assets/img/products/kit-eje-bielas-mutanty-1.jpg"
     ],
