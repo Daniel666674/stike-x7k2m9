@@ -5780,7 +5780,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 65000,
     "promo": false,
-    "units": 0,
+    "units": 1,
     "imgs": [
       "assets/img/products/a563eea9-caab-4071-b3d9-3f9b311f464a.jpg"
     ],
