@@ -130,5 +130,17 @@
     "total": 65000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-10-28T12:27:33.534Z",
+    "slug": "camiseta-primitive-verde-logo-circular",
+    "name": "Camiseta Primitive Verde",
+    "size": "M",
+    "color": null,
+    "qty": 1,
+    "unitPrice": 50000,
+    "total": 50000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
