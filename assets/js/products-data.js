@@ -8780,7 +8780,7 @@ window.STIKE_PRODUCTS = [
     "spec": [],
     "price": 60000,
     "promo": false,
-    "units": 10,
+    "units": 9,
     "combos": null,
     "imgs": [
       "assets/img/products/30c47034-886d-41a0-85f6-794689f33427.jpg"
