@@ -2930,7 +2930,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 85000,
     "promo": false,
-    "units": 54,
+    "units": 53,
     "imgs": [
       "assets/img/products/caja-frente-fate-negra-1.jpg"
     ],
