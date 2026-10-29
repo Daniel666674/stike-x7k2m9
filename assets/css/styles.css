@@ -1810,13 +1810,17 @@ body:not(.fate-page) h1 .o1 { color: var(--mint); }
 .site-nav.wrap { max-width: 1440px; }
 @media (min-width: 1101px) {
   .site-header .site-nav:has(.nav-half) { display: grid; grid-template-columns: 1fr 220px 1fr; align-items: center; margin-top: -46px; }
-  .nav-half { justify-content: space-between; gap: 8px; }
+  /* Los links se juntan hacia el logo (izquierda pegada por la derecha, derecha por la izquierda)
+     con un hueco parejo, en vez de repartirse hasta las orillas de la pantalla. */
+  .nav-half { gap: clamp(22px, 2.7vw, 40px); }
+  .nav-l { justify-content: flex-end; }
+  .nav-r { justify-content: flex-start; }
   .nav-half > li > a { padding: 8px 0 !important; }
   /* El texto se achica un poco en pantallas medianas para que las 5 categorias no toquen el logo. */
   .site-nav .nav-half > li > a { font-size: clamp(15px, calc(1.71vw - 2.6px), 22px); }
   .nav-half > li > a::after { display: none; }
   .nav-half .dropdown { top: calc(100% + 6px); }
-  .nav-r .dropdown { left: auto; right: 0; }
+  .nav-r .dropdown { left: 0; right: auto; }
   .site-header:has(.hdr-rail) .menu-toggle { display: none; }
   /* Inicio solo vive en el panel del movil: en escritorio el logo ya lleva a inicio. */
   .site-nav .nav-list > li.nav-home-item { display: none; }
