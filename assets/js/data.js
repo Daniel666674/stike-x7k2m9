@@ -15,7 +15,7 @@ const STIKE_CATEGORIES = [
     subs: [
       "Marcos", "Tenedores", "Timones", "Manubrios", "Bielas", "Platos",
       "Cadenas", "Frenos", "Manzana Delantera", "Manzana Trasera", "Rines", "Llantas", "Pedales",
-      "Sillas y Postes", "Pegs y Protectores", "Cañas"
+      "Sillas y Postes", "Grips", "Pegs y Protectores", "Cañas"
     ]
   },
   {
@@ -44,7 +44,7 @@ const STIKE_CATEGORIES = [
     name: "Accesorios",
     blurb: "Los detalles que hacen la diferencia",
     color: "c5",
-    subs: ["Herramientas", "Grips", "Pegatinas", "Maletas", "Bombas", "Luces", "Llaveros"]
+    subs: ["Herramientas", "Pegatinas", "Maletas", "Bombas", "Luces", "Llaveros"]
   },
   {
     slug: "promo",
@@ -58,7 +58,7 @@ const STIKE_CATEGORIES = [
 /* --------------- Repuestos agrupados por sistema de la bici -------------- */
 /* Lo usa el mega menu de "Repuestos" (app.js). El orden sigue como se arma una
    BMX de adelante hacia atras. Los nombres de sub son unicos en toda la
-   taxonomia, asi que Grips (que vive en "accesorios") tambien entra aca. */
+   taxonomia, asi que Grips (que vive en "repuestos") entra aca igual que el resto. */
 const STIKE_PART_GROUPS = [
   { name: "Cuadro y dirección", subs: ["Marcos", "Tenedores", "Cañas", "Timones", "Manubrios"] },
   { name: "Transmisión", subs: ["Bielas", "Platos", "Cadenas", "Pedales"] },

@@ -38,6 +38,7 @@
 - [Llantas](https://stikebikeshop.com/categoria/llantas.html): 10 productos desde $12.000
 - [Pedales](https://stikebikeshop.com/categoria/pedales.html): 10 productos desde $73.000
 - [Sillas y Postes](https://stikebikeshop.com/categoria/sillas-y-postes.html): 15 productos desde $45.000
+- [Grips](https://stikebikeshop.com/categoria/grips.html): 8 productos desde $20.000
 - [Pegs y Protectores](https://stikebikeshop.com/categoria/pegs-y-protectores.html): 12 productos desde $15.000
 - [Cañas](https://stikebikeshop.com/categoria/canas.html): 25 productos desde $35.000
 ### Protecciones
@@ -54,7 +55,6 @@
 ### Zapatillas
 - [Tenis](https://stikebikeshop.com/categoria/tenis.html): 18 productos desde $150.000
 ### Accesorios
-- [Grips](https://stikebikeshop.com/categoria/grips.html): 8 productos desde $20.000
 - [Llaveros](https://stikebikeshop.com/categoria/llaveros.html): 1 producto desde $40.000
 
 ## Marcas

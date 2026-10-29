@@ -65,10 +65,11 @@ await wait(600);
 t("y se cierra solo después de la gracia", !(await visible()));
 
 console.log("\nCruzar de pasada");
-const ib = await box(page.locator('.nav-list > li', { hasText: "Inicio" }).first());
+/* Repuestos es el primer link del menu: se cruza de derecha a izquierda, desde el vecino (Protecciones). */
+const ib = await box(page.locator('.nav-list > li', { hasText: "Protecciones" }).first());
 await page.mouse.move(ib.x + 4, tb.y + tb.height / 2);
 await page.mouse.move(tb.x + tb.width / 2, tb.y + tb.height / 2, { steps: 2 });
-await page.mouse.move(tb.x + tb.width + 400, tb.y + tb.height / 2, { steps: 2 });
+await page.mouse.move(2, tb.y + tb.height / 2, { steps: 2 });
 await wait(600);
 t("pasar rápido por encima de Repuestos no abre el menú", !(await visible()));
 
