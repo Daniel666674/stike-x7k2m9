@@ -414,14 +414,17 @@ function stikeRenderHeader(active) {
       ${stikeNavDropdown(cat)}
     </li>`;
   };
-  /* Dos mitades a cada lado del logo:
-       izquierda = LA TIENDA (las categorias)
-       derecha   = Fate y el boton fuerte "Arma tu BMX".
-     Promo, Marcas y Blog no van en el encabezado (siguen en el pie de pagina y en la tienda).
-     "Inicio" no va en el menu de escritorio (el logo ya lleva a inicio) y si en el panel del movil. */
+  /* Dos mitades iguales a cada lado del logo. Se arma una sola fila ordenada
+       categorias de la tienda -> Fate -> boton fuerte "Arma tu BMX"
+     y se parte por la mitad (hoy: 3 + 3), asi cada lado pesa lo mismo aunque cambie
+     el numero de categorias. Promo, Marcas y Blog no van en el encabezado (siguen en
+     el pie de pagina y en la tienda). "Inicio" no va en el menu de escritorio (el
+     logo ya lleva a inicio) y si en el panel del movil. */
   const shop = STIKE_CATEGORIES.filter(c => c.slug !== "promo");
-  const left = [li("index.html", "Inicio", "home", " nav-home-item")].concat(shop.map(catLi)).join("");
-  const right = [li("fate/", "Fate", "fate", " nav-sep"), li("armar.html", "Arma tu BMX", "armar", " nav-build-item")].join("");
+  const items = shop.map(catLi).concat([li("fate/", "Fate", "fate", " nav-sep"), li("armar.html", "Arma tu BMX", "armar", " nav-build-item")]);
+  const half = Math.ceil(items.length / 2);
+  const left = li("index.html", "Inicio", "home", " nav-home-item") + items.slice(0, half).join("");
+  const right = items.slice(half).join("");
 
   const header = `
   <header class="site-header">
