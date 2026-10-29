@@ -1812,10 +1812,26 @@ body:not(.fate-page) h1 .o1 { color: var(--mint); }
   .site-header .site-nav:has(.nav-half) { display: grid; grid-template-columns: 1fr 220px 1fr; align-items: center; margin-top: -46px; }
   .nav-half { justify-content: space-between; gap: 8px; }
   .nav-half > li > a { padding: 8px 0 !important; }
+  /* El texto se achica un poco en pantallas medianas para que las 5 categorias no toquen el logo. */
+  .site-nav .nav-half > li > a { font-size: clamp(15px, calc(1.71vw - 2.6px), 22px); }
   .nav-half > li > a::after { display: none; }
   .nav-half .dropdown { top: calc(100% + 6px); }
   .nav-r .dropdown { left: auto; right: 0; }
   .site-header:has(.hdr-rail) .menu-toggle { display: none; }
+  /* Inicio solo vive en el panel del movil: en escritorio el logo ya lleva a inicio. */
+  .site-nav .nav-list > li.nav-home-item { display: none; }
+  /* Promo: lo unico que no es categoria ni informacion, se nota sin gritar. */
+  .nav-r > li > a[data-accent="promo"] { font-weight: 700; }
+  .nav-r > li > a[data-accent="promo"]::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 8px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 10px rgba(82,240,216,.8); vertical-align: middle; position: relative; top: -2px; }
+  /* Arma tu BMX: el boton fuerte del menu (pildora menta), a la orilla derecha. */
+  .site-header:has(.hdr-rail) .nav-r > li.nav-build-item > a {
+    padding: 6px 18px !important; border: 1.5px solid var(--mint); border-radius: 999px; color: var(--mint);
+    text-decoration: none; font-weight: 600; white-space: nowrap;
+    transition: background .25s var(--ease-soft), color .25s var(--ease-soft), box-shadow .25s var(--ease-soft);
+  }
+  .site-header:has(.hdr-rail) .nav-r > li.nav-build-item > a:hover, .site-header:has(.hdr-rail) .nav-r > li.nav-build-item.active > a {
+    background: var(--mint); color: var(--mint-ink); text-shadow: none; box-shadow: 0 0 18px rgba(82,240,216,.55);
+  }
 }
 .nav-list > li > a {
   font-family: var(--cond); font-style: italic; font-weight: 300; font-size: 22px; letter-spacing: .06em; color: var(--ink);
@@ -1945,6 +1961,9 @@ body:not(.fate-page) h1 .o1 { color: var(--mint); }
     display: none; grid-template-columns: 1fr; background: var(--bg-3); border-radius: 10px; margin: 2px 0 8px; padding: 6px; backdrop-filter: none;
   }
   .site-nav:has(.nav-half) .nav-list > li.open-sub .dropdown { display: block; }
+  /* Panel del movil: una linea separa las categorias de lo demas (Promo, Fate, Marcas, Blog). */
+  .site-nav:has(.nav-half) .nav-list > li.nav-sep { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); }
+  .site-nav:has(.nav-half) .nav-list > li.nav-sep > a[data-accent="promo"] { font-weight: 700; color: var(--mint); }
   .nav-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); backdrop-filter: blur(2px); z-index: 70; }
   .nav-backdrop.show { display: block; }
 }

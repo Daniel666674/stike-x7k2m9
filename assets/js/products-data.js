@@ -2575,7 +2575,7 @@ window.STIKE_PRODUCTS = [
     "sku": "CULT-VANS-PUNOS-MORADO",
     "n": "Grips Cult x Vans Morado",
     "brand": "Cult",
-    "cat": "accesorios",
+    "cat": "repuestos",
     "sub": "Grips",
     "spec": [
       "Material: Goma",
@@ -2611,7 +2611,7 @@ window.STIKE_PRODUCTS = [
     "sku": "GRP-STR-001",
     "n": "Grips Stranger Piston",
     "brand": "Stranger",
-    "cat": "accesorios",
+    "cat": "repuestos",
     "sub": "Grips",
     "spec": [
       "Material: Goma",
@@ -2631,7 +2631,7 @@ window.STIKE_PRODUCTS = [
     "sku": "GRP-ONT-001",
     "n": "Grips Ontrail Yeti",
     "brand": "Ontrail",
-    "cat": "accesorios",
+    "cat": "repuestos",
     "sub": "Grips",
     "spec": [
       "Material: Goma",
@@ -2656,7 +2656,7 @@ window.STIKE_PRODUCTS = [
     "sku": "GRP-ODI-001",
     "n": "Grips ODI XL",
     "brand": "ODI",
-    "cat": "accesorios",
+    "cat": "repuestos",
     "sub": "Grips",
     "spec": [
       "Material: Goma",
@@ -5024,7 +5024,7 @@ window.STIKE_PRODUCTS = [
     "sku": "GRP-CIN-001",
     "n": "Grips Cinema Reynolds Negro",
     "brand": "Cinema",
-    "cat": "accesorios",
+    "cat": "repuestos",
     "sub": "Grips",
     "spec": [
       "Material: Goma",
@@ -6112,7 +6112,7 @@ window.STIKE_PRODUCTS = [
     "sku": "GRP-ODI-002",
     "n": "Grips ODI Soft Negros",
     "brand": "ODI",
-    "cat": "accesorios",
+    "cat": "repuestos",
     "sub": "Grips",
     "spec": [
       "Modelo: Soft (Longneck)",
@@ -6133,7 +6133,7 @@ window.STIKE_PRODUCTS = [
     "sku": "GRP-STR-002",
     "n": "Grips Stranger Quan Negros",
     "brand": "Stranger",
-    "cat": "accesorios",
+    "cat": "repuestos",
     "sub": "Grips",
     "spec": [
       "Modelo: Quan",
@@ -6154,7 +6154,7 @@ window.STIKE_PRODUCTS = [
     "sku": "GRP-WTP-001",
     "n": "Grips Wethepeople Remote Negros",
     "brand": "Wethepeople",
-    "cat": "accesorios",
+    "cat": "repuestos",
     "sub": "Grips",
     "spec": [
       "Modelo: Remote",
