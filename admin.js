@@ -1237,6 +1237,17 @@ function closeEditor() {
 }
 
 function subsFor(cat) { const c = STIKE_CATEGORIES.find(x => x.slug === cat); return c ? c.subs : []; }
+/* Marcas para elegir: las de siempre (STIKE_BRANDS) y, despues, las que el panel
+   ya conoce por el catalogo o por este borrador (una marca nueva escrita en el
+   buscador de la lista, p. ej. "OJO BMX"). Sin esto, la marca nueva
+   desapareceria del desplegable en cuanto el editor se vuelve a dibujar. */
+function brandChoices(current) {
+  const known = new Set(STIKE_BRANDS);
+  const extra = new Set();
+  workingCatalog.forEach(p => { if (p.brand && !known.has(p.brand)) extra.add(p.brand); });
+  if (current && !known.has(current)) extra.add(current);
+  return STIKE_BRANDS.concat([...extra].sort((a, b) => a.localeCompare(b, "es")));
+}
 
 function renderEditor() {
   const d = editorDraft;
@@ -1255,7 +1266,8 @@ function renderEditor() {
       <div class="field"><label>Nombre</label><input id="ed-n" value="${escAttr(d.n)}"><div class="err" id="ed-n-err"></div></div>
       <div class="row2">
         <div class="field"><label>Marca</label>
-          <select id="ed-brand">${STIKE_BRANDS.map(b => `<option ${b === d.brand ? "selected" : ""}>${b}</option>`).join("")}</select>
+          <select id="ed-brand" data-allow-new="marca">${brandChoices(d.brand).map(b => `<option value="${escAttr(b)}" ${b === d.brand ? "selected" : ""}>${escHtml(b)}</option>`).join("")}</select>
+          <div class="hint">¿No está la marca? Ábrela, escríbela en el buscador y elige «Agregar».</div>
         </div>
         <div class="field"><label>Categoría</label>
           <select id="ed-cat">${STIKE_CATEGORIES.filter(c => c.slug !== "promo").map(c => `<option value="${c.slug}" ${c.slug === d.cat ? "selected" : ""}>${c.name}</option>`).join("")}</select>
@@ -2272,6 +2284,23 @@ function salesMatching(q, range) {
     : range === "7" ? Date.now() - 7 * 864e5 : range === "30" ? Date.now() - 30 * 864e5 : 0;
   return salesLog.slice().reverse().filter(s => (!start || new Date(s.ts).getTime() >= start) && words.every(w => saleHaystack(s).includes(w)));
 }
+/* Foto del producto de una venta (la de su color, si la hay; si no, la principal),
+   para reconocerla de un vistazo en el historial y en el detalle. "" si el producto
+   ya no esta en el catalogo. */
+function saleImageSrc(s) {
+  const p = workingCatalog.find(x => x.slug === s.slug);
+  if (!p) return "";
+  let path = p.imgs && p.imgs[0];
+  if (s.color && p.imgColorMap) {
+    const hit = (p.imgs || []).find(src => p.imgColorMap[src] === s.color);
+    if (hit) path = hit;
+  }
+  return path ? previewSrcFor(path) : stikeProductImage(p, 120);
+}
+function saleThumbHtml(s, big) {
+  const src = saleImageSrc(s);
+  return `<span class="sale-thumb${big ? " big" : ""}${src ? "" : " empty"}">${src ? `<img src="${escAttr(src)}" alt="" loading="lazy">` : ""}</span>`;
+}
 function renderSalesHistory() {
   const qEl = $("#sales-q"); if (!qEl) return;
   const q = qEl.value, words = searchWords(q), U = window.stikeSearchUtil;
@@ -2287,7 +2316,7 @@ function renderSalesHistory() {
     ? `${rows.length} venta${rows.length === 1 ? "" : "s"} · ${units} unidad${units === 1 ? "" : "es"}${seesFinance() ? " · " + money(total) : ""}` : "";
   $("#sales-tbody").innerHTML = rows.slice(0, 200).map((s, i) => `
     <tr data-sale-idx="${i}" style="cursor:pointer" title="Ver detalle">
-      <td>${new Date(s.ts).toLocaleString("es-CO")}</td><td>${hl(s.name || s.slug)}</td>
+      <td>${new Date(s.ts).toLocaleString("es-CO")}</td><td><div class="sale-prod">${saleThumbHtml(s)}<span>${hl(s.name || s.slug)}</span></div></td>
       <td>${hl([s.size, s.color].filter(Boolean).join(" / ")) || "—"}</td><td>${s.qty}</td><td>${money(s.total)}</td><td>${hl(s.admin || "")}</td></tr>`).join("")
     || `<tr><td colspan="6" class="muted" style="padding:16px;text-align:center">${all ? `No hay ventas que coincidan${words.length ? ` con «${escHtml(q.trim())}»` : ""}.` : "Sin ventas registradas."}</td></tr>`;
   $("#sales-tbody").querySelectorAll("tr[data-sale-idx]").forEach(tr => {
@@ -2338,8 +2367,10 @@ function openSaleDetail(sale) {
   ] : [];
 
   $("#confirm-modal").innerHTML = `
-    <h3 style="margin-bottom:2px">${escHtml(sale.name || sale.slug)}</h3>
-    <p class="muted" style="margin:0 0 4px;font-size:13px">Detalle de la venta</p>
+    <div class="sale-prod" style="gap:14px;margin-bottom:6px">${saleThumbHtml(sale, true)}<div>
+      <h3 style="margin-bottom:2px">${escHtml(sale.name || sale.slug)}</h3>
+      <p class="muted" style="margin:0;font-size:13px">Detalle de la venta</p>
+    </div></div>
     ${fieldRows(mainRows)}
     ${isWompi ? sectionTitle("Pago (Wompi)") + fieldRows(wompiRows) : ""}
     ${shipRows.length

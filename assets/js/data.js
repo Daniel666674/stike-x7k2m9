@@ -645,6 +645,12 @@ const STIKE_GLOBAL = typeof window !== "undefined" ? window : globalThis;
 STIKE_GLOBAL.STIKE_ALL_PRODUCTS = STIKE_GLOBAL.STIKE_PRODUCTS || [];
 STIKE_GLOBAL.STIKE_PRODUCTS = STIKE_GLOBAL.STIKE_ALL_PRODUCTS.filter(stikeIsVisible);
 
+/* Una marca nueva (la que se escribe en el panel al crear un producto, p. ej.
+   "OJO BMX") no esta en la lista de arriba. Se suma sola desde el catalogo
+   publicado, para que salga en los filtros de la tienda, el buscador y
+   marcas.html sin editar este archivo. */
+STIKE_GLOBAL.STIKE_PRODUCTS.forEach(p => { if (p.brand && STIKE_BRANDS.indexOf(p.brand) === -1) STIKE_BRANDS.push(p.brand); });
+
 /* Part types that have their own landing page (categoria/<slug>.html). */
 STIKE_GLOBAL.STIKE_PART_PAGES = ["bielas","bombas","busos-y-chaquetas","cadenas","camisetas","canas","cascos","espinilleras","frenos","gafas","gorras","grips","guantes","herramientas","jeans","llantas","llaveros","manubrios","manzana-delantera","manzana-trasera","marcos","medias","pedales","pegs-y-protectores","platos","rines","rodilleras","sillas-y-postes","tenedores","tenis","timones","tobilleras"];
 /* Marcas con pagina propia (marca/<slug>.html): lo escribe tools/build-seo.mjs. */

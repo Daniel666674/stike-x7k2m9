@@ -16,6 +16,10 @@
    flecha abajo lo abre. Dentro: flechas para moverse, Enter para elegir,
    Esc para cerrar. Para dejar un <select> con su lista nativa:
    data-native="1".
+
+   data-allow-new="marca" deja crear una opcion que no existe: lo que se
+   escribe y no coincide con nada exacto ofrece "Agregar «...» como marca
+   nueva" (se agrega al <select>, queda elegida y dispara el mismo "change").
    ========================================================================= */
 (function () {
   if (window.__stikeSelectSearch) return;
@@ -40,6 +44,7 @@
     ".cs-opt mark{background:transparent;color:var(--accent,#22d3ee);font-weight:700;text-decoration:underline;text-underline-offset:2px}",
     ".cs-grp{padding:8px 10px 3px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted,#93979f)}",
     ".cs-empty{padding:16px 10px;text-align:center;color:var(--muted,#93979f)}",
+    ".cs-opt.cs-new{color:var(--accent,#22d3ee);font-weight:600;border-top:1px dashed var(--line,#33373f);border-radius:0 0 7px 7px;margin-top:4px;justify-content:flex-start}",
     ".cs-foot{display:flex;justify-content:space-between;gap:10px;padding:6px 12px;border-top:1px solid var(--line,#33373f);font-size:11px;white-space:nowrap;color:var(--muted,#93979f);background:var(--bg-2,#1c1f24)}"
   ].join("\n");
   var style = document.createElement("style");
@@ -81,7 +86,7 @@
 
   /* ---- ventana unica, compartida por todos los desplegables ---- */
   var pop, qInput, listEl, countEl, clearBtn;
-  var curSel = null, all = [], view = [], active = -1, uid = 0;
+  var curSel = null, all = [], view = [], active = -1, uid = 0, newLabel = "";
 
   function build() {
     pop = document.createElement("div");
@@ -147,16 +152,21 @@
       out.push(it);
     });
     // grupos sin ninguna coincidencia no se muestran (pendingGrp solo se agrega con una coincidencia)
-    view = out;
     var n = out.filter(function (v) { return v.type === "opt"; }).length;
+    var typed = q.trim().replace(/\s+/g, " ");
+    var foldedQ = fold(typed).s;
+    var canAdd = !!newLabel && typed.length >= 2 && !all.some(function (it) { return it.type === "opt" && it.folded.s.replace(/\s+/g, " ") === foldedQ; });
+    if (canAdd) out.push({ type: "opt", index: -1, isNew: true, text: typed, folded: fold(typed), disabled: false, selected: false });
+    view = out;
     var html = "";
     out.forEach(function (it) {
       if (it.type === "grp") { html += '<li class="cs-grp" role="presentation">' + esc(it.label || "") + "</li>"; return; }
+      if (it.isNew) { html += '<li class="cs-opt cs-new" role="option" id="' + pop.id + '-onew" data-i="-1"><span>＋ Agregar «' + esc(it.text) + "» como " + esc(newLabel) + " nueva</span></li>"; return; }
       html += '<li class="cs-opt' + (it.selected ? " sel" : "") + (it.disabled ? " dis" : "") + '" role="option" id="' + pop.id + "-o" + it.index + '" data-i="' + it.index + '"' +
         (it.selected ? ' aria-selected="true"' : "") + (it.disabled ? ' aria-disabled="true"' : "") + ">" +
         '<span>' + (words.length ? highlight(it.text, it.folded, words) : esc(it.text)) + "</span></li>";
     });
-    if (!n) html = '<li class="cs-empty" role="presentation">Sin resultados para “' + esc(q.trim()) + "”</li>";
+    if (!n && !canAdd) html = '<li class="cs-empty" role="presentation">Sin resultados para “' + esc(q.trim()) + "”</li>";
     listEl.innerHTML = html;
     countEl.textContent = words.length ? n + " de " + total : total + (total === 1 ? " opción" : " opciones");
     // activo: la opcion elegida si sigue visible; si no, la primera disponible
@@ -207,6 +217,7 @@
     if (curSel === sel && pop.classList.contains("open")) { if (prefill) { qInput.value += prefill; filter(qInput.value); } return; }
     close(false);
     curSel = sel;
+    newLabel = sel.getAttribute("data-allow-new") || "";
     all = collect(sel);
     sel.setAttribute("aria-expanded", "true");
     qInput.value = prefill || "";
@@ -220,12 +231,21 @@
     var sel = curSel;
     pop.classList.remove("open");
     sel.removeAttribute("aria-expanded");
-    curSel = null; all = []; view = []; active = -1;
+    curSel = null; all = []; view = []; active = -1; newLabel = "";
     if (refocus && document.body.contains(sel)) sel.focus();
   }
   function choose(optIndex) {
     var sel = curSel;
     if (!sel) return;
+    if (optIndex === -1 && newLabel) {
+      /* sin <, >, comillas ni acentos graves: el nombre se imprime en HTML en toda la tienda */
+      var name = qInput.value.replace(/[<>"`\\]/g, "").replace(/\s+/g, " ").trim().slice(0, 40);
+      if (!name) return;
+      var same = Array.prototype.find.call(sel.options, function (op) { return fold(op.textContent.trim()).s === fold(name).s; });
+      var opt = same || new Option(name, name);
+      if (!same) sel.add(opt);
+      optIndex = opt.index;
+    }
     var o = sel.options[optIndex];
     if (!o || o.disabled) return;
     var changed = sel.selectedIndex !== optIndex;
