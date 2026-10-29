@@ -30,14 +30,7 @@ const STIKE_CATEGORIES = [
     name: "Ropa",
     blurb: "Pa' la calle, la rampa y el parche",
     color: "c4",
-    subs: ["Camisetas", "Busos y Chaquetas", "Gorras", "Medias", "Gafas", "Jeans"]
-  },
-  {
-    slug: "zapatillas",
-    name: "Zapatillas",
-    blurb: "Suela que agarra el pedal y aguanta la calle",
-    color: "c4",
-    subs: ["Tenis"]
+    subs: ["Camisetas", "Busos y Chaquetas", "Gorras", "Medias", "Gafas", "Jeans", "Tenis"]
   },
   {
     slug: "accesorios",
@@ -85,6 +78,12 @@ const STIKE_SUB_HINTS = {
   "Pegs y Protectores": "Grinds y hub guards",
   "Frenos": "Para frenar cuando toca"
 };
+/* Categorias que ya no existen -> donde viven hoy. "Zapatillas" se volvio la
+   subcategoria Tenis dentro de Ropa; los links viejos (tienda.html?cat=zapatillas)
+   siguen funcionando. */
+const STIKE_CAT_ALIASES = {
+  "zapatillas": { cat: "ropa", sub: "Tenis" }
+};
 /* Nombres viejos de subcategoria -> nombre nuevo. Mantiene vivos los links
    guardados (tienda.html?sub=Espigas) despues del cambio de nombres. */
 const STIKE_SUB_ALIASES = {
@@ -127,7 +126,7 @@ function stikeSizeRangeFor(sub) {
 }
 
 /* --------------------- Codigos para generar SKU ------------------------- */
-const SKU_CAT_CODES = { repuestos: "REP", protecciones: "PRO", ropa: "ROP", zapatillas: "ZAP", accesorios: "ACC" };
+const SKU_CAT_CODES = { repuestos: "REP", protecciones: "PRO", ropa: "ROP", accesorios: "ACC" };
 function skuBrandCode(brand, taken) {
   taken = taken || new Set();
   const letters = (brand || "GEN").normalize("NFD").replace(/[̀-ͯ]/g, "").toUpperCase().replace(/[^A-Z]/g, "") || "GEN";
