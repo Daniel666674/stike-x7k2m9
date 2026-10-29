@@ -6312,7 +6312,7 @@ window.STIKE_PRODUCTS = [
     "sku": "ROP-RED-001",
     "n": "Zapatilla Reding Shoes Promodel AlexanderX Negra",
     "brand": "Reding Shoes",
-    "cat": "zapatillas",
+    "cat": "ropa",
     "sub": "Tenis",
     "spec": [
       "Material: 100% cuero carnaza",
@@ -6348,7 +6348,7 @@ window.STIKE_PRODUCTS = [
     "sku": "ROP-RED-002",
     "n": "Zapatilla Reding Shoes Bota Negro Militar Pixelada",
     "brand": "Reding Shoes",
-    "cat": "zapatillas",
+    "cat": "ropa",
     "sub": "Tenis",
     "spec": [
       "Material: 100% cuero carnaza",
@@ -6379,7 +6379,7 @@ window.STIKE_PRODUCTS = [
     "sku": "ROP-RED-003",
     "n": "Zapatilla Reding Shoes Forte Cuero Blanco",
     "brand": "Reding Shoes",
-    "cat": "zapatillas",
+    "cat": "ropa",
     "sub": "Tenis",
     "spec": [
       "Material: 100% cuero carnaza",
@@ -6407,7 +6407,7 @@ window.STIKE_PRODUCTS = [
     "sku": "ROP-RED-004",
     "n": "Zapatilla Reding Shoes Duba",
     "brand": "Reding Shoes",
-    "cat": "zapatillas",
+    "cat": "ropa",
     "sub": "Tenis",
     "spec": [
       "Material: 100% cuero carnaza",
@@ -6493,7 +6493,7 @@ window.STIKE_PRODUCTS = [
     "sku": "ROP-RED-005",
     "n": "Zapatilla Reding Shoes Jumper #2 Blanco Azul",
     "brand": "Reding Shoes",
-    "cat": "zapatillas",
+    "cat": "ropa",
     "sub": "Tenis",
     "spec": [
       "Material: 100% cuero carnaza",
@@ -6523,7 +6523,7 @@ window.STIKE_PRODUCTS = [
     "sku": "ROP-RED-006",
     "n": "Zapatilla Reding Shoes Jumper",
     "brand": "Reding Shoes",
-    "cat": "zapatillas",
+    "cat": "ropa",
     "sub": "Tenis",
     "spec": [
       "Material: 100% cuero carnaza",
@@ -6648,7 +6648,7 @@ window.STIKE_PRODUCTS = [
     "sku": "ROP-RED-007",
     "n": "Zapatilla Reding Shoes Modelo 111",
     "brand": "Reding Shoes",
-    "cat": "zapatillas",
+    "cat": "ropa",
     "sub": "Tenis",
     "spec": [
       "Material: 100% cuero carnaza",
@@ -6789,7 +6789,7 @@ window.STIKE_PRODUCTS = [
     "sku": "ROP-RED-008",
     "n": "Zapatilla Reding Shoes Bota Picelado Negro Militar",
     "brand": "Reding Shoes",
-    "cat": "zapatillas",
+    "cat": "ropa",
     "sub": "Tenis",
     "spec": [
       "Material: 100% cuero carnaza",
@@ -6819,7 +6819,7 @@ window.STIKE_PRODUCTS = [
     "sku": "ROP-FAD-001",
     "n": "Tenis Fade Joy Negro Blanco",
     "brand": "Fade",
-    "cat": "zapatillas",
+    "cat": "ropa",
     "sub": "Tenis",
     "spec": [
       "Suela propia de la marca",
@@ -6848,7 +6848,7 @@ window.STIKE_PRODUCTS = [
     "sku": "ROP-FAD-002",
     "n": "Tenis Fade x R2 Protect",
     "brand": "Fade",
-    "cat": "zapatillas",
+    "cat": "ropa",
     "sub": "Tenis",
     "spec": [
       "Suela propia de la marca",
@@ -6887,7 +6887,7 @@ window.STIKE_PRODUCTS = [
     "sku": "ZAP-FAD-001",
     "n": "Tenis Fade Edge LT",
     "brand": "Fade",
-    "cat": "zapatillas",
+    "cat": "ropa",
     "sub": "Tenis",
     "spec": [
       "Suela propia de la marca",
@@ -7142,7 +7142,7 @@ window.STIKE_PRODUCTS = [
     "sku": "ZAP-FAD-002",
     "n": "Tenis Fade Hatelow Negro",
     "brand": "Fade",
-    "cat": "zapatillas",
+    "cat": "ropa",
     "sub": "Tenis",
     "spec": [
       "Suela propia de la marca",
@@ -7175,7 +7175,7 @@ window.STIKE_PRODUCTS = [
     "sku": "ZAP-FAD-003",
     "n": "Tenis Fade Hatelow 2",
     "brand": "Fade",
-    "cat": "zapatillas",
+    "cat": "ropa",
     "sub": "Tenis",
     "spec": [
       "Suela propia de la marca",
@@ -7317,7 +7317,7 @@ window.STIKE_PRODUCTS = [
     "sku": "ZAP-FAD-004",
     "n": "Tenis Fade MST Negro Blanco",
     "brand": "Fade",
-    "cat": "zapatillas",
+    "cat": "ropa",
     "sub": "Tenis",
     "spec": [
       "Suela propia de la marca",
@@ -7346,7 +7346,7 @@ window.STIKE_PRODUCTS = [
     "sku": "ZAP-FAD-005",
     "n": "Tenis Fade OM 108",
     "brand": "Fade",
-    "cat": "zapatillas",
+    "cat": "ropa",
     "sub": "Tenis",
     "spec": [
       "Suela propia de la marca",
@@ -7468,7 +7468,7 @@ window.STIKE_PRODUCTS = [
     "sku": "ZAP-FAD-006",
     "n": "Tenis Fade Split",
     "brand": "Fade",
-    "cat": "zapatillas",
+    "cat": "ropa",
     "sub": "Tenis",
     "spec": [
       "Suela propia de la marca",
@@ -7536,7 +7536,7 @@ window.STIKE_PRODUCTS = [
     "sku": "ZAP-FAD-007",
     "n": "Tenis Fade Team",
     "brand": "Fade",
-    "cat": "zapatillas",
+    "cat": "ropa",
     "sub": "Tenis",
     "spec": [
       "Suela propia de la marca",
@@ -7607,7 +7607,7 @@ window.STIKE_PRODUCTS = [
     "sku": "ZAP-FAD-008",
     "n": "Tenis Fade Unlimited Bikes",
     "brand": "Fade",
-    "cat": "zapatillas",
+    "cat": "ropa",
     "sub": "Tenis",
     "spec": [
       "Suela propia de la marca",

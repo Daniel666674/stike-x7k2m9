@@ -1820,9 +1820,6 @@ body:not(.fate-page) h1 .o1 { color: var(--mint); }
   .site-header:has(.hdr-rail) .menu-toggle { display: none; }
   /* Inicio solo vive en el panel del movil: en escritorio el logo ya lleva a inicio. */
   .site-nav .nav-list > li.nav-home-item { display: none; }
-  /* Promo: lo unico que no es categoria ni informacion, se nota sin gritar. */
-  .nav-r > li > a[data-accent="promo"] { font-weight: 700; }
-  .nav-r > li > a[data-accent="promo"]::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 8px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 10px rgba(82,240,216,.8); vertical-align: middle; position: relative; top: -2px; }
   /* Arma tu BMX: el boton fuerte del menu (pildora menta), a la orilla derecha. */
   .site-header:has(.hdr-rail) .nav-r > li.nav-build-item > a {
     padding: 6px 18px !important; border: 1.5px solid var(--mint); border-radius: 999px; color: var(--mint);
@@ -1961,9 +1958,8 @@ body:not(.fate-page) h1 .o1 { color: var(--mint); }
     display: none; grid-template-columns: 1fr; background: var(--bg-3); border-radius: 10px; margin: 2px 0 8px; padding: 6px; backdrop-filter: none;
   }
   .site-nav:has(.nav-half) .nav-list > li.open-sub .dropdown { display: block; }
-  /* Panel del movil: una linea separa las categorias de lo demas (Promo, Fate, Marcas, Blog). */
+  /* Panel del movil: una linea separa las categorias de lo demas (Fate y Arma tu BMX). */
   .site-nav:has(.nav-half) .nav-list > li.nav-sep { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); }
-  .site-nav:has(.nav-half) .nav-list > li.nav-sep > a[data-accent="promo"] { font-weight: 700; color: var(--mint); }
   .nav-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); backdrop-filter: blur(2px); z-index: 70; }
   .nav-backdrop.show { display: block; }
 }

@@ -414,16 +414,14 @@ function stikeRenderHeader(active) {
       ${stikeNavDropdown(cat)}
     </li>`;
   };
-  /* Dos mitades con sentido, a cada lado del logo:
-       izquierda = LA TIENDA (las 5 categorias, juntas)
-       derecha   = DESCUBRE (Promo, Fate, Marcas, Blog) y el boton fuerte "Arma tu BMX".
+  /* Dos mitades a cada lado del logo:
+       izquierda = LA TIENDA (las categorias)
+       derecha   = Fate y el boton fuerte "Arma tu BMX".
+     Promo, Marcas y Blog no van en el encabezado (siguen en el pie de pagina y en la tienda).
      "Inicio" no va en el menu de escritorio (el logo ya lleva a inicio) y si en el panel del movil. */
   const shop = STIKE_CATEGORIES.filter(c => c.slug !== "promo");
-  const promo = STIKE_CATEGORIES.find(c => c.slug === "promo");
   const left = [li("index.html", "Inicio", "home", " nav-home-item")].concat(shop.map(catLi)).join("");
-  const right = (promo ? [catLi(promo).replace("<li class=\"", "<li class=\"nav-sep ")] : [])
-    .concat([li("fate/", "Fate", "fate"), li("marcas.html", "Marcas", "marcas"), li("blog.html", "Blog", "blog"),
-             li("armar.html", "Arma tu BMX", "armar", " nav-build-item")]).join("");
+  const right = [li("fate/", "Fate", "fate", " nav-sep"), li("armar.html", "Arma tu BMX", "armar", " nav-build-item")].join("");
 
   const header = `
   <header class="site-header">
