@@ -27,7 +27,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css?v=676c8ac33d">
+  <link rel="stylesheet" href="assets/css/styles.css?v=6b3274c472">
   <link rel="icon" href="assets/img/favicon.png">
 </head>
 <body>
@@ -100,7 +100,7 @@
           <span class="kicker" data-content-key="home.partsKicker" data-content-label="Etiqueta pequeña" data-content-group="Repuestos (grilla de partes)" data-content-max="24">Repuestos</span>
           <h2><span data-content-key="home.partsTitleA" data-content-label="Título · primera parte" data-content-group="Repuestos (grilla de partes)" data-content-max="24">Empieza por</span> <span class="o2" data-content-key="home.partsTitleB" data-content-label="Título · parte en color" data-content-group="Repuestos (grilla de partes)" data-content-max="24">la base</span></h2>
         </div>
-        <a class="link-more" href="tienda.html?cat=repuestos" data-content-key="home.partsLink" data-content-label="Enlace «ver todo»" data-content-group="Repuestos (grilla de partes)" data-content-max="40">Ver todo el catálogo →</a>
+        <a class="link-more" href="tienda.html?cat=repuestos" data-content-key="home.partsLink" data-content-label="Enlace «ver todo»" data-content-group="Repuestos (grilla de partes)" data-content-max="40">Ver todos los repuestos →</a>
       </div>
       <div class="tile-grid stagger" id="home-tiles"></div>
     </div>
@@ -110,14 +110,14 @@
   <section class="section" style="padding-top:0">
     <div class="wrap">
       <div class="rd-fate reveal">
-        <div>
-          <span class="kicker" data-content-key="home.fateKicker" data-content-label="Etiqueta pequeña" data-content-group="Marca Fate" data-content-max="40">Marca aliada · Bogotá</span>
+        <div class="rd-fate-text">
+          <span class="kicker fate-kicker"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.6"/></svg><span data-content-key="home.fateKicker" data-content-label="Etiqueta pequeña" data-content-group="Marca Fate" data-content-max="40">Marca aliada · Bogotá</span></span>
           <h2><span data-content-key="home.fateTitleA" data-content-label="Título · primera parte" data-content-group="Marca Fate" data-content-max="30">Fate BMX Colombia:</span> <span class="stk" data-content-key="home.fateTitleB" data-content-label="Título · parte en color" data-content-group="Marca Fate" data-content-max="24">100% bogotana</span></h2>
           <p data-content-key="home.fateText" data-content-label="Texto" data-content-group="Marca Fate" data-content-max="260" data-content-multiline>Marcos, sillas, platos y accesorios pensados y trajinados en las calles de Bogotá. Fate tiene su propio catálogo y su propia historia, con tienda aparte dentro de Stike.</p>
           <a class="btn" href="fate/" data-content-key="home.fateButton" data-content-label="Botón" data-content-group="Marca Fate" data-content-max="30">Conocer Fate BMX →</a>
         </div>
-        <div class="rd-fate-art">
-          <img src="assets/img/products/marco-fate-namaste-v2-2.jpg" alt="Marco Fate Namaste v2" loading="lazy">
+        <div class="rd-fate-photos n1" id="fate-photos">
+          <a href="fate/"><img src="assets/img/products/marco-fate-namaste-v2-2.jpg" alt="Marco Fate Namaste v2" loading="lazy"></a>
         </div>
       </div>
     </div>
@@ -155,27 +155,40 @@
     { const wa = document.querySelector(".rd-fiend-wa"); if (wa) wa.href = "https://wa.me/" + STIKE_CONFIG.whatsapp + "?text=" + encodeURIComponent("Hola Stike, quiero ver los productos FIEND"); }   // mismo numero que el resto del sitio
     StikeHomeMedia.init();   // videos del inicio (assets/js/home-media.js): los de siempre o los que se pongan desde el panel
 
-    // Grilla de tiles: solo subcategorias de Repuestos que hoy tienen stock
-    // (las mismas que ya lista el mega-menu de "Repuestos" en el nav). Fate
-    // es una marca/tienda propia, no una categoria de repuestos -- tiene su
-    // propia seccion mas abajo, separada de esta grilla.
-    // Foto real de un producto vigente por tile -- nunca la de un producto
-    // ya eliminado del catalogo ni un bodegon generico.
-    const homeTiles = [
-      { label: "Marcos", href: stikeSubUrl("repuestos", "Marcos"), img: "assets/img/tiles/marcos.jpg" },
-      { label: "Timones", href: stikeSubUrl("repuestos", "Timones"), img: "assets/img/tiles/timones.jpg" },
-      { label: "Cañas", href: stikeSubUrl("repuestos", "Cañas"), img: "assets/img/products/cana-bsd-front-load-negra-1.jpg" },
-      { label: "Bielas", href: stikeSubUrl("repuestos", "Bielas"), img: "assets/img/products/bielas-primo-churchill-160mm-cromadas-1.jpg" },
-      { label: "Platos", href: stikeSubUrl("repuestos", "Platos"), img: "assets/img/tiles/platos.jpg" },
-    ];
+    // Grilla de partes: foto + nombre y nada mas. Solo tipos de Repuestos con
+    // producto publicado, en el orden en que se arma una BMX (de la estructura
+    // hacia la transmision). La foto sale del catalogo vigente (un producto con
+    // stock de ese tipo): si un producto se elimina, la tile toma otra sola.
+    // Fate es una marca/tienda propia, no una categoria de repuestos -- tiene su
+    // propia seccion mas abajo.
+    const ARROW = `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;
+    const withPhoto = list => list.filter(p => p.imgs && p.imgs.length);
+    const bestOf = list => list.find(p => !stikeIsOut(p)) || list[0] || null;
+    const homeTiles = ["Marcos", "Tenedores", "Timones", "Cañas", "Bielas", "Platos", "Cadenas"]
+      .map(sub => ({ sub, p: bestOf(withPhoto(STIKE_PRODUCTS.filter(x => x.cat === "repuestos" && x.sub === sub))) }))
+      .filter(t => t.p);
     document.getElementById("home-tiles").innerHTML = homeTiles.map(t => `
-      <a class="tile" href="${t.href}">
-        <img src="${t.img}" alt="${t.label}" loading="lazy">
-        <span class="tile-label">${t.label}</span>
+      <a class="tile" href="${stikeSubUrl("repuestos", t.sub)}">
+        <span class="tile-plate"><img src="${t.p.imgs[0]}" alt="${t.sub}" loading="lazy"></span>
+        <span class="tile-label">${t.sub}${ARROW}</span>
       </a>`).join("") + `
       <a class="tile tile-all" href="tienda.html?cat=repuestos">
-        <span class="tile-label">Todas <span aria-hidden="true">→</span></span>
+        <span class="tile-label">Ver todos los repuestos</span>
+        <span class="tile-go">${ARROW}</span>
       </a>`;
+
+    // Fotos de Fate (sin precios): un marco, un plato y una silla del catalogo vigente;
+    // si falta alguno, se completa con otros productos Fate. Sin productos Fate queda la foto de siempre.
+    {
+      const fate = withPhoto(STIKE_PRODUCTS.filter(x => /fate/i.test(x.brand || "")));
+      const shots = ["Marcos", "Platos", "Sillas y Postes"].map(sub => bestOf(fate.filter(x => x.sub === sub))).filter(Boolean);
+      fate.filter(x => !stikeIsOut(x)).forEach(x => { if (shots.length < 3 && shots.indexOf(x) === -1) shots.push(x); });
+      if (shots.length) {
+        const box = document.getElementById("fate-photos");
+        box.className = "rd-fate-photos n" + shots.length;
+        box.innerHTML = shots.map(x => `<a href="${stikeProductUrl(x)}"><img src="${x.imgs[0]}" alt="${x.n}" loading="lazy"></a>`).join("");
+      }
+    }
   </script>
   <script src="assets/js/animations.js?v=1778242806"></script>
 </body>
