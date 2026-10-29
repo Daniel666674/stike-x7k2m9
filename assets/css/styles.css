@@ -2201,30 +2201,48 @@ body:not(.fate-page) h1 .o1 { color: var(--mint); }
 .rd-feature .rd-yt-link:hover { background: var(--mint); color: var(--mint-ink); }
 @media (prefers-reduced-motion: reduce) { .rd-feature.yt.playing:not(.yt-ready)::after { animation: none; } }
 
-/* Grilla de partes */
-.home-parts .tile-grid { grid-template-columns: repeat(6, 1fr); gap: 16px; }
-.home-parts .tile { height: auto; aspect-ratio: 3 / 4; background: #202223; border: 1px solid var(--line); transition: box-shadow .3s var(--ease-soft), border-color .3s; }
-.home-parts .tile img { object-fit: cover; filter: grayscale(1) brightness(.72) contrast(1.05); transition: transform .6s var(--ease), filter .4s; }
+/* Grilla de partes: foto sobre placa blanca + nombre, 4 x 2 */
+.home-parts .tile-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 260px; gap: 16px; }
+.home-parts .tile { display: flex; flex-direction: column; height: auto; aspect-ratio: auto; background: #222425; border: 1px solid var(--line); border-radius: 16px; transition: box-shadow .3s var(--ease-soft), border-color .3s; }
+.home-parts .tile::after { display: none; }
+.home-parts .tile .tile-plate { position: relative; flex: 1; min-height: 0; margin: 10px 10px 0; background: var(--paper); border-radius: 10px; overflow: hidden; }
+.home-parts .tile .tile-plate img { position: absolute; inset: 6px; width: calc(100% - 12px); height: calc(100% - 12px); object-fit: contain; filter: none; transition: transform .5s var(--ease); }
 .home-parts .tile:hover { border-color: var(--mint); box-shadow: var(--mint-glow); }
-.home-parts .tile:hover img { filter: grayscale(.2) brightness(.9); transform: scale(1.06); }
-.home-parts .tile .tile-label { font-family: var(--cond); font-style: italic; font-weight: 400; font-size: 24px; letter-spacing: .04em; text-transform: uppercase; left: 14px; bottom: 12px; }
-.home-parts .tile.tile-all { background: var(--mint); border-color: var(--mint); display: grid; place-items: center; }
-.home-parts .tile.tile-all .tile-label { color: var(--mint-ink); font-weight: 500; font-size: 28px; justify-content: center; padding: 0; text-shadow: none; }
+.home-parts .tile:hover .tile-plate img { transform: scale(1.05); }
+.home-parts .tile .tile-label { position: static; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 18px 14px; font-family: var(--cond); font-style: italic; font-weight: 600; font-size: 28px; letter-spacing: .04em; text-transform: uppercase; color: var(--ink); text-shadow: none; }
+.home-parts .tile .tile-label svg { flex: none; color: var(--mint); transition: transform .3s var(--ease); }
+.home-parts .tile:hover .tile-label svg { transform: translateX(5px); }
+.home-parts .tile.tile-all { background: var(--mint); border-color: var(--mint); justify-content: space-between; align-items: stretch; padding: 24px 26px; }
+.home-parts .tile.tile-all .tile-label { display: block; padding: 0; font-family: var(--display); font-stretch: 125%; font-style: normal; font-weight: 900; font-size: 28px; line-height: 1; letter-spacing: -.02em; color: var(--mint-ink); }
+.home-parts .tile.tile-all .tile-go { align-self: flex-end; width: 52px; height: 52px; border-radius: 50%; background: var(--mint-ink); color: var(--mint); display: grid; place-items: center; transition: transform .3s var(--ease); }
 .home-parts .tile.tile-all:hover { box-shadow: var(--mint-glow); }
+.home-parts .tile.tile-all:hover .tile-go { transform: translateX(5px); }
 
-/* Banda Fate */
-.rd-fate { display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; align-items: center; background: rgba(12,13,13,.7); border: 1px solid var(--line); padding: 44px; position: relative; overflow: hidden; }
-.rd-fate::before { content: "FATE"; position: absolute; right: -20px; bottom: -60px; font-family: var(--display); font-stretch: 125%; font-weight: 900; font-size: 260px; line-height: 1; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.07); pointer-events: none; }
-.rd-fate h2 { font-size: clamp(30px, 4vw, 52px); margin: 8px 0 14px; text-shadow: 0 .045em 0 #8d9392; }
-.rd-fate p { color: #c3c9c8; font-size: 16.5px; max-width: 50ch; margin: 0 0 24px; }
-.rd-fate-art { position: relative; justify-self: center; width: min(100%, 340px); aspect-ratio: 1; background: var(--paper); border: 2px solid var(--mint); box-shadow: var(--mint-glow); display: grid; place-items: center; }
-.rd-fate-art img { width: 88%; height: auto; }
+/* Banda Fate: texto a la izquierda, tres fotos (sin precios) a la derecha */
+.rd-fate { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; align-items: center; background: radial-gradient(900px 520px at 88% 8%, rgba(82,240,216,.16), rgba(82,240,216,0) 60%), linear-gradient(160deg, #242627, #18191a); border: 1px solid var(--line); border-radius: 28px; padding: 56px; position: relative; overflow: hidden; }
+.rd-fate::before { content: "FATE"; position: absolute; right: -30px; bottom: -84px; font-family: var(--display); font-stretch: 125%; font-weight: 900; font-size: 340px; line-height: 1; letter-spacing: -.04em; color: transparent; -webkit-text-stroke: 2px rgba(82,240,216,.14); pointer-events: none; user-select: none; }
+.rd-fate > * { position: relative; }
+.rd-fate-text { display: flex; flex-direction: column; align-items: flex-start; gap: 24px; min-width: 0; }
+.rd-fate .fate-kicker { gap: 9px; padding: 8px 16px 8px 12px; border: 1px solid rgba(82,240,216,.5); border-radius: 999px; background: rgba(82,240,216,.08); margin: 0; }
+.rd-fate .fate-kicker::before { display: none; }
+.rd-fate h2 { font-size: clamp(32px, 4vw, 56px); line-height: .98; margin: 0; text-shadow: none; }
+.rd-fate h2 .stk { display: block; }
+.rd-fate p { color: #cfd5d4; font-size: 18px; line-height: 1.55; max-width: 520px; margin: 0; }
+.rd-fate-photos { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 14px; height: 440px; }
+.rd-fate-photos a { display: grid; place-items: center; background: var(--paper); border: 1px solid var(--line); border-radius: 20px; padding: 10px; overflow: hidden; min-width: 0; }
+.rd-fate-photos a:first-child { grid-row: 1 / span 2; border: 2px solid var(--mint); box-shadow: var(--mint-glow); padding: 12px; }
+.rd-fate-photos img { width: 100%; height: 100%; object-fit: contain; transition: transform .5s var(--ease); }
+.rd-fate-photos a:hover img { transform: scale(1.04); }
+.rd-fate-photos.n1 { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); }
+.rd-fate-photos.n1 a:first-child { grid-row: auto; }
+.rd-fate-photos.n2 { grid-template-rows: minmax(0, 1fr); }
+.rd-fate-photos.n2 a:first-child { grid-row: auto; }
 
 /* ------------------------------ Responsive ------------------------------ */
 @media (max-width: 1100px) {
   .rd-hero { margin-top: 22px; }
-  .home-parts .tile-grid { grid-template-columns: repeat(3, 1fr); }
-  .rd-fate { grid-template-columns: 1fr; }
+  .rd-fate { grid-template-columns: 1fr; gap: 36px; }
+  .rd-fate-photos { height: 380px; }
 }
 @media (max-width: 760px) {
   .rd-hero { padding-left: 16px; padding-right: 16px; }
@@ -2249,8 +2267,27 @@ body:not(.fate-page) h1 .o1 { color: var(--mint); }
   .rd-ctas .btn { width: 100%; min-width: 0; }
   .rd-strip { justify-content: flex-start; }
   .rd-strip span, .strip-track span { font-size: 18px; padding: 6px 20px; }
-  .home-parts .tile-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .rd-fate { padding: 26px 20px; }
+  .home-parts .tile-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 190px; gap: 10px; }
+  .home-parts .tile { border-radius: 14px; }
+  .home-parts .tile .tile-plate { margin: 8px 8px 0; }
+  .home-parts .tile .tile-label { font-size: 23px; padding: 10px 12px 12px; }
+  .home-parts .tile .tile-label svg { width: 18px; height: 18px; }
+  .home-parts .tile.tile-all { padding: 16px 14px; }
+  .home-parts .tile.tile-all .tile-label { font-size: 15px; padding: 0; letter-spacing: -.01em; }
+  .home-parts .tile.tile-all .tile-go { width: 40px; height: 40px; }
+  .rd-fate { padding: 22px 18px 24px; border-radius: 22px; gap: 18px; }
+  .rd-fate::before { font-size: 150px; right: -14px; bottom: -34px; -webkit-text-stroke-width: 1.5px; }
+  .rd-fate-text { gap: 18px; }
+  .rd-fate .fate-kicker { font-size: 16px; padding: 7px 14px 7px 10px; }
+  .rd-fate p { font-size: 15px; }
+  .rd-fate .btn { width: 100%; min-height: 52px; }
+  .rd-fate-photos { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: 250px 150px; height: auto; gap: 10px; }
+  .rd-fate-photos a { border-radius: 16px; padding: 8px; }
+  .rd-fate-photos a:first-child { grid-column: 1 / span 2; grid-row: 1; border-radius: 18px; padding: 10px; }
+  .rd-fate-photos.n1 { grid-template-columns: minmax(0, 1fr); grid-template-rows: 260px; }
+  .rd-fate-photos.n1 a:first-child { grid-column: auto; }
+  .rd-fate-photos.n2 { grid-template-rows: 220px; }
+  .rd-fate-photos.n2 a:first-child { grid-column: auto; }
   .filters { padding: 16px 14px 4px; }
 }
 /* Ajustes de medida: el menu escala con el ancho para que las dos mitades
