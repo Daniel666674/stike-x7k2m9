@@ -369,6 +369,11 @@ kbd.k{flex:none;padding:2px 7px;border:1px solid var(--line);border-bottom-width
 .chip-btn{padding:7px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--bg-2);color:var(--ink-2);font-size:13px;font-weight:600;cursor:pointer;transition:border-color .12s,color .12s,background .12s}
 .chip-btn:hover{border-color:var(--accent);color:var(--accent)}
 .chip-btn.active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.sale-prod{display:flex;align-items:center;gap:10px}
+.sale-thumb{flex:none;width:44px;height:44px;border-radius:8px;background:#f3f3f3;overflow:hidden;display:inline-flex;align-items:center;justify-content:center}
+.sale-thumb img{width:100%;height:100%;object-fit:contain}
+.sale-thumb.empty{background:var(--panel-2,#262a31)}
+.sale-thumb.big{width:72px;height:72px;border-radius:12px}
 #sales-tbody mark{background:transparent;color:var(--accent);font-weight:700;text-decoration:underline;text-underline-offset:2px}
 .sr-sale .sr-thumb{display:grid;place-items:center;font-size:22px;background:var(--bg-2)}
 /* ---- Editor de tallas y colores: grande, con encabezados y atajos de un toque ---- */
@@ -925,7 +930,7 @@ body.role-editor #btn-notif,body.role-editor #btn-test-sound,body.role-editor [d
 <script src="assets/js/photo-editor.js?v=6f906ace"></script>
 <script src="assets/js/select-search.js?v=f8893cc5"></script>
 <script src="assets/js/video-tools.js?v=aaa2b1fa"></script>
-<script src="admin.js?v=19"></script>
+<script src="admin.js?v=20"></script>
 <script>
   // Service worker propio del panel: solo cachea el logo del shell, nunca
   // admin.html/admin.js (ver admin-sw.js).
