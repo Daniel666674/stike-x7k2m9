@@ -85,10 +85,12 @@
 - [Timón Fiend Team](https://stikebikeshop.com/producto/timon-fiend-team.html) — Fiend; desde $360.000; disponible; colores: Negro, Cromado; medida: 9.5, 9.75
 - [Timón Primo Rebar 9.25 Negro](https://stikebikeshop.com/producto/timon-primo-rebar-925-negro.html) — Primo; $380.000; agotado por ahora
 - [Timón Éclat Chocolate 9.25](https://stikebikeshop.com/producto/timon-eclat-chocolate-925.html) — Éclat; $340.000; disponible
-- [Timón Shadow 4 Piezas Cromado](https://stikebikeshop.com/producto/timon-shadow-4-piezas-cromado.html) — Shadow; $340.000; disponible
+- [Timón Shadow 4 Piezas Cromado](https://stikebikeshop.com/producto/timon-shadow-4-piezas-cromado.html) — Shadow; $340.000; agotado por ahora
 - [Timón Rant 4 Piezas Negro 9.5](https://stikebikeshop.com/producto/timon-rant-4-piezas-negro-95.html) — Rant; $220.000; disponible
-- [Timón Rant 2 Piezas Cromado 9.5](https://stikebikeshop.com/producto/timon-rant-2-piezas-cromado-95.html) — Rant; $220.000; disponible
+- [Timón Rant 2 Piezas Cromado 9.5](https://stikebikeshop.com/producto/timon-rant-2-piezas-cromado-95.html) — Rant; $220.000; agotado por ahora
 - [Timón Stranger Nass 9.3 Negro](https://stikebikeshop.com/producto/timon-stranger-nass-93-negro.html) — Stranger; $380.000; disponible
+- [TIMON BSD SAFARI 4 PIEZAS](https://stikebikeshop.com/producto/timon-bsd-safari-4-piezas.html) — BSD; $380.000; disponible
+- [TIMON ODYSSEY SUPER HIGHWAY](https://stikebikeshop.com/producto/timon-odyssey-super-highway.html) — Odyssey; $500.000; disponible
 
 ### Bielas
 - [Caja de Centro Fiend Mid 22mm Ransom](https://stikebikeshop.com/producto/caja-de-centro-fiend-mid-22mm-ransom.html) — Fiend; $135.000; disponible; colores: Negro, Cromado
@@ -196,7 +198,7 @@
 - [Manzana Trasera Federal Derecha Negra 9T](https://stikebikeshop.com/producto/manzana-trasera-federal-derecha-negra-9t.html) — Federal; $500.000; disponible
 - [Freecoaster Fiend Derecho USADO](https://stikebikeshop.com/producto/freecoaster-fiend-derecho-negro.html) — Fiend; $500.000; disponible
 - [Manzana Trasera Merritt Derecha Cromada](https://stikebikeshop.com/producto/manzana-trasera-merritt-derecha-cromada.html) — Merritt; $700.000; disponible
-- [Freecoaster Shadow Derecho USADO](https://stikebikeshop.com/producto/freecoaster-shadow-derecho-negro.html) — Shadow; $500.000; disponible
+- [Freecoaster Shadow Derecho USADO](https://stikebikeshop.com/producto/freecoaster-shadow-derecho-negro.html) — Shadow; $500.000; agotado por ahora
 - [Manzana Trasera Mutanty Mercury Derecha Cromada](https://stikebikeshop.com/producto/manzana-trasera-mutanty-mercury-derecha-cromada.html) — Mutanty; $550.000; disponible
 - [Tuercas para Cassette Negras](https://stikebikeshop.com/producto/tuercas-para-cassette-negras.html) — Genérico; $25.000; disponible
 - [Manzana Trasera Trueno Alfa V2 Izquierda](https://stikebikeshop.com/producto/manzana-trasera-trueno-alfa-v2-izquierda.html) — Trueno; desde $380.000; disponible; colores: Cromado, Tornasol
@@ -224,6 +226,7 @@
 
 ### Rodilleras
 - [Rodicanitobillera R2 Protect](https://stikebikeshop.com/producto/rodicanitobillera-r2-protect.html) — R2 Protect; $160.000; disponible; tallas: XS, S, M, L
+- [RODILLERAS COMUNITY](https://stikebikeshop.com/producto/rodilleras-comunity.html) — Total BMX; $300.000; disponible; tallas: S, M, L, XL
 
 ### Tobilleras
 - [Tobillera de Impacto R2 Protect](https://stikebikeshop.com/producto/tobillera-de-impacto-r2-protect.html) — R2 Protect; $60.000; disponible; tallas: S, M, L, XL
@@ -253,15 +256,15 @@
 - [Chaqueta Nike Gris  Negro](https://stikebikeshop.com/producto/chaqueta-nike-beige-negro.html) — Nike; $120.000; disponible
 - [Chaqueta Vans Beige y Negro](https://stikebikeshop.com/producto/chaqueta-vans-beige-negro.html) — Vans; $120.000; disponible
 - [CHAQUETA OAKLEY](https://stikebikeshop.com/producto/chaqueta-inspirada-oakley.html) — Oakley; $120.000; disponible; largo: M, L
-- [CHAQUETA INSPIRADA EN VANS](https://stikebikeshop.com/producto/chaqueta-inspirada-en-vans.html) — Vans; $120.000; disponible
-- [CHAQUETA INSPIRADA EN ALPINESTARS](https://stikebikeshop.com/producto/chaqueta-inspirada-en-alpinestars.html) — Alpinestars; $120.000; disponible
+- [CHAQUETA INSPIRADA EN VANS](https://stikebikeshop.com/producto/chaqueta-inspirada-en-vans.html) — Vans; $120.000; disponible; tallas: M, L
+- [CHAQUETA INSPIRADA EN ALPINESTARS](https://stikebikeshop.com/producto/chaqueta-inspirada-en-alpinestars.html) — Alpinestars; $120.000; disponible; tallas: M, L, S
 
 ### Camisetas
 - [Camibuso Odyssey Blanco](https://stikebikeshop.com/producto/camibuso-odyssey-blanca-manga-larga.html) — Odyssey; $60.000; disponible
 - [Camibuso Animal Blanco](https://stikebikeshop.com/producto/camibuso-animal-blanca-manga-larga.html) — Animal; $60.000; disponible; tallas: M, L
 - [Camiseta Fate BMX](https://stikebikeshop.com/producto/camiseta-fate-bmx.html) — Fate BMX Colombia; $50.000; disponible; colores: Blanco, Negro; tallas: M, L
 - [Camiseta No Fear Blanca](https://stikebikeshop.com/producto/camiseta-no-fear-blanca.html) — No Fear; $50.000; disponible
-- [Camiseta Primitive Verde](https://stikebikeshop.com/producto/camiseta-primitive-verde-logo-circular.html) — Primitive; $50.000; disponible
+- [Camiseta Primitive Verde](https://stikebikeshop.com/producto/camiseta-primitive-verde-logo-circular.html) — Primitive; $50.000; agotado por ahora
 - [Camiseta Vans Blanca Since 1966](https://stikebikeshop.com/producto/camiseta-vans-blanca-since-1966.html) — Vans; $50.000; disponible; tallas: M, L, XL
 - [Camiseta Vans Café Claro](https://stikebikeshop.com/producto/camiseta-vans-cafe-claro-logo-pequeno.html) — Vans; $50.000; disponible; tallas: S, M
 - [Camiseta Primo Negra](https://stikebikeshop.com/producto/camiseta-primo-negra.html) — Primo; $50.000; disponible; tallas: M, XL
@@ -308,6 +311,16 @@
 ### Gorras
 - [Pesquero Decaye](https://stikebikeshop.com/producto/pesquero-decaye.html) — Decaye; $70.000; disponible; colores: Negro, Verde
 - [Gorra Decaye Gamuza](https://stikebikeshop.com/producto/gorra-decaye-gamuza-cafe.html) — Decaye; $65.000; disponible; colores: Café, Rosada
+- [GORRA REDING](https://stikebikeshop.com/producto/gorra-reding.html) — Total BMX; $60.000; disponible
+- [GORRA OJO BMX NOSE MANUAL](https://stikebikeshop.com/producto/gorra-ojo-bmx-nose-manual.html) — Total BMX; $60.000; disponible
+- [GORRA OJO BMX WALLRIDE](https://stikebikeshop.com/producto/gorra-ojo-bmx-wallride.html) — Total BMX; $60.000; disponible
+- [GORRA REDING R](https://stikebikeshop.com/producto/gorra-reding-r.html) — Total BMX; $60.000; disponible
+- [GORRA REDING  OSO](https://stikebikeshop.com/producto/gorra-reding-oso.html) — Total BMX; $60.000; agotado por ahora
+- [GORRA REDING URBAN ](https://stikebikeshop.com/producto/gorra-reding-urban.html) — Total BMX; $60.000; disponible
+- [GORRA REDING CURSIVA ROJO](https://stikebikeshop.com/producto/gorra-reding-cursiva-rojo.html) — Total BMX; $60.000; disponible
+- [GORRA REDING CURSIVA NEGRO](https://stikebikeshop.com/producto/gorra-reding-cursiva-negro.html) — Total BMX; $60.000; disponible
+- [GORRA REDING VERDE](https://stikebikeshop.com/producto/gorra-reding-verde.html) — Total BMX; $60.000; disponible
+- [GORRA REDING R ](https://stikebikeshop.com/producto/gorra-reding-r-2.html) — Total BMX; $60.000; disponible
 
 ### Jeans
 - [Pantalón Freaak Dril Negro](https://stikebikeshop.com/producto/pantalon-freaak-dril-negro.html) — Freaak; $110.000; disponible; talla: 30, 32
@@ -331,7 +344,7 @@
 - [Tenis Fade Joy Negro Blanco](https://stikebikeshop.com/producto/tenis-fade-joy-negro-blanco.html) — Fade; $160.000; disponible
 - [Tenis Fade x R2 Protect](https://stikebikeshop.com/producto/tenis-fade-x-r2-protect.html) — Fade; $180.000; disponible; talla: 39, 40
 - [Tenis Fade Edge LT](https://stikebikeshop.com/producto/tenis-fade-edge-lt.html) — Fade; desde $170.000; disponible; colores: Azul x Blanco, Blanco Azul Rojo, Blanco x Blanco, Negro x Negro, Blanco x Negro, Negro x Blanco, Rojo, Verde Amarillo; talla: 38, 39, 40, 41
-- [Tenis Fade Hatelow Negro](https://stikebikeshop.com/producto/tenis-fade-hatelow-negro.html) — Fade; $160.000; disponible
+- [Tenis Fade Hatelow Negro](https://stikebikeshop.com/producto/tenis-fade-hatelow-negro.html) — Fade; $160.000; disponible; talla: 37, 39
 - [Tenis Fade Hatelow 2](https://stikebikeshop.com/producto/tenis-fade-hatelow-2.html) — Fade; desde $160.000; disponible; colores: Negro, Verde Oliva, Blanco; talla: 37, 39, 40, 41, 42
 - [Tenis Fade MST Negro Blanco](https://stikebikeshop.com/producto/tenis-fade-mst-negro-blanco.html) — Fade; $150.000; disponible
 - [Tenis Fade OM 108](https://stikebikeshop.com/producto/tenis-fade-om-108.html) — Fade; $160.000; disponible; colores: Negro x Negro, Negro x Blanco, Café Goma; talla: 38, 39, 40, 41
@@ -342,7 +355,7 @@
 ## Accesorios
 
 ### Grips
-- [Grips Cult x Vans Morado](https://stikebikeshop.com/producto/grips-cult-vans-morado.html) — Cult; $55.000; disponible
+- [Grips Cult x Vans Morado](https://stikebikeshop.com/producto/grips-cult-vans-morado.html) — Cult; $55.000; disponible; colores: Negro, Naranja, Morado
 - [Grips Stranger Piston](https://stikebikeshop.com/producto/grips-stranger-piston.html) — Stranger; $45.000; disponible
 - [Grips Ontrail Yeti](https://stikebikeshop.com/producto/grips-ontrail-yeti.html) — Ontrail; $20.000; disponible
 - [Grips ODI XL](https://stikebikeshop.com/producto/grips-odi-xl.html) — ODI; $70.000; agotado por ahora

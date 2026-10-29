@@ -1612,7 +1612,7 @@
       <g:description>Timón Shadow 4 Piezas Cromado. Tipo 4 piezas. Color Cromado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/timon-shadow-4-piezas-cromado.html</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/timon-shadow-4-piezas-cromado-1.jpg</g:image_link>
-      <g:availability>in_stock</g:availability>
+      <g:availability>out_of_stock</g:availability>
       <g:price>340000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Shadow</g:brand>
@@ -1765,7 +1765,7 @@
       <g:description>Timón Rant 2 Piezas Cromado 9.5. Altura 9.5". Tipo 2 piezas. Color Cromado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/timon-rant-2-piezas-cromado-95.html</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/timon-rant-2-piezas-cromado-95-1.jpg</g:image_link>
-      <g:availability>in_stock</g:availability>
+      <g:availability>out_of_stock</g:availability>
       <g:price>220000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Rant</g:brand>
@@ -3406,10 +3406,10 @@
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
     <item>
-      <g:id>CULT-VANS-PUNOS-MORADO</g:id>
-      <g:title>Grips Cult x Vans Morado</g:title>
-      <g:description>Grips Cult x Vans Morado. Material Goma. Diseño Vans. Color Morado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/grips-cult-vans-morado.html</g:link>
+      <g:id>CULT-VANS-PUNOS-MORADO-negro</g:id>
+      <g:title>Grips Cult x Vans Morado - Negro</g:title>
+      <g:description>Grips Cult x Vans Morado. Material Goma. Diseño Vans. Color Morado. Disponible en colores Negro, Naranja, Morado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/grips-cult-vans-morado.html?color=Negro</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/grips-cult-vans-morado-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/grips-cult-vans-morado-2.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/grips-cult-vans-morado-3.jpg</g:additional_image_link>
@@ -3420,6 +3420,46 @@
       <g:identifier_exists>no</g:identifier_exists>
       <g:product_type>Accesorios &gt; Grips</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Accessories</g:google_product_category>
+      <g:item_group_id>CULT-VANS-PUNOS-MORADO</g:item_group_id>
+      <g:color>Negro</g:color>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>CULT-VANS-PUNOS-MORADO-naranja</g:id>
+      <g:title>Grips Cult x Vans Morado - Naranja</g:title>
+      <g:description>Grips Cult x Vans Morado. Material Goma. Diseño Vans. Color Morado. Disponible en colores Negro, Naranja, Morado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/grips-cult-vans-morado.html?color=Naranja</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/grips-cult-vans-morado-1.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/grips-cult-vans-morado-2.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/grips-cult-vans-morado-3.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>55000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Cult</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Accesorios &gt; Grips</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Accessories</g:google_product_category>
+      <g:item_group_id>CULT-VANS-PUNOS-MORADO</g:item_group_id>
+      <g:color>Naranja</g:color>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>CULT-VANS-PUNOS-MORADO-morado</g:id>
+      <g:title>Grips Cult x Vans Morado - Morado</g:title>
+      <g:description>Grips Cult x Vans Morado. Material Goma. Diseño Vans. Color Morado. Disponible en colores Negro, Naranja, Morado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/grips-cult-vans-morado.html?color=Morado</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/grips-cult-vans-morado-1.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/grips-cult-vans-morado-2.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/grips-cult-vans-morado-3.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>55000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Cult</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Accesorios &gt; Grips</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Accessories</g:google_product_category>
+      <g:item_group_id>CULT-VANS-PUNOS-MORADO</g:item_group_id>
+      <g:color>Morado</g:color>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
     <item>
@@ -5084,7 +5124,7 @@
       <g:description>Camiseta Primitive Verde. Color Verde. Logo circular pequeño al frente. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/camiseta-primitive-verde-logo-circular.html</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/camiseta-primitive-verde-logo-circular-1.jpg</g:image_link>
-      <g:availability>in_stock</g:availability>
+      <g:availability>out_of_stock</g:availability>
       <g:price>50000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Primitive</g:brand>
@@ -6295,7 +6335,7 @@
       <g:description>Freecoaster Shadow Derecho USADO (usado). Tipo Freecoaster. Eje 14mm macho. Piñón 9T. Agujeros 36h. Color Negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/freecoaster-shadow-derecho-negro.html</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/freecoaster-shadow-derecho-negro-1.jpg</g:image_link>
-      <g:availability>in_stock</g:availability>
+      <g:availability>out_of_stock</g:availability>
       <g:price>500000.00 COP</g:price>
       <g:condition>used</g:condition>
       <g:brand>Shadow</g:brand>
@@ -8579,10 +8619,10 @@
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
     <item>
-      <g:id>ZAP-FAD-002</g:id>
+      <g:id>ZAP-FAD-002-37</g:id>
       <g:title>Tenis Fade Hatelow Negro - 37</g:title>
-      <g:description>Tenis Fade Hatelow Negro. Suela propia de la marca. Cosidos para evitar el despegue. Material de primera calidad. Hechos en Colombia. Color Negro x Negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/tenis-fade-hatelow-negro.html</g:link>
+      <g:description>Tenis Fade Hatelow Negro. Suela propia de la marca. Cosidos para evitar el despegue. Material de primera calidad. Hechos en Colombia. Color Negro x Negro. Disponible en talla 37, 39. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/tenis-fade-hatelow-negro.html?size=37</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/08cb925e-795a-4c1b-b443-53f590a0a033.jpg</g:image_link>
       <g:availability>in_stock</g:availability>
       <g:price>160000.00 COP</g:price>
@@ -8591,7 +8631,25 @@
       <g:identifier_exists>no</g:identifier_exists>
       <g:product_type>Zapatillas &gt; Tenis</g:product_type>
       <g:google_product_category>Apparel &amp; Accessories &gt; Shoes</g:google_product_category>
+      <g:item_group_id>ZAP-FAD-002</g:item_group_id>
       <g:size>37</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ZAP-FAD-002-39</g:id>
+      <g:title>Tenis Fade Hatelow Negro - 39</g:title>
+      <g:description>Tenis Fade Hatelow Negro. Suela propia de la marca. Cosidos para evitar el despegue. Material de primera calidad. Hechos en Colombia. Color Negro x Negro. Disponible en talla 37, 39. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/tenis-fade-hatelow-negro.html?size=39</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/08cb925e-795a-4c1b-b443-53f590a0a033.jpg</g:image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>160000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fade</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Zapatillas &gt; Tenis</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Shoes</g:google_product_category>
+      <g:item_group_id>ZAP-FAD-002</g:item_group_id>
+      <g:size>39</g:size>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
     <item>
@@ -9966,10 +10024,10 @@
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
     <item>
-      <g:id>ROP-VAN-009</g:id>
+      <g:id>ROP-VAN-009-negro-blanco-m</g:id>
       <g:title>CHAQUETA INSPIRADA EN VANS - Negro/Blanco - M</g:title>
-      <g:description>CHAQUETA INSPIRADA EN VANS. CHAQUETA ROMPEVIENTO EN SUPER NYLON DE ALTA CALIDAD. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/chaqueta-inspirada-en-vans.html</g:link>
+      <g:description>CHAQUETA INSPIRADA EN VANS. CHAQUETA ROMPEVIENTO EN SUPER NYLON DE ALTA CALIDAD. Disponible en tallas M, L. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/chaqueta-inspirada-en-vans.html?color=Negro%2FBlanco&amp;size=M</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/b7581c9c-0963-49ba-8e59-028f9dabb391.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/91227cef-b4b3-42f7-81b0-0a564b713917.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/7900c8f8-a59d-4190-bafc-742fe2bfe6eb.jpg</g:additional_image_link>
@@ -9980,15 +10038,36 @@
       <g:identifier_exists>no</g:identifier_exists>
       <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
       <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-VAN-009</g:item_group_id>
       <g:color>Negro/Blanco</g:color>
       <g:size>M</g:size>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
     <item>
-      <g:id>ROP-ALP-003</g:id>
+      <g:id>ROP-VAN-009-negro-blanco-l</g:id>
+      <g:title>CHAQUETA INSPIRADA EN VANS - Negro/Blanco - L</g:title>
+      <g:description>CHAQUETA INSPIRADA EN VANS. CHAQUETA ROMPEVIENTO EN SUPER NYLON DE ALTA CALIDAD. Disponible en tallas M, L. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/chaqueta-inspirada-en-vans.html?color=Negro%2FBlanco&amp;size=L</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/b7581c9c-0963-49ba-8e59-028f9dabb391.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/91227cef-b4b3-42f7-81b0-0a564b713917.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/7900c8f8-a59d-4190-bafc-742fe2bfe6eb.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Vans</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-VAN-009</g:item_group_id>
+      <g:color>Negro/Blanco</g:color>
+      <g:size>L</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-ALP-003-negro-m</g:id>
       <g:title>CHAQUETA INSPIRADA EN ALPINESTARS - Negro - M</g:title>
-      <g:description>CHAQUETA INSPIRADA EN ALPINESTARS. ROMPEVIENTOS EN SUPER NYLON DE ALTA CALIDAD CON LOGOS REFLECTIVOS. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/chaqueta-inspirada-en-alpinestars.html</g:link>
+      <g:description>CHAQUETA INSPIRADA EN ALPINESTARS. ROMPEVIENTOS EN SUPER NYLON DE ALTA CALIDAD CON LOGOS REFLECTIVOS. Disponible en tallas M, L, S. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/chaqueta-inspirada-en-alpinestars.html?color=Negro&amp;size=M</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/c22cdf56-77db-4260-ab1c-d2619ed2303f.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/f419e2b1-b5a9-498e-a4d4-793bef521494.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2ac7d033-de01-4f3a-a75c-acf36f5e2b28.jpg</g:additional_image_link>
@@ -10000,8 +10079,51 @@
       <g:identifier_exists>no</g:identifier_exists>
       <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
       <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-ALP-003</g:item_group_id>
       <g:color>Negro</g:color>
       <g:size>M</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-ALP-003-negro-l</g:id>
+      <g:title>CHAQUETA INSPIRADA EN ALPINESTARS - Negro - L</g:title>
+      <g:description>CHAQUETA INSPIRADA EN ALPINESTARS. ROMPEVIENTOS EN SUPER NYLON DE ALTA CALIDAD CON LOGOS REFLECTIVOS. Disponible en tallas M, L, S. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/chaqueta-inspirada-en-alpinestars.html?color=Negro&amp;size=L</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/c22cdf56-77db-4260-ab1c-d2619ed2303f.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/f419e2b1-b5a9-498e-a4d4-793bef521494.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2ac7d033-de01-4f3a-a75c-acf36f5e2b28.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/6670d1f1-1049-46fd-aead-ffd924794b86.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Alpinestars</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-ALP-003</g:item_group_id>
+      <g:color>Negro</g:color>
+      <g:size>L</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-ALP-003-negro-s</g:id>
+      <g:title>CHAQUETA INSPIRADA EN ALPINESTARS - Negro - S</g:title>
+      <g:description>CHAQUETA INSPIRADA EN ALPINESTARS. ROMPEVIENTOS EN SUPER NYLON DE ALTA CALIDAD CON LOGOS REFLECTIVOS. Disponible en tallas M, L, S. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/chaqueta-inspirada-en-alpinestars.html?color=Negro&amp;size=S</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/c22cdf56-77db-4260-ab1c-d2619ed2303f.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/f419e2b1-b5a9-498e-a4d4-793bef521494.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2ac7d033-de01-4f3a-a75c-acf36f5e2b28.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/6670d1f1-1049-46fd-aead-ffd924794b86.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Alpinestars</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-ALP-003</g:item_group_id>
+      <g:color>Negro</g:color>
+      <g:size>S</g:size>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
     <item>
@@ -10217,6 +10339,261 @@
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-ODY-019</g:item_group_id>
       <g:color>Cromado</g:color>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>REP-BSD-006</g:id>
+      <g:title>TIMON BSD SAFARI 4 PIEZAS - Negro - 9.6</g:title>
+      <g:description>TIMON BSD SAFARI 4 PIEZAS. MEDIDA 9.6" LARGO 29.5". Upsweep 3° Backsweep 13°. PESO 1.8 LBS. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/timon-bsd-safari-4-piezas.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/d9b0ece7-6a3e-4570-b93d-059609946b39.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/ba6ff186-faef-4a80-88b4-1960e6c70f03.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/fe1a7ef1-1d75-42f4-9aba-5fdd67b68baf.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>380000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>BSD</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Timones</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:color>Negro</g:color>
+      <g:size>9.6</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>REP-ODY-020</g:id>
+      <g:title>TIMON ODYSSEY SUPER HIGHWAY - Negro - 9.5</g:title>
+      <g:description>TIMON ODYSSEY SUPER HIGHWAY. MEDIDA 9.5 LARGO : 29. Backsweep 11° Upsweep: 1°. PESO . Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/timon-odyssey-super-highway.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/bf25272d-da02-46b4-a1a0-0969ac4eac89.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2f774fa7-7c37-44c6-b57c-a95cf0140863.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>500000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Odyssey</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Timones</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:color>Negro</g:color>
+      <g:size>9.5</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-010</g:id>
+      <g:title>GORRA REDING</g:title>
+      <g:description>GORRA REDING de Total BMX. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/gorra-reding.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/2a3fde16-e103-45c1-9c63-74ba2c811306.jpg</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>60000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Gorras</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing Accessories &gt; Hats</g:google_product_category>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>PRO-VAN-001-s</g:id>
+      <g:title>RODILLERAS COMUNITY - S</g:title>
+      <g:description>RODILLERAS COMUNITY de Total BMX. VENOM PRO. TECNOLOGIA INTELIGENTE PARA IMPACTOS. Disponible en tallas S, M, L, XL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/rodilleras-comunity.html?size=S</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/600c7e6d-32b5-4096-af18-90e304678c66.jpg</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>300000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Protecciones &gt; Rodilleras</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Accessories</g:google_product_category>
+      <g:item_group_id>PRO-VAN-001</g:item_group_id>
+      <g:size>S</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>PRO-VAN-001-m</g:id>
+      <g:title>RODILLERAS COMUNITY - M</g:title>
+      <g:description>RODILLERAS COMUNITY de Total BMX. VENOM PRO. TECNOLOGIA INTELIGENTE PARA IMPACTOS. Disponible en tallas S, M, L, XL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/rodilleras-comunity.html?size=M</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/600c7e6d-32b5-4096-af18-90e304678c66.jpg</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>300000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Protecciones &gt; Rodilleras</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Accessories</g:google_product_category>
+      <g:item_group_id>PRO-VAN-001</g:item_group_id>
+      <g:size>M</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>PRO-VAN-001-l</g:id>
+      <g:title>RODILLERAS COMUNITY - L</g:title>
+      <g:description>RODILLERAS COMUNITY de Total BMX. VENOM PRO. TECNOLOGIA INTELIGENTE PARA IMPACTOS. Disponible en tallas S, M, L, XL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/rodilleras-comunity.html?size=L</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/600c7e6d-32b5-4096-af18-90e304678c66.jpg</g:image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>300000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Protecciones &gt; Rodilleras</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Accessories</g:google_product_category>
+      <g:item_group_id>PRO-VAN-001</g:item_group_id>
+      <g:size>L</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>PRO-VAN-001-xl</g:id>
+      <g:title>RODILLERAS COMUNITY - XL</g:title>
+      <g:description>RODILLERAS COMUNITY de Total BMX. VENOM PRO. TECNOLOGIA INTELIGENTE PARA IMPACTOS. Disponible en tallas S, M, L, XL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/rodilleras-comunity.html?size=XL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/600c7e6d-32b5-4096-af18-90e304678c66.jpg</g:image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>300000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Protecciones &gt; Rodilleras</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Accessories</g:google_product_category>
+      <g:item_group_id>PRO-VAN-001</g:item_group_id>
+      <g:size>XL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-011</g:id>
+      <g:title>GORRA OJO BMX NOSE MANUAL</g:title>
+      <g:description>GORRA OJO BMX NOSE MANUAL de Total BMX. SNAPBACK. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/gorra-ojo-bmx-nose-manual.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/d3c0a922-97a4-435e-b31a-d71bc724b26c.jpg</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>60000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Gorras</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing Accessories &gt; Hats</g:google_product_category>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-012</g:id>
+      <g:title>GORRA OJO BMX WALLRIDE</g:title>
+      <g:description>GORRA OJO BMX WALLRIDE de Total BMX. SNAPBACK. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/gorra-ojo-bmx-wallride.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/2499545d-8aa6-4191-905f-7a758ec30972.jpg</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>60000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Gorras</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing Accessories &gt; Hats</g:google_product_category>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-013</g:id>
+      <g:title>GORRA REDING R</g:title>
+      <g:description>GORRA REDING R de Total BMX. SNAPBACK. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/gorra-reding-r.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/5d52a1a2-3db5-4b04-a7de-7c3e70dca3cf.jpg</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>60000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Gorras</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing Accessories &gt; Hats</g:google_product_category>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-014</g:id>
+      <g:title>GORRA REDING OSO</g:title>
+      <g:description>GORRA REDING OSO de Total BMX. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/gorra-reding-oso.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/6f12babc-937f-4f79-9bfa-a3c544301916.jpg</g:image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>60000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Gorras</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing Accessories &gt; Hats</g:google_product_category>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-015</g:id>
+      <g:title>GORRA REDING URBAN</g:title>
+      <g:description>GORRA REDING URBAN de Total BMX. SNAPBACK. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/gorra-reding-urban.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/0911fc3c-d73b-4d0a-bed5-a7d8ae06d38c.jpg</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>60000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Gorras</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing Accessories &gt; Hats</g:google_product_category>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-016</g:id>
+      <g:title>GORRA REDING CURSIVA ROJO</g:title>
+      <g:description>GORRA REDING CURSIVA ROJO de Total BMX. SNAPBACK. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/gorra-reding-cursiva-rojo.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/5dfda209-a6cf-480a-8ba1-d9bfb5849609.jpg</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>60000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Gorras</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing Accessories &gt; Hats</g:google_product_category>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-017</g:id>
+      <g:title>GORRA REDING CURSIVA NEGRO</g:title>
+      <g:description>GORRA REDING CURSIVA NEGRO de Total BMX. SNAPBACK. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/gorra-reding-cursiva-negro.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/752942b0-0b6f-4edd-bc6b-b2f2595ccb76.jpg</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>60000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Gorras</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing Accessories &gt; Hats</g:google_product_category>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-018</g:id>
+      <g:title>GORRA REDING VERDE</g:title>
+      <g:description>GORRA REDING VERDE de Total BMX. SNAPBACK. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/gorra-reding-verde.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/a5883720-64f1-40c8-a710-b4ca5eac2eae.jpg</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>60000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Gorras</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing Accessories &gt; Hats</g:google_product_category>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-019</g:id>
+      <g:title>GORRA REDING R</g:title>
+      <g:description>GORRA REDING R de Total BMX. SNAPBACK. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/gorra-reding-r-2.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/dffc209e-aba5-4a61-adb8-7bd0d5e51a20.jpg</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>60000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Gorras</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing Accessories &gt; Hats</g:google_product_category>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
   </channel>
