@@ -916,5 +916,104 @@
     "edited": 0,
     "deleted": 1,
     "photos": 0
+  },
+  {
+    "ts": "2026-10-27T21:22:46.034Z",
+    "admin": "jparra375@gmail.com",
+    "summary": "1 creado(s), 2 editado(s), 0 eliminado(s), 3 foto(s)",
+    "created": 1,
+    "edited": 2,
+    "deleted": 0,
+    "photos": 3
+  },
+  {
+    "ts": "2026-10-27T21:32:26.014Z",
+    "admin": "jparra375@gmail.com",
+    "summary": "1 creado(s), 1 editado(s), 0 eliminado(s), 2 foto(s)",
+    "created": 1,
+    "edited": 1,
+    "deleted": 0,
+    "photos": 2
+  },
+  {
+    "ts": "2026-10-28T12:26:15.318Z",
+    "admin": "jparra375@gmail.com",
+    "summary": "0 creado(s), 1 editado(s), 0 eliminado(s), 0 foto(s)",
+    "created": 0,
+    "edited": 1,
+    "deleted": 0,
+    "photos": 0
+  },
+  {
+    "ts": "2026-10-28T12:37:21.698Z",
+    "admin": "jparra375@gmail.com",
+    "summary": "2 creado(s), 0 editado(s), 0 eliminado(s), 2 foto(s)",
+    "created": 2,
+    "edited": 0,
+    "deleted": 0,
+    "photos": 2
+  },
+  {
+    "ts": "2026-10-28T12:40:33.749Z",
+    "admin": "jparra375@gmail.com",
+    "summary": "0 creado(s), 1 editado(s), 0 eliminado(s), 0 foto(s)",
+    "created": 0,
+    "edited": 1,
+    "deleted": 0,
+    "photos": 0
+  },
+  {
+    "ts": "2026-10-28T12:43:50.165Z",
+    "admin": "jparra375@gmail.com",
+    "summary": "0 creado(s), 1 editado(s), 0 eliminado(s), 0 foto(s)",
+    "created": 0,
+    "edited": 1,
+    "deleted": 0,
+    "photos": 0
+  },
+  {
+    "ts": "2026-10-28T12:45:03.285Z",
+    "admin": "jparra375@gmail.com",
+    "summary": "0 creado(s), 1 editado(s), 0 eliminado(s), 0 foto(s)",
+    "created": 0,
+    "edited": 1,
+    "deleted": 0,
+    "photos": 0
+  },
+  {
+    "ts": "2026-10-28T12:52:58.598Z",
+    "admin": "jparra375@gmail.com",
+    "summary": "0 creado(s), 1 editado(s), 0 eliminado(s), 0 foto(s)",
+    "created": 0,
+    "edited": 1,
+    "deleted": 0,
+    "photos": 0
+  },
+  {
+    "ts": "2026-10-28T12:58:33.584Z",
+    "admin": "jparra375@gmail.com",
+    "summary": "0 creado(s), 1 editado(s), 0 eliminado(s), 0 foto(s)",
+    "created": 0,
+    "edited": 1,
+    "deleted": 0,
+    "photos": 0
+  },
+  {
+    "ts": "2026-10-28T15:51:25.270Z",
+    "admin": "jparra375@gmail.com",
+    "summary": "0 creado(s), 1 editado(s), 0 eliminado(s), 1 foto(s)",
+    "created": 0,
+    "edited": 1,
+    "deleted": 0,
+    "photos": 1
+  },
+  {
+    "ts": "2026-10-28T16:55:26.237Z",
+    "admin": "jparra375@gmail.com",
+    "summary": "9 creado(s), 1 editado(s), 0 eliminado(s), 9 foto(s)",
+    "created": 9,
+    "edited": 1,
+    "deleted": 0,
+    "photos": 9
   }
 ]
