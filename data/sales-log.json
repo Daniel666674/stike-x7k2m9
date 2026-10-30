@@ -300,5 +300,17 @@
     "total": 1480000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-10-30T15:10:22.790Z",
+    "slug": "cana-fiend-reynolds-v4",
+    "name": "Caña Fiend Reynolds V4",
+    "size": null,
+    "color": "Negro",
+    "qty": 1,
+    "unitPrice": 236000,
+    "total": 236000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
