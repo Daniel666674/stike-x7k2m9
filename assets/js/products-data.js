@@ -1048,7 +1048,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 85000,
     "promo": false,
-    "units": 10,
+    "units": 9,
     "imgs": [
       "assets/img/products/pedales-fiend-reynolds-blancos-1.jpg"
     ],
