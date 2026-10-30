@@ -3348,7 +3348,7 @@ async function renderHealth(msg) {
           <span style="flex:none;width:18px;color:${c.ok ? "var(--good, #3ecf8e)" : "var(--bad)"}">${c.ok ? "✔" : "✕"}</span>
           <span style="flex:1"><b>${escHtml(c.label)}</b><br><span class="muted">${escHtml(c.detail)}</span></span>
         </div>`).join("")}
-      ${["owner", "developer"].includes(session.role) ? wompiSecretFormHtml(h, msg) : ""}
+      ${["owner", "developer"].includes(session.role) ? wompiSecretFormHtml(h, msg) + wompiGoLiveHtml() : ""}
       <p class="hint muted" style="margin-top:12px">URL de eventos para el panel de Wompi: <span class="mono">${escHtml(h.eventsUrl)}</span></p>`;
     $("#cfg-health-refresh").addEventListener("click", () => renderHealth());
     const nb = document.querySelector('.navbtn[data-panel="config"]');
@@ -3380,6 +3380,20 @@ function wompiSecretFormHtml(h, msg) {
       </div>
       <p class="hint" id="cfg-int-msg" role="status" style="margin:10px 0 0;${msg ? (msg.ok ? "color:var(--good, #3ecf8e)" : "color:var(--bad)") : ""}">${msg ? escHtml(msg.text) : ""}</p>
     </div>`;
+}
+/* Lista para salir a PRODUCCION (cobros reales). Es la misma que esta en el README. */
+function wompiGoLiveHtml() {
+  return `
+    <details style="margin-top:14px;border:1px solid var(--line);border-radius:12px;padding:12px 16px">
+      <summary style="cursor:pointer;font-weight:600">Lista para cobrar de verdad (producción)</summary>
+      <ol class="hint" style="margin:10px 0 0 18px;padding:0;line-height:1.6">
+        <li><b>Llaves de producción en el servidor:</b> la pública <span class="mono">pub_prod_…</span> y la privada <span class="mono">prv_prod_…</span> (archivo del servidor), y el secreto <span class="mono">prod_integrity_…</span> (se pega arriba). Las tres tienen que ser de la pestaña <b>Producción</b> de Wompi.</li>
+        <li><b>URL de eventos en Wompi, pestaña Producción</b> (Desarrolladores): <span class="mono">https://stikebikeshop.com/api/wompi-events</span>. Sandbox y producción tienen cada una la suya: la de sandbox no sirve para pagos reales. Opcional: pega aquí el secreto <span class="mono">prod_events_…</span> para firmar los avisos.</li>
+        <li><b>Todo en ✔ arriba</b> (la línea «Eventos de Wompi» se marca sola con la primera compra).</li>
+        <li><b>Compra real de prueba</b> con el producto más barato (con envío ≈ $27.000) y tu propia tarjeta. Revisa que: salga «¡Pago exitoso!», llegue el correo de nueva venta, aparezca en <b>Ventas</b>, baje el stock, y «Eventos de Wompi» pase a ✔.</li>
+        <li><b>Devuelve esa compra</b> desde el panel de Wompi (anulación) si fue solo de prueba.</li>
+      </ol>
+    </details>`;
 }
 async function saveWompiSecret(clear) {
   const input = $("#cfg-int-secret"), out = $("#cfg-int-msg");
