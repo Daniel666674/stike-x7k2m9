@@ -324,5 +324,17 @@
     "total": 112000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-10-30T15:11:33.622Z",
+    "slug": "plato-fiend-omicron-guard",
+    "name": "Plato Fiend Omicron Guard",
+    "size": "28T",
+    "color": "Cromado",
+    "qty": 1,
+    "unitPrice": 272000,
+    "total": 272000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
