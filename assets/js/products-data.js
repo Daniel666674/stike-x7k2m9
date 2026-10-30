@@ -970,14 +970,14 @@ window.STIKE_PRODUCTS = [
       },
       {
         "v": "28T",
-        "u": 8
+        "u": 7
       }
     ],
     "sizeLabel": "Dientes",
     "colors": [
       {
         "v": "Cromado",
-        "u": 8
+        "u": 7
       },
       {
         "v": "Negro",
@@ -998,7 +998,7 @@ window.STIKE_PRODUCTS = [
       {
         "s": "28T",
         "c": "Cromado",
-        "u": 4
+        "u": 3
       },
       {
         "s": "28T",
@@ -1048,7 +1048,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 85000,
     "promo": false,
-    "units": 10,
+    "units": 9,
     "imgs": [
       "assets/img/products/pedales-fiend-reynolds-blancos-1.jpg"
     ],
@@ -1095,7 +1095,7 @@ window.STIKE_PRODUCTS = [
       },
       {
         "v": "Cromado",
-        "u": 6
+        "u": 5
       }
     ],
     "imgs": [
@@ -1291,7 +1291,7 @@ window.STIKE_PRODUCTS = [
     "colors": [
       {
         "v": "Negro",
-        "u": 10
+        "u": 9
       },
       {
         "v": "Morado",
