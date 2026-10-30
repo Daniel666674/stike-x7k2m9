@@ -348,5 +348,17 @@
     "total": 64000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-10-30T15:12:39.112Z",
+    "slug": "pedales-fiend-reynolds-blancos",
+    "name": "Pedales Fiend Reynolds Blancos",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 68000,
+    "total": 68000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
