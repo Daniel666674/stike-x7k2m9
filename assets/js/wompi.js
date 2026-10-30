@@ -49,8 +49,12 @@
   };
   root.STIKE_WOMPI_API = WOMPI_API;   // pago-resultado.html usa status y order
 
+  /* La referencia es publica (va a Wompi y vuelve en la URL): con aleatoriedad criptografica
+     nadie puede adivinar la de otro pedido en curso. */
   function wompiReference() {
-    const rand = Math.random().toString(36).slice(2, 8);
+    let rand = "";
+    try { rand = Array.from(crypto.getRandomValues(new Uint8Array(8)), b => b.toString(16).padStart(2, "0")).join(""); }
+    catch (e) { rand = Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 10); }
     return `stike-${Date.now()}-${rand}`;
   }
 

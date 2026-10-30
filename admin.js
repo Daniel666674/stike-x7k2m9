@@ -3329,9 +3329,10 @@ function showApp() {
 
 /* Pestaña Configuracion: que esta listo para cobrar y que falta. El servidor
    nunca devuelve el valor de una llave, solo si existe y si funciona. */
-async function renderHealth() {
+async function renderHealth(msg) {
   const el = $("#cfg-health");
   if (!el) return;
+  if (typeof msg !== "object" || msg === null || msg instanceof Event) msg = null;   // {ok, text}: resultado de «Guardar y comprobar»
   el.innerHTML = `<p class="hint muted">Revisando...</p>`;
   try {
     const res = await fetch(new URL("api/admin-health", document.baseURI), { credentials: "same-origin", cache: "no-store" });
@@ -3347,10 +3348,57 @@ async function renderHealth() {
           <span style="flex:none;width:18px;color:${c.ok ? "var(--good, #3ecf8e)" : "var(--bad)"}">${c.ok ? "✔" : "✕"}</span>
           <span style="flex:1"><b>${escHtml(c.label)}</b><br><span class="muted">${escHtml(c.detail)}</span></span>
         </div>`).join("")}
+      ${["owner", "developer"].includes(session.role) ? wompiSecretFormHtml(h, msg) : ""}
       <p class="hint muted" style="margin-top:12px">URL de eventos para el panel de Wompi: <span class="mono">${escHtml(h.eventsUrl)}</span></p>`;
-    $("#cfg-health-refresh").addEventListener("click", renderHealth);
+    $("#cfg-health-refresh").addEventListener("click", () => renderHealth());
+    const nb = document.querySelector('.navbtn[data-panel="config"]');
+    if (nb) nb.classList.toggle("needs", !h.ready);
+    if ($("#cfg-int-save")) {
+      $("#cfg-int-save").addEventListener("click", () => saveWompiSecret(false));
+      $("#cfg-int-clear").addEventListener("click", () => saveWompiSecret(true));
+      $("#cfg-int-secret").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); saveWompiSecret(false); } });
+    }
   } catch (e) {
     el.innerHTML = `<p class="hint" style="color:var(--bad)">No se pudo revisar la configuración: ${escHtml(e.message)}</p>`;
+  }
+}
+
+/* Corregir el secreto de integridad de Wompi sin tocar archivos del servidor (api/admin-config.php).
+   El servidor lo valida (tiene que ser el de INTEGRIDAD y del mismo ambiente que la llave publica)
+   y nunca lo devuelve: solo el ambiente y las ultimas 4 letras. */
+function wompiSecretFormHtml(h, msg) {
+  const broken = (h.checks || []).some(c => ["wompi_keys", "wompi_source"].includes(c.id) && !c.ok);
+  return `
+    <div style="margin-top:18px;padding:16px;border:1px solid ${broken ? "var(--bad)" : "var(--line)"};border-radius:12px">
+      <h4 style="margin:0 0 6px">Secreto de integridad de Wompi</h4>
+      <p class="hint muted" style="margin:0 0 12px">Es el que firma cada cobro. En Wompi: <b>Desarrolladores → Secretos para integración técnica → Integridad</b> (no el de «Eventos» ni la llave privada). Empieza por <span class="mono">test_integrity_</span> (pruebas) o <span class="mono">prod_integrity_</span> (producción), del mismo ambiente que la llave pública.</p>
+      <div class="field" style="margin-bottom:10px"><label for="cfg-int-secret">Pega aquí el secreto</label>
+        <input id="cfg-int-secret" type="text" class="mono" placeholder="test_integrity_…" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <button class="btn cyan" id="cfg-int-save" type="button">Guardar y comprobar</button>
+        <button class="btn ghost sm" id="cfg-int-clear" type="button" title="Vuelve a usar el valor que está en el servidor (api/config.local.php)">Quitar lo guardado aquí</button>
+      </div>
+      <p class="hint" id="cfg-int-msg" role="status" style="margin:10px 0 0;${msg ? (msg.ok ? "color:var(--good, #3ecf8e)" : "color:var(--bad)") : ""}">${msg ? escHtml(msg.text) : ""}</p>
+    </div>`;
+}
+async function saveWompiSecret(clear) {
+  const input = $("#cfg-int-secret"), out = $("#cfg-int-msg");
+  const value = input ? input.value : "";
+  if (!clear && !value.trim()) { out.style.color = "var(--bad)"; out.textContent = "Pega primero el secreto."; input.focus(); return; }
+  const save = $("#cfg-int-save"), clr = $("#cfg-int-clear");
+  save.disabled = clr.disabled = true; out.style.color = ""; out.textContent = "Guardando…";
+  try {
+    const res = await fetch(new URL("api/admin-config", document.baseURI), {
+      method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(clear ? { key: "WOMPI_INTEGRITY_SECRET", clear: true } : { key: "WOMPI_INTEGRITY_SECRET", value }),
+    });
+    const j = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(j.detail || ({ forbidden: "Solo el dueño y el desarrollador pueden cambiar esto.", not_logged_in: "Tu sesión venció: vuelve a iniciar sesión." }[j.error]) || j.error || ("HTTP " + res.status));
+    if (input) input.value = "";
+    await renderHealth({ ok: true, text: clear ? "Listo: se quitó lo guardado aquí; ahora vale lo que está en el servidor." : `Guardado: termina en …${j.tail}, ${j.length} caracteres, ${j.environment === "prod" ? "producción" : "sandbox"}. Revisa arriba que diga «Listo para cobrar» y haz una compra de prueba.` });
+  } catch (e) {
+    out.style.color = "var(--bad)"; out.textContent = e.message;
+    save.disabled = clr.disabled = false;
   }
 }
 

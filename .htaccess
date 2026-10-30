@@ -141,7 +141,7 @@ DirectoryIndex index.html
 
   # El front llama /api/wompi-sign (igual que el backend de Vercel); aca se
   # traduce al archivo PHP.
-  RewriteRule ^api/(wompi-sign|wompi-status|wompi-order|wompi-events|sales|sync|admin-login|admin-health|gh)/?$ api/$1.php [L]
+  RewriteRule ^api/(wompi-sign|wompi-status|wompi-order|wompi-events|sales|sync|admin-login|admin-health|admin-config|gh)/?$ api/$1.php [L]
 
   # Panel admin: el HTML y el codigo SOLO salen por admin.php, que exige una
   # sesion iniciada (cookie firmada, verificada en el servidor). Sin sesion

@@ -30,9 +30,14 @@ require __DIR__ . "/_lib.php";
 
 stike_run(function () {
   stike_require_method("POST");
+  if (stike_rate_limited("sign", (int)(getenv("STIKE_SIGN_RATE_LIMIT") ?: 40), 600)) throw new ApiError(429, "too_many_requests");
   $body = stike_json_body();
 
   $reference = stike_valid_reference($body["reference"] ?? null);
+  /* La referencia la elige el navegador: si ya hay un pedido guardado con ella no se
+     pisa (si no, alguien que adivine la referencia de un pedido en curso le cambiaria
+     la direccion de envio). */
+  if (stike_load_pending($reference) !== null) throw new ApiError(409, "reference_in_use");
   $priced = stike_price_order(stike_load_catalog(), $body["items"] ?? null);
   $shipping = stike_clean_shipping($body["shipping"] ?? null);
   $customerEmail = stike_clean_email($body["customerEmail"] ?? null);

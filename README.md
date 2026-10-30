@@ -299,6 +299,14 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
    ambiente y comercio que la llave pública) y compara con lo que muestra el panel
    (Configuración → «Secreto de integridad»: ambiente, largo y últimas 4 letras).
    Los espacios, saltos de línea y comillas pegados con la llave se ignoran.
+   **Sin tocar archivos del servidor:** el dueño y el desarrollador pueden pegar el
+   secreto de integridad (y el de eventos) en el panel, pestaña **Configuración →
+   «Secreto de integridad de Wompi»**. Se valida al instante (que sea el de
+   integridad y del mismo ambiente que la llave pública), se guarda en la carpeta
+   de datos fuera del sitio (`runtime-config.json`) y **prevalece** sobre
+   `config.local.php` y sobre las variables del hosting; «Quitar lo guardado aquí»
+   vuelve a lo del servidor. Las llaves pública y privada solo se cambian en el
+   servidor (cambiarlas redirige el dinero).
    `ADMIN_API_KEY` se inventa y se
    pega una vez en el panel, pestaña Configuración → "Clave del servidor de
    ventas". Sin `RESEND_API_KEY` el correo sale con el `mail()` del hosting, que
