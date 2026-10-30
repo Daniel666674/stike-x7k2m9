@@ -34,11 +34,22 @@ const google = await listen((req, res) => {
   res.end(JSON.stringify({ aud: "752305520255-7e2abc762p3saer5sube25jh9rt9jle7.apps.googleusercontent.com", iss: "https://accounts.google.com", email: WHO[tok], email_verified: "true", exp: String(Math.floor(Date.now() / 1000) + 3600) }));
 });
 
+/* Wompi simulado: reconoce la llave publica del comercio y, con la llave privada, dice 404 para una transaccion que no existe. */
+const mails = [];
+const resend = await listen((req, res) => { const c = []; req.on("data", d => c.push(d)); req.on("end", () => { mails.push(JSON.parse(Buffer.concat(c).toString() || "{}")); res.setHeader("content-type", "application/json"); res.end("{}"); }); });
+const wompi = await listen((req, res) => {
+  res.setHeader("content-type", "application/json");
+  if (req.url.startsWith("/merchants/")) return res.end(JSON.stringify({ data: { name: "Stike Bike Shop SAS", active: true } }));
+  if (req.url.startsWith("/transactions/")) { if (req.headers.authorization !== "Bearer prv_test_demo1234") { res.statusCode = 401; return res.end("{}"); } res.statusCode = 404; return res.end("{}"); }
+  res.statusCode = 404; res.end("{}");
+});
+
 const STORAGE = mkdtempSync(join(tmpdir(), "stike-cfg-"));
 const baseEnv = {
   ...process.env, GITHUB_TOKEN: "ghp_falso", ADMIN_API_KEY: "k".repeat(32), STORAGE_DIR: STORAGE,
   STIKE_GOOGLE_TOKENINFO: `http://127.0.0.1:${google.address().port}`, STIKE_INSECURE_COOKIE: "1", NO_PROXY: "*", no_proxy: "*",
   WOMPI_PUBLIC_KEY: "pub_test_demo1234", WOMPI_PRIVATE_KEY: "prv_test_demo1234",
+  WOMPI_API_BASE: `http://127.0.0.1:${wompi.address().port}`, RESEND_API_KEY: "re_falsa", RESEND_API_BASE: `http://127.0.0.1:${resend.address().port}`,
   WOMPI_INTEGRITY_SECRET: "prv_test_la_privada_pegada_donde_no_iba",   // <- el error real del sitio
 };
 async function startPhp(extra = {}) {
@@ -67,6 +78,9 @@ try {
   const bad = await sign(API, "stike-1700000000001-aaaaaaaa");
   t("la llave privada en la casilla de integridad: el cobro se niega", [bad.code, bad.json.error], [500, "server_misconfigured"]);
   t("y el mensaje dice qué está mal (parece la llave PRIVADA)", /PRIVADA/.test(bad.json.detail) && /INTEGRIDAD/.test(bad.json.detail), true);
+  t("al dueño le llega UN correo de alerta: «el pago en línea no está funcionando»", [mails.length, /no est/.test(mails[0] && mails[0].subject), /PRIVADA/.test(mails[0] && mails[0].html)], [1, true, true]);
+  await sign(API, "stike-1700000000009-zzzzzzzz");
+  t("otro cliente que lo intenta no dispara otro correo (máximo uno cada 6 horas)", mails.length, 1);
 
   console.log("\nQuién puede cambiarlo");
   t("sin sesión: 401", (await cfg(null, { key: "WOMPI_INTEGRITY_SECRET", value: GOOD })).code, 401);
@@ -111,6 +125,31 @@ try {
   t("«Quitar lo guardado» -> 200", (await cfg(owner, { key: "WOMPI_INTEGRITY_SECRET", clear: true })).json.cleared, true);
   t("y vuelve a valer lo del servidor (que está mal: el cobro se niega otra vez)", (await sign(API, "stike-1700000000004-dddddddd")).json.error, "server_misconfigured");
 
+  console.log("\nProducción: lo que se comprueba desde el panel");
+  await cfg(owner, { key: "WOMPI_INTEGRITY_SECRET", value: GOOD });   // el secreto bueno otra vez (el apartado anterior lo quitó)
+  const hh = await fetch(`${API}/admin-health.php`, { headers: { Cookie: owner } }).then(r => r.json());
+  const chk = id => (hh.checks || []).find(c => c.id === id) || {};
+  t("Wompi reconoce la llave pública y muestra el nombre del comercio", [chk("wompi_reach").ok, /Stike Bike Shop SAS/.test(chk("wompi_reach").detail)], [true, true]);
+  t("Wompi acepta la llave privada (se prueba con una transacción inexistente: 404 = la reconoció)", chk("wompi_private").ok, true);
+  t("«de dónde salen las llaves» dice que el secreto viene del panel", /integridad: guardado desde el panel/.test(chk("wompi_source").detail), true);
+  t("los eventos de Wompi: todavía ninguno -> ✕ con la instrucción de dónde ponerlo", [chk("wompi_last_event").ok, /URL de eventos/.test(chk("wompi_last_event").detail)], [false, true]);
+  // el secreto de EVENTOS tambien se pega desde el panel; un evento con firma mala se rechaza y queda anotado
+  t("el dueño guarda el secreto de eventos desde el panel", (await cfg(owner, { key: "WOMPI_EVENTS_SECRET", value: "test_events_AbCdEfGh12345678" })).code, 200);
+  const evBad = await fetch(`${API}/wompi-events.php`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ event: "transaction.updated", data: { transaction: { id: "txn-1", reference: "stike-1700000000002-bbbbbbbb", status: "APPROVED" } }, signature: { properties: ["transaction.id"], checksum: "malo" }, timestamp: 1 }) });
+  t("un evento con firma falsa se rechaza (401)", evBad.status, 401);
+  const hh2 = await fetch(`${API}/admin-health.php`, { headers: { Cookie: owner } }).then(r => r.json());
+  const ev2 = (hh2.checks || []).find(c => c.id === "wompi_last_event") || {};
+  t("y el panel avisa que el último evento llegó con firma inválida (revisar el secreto de eventos)", [ev2.ok, /firma_invalida/.test(ev2.detail), /WOMPI_EVENTS_SECRET/.test(ev2.detail)], [false, true, true]);
+  t("el panel NUNCA devuelve ningún secreto", JSON.stringify(hh2).includes(GOOD) || JSON.stringify(hh2).includes("AbCdEfGh12345678"), false);
+
+  console.log("\nProducción: el servidor de Wompi correcto según las llaves");
+  const base = (priv, apiBase) => spawnSync("php", ["-r", `require "api/_lib.php"; echo stike_wompi_api_base(${JSON.stringify(priv)});`], { cwd: ROOT, env: { ...process.env, STORAGE_DIR: STORAGE, ...(apiBase ? { WOMPI_API_BASE: apiBase } : {}) } }).stdout.toString();
+  t("llaves de producción -> production.wompi.co", base("prv_prod_x"), "https://production.wompi.co/v1");
+  t("llaves de pruebas -> sandbox.wompi.co", base("prv_test_x"), "https://sandbox.wompi.co/v1");
+  t("un WOMPI_API_BASE de sandbox que se quedó del ensayo, con llaves de producción, se IGNORA (si no, ningún pago real se podría confirmar)", base("prv_prod_x", "https://sandbox.wompi.co/v1"), "https://production.wompi.co/v1");
+  t("y al revés (base de producción con llaves de pruebas) también", base("prv_test_x", "https://production.wompi.co/v1"), "https://sandbox.wompi.co/v1");
+  t("un Wompi simulado de las pruebas locales sí se respeta", base("prv_test_x", "http://127.0.0.1:9999/"), "http://127.0.0.1:9999");
+
   console.log("\nProtecciones del cobro");
   await cfg(owner, { key: "WOMPI_INTEGRITY_SECRET", value: GOOD });
   const dup = await sign(API, ref);
@@ -125,7 +164,7 @@ try {
   t("las primeras 3 pasan el límite (no son 429)", codes.slice(0, 3).every(c => c !== 429), true);
   t("la carpeta de datos no deja archivos sueltos (.tmp)", readdirSync(STORAGE).filter(f => f.endsWith(".tmp")).length, 0);
 } finally {
-  srv.proc.kill(); rate.proc.kill(); google.close();
+  srv.proc.kill(); rate.proc.kill(); google.close(); wompi.close(); resend.close();
   rmSync(STORAGE, { recursive: true, force: true });
 }
 console.log(fail ? `\n${fail} falla(s)` : "\nTodo bien");

@@ -43,6 +43,7 @@ stike_run(function () {
   $eventsSecret = stike_wompi_clean(stike_config("WOMPI_EVENTS_SECRET"));
   if ($eventsSecret && !stike_event_checksum_ok($event, $eventsSecret)) {
     error_log("[stike] evento de Wompi con firma invalida (revisa WOMPI_EVENTS_SECRET: debe ser el secreto de EVENTOS del mismo ambiente)");
+    stike_note_event("firma_invalida");
     respond(401, ["error" => "bad_signature"]);
   }
   $txn = $event["data"]["transaction"] ?? null;
@@ -53,8 +54,10 @@ stike_run(function () {
     $wompiId = stike_valid_wompi_id($txn["id"] ?? null);
     $r = stike_finalize_order($reference, $wompiId);
   } catch (ApiError $e) {
+    stike_note_event("error:" . $e->errorCode, $txn["reference"] ?? null, $txn["status"] ?? null);
     if ($e->status >= 500) throw $e;   // que Wompi reintente
     respond(200, ["ok" => true, "ignored" => $e->errorCode]);
   }
+  stike_note_event(empty($r["ignored"]) ? (!empty($r["alreadyRecorded"]) ? "ya_registrada" : "venta_registrada") : "estado:" . ($r["status"] ?? "?"), $reference, $txn["status"] ?? null);
   respond(200, ["ok" => true] + (empty($r["ignored"]) ? $r : ["ignored" => "status", "status" => $r["status"]]));
 });

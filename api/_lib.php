@@ -523,10 +523,26 @@ function stike_now_iso() {
 }
 
 /* ---------------------------------- Wompi -------------------------------- */
+/* A que servidor de Wompi se le pregunta por un pago: el del ambiente de la LLAVE PRIVADA.
+   Si quedo un WOMPI_API_BASE del ensayo (sandbox.wompi.co) con llaves de produccion, se le
+   preguntaria a sandbox por pagos reales: Wompi diria "no existe", el cliente veria "No
+   pudimos confirmar el pago" y la venta no se registraria aunque el dinero entro. Por eso
+   un servidor oficial del OTRO ambiente se ignora. Cualquier otro host (un Wompi simulado
+   en las pruebas locales) se respeta. */
+function stike_wompi_api_base($privateKey) {
+  $prod = str_starts_with((string)$privateKey, "prv_prod_");
+  $official = $prod ? "https://production.wompi.co/v1" : "https://sandbox.wompi.co/v1";
+  $cfg = trim((string)stike_config("WOMPI_API_BASE", ""));
+  if ($cfg === "") return $official;
+  $host = parse_url($cfg, PHP_URL_HOST);
+  if (in_array($host, ["sandbox.wompi.co", "production.wompi.co"], true)) return $official;
+  return rtrim($cfg, "/");
+}
+
 function stike_wompi_get_transaction($id) {
   $key = stike_wompi_clean(stike_config("WOMPI_PRIVATE_KEY"));
   if (!$key) throw new ApiError(500, "server_not_configured", "falta WOMPI_PRIVATE_KEY (env o api/config.local.php)");
-  $base = stike_config("WOMPI_API_BASE") ?: (str_starts_with($key, "prv_prod_") ? "https://production.wompi.co/v1" : "https://sandbox.wompi.co/v1");
+  $base = stike_wompi_api_base($key);
   $res = stike_http("GET", rtrim($base, "/") . "/transactions/" . rawurlencode($id), ["Authorization: Bearer " . $key]);
   if ($res["status"] === 404) throw new ApiError(404, "transaction_not_found");   // no es falla nuestra: Wompi no la conoce con esta llave
   if ($res["status"] !== 200 || !isset($res["json"]["data"]) || !is_array($res["json"]["data"])) {
@@ -720,6 +736,62 @@ function stike_finalize_order($reference, $wompiId) {
 function stike_money($n) { return "$" . number_format((float)$n, 0, ",", "."); }
 function stike_h($s) { return htmlspecialchars((string)$s, ENT_QUOTES, "UTF-8"); }
 
+/* Envia un correo al dueno (Resend si hay llave; si no, mail() del hosting). Nunca lanza. */
+function stike_send_owner_mail($subject, $html) {
+  $to = stike_config("OWNER_NOTIFY_EMAIL", "jparra375@gmail.com");
+  try {
+    $apiKey = stike_config("RESEND_API_KEY");
+    if ($apiKey) {
+      $base = rtrim(stike_config("RESEND_API_BASE", "https://api.resend.com"), "/");
+      $res = stike_http("POST", $base . "/emails", ["Authorization: Bearer " . $apiKey, "Content-Type: application/json"], json_encode([
+        "from" => stike_config("RESEND_FROM", "Stike Bike Shop <onboarding@resend.dev>"),
+        "to" => [$to], "subject" => $subject, "html" => $html,
+      ], JSON_UNESCAPED_UNICODE));
+      if ($res["status"] < 200 || $res["status"] >= 300) throw new RuntimeException("resend " . $res["status"]);
+      return ["sent" => "resend"];
+    }
+    $from = stike_config("MAIL_FROM", "pedidos@stikebikeshop.com");
+    $headers = "From: Stike Bike Shop <$from>\r\nContent-Type: text/html; charset=UTF-8\r\nMIME-Version: 1.0";
+    if (!@mail($to, "=?UTF-8?B?" . base64_encode($subject) . "?=", $html, $headers)) throw new RuntimeException("mail() fallo");
+    return ["sent" => "mail"];
+  } catch (Throwable $e) {
+    error_log("[stike] correo al dueno fallo: " . $e->getMessage());
+    return ["error" => "email_failed"];
+  }
+}
+
+/* Aviso de que el cobro se cayo (no de una venta). Como maximo uno por tipo cada
+   $everySec segundos, para no llenar el correo si cien clientes lo intentan. Sin esto el
+   dueno se entera cuando un cliente le escribe; con esto, la primera vez que alguien
+   intenta pagar y no se puede. */
+function stike_alert_owner($kind, $title, $detail, $everySec = 21600) {
+  try {
+    $dir = stike_storage_dir() . "/alerts";
+    if (!is_dir($dir) && !@mkdir($dir, 0750, true) && !is_dir($dir)) return false;
+    $f = $dir . "/" . preg_replace('/[^a-z0-9_-]/i', "_", $kind) . ".txt";
+    if (is_file($f) && (int)@file_get_contents($f) > time() - $everySec) return false;
+    @file_put_contents($f, (string)time());
+    $html = '<div style="font-family:system-ui,sans-serif;max-width:480px;margin:0 auto">'
+      . '<h2 style="color:#b00;margin-bottom:4px">' . stike_h($title) . '</h2>'
+      . '<p>Un cliente intentó pagar en stikebikeshop.com y no pudo.</p>'
+      . '<p style="background:#f7f7f7;padding:10px;border-radius:6px">' . stike_h($detail) . '</p>'
+      . '<p>Entra al panel → <b>Configuración</b> para corregirlo. Mientras tanto los clientes ven la opción de pedir por WhatsApp.</p>'
+      . '<p style="color:#999;font-size:12px">Este aviso se envía como máximo una vez cada ' . (int)round($everySec / 3600) . ' horas.</p></div>';
+    stike_send_owner_mail("⚠ El pago en línea de Stike no está funcionando", $html);
+    return true;
+  } catch (Throwable $e) {
+    return false;
+  }
+}
+
+/* Ultimo evento que Wompi mando a api/wompi-events: lo lee el panel para que el dueno vea
+   con sus ojos que la URL de eventos de PRODUCCION quedo bien puesta. */
+function stike_note_event($result, $reference = null, $status = null) {
+  try {
+    @file_put_contents(stike_storage_dir() . "/last-event.json", json_encode(["at" => stike_now_iso(), "result" => $result, "reference" => $reference, "status" => $status], JSON_UNESCAPED_UNICODE));
+  } catch (Throwable $e) { /* nunca por esto se rechaza un evento */ }
+}
+
 /* Aviso al dueno. Con RESEND_API_KEY sale por Resend (entrega confiable); sin
    ella cae a mail() del hosting. Un correo que falla NO tumba la venta. */
 function stike_notify_owner($entries, $ctx) {
@@ -762,23 +834,5 @@ function stike_notify_owner($entries, $ctx) {
     . '<p style="color:#999;font-size:12px">También quedó en el panel admin (pestaña Ventas).</p></div>';
   $subject = "Nueva venta Stike — " . stike_money($paidPesos) . " (ref " . $ctx["reference"] . ")";
 
-  try {
-    $apiKey = stike_config("RESEND_API_KEY");
-    if ($apiKey) {
-      $base = rtrim(stike_config("RESEND_API_BASE", "https://api.resend.com"), "/");
-      $res = stike_http("POST", $base . "/emails", ["Authorization: Bearer " . $apiKey, "Content-Type: application/json"], json_encode([
-        "from" => stike_config("RESEND_FROM", "Stike Bike Shop <onboarding@resend.dev>"),
-        "to" => [$to], "subject" => $subject, "html" => $html,
-      ], JSON_UNESCAPED_UNICODE));
-      if ($res["status"] < 200 || $res["status"] >= 300) throw new RuntimeException("resend " . $res["status"]);
-      return ["sent" => "resend"];
-    }
-    $from = stike_config("MAIL_FROM", "pedidos@stikebikeshop.com");
-    $headers = "From: Stike Bike Shop <$from>\r\nContent-Type: text/html; charset=UTF-8\r\nMIME-Version: 1.0";
-    if (!@mail($to, "=?UTF-8?B?" . base64_encode($subject) . "?=", $html, $headers)) throw new RuntimeException("mail() fallo");
-    return ["sent" => "mail"];
-  } catch (Throwable $e) {
-    error_log("[stike] correo al dueno fallo: " . $e->getMessage());
-    return ["error" => "email_failed"];
-  }
+  return stike_send_owner_mail($subject, $html);
 }

@@ -42,7 +42,12 @@ stike_run(function () {
   $shipping = stike_clean_shipping($body["shipping"] ?? null);
   $customerEmail = stike_clean_email($body["customerEmail"] ?? null);
 
-  $keys = stike_wompi_keys();   // las tres del mismo ambiente, o no se firma
+  try {
+    $keys = stike_wompi_keys();   // las tres del mismo ambiente, o no se firma
+  } catch (ApiError $e) {
+    if (in_array($e->errorCode, ["server_misconfigured", "server_not_configured"], true)) stike_alert_owner("sign-config", "El cobro está caído por la configuración de Wompi", (string)($e->detail ?: $e->errorCode));
+    throw $e;
+  }
 
   stike_save_pending($reference, [
     "reference" => $reference, "createdAt" => stike_now_iso(),

@@ -307,6 +307,23 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
    `config.local.php` y sobre las variables del hosting; «Quitar lo guardado aquí»
    vuelve a lo del servidor. Las llaves pública y privada solo se cambian en el
    servidor (cambiarlas redirige el dinero).
+
+   **Salir a producción (cobros reales) — lista:**
+   1. Las tres llaves de la pestaña **Producción** de Wompi: `pub_prod_…` y `prv_prod_…`
+      en `api/config.local.php`, y el secreto `prod_integrity_…` (panel → Configuración).
+      Si en `config.local.php` quedó un `WOMPI_API_BASE` del ensayo en sandbox, se ignora
+      solo (con llaves de producción siempre se le pregunta a `production.wompi.co`).
+   2. En Wompi, pestaña **Producción** → Desarrolladores → *URL de eventos*:
+      `https://stikebikeshop.com/api/wompi-events` (la de sandbox no vale para pagos reales).
+      Opcional: el secreto `prod_events_…` (panel → Configuración).
+   3. Panel → Configuración → «Pagos y servidor» en ✔ (incluye: Wompi reconoce la llave
+      pública y el comercio está activo, y Wompi acepta la llave privada). «Eventos de
+      Wompi» se marca con la primera compra.
+   4. Compra real de prueba con el producto más barato y tarjeta propia: «¡Pago exitoso!»,
+      correo de nueva venta, aparece en Ventas, baja el stock, y «Eventos de Wompi» en ✔.
+   5. Anular esa compra desde el panel de Wompi.
+   Si el cobro se cae por configuración, el dueño recibe un correo de alerta (máximo uno
+   cada 6 horas) y los clientes ven la opción de pedir por WhatsApp.
    `ADMIN_API_KEY` se inventa y se
    pega una vez en el panel, pestaña Configuración → "Clave del servidor de
    ventas". Sin `RESEND_API_KEY` el correo sale con el `mail()` del hosting, que
