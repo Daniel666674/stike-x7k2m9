@@ -970,14 +970,14 @@ window.STIKE_PRODUCTS = [
       },
       {
         "v": "28T",
-        "u": 8
+        "u": 7
       }
     ],
     "sizeLabel": "Dientes",
     "colors": [
       {
         "v": "Cromado",
-        "u": 8
+        "u": 7
       },
       {
         "v": "Negro",
@@ -998,7 +998,7 @@ window.STIKE_PRODUCTS = [
       {
         "s": "28T",
         "c": "Cromado",
-        "u": 4
+        "u": 3
       },
       {
         "s": "28T",
