@@ -72,8 +72,32 @@ function stike_run($fn) {
   }
 }
 
+/* Secretos que se pueden corregir desde el panel (api/admin-config.php) sin tocar
+   archivos del servidor. Lo guardado ahi manda sobre la variable de entorno y sobre
+   api/config.local.php: es lo ultimo que alguien decidio a proposito. Las llaves
+   publica y privada NO estan aqui: cambiarlas redirige el dinero, asi que solo se
+   cambian en el servidor. */
+const STIKE_RUNTIME_KEYS = ["WOMPI_INTEGRITY_SECRET", "WOMPI_EVENTS_SECRET"];
+
+function stike_runtime_config_path() { return stike_storage_dir() . "/runtime-config.json"; }
+
+function stike_runtime_config_all() {
+  try {
+    $path = stike_runtime_config_path();
+    if (!is_file($path)) return [];
+    $d = json_decode((string)@file_get_contents($path), true);
+    return is_array($d) ? $d : [];
+  } catch (Throwable $e) {
+    return [];   // sin carpeta de datos: se cae a la variable de entorno / el archivo, nunca se rompe el pago por esto
+  }
+}
+
 function stike_config($key, $default = null) {
   static $file = null;
+  if (in_array($key, STIKE_RUNTIME_KEYS, true)) {
+    $rv = stike_runtime_config_all()[$key]["value"] ?? null;
+    if (is_string($rv) && $rv !== "") return $rv;
+  }
   $env = getenv($key);
   if ($env !== false && $env !== "") return $env;
   if ($file === null) {
@@ -106,6 +130,32 @@ function stike_valid_reference($v) {
 function stike_valid_wompi_id($v) {
   if (!is_string($v) || !preg_match('/^[A-Za-z0-9_-]{4,64}$/', $v)) throw new ApiError(400, "invalid_transaction_id");
   return $v;
+}
+
+/* Limite simple por IP (archivo en la carpeta de datos). Sirve para que nadie llene el
+   disco de pedidos pendientes pidiendo firmas sin parar. Si la carpeta no responde,
+   NO se bloquea (un cobro legitimo vale mas que este candado). */
+function stike_rate_limited($bucket, $limit, $windowSec) {
+  try {
+    $ip = $_SERVER["REMOTE_ADDR"] ?? "0";
+    $dir = stike_storage_dir() . "/rate";
+    if (!is_dir($dir) && !@mkdir($dir, 0750, true) && !is_dir($dir)) return false;
+    $path = $dir . "/" . $bucket . "-" . substr(hash("sha256", $ip), 0, 24) . ".json";
+    $now = time();
+    $fh = @fopen($path, "c+b");
+    if (!$fh) return false;
+    try {
+      if (!flock($fh, LOCK_EX)) return false;
+      $hits = json_decode((string)stream_get_contents($fh), true);
+      $hits = is_array($hits) ? array_values(array_filter($hits, fn($t) => is_int($t) && $t > $now - $windowSec)) : [];
+      $limited = count($hits) >= $limit;
+      if (!$limited) $hits[] = $now;
+      ftruncate($fh, 0); rewind($fh); fwrite($fh, json_encode($hits)); fflush($fh);
+      return $limited;
+    } finally { flock($fh, LOCK_UN); fclose($fh); }
+  } catch (Throwable $e) {
+    return false;
+  }
 }
 
 /* ------------------------------ HTTP saliente ----------------------------- */
@@ -489,6 +539,7 @@ function stike_wompi_get_transaction($id) {
    api/config.local.php. Si hay una variable vieja en hPanel, pisa en silencio
    lo que se pegue en el archivo, y el cobro se firma con la llave equivocada. */
 function stike_config_sources($key) {
+  $panel = in_array($key, STIKE_RUNTIME_KEYS, true) && is_string(stike_runtime_config_all()[$key]["value"] ?? null) && stike_runtime_config_all()[$key]["value"] !== "";
   $env = getenv($key);
   $env = ($env !== false && $env !== "") ? (string)$env : null;
   $file = null;
@@ -498,8 +549,8 @@ function stike_config_sources($key) {
     if (is_array($cfg) && isset($cfg[$key]) && $cfg[$key] !== "") $file = (string)$cfg[$key];
   }
   return [
-    "env" => $env !== null, "file" => $file !== null,
-    "differ" => $env !== null && $file !== null && stike_wompi_clean($env) !== stike_wompi_clean($file),
+    "panel" => $panel, "env" => $env !== null, "file" => $file !== null,
+    "differ" => !$panel && $env !== null && $file !== null && stike_wompi_clean($env) !== stike_wompi_clean($file),
   ];
 }
 

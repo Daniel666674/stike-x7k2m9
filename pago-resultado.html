@@ -30,7 +30,7 @@
   <script src="assets/js/products-data.js?v=ad3d4edbc4"></script>
   <script src="assets/js/data.js?v=dc9fccade8"></script>
   <script src="assets/js/app.js?v=2129ca3b0e"></script>
-  <script src="assets/js/wompi.js?v=6e88634b39"></script>
+  <script src="assets/js/wompi.js?v=e7ab6ca294"></script>
   <script>
     stikeInit();
 
@@ -95,12 +95,22 @@
       const waMsg = `Hola Stike! Ya pague mi pedido por Wompi.%0AReferencia: ${ref}%0A${waLines}%0A%0ATotal pagado: ${stikePrice(amountPesos)}${shipLines}`;
 
       /* Solo la referencia y el id: el servidor ignora cualquier otro dato del navegador. */
-      fetch(STIKE_WOMPI_API.order, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ reference: ref, wompiId: id }),
-      }).then(r => { if (!r.ok) console.error("wompi-order respondio", r.status); })
-        .catch(err => console.error("wompi-order (registro de venta):", err));
+      /* Si el servidor falla un momento (hosting lento, disco ocupado) se reintenta 3 veces; el registro es
+         idempotente, asi que repetir no duplica la venta. Un 4xx no se reintenta (no va a cambiar). */
+      (async () => {
+        for (let attempt = 1; attempt <= 3; attempt++) {
+          try {
+            const r = await fetch(STIKE_WOMPI_API.order, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ reference: ref, wompiId: id }),
+            });
+            if (r.ok || (r.status >= 400 && r.status < 500)) { if (!r.ok) console.error("wompi-order respondio", r.status); return; }
+            console.error("wompi-order respondio", r.status, "(intento " + attempt + ")");
+          } catch (err) { console.error("wompi-order (registro de venta):", err); }
+          await sleep(2500 * attempt);
+        }
+      })();
 
       stikeSaveCart([]);
       stikeClearShipping();

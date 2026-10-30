@@ -369,6 +369,7 @@ kbd.k{flex:none;padding:2px 7px;border:1px solid var(--line);border-bottom-width
 .chip-btn{padding:7px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--bg-2);color:var(--ink-2);font-size:13px;font-weight:600;cursor:pointer;transition:border-color .12s,color .12s,background .12s}
 .chip-btn:hover{border-color:var(--accent);color:var(--accent)}
 .chip-btn.active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.navbtn.needs::after{content:"";margin-left:auto;width:9px;height:9px;border-radius:50%;background:var(--bad);box-shadow:0 0 0 3px rgba(255,90,90,.2)}
 .sale-prod{display:flex;align-items:center;gap:10px}
 .sale-thumb{flex:none;width:44px;height:44px;border-radius:8px;background:#f3f3f3;overflow:hidden;display:inline-flex;align-items:center;justify-content:center}
 .sale-thumb img{width:100%;height:100%;object-fit:contain}
@@ -930,7 +931,7 @@ body.role-editor #btn-notif,body.role-editor #btn-test-sound,body.role-editor [d
 <script src="assets/js/photo-editor.js?v=6f906ace1e"></script>
 <script src="assets/js/select-search.js?v=6e44a6b111"></script>
 <script src="assets/js/video-tools.js?v=aaa2b1fae7"></script>
-<script src="admin.js?v=20"></script>
+<script src="admin.js?v=21"></script>
 <script>
   // Service worker propio del panel: solo cachea el logo del shell, nunca
   // admin.html/admin.js (ver admin-sw.js).

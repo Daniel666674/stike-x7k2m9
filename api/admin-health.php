@@ -28,7 +28,7 @@ stike_run(function () {
     $pisa = false;
     foreach (["WOMPI_PUBLIC_KEY" => "pública", "WOMPI_PRIVATE_KEY" => "privada", "WOMPI_INTEGRITY_SECRET" => "integridad"] as $n => $lbl) {
       $x = stike_config_sources($n);
-      $src[] = "$lbl: " . ($x["env"] ? "variable de entorno del hosting" : "api/config.local.php");
+      $src[] = "$lbl: " . ($x["panel"] ? "guardado desde el panel (prevalece)" : ($x["env"] ? "variable de entorno del hosting" : "api/config.local.php"));
       if ($x["differ"]) $pisa = true;
     }
     $add("wompi_source", !$pisa, "De dónde salen las llaves", implode(" · ", $src) . ($pisa ? ". ¡Ojo!: hay una variable de entorno en el hosting distinta a la del archivo, y la variable GANA. Bórrala en hPanel o iguálala." : ""));
