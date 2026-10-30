@@ -157,15 +157,21 @@
 
     // Grilla de partes: foto + nombre y nada mas. Solo tipos de Repuestos con
     // producto publicado, en el orden en que se arma una BMX (de la estructura
-    // hacia la transmision). La foto sale del catalogo vigente (un producto con
-    // stock de ese tipo): si un producto se elimina, la tile toma otra sola.
+    // hacia la transmision). La foto sale del catalogo vigente: si un producto se
+    // elimina, la tile toma otro sola.
     // Fate es una marca/tienda propia, no una categoria de repuestos -- tiene su
     // propia seccion mas abajo.
     const ARROW = `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;
     const withPhoto = list => list.filter(p => p.imgs && p.imgs.length);
     const bestOf = list => list.find(p => !stikeIsOut(p)) || list[0] || null;
+    // Stike es el distribuidor autorizado de FIEND en Colombia: la foto de cada tipo es de un
+    // producto FIEND (el de mayor precio, para no caer en tornillos o piezas sueltas; con stock si hay).
+    // Si un tipo no tiene FIEND con foto, usa otro producto vigente.
+    const isFiend = x => /^fiend$/i.test(x.brand || "");
+    const priciest = list => list.slice().sort((a, b) => (b.price || 0) - (a.price || 0))[0] || null;
+    const showcase = list => { const f = withPhoto(list).filter(isFiend); return priciest(f.filter(x => !stikeIsOut(x))) || priciest(f) || bestOf(withPhoto(list)); };
     const homeTiles = ["Marcos", "Tenedores", "Timones", "Cañas", "Bielas", "Platos", "Cadenas"]
-      .map(sub => ({ sub, p: bestOf(withPhoto(STIKE_PRODUCTS.filter(x => x.cat === "repuestos" && x.sub === sub))) }))
+      .map(sub => ({ sub, p: showcase(STIKE_PRODUCTS.filter(x => x.cat === "repuestos" && x.sub === sub)) }))
       .filter(t => t.p);
     document.getElementById("home-tiles").innerHTML = homeTiles.map(t => `
       <a class="tile" href="${stikeSubUrl("repuestos", t.sub)}">

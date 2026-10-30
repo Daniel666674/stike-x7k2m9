@@ -2206,9 +2206,9 @@ body:not(.fate-page) h1 .o1 { color: var(--mint); }
 .home-parts .tile { display: flex; flex-direction: column; height: auto; aspect-ratio: auto; background: #222425; border: 1px solid var(--line); border-radius: 16px; transition: box-shadow .3s var(--ease-soft), border-color .3s; }
 .home-parts .tile::after { display: none; }
 .home-parts .tile .tile-plate { position: relative; flex: 1; min-height: 0; margin: 10px 10px 0; background: var(--paper); border-radius: 10px; overflow: hidden; }
-.home-parts .tile .tile-plate img { position: absolute; inset: 6px; width: calc(100% - 12px); height: calc(100% - 12px); object-fit: contain; filter: none; transition: transform .5s var(--ease); }
+.home-parts .tile .tile-plate img { position: absolute; inset: 6px; width: calc(100% - 12px); height: calc(100% - 12px); object-fit: contain; filter: none; transform: scale(1.18); transition: transform .5s var(--ease); }
 .home-parts .tile:hover { border-color: var(--mint); box-shadow: var(--mint-glow); }
-.home-parts .tile:hover .tile-plate img { transform: scale(1.05); }
+.home-parts .tile:hover .tile-plate img { transform: scale(1.26); }
 .home-parts .tile .tile-label { position: static; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 18px 14px; font-family: var(--cond); font-style: italic; font-weight: 600; font-size: 28px; letter-spacing: .04em; text-transform: uppercase; color: var(--ink); text-shadow: none; }
 .home-parts .tile .tile-label svg { flex: none; color: var(--mint); transition: transform .3s var(--ease); }
 .home-parts .tile:hover .tile-label svg { transform: translateX(5px); }
