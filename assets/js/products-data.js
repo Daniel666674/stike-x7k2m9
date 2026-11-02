@@ -9167,5 +9167,48 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/790adad1-e7d4-4d74-a792-dec63c0e08e7.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "hoodie-inspirado-fox-azul",
+    "sku": "ROP-FOX-006",
+    "n": "HOODIE INSPIRADO FOX AZUL",
+    "brand": "Fox",
+    "cat": "ropa",
+    "sub": "Busos y Chaquetas",
+    "spec": [
+      "Buso inspirado marca fox en color azul con negro"
+    ],
+    "price": 120000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "S",
+        "u": 0
+      },
+      {
+        "v": "M",
+        "u": 1
+      },
+      {
+        "v": "L",
+        "u": 0
+      },
+      {
+        "v": "XL",
+        "u": 0
+      },
+      {
+        "v": "XXL",
+        "u": 0
+      }
+    ],
+    "combos": null,
+    "imgs": [
+      "assets/img/products/bea89f55-a824-45b2-8f4b-5346bae6c938.jpg",
+      "assets/img/products/2b3eda75-405f-4d39-ab6d-1058e9fe8972.jpg",
+      "assets/img/products/940c1a76-ab58-45f2-8656-43f3304ffde2.jpg",
+      "assets/img/products/a7044fa2-f57c-4ec0-adf6-c18fe71b7f79.jpg"
+    ],
+    "published": true
   }
 ];
