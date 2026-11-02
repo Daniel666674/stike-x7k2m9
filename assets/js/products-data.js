@@ -1603,41 +1603,6 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "buzo-etnies-beige",
-    "sku": "ROP-ETN-001",
-    "n": "Buzo Etnies Beige y Negro",
-    "brand": "Etnies",
-    "cat": "ropa",
-    "sub": "Busos y Chaquetas",
-    "spec": [
-      "Color: Beige y negro",
-      "Tela: Algodón/Poliéster"
-    ],
-    "price": 120000,
-    "promo": false,
-    "sizes": [
-      {
-        "v": "S",
-        "u": 0
-      },
-      {
-        "v": "M",
-        "u": 0
-      },
-      {
-        "v": "L",
-        "u": 1
-      }
-    ],
-    "imgs": [
-      "assets/img/products/3ca51af7-0254-4076-8e7e-f7b4317c0e30.jpg",
-      "assets/img/products/eb45f983-e634-437b-a509-ec1bd6290578.jpg",
-      "assets/img/products/buzo-etnies-beige-2.jpg"
-    ],
-    "published": true,
-    "imgPos": "top center"
-  },
-  {
     "slug": "chaqueta-nightmare",
     "sku": "ROP-NIG-002",
     "n": "Chaqueta Nightmare",
@@ -1864,51 +1829,6 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "buzo-sm-bmx-negro",
-    "sku": "ROP-SYM-001",
-    "n": "Buzo S&M BMX Negro",
-    "brand": "S&M Bikes",
-    "cat": "ropa",
-    "sub": "Busos y Chaquetas",
-    "spec": [
-      "Color: Negro",
-      "Estampado: Escudo S&M American Bicycle Co."
-    ],
-    "price": 120000,
-    "promo": false,
-    "sizes": [
-      {
-        "v": "S",
-        "u": 0
-      },
-      {
-        "v": "M",
-        "u": 1
-      },
-      {
-        "v": "L",
-        "u": 0
-      },
-      {
-        "v": "XL",
-        "u": 0
-      },
-      {
-        "v": "XXL",
-        "u": 0
-      }
-    ],
-    "imgs": [
-      "assets/img/products/ca6f3ff1-0d17-48ae-8802-88705c1fa42f.jpg",
-      "assets/img/products/buzo-sm-bmx-negro-1.jpg",
-      "assets/img/products/941d3816-7480-4aae-8dcd-ceea9c8225e8.jpg",
-      "assets/img/products/2042ac18-0651-4d49-abe4-b91ca82ce22e.jpg",
-      "assets/img/products/aa15ee07-044a-4d9e-9f82-e44d3e5bf187.jpg",
-      "assets/img/products/fdd1760e-bec8-4259-bb34-e4959cbc2569.jpg"
-    ],
-    "published": true
-  },
-  {
     "slug": "buzo-fox-procircuit",
     "sku": "ROP-FOX-001",
     "n": "Buzo Fox Pro Circuit Negro y Gris",
@@ -1939,108 +1859,6 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/buzo-fox-procircuit-1.jpg",
       "assets/img/products/c86545f8-9de7-4715-8133-2095af392ca0.jpg",
       "assets/img/products/e21e8a2f-72a4-41c6-a6df-a91b6d4d2758.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "buzo-fox-honda",
-    "sku": "ROP-FOX-002",
-    "n": "Buzo Fox Honda Racing Crema y Negro",
-    "brand": "Fox",
-    "cat": "ropa",
-    "sub": "Busos y Chaquetas",
-    "spec": [
-      "Color: Crema y negro",
-      "Estampado: Fox x Honda Racing"
-    ],
-    "price": 120000,
-    "promo": false,
-    "sizes": [
-      {
-        "v": "S",
-        "u": 0
-      },
-      {
-        "v": "M",
-        "u": 0
-      },
-      {
-        "v": "L",
-        "u": 1
-      }
-    ],
-    "imgs": [
-      "assets/img/products/buzo-fox-honda-1.jpg",
-      "assets/img/products/33048a83-2eb2-4043-a566-05e54db5df17.jpg",
-      "assets/img/products/83b950bd-4491-43da-8320-55967e071c62.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "buzo-fox-retro-aqua",
-    "sku": "ROP-FOX-003",
-    "n": "Buzo Fox Retro Aqua y Negro",
-    "brand": "Fox",
-    "cat": "ropa",
-    "sub": "Busos y Chaquetas",
-    "spec": [
-      "Color: Aqua y negro",
-      "Estampado: Fox estilo retro"
-    ],
-    "price": 120000,
-    "promo": false,
-    "sizes": [
-      {
-        "v": "S",
-        "u": 0
-      },
-      {
-        "v": "M",
-        "u": 0
-      },
-      {
-        "v": "L",
-        "u": 1
-      }
-    ],
-    "imgs": [
-      "assets/img/products/8db16d27-2602-428b-81c1-09f46bbbbb2b.jpg",
-      "assets/img/products/c179f908-fd61-4150-bd7d-dc633ad70a3d.jpg",
-      "assets/img/products/buzo-fox-retro-aqua-1.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "buzo-fitbikeco-negro",
-    "sku": "ROP-FIT-001",
-    "n": "Buzo Fit Bike Co. Negro",
-    "brand": "Fit Bike Co.",
-    "cat": "ropa",
-    "sub": "Busos y Chaquetas",
-    "spec": [
-      "Color: Negro",
-      "Estampado: Fit Bike Co."
-    ],
-    "price": 120000,
-    "promo": false,
-    "sizes": [
-      {
-        "v": "S",
-        "u": 0
-      },
-      {
-        "v": "M",
-        "u": 1
-      },
-      {
-        "v": "L",
-        "u": 1
-      }
-    ],
-    "imgs": [
-      "assets/img/products/d1cdd06a-29f4-4c25-9005-17c985167d14.jpg",
-      "assets/img/products/ff98b94f-7799-441d-b41d-d6f40ffc0e73.jpg",
-      "assets/img/products/c7c2c4d6-ca23-4247-a4d1-a88196ffad1e.jpg"
     ],
     "published": true
   },
@@ -2192,48 +2010,6 @@ window.STIKE_PRODUCTS = [
     "combos": null
   },
   {
-    "slug": "buzo-fox-negro",
-    "sku": "ROP-FOX-004",
-    "n": "BUZO FOX NEGRO",
-    "brand": "Total BMX",
-    "cat": "ropa",
-    "sub": "Busos y Chaquetas",
-    "spec": [
-      "Color: Negro",
-      "Estampado: FOX LOGO"
-    ],
-    "price": 120000,
-    "promo": false,
-    "sizes": [
-      {
-        "v": "S",
-        "u": 0
-      },
-      {
-        "v": "M",
-        "u": 0
-      },
-      {
-        "v": "L",
-        "u": 1
-      },
-      {
-        "v": "XL",
-        "u": 0
-      },
-      {
-        "v": "XXL",
-        "u": 0
-      }
-    ],
-    "imgs": [
-      "assets/img/products/a69bfa64-3064-4816-a066-b612dd3be8cc.jpg",
-      "assets/img/products/b849ed5f-7bc3-492e-a4cf-c7a4560c28ff.jpg",
-      "assets/img/products/092f85a7-0830-4166-9054-f58bfb7905cf.jpg"
-    ],
-    "published": true
-  },
-  {
     "slug": "buzo-freaak-azul-y-gris",
     "sku": "ROP-FRE-002",
     "n": "Buzo Freaak Azul y GRIS",
@@ -2271,48 +2047,6 @@ window.STIKE_PRODUCTS = [
     "imgs": [
       "assets/img/products/df0b74e6-98c0-40b5-b860-d732dd185ad1.jpg",
       "assets/img/products/8a9bac5f-6fd4-4a22-ac8c-38d50da53200.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "buzo-alpinestars-negro",
-    "sku": "ROP-ALP-001",
-    "n": "Buzo Alpinestars Negro",
-    "brand": "Total BMX",
-    "cat": "ropa",
-    "sub": "Busos y Chaquetas",
-    "spec": [
-      "Color: Negro",
-      "Estampado: Alpinestars"
-    ],
-    "price": 120000,
-    "promo": false,
-    "sizes": [
-      {
-        "v": "S",
-        "u": 0
-      },
-      {
-        "v": "M",
-        "u": 2
-      },
-      {
-        "v": "L",
-        "u": 0
-      },
-      {
-        "v": "XL",
-        "u": 0
-      },
-      {
-        "v": "XXL",
-        "u": 0
-      }
-    ],
-    "imgs": [
-      "assets/img/products/b01a554f-67e8-407b-9c8c-61d1cc1b76a1.jpg",
-      "assets/img/products/9f15afb8-0f5c-43c2-9da7-42bf4798504c.jpg",
-      "assets/img/products/4938950d-b3b9-4da1-94a7-9b87b4aa4673.jpg"
     ],
     "published": true
   },
@@ -4983,10 +4717,10 @@ window.STIKE_PRODUCTS = [
       }
     ],
     "imgs": [
+      "assets/img/products/6233a90c-2077-4093-bcf8-012d474fe38b.jpg",
       "assets/img/products/6a972223-2e06-4c75-b6f7-4be739d6a923.jpg",
       "assets/img/products/ee1a2077-0f6e-482d-b071-03b2cd3a2c33.jpg",
-      "assets/img/products/e855d4be-3535-45eb-a501-db664c6330dc.jpg",
-      "assets/img/products/6233a90c-2077-4093-bcf8-012d474fe38b.jpg"
+      "assets/img/products/e855d4be-3535-45eb-a501-db664c6330dc.jpg"
     ],
     "published": true,
     "combos": null
@@ -5011,10 +4745,10 @@ window.STIKE_PRODUCTS = [
       }
     ],
     "imgs": [
-      "assets/img/products/85839f4a-f6ad-49e3-9f54-a3f3cceb7697.jpg",
-      "assets/img/products/4352afae-5224-4423-8be0-7f99dca5ad8e.jpg",
       "assets/img/products/42e2b523-0b61-4dc6-be54-796567f46132.jpg",
-      "assets/img/products/306e99ca-7a50-42e1-97ee-f3a38595caae.jpg"
+      "assets/img/products/85839f4a-f6ad-49e3-9f54-a3f3cceb7697.jpg",
+      "assets/img/products/306e99ca-7a50-42e1-97ee-f3a38595caae.jpg",
+      "assets/img/products/4352afae-5224-4423-8be0-7f99dca5ad8e.jpg"
     ],
     "published": true,
     "combos": null

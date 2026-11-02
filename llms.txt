@@ -1,6 +1,6 @@
 # Stike Bike Shop
 
-> Tienda BMX en Bogotá: repuestos, protecciones, ropa y armado de BMX a la medida con asesoría de riders. Vendemos 298 productos de marcas como Fiend, Total BMX, Odyssey, Mutanty, Decaye, Fade, con envíos a toda Colombia y tienda física en Venecia, Bogotá.
+> Tienda BMX en Bogotá: repuestos, protecciones, ropa y armado de BMX a la medida con asesoría de riders. Vendemos 291 productos de marcas como Fiend, Odyssey, Total BMX, Mutanty, Decaye, Fade, con envíos a toda Colombia y tienda física en Venecia, Bogotá.
 
 ## Datos del negocio
 - Nombre: Stike Bike Shop (también "Stike")
@@ -48,7 +48,7 @@
 - [Tobilleras](https://stikebikeshop.com/categoria/tobilleras.html): 2 productos desde $60.000
 ### Ropa
 - [Camisetas](https://stikebikeshop.com/categoria/camisetas.html): 47 productos desde $50.000
-- [Busos y Chaquetas](https://stikebikeshop.com/categoria/busos-y-chaquetas.html): 37 productos desde $120.000
+- [Busos y Chaquetas](https://stikebikeshop.com/categoria/busos-y-chaquetas.html): 30 productos desde $120.000
 - [Gorras](https://stikebikeshop.com/categoria/gorras.html): 12 productos desde $60.000
 - [Medias](https://stikebikeshop.com/categoria/medias.html): 3 productos desde $25.000
 - [Jeans](https://stikebikeshop.com/categoria/jeans.html): 1 producto desde $110.000
@@ -66,12 +66,11 @@
 - [Decaye](https://stikebikeshop.com/marca/decaye.html): 11 productos
 - [Demolition](https://stikebikeshop.com/marca/demolition.html): 8 productos
 - [Éclat](https://stikebikeshop.com/marca/eclat.html): 2 productos
-- [Etnies](https://stikebikeshop.com/marca/etnies.html): 2 productos
 - [Fade](https://stikebikeshop.com/marca/fade.html): 10 productos
 - [Federal](https://stikebikeshop.com/marca/federal.html): 4 productos
 - [Fiend](https://stikebikeshop.com/marca/fiend.html): 34 productos
-- [Fit Bike Co.](https://stikebikeshop.com/marca/fit-bike-co.html): 3 productos
-- [Fox](https://stikebikeshop.com/marca/fox.html): 9 productos
+- [Fit Bike Co.](https://stikebikeshop.com/marca/fit-bike-co.html): 2 productos
+- [Fox](https://stikebikeshop.com/marca/fox.html): 7 productos
 - [Freaak](https://stikebikeshop.com/marca/freaak.html): 8 productos
 - [GW](https://stikebikeshop.com/marca/gw.html): 5 productos
 - [Helio Brand](https://stikebikeshop.com/marca/helio-brand.html): 3 productos
@@ -90,12 +89,11 @@
 - [R2 Protect](https://stikebikeshop.com/marca/r2-protect.html): 3 productos
 - [Rant](https://stikebikeshop.com/marca/rant.html): 4 productos
 - [Reding Shoes](https://stikebikeshop.com/marca/reding-shoes.html): 8 productos
-- [S&M Bikes](https://stikebikeshop.com/marca/s-m-bikes.html): 2 productos
 - [Shadow](https://stikebikeshop.com/marca/shadow.html): 9 productos
 - [Stranger](https://stikebikeshop.com/marca/stranger.html): 4 productos
 - [Subrosa](https://stikebikeshop.com/marca/subrosa.html): 2 productos
 - [Sunday](https://stikebikeshop.com/marca/sunday.html): 3 productos
-- [Total BMX](https://stikebikeshop.com/marca/total-bmx.html): 18 productos
+- [Total BMX](https://stikebikeshop.com/marca/total-bmx.html): 16 productos
 - [Trueno](https://stikebikeshop.com/marca/trueno.html): 4 productos
 - [Vans](https://stikebikeshop.com/marca/vans.html): 10 productos
 - [Volume](https://stikebikeshop.com/marca/volume.html): 2 productos
