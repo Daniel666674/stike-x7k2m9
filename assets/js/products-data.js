@@ -9554,5 +9554,91 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/0540abaf-461f-4547-8528-a1026fd2024d.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "chaqueta-rompe-vientos-fox",
+    "sku": "ROP-FOX-010",
+    "n": "CHAQUETA ROMPE VIENTOS FOX",
+    "brand": "Fox",
+    "cat": "ropa",
+    "sub": "Busos y Chaquetas",
+    "spec": [
+      "Chaqueta rompe vientos inspirada en la marca fox en color negro."
+    ],
+    "price": 120000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "S",
+        "u": 0
+      },
+      {
+        "v": "M",
+        "u": 2
+      },
+      {
+        "v": "L",
+        "u": 2
+      },
+      {
+        "v": "XL",
+        "u": 0
+      },
+      {
+        "v": "XXL",
+        "u": 0
+      }
+    ],
+    "combos": null,
+    "imgs": [
+      "assets/img/products/6bd7fe78-c453-461f-b7ce-499936383da1.jpg",
+      "assets/img/products/b7a3aa95-86b6-417e-8d8a-7cac92e81e7a.jpg",
+      "assets/img/products/54719785-5ec0-4c76-8db8-0df5b04003ba.jpg",
+      "assets/img/products/f5de91de-fb07-4b62-ac4d-e418a2485597.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "chaqueta-rompe-vientos-insperada-nike",
+    "sku": "ROP-NIK-003",
+    "n": "CHAQUETA ROMPE VIENTOS INSPERADA NIKE",
+    "brand": "Nike",
+    "cat": "ropa",
+    "sub": "Busos y Chaquetas",
+    "spec": [
+      "Chaqueta rompe vientos inspirada en la marca nike en color gris con verde."
+    ],
+    "price": 120000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "S",
+        "u": 0
+      },
+      {
+        "v": "M",
+        "u": 1
+      },
+      {
+        "v": "L",
+        "u": 0
+      },
+      {
+        "v": "XL",
+        "u": 0
+      },
+      {
+        "v": "XXL",
+        "u": 0
+      }
+    ],
+    "combos": null,
+    "imgs": [
+      "assets/img/products/60e1a0e5-40f3-4b9a-953e-bf9d7b212830.jpg",
+      "assets/img/products/00318251-59b0-4ae6-9d44-a45b16e52272.jpg",
+      "assets/img/products/1a694fff-5f2c-4215-8a64-749ead640aaf.jpg",
+      "assets/img/products/201fce80-f1e7-4717-b32d-7f72c696585f.jpg"
+    ],
+    "published": true
   }
 ];
