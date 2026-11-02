@@ -10696,5 +10696,105 @@
       <g:size>XXL</g:size>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
+    <item>
+      <g:id>ROP-VAN-021-s</g:id>
+      <g:title>HOODIE FOX NEGRO - S</g:title>
+      <g:description>HOODIE FOX NEGRO de Total BMX. Hoodie fox en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-fox-negro.html?size=S</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/affd1cbd-48fb-45dc-8067-08f1c8f98774.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/9a3c135a-5ed7-400a-8689-08304fa49b1c.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/a71e7955-c01a-464a-a00d-81a4ec6d9e93.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/8e78b2e5-9a16-42a0-80d6-fc2c297cb207.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-VAN-021</g:item_group_id>
+      <g:size>S</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-021-m</g:id>
+      <g:title>HOODIE FOX NEGRO - M</g:title>
+      <g:description>HOODIE FOX NEGRO de Total BMX. Hoodie fox en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-fox-negro.html?size=M</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/affd1cbd-48fb-45dc-8067-08f1c8f98774.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/9a3c135a-5ed7-400a-8689-08304fa49b1c.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/a71e7955-c01a-464a-a00d-81a4ec6d9e93.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/8e78b2e5-9a16-42a0-80d6-fc2c297cb207.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-VAN-021</g:item_group_id>
+      <g:size>M</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-021-l</g:id>
+      <g:title>HOODIE FOX NEGRO - L</g:title>
+      <g:description>HOODIE FOX NEGRO de Total BMX. Hoodie fox en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-fox-negro.html?size=L</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/affd1cbd-48fb-45dc-8067-08f1c8f98774.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/9a3c135a-5ed7-400a-8689-08304fa49b1c.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/a71e7955-c01a-464a-a00d-81a4ec6d9e93.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/8e78b2e5-9a16-42a0-80d6-fc2c297cb207.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-VAN-021</g:item_group_id>
+      <g:size>L</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-021-xl</g:id>
+      <g:title>HOODIE FOX NEGRO - XL</g:title>
+      <g:description>HOODIE FOX NEGRO de Total BMX. Hoodie fox en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-fox-negro.html?size=XL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/affd1cbd-48fb-45dc-8067-08f1c8f98774.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/9a3c135a-5ed7-400a-8689-08304fa49b1c.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/a71e7955-c01a-464a-a00d-81a4ec6d9e93.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/8e78b2e5-9a16-42a0-80d6-fc2c297cb207.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-VAN-021</g:item_group_id>
+      <g:size>XL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-021-xxl</g:id>
+      <g:title>HOODIE FOX NEGRO - XXL</g:title>
+      <g:description>HOODIE FOX NEGRO de Total BMX. Hoodie fox en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-fox-negro.html?size=XXL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/affd1cbd-48fb-45dc-8067-08f1c8f98774.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/9a3c135a-5ed7-400a-8689-08304fa49b1c.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/a71e7955-c01a-464a-a00d-81a4ec6d9e93.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/8e78b2e5-9a16-42a0-80d6-fc2c297cb207.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-VAN-021</g:item_group_id>
+      <g:size>XXL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
   </channel>
 </rss>

@@ -9081,5 +9081,48 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/2032683c-3b74-4f83-9f69-3f7c4031bbcb.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "hoodie-fox-negro",
+    "sku": "ROP-VAN-021",
+    "n": "HOODIE FOX NEGRO",
+    "brand": "Total BMX",
+    "cat": "ropa",
+    "sub": "Busos y Chaquetas",
+    "spec": [
+      "Hoodie fox en color negro"
+    ],
+    "price": 120000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "S",
+        "u": 0
+      },
+      {
+        "v": "M",
+        "u": 1
+      },
+      {
+        "v": "L",
+        "u": 0
+      },
+      {
+        "v": "XL",
+        "u": 0
+      },
+      {
+        "v": "XXL",
+        "u": 0
+      }
+    ],
+    "combos": null,
+    "imgs": [
+      "assets/img/products/affd1cbd-48fb-45dc-8067-08f1c8f98774.jpg",
+      "assets/img/products/9a3c135a-5ed7-400a-8689-08304fa49b1c.jpg",
+      "assets/img/products/a71e7955-c01a-464a-a00d-81a4ec6d9e93.jpg",
+      "assets/img/products/8e78b2e5-9a16-42a0-80d6-fc2c297cb207.jpg"
+    ],
+    "published": true
   }
 ];
