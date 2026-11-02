@@ -4700,7 +4700,7 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "chaqueta-nike-beige-negro",
     "sku": "ROP-NIK-002",
-    "n": "Chaqueta Nike Gris  Negro",
+    "n": "CHAQUETA ROMPE VIENTOS INSPIRADA NIKE ",
     "brand": "Nike",
     "cat": "ropa",
     "sub": "Busos y Chaquetas",
@@ -4728,7 +4728,7 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "chaqueta-vans-beige-negro",
     "sku": "ROP-VAN-008",
-    "n": "Chaqueta Vans Beige y Negro",
+    "n": "ROMPE VIENTOS INSPIRADA VANS",
     "brand": "Vans",
     "cat": "ropa",
     "sub": "Busos y Chaquetas",
@@ -8081,7 +8081,7 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "chaqueta-inspirada-oakley",
     "sku": "ROP-OAK-002",
-    "n": "CHAQUETA OAKLEY",
+    "n": "CHAQUETA INSPIRADA OAKLEY",
     "brand": "Oakley",
     "cat": "ropa",
     "sub": "Busos y Chaquetas",
@@ -8177,7 +8177,7 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "chaqueta-inspirada-en-alpinestars",
     "sku": "ROP-ALP-003",
-    "n": "CHAQUETA INSPIRADA EN ALPINESTARS",
+    "n": "CHAQUETA ROMPE VIENTOS INSPIRADA EN ALPINESTARS",
     "brand": "Alpinestars",
     "cat": "ropa",
     "sub": "Busos y Chaquetas",
@@ -8776,7 +8776,7 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "hoodie-sym-negro",
     "sku": "ROP-VAN-020",
-    "n": "HOODIE SYM NEGRO",
+    "n": "HOODIE INSPIRADO SYM NEGRO",
     "brand": "Total BMX",
     "cat": "ropa",
     "sub": "Busos y Chaquetas",
@@ -8819,7 +8819,7 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "hoodie-fox-negro",
     "sku": "ROP-VAN-021",
-    "n": "HOODIE FOX NEGRO",
+    "n": "HOODIE INSPIRADO FOX NEGRO",
     "brand": "Total BMX",
     "cat": "ropa",
     "sub": "Busos y Chaquetas",
@@ -8862,7 +8862,7 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "hoodie-allpinestar",
     "sku": "ROP-VAN-022",
-    "n": "HOODIE ALLPINESTAR",
+    "n": "HOODIE INSPIRADO ALLPINESTAR",
     "brand": "Total BMX",
     "cat": "ropa",
     "sub": "Busos y Chaquetas",
@@ -9292,7 +9292,7 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "chaqueta-rompe-vientos-fox",
     "sku": "ROP-FOX-010",
-    "n": "CHAQUETA ROMPE VIENTOS FOX",
+    "n": "CHAQUETA ROMPE VIENTOS INSPIRADA FOX",
     "brand": "Fox",
     "cat": "ropa",
     "sub": "Busos y Chaquetas",
@@ -9335,7 +9335,7 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "chaqueta-rompe-vientos-insperada-nike",
     "sku": "ROP-NIK-003",
-    "n": "CHAQUETA ROMPE VIENTOS INSPERADA NIKE",
+    "n": "CHAQUETA ROMPE VIENTOS INSPIRADA NIKE",
     "brand": "Nike",
     "cat": "ropa",
     "sub": "Busos y Chaquetas",
