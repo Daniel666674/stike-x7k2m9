@@ -9210,5 +9210,48 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/a7044fa2-f57c-4ec0-adf6-c18fe71b7f79.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "hoodie-259-azul-camuflado",
+    "sku": "ROP-GNX-001",
+    "n": "HOODIE 259 AZUL CAMUFLADO",
+    "brand": "259",
+    "cat": "ropa",
+    "sub": "Busos y Chaquetas",
+    "spec": [
+      "Hoodie marca dos cinco nueve en color azul camuflado."
+    ],
+    "price": 120000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "S",
+        "u": 0
+      },
+      {
+        "v": "M",
+        "u": 1
+      },
+      {
+        "v": "L",
+        "u": 0
+      },
+      {
+        "v": "XL",
+        "u": 0
+      },
+      {
+        "v": "XXL",
+        "u": 0
+      }
+    ],
+    "combos": null,
+    "imgs": [
+      "assets/img/products/c59a4a9f-3a75-4c8a-8ad5-7e1c2b38c7c9.jpg",
+      "assets/img/products/2c892d82-a087-4379-8b0e-918678fd8977.jpg",
+      "assets/img/products/c3189548-05b4-44f1-845d-786bc0644ca3.jpg",
+      "assets/img/products/86d8a9c8-91f4-4aff-b194-fc09898e32fb.jpg"
+    ],
+    "published": true
   }
 ];
