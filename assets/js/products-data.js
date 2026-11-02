@@ -9253,5 +9253,91 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/86d8a9c8-91f4-4aff-b194-fc09898e32fb.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "hoodie-inspirado-etnies",
+    "sku": "ROP-ETN-002",
+    "n": "HOODIE INSPIRADO ETNIES",
+    "brand": "Etnies",
+    "cat": "ropa",
+    "sub": "Busos y Chaquetas",
+    "spec": [
+      "Hoodie inspirado marca etnies en color negro y blanco."
+    ],
+    "price": 120000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "S",
+        "u": 0
+      },
+      {
+        "v": "M",
+        "u": 1
+      },
+      {
+        "v": "L",
+        "u": 0
+      },
+      {
+        "v": "XL",
+        "u": 0
+      },
+      {
+        "v": "XXL",
+        "u": 0
+      }
+    ],
+    "combos": null,
+    "imgs": [
+      "assets/img/products/e67ab915-3996-4309-87b7-e75a5fc065fa.jpg",
+      "assets/img/products/d0962aad-e4e8-4d4d-8df1-831e52db307c.jpg",
+      "assets/img/products/d320b8da-3807-430b-a441-d673eee352d5.jpg",
+      "assets/img/products/27272519-8c92-4e9c-8ea8-41ee944bae0b.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "hoodie-inspirado-fit-bike-co",
+    "sku": "ROP-FIT-002",
+    "n": "HOODIE INSPIRADO FIT BIKE CO",
+    "brand": "Fit Bike Co.",
+    "cat": "ropa",
+    "sub": "Busos y Chaquetas",
+    "spec": [
+      "Hoodie inspirado marca fit bike co, en color negro."
+    ],
+    "price": 120000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "S",
+        "u": 0
+      },
+      {
+        "v": "M",
+        "u": 0
+      },
+      {
+        "v": "L",
+        "u": 0
+      },
+      {
+        "v": "XL",
+        "u": 0
+      },
+      {
+        "v": "XXL",
+        "u": 0
+      }
+    ],
+    "combos": null,
+    "imgs": [
+      "assets/img/products/3010d098-80e1-4469-b316-ab55bb95000e.jpg",
+      "assets/img/products/607b954d-4a65-4518-9ebf-ec26629e00a6.jpg",
+      "assets/img/products/f8c7a0f5-edb3-4a30-ab65-2d7ba25a26fb.jpg",
+      "assets/img/products/f7163df1-e7c1-468c-b316-8213718f2128.jpg"
+    ],
+    "published": true
   }
 ];
