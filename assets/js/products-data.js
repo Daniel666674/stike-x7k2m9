@@ -9339,5 +9339,220 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/f7163df1-e7c1-468c-b316-8213718f2128.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "hoodie-inspirado-marca-fox",
+    "sku": "ROP-FOX-007",
+    "n": "HOODIE INSPIRADO MARCA FOX ",
+    "brand": "Fox",
+    "cat": "ropa",
+    "sub": "Busos y Chaquetas",
+    "spec": [
+      "Hoodie inspirado en marca fox en color negro y blanco."
+    ],
+    "price": 120000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "S",
+        "u": 0
+      },
+      {
+        "v": "M",
+        "u": 1
+      },
+      {
+        "v": "L",
+        "u": 0
+      },
+      {
+        "v": "XL",
+        "u": 0
+      },
+      {
+        "v": "XXL",
+        "u": 0
+      }
+    ],
+    "combos": null,
+    "imgs": [
+      "assets/img/products/e8ca6f5c-3f98-4d44-9da0-b785204a1c00.jpg",
+      "assets/img/products/39f130ba-99b6-4acd-a05d-f75e952713a3.jpg",
+      "assets/img/products/278e28cf-4312-4567-8d3f-547006405548.jpg",
+      "assets/img/products/ec4818e4-83f7-453b-9b39-91611e1f31fb.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "hoodie-inspirado-fox",
+    "sku": "ROP-FOX-008",
+    "n": "HOODIE INSPIRADO FOX",
+    "brand": "Fox",
+    "cat": "ropa",
+    "sub": "Busos y Chaquetas",
+    "spec": [
+      "Hoodie inspirado en la marca fox en color negro"
+    ],
+    "price": 120000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "S",
+        "u": 0
+      },
+      {
+        "v": "M",
+        "u": 1
+      },
+      {
+        "v": "L",
+        "u": 0
+      },
+      {
+        "v": "XL",
+        "u": 0
+      },
+      {
+        "v": "XXL",
+        "u": 0
+      }
+    ],
+    "combos": null,
+    "imgs": [
+      "assets/img/products/9d19a5ab-8535-4f77-9ddb-2b0feecdefe9.jpg",
+      "assets/img/products/63967c68-2c11-4581-be08-df8eacffe483.jpg",
+      "assets/img/products/e26474a2-d08c-4d6d-a239-8abc81c24706.jpg",
+      "assets/img/products/cca38ff0-e02d-4347-857e-4a7822c53942.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "hoodie-inspirado-monster-x-fox",
+    "sku": "ROP-FOX-009",
+    "n": "HOODIE INSPIRADO MONSTER X FOX",
+    "brand": "Fox",
+    "cat": "ropa",
+    "sub": "Busos y Chaquetas",
+    "spec": [
+      "Hoodie inspirado en la marca fox por monster en color negro"
+    ],
+    "price": 120000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "S",
+        "u": 0
+      },
+      {
+        "v": "M",
+        "u": 1
+      },
+      {
+        "v": "L",
+        "u": 0
+      },
+      {
+        "v": "XL",
+        "u": 0
+      },
+      {
+        "v": "XXL",
+        "u": 0
+      }
+    ],
+    "combos": null,
+    "imgs": [
+      "assets/img/products/2f0287d6-9dc6-4434-bfed-057f6d27f88a.jpg",
+      "assets/img/products/b24593e1-ec4a-409c-bce8-6d1c8e19ac4a.jpg",
+      "assets/img/products/2c61bbd3-8b52-494d-9f52-78c987ce0a28.jpg",
+      "assets/img/products/ab02d336-e960-439b-a6d4-a1d7b36503fb.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "hoodie-inspirado-sym",
+    "sku": "ROP-SMX-001",
+    "n": "HOODIE INSPIRADO SYM",
+    "brand": "SYM",
+    "cat": "ropa",
+    "sub": "Busos y Chaquetas",
+    "spec": [
+      "Hoodie inspirado en la marca sym en color negro"
+    ],
+    "price": 120000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "S",
+        "u": 0
+      },
+      {
+        "v": "M",
+        "u": 1
+      },
+      {
+        "v": "L",
+        "u": 0
+      },
+      {
+        "v": "XL",
+        "u": 0
+      },
+      {
+        "v": "XXL",
+        "u": 0
+      }
+    ],
+    "combos": null,
+    "imgs": [
+      "assets/img/products/a84bf29e-5d09-4922-add9-41e96d4faefc.jpg",
+      "assets/img/products/b3db8505-d180-40d5-a1ab-8515c42a3b78.jpg",
+      "assets/img/products/9ba5b65e-2566-497d-810a-bcbe6c6adf09.jpg",
+      "assets/img/products/1cd6c777-41ad-4bca-be48-fbe68ac75596.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "chaqueta-rompe-vientos-inspirada-kink",
+    "sku": "ROP-KIN-003",
+    "n": "CHAQUETA ROMPE VIENTOS INSPIRADA KINK ",
+    "brand": "Kink",
+    "cat": "ropa",
+    "sub": "Busos y Chaquetas",
+    "spec": [
+      "Chaqueta rompe vientos inspirada en la marca kink en color negro y gris"
+    ],
+    "price": 120000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "S",
+        "u": 0
+      },
+      {
+        "v": "M",
+        "u": 2
+      },
+      {
+        "v": "L",
+        "u": 2
+      },
+      {
+        "v": "XL",
+        "u": 0
+      },
+      {
+        "v": "XXL",
+        "u": 0
+      }
+    ],
+    "combos": null,
+    "imgs": [
+      "assets/img/products/dd9baeaa-5fd6-4123-988c-d9f4b6e3bc76.jpg",
+      "assets/img/products/6fa12144-386e-48e7-8c68-785d80c8a625.jpg",
+      "assets/img/products/2a3696a7-868e-4b19-8470-282e71deab14.jpg",
+      "assets/img/products/0540abaf-461f-4547-8528-a1026fd2024d.jpg"
+    ],
+    "published": true
   }
 ];
