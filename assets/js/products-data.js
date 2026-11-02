@@ -9038,5 +9038,48 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/dffc209e-aba5-4a61-adb8-7bd0d5e51a20.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "hoodie-sym-negro",
+    "sku": "ROP-VAN-020",
+    "n": "HOODIE SYM NEGRO",
+    "brand": "Total BMX",
+    "cat": "ropa",
+    "sub": "Busos y Chaquetas",
+    "spec": [
+      "Hoodie SYM en color negro"
+    ],
+    "price": 120000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "S",
+        "u": 0
+      },
+      {
+        "v": "M",
+        "u": 1
+      },
+      {
+        "v": "L",
+        "u": 0
+      },
+      {
+        "v": "XL",
+        "u": 0
+      },
+      {
+        "v": "XXL",
+        "u": 0
+      }
+    ],
+    "combos": null,
+    "imgs": [
+      "assets/img/products/a1eb7afc-9c62-4879-9139-5b4cc021070c.jpg",
+      "assets/img/products/1f658069-c170-4d39-90b8-27cf10d59f37.jpg",
+      "assets/img/products/480d9fdd-d50f-4a68-96d1-2caf66db8ce1.jpg",
+      "assets/img/products/2032683c-3b74-4f83-9f69-3f7c4031bbcb.jpg"
+    ],
+    "published": true
   }
 ];
