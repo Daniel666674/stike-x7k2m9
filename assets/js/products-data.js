@@ -9124,5 +9124,48 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/8e78b2e5-9a16-42a0-80d6-fc2c297cb207.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "hoodie-allpinestar",
+    "sku": "ROP-VAN-022",
+    "n": "HOODIE ALLPINESTAR",
+    "brand": "Total BMX",
+    "cat": "ropa",
+    "sub": "Busos y Chaquetas",
+    "spec": [
+      "Hoodie allpinestar en color negro"
+    ],
+    "price": 120000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "S",
+        "u": 0
+      },
+      {
+        "v": "M",
+        "u": 1
+      },
+      {
+        "v": "L",
+        "u": 0
+      },
+      {
+        "v": "XL",
+        "u": 0
+      },
+      {
+        "v": "XXL",
+        "u": 0
+      }
+    ],
+    "combos": null,
+    "imgs": [
+      "assets/img/products/9038c76f-fa5a-43ad-8881-4bd6c32be5e7.jpg",
+      "assets/img/products/04b55f1f-6ca8-4596-a62c-53b5fbcc111e.jpg",
+      "assets/img/products/19059848-6475-47a7-8c39-57afec3c6e13.jpg",
+      "assets/img/products/790adad1-e7d4-4d74-a792-dec63c0e08e7.jpg"
+    ],
+    "published": true
   }
 ];
