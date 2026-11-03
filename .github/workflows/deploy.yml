@@ -50,7 +50,7 @@ jobs:
       # publicado, sin tocar el repo.
       - name: Strip internal data from the artifact
         run: |
-          rm -f data/costs.json data/sales-log.json data/audit-log.json
+          rm -f data/costs.json data/sales-log.json data/audit-log.json data/stock-applied.json
           rm -f PROPOSAL.md
           rm -f propuesta.html
           rm -rf bmx-builder
@@ -79,7 +79,7 @@ jobs:
           base="${{ steps.deployment.outputs.page_url }}"
           base="${base%/}"
           failed=0
-          for path in data/costs.json data/sales-log.json data/audit-log.json PROPOSAL.md propuesta.html bmx-builder/index.html vercel-wompi-api/index.html; do
+          for path in data/costs.json data/sales-log.json data/audit-log.json data/stock-applied.json PROPOSAL.md propuesta.html bmx-builder/index.html vercel-wompi-api/index.html; do
             code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 "$base/$path" || echo "000")
             if [ "$code" = "200" ]; then
               echo "::error::$base/$path responde 200 — hay datos internos publicados"

@@ -56,28 +56,37 @@ for (const sha of [V1, V2, V3]) {
 
 /* ---- servidor de "GitHub" ---- */
 let hits = 0;
+let privateRepo = false;        // true: la descarga anonima da 404 (como un repositorio privado) y solo la API con token responde
+const apiSeen = [];             // lo que llego a la API: { auth, url }
+const GH_TOKEN = 'ghp_token_de_prueba_0123456789abcdef';
 const gh = createServer((req, res) => {
-  const sha = (req.url.match(/\/([0-9a-f]{40})\.zip$/) || [])[1];
   hits++;
-  if (!zips[sha]) { res.writeHead(404); return res.end('no'); }
+  const apiSha = (req.url.match(/^\/repos\/[^/]+\/[^/]+\/zipball\/([0-9a-f]{40})$/) || [])[1];
+  if (apiSha) {
+    apiSeen.push({ auth: req.headers.authorization, url: req.url });
+    if (req.headers.authorization !== `Bearer ${GH_TOKEN}` || !zips[apiSha]) { res.writeHead(404); return res.end('no'); }
+    res.writeHead(200, { 'content-type': 'application/zip' }); return res.end(zips[apiSha]);
+  }
+  const sha = (req.url.match(/\/([0-9a-f]{40})\.zip$/) || [])[1];
+  if (privateRepo || !zips[sha]) { res.writeHead(404); return res.end('no'); }
   res.writeHead(200, { 'content-type': 'application/zip' }); res.end(zips[sha]);
 });
 const ghPort = await freePort();
 await new Promise(r => gh.listen(ghPort, '127.0.0.1', r));
 
 /* ---- sitio de mentira (public_html) ---- */
-function makeSite(name, withToken) {
+function makeSite(name, withToken, ghToken) {
   const dir = join(T, name);
   mkdirSync(join(dir, 'api'), { recursive: true });
   copyFileSync(join(ROOT, 'api/_lib.php'), join(dir, 'api/_lib.php'));
   copyFileSync(join(ROOT, 'api/sync.php'), join(dir, 'api/sync.php'));
-  writeFileSync(join(dir, 'api/config.local.php'), `<?php return ['STORAGE_DIR' => '${join(T, name + '-private')}'${withToken ? `, 'SYNC_TOKEN' => '${TOKEN}'` : ''}];`);
+  writeFileSync(join(dir, 'api/config.local.php'), `<?php return ['STORAGE_DIR' => '${join(T, name + '-private')}'${withToken ? `, 'SYNC_TOKEN' => '${TOKEN}'` : ''}${ghToken ? `, 'GITHUB_TOKEN' => '${ghToken}'` : ''}];`);
   writeFileSync(join(dir, 'mis-fotos.txt'), 'ajeno');
   return dir;
 }
 async function serve(dir) {
   const port = await freePort();
-  const p = spawn('php', ['-S', `127.0.0.1:${port}`, '-t', dir], { stdio: 'ignore', env: { ...process.env, STIKE_SYNC_BASE: `http://127.0.0.1:${ghPort}/` } });
+  const p = spawn('php', ['-S', `127.0.0.1:${port}`, '-t', dir], { stdio: 'ignore', env: { ...process.env, GITHUB_TOKEN: '', STIKE_SYNC_BASE: `http://127.0.0.1:${ghPort}/`, STIKE_SYNC_API: `http://127.0.0.1:${ghPort}` } });   // GITHUB_TOKEN vacio: que no se cuele el del entorno de quien corre la prueba
   await new Promise(r => setTimeout(r, 700));
   return { p, url: `http://127.0.0.1:${port}/api/sync.php` };
 }
@@ -140,6 +149,25 @@ try {
   t('se niega', [r.status, r.json?.error], [500, 'sync_failed']);
   t('el sitio sigue completo en v2', [rd('index.html'), rd('page-c.html'), rd('page-d.html')], ['v2', 'c2', null]);
   t('el commit guardado sigue siendo v2', state().sha, V2);
+
+  console.log('\nRepositorio PRIVADO: la descarga anonima da 404 y se usa el GITHUB_TOKEN del servidor');
+  privateRepo = true;
+  const site3 = makeSite('public_html3', true, GH_TOKEN);       // con GITHUB_TOKEN
+  const site4 = makeSite('public_html4', true, null);           // sin GITHUB_TOKEN
+  const c = await serve(site3); const d = await serve(site4);
+  const rd3 = rel => (existsSync(join(site3, rel)) ? readFileSync(join(site3, rel), 'utf8') : null);
+  r = await call(d.url, { body: { sha: V1 } });
+  t('sin GITHUB_TOKEN en el servidor: falla claro (sync_failed) y no toca nada', [r.status, r.json?.error, existsSync(join(site4, 'index.html'))], [500, 'sync_failed', false]);
+  t('y no se mando ninguna credencial a la API', apiSeen.length, 0);
+  r = await call(c.url, { body: { sha: V1 } });
+  t('con GITHUB_TOKEN: baja el commit por la API y actualiza', [r.status, r.json?.status, rd3('index.html')], [200, 'updated', 'v1']);
+  t('la API recibio el token en el encabezado Authorization (y SOLO ahi)', [apiSeen.length, apiSeen[0].auth === `Bearer ${GH_TOKEN}`, apiSeen[0].url.includes('ghp_')], [1, true, false]);
+  t('el token nunca vuelve en la respuesta', JSON.stringify(r.json).includes('ghp_'), false);
+  t('el config.local.php del servidor no se pisa', rd3('api/config.local.php').includes(GH_TOKEN), true);
+  r = await call(c.url, { body: { sha: V2 } });
+  t('siguiente version tambien por la API', [r.json?.status, rd3('index.html'), rd3('page-b.html')], ['updated', 'v2', null]);
+  c.p.kill(); d.p.kill();
+  privateRepo = false;
 } finally {
   a.p.kill(); b.p.kill(); gh.close();
   rmSync(T, { recursive: true, force: true });

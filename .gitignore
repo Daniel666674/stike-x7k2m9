@@ -13,3 +13,19 @@ api/config.local.php
 
 # Datos de ventas si alguien prueba el PHP en local con STORAGE_DIR dentro del repo
 /stike-private/
+
+# Lo que el servidor guarda mientras funciona (pedidos pendientes, ventas, llaves guardadas desde el panel, avisos):
+# vive en la carpeta de datos fuera del sitio, pero si una prueba local la deja dentro del repo, nunca se sube.
+runtime-config.json
+last-event.json
+ventas.jsonl
+pending/
+alerts/
+rate/
+
+# Llaves y certificados: nunca al repositorio, vengan de donde vengan.
+*.pem
+*.key
+*.p12
+.env.*
+config.local.php

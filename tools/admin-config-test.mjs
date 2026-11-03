@@ -14,7 +14,7 @@ import { spawn, spawnSync } from "node:child_process";
 import { createServer } from "node:http";
 import { createServer as createNetServer } from "node:net";
 import { createHash } from "node:crypto";
-import { mkdtempSync, readFileSync, existsSync, statSync, readdirSync, rmSync } from "node:fs";
+import { mkdtempSync, readFileSync, existsSync, statSync, readdirSync, rmSync, writeFileSync, copyFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -250,6 +250,51 @@ try {
   t("si la lista es pública, se recupera la venta AUNQUE la llave privada esté mal (se consulta primero sin llave)", [rPub.recovered.length, rPub.recovered[0] && rPub.recovered[0].wompiId, rPub.errors.length], [1, "txn-real-3", 0]);
   listPublic = false;
   badKey.proc.kill(); rmSync(STORAGE2, { recursive: true, force: true });
+
+  console.log("\nLo guardado desde el panel va CIFRADO en el disco (si alguien ve la carpeta de datos, no ve las llaves)");
+  const rawCfg = readFileSync(file, "utf8");
+  const SECRETS_IN_FILE = ["AbCdEfGh12345678", "ZzZzZzZz98765432", "prv_test_demo1234", "test_integrity_", "test_events_"];
+  t("el archivo guardado NO contiene ningún secreto en texto (ni integridad, ni eventos, ni llave privada)", SECRETS_IN_FILE.filter(s => rawCfg.includes(s)), []);
+  const sealed = JSON.parse(rawCfg);
+  t("cada secreto va cifrado (AES-256-GCM) y sigue diciendo quién y cuándo lo guardó", ["WOMPI_INTEGRITY_SECRET", "WOMPI_EVENTS_SECRET", "WOMPI_PRIVATE_KEY"].map(k => [sealed[k].enc, typeof sealed[k].ct, typeof sealed[k].tag, "value" in sealed[k], sealed[k].by]), Array(3).fill(["v1", "string", "string", false, "jparra375@gmail.com"]));
+  t("la respuesta al guardar avisa que quedó cifrado (y sigue sin traer el secreto)", [okPrv.json.encrypted, JSON.stringify(okPrv.json).includes("prv_test_demo1234")], [true, false]);
+  await cfg(owner, { key: "WOMPI_PRIVATE_KEY", value: "prv_test_demo1234" });   // el mismo valor otra vez
+  t("el mismo secreto guardado dos veces no se ve igual en el disco (cada guardado usa su propio vector)", JSON.parse(readFileSync(file, "utf8")).WOMPI_PRIVATE_KEY.ct !== sealed.WOMPI_PRIVATE_KEY.ct, true);
+  const hs = await fetch(`${API}/admin-health.php`, { headers: { Cookie: owner } }).then(r => r.text());
+  t("el estado del panel nunca muestra un secreto completo (solo las últimas 4 letras y el largo), ni la clave interna", ["test_integrity_AbCdEfGh12345678", "test_events_AbCdEfGh12345678", "prv_test_demo1234", "ghp_falso", "k".repeat(32)].filter(s => hs.includes(s)), []);
+
+  const refEnc = "stike-1700000000094-nnnnnnnn";
+  const gEnc = await sign(API, refEnc);
+  t("y el cobro sigue firmando con lo cifrado (se descifra al usarlo)", gEnc.json.signature, createHash("sha256").update(`${refEnc}${gEnc.json.amount_in_cents}COP${GOOD}`).digest("hex"));
+
+  // Lo que se guardó con la versión anterior (texto plano) tiene que seguir funcionando.
+  const STORAGE3 = mkdtempSync(join(tmpdir(), "stike-cfg3-"));
+  writeFileSync(join(STORAGE3, "runtime-config.json"), JSON.stringify({ WOMPI_INTEGRITY_SECRET: { value: GOOD2, by: "jparra375@gmail.com", at: "2026-01-01T00:00:00Z" } }));
+  const legacy = await startPhp({ STORAGE_DIR: STORAGE3 });
+  const refLg = "stike-1700000000095-oooooooo";
+  const gLg = await sign(legacy.API, refLg);
+  t("un secreto guardado ANTES (texto plano, formato anterior) sigue funcionando", [gLg.code, gLg.json.signature], [200, createHash("sha256").update(`${refLg}${gLg.json && gLg.json.amount_in_cents}COP${GOOD2}`).digest("hex")]);
+  legacy.proc.kill(); rmSync(STORAGE3, { recursive: true, force: true });
+
+  // Si cambia la clave interna del servidor (ADMIN_API_KEY), lo cifrado ya no se puede leer: el cobro NO se rompe (usa la
+  // configuración del servidor) y el panel avisa qué hay que pegar otra vez.
+  const STORAGE4 = mkdtempSync(join(tmpdir(), "stike-cfg4-"));
+  copyFileSync(file, join(STORAGE4, "runtime-config.json"));
+  const SERVER_SECRET = "test_integrity_ServidorEnv000001";
+  const rotated = await startPhp({ STORAGE_DIR: STORAGE4, ADMIN_API_KEY: "z".repeat(32), WOMPI_INTEGRITY_SECRET: SERVER_SECRET });
+  const ownerR = await fetch(`${rotated.API}/admin-login.php`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ credential: "owner" }) }).then(r => (r.headers.get("set-cookie") || "").split(";")[0]);
+  const hr = await fetch(`${rotated.API}/admin-health.php`, { headers: { Cookie: ownerR } }).then(r => r.json());
+  const ur = (hr.checks || []).find(c => c.id === "wompi_panel_unreadable") || {};
+  t("con otra clave interna: el panel avisa que lo guardado ya no se puede leer y cuáles hay que pegar otra vez", [ur.ok, /WOMPI_INTEGRITY_SECRET/.test(ur.detail), /WOMPI_EVENTS_SECRET/.test(ur.detail), /WOMPI_PRIVATE_KEY/.test(ur.detail)], [false, true, true, true]);
+  t("y «de dónde salen las llaves» ya no dice «guardado desde el panel» para el de integridad", /integridad: guardado desde el panel/.test(((hr.checks || []).find(c => c.id === "wompi_source") || {}).detail), false);
+  const refRot = "stike-1700000000096-pppppppp";
+  const gRot = await sign(rotated.API, refRot);
+  t("el cobro NO se rompe: firma con el secreto de la configuración del servidor", [gRot.code, gRot.json.signature], [200, createHash("sha256").update(`${refRot}${gRot.json && gRot.json.amount_in_cents}COP${SERVER_SECRET}`).digest("hex")]);
+  const reSave = await fetch(`${rotated.API}/admin-config.php`, { method: "POST", headers: { "Content-Type": "application/json", Cookie: ownerR }, body: JSON.stringify({ key: "WOMPI_INTEGRITY_SECRET", value: GOOD }) }).then(r => r.json());
+  const hr2 = await fetch(`${rotated.API}/admin-health.php`, { headers: { Cookie: ownerR } }).then(r => r.json());
+  const ur2 = (hr2.checks || []).find(c => c.id === "wompi_panel_unreadable") || {};
+  t("al pegar de nuevo uno, ese se cifra con la clave nueva y deja de avisar; los otros dos siguen pendientes", [reSave.ok, reSave.encrypted, /WOMPI_INTEGRITY_SECRET/.test(ur2.detail), /WOMPI_EVENTS_SECRET/.test(ur2.detail)], [true, true, false, true]);
+  rotated.proc.kill(); rmSync(STORAGE4, { recursive: true, force: true });
 
   console.log("\nProtecciones del cobro");
   await cfg(owner, { key: "WOMPI_INTEGRITY_SECRET", value: GOOD });

@@ -79,10 +79,11 @@ stike_run(function () {
     }
   }
 
-  $all[$key] = ["value" => $value, "by" => $s["email"], "at" => stike_now_iso()];
+  $sealed = stike_runtime_seal($value);   // cifrado en el disco; solo si el servidor no puede cifrar queda en texto (0600, fuera del sitio)
+  $all[$key] = ($sealed ?: ["value" => $value]) + ["by" => $s["email"], "at" => stike_now_iso()];
   stike_runtime_config_write($all);
   error_log("[stike] $key guardado desde el panel por " . $s["email"] . " (ambiente $env, " . strlen($value) . " caracteres)");
-  respond(200, ["ok" => true, "key" => $key, "environment" => $env, "length" => strlen($value), "tail" => substr($value, -4)]);
+  respond(200, ["ok" => true, "key" => $key, "environment" => $env, "length" => strlen($value), "tail" => substr($value, -4), "encrypted" => (bool)$sealed]);
 });
 
 /* Escritura atomica, solo para el dueño del proceso (0600), en la carpeta de datos (fuera del sitio). */

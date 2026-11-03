@@ -42,7 +42,7 @@ fi
 #  - documentos y prototipos internos, herramientas, el backend de Vercel
 # data/site-content.json SI se publica: el sitio lo lee en vivo.
 ( cd "$OUT" && rm -rf .github .gitignore package.json package-lock.json tools vercel-wompi-api bmx-builder \
-    data/costs.json data/sales-log.json data/audit-log.json \
+    data/costs.json data/sales-log.json data/audit-log.json data/stock-applied.json \
     PROPOSAL.md MOTOR.md README.md SEO.md propuesta.html _template.html CNAME )
 
 # Cache-busting: el ?v= de los .js/.css (catalogo incluido) pasa a ser un hash
@@ -54,9 +54,18 @@ else
 fi
 
 # Red de seguridad: si algo interno se cuela, no se publica.
-for forbidden in data/costs.json data/sales-log.json data/audit-log.json vercel-wompi-api tools .env api/config.local.php PROPOSAL.md SEO.md; do
+for forbidden in data/costs.json data/sales-log.json data/audit-log.json data/stock-applied.json vercel-wompi-api tools .env api/config.local.php PROPOSAL.md SEO.md; do
   if [ -e "$OUT/$forbidden" ]; then echo "ERROR: $forbidden quedo en la copia a publicar" >&2; exit 1; fi
 done
+
+# Guardia de secretos: nada con forma de llave real (Wompi, GitHub, Resend, claves privadas...) puede ir al hosting.
+# Los patrones viven en tools/secret-patterns.txt (los usa tambien tools/secrets-scan-test.mjs). Si algo coincide, NO
+# se publica y solo se muestra el ARCHIVO (nunca el valor, para no copiarlo a los registros de la publicacion).
+if hits=$(grep -rIlE -f "$SRC/tools/secret-patterns.txt" "$OUT" 2>/dev/null) && [ -n "$hits" ]; then
+  echo "ERROR: algo con forma de llave o secreto quedo en la copia a publicar. Archivos:" >&2
+  echo "$hits" | sed "s#^$OUT/#  - #" >&2
+  exit 1
+fi
 for required in index.html carrito.html pago-resultado.html .htaccess api/_lib.php api/wompi-sign.php api/wompi-order.php api/wompi-events.php api/sales.php api/sync.php api/_admin.php api/admin-login.php api/admin-health.php api/gh.php admin.php admin.html admin.js data/site-content.json assets/js/products-data.js robots.txt sitemap.xml llms.txt 404.html; do
   if [ ! -e "$OUT/$required" ]; then echo "ERROR: falta $required en la copia a publicar" >&2; exit 1; fi
 done

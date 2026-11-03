@@ -138,8 +138,12 @@ for (const p of VISIBLE) {
    pagina minima que manda al producto nuevo. */
 const REDIRECTS = fs.existsSync(path.join(ROOT, "data/redirects.json"))
   ? JSON.parse(read("data/redirects.json")) : {};
+/* Una redireccion cuyo destino ya no esta publicado (el dueno borro el producto desde el panel) NO frena la generacion:
+   antes abortaba TODO ("No se genero nada") y, como el despliegue solo avisa y sigue, las fichas y el sitemap se
+   quedaban sin regenerar en silencio. Ahora esa redireccion se omite, se avisa al final y lo demas se genera igual. */
+const deadRedirects = [];
 for (const [oldSlug, newSlug] of Object.entries(REDIRECTS)) {
-  if (!VISIBLE.some((p) => p.slug === newSlug)) { problems.push(`La redireccion ${oldSlug} -> ${newSlug} apunta a un producto que no esta publicado.`); continue; }
+  if (!VISIBLE.some((p) => p.slug === newSlug)) { deadRedirects.push(`${oldSlug} -> ${newSlug}`); continue; }
   if (VISIBLE.some((p) => p.slug === oldSlug)) continue;      // el slug viejo volvio a ser un producto real
   const target = SITE.url(`producto/${newSlug}.html`);
   write(`producto/${oldSlug}.html`, `<!DOCTYPE html>
@@ -290,6 +294,10 @@ console.log(`  sitio        ${SITE.siteUrl}`);
 console.log(`  base href    ${SITE.basePath}`);
 console.log(`  productos    ${PRODUCTS.length} (${PRODUCTS.filter((p) => p.published === false).length} en borrador, fuera del sitemap)`);
 console.log(`  archivos     ${written} ${CHECK_ONLY ? "cambiarian" : "escritos"}, ${unchanged} sin cambios`);
+if (deadRedirects.length) {
+  console.log(`\n  AVISO: ${deadRedirects.length} redireccion(es) de data/redirects.json apuntan a un producto que ya no esta publicado (se omiten; quitalas de ese archivo):`);
+  deadRedirects.slice(0, 10).forEach((x) => console.log("   · " + x));
+}
 if (huerfanas.length) {
   console.log(`\n  ${huerfanas.length} ficha(s) en producto/ que no son de ningun producto publicado:`);
   huerfanas.slice(0, 10).forEach((f) => console.log("   · producto/" + f));
