@@ -284,8 +284,8 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
      'WOMPI_INTEGRITY_SECRET' => 'test_integrity_...',
      'ADMIN_API_KEY'          => '<una clave larga al azar, mínimo 24 caracteres>',
      'SYNC_TOKEN'             => '<otra clave larga al azar, mínimo 24: la de la publicación automática>',
-     'RESEND_API_KEY'         => 're_...',               // opcional, ver nota
-     'OWNER_NOTIFY_EMAIL'     => 'dueno@correo.com',     // opcional
+     'RESEND_API_KEY'         => 're_...',               // opcional; mejor pegarla en el panel (ver nota)
+     'OWNER_NOTIFY_EMAIL'     => '<correo de quien recibe las ventas>',  // opcional; también se cambia en el panel
    ];
    ```
    Las llaves de Wompi están en su panel, Desarrolladores → Llaves (en la pestaña
@@ -330,9 +330,19 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
    cada 6 horas) y los clientes ven la opción de pedir por WhatsApp.
    `ADMIN_API_KEY` se inventa y se
    pega una vez en el panel, pestaña Configuración → "Clave del servidor de
-   ventas". Sin `RESEND_API_KEY` el correo sale con el `mail()` del hosting, que
-   puede caer en spam; con Resend (gratis, resend.com) llega confiable, y para
-   enviar desde `@stikebikeshop.com` hay que verificar el dominio ahí.
+   ventas". **Correo de aviso de cada venta:** sin `RESEND_API_KEY` el correo sale con el
+   `mail()` del hosting, que casi nunca llega a Gmail (cae en spam o se pierde, y PHP dice
+   «enviado» igual). Con Resend (gratis, resend.com) llega en segundos. No hace falta editar
+   archivos: panel → Configuración → **«Correo de aviso de cada venta»** (dueño y desarrollador):
+   se pega la llave de Resend (se comprueba con Resend y se guarda cifrada), a quién le llega
+   (uno o varios correos; a los anteriores les avisa del cambio) y el remitente. Con el
+   remitente de pruebas de Resend (`onboarding@resend.dev`) solo se entrega al correo con el
+   que se creó la cuenta de Resend; para enviar a cualquier correo y desde `@stikebikeshop.com`
+   hay que verificar el dominio en Resend (registros DNS en hPanel). «Enviar correo de prueba»
+   explica el motivo exacto si Resend se niega. El panel muestra a quién le llega, por dónde
+   sale y el resultado del último envío (`last-mail.json`); si ningún camino pudo enviar un
+   aviso de venta, queda en `outbox/` y se reintenta solo (2 min, 4, 8… hasta 1 h, durante 48 h).
+   Si Resend falla, el aviso intenta salir por `mail()` (armado en base64 con texto + HTML).
 4. **Login del panel en el dominio nuevo:** en Google Cloud Console → APIs y
    servicios → Credenciales → el ID de cliente OAuth de `site.js`
    (`OAUTH_CLIENT_ID`) → "Orígenes autorizados de JavaScript", agregar

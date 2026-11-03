@@ -19,10 +19,12 @@ api/config.local.php
 runtime-config.json
 last-event.json
 last-bad-event.json
+last-mail.json
 ventas.jsonl
 pending/
 alerts/
 rate/
+outbox/
 
 # Llaves y certificados: nunca al repositorio, vengan de donde vengan.
 *.pem

@@ -3348,15 +3348,21 @@ async function renderHealth(msg) {
           <span style="flex:none;width:18px;color:${c.ok ? "var(--good, #3ecf8e)" : "var(--bad)"}">${c.ok ? "✔" : "✕"}</span>
           <span style="flex:1"><b>${escHtml(c.label)}</b><br><span class="muted">${escHtml(c.detail)}</span></span>
         </div>`).join("")}
+      ${["owner", "developer"].includes(session.role) ? emailSettingsHtml(h) : ""}
       ${seesFinance() ? wompiToolsHtml() : ""}
       ${["owner", "developer"].includes(session.role) ? wompiSecretFormHtml(h, msg) + wompiGoLiveHtml() : ""}
       <p class="hint muted" style="margin-top:12px">URL de eventos para el panel de Wompi: <span class="mono">${escHtml(h.eventsUrl)}</span></p>`;
     $("#cfg-health-refresh").addEventListener("click", () => renderHealth());
     const nb = document.querySelector('.navbtn[data-panel="config"]');
     if (nb) nb.classList.toggle("needs", !h.ready);
-    if ($("#cfg-reconcile")) {
-      $("#cfg-reconcile").addEventListener("click", reconcilePayments);
-      if ($("#cfg-test-email")) $("#cfg-test-email").addEventListener("click", sendTestEmail);
+    if ($("#cfg-reconcile")) $("#cfg-reconcile").addEventListener("click", reconcilePayments);
+    if ($("#cfg-mkey-save")) {
+      for (const k of ["key", "to", "from"]) {
+        $(`#cfg-m${k}-save`).addEventListener("click", () => saveMailSetting(k));
+        $(`#cfg-m${k}-clear`).addEventListener("click", () => saveMailSetting(k, true));
+        $(`#cfg-m${k}-input`).addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); saveMailSetting(k); } });
+      }
+      $("#cfg-test-email").addEventListener("click", () => sendTestEmail());
     }
     if (h.recovered) { pollSalesLog().catch(() => {}); showStatus([{ text: `🔔 Se recuperaron ${h.recovered} venta(s) que Wompi tenía aprobadas y no estaban registradas. Revisa Ventas y tu correo.`, cls: "ok" }]); }
     if ($("#cfg-int-save")) {
@@ -3413,7 +3419,81 @@ function wompiSecretFormHtml(h, msg) {
       <p class="hint" id="cfg-prv-msg" role="status" style="margin:10px 0 0"></p>
     </div>`;
 }
-/* Herramientas de cobro: buscar pagos aprobados que no se registraron, y probar el correo de cada venta. */
+/* Correo de aviso de cada venta: llave de Resend, quien lo recibe y el remitente (api/admin-config). Todo se valida en el servidor;
+   la llave nunca vuelve a mostrarse completa. Sin Resend el aviso sale por el correo del hosting, que casi nunca llega a Gmail. */
+function emailSettingsHtml(h) {
+  const m = h.mail || {}, resend = m.resend || {};
+  const chk = (h.checks || []).find(c => c.id === "email");
+  const bad = !!chk && !chk.ok;
+  const field = (k, label, ph, val, saveText, clearTitle, extra = "") => `
+      <div class="field" style="margin-bottom:10px"><label for="cfg-m${k}-input">${label}</label>
+        <input id="cfg-m${k}-input" type="text" class="mono" placeholder="${escHtml(ph)}" value="${escHtml(val)}" autocomplete="off" autocapitalize="off" spellcheck="false">${extra}</div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px">
+        <button class="btn cyan" id="cfg-m${k}-save" type="button">${saveText}</button>
+        <button class="btn ghost sm" id="cfg-m${k}-clear" type="button" title="${escHtml(clearTitle)}">Quitar lo guardado aquí</button>
+      </div>`;
+  return `
+    <div id="cfg-mail-box" style="margin-top:18px;padding:16px;border:1px solid ${bad ? "var(--bad)" : "var(--line)"};border-radius:12px">
+      <h4 style="margin:0 0 6px">Correo de aviso de cada venta ${chk ? `<span class="pill" style="${chk.ok ? "" : "background:var(--bad);color:#fff;"}font-weight:600">${chk.ok ? "Funcionando" : "Revisar"}</span>` : ""}</h4>
+      <p class="hint muted" style="margin:0 0 10px">Cada venta pagada le llega por correo al dueño. El correo del hosting casi nunca se entrega (Gmail lo descarta o lo manda a spam). Con <b>Resend</b> (gratis hasta 3.000 correos al mes) llega en segundos.</p>
+      <details style="margin:0 0 14px">
+        <summary style="cursor:pointer;font-weight:600">Cómo activarlo (5 minutos)</summary>
+        <ol class="hint" style="margin:10px 0 0 18px;padding:0;line-height:1.6">
+          <li>Entra a <b>resend.com</b> y crea una cuenta gratis <b>con el correo donde quieres recibir los avisos</b> (si usas otro, mientras no verifiques tu dominio solo podrás enviar a ese correo).</li>
+          <li>En el menú <b>API Keys → Create API Key</b>: nombre «Stike», permiso <b>Sending access</b>. Copia la llave (empieza por <span class="mono">re_</span>; solo se muestra una vez).</li>
+          <li>Pégala abajo y pulsa <b>Guardar y enviar prueba</b>: debe llegar un correo en segundos (mira también spam).</li>
+          <li>Para enviar <b>desde tu propio dominio</b> y a cualquier correo: en Resend → <b>Domains → Add Domain → stikebikeshop.com</b>, agrega en hPanel (Dominios → DNS) los registros que te muestra y pulsa <b>Verify</b>. Después escribe abajo el remitente, por ejemplo <span class="mono">Stike Bike Shop &lt;ventas@stikebikeshop.com&gt;</span>.</li>
+        </ol>
+      </details>
+      ${field("key", `1) Llave de Resend ${resend.configured ? `<span class="muted" style="font-weight:400">· guardada${resend.source === "panel" ? " aquí" : " en el servidor"}, termina en …${escHtml(resend.tail || "")}</span>` : `<span class="pill" style="background:var(--bad);color:#fff;font-weight:600">Falta</span>`}`, "re_…", "", "Guardar y enviar prueba", "Vuelve a usar el valor que está en el servidor")}
+      ${field("to", "2) Quién recibe el aviso de cada venta <span class=\"muted\" style=\"font-weight:400\">(uno o varios, separados por coma)</span>", "dueno@gmail.com, socio@gmail.com", (m.recipients || []).join(", "), "Guardar y enviar prueba", "Vuelve a usar el valor que está en el servidor")}
+      ${field("from", "3) Remitente <span class=\"muted\" style=\"font-weight:400\">(opcional; déjalo vacío hasta verificar tu dominio en Resend)</span>", "Stike Bike Shop <ventas@stikebikeshop.com>", m.from || "", "Guardar y enviar prueba", "Vuelve a usar el remitente de pruebas de Resend")}
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <button class="btn ghost" id="cfg-test-email" type="button">Enviar correo de prueba</button>
+      </div>
+      <p class="hint" id="cfg-mail-msg" role="status" style="margin:10px 0 0;white-space:pre-line"></p>
+    </div>`;
+}
+function mailDomainsText(j) {
+  if (j.restricted) return "\nEs una llave solo de envío (la recomendada).";
+  if (!Array.isArray(j.domains)) return "";
+  const ver = j.domains.filter(x => x.status === "verified").map(x => x.name);
+  return ver.length ? `\nDominios verificados en Resend: ${ver.join(", ")}. Puedes enviar desde ellos (paso 3).`
+    : "\nTodavía no hay un dominio verificado: los avisos salen desde onboarding@resend.dev y Resend solo los entrega al correo con el que creaste la cuenta de Resend.";
+}
+/* Resultado del correo de prueba, explicado: solo cuenta como «bien» si salio por Resend (el del hosting no garantiza la entrega). */
+function describeTestEmail(j) {
+  if (!j.ok) return { ok: false, text: "✕ No se pudo enviar el correo por ningún camino." + (j.resendError ? `\nResend: ${j.resendError.detail}` : (j.resendConfigured ? "" : "\nTodavía no hay llave de Resend: pégala arriba (paso 1).")) };
+  if (j.via === "resend") return { ok: true, text: `✔ Enviado por Resend a ${j.to}. Debe llegar en segundos; mira también en spam la primera vez.` };
+  return { ok: false, text: `Enviado por el correo del hosting a ${j.to}, pero eso NO garantiza que llegue.` + (j.resendError ? `\n⚠ Resend falló: ${j.resendError.detail}` : "\nPara que llegue siempre, activa Resend (pasos de arriba).") };
+}
+async function saveMailSetting(kind, clear = false) {
+  const KEY = { key: "RESEND_API_KEY", to: "OWNER_NOTIFY_EMAIL", from: "RESEND_FROM" }[kind];
+  const input = $(`#cfg-m${kind}-input`), out = $("#cfg-mail-msg");
+  const value = input ? input.value : "";
+  if (!clear && !value.trim()) { out.style.color = "var(--bad)"; out.textContent = kind === "key" ? "Pega primero la llave de Resend." : kind === "to" ? "Escribe al menos un correo." : "Escribe el remitente."; input.focus(); return; }
+  const btns = [...document.querySelectorAll("#cfg-mail-box button")]; btns.forEach(b => { b.disabled = true; });
+  out.style.color = ""; out.textContent = "Guardando…";
+  try {
+    const res = await fetch(new URL("api/admin-config", document.baseURI), {
+      method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(clear ? { key: KEY, clear: true } : { key: KEY, value }),
+    });
+    const j = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(j.detail || ({ forbidden: "Solo el dueño y el desarrollador pueden cambiar esto.", not_logged_in: "Tu sesión venció: vuelve a iniciar sesión." }[j.error]) || j.error || ("HTTP " + res.status));
+    const text = clear ? "Listo: se quitó lo guardado aquí; ahora vale lo que está en el servidor."
+      : kind === "key" ? `✔ Resend aceptó la llave (termina en …${j.tail}).${mailDomainsText(j)}`
+      : kind === "to" ? `Guardado: los avisos de venta llegarán a ${j.value}.`
+      : `Guardado: los avisos saldrán desde ${j.value}.${j.usesTestSender ? "\n(Es el remitente de pruebas de Resend: solo entrega al correo con el que creaste la cuenta.)" : ""}`;
+    await renderHealth();
+    const m = $("#cfg-mail-msg"); if (m) { m.style.color = "var(--good, #3ecf8e)"; m.textContent = text; }
+    if (!clear) await sendTestEmail(text);   // confirma ya con un correo real
+  } catch (e) {
+    out.style.color = "var(--bad)"; out.textContent = e.message;
+    btns.forEach(b => { b.disabled = false; });
+  }
+}
+/* Herramientas de cobro: buscar pagos aprobados que no se registraron. */
 function wompiToolsHtml() {
   return `
     <div style="margin-top:18px;padding:16px;border:1px solid var(--line);border-radius:12px">
@@ -3421,7 +3501,6 @@ function wompiToolsHtml() {
       <p class="hint muted" style="margin:0 0 12px">Busca en Wompi los pagos <b>aprobados</b> que no se registraron y los registra ahora: queda la venta en <b>Ventas</b>, sale el correo al dueño y baja el stock. Es seguro repetirlo (no duplica nada). Esto también se hace solo cada vez que abres el panel.</p>
       <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
         <button class="btn cyan" id="cfg-reconcile" type="button">Buscar pagos sin registrar</button>
-        ${["owner", "developer"].includes(session.role) ? `<button class="btn ghost" id="cfg-test-email" type="button">Enviar correo de prueba</button>` : ""}
       </div>
       <p class="hint" id="cfg-tools-msg" role="status" style="margin:10px 0 0;white-space:pre-line"></p>
     </div>`;
@@ -3446,17 +3525,19 @@ async function reconcilePayments() {
   } catch (e) { out.style.color = "var(--bad)"; out.textContent = e.message; }
   finally { btn.disabled = false; }
 }
-async function sendTestEmail() {
-  const out = $("#cfg-tools-msg"), btn = $("#cfg-test-email");
-  btn.disabled = true; out.style.color = ""; out.textContent = "Enviando…";
+async function sendTestEmail(prefix) {
+  const out = $("#cfg-mail-msg"), btn = $("#cfg-test-email");
+  const head = typeof prefix === "string" && prefix ? prefix + "\n" : "";
+  if (btn) btn.disabled = true;
+  out.style.color = ""; out.textContent = head + "Enviando correo de prueba…";
   try {
     const res = await fetch(new URL("api/admin-config", document.baseURI), { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "test_email" }) });
     const j = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(j.detail || j.error || ("HTTP " + res.status));
-    out.style.color = j.ok ? "var(--good, #3ecf8e)" : "var(--bad)";
-    out.textContent = j.ok ? `Enviado a ${j.to} (${j.via === "resend" ? "por Resend" : "por el correo del hosting"}). Revisa la bandeja y también spam.${j.via === "mail" ? "\nSi no llega, hay que activar Resend: el correo del hosting no siempre se entrega." : ""}` : "No se pudo enviar el correo (el hosting lo rechazó). Hay que configurar Resend.";
-  } catch (e) { out.style.color = "var(--bad)"; out.textContent = e.message; }
-  finally { btn.disabled = false; }
+    if (!res.ok) throw new Error(j.detail || ({ forbidden: "Solo el dueño y el desarrollador pueden hacer esto.", not_logged_in: "Tu sesión venció: vuelve a iniciar sesión." }[j.error]) || j.error || ("HTTP " + res.status));
+    const d = describeTestEmail(j);
+    await renderHealth();   // el estado de arriba (último envío) se actualiza; el resultado se vuelve a mostrar abajo
+    const m = $("#cfg-mail-msg"); if (m) { m.style.color = d.ok ? "var(--good, #3ecf8e)" : "var(--bad)"; m.textContent = head + d.text; }
+  } catch (e) { out.style.color = "var(--bad)"; out.textContent = head + e.message; if (btn) btn.disabled = false; }
 }
 
 /* Lista para salir a PRODUCCION (cobros reales). Es la misma que esta en el README. */

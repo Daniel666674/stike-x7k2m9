@@ -14,7 +14,7 @@ import { spawn, spawnSync } from "node:child_process";
 import { createServer } from "node:http";
 import { createServer as createNetServer } from "node:net";
 import { createHash } from "node:crypto";
-import { mkdtempSync, readFileSync, existsSync, statSync, readdirSync, rmSync, writeFileSync, copyFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, existsSync, statSync, readdirSync, rmSync, writeFileSync, copyFileSync, chmodSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -35,8 +35,52 @@ const google = await listen((req, res) => {
 });
 
 /* Wompi simulado: reconoce la llave publica del comercio y, con la llave privada, dice 404 para una transaccion que no existe. */
-const mails = [];
-const resend = await listen((req, res) => { const c = []; req.on("data", d => c.push(d)); req.on("end", () => { mails.push(JSON.parse(Buffer.concat(c).toString() || "{}")); res.setHeader("content-type", "application/json"); res.end("{}"); }); });
+const mails = [];          // correos que Resend "acepto" (lo que mando el servidor)
+let resendMode = "ok";     // ok | sandbox | unverified | badkey | down  (como contesta Resend al enviar)
+let resendPosts = 0;       // cuantas veces se intento enviar por Resend
+const resend = await listen((req, res) => {
+  const c = []; req.on("data", d => c.push(d));
+  req.on("end", () => {
+    res.setHeader("content-type", "application/json");
+    const auth = req.headers.authorization || "";
+    const send = (code, obj) => { res.statusCode = code; res.end(JSON.stringify(obj)); };
+    if (req.method === "GET" && req.url === "/domains") {   // para comprobar una llave antes de guardarla
+      if (auth === "Bearer re_restringida_solo_enviar_123456") return send(401, { statusCode: 401, name: "restricted_api_key", message: "This API key is restricted to only send emails" });
+      if (auth === "Bearer re_llave_rechazada_por_resend_123") return send(403, { statusCode: 403, name: "invalid_api_key", message: "API key is invalid" });
+      if (auth === "Bearer re_llave_completa_con_dominio_123456") return send(200, { object: "list", data: [{ id: "d1", name: "stikebikeshop.com", status: "verified" }, { id: "d2", name: "otro.com", status: "pending" }] });
+      return send(200, { object: "list", data: [] });
+    }
+    if (req.method === "POST" && req.url === "/emails") {
+      resendPosts++;
+      const body = JSON.parse(Buffer.concat(c).toString() || "{}");
+      if (resendMode === "down") return send(500, { statusCode: 500, name: "application_error", message: "Internal server error" });
+      if (resendMode === "badkey") return send(403, { statusCode: 403, name: "invalid_api_key", message: "API key is invalid" });
+      if (resendMode === "sandbox") return send(403, { statusCode: 403, name: "validation_error", message: "You can only send testing emails to your own email address (otro.dueno@gmail.com). To send emails to other recipients, please verify a domain at resend.com/domains, and change the `from` address to an email using this domain." });
+      if (resendMode === "unverified") return send(403, { statusCode: 403, name: "validation_error", message: "The stikebikeshop.com domain is not verified. Please, add and verify your domain on https://resend.com/domains" });
+      mails.push({ ...body, _auth: auth });
+      return send(200, { id: "em_" + mails.length });
+    }
+    send(404, {});
+  });
+});
+
+/* sendmail falso: lo que PHP mail() entregaria al servidor de correo del hosting queda guardado en un archivo (.eml) para revisarlo. */
+const CAPTURE = mkdtempSync(join(tmpdir(), "stike-sendmail-"));
+const FAKE_SENDMAIL = join(CAPTURE, "fake-sendmail.sh");
+writeFileSync(FAKE_SENDMAIL, ["#!/bin/sh", 'd="${STIKE_MAIL_CAPTURE:-' + CAPTURE + '}"', 'f="$d/mail-$(date +%s%N)-$$"', 'echo "$@" > "$f.args"', 'cat > "$f.eml"', 'exit ${STIKE_MAIL_EXIT:-0}'].join("\n") + "\n");
+chmodSync(FAKE_SENDMAIL, 0o755);
+const captured = dir => readdirSync(dir).filter(f => f.endsWith(".eml")).sort().map(f => ({ eml: readFileSync(join(dir, f), "utf8"), args: existsSync(join(dir, f.replace(/\.eml$/, ".args"))) ? readFileSync(join(dir, f.replace(/\.eml$/, ".args")), "utf8") : "" }));
+const parseEml = raw => {
+  const txt = raw.replace(/\r\n/g, "\n");
+  const [head, ...rest] = txt.split("\n\n"); const body = rest.join("\n\n");
+  const unfolded = head.replace(/\n[ \t]+/g, " ");
+  const hdr = n => (unfolded.match(new RegExp("^" + n + ":\\s*(.*)$", "im")) || [])[1] || "";
+  const words = s => s.replace(/=\?UTF-8\?B\?([^?]*)\?=\s*/gi, (_, b) => Buffer.from(b, "base64").toString("utf8"));
+  const bound = (hdr("Content-Type").match(/boundary="([^"]+)"/) || [])[1];
+  const parts = {};
+  if (bound) for (const p of body.split("--" + bound)) { const m = p.match(/Content-Type:\s*([^;\s]+)[\s\S]*?\n\n([\s\S]*)$/i); if (m) parts[m[1]] = Buffer.from(m[2].replace(/\s+/g, ""), "base64").toString("utf8"); }
+  return { subject: words(hdr("Subject")), from: words(hdr("From")), to: hdr("To"), msgId: hdr("Message-ID"), date: hdr("Date"), type: hdr("Content-Type"), parts, maxLine: Math.max(...txt.split("\n").map(l => l.length)) };
+};
 const txns = {};          // id -> transaccion (como la devuelve Wompi)
 let getByIdDown = false;  // simula que "consultar por id" falla (lo que paso con el pago real)
 let listPublic = false;   // simula que Wompi atiende la lista por referencia SIN pedir llave
@@ -67,10 +111,16 @@ const baseEnv = {
 };
 async function startPhp(extra = {}) {
   const port = await freePort();
-  const proc = spawn("php", ["-S", `127.0.0.1:${port}`, "-t", ROOT], { env: { ...baseEnv, ...extra }, stdio: "ignore" });
+  const proc = spawn("php", ["-d", `sendmail_path=${FAKE_SENDMAIL} -t -i`, "-S", `127.0.0.1:${port}`, "-t", ROOT], { env: { ...baseEnv, ...extra }, stdio: "ignore" });
   for (let i = 0; i < 50; i++) { try { await fetch(`http://127.0.0.1:${port}/api/admin-login.php`); break; } catch { await new Promise(r => setTimeout(r, 100)); } }
   return { proc, API: `http://127.0.0.1:${port}/api` };
 }
+/* Corre una linea de PHP con _lib.php cargado (async: el Resend simulado vive en este mismo proceso y tiene que poder contestar). */
+const phpEval = (code, env = {}) => new Promise(res => {
+  const p = spawn("php", ["-d", `sendmail_path=${FAKE_SENDMAIL} -t -i`, "-r", `require "api/_lib.php"; ${code}`], { cwd: ROOT, env: { ...baseEnv, ...env } });
+  let out = "", err = ""; p.stdout.on("data", d => { out += d; }); p.stderr.on("data", d => { err += d; });
+  p.on("close", status => res({ status, out: out.trim(), err: err.trim() }));
+});
 const srv = await startPhp();
 const rate = await startPhp({ STIKE_SIGN_RATE_LIMIT: "3", STORAGE_DIR: mkdtempSync(join(tmpdir(), "stike-rate-")) });
 const { API } = srv;
@@ -193,6 +243,7 @@ try {
   t("sin sesión: 401", (await fetch(`${API}/wompi-reconcile.php`, { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" })).status, 401);
   const rec = await fetch(`${API}/wompi-reconcile.php`, { method: "POST", headers: { Cookie: owner, "Content-Type": "application/json" }, body: "{}" }).then(r => r.json());
   t("«Buscar pagos sin registrar»: Wompi lo tiene APROBADO por referencia -> se registra", [rec.ok, rec.recovered.length, rec.recovered[0] && rec.recovered[0].reference], [true, 1, R9]);
+  t("lo que devuelve la venta no lleva a quién se le avisó ni por qué falla un correo (esa misma respuesta sale al navegador del cliente)", rec.recovered[0].result.email, { sent: "resend" });
   const sale9 = (await salesOf()).filter(x => x.orderRef === R9);
   t("la venta aparece en el panel (Ventas) con los datos del pedido", [sale9.length, sale9[0] && sale9[0].shipping.name, sale9[0] && sale9[0].wompiId, sale9[0] && sale9[0].source], [1, "Prueba", "txn-real-1", "wompi"]);
   t("sale el correo «Nueva venta» al dueño", [mails.length - mailsBefore, /Nueva venta/.test(mails[mails.length - 1].subject), /Prueba/.test(mails[mails.length - 1].html)], [1, true, true]);
@@ -310,6 +361,129 @@ try {
   const ur2 = (hr2.checks || []).find(c => c.id === "wompi_panel_unreadable") || {};
   t("al pegar de nuevo uno, ese se cifra con la clave nueva y deja de avisar; los otros dos siguen pendientes", [reSave.ok, reSave.encrypted, /WOMPI_INTEGRITY_SECRET/.test(ur2.detail), /WOMPI_EVENTS_SECRET/.test(ur2.detail)], [true, true, false, true]);
   rotated.proc.kill(); rmSync(STORAGE4, { recursive: true, force: true });
+
+  console.log("\nCorreo de aviso de cada venta: sin Resend sale por el hosting (no confiable) y el panel lo dice");
+  const STORAGE6 = mkdtempSync(join(tmpdir(), "stike-cfg6-")), CAP6 = mkdtempSync(join(tmpdir(), "stike-cap6-"));
+  const mailSrv = await startPhp({ STORAGE_DIR: STORAGE6, RESEND_API_KEY: "", STIKE_MAIL_CAPTURE: CAP6 });
+  const M = mailSrv.API;
+  const loginAt = async (api, who) => (await fetch(`${api}/admin-login.php`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ credential: who }) })).headers.get("set-cookie").split(";")[0];
+  const ownerM = await loginAt(M, "owner"), adminM = await loginAt(M, "admin"), staffM = await loginAt(M, "staff");
+  const cfgM = (cookie, body) => fetch(`${M}/admin-config.php`, { method: "POST", headers: { "Content-Type": "application/json", Cookie: cookie }, body: JSON.stringify(body) }).then(async r => ({ code: r.status, json: await r.json().catch(() => null) }));
+  const healthM = async cookie => fetch(`${M}/admin-health.php`, { headers: { Cookie: cookie } }).then(r => r.json());
+  const emailCheck = h => (h.checks || []).find(c => c.id === "email") || {};
+  const cfgFileM = join(STORAGE6, "runtime-config.json");
+
+  const hm0 = await healthM(ownerM), em0 = emailCheck(hm0);
+  t("sin llave de Resend: ✕, dice «SIN Resend», a quién le llega (enmascarado) y que todavía no se envió ninguno", [em0.ok, /SIN Resend/.test(em0.detail), /Le llega a: j\*\*\*@gmail\.com/.test(em0.detail), /Todav[ií]a no se ha enviado/.test(em0.detail)], [false, true, true, true]);
+  t("el dueño recibe el bloque «mail» para el formulario (destinatarios completos, Resend sin configurar); el administrador no", [hm0.mail.recipients, hm0.mail.resend.configured, (await healthM(adminM)).mail === undefined], [["jparra375@gmail.com"], false, true]);
+  const t0 = await cfgM(ownerM, { action: "test_email" });
+  t("el correo de prueba sale por el correo del hosting y dice que NO es confiable", [t0.json.ok, t0.json.via, t0.json.reliable, t0.json.resendConfigured], [true, "mail", false, false]);
+  const cap0 = captured(CAP6);
+  t("el hosting recibió un mensaje", cap0.length, 1);
+  const p0 = parseEml(cap0[0].eml);
+  t("armado como lo quiere Gmail: texto + HTML, fecha, Message-ID, remitente del dominio, ninguna línea de más de 998 caracteres", [/multipart\/alternative/.test(p0.type), !!p0.parts["text/plain"] && !!p0.parts["text/html"], p0.date !== "", /^<[0-9a-f]+@stikebikeshop\.com>$/.test(p0.msgId), p0.from, p0.maxLine <= 998], [true, true, true, true, "Stike Bike Shop <pedidos@stikebikeshop.com>", true]);
+  t("el asunto con acentos y raya se lee bien, el destinatario es el dueño y el sobre (-f) lleva el remitente del dominio", [p0.subject, p0.to, /-fpedidos@stikebikeshop\.com/.test(cap0[0].args)], ["Prueba de correo — Stike Bike Shop", "jparra375@gmail.com", true]);
+  t("el texto y el HTML dicen lo mismo", [/Si lees esto/.test(p0.parts["text/plain"]), /<h2>/.test(p0.parts["text/html"])], [true, true]);
+  const hm1 = emailCheck(await healthM(ownerM));
+  t("el panel anota el envío por el hosting y avisa que eso no garantiza que llegue", [hm1.ok, /correo del hosting \(el servidor lo acept/.test(hm1.detail)], [false, true]);
+
+  console.log("\nLa llave de Resend se pega en el panel: se comprueba con Resend y se guarda cifrada");
+  t("staff no puede (403)", (await cfgM(staffM, { key: "RESEND_API_KEY", value: "re_llave_completa_con_dominio_123456" })).code, 403);
+  t("lo que no es una llave de Resend -> 400 wrong_kind", (await cfgM(ownerM, { key: "RESEND_API_KEY", value: "prv_test_otra_cosa_muy_larga_123" })).json.error, "wrong_kind");
+  const rk1 = await cfgM(ownerM, { key: "RESEND_API_KEY", value: "re_llave_rechazada_por_resend_123" });
+  t("una llave que Resend RECHAZA -> 400 key_rejected, y no se guarda", [rk1.code, rk1.json.error, existsSync(cfgFileM) && "RESEND_API_KEY" in JSON.parse(readFileSync(cfgFileM, "utf8"))], [400, "key_rejected", false]);
+  const rk2 = await cfgM(ownerM, { key: "RESEND_API_KEY", value: " re_restringida_solo_enviar_123456 " });
+  t("una llave de solo envío (la recomendada) se acepta aunque no pueda ver dominios", [rk2.code, rk2.json.ok, rk2.json.restricted, rk2.json.tail], [200, true, true, "3456"]);
+  const rk3 = await cfgM(ownerM, { key: "RESEND_API_KEY", value: "re_llave_completa_con_dominio_123456" });
+  t("una llave completa se acepta y dice qué dominios tiene verificados", [rk3.code, rk3.json.ok, rk3.json.restricted, (rk3.json.domains || []).filter(d => d.status === "verified").map(d => d.name)], [200, true, false, ["stikebikeshop.com"]]);
+  t("la respuesta nunca trae la llave y en el disco va cifrada", [JSON.stringify(rk3.json).includes("re_llave_completa"), readFileSync(cfgFileM, "utf8").includes("re_llave_completa"), JSON.parse(readFileSync(cfgFileM, "utf8")).RESEND_API_KEY.enc], [false, false, "v1"]);
+
+  console.log("\nCon Resend: el correo sale por Resend, con la llave guardada, y el panel lo confirma");
+  resendMode = "ok";
+  const t1 = await cfgM(ownerM, { action: "test_email" });
+  const last1 = mails[mails.length - 1];
+  t("el correo de prueba sale por Resend y es confiable", [t1.json.ok, t1.json.via, t1.json.reliable], [true, "resend", true]);
+  t("Resend recibió la llave guardada, el destinatario, el remitente de pruebas y también la versión en texto", [last1._auth, last1.to, last1.from, /Si lees esto/.test(last1.text || "")], ["Bearer re_llave_completa_con_dominio_123456", ["jparra375@gmail.com"], "Stike Bike Shop <onboarding@resend.dev>", true]);
+  const hm2 = await healthM(ownerM), em2 = emailCheck(hm2);
+  t("el panel lo marca ✔: «Sale por Resend» y «✔ por Resend»", [em2.ok, /Sale por Resend/.test(em2.detail), /✔ por Resend/.test(em2.detail)], [true, true, true]);
+  t("y al formulario le dice que la llave existe, viene del panel y termina en …3456, sin devolverla", [hm2.mail.resend, JSON.stringify(hm2).includes("re_llave_completa")], [{ configured: true, source: "panel", tail: "3456", length: 36 }, false]);
+
+  console.log("\nResend se niega a enviar: el panel explica exactamente por qué");
+  resendMode = "sandbox";
+  const nCap = captured(CAP6).length;
+  const t2 = await cfgM(ownerM, { action: "test_email" });
+  t("con el remitente de pruebas y un destinatario ajeno a la cuenta: Resend dice «solo a tu propio correo»; se intenta por el hosting y la respuesta lo dice", [t2.json.ok, t2.json.via, t2.json.reliable, t2.json.resendError.code, /otro\.dueno@gmail\.com/.test(t2.json.resendError.detail), /verifica stikebikeshop\.com/.test(t2.json.resendError.detail)], [true, "mail", false, "sandbox_only", true, true]);
+  t("el hosting recibió el mensaje de respaldo", captured(CAP6).length, nCap + 1);
+  const em3 = emailCheck(await healthM(ownerM));
+  t("el panel marca ✕ y cuenta que Resend falló y se usó el hosting, con el motivo", [em3.ok, /Resend falló y se usó el del hosting/.test(em3.detail), /otro\.dueno@gmail\.com/.test(em3.detail)], [false, true, true]);
+  resendMode = "badkey";
+  t("llave que Resend ya no acepta (la borraron): «RECHAZÓ la llave»", (await cfgM(ownerM, { action: "test_email" })).json.resendError.code, "key_rejected");
+  resendMode = "down";
+  t("Resend caído (500): «tuvo un problema» y sale por el hosting", (await cfgM(ownerM, { action: "test_email" })).json.resendError.code, "resend_down");
+
+  console.log("\nA quién le llega: uno o varios correos, y a los de antes les avisan del cambio");
+  resendMode = "ok";
+  t("algo que no es un correo -> 400", (await cfgM(ownerM, { key: "OWNER_NOTIFY_EMAIL", value: "no es un correo" })).json.error, "wrong_kind");
+  t("staff no puede (403)", (await cfgM(staffM, { key: "OWNER_NOTIFY_EMAIL", value: "x@y.co" })).code, 403);
+  const nMailsBefore = mails.length;
+  const rc1 = await cfgM(ownerM, { key: "OWNER_NOTIFY_EMAIL", value: "otro.dueno@gmail.com,  socio@gmail.com ; otro.dueno@GMAIL.com" });
+  t("varios correos (coma, punto y coma, repetidos o con mayúsculas) quedan limpios y sin repetir", [rc1.code, rc1.json.value, rc1.json.count], [200, "otro.dueno@gmail.com, socio@gmail.com", 2]);
+  const chg = mails.slice(nMailsBefore).find(m => /Cambió el correo/.test(m.subject));
+  t("a los de antes y a los nuevos les llega el aviso del cambio (quién lo hizo, antes y ahora)", [chg && chg.to.slice().sort(), chg && /jparra375@gmail\.com/.test(chg.html) && /socio@gmail\.com/.test(chg.html) && /jparra375@gmail\.com/.test(chg.html)], [["jparra375@gmail.com", "otro.dueno@gmail.com", "socio@gmail.com"], true]);
+  await cfgM(ownerM, { action: "test_email" });
+  t("el aviso de venta le llega a los dos", mails[mails.length - 1].to, ["otro.dueno@gmail.com", "socio@gmail.com"]);
+  t("el formulario recibe los correos completos", (await healthM(ownerM)).mail.recipients, ["otro.dueno@gmail.com", "socio@gmail.com"]);
+  await cfgM(ownerM, { key: "OWNER_NOTIFY_EMAIL", value: "dueno@correo.com" });
+  t("un correo de ejemplo (dueno@correo.com) se marca: «parece un correo de EJEMPLO»", /parece un correo de EJEMPLO/.test(emailCheck(await healthM(ownerM)).detail), true);
+  t("«Quitar lo guardado aquí» vuelve al correo del servidor (por defecto, el del dueño)", [(await cfgM(ownerM, { key: "OWNER_NOTIFY_EMAIL", clear: true })).json.cleared, (await healthM(ownerM)).mail.recipients], [true, ["jparra375@gmail.com"]]);
+
+  console.log("\nDesde qué remitente sale");
+  t("algo que no es un remitente -> 400", (await cfgM(ownerM, { key: "RESEND_FROM", value: "esto no" })).json.error, "wrong_kind");
+  const rf1 = await cfgM(ownerM, { key: "RESEND_FROM", value: '  "Stike Bike Shop" <ventas@stikebikeshop.com> ' });
+  t("«Nombre <correo>» se acepta y queda limpio", [rf1.code, rf1.json.value, rf1.json.usesTestSender], [200, "Stike Bike Shop <ventas@stikebikeshop.com>", false]);
+  await cfgM(ownerM, { action: "test_email" });
+  t("Resend envía desde ese remitente", mails[mails.length - 1].from, "Stike Bike Shop <ventas@stikebikeshop.com>");
+  resendMode = "unverified";
+  const t3 = await cfgM(ownerM, { action: "test_email" });
+  t("si el dominio no está verificado en Resend: lo dice y explica qué hacer (registros DNS + Verify)", [t3.json.resendError.code, /Verify/.test(t3.json.resendError.detail)], ["domain_not_verified", true]);
+  resendMode = "ok";
+  t("el remitente de pruebas de Resend se reconoce como tal", (await cfgM(ownerM, { key: "RESEND_FROM", value: "onboarding@resend.dev" })).json.usesTestSender, true);
+  await cfgM(ownerM, { key: "RESEND_FROM", clear: true });
+  t("quitar la llave guardada deja al servidor sin Resend (en este servidor de pruebas no hay otra)", [(await cfgM(ownerM, { key: "RESEND_API_KEY", clear: true })).json.cleared, (await cfgM(ownerM, { action: "test_email" })).json.resendConfigured], [true, false]);
+  mailSrv.proc.kill();
+
+  console.log("\nSi ningún camino puede enviar, el aviso de venta se guarda y se reintenta solo");
+  const STORAGE7 = mkdtempSync(join(tmpdir(), "stike-cfg7-")), CAP7 = mkdtempSync(join(tmpdir(), "stike-cap7-"));
+  const envDown = { STORAGE_DIR: STORAGE7, STIKE_MAIL_CAPTURE: CAP7, STIKE_MAIL_EXIT: "1", RESEND_API_KEY: "re_falsa_para_cli_1234567890" };
+  const outboxN = () => existsSync(join(STORAGE7, "outbox")) ? readdirSync(join(STORAGE7, "outbox")).filter(f => f.endsWith(".json")).length : 0;
+  const lastMail = () => JSON.parse(readFileSync(join(STORAGE7, "last-mail.json"), "utf8"));
+  resendMode = "down";
+  const o1 = JSON.parse((await phpEval(`echo json_encode(stike_send_owner_mail("Nueva venta X", "<p>hola</p>", ["kind" => "venta"]));`, envDown)).out);
+  t("Resend caído y el hosting también: el aviso falla, queda guardado para reintentar y se anota el motivo", [o1.error, o1.queued, outboxN(), lastMail().venta.ok, lastMail().venta.error], ["email_failed", true, 1, false, "resend_down"]);
+  const o2 = JSON.parse((await phpEval(`echo json_encode(stike_send_owner_mail("Prueba", "<p>hola</p>", ["kind" => "prueba", "noQueue" => true]));`, envDown)).out);
+  t("una prueba o una alerta que falla NO se guarda para reenviar (quien la pidió está mirando)", [o2.error, o2.queued, outboxN()], ["email_failed", false, 1]);
+  const posts0 = resendPosts;
+  await phpEval(`echo stike_mail_outbox_flush();`, envDown);
+  const posts1 = resendPosts;
+  await phpEval(`echo stike_mail_outbox_flush();`, envDown);
+  t("si el reintento también falla, espera antes de volver a intentar (no martilla a Resend)", [posts1 - posts0, resendPosts - posts1, outboxN()], [1, 0, 1]);
+  resendMode = "ok";
+  const pending = join(STORAGE7, "outbox", readdirSync(join(STORAGE7, "outbox"))[0]);
+  const pj = JSON.parse(readFileSync(pending, "utf8")); pj.lastTry = 0; writeFileSync(pending, JSON.stringify(pj));   // pasó el tiempo de espera
+  const flushed = await phpEval(`echo stike_mail_outbox_flush();`, { ...envDown, STIKE_MAIL_EXIT: "0" });
+  const late = mails[mails.length - 1];
+  t("cuando Resend vuelve, el aviso guardado sale solo (con la nota «se reenvió») y la bandeja queda vacía", [flushed.out, late.subject, /se reenvió porque el primer envío falló/.test(late.html), outboxN(), lastMail().venta.ok, lastMail().venta.via], ["1", "Nueva venta X", true, 0, true, "resend"]);
+  resendMode = "down";
+  const a1 = await phpEval(`echo json_encode(stike_alert_owner("pago_caido", "Pago caído", "detalle"));`, envDown);
+  const postsA = resendPosts;
+  const a2 = await phpEval(`echo json_encode(stike_alert_owner("pago_caido", "Pago caído", "detalle"));`, envDown);
+  t("la alerta de «el pago no funciona» que no pudo salir NO se da por enviada: el próximo intento vuelve a avisar (no espera 6 horas)", [a1.out, a2.out, resendPosts > postsA], ["false", "false", true]);
+  resendMode = "ok";
+  const a3 = await phpEval(`echo json_encode(stike_alert_owner("pago_caido", "Pago caído", "detalle"));`, { ...envDown, STIKE_MAIL_EXIT: "0" });
+  const postsB = resendPosts;
+  const a4 = await phpEval(`echo json_encode(stike_alert_owner("pago_caido", "Pago caído", "detalle"));`, { ...envDown, STIKE_MAIL_EXIT: "0" });
+  t("cuando sí sale, no se repite (como máximo uno cada 6 horas)", [a3.out, a4.out, resendPosts - postsB], ["true", "false", 0]);
+  rmSync(STORAGE6, { recursive: true, force: true }); rmSync(STORAGE7, { recursive: true, force: true }); rmSync(CAP6, { recursive: true, force: true }); rmSync(CAP7, { recursive: true, force: true });
 
   console.log("\nProtecciones del cobro");
   await cfg(owner, { key: "WOMPI_INTEGRITY_SECRET", value: GOOD });

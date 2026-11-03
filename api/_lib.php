@@ -15,8 +15,8 @@
        'WOMPI_INTEGRITY_SECRET' => 'prod_integrity_...',
        'WOMPI_EVENTS_SECRET'    => 'prod_events_...',   // opcional: si esta, cada evento se verifica con su firma
        'ADMIN_API_KEY'          => '<cadena larga al azar; se pega en el panel>',
-       'RESEND_API_KEY'         => 're_...',            // opcional, ver correo
-       'OWNER_NOTIFY_EMAIL'     => 'dueno@correo.com',  // opcional
+       'RESEND_API_KEY'         => 're_...',            // opcional; mejor pegarla en el panel (Configuracion > Correo de aviso)
+       'OWNER_NOTIFY_EMAIL'     => '<correo de quien recibe las ventas>',  // opcional; tambien se cambia en el panel
        'STORAGE_DIR'            => '/home/uXXXX/stike-private',  // opcional
      ];
 
@@ -76,13 +76,14 @@ function stike_run($fn) {
   }
 }
 
-/* Secretos que se pueden corregir desde el panel (api/admin-config.php) sin tocar
+/* Secretos y ajustes que se pueden corregir desde el panel (api/admin-config.php) sin tocar
    archivos del servidor. Lo guardado ahi manda sobre la variable de entorno y sobre
    api/config.local.php: es lo ultimo que alguien decidio a proposito. La llave
    PUBLICA NO esta aqui: cambiarla redirige el dinero a otra cuenta, asi que solo se
    cambia en el servidor. La privada si (solo busca pagos ya hechos; el panel la
-   comprueba con Wompi antes de guardarla). */
-const STIKE_RUNTIME_KEYS = ["WOMPI_INTEGRITY_SECRET", "WOMPI_EVENTS_SECRET", "WOMPI_PRIVATE_KEY"];
+   comprueba con Wompi antes de guardarla). Los tres ultimos son del correo de aviso de cada
+   venta: la llave de Resend (secreta), a quien le llega y desde que remitente sale. */
+const STIKE_RUNTIME_KEYS = ["WOMPI_INTEGRITY_SECRET", "WOMPI_EVENTS_SECRET", "WOMPI_PRIVATE_KEY", "RESEND_API_KEY", "OWNER_NOTIFY_EMAIL", "RESEND_FROM"];
 
 function stike_runtime_config_path() { return stike_storage_dir() . "/runtime-config.json"; }
 
@@ -843,7 +844,9 @@ function stike_finalize_order($reference, $wompiId, $trusted = null) {
   ]);
   if ($recordError !== null) throw new ApiError(500, "storage_unavailable", "pago aprobado pero no se pudo guardar; el dueno fue avisado por correo");
   stike_delete_pending($reference);
-  return ["recorded" => count($entries), "email" => $email, "flag" => $flag];
+  /* Esto sale tal cual al navegador del cliente (wompi-order.php): del correo solo se dice si salio, nunca a quien ni por que fallo. */
+  $emailOut = empty($email["error"]) ? ["sent" => $email["sent"] ?? null] : ["error" => "email_failed"];
+  return ["recorded" => count($entries), "email" => $emailOut, "flag" => $flag];
 }
 
 /* Busca pagos APROBADOS que nunca se registraron (el cliente pago y la pagina no pudo confirmar, y el aviso de
@@ -859,6 +862,7 @@ function stike_reconcile_pending($max = 6, $force = false) {
     $lock = stike_storage_dir() . "/reconcile.at";
     if (!$force && is_file($lock) && (int)@file_get_contents($lock) > time() - 60) { $out["skipped"] = "throttled"; return $out; }
     @file_put_contents($lock, (string)time());
+    stike_mail_outbox_flush(3);   // avisos de venta que no pudieron salir: se reintentan
     $schedule = [90, 600, 3600, 21600, 86400];
     $now = time();
     foreach (glob($dir . "/*.json") ?: [] as $f) {
@@ -903,28 +907,190 @@ function stike_reconcile_pending($max = 6, $force = false) {
 function stike_money($n) { return "$" . number_format((float)$n, 0, ",", "."); }
 function stike_h($s) { return htmlspecialchars((string)$s, ENT_QUOTES, "UTF-8"); }
 
-/* Envia un correo al dueno (Resend si hay llave; si no, mail() del hosting). Nunca lanza. */
-function stike_send_owner_mail($subject, $html) {
-  $to = stike_config("OWNER_NOTIFY_EMAIL", "jparra375@gmail.com");
+/* Correos validos de un texto (separados por coma, punto y coma o espacio), sin repetir. */
+function stike_parse_emails($raw, $max = 5) {
+  $out = [];
+  foreach (preg_split('/[\s,;]+/', (string)$raw) ?: [] as $a) {
+    $a = trim($a, " \t\n\r\0\x0B<>\"'");
+    if ($a === "" || strlen($a) > 120 || !filter_var($a, FILTER_VALIDATE_EMAIL)) continue;
+    foreach ($out as $x) if (strcasecmp($x, $a) === 0) continue 2;
+    $out[] = $a;
+    if (count($out) >= $max) break;
+  }
+  return $out;
+}
+/* Quienes reciben el aviso de cada venta: OWNER_NOTIFY_EMAIL (panel, variable de entorno o config.local.php) puede traer varios. */
+function stike_owner_recipients() {
+  $list = stike_parse_emails(stike_config("OWNER_NOTIFY_EMAIL", ""));
+  return $list ?: ["jparra375@gmail.com"];
+}
+function stike_mask_email($a) { return preg_replace('/^(.).*(@.*)$/', '$1***$2', (string)$a); }
+
+/* Remitente: «Nombre <correo>» o solo el correo -> [nombre, correo], o null si no es valido. */
+function stike_parse_sender($raw, $defName = "Stike Bike Shop") {
+  $raw = trim((string)$raw);
+  if (preg_match('/^(.*)<\s*([^<>\s]+@[^<>\s]+)\s*>$/', $raw, $m) && filter_var($m[2], FILTER_VALIDATE_EMAIL)) {
+    $name = trim(str_replace(['"', "\r", "\n", "<", ">"], "", $m[1]), " \t'");
+    return [$name !== "" ? $name : $defName, $m[2]];
+  }
+  if ($raw !== "" && filter_var($raw, FILTER_VALIDATE_EMAIL)) return [$defName, $raw];
+  return null;
+}
+/* Remitente para Resend: el de RESEND_FROM; sin el, el de pruebas de Resend (solo llega al correo de la cuenta de Resend). */
+function stike_resend_from() {
+  $p = stike_parse_sender(stike_config("RESEND_FROM", ""));
+  return $p ? $p[0] . " <" . $p[1] . ">" : "Stike Bike Shop <onboarding@resend.dev>";
+}
+
+/* Texto plano de un correo HTML (la otra mitad de un correo bien armado; ayuda a que no caiga en spam). */
+function stike_html_to_text($html) {
+  $t = preg_replace('~<(br|/p|/h\d|/tr|/div|/li)\b[^>]*>~i', "\n", (string)$html);
+  $t = preg_replace('~</t[dh]>~i', "  ", $t);
+  $t = html_entity_decode(strip_tags($t), ENT_QUOTES | ENT_HTML5, "UTF-8");
+  $t = preg_replace("/[ \t]+/", " ", $t);
+  $t = preg_replace("/\n[ \t]+/", "\n", $t);
+  return trim(preg_replace("/\n{3,}/", "\n\n", $t));
+}
+/* Asunto con acentos o simbolos, codificado en partes cortas (un solo bloque largo lo rechazan algunos servidores). */
+function stike_mime_subject($s) {
+  if (function_exists("mb_encode_mimeheader")) {
+    $r = @mb_encode_mimeheader((string)$s, "UTF-8", "B", "\r\n", 9);
+    if (is_string($r) && $r !== "") return $r;
+  }
+  return "=?UTF-8?B?" . base64_encode((string)$s) . "?=";
+}
+
+/* Lo que Resend contesta cuando no envia, explicado para el panel (sin la llave, nunca). -> ["code" => ..., "detail" => ...] */
+function stike_resend_explain($status, $json, $err = "") {
+  $name = is_array($json) ? (string)($json["name"] ?? "") : "";
+  $msg = is_array($json) ? (string)($json["message"] ?? "") : "";
+  if ($status === 0) return ["code" => "unreachable", "detail" => "No se pudo conectar con Resend" . ($err ? " (" . $err . ")" : "") . ". Suele ser momentáneo."];
+  if ($status === 429) return ["code" => "rate_limited", "detail" => "Resend pide esperar un momento (demasiados envíos seguidos o se agotó el límite del plan)."];
+  if ($status >= 500) return ["code" => "resend_down", "detail" => "Resend tuvo un problema (" . $status . "). Suele ser momentáneo."];
+  if ($status === 401 || $name === "invalid_api_key" || $name === "missing_api_key") return ["code" => "key_rejected", "detail" => "Resend RECHAZÓ la llave. Crea otra en resend.com → API Keys (permiso «Sending access») y pégala de nuevo en el panel."];
+  if (stripos($msg, "own email address") !== false || stripos($msg, "verify a domain") !== false) {
+    $own = preg_match('/\(([^)\s]+@[^)\s]+)\)/', $msg, $m) ? $m[1] : null;
+    return ["code" => "sandbox_only", "detail" => "Con el remitente de pruebas de Resend (onboarding@resend.dev) solo se puede enviar al correo con el que se creó la cuenta de Resend" . ($own ? " (" . $own . ")" : "") . ". Dos salidas: (1) pon ese mismo correo como destinatario en el panel, o (2) en resend.com → Domains verifica stikebikeshop.com y pon como remitente, por ejemplo, ventas@stikebikeshop.com."];
+  }
+  if (stripos($msg, "not verified") !== false) return ["code" => "domain_not_verified", "detail" => "El dominio del remitente no está verificado en Resend. En resend.com → Domains agrega los registros DNS que te muestra (en hPanel → Dominio → DNS) y pulsa Verify. Mientras tanto deja el remitente vacío para usar el de pruebas."];
+  $short = function_exists("mb_substr") ? mb_substr($msg, 0, 200) : substr($msg, 0, 200);
+  return ["code" => "rejected", "detail" => "Resend no aceptó el correo (" . $status . ($short !== "" ? ": " . $short : "") . ")."];
+}
+
+/* Envia por Resend. -> ["ok" => true] o ["ok" => false, "code" => ..., "detail" => ..., "status" => ...] */
+function stike_resend_send($apiKey, $to, $subject, $html) {
+  $base = rtrim(stike_config("RESEND_API_BASE", "https://api.resend.com"), "/");
+  $res = stike_http("POST", $base . "/emails", ["Authorization: Bearer " . $apiKey, "Content-Type: application/json"], json_encode([
+    "from" => stike_resend_from(), "to" => array_values($to), "subject" => $subject, "html" => $html, "text" => stike_html_to_text($html),
+  ], JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE), 20);
+  if ($res["status"] >= 200 && $res["status"] < 300) return ["ok" => true, "id" => is_array($res["json"]) ? ($res["json"]["id"] ?? null) : null];
+  return ["ok" => false, "status" => $res["status"]] + stike_resend_explain($res["status"], $res["json"], $res["error"] ?? "");
+}
+
+/* Correo del hosting (mail()), armado como lo espera Gmail: texto + HTML en base64 (una linea HTML larga sin codificar viola el
+   limite de 998 caracteres y la rechazan o la mandan a spam), Date, Message-ID, remitente de sobre (-f) y asunto codificado por partes. */
+function stike_mail_fallback($to, $subject, $html) {
+  $from = stike_parse_sender(stike_config("MAIL_FROM", "pedidos@stikebikeshop.com")) ?: ["Stike Bike Shop", "pedidos@stikebikeshop.com"];
+  $domain = substr((string)strrchr($from[1], "@"), 1) ?: "stikebikeshop.com";
+  $bound = "stike_" . bin2hex(random_bytes(8));
+  $headers = implode("\r\n", [
+    "From: " . stike_mime_subject($from[0]) . " <" . $from[1] . ">",
+    "Date: " . date("r"),
+    "Message-ID: <" . bin2hex(random_bytes(12)) . "@" . $domain . ">",
+    "MIME-Version: 1.0",
+    "Content-Type: multipart/alternative; boundary=\"" . $bound . "\"",
+    "Auto-Submitted: auto-generated",
+    "X-Auto-Response-Suppress: All",
+  ]);
+  $body = "--$bound\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\n" . chunk_split(base64_encode(stike_html_to_text($html)), 76, "\r\n")
+    . "--$bound\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\n" . chunk_split(base64_encode((string)$html), 76, "\r\n")
+    . "--$bound--\r\n";
+  $list = implode(", ", $to);
+  $subj = stike_mime_subject($subject);
+  if (@mail($list, $subj, $body, $headers, "-f" . $from[1])) return true;
+  return (bool)@mail($list, $subj, $body, $headers);   // algunos hostings no aceptan el parametro -f
+}
+
+/* Ultimo resultado de cada tipo de correo (venta, prueba, alerta): lo lee el panel para decir con claridad si el aviso esta llegando. */
+function stike_note_mail($kind, $via, $ok, $code = null, $detail = null, $extra = []) {
+  try {
+    $path = stike_storage_dir() . "/last-mail.json";
+    $all = is_file($path) ? json_decode((string)@file_get_contents($path), true) : [];
+    if (!is_array($all)) $all = [];
+    $short = $detail === null ? null : (function_exists("mb_substr") ? mb_substr((string)$detail, 0, 300) : substr((string)$detail, 0, 300));
+    $all[$kind] = ["at" => stike_now_iso(), "via" => $via, "ok" => (bool)$ok, "error" => $code, "detail" => $short] + $extra;
+    @file_put_contents($path, json_encode($all, JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE));
+  } catch (Throwable $e) { /* nunca por esto se rompe una venta */ }
+}
+
+/* Bandeja de reintento: un aviso que NINGUN canal pudo enviar se guarda y se vuelve a intentar (2 min, 4, 8... hasta 1 h entre intentos,
+   durante 48 h) cada vez que el panel revisa pagos. Asi un corte de Resend o del hosting no pierde el aviso de una venta. */
+function stike_mail_outbox_add($kind, $subject, $html) {
+  try {
+    $dir = stike_storage_dir() . "/outbox";
+    if (!is_dir($dir) && !@mkdir($dir, 0750, true) && !is_dir($dir)) return false;
+    if (count(glob($dir . "/*.json") ?: []) >= 30) return false;
+    $f = $dir . "/" . date("YmdHis") . "-" . bin2hex(random_bytes(4)) . ".json";
+    $tmp = $f . ".tmp";
+    if (@file_put_contents($tmp, json_encode(["kind" => $kind, "subject" => $subject, "html" => $html, "at" => stike_now_iso(), "tries" => 0], JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE)) === false) return false;
+    @chmod($tmp, 0600);
+    return @rename($tmp, $f);
+  } catch (Throwable $e) { return false; }
+}
+function stike_mail_outbox_flush($max = 3) {
+  $sent = 0;
+  try {
+    $dir = stike_storage_dir() . "/outbox";
+    if (!is_dir($dir)) return 0;
+    $n = 0;
+    foreach (glob($dir . "/*.json") ?: [] as $f) {
+      if ($n >= $max) break;
+      $p = json_decode((string)@file_get_contents($f), true);
+      if (!is_array($p) || !is_string($p["subject"] ?? null) || !is_string($p["html"] ?? null)) { @unlink($f); continue; }
+      $tries = (int)($p["tries"] ?? 0);
+      $age = time() - (strtotime((string)($p["at"] ?? "")) ?: (int)@filemtime($f));
+      if ($age > 172800 || $tries >= 12) { @unlink($f); continue; }
+      if ($tries > 0 && time() - (int)($p["lastTry"] ?? 0) < min(3600, 120 * (2 ** $tries))) continue;
+      $n++;
+      $late = '<p style="background:#fff7e0;border:1px solid #f0d58a;padding:8px 10px;border-radius:6px;font-family:system-ui,sans-serif;font-size:13px;max-width:480px;margin:0 auto 10px">Este aviso se reenvió porque el primer envío falló (' . stike_h($p["at"] ?? "") . ').</p>';
+      $r = stike_send_owner_mail($p["subject"], $late . $p["html"], ["kind" => (string)($p["kind"] ?? "venta"), "fromOutbox" => true]);
+      if (empty($r["error"])) { @unlink($f); $sent++; continue; }
+      $p["tries"] = $tries + 1; $p["lastTry"] = time();
+      $tmp = $f . "." . bin2hex(random_bytes(4)) . ".tmp";
+      if (@file_put_contents($tmp, json_encode($p, JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE)) !== false) @rename($tmp, $f);
+    }
+  } catch (Throwable $e) { error_log("[stike] bandeja de correos: " . get_class($e)); }
+  return $sent;
+}
+
+/* Envia un correo al dueno: por Resend si hay llave; si Resend falla (o no hay llave), por el correo del hosting. Nunca lanza.
+   $opts: kind = venta | prueba | alerta (para el registro del panel); noQueue = no guardar para reintentar; fromOutbox.
+   Devuelve ["sent" => "resend"|"mail", "to" => [...], "resendError" => null|["code","detail"]] o ["error" => "email_failed", ...].
+   OJO: lo que sale al navegador de un cliente (wompi-order.php) nunca lleva este arreglo completo: ver stike_finalize_order. */
+function stike_send_owner_mail($subject, $html, $opts = []) {
+  $kind = (string)($opts["kind"] ?? "venta");
+  $to = (!empty($opts["to"]) && is_array($opts["to"])) ? array_values($opts["to"]) : stike_owner_recipients();   // to: solo avisos internos (p. ej. al cambiar el destinatario)
+  $resendErr = null;
   try {
     $apiKey = stike_config("RESEND_API_KEY");
     if ($apiKey) {
-      $base = rtrim(stike_config("RESEND_API_BASE", "https://api.resend.com"), "/");
-      $res = stike_http("POST", $base . "/emails", ["Authorization: Bearer " . $apiKey, "Content-Type: application/json"], json_encode([
-        "from" => stike_config("RESEND_FROM", "Stike Bike Shop <onboarding@resend.dev>"),
-        "to" => [$to], "subject" => $subject, "html" => $html,
-      ], JSON_UNESCAPED_UNICODE));
-      if ($res["status"] < 200 || $res["status"] >= 300) throw new RuntimeException("resend " . $res["status"]);
-      return ["sent" => "resend"];
+      $r = stike_resend_send($apiKey, $to, $subject, $html);
+      if (!empty($r["ok"])) { stike_note_mail($kind, "resend", true); return ["sent" => "resend", "to" => $to, "resendError" => null]; }
+      $resendErr = ["code" => $r["code"], "detail" => $r["detail"]];
+      error_log("[stike] Resend no envio el correo ($kind): " . $r["code"] . " (" . ($r["status"] ?? "?") . ")");
     }
-    $from = stike_config("MAIL_FROM", "pedidos@stikebikeshop.com");
-    $headers = "From: Stike Bike Shop <$from>\r\nContent-Type: text/html; charset=UTF-8\r\nMIME-Version: 1.0";
-    if (!@mail($to, "=?UTF-8?B?" . base64_encode($subject) . "?=", $html, $headers)) throw new RuntimeException("mail() fallo");
-    return ["sent" => "mail"];
+    if (stike_mail_fallback($to, $subject, $html)) {
+      stike_note_mail($kind, "mail", true, $resendErr["code"] ?? null, $resendErr["detail"] ?? null, ["fellBack" => (bool)$resendErr]);
+      return ["sent" => "mail", "to" => $to, "resendError" => $resendErr];
+    }
+    error_log("[stike] mail() del hosting no envio el correo ($kind)");
   } catch (Throwable $e) {
-    error_log("[stike] correo al dueno fallo: " . $e->getMessage());
-    return ["error" => "email_failed"];
+    error_log("[stike] correo al dueno fallo: " . get_class($e) . ": " . $e->getMessage());
   }
+  stike_note_mail($kind, null, false, $resendErr["code"] ?? "mail_failed", $resendErr["detail"] ?? "El correo del hosting (mail) no aceptó el mensaje.");
+  $queued = false;
+  if ($kind === "venta" && empty($opts["noQueue"]) && empty($opts["fromOutbox"])) $queued = stike_mail_outbox_add($kind, $subject, $html);
+  return ["error" => "email_failed", "to" => $to, "resendError" => $resendErr, "queued" => $queued];
 }
 
 /* Aviso de que el cobro se cayo (no de una venta). Como maximo uno por tipo cada
@@ -944,7 +1110,8 @@ function stike_alert_owner($kind, $title, $detail, $everySec = 21600) {
       . '<p style="background:#f7f7f7;padding:10px;border-radius:6px">' . stike_h($detail) . '</p>'
       . '<p>Entra al panel → <b>Configuración</b> para corregirlo. Mientras tanto los clientes ven la opción de pedir por WhatsApp.</p>'
       . '<p style="color:#999;font-size:12px">Este aviso se envía como máximo una vez cada ' . (int)round($everySec / 3600) . ' horas.</p></div>';
-    stike_send_owner_mail("⚠ El pago en línea de Stike no está funcionando", $html);
+    $r = stike_send_owner_mail("⚠ El pago en línea de Stike no está funcionando", $html, ["kind" => "alerta", "noQueue" => true]);
+    if (!empty($r["error"])) { @unlink($f); return false; }   // no salio: que el proximo intento de un cliente vuelva a avisar (no esperar 6 horas)
     return true;
   } catch (Throwable $e) {
     return false;
@@ -972,7 +1139,6 @@ function stike_note_event($result, $reference = null, $status = null) {
 /* Aviso al dueno. Con RESEND_API_KEY sale por Resend (entrega confiable); sin
    ella cae a mail() del hosting. Un correo que falla NO tumba la venta. */
 function stike_notify_owner($entries, $ctx) {
-  $to = stike_config("OWNER_NOTIFY_EMAIL", "jparra375@gmail.com");
   $items = 0;
   $rows = "";
   foreach ($entries as $e) {
@@ -1011,5 +1177,5 @@ function stike_notify_owner($entries, $ctx) {
     . '<p style="color:#999;font-size:12px">También quedó en el panel admin (pestaña Ventas).</p></div>';
   $subject = "Nueva venta Stike — " . stike_money($paidPesos) . " (ref " . $ctx["reference"] . ")";
 
-  return stike_send_owner_mail($subject, $html);
+  return stike_send_owner_mail($subject, $html, ["kind" => "venta"]);
 }
