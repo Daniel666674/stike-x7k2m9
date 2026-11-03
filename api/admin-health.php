@@ -135,9 +135,11 @@ stike_run(function () {
     stike_config("WOMPI_EVENTS_SECRET") ? "OK: cada evento se verifica con el secreto de eventos" : "Opcional: sin WOMPI_EVENTS_SECRET los eventos igual se confirman consultando a Wompi, pero no se verifica su firma");
   $add("sync", strlen((string)stike_config("SYNC_TOKEN")) >= 24, "Publicación automática (SYNC_TOKEN)", strlen((string)stike_config("SYNC_TOKEN")) >= 24 ? "OK" : "Falta SYNC_TOKEN");
   // Correo de aviso de cada venta: a quien le llega, por donde sale y si el ultimo aviso de verdad salio. El correo del hosting
-  // (mail) puede decir «enviado» y no llegar nunca; solo Resend confirma.
+  // (mail) puede decir «enviado» y no llegar nunca; solo Resend o un correo propio por SMTP lo confirman.
   $rcpt = stike_owner_recipients();
   $hasResend = (bool)stike_config("RESEND_API_KEY");
+  $smtpCfg = stike_smtp_config();
+  $hasSmtp = (bool)$smtpCfg;
   $lm = []; $queued = 0;
   try {
     $dirMail = stike_storage_dir();
@@ -150,17 +152,20 @@ stike_run(function () {
   }
   $mailKind = ["venta" => "aviso de venta", "prueba" => "correo de prueba"];
   $mailBits = ["Le llega a: " . implode(", ", array_map("stike_mask_email", $rcpt)) . "."];
-  $mailBits[] = $hasResend ? "Sale por Resend." : "SIN Resend: sale por el correo del hosting, que muchas veces no se entrega o cae en spam (por eso puede que no te lleguen las ventas). Actívalo abajo en «Correo de avisos».";
+  if ($hasResend) $mailBits[] = "Sale por Resend" . ($hasSmtp ? " (y, si falla, por tu correo " . stike_mask_email($smtpCfg["user"]) . ")." : ".");
+  elseif ($hasSmtp) $mailBits[] = "Sale por tu correo " . stike_mask_email($smtpCfg["user"]) . " (" . $smtpCfg["host"] . ").";
+  else $mailBits[] = "SIN servicio de correo propio: sale por el correo del hosting, que muchas veces no se entrega o cae en spam (por eso puede que no te lleguen las ventas). Configúralo abajo en «Correo de aviso de cada venta» (con un correo de tu dominio o con Resend).";
+  $viaName = ["resend" => "Resend", "smtp" => "tu correo (SMTP)", "mail" => "el correo del hosting"];
   if (!$mailLast) $mailBits[] = "Todavía no se ha enviado ninguno: usa «Enviar correo de prueba».";
   elseif (!empty($mailLast["ok"])) {
-    $mailBits[] = "Último envío (" . $mailKind[$mailLast["kind"]] . "): " . $evWhen($mailLast["at"]) . ($mailLast["via"] === "resend" ? " ✔ por Resend." : " por el correo del hosting (el servidor lo aceptó, pero eso no garantiza que llegue).");
-    if (!empty($mailLast["fellBack"])) $mailBits[] = "Resend falló y se usó el del hosting: " . ($mailLast["detail"] ?? $mailLast["error"] ?? "?");
+    $mailBits[] = "Último envío (" . $mailKind[$mailLast["kind"]] . "): " . $evWhen($mailLast["at"]) . (in_array($mailLast["via"], ["resend", "smtp"], true) ? " ✔ por " . $viaName[$mailLast["via"]] . "." : " por el correo del hosting (el servidor lo aceptó, pero eso no garantiza que llegue).");
+    if (!empty($mailLast["fellBack"])) $mailBits[] = "El envío principal falló y se usó " . ($viaName[$mailLast["via"]] ?? "otro") . ": " . ($mailLast["detail"] ?? $mailLast["error"] ?? "?");
   } else {
     $mailBits[] = "El último envío (" . $mailKind[$mailLast["kind"]] . ") FALLÓ " . $evWhen($mailLast["at"]) . ": " . ($mailLast["detail"] ?? $mailLast["error"] ?? "?");
   }
   if ($queued) $mailBits[] = $queued . " aviso(s) de venta esperando para reenviarse solos.";
   foreach ($rcpt as $ra) if (preg_match('/@(correo|ejemplo|example|dominio|tucorreo|email|test|mail)\.(com|co|org)$/i', $ra)) $mailBits[] = "«" . stike_mask_email($ra) . "» parece un correo de EJEMPLO: cámbialo por el real.";
-  $mailOk = $hasResend && $mailLast && !empty($mailLast["ok"]) && ($mailLast["via"] ?? "") === "resend" && !$queued;
+  $mailOk = ($hasResend || $hasSmtp) && $mailLast && !empty($mailLast["ok"]) && in_array($mailLast["via"] ?? "", ["resend", "smtp"], true) && !$queued;
   $add("email", $mailOk, "Correo de aviso de cada venta", implode(" ", $mailBits));
   $add("https", !empty($_SERVER["HTTPS"]) || ($_SERVER["HTTP_X_FORWARDED_PROTO"] ?? "") === "https", "HTTPS", "Requerido por Wompi");
 
@@ -177,6 +182,12 @@ stike_run(function () {
       "recipientsFromPanel" => stike_config_sources("OWNER_NOTIFY_EMAIL")["panel"],
       "from" => (string)stike_config("RESEND_FROM", ""),
       "resend" => ["configured" => $hasResend, "source" => $rsrc["panel"] ? "panel" : ($hasResend ? "servidor" : null), "tail" => $hasResend ? substr($rk, -4) : null, "length" => strlen($rk)],
+      // Correo propio (SMTP): servidor, puerto y correo no son secretos; de la contraseña solo se dice que existe.
+      "smtp" => [
+        "configured" => $hasSmtp, "source" => stike_config_sources("SMTP_PASS")["panel"] ? "panel" : ($hasSmtp ? "servidor" : null),
+        "host" => $hasSmtp ? $smtpCfg["host"] : (string)stike_config("SMTP_HOST", ""), "port" => $hasSmtp ? $smtpCfg["port"] : (int)stike_config("SMTP_PORT", 465),
+        "user" => $hasSmtp ? $smtpCfg["user"] : (string)stike_config("SMTP_USER", ""),
+      ],
       "queued" => $queued,
     ];
   }

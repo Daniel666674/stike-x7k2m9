@@ -43,12 +43,51 @@ stike_run(function () {
     respond(200, [
       "ok" => $ok,
       "via" => $r["sent"] ?? null,
-      "reliable" => $ok && ($r["sent"] ?? null) === "resend",
       "to" => implode(", ", array_map("stike_mask_email", $r["to"] ?? [])),
       "error" => $r["error"] ?? null,
+      "reliable" => $ok && in_array($r["sent"] ?? null, ["resend", "smtp"], true),
       "resendConfigured" => (bool)stike_config("RESEND_API_KEY"),
+      "smtpConfigured" => (bool)stike_smtp_config(),
       "resendError" => $r["resendError"] ?? null,   // {code, detail}: lo que dijo Resend, ya explicado (nunca lleva la llave)
+      "smtpError" => $r["smtpError"] ?? null,       // {code, detail}: lo que dijo el servidor de correo, ya explicado (nunca lleva la contraseña)
     ]);
+  }
+
+  /* ---- Correo propio por SMTP: un correo del dominio (ventas@stikebikeshop.com de Hostinger) o Gmail con «contraseña de aplicación» ---- */
+  if (($body["action"] ?? "") === "smtp_clear") {
+    $all = stike_runtime_config_all();
+    foreach (["SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS"] as $k) unset($all[$k]);
+    stike_runtime_config_write($all);
+    error_log("[stike] SMTP: se quito lo guardado desde el panel (" . $s["email"] . ")");
+    respond(200, ["ok" => true, "cleared" => true]);
+  }
+  if (($body["action"] ?? "") === "smtp_save") {
+    $insecure = getenv("STIKE_SMTP_INSECURE") === "1";   // solo pruebas locales
+    $host = strtolower(trim((string)($body["host"] ?? "")));
+    $port = (int)($body["port"] ?? 465);
+    $user = trim((string)($body["user"] ?? ""));
+    $pass = trim((string)($body["pass"] ?? ""));
+    if (preg_match('/^[a-z]{4}( [a-z]{4}){3}$/', $pass)) $pass = str_replace(" ", "", $pass);   // la «contraseña de aplicación» de Google se muestra en 4 grupos
+    if (!preg_match('/^[a-z0-9]([a-z0-9.-]{0,98}[a-z0-9])?$/', $host) || strpos($host, "..") !== false) throw new ApiError(400, "invalid_host", "Escribe el servidor de correo saliente, por ejemplo smtp.hostinger.com.");
+    if ($port < 1 || $port > 65535 || (!$insecure && !in_array($port, [465, 587, 2525], true))) throw new ApiError(400, "invalid_port", "El puerto del correo saliente es 465 (recomendado) o 587.");
+    if (!filter_var($user, FILTER_VALIDATE_EMAIL)) throw new ApiError(400, "invalid_user", "Escribe el correo completo con el que inicias sesión, por ejemplo ventas@stikebikeshop.com.");
+    if ($pass === "" || strlen($pass) > 200 || preg_match('/[\r\n\0]/', $pass)) throw new ApiError(400, "empty_value", "Escribe la contraseña de ese correo.");
+    $ip = filter_var($host, FILTER_VALIDATE_IP) ? $host : gethostbyname($host);
+    if (!filter_var($ip, FILTER_VALIDATE_IP)) throw new ApiError(400, "smtp_unreachable", "No se encontró el servidor «" . $host . "». Revisa cómo está escrito (Hostinger: smtp.hostinger.com).");
+    if (!$insecure && !filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) throw new ApiError(400, "invalid_host", "Ese servidor no es un servidor de correo de internet.");
+    /* Se entra de verdad a la cuenta ANTES de guardar (conexion segura + usuario y contraseña): si algo esta mal, no se guarda. */
+    $chk = stike_smtp_check(["host" => $host, "port" => $port, "user" => $user, "pass" => $pass]);
+    if (empty($chk["ok"])) throw new ApiError(in_array($chk["code"], ["smtp_auth_failed", "smtp_sender_rejected"], true) ? 400 : 502, $chk["code"], $chk["detail"]);
+    $all = stike_runtime_config_all();
+    $sealedAll = true;
+    foreach (["SMTP_HOST" => $host, "SMTP_PORT" => (string)$port, "SMTP_USER" => $user, "SMTP_PASS" => $pass] as $k => $v) {
+      $sealed = stike_runtime_seal($v);
+      if (!$sealed) $sealedAll = false;
+      $all[$k] = ($sealed ?: ["value" => $v]) + ["by" => $s["email"], "at" => stike_now_iso()];
+    }
+    stike_runtime_config_write($all);
+    error_log("[stike] SMTP guardado desde el panel por " . $s["email"] . " (" . $host . ":" . $port . ")");
+    respond(200, ["ok" => true, "host" => $host, "port" => $port, "user" => $user, "secure" => stike_smtp_security($host, $port), "encrypted" => $sealedAll]);
   }
 
   $key = $body["key"] ?? null;

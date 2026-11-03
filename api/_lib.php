@@ -17,6 +17,8 @@
        'ADMIN_API_KEY'          => '<cadena larga al azar; se pega en el panel>',
        'RESEND_API_KEY'         => 're_...',            // opcional; mejor pegarla en el panel (Configuracion > Correo de aviso)
        'OWNER_NOTIFY_EMAIL'     => '<correo de quien recibe las ventas>',  // opcional; tambien se cambia en el panel
+       'SMTP_HOST' => 'smtp.hostinger.com', 'SMTP_PORT' => 465,           // opcional: enviar con un correo del dominio (mejor desde el panel)
+       'SMTP_USER' => 'ventas@stikebikeshop.com', 'SMTP_PASS' => '<contrasena de ese correo>',
        'STORAGE_DIR'            => '/home/uXXXX/stike-private',  // opcional
      ];
 
@@ -81,9 +83,10 @@ function stike_run($fn) {
    api/config.local.php: es lo ultimo que alguien decidio a proposito. La llave
    PUBLICA NO esta aqui: cambiarla redirige el dinero a otra cuenta, asi que solo se
    cambia en el servidor. La privada si (solo busca pagos ya hechos; el panel la
-   comprueba con Wompi antes de guardarla). Los tres ultimos son del correo de aviso de cada
-   venta: la llave de Resend (secreta), a quien le llega y desde que remitente sale. */
-const STIKE_RUNTIME_KEYS = ["WOMPI_INTEGRITY_SECRET", "WOMPI_EVENTS_SECRET", "WOMPI_PRIVATE_KEY", "RESEND_API_KEY", "OWNER_NOTIFY_EMAIL", "RESEND_FROM"];
+   comprueba con Wompi antes de guardarla). El resto es del correo de aviso de cada venta: la llave
+   de Resend (secreta), a quien le llega, desde que remitente sale y la cuenta de correo propia
+   (SMTP: servidor, puerto, correo y contraseña, esta ultima secreta). */
+const STIKE_RUNTIME_KEYS = ["WOMPI_INTEGRITY_SECRET", "WOMPI_EVENTS_SECRET", "WOMPI_PRIVATE_KEY", "RESEND_API_KEY", "OWNER_NOTIFY_EMAIL", "RESEND_FROM", "SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS"];
 
 function stike_runtime_config_path() { return stike_storage_dir() . "/runtime-config.json"; }
 
@@ -987,14 +990,14 @@ function stike_resend_send($apiKey, $to, $subject, $html) {
   return ["ok" => false, "status" => $res["status"]] + stike_resend_explain($res["status"], $res["json"], $res["error"] ?? "");
 }
 
-/* Correo del hosting (mail()), armado como lo espera Gmail: texto + HTML en base64 (una linea HTML larga sin codificar viola el
-   limite de 998 caracteres y la rechazan o la mandan a spam), Date, Message-ID, remitente de sobre (-f) y asunto codificado por partes. */
-function stike_mail_fallback($to, $subject, $html) {
-  $from = stike_parse_sender(stike_config("MAIL_FROM", "pedidos@stikebikeshop.com")) ?: ["Stike Bike Shop", "pedidos@stikebikeshop.com"];
-  $domain = substr((string)strrchr($from[1], "@"), 1) ?: "stikebikeshop.com";
+/* Cabeceras (sin To ni Subject) y cuerpo de un correo texto + HTML, armado como lo espera Gmail: las dos partes en base64 (una linea
+   HTML larga sin codificar viola el limite de 998 caracteres y la rechazan o la mandan a spam), Date y Message-ID. Lo usan mail() y SMTP.
+   -> [cabeceras, cuerpo] */
+function stike_build_mime($fromName, $fromAddr, $html) {
+  $domain = substr((string)strrchr($fromAddr, "@"), 1) ?: "stikebikeshop.com";
   $bound = "stike_" . bin2hex(random_bytes(8));
   $headers = implode("\r\n", [
-    "From: " . stike_mime_subject($from[0]) . " <" . $from[1] . ">",
+    "From: " . stike_mime_subject($fromName) . " <" . $fromAddr . ">",
     "Date: " . date("r"),
     "Message-ID: <" . bin2hex(random_bytes(12)) . "@" . $domain . ">",
     "MIME-Version: 1.0",
@@ -1005,10 +1008,136 @@ function stike_mail_fallback($to, $subject, $html) {
   $body = "--$bound\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\n" . chunk_split(base64_encode(stike_html_to_text($html)), 76, "\r\n")
     . "--$bound\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\n" . chunk_split(base64_encode((string)$html), 76, "\r\n")
     . "--$bound--\r\n";
+  return [$headers, $body];
+}
+
+/* Correo del hosting (mail()): remitente de sobre (-f) y asunto codificado por partes. Es el ULTIMO recurso: PHP dice «enviado» aunque
+   Gmail lo descarte o lo mande a spam. */
+function stike_mail_fallback($to, $subject, $html) {
+  $from = stike_parse_sender(stike_config("MAIL_FROM", "pedidos@stikebikeshop.com")) ?: ["Stike Bike Shop", "pedidos@stikebikeshop.com"];
+  [$headers, $body] = stike_build_mime($from[0], $from[1], $html);
   $list = implode(", ", $to);
   $subj = stike_mime_subject($subject);
   if (@mail($list, $subj, $body, $headers, "-f" . $from[1])) return true;
   return (bool)@mail($list, $subj, $body, $headers);   // algunos hostings no aceptan el parametro -f
+}
+
+/* ------------- SMTP: enviar con un correo del propio dominio (p. ej. ventas@stikebikeshop.com de Hostinger) o Gmail -------------
+   El servidor entra a la cuenta de correo con su usuario y contraseña (como un programa de correo) y manda el aviso desde ahi: sale
+   firmado por el servidor de correo de verdad (SPF/DKIM del dominio), que es lo que Gmail exige para no mandarlo a spam.
+   Configuracion (panel o api/config.local.php): SMTP_HOST (smtp.hostinger.com), SMTP_PORT (465), SMTP_USER (el correo), SMTP_PASS. */
+function stike_smtp_config() {
+  $host = strtolower(trim((string)stike_config("SMTP_HOST", "")));
+  $user = trim((string)stike_config("SMTP_USER", ""));
+  $pass = (string)stike_config("SMTP_PASS", "");
+  if ($host === "" || $user === "" || $pass === "") return null;
+  $port = (int)stike_config("SMTP_PORT", 465);
+  return ["host" => $host, "port" => ($port >= 1 && $port <= 65535) ? $port : 465, "user" => $user, "pass" => $pass];
+}
+/* ssl = conexion segura desde el primer byte (puerto 465); starttls = empieza normal y se vuelve segura (587). "none" (texto plano)
+   solo existe contra la propia maquina, para las pruebas. */
+function stike_smtp_security($host, $port) {
+  $s = strtolower(trim((string)stike_config("SMTP_SECURE", "")));
+  if ($s === "none" && in_array($host, ["127.0.0.1", "localhost", "::1"], true)) return "none";
+  if ($s === "ssl" || $s === "starttls") return $s;
+  return $port === 465 ? "ssl" : "starttls";
+}
+/* Una respuesta del servidor (puede venir en varias lineas: «250-...» y al final «250 ...»). -> [codigo, texto] */
+function stike_smtp_read($fp) {
+  $text = ""; $code = 0;
+  for ($i = 0; $i < 100; $i++) {
+    $line = fgets($fp, 2048);
+    if ($line === false) return [0, $text !== "" ? trim($text) : "sin respuesta del servidor (se cortó o tardó demasiado)"];
+    $text .= trim($line) . "\n";
+    if (!preg_match('/^(\d{3})([ -])/', $line, $m)) break;
+    $code = (int)$m[1];
+    if ($m[2] === " ") break;
+  }
+  return [$code, trim($text)];
+}
+function stike_smtp_cmd($fp, $line) { @fwrite($fp, $line . "\r\n"); return stike_smtp_read($fp); }
+/* Lo que contesto el servidor, sin saltos de linea y corto, para mostrarlo en el panel. */
+function stike_smtp_short($text) {
+  $t = trim((string)preg_replace('/\s+/', " ", (string)$text));
+  return function_exists("mb_substr") ? mb_substr($t, 0, 160) : substr($t, 0, 160);
+}
+function stike_smtp_fail($code, $detail) { return ["ok" => false, "code" => $code, "detail" => $detail]; }
+
+/* Abre la conexion, la asegura (TLS) e inicia sesion. -> ["ok" => true, "fp" => recurso] o ["ok" => false, "code", "detail"] */
+function stike_smtp_open($cfg) {
+  $host = $cfg["host"]; $port = $cfg["port"]; $sec = stike_smtp_security($host, $port);
+  $insecure = getenv("STIKE_SMTP_INSECURE") === "1";   // solo pruebas (certificado propio); un visitante no controla el entorno
+  $ctx = stream_context_create(["ssl" => ["verify_peer" => !$insecure, "verify_peer_name" => !$insecure, "allow_self_signed" => $insecure, "SNI_enabled" => true, "peer_name" => $host]]);
+  $errno = 0; $errstr = "";
+  $fp = @stream_socket_client(($sec === "ssl" ? "ssl://" : "tcp://") . $host . ":" . $port, $errno, $errstr, 12, STREAM_CLIENT_CONNECT, $ctx);
+  if (!$fp) return stike_smtp_fail("smtp_unreachable", "No se pudo conectar a $host:$port (" . ($errstr !== "" ? $errstr : "sin respuesta") . "). Revisa el servidor y el puerto (Hostinger: smtp.hostinger.com, puerto 465).");
+  stream_set_timeout($fp, 15);
+  $bye = function ($r) use ($fp) { @fclose($fp); return $r; };
+  [$c, $t] = stike_smtp_read($fp);
+  if ($c !== 220) return $bye(stike_smtp_fail("smtp_bad_greeting", "El servidor $host no respondió como un servidor de correo (" . stike_smtp_short($t) . "). Revisa el servidor y el puerto."));
+  $me = "stikebikeshop.com";
+  [$c, $t] = stike_smtp_cmd($fp, "EHLO $me");
+  if ($c !== 250) return $bye(stike_smtp_fail("smtp_bad_greeting", "El servidor $host no aceptó la presentación (" . stike_smtp_short($t) . ")."));
+  if ($sec === "starttls") {
+    if (stripos($t, "STARTTLS") === false) return $bye(stike_smtp_fail("smtp_no_tls", "El servidor $host no ofrece conexión segura (STARTTLS) en el puerto $port. Usa el puerto 465."));
+    [$c, $x] = stike_smtp_cmd($fp, "STARTTLS");
+    if ($c !== 220) return $bye(stike_smtp_fail("smtp_no_tls", "El servidor $host no aceptó la conexión segura (" . stike_smtp_short($x) . ")."));
+    if (!@stream_socket_enable_crypto($fp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) return $bye(stike_smtp_fail("smtp_tls_failed", "No se pudo establecer la conexión segura (TLS) con $host: el certificado del servidor no es válido o no coincide con el nombre."));
+    [$c, $t] = stike_smtp_cmd($fp, "EHLO $me");
+    if ($c !== 250) return $bye(stike_smtp_fail("smtp_bad_greeting", "El servidor $host no aceptó la presentación segura (" . stike_smtp_short($t) . ")."));
+  }
+  $mechs = preg_match('/^250[ -]AUTH[ =]([^\n]*)/mi', $t, $m) ? strtoupper($m[1]) : "";
+  if ($mechs === "") return $bye(stike_smtp_fail("smtp_no_auth", "El servidor $host no ofrece inicio de sesión (AUTH). Usa el servidor y puerto de SALIDA (SMTP) de tu correo."));
+  if (strpos($mechs, "PLAIN") !== false) {
+    [$c, $x] = stike_smtp_cmd($fp, "AUTH PLAIN " . base64_encode("\0" . $cfg["user"] . "\0" . $cfg["pass"]));
+  } elseif (strpos($mechs, "LOGIN") !== false) {
+    [$c, $x] = stike_smtp_cmd($fp, "AUTH LOGIN");
+    if ($c === 334) { [$c, $x] = stike_smtp_cmd($fp, base64_encode($cfg["user"])); if ($c === 334) [$c, $x] = stike_smtp_cmd($fp, base64_encode($cfg["pass"])); }
+  } else {
+    return $bye(stike_smtp_fail("smtp_no_auth", "El servidor $host solo ofrece formas de inicio de sesión que este sitio no usa (" . stike_smtp_short($mechs) . ")."));
+  }
+  if ($c !== 235) {
+    $gmail = strpos($host, "gmail") !== false || strpos($host, "google") !== false || (bool)preg_match('/@(gmail|googlemail)\.com$/i', $cfg["user"]);
+    return $bye(stike_smtp_fail("smtp_auth_failed", "El servidor de correo rechazó el usuario o la contraseña (" . $c . ": " . stike_smtp_short($x) . ")."
+      . ($gmail ? " Gmail pide una «contraseña de aplicación» (Cuenta de Google → Seguridad → Verificación en dos pasos → Contraseñas de aplicaciones), no la contraseña normal." : " Revisa que el correo esté completo (ventas@tudominio.com) y la contraseña bien copiada.")));
+  }
+  return ["ok" => true, "fp" => $fp];
+}
+/* Solo comprueba que se puede entrar (conexion + TLS + usuario y contraseña); no envia nada. */
+function stike_smtp_check($cfg) {
+  $o = stike_smtp_open($cfg);
+  if (empty($o["ok"])) return $o;
+  stike_smtp_cmd($o["fp"], "QUIT"); @fclose($o["fp"]);
+  return ["ok" => true];
+}
+/* Envia un correo (texto + HTML) a $to desde la propia cuenta. -> ["ok" => true] o ["ok" => false, "code", "detail"] */
+function stike_smtp_send($cfg, $to, $subject, $html) {
+  $o = stike_smtp_open($cfg);
+  if (empty($o["ok"])) return $o;
+  $fp = $o["fp"];
+  try {
+    $from = $cfg["user"];   // Hostinger y Gmail exigen que el remitente sea la propia cuenta
+    [$c, $t] = stike_smtp_cmd($fp, "MAIL FROM:<$from>");
+    if ($c !== 250) return stike_smtp_fail("smtp_sender_rejected", "El servidor no aceptó el remitente $from (" . $c . ": " . stike_smtp_short($t) . "). El remitente tiene que ser el mismo correo con el que se inicia sesión.");
+    $ok = 0; $bad = null;
+    foreach ($to as $r) {
+      [$c, $t] = stike_smtp_cmd($fp, "RCPT TO:<$r>");
+      if ($c === 250 || $c === 251) $ok++; else $bad = $bad ?: stike_smtp_fail("smtp_recipient_rejected", "El servidor no aceptó el destinatario $r (" . $c . ": " . stike_smtp_short($t) . ").");
+    }
+    if (!$ok) return $bad;
+    [$c, $t] = stike_smtp_cmd($fp, "DATA");
+    if ($c !== 354) return stike_smtp_fail("smtp_data_rejected", "El servidor no aceptó el mensaje (" . $c . ": " . stike_smtp_short($t) . ").");
+    [$hdr, $body] = stike_build_mime("Stike Bike Shop", $from, $html);
+    $msg = "To: " . implode(", ", $to) . "\r\nSubject: " . stike_mime_subject($subject) . "\r\n" . $hdr . "\r\n\r\n" . $body;
+    $msg = preg_replace('/^\./m', "..", preg_replace('/\r\n|\r|\n/', "\r\n", $msg));   // fin de linea de correo y «.» al inicio de linea duplicado
+    @fwrite($fp, $msg . "\r\n.\r\n");
+    [$c, $t] = stike_smtp_read($fp);
+    if ($c !== 250) return stike_smtp_fail("smtp_data_rejected", "El servidor no aceptó el mensaje (" . $c . ": " . stike_smtp_short($t) . ").");
+    stike_smtp_cmd($fp, "QUIT");
+    return ["ok" => true];
+  } finally {
+    @fclose($fp);
+  }
 }
 
 /* Ultimo resultado de cada tipo de correo (venta, prueba, alerta): lo lee el panel para decir con claridad si el aviso esta llegando. */
@@ -1063,34 +1192,48 @@ function stike_mail_outbox_flush($max = 3) {
   return $sent;
 }
 
-/* Envia un correo al dueno: por Resend si hay llave; si Resend falla (o no hay llave), por el correo del hosting. Nunca lanza.
+/* Envia un correo al dueno. Orden: Resend (si hay llave) -> el correo propio por SMTP (si esta configurado) -> el correo del hosting
+   (mail(), que no garantiza nada). Cada uno solo se prueba si el anterior fallo o no esta configurado. Nunca lanza.
    $opts: kind = venta | prueba | alerta (para el registro del panel); noQueue = no guardar para reintentar; fromOutbox.
-   Devuelve ["sent" => "resend"|"mail", "to" => [...], "resendError" => null|["code","detail"]] o ["error" => "email_failed", ...].
-   OJO: lo que sale al navegador de un cliente (wompi-order.php) nunca lleva este arreglo completo: ver stike_finalize_order. */
+   Devuelve ["sent" => "resend"|"smtp"|"mail", "to" => [...], "resendError" => null|["code","detail"], "smtpError" => ...]
+   o ["error" => "email_failed", ...]. OJO: lo que sale al navegador de un cliente (wompi-order.php) nunca lleva este arreglo
+   completo: ver stike_finalize_order. */
 function stike_send_owner_mail($subject, $html, $opts = []) {
   $kind = (string)($opts["kind"] ?? "venta");
   $to = (!empty($opts["to"]) && is_array($opts["to"])) ? array_values($opts["to"]) : stike_owner_recipients();   // to: solo avisos internos (p. ej. al cambiar el destinatario)
-  $resendErr = null;
+  $resendErr = null; $smtpErr = null;
   try {
     $apiKey = stike_config("RESEND_API_KEY");
     if ($apiKey) {
       $r = stike_resend_send($apiKey, $to, $subject, $html);
-      if (!empty($r["ok"])) { stike_note_mail($kind, "resend", true); return ["sent" => "resend", "to" => $to, "resendError" => null]; }
+      if (!empty($r["ok"])) { stike_note_mail($kind, "resend", true); return ["sent" => "resend", "to" => $to, "resendError" => null, "smtpError" => null]; }
       $resendErr = ["code" => $r["code"], "detail" => $r["detail"]];
       error_log("[stike] Resend no envio el correo ($kind): " . $r["code"] . " (" . ($r["status"] ?? "?") . ")");
     }
+    $smtp = stike_smtp_config();
+    if ($smtp) {
+      $r = stike_smtp_send($smtp, $to, $subject, $html);
+      if (!empty($r["ok"])) {
+        stike_note_mail($kind, "smtp", true, $resendErr["code"] ?? null, $resendErr["detail"] ?? null, ["fellBack" => (bool)$resendErr]);
+        return ["sent" => "smtp", "to" => $to, "resendError" => $resendErr, "smtpError" => null];
+      }
+      $smtpErr = ["code" => $r["code"], "detail" => $r["detail"]];
+      error_log("[stike] SMTP no envio el correo ($kind): " . $r["code"]);
+    }
+    $first = $resendErr ?: $smtpErr;   // lo primero que fallo (lo que el panel le explica al dueno)
     if (stike_mail_fallback($to, $subject, $html)) {
-      stike_note_mail($kind, "mail", true, $resendErr["code"] ?? null, $resendErr["detail"] ?? null, ["fellBack" => (bool)$resendErr]);
-      return ["sent" => "mail", "to" => $to, "resendError" => $resendErr];
+      stike_note_mail($kind, "mail", true, $first["code"] ?? null, $first["detail"] ?? null, ["fellBack" => (bool)$first]);
+      return ["sent" => "mail", "to" => $to, "resendError" => $resendErr, "smtpError" => $smtpErr];
     }
     error_log("[stike] mail() del hosting no envio el correo ($kind)");
   } catch (Throwable $e) {
     error_log("[stike] correo al dueno fallo: " . get_class($e) . ": " . $e->getMessage());
   }
-  stike_note_mail($kind, null, false, $resendErr["code"] ?? "mail_failed", $resendErr["detail"] ?? "El correo del hosting (mail) no aceptó el mensaje.");
+  $first = $resendErr ?: $smtpErr;
+  stike_note_mail($kind, null, false, $first["code"] ?? "mail_failed", $first["detail"] ?? "El correo del hosting (mail) no aceptó el mensaje.");
   $queued = false;
   if ($kind === "venta" && empty($opts["noQueue"]) && empty($opts["fromOutbox"])) $queued = stike_mail_outbox_add($kind, $subject, $html);
-  return ["error" => "email_failed", "to" => $to, "resendError" => $resendErr, "queued" => $queued];
+  return ["error" => "email_failed", "to" => $to, "resendError" => $resendErr, "smtpError" => $smtpErr, "queued" => $queued];
 }
 
 /* Aviso de que el cobro se cayo (no de una venta). Como maximo uno por tipo cada
