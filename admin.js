@@ -3363,6 +3363,9 @@ async function renderHealth(msg) {
         $(`#cfg-m${k}-input`).addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); saveMailSetting(k); } });
       }
       $("#cfg-test-email").addEventListener("click", () => sendTestEmail());
+      $("#cfg-ms-save").addEventListener("click", () => saveSmtp());
+      $("#cfg-ms-clear").addEventListener("click", () => saveSmtp(true));
+      for (const id of ["host", "port", "user", "pass"]) $(`#cfg-ms-${id}`).addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); saveSmtp(); } });
     }
     if (h.recovered) { pollSalesLog().catch(() => {}); showStatus([{ text: `🔔 Se recuperaron ${h.recovered} venta(s) que Wompi tenía aprobadas y no estaban registradas. Revisa Ventas y tu correo.`, cls: "ok" }]); }
     if ($("#cfg-int-save")) {
@@ -3419,35 +3422,73 @@ function wompiSecretFormHtml(h, msg) {
       <p class="hint" id="cfg-prv-msg" role="status" style="margin:10px 0 0"></p>
     </div>`;
 }
-/* Correo de aviso de cada venta: llave de Resend, quien lo recibe y el remitente (api/admin-config). Todo se valida en el servidor;
-   la llave nunca vuelve a mostrarse completa. Sin Resend el aviso sale por el correo del hosting, que casi nunca llega a Gmail. */
+/* Correo de aviso de cada venta (api/admin-config). Dos formas de enviarlo, a elegir:
+   A) con una cuenta de correo del propio dominio por SMTP (p. ej. ventas@stikebikeshop.com de Hostinger): no hace falta crear cuentas en
+      ningun servicio nuevo; el servidor comprueba el usuario y la contraseña ANTES de guardar.
+   B) con Resend (gratis).
+   Todo se valida en el servidor; la contraseña y la llave nunca vuelven a mostrarse. Sin ninguna, el aviso sale por el correo del hosting,
+   que casi nunca llega a Gmail. */
 function emailSettingsHtml(h) {
-  const m = h.mail || {}, resend = m.resend || {};
+  const m = h.mail || {}, resend = m.resend || {}, smtp = m.smtp || {};
   const chk = (h.checks || []).find(c => c.id === "email");
   const bad = !!chk && !chk.ok;
-  const field = (k, label, ph, val, saveText, clearTitle, extra = "") => `
+  const none = !resend.configured && !smtp.configured;
+  const field = (k, label, ph, val, saveText, clearTitle) => `
       <div class="field" style="margin-bottom:10px"><label for="cfg-m${k}-input">${label}</label>
-        <input id="cfg-m${k}-input" type="text" class="mono" placeholder="${escHtml(ph)}" value="${escHtml(val)}" autocomplete="off" autocapitalize="off" spellcheck="false">${extra}</div>
+        <input id="cfg-m${k}-input" type="text" class="mono" placeholder="${escHtml(ph)}" value="${escHtml(val)}" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px">
         <button class="btn cyan" id="cfg-m${k}-save" type="button">${saveText}</button>
         <button class="btn ghost sm" id="cfg-m${k}-clear" type="button" title="${escHtml(clearTitle)}">Quitar lo guardado aquí</button>
       </div>`;
+  const box = "padding:14px;border:1px solid var(--line-soft);border-radius:10px;margin:0 0 14px";
   return `
     <div id="cfg-mail-box" style="margin-top:18px;padding:16px;border:1px solid ${bad ? "var(--bad)" : "var(--line)"};border-radius:12px">
       <h4 style="margin:0 0 6px">Correo de aviso de cada venta ${chk ? `<span class="pill" style="${chk.ok ? "" : "background:var(--bad);color:#fff;"}font-weight:600">${chk.ok ? "Funcionando" : "Revisar"}</span>` : ""}</h4>
-      <p class="hint muted" style="margin:0 0 10px">Cada venta pagada le llega por correo al dueño. El correo del hosting casi nunca se entrega (Gmail lo descarta o lo manda a spam). Con <b>Resend</b> (gratis hasta 3.000 correos al mes) llega en segundos.</p>
-      <details style="margin:0 0 14px">
-        <summary style="cursor:pointer;font-weight:600">Cómo activarlo (5 minutos)</summary>
-        <ol class="hint" style="margin:10px 0 0 18px;padding:0;line-height:1.6">
-          <li>Entra a <b>resend.com</b> y crea una cuenta gratis <b>con el correo donde quieres recibir los avisos</b> (si usas otro, mientras no verifiques tu dominio solo podrás enviar a ese correo).</li>
-          <li>En el menú <b>API Keys → Create API Key</b>: nombre «Stike», permiso <b>Sending access</b>. Copia la llave (empieza por <span class="mono">re_</span>; solo se muestra una vez).</li>
-          <li>Pégala abajo y pulsa <b>Guardar y enviar prueba</b>: debe llegar un correo en segundos (mira también spam).</li>
-          <li>Para enviar <b>desde tu propio dominio</b> y a cualquier correo: en Resend → <b>Domains → Add Domain → stikebikeshop.com</b>, agrega en hPanel (Dominios → DNS) los registros que te muestra y pulsa <b>Verify</b>. Después escribe abajo el remitente, por ejemplo <span class="mono">Stike Bike Shop &lt;ventas@stikebikeshop.com&gt;</span>.</li>
-        </ol>
-      </details>
-      ${field("key", `1) Llave de Resend ${resend.configured ? `<span class="muted" style="font-weight:400">· guardada${resend.source === "panel" ? " aquí" : " en el servidor"}, termina en …${escHtml(resend.tail || "")}</span>` : `<span class="pill" style="background:var(--bad);color:#fff;font-weight:600">Falta</span>`}`, "re_…", "", "Guardar y enviar prueba", "Vuelve a usar el valor que está en el servidor")}
-      ${field("to", "2) Quién recibe el aviso de cada venta <span class=\"muted\" style=\"font-weight:400\">(uno o varios, separados por coma)</span>", "dueno@gmail.com, socio@gmail.com", (m.recipients || []).join(", "), "Guardar y enviar prueba", "Vuelve a usar el valor que está en el servidor")}
-      ${field("from", "3) Remitente <span class=\"muted\" style=\"font-weight:400\">(opcional; déjalo vacío hasta verificar tu dominio en Resend)</span>", "Stike Bike Shop <ventas@stikebikeshop.com>", m.from || "", "Guardar y enviar prueba", "Vuelve a usar el remitente de pruebas de Resend")}
+      <p class="hint muted" style="margin:0 0 12px">Cada venta pagada le llega por correo al dueño. El correo del hosting casi nunca se entrega (Gmail lo descarta o lo manda a spam), así que el aviso tiene que salir desde una cuenta de correo de verdad. Elige <b>una</b> de las dos formas (la A no necesita crear cuentas en ningún servicio nuevo):</p>
+
+      <div style="${box}">
+        <h5 style="margin:0 0 6px">A) Con un correo de tu dominio ${smtp.configured ? `<span class="pill owner" style="font-weight:600">Guardado</span>` : ""}</h5>
+        <details ${none ? "open" : ""} style="margin:0 0 10px">
+          <summary style="cursor:pointer;font-weight:600">Cómo hacerlo (3 minutos)</summary>
+          <ol class="hint" style="margin:10px 0 0 18px;padding:0;line-height:1.6">
+            <li>En Hostinger (hPanel) → <b>Correos</b> (Emails) → <b>Crear cuenta de correo</b>, por ejemplo <span class="mono">ventas@stikebikeshop.com</span>, y guarda su contraseña. (Si ya tienes una cuenta, úsala.)</li>
+            <li>Aquí abajo escribe: servidor <span class="mono">smtp.hostinger.com</span>, puerto <span class="mono">465</span>, ese correo y su contraseña.</li>
+            <li>Pulsa <b>Guardar y enviar prueba</b>: el panel entra a la cuenta para comprobar que todo está bien y manda un correo de prueba.</li>
+          </ol>
+          <p class="hint muted" style="margin:8px 0 0">También sirve Gmail: servidor <span class="mono">smtp.gmail.com</span>, puerto <span class="mono">465</span> y una «contraseña de aplicación» de Google (no la contraseña normal).</p>
+        </details>
+        <div style="display:grid;grid-template-columns:1fr 110px;gap:10px;margin-bottom:10px">
+          <div class="field"><label for="cfg-ms-host">Servidor de correo saliente</label>
+            <input id="cfg-ms-host" type="text" class="mono" placeholder="smtp.hostinger.com" value="${escHtml(smtp.host || "")}" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
+          <div class="field"><label for="cfg-ms-port">Puerto</label>
+            <input id="cfg-ms-port" type="text" inputmode="numeric" class="mono" placeholder="465" value="${escHtml(smtp.configured ? String(smtp.port || 465) : "")}" autocomplete="off" spellcheck="false"></div>
+        </div>
+        <div class="field" style="margin-bottom:10px"><label for="cfg-ms-user">Correo (usuario)</label>
+          <input id="cfg-ms-user" type="text" class="mono" placeholder="ventas@stikebikeshop.com" value="${escHtml(smtp.user || "")}" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
+        <div class="field" style="margin-bottom:10px"><label for="cfg-ms-pass">Contraseña de ese correo ${smtp.configured ? `<span class="muted" style="font-weight:400">· ya hay una guardada${smtp.source === "panel" ? " aquí" : " en el servidor"}; escribe otra solo si quieres cambiarla</span>` : ""}</label>
+          <input id="cfg-ms-pass" type="password" class="mono" placeholder="${smtp.configured ? "••••••••" : "la contraseña de la cuenta de correo"}" autocomplete="new-password" spellcheck="false"></div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <button class="btn cyan" id="cfg-ms-save" type="button">Guardar y enviar prueba</button>
+          <button class="btn ghost sm" id="cfg-ms-clear" type="button" title="Deja de usar este correo y vuelve a lo que está en el servidor">Quitar lo guardado aquí</button>
+        </div>
+      </div>
+
+      <div style="${box}">
+        <h5 style="margin:0 0 6px">B) Con Resend (gratis hasta 3.000 correos al mes) ${resend.configured ? `<span class="pill owner" style="font-weight:600">Guardado</span>` : ""}</h5>
+        <details style="margin:0 0 10px">
+          <summary style="cursor:pointer;font-weight:600">Cómo hacerlo (5 minutos)</summary>
+          <ol class="hint" style="margin:10px 0 0 18px;padding:0;line-height:1.6">
+            <li>Entra a <b>resend.com</b> y crea una cuenta gratis <b>con el correo donde quieres recibir los avisos</b> (si usas otro, mientras no verifiques tu dominio solo podrás enviar a ese correo).</li>
+            <li>En el menú <b>API Keys → Create API Key</b>: nombre «Stike», permiso <b>Sending access</b>. Copia la llave (empieza por <span class="mono">re_</span>; solo se muestra una vez).</li>
+            <li>Pégala abajo y pulsa <b>Guardar y enviar prueba</b>: debe llegar un correo en segundos (mira también spam).</li>
+            <li>Para enviar <b>desde tu propio dominio</b> y a cualquier correo: en Resend → <b>Domains → Add Domain → stikebikeshop.com</b>, agrega en hPanel (Dominios → DNS) los registros que te muestra y pulsa <b>Verify</b>. Después escribe abajo el remitente, por ejemplo <span class="mono">Stike Bike Shop &lt;ventas@stikebikeshop.com&gt;</span>.</li>
+          </ol>
+        </details>
+        ${field("key", `Llave de Resend ${resend.configured ? `<span class="muted" style="font-weight:400">· guardada${resend.source === "panel" ? " aquí" : " en el servidor"}, termina en …${escHtml(resend.tail || "")}</span>` : ""}`, "re_…", "", "Guardar y enviar prueba", "Vuelve a usar el valor que está en el servidor")}
+        ${field("from", "Remitente de Resend <span class=\"muted\" style=\"font-weight:400\">(opcional; déjalo vacío hasta verificar tu dominio en Resend)</span>", "Stike Bike Shop <ventas@stikebikeshop.com>", m.from || "", "Guardar y enviar prueba", "Vuelve a usar el remitente de pruebas de Resend")}
+      </div>
+
+      ${field("to", "Quién recibe el aviso de cada venta <span class=\"muted\" style=\"font-weight:400\">(uno o varios, separados por coma)</span>", "dueno@gmail.com, socio@gmail.com", (m.recipients || []).join(", "), "Guardar y enviar prueba", "Vuelve a usar el valor que está en el servidor")}
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
         <button class="btn ghost" id="cfg-test-email" type="button">Enviar correo de prueba</button>
       </div>
@@ -3461,11 +3502,42 @@ function mailDomainsText(j) {
   return ver.length ? `\nDominios verificados en Resend: ${ver.join(", ")}. Puedes enviar desde ellos (paso 3).`
     : "\nTodavía no hay un dominio verificado: los avisos salen desde onboarding@resend.dev y Resend solo los entrega al correo con el que creaste la cuenta de Resend.";
 }
-/* Resultado del correo de prueba, explicado: solo cuenta como «bien» si salio por Resend (el del hosting no garantiza la entrega). */
+/* Resultado del correo de prueba, explicado: solo cuenta como «bien» si salio por Resend o por tu correo (SMTP); el del hosting no garantiza la entrega. */
 function describeTestEmail(j) {
-  if (!j.ok) return { ok: false, text: "✕ No se pudo enviar el correo por ningún camino." + (j.resendError ? `\nResend: ${j.resendError.detail}` : (j.resendConfigured ? "" : "\nTodavía no hay llave de Resend: pégala arriba (paso 1).")) };
+  const why = (j.resendError ? `\n⚠ Resend falló: ${j.resendError.detail}` : "") + (j.smtpError ? `\n⚠ Tu correo (SMTP) falló: ${j.smtpError.detail}` : "");
+  if (!j.ok) return { ok: false, text: "✕ No se pudo enviar el correo por ningún camino." + (why || ((j.resendConfigured || j.smtpConfigured) ? "" : "\nTodavía no hay un correo configurado: llena la opción A o la B de arriba.")) };
   if (j.via === "resend") return { ok: true, text: `✔ Enviado por Resend a ${j.to}. Debe llegar en segundos; mira también en spam la primera vez.` };
-  return { ok: false, text: `Enviado por el correo del hosting a ${j.to}, pero eso NO garantiza que llegue.` + (j.resendError ? `\n⚠ Resend falló: ${j.resendError.detail}` : "\nPara que llegue siempre, activa Resend (pasos de arriba).") };
+  if (j.via === "smtp") return { ok: true, text: `✔ Enviado desde tu correo (SMTP) a ${j.to}. Debe llegar en segundos; mira también en spam la primera vez.${why}` };
+  return { ok: false, text: `Enviado por el correo del hosting a ${j.to}, pero eso NO garantiza que llegue.` + (why || "\nPara que llegue siempre, configura la opción A o la B de arriba.") };
+}
+/* Opcion A: la cuenta de correo propia (SMTP). El servidor entra a la cuenta antes de guardar; la contraseña no vuelve nunca. */
+async function saveSmtp(clear = false) {
+  const g = id => $(`#cfg-ms-${id}`), out = $("#cfg-mail-msg");
+  const host = g("host").value.trim(), port = g("port").value.trim(), user = g("user").value.trim(), pass = g("pass").value;
+  if (!clear && (!host || !user || !pass.trim())) {
+    out.style.color = "var(--bad)";
+    out.textContent = "Escribe el servidor, el correo y su contraseña." + (!host ? " (Hostinger: smtp.hostinger.com)" : "");
+    (!host ? g("host") : !user ? g("user") : g("pass")).focus();
+    return;
+  }
+  const btns = [...document.querySelectorAll("#cfg-mail-box button")]; btns.forEach(b => { b.disabled = true; });
+  out.style.color = ""; out.textContent = clear ? "Quitando…" : "Entrando a la cuenta de correo para comprobarla…";
+  try {
+    const res = await fetch(new URL("api/admin-config", document.baseURI), {
+      method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(clear ? { action: "smtp_clear" } : { action: "smtp_save", host, port: parseInt(port, 10) || 465, user, pass }),
+    });
+    const j = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(j.detail || ({ forbidden: "Solo el dueño y el desarrollador pueden cambiar esto.", not_logged_in: "Tu sesión venció: vuelve a iniciar sesión." }[j.error]) || j.error || ("HTTP " + res.status));
+    const text = clear ? "Listo: se quitó el correo guardado aquí; ahora vale lo que está en el servidor."
+      : `✔ El servidor entró a ${j.user} en ${j.host}: usuario y contraseña correctos (conexión segura). Los avisos de venta saldrán desde ese correo.`;
+    await renderHealth();
+    const m = $("#cfg-mail-msg"); if (m) { m.style.color = "var(--good, #3ecf8e)"; m.textContent = text; }
+    if (!clear) await sendTestEmail(text);   // confirma ya con un correo real
+  } catch (e) {
+    out.style.color = "var(--bad)"; out.textContent = e.message;
+    btns.forEach(b => { b.disabled = false; });
+  }
 }
 async function saveMailSetting(kind, clear = false) {
   const KEY = { key: "RESEND_API_KEY", to: "OWNER_NOTIFY_EMAIL", from: "RESEND_FROM" }[kind];

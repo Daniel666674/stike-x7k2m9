@@ -330,19 +330,26 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
    cada 6 horas) y los clientes ven la opción de pedir por WhatsApp.
    `ADMIN_API_KEY` se inventa y se
    pega una vez en el panel, pestaña Configuración → "Clave del servidor de
-   ventas". **Correo de aviso de cada venta:** sin `RESEND_API_KEY` el correo sale con el
-   `mail()` del hosting, que casi nunca llega a Gmail (cae en spam o se pierde, y PHP dice
-   «enviado» igual). Con Resend (gratis, resend.com) llega en segundos. No hace falta editar
-   archivos: panel → Configuración → **«Correo de aviso de cada venta»** (dueño y desarrollador):
-   se pega la llave de Resend (se comprueba con Resend y se guarda cifrada), a quién le llega
-   (uno o varios correos; a los anteriores les avisa del cambio) y el remitente. Con el
-   remitente de pruebas de Resend (`onboarding@resend.dev`) solo se entrega al correo con el
-   que se creó la cuenta de Resend; para enviar a cualquier correo y desde `@stikebikeshop.com`
-   hay que verificar el dominio en Resend (registros DNS en hPanel). «Enviar correo de prueba»
-   explica el motivo exacto si Resend se niega. El panel muestra a quién le llega, por dónde
-   sale y el resultado del último envío (`last-mail.json`); si ningún camino pudo enviar un
+   ventas". **Correo de aviso de cada venta:** sin cuenta de correo propia ni Resend el correo sale
+   con el `mail()` del hosting, que casi nunca llega a Gmail (cae en spam o se pierde, y PHP dice
+   «enviado» igual). No hace falta editar archivos: panel → Configuración → **«Correo de aviso
+   de cada venta»** (dueño y desarrollador), con dos formas a elegir:
+   **A) Un correo del propio dominio por SMTP** (sin crear cuentas en servicios nuevos): se crea
+   una cuenta de correo en hPanel (p. ej. `ventas@stikebikeshop.com`) y se escribe servidor
+   (`smtp.hostinger.com`), puerto (465; 587 también sirve), correo y contraseña. El servidor entra a la
+   cuenta ANTES de guardar (conexión segura + usuario y contraseña) y la contraseña se guarda
+   cifrada y no vuelve a mostrarse. Gmail también sirve (`smtp.gmail.com`, 465 y una «contraseña de
+   aplicación»). **B) Resend** (gratis, resend.com): se pega la llave (se comprueba con Resend y se
+   guarda cifrada); con el remitente de pruebas (`onboarding@resend.dev`) solo se entrega al correo
+   con el que se creó la cuenta de Resend; para enviar a cualquier correo y desde `@stikebikeshop.com`
+   hay que verificar el dominio en Resend (registros DNS en hPanel). Además: a quién le llega (uno o
+   varios; a los anteriores les avisa del cambio) y el remitente de Resend. «Enviar correo de prueba»
+   explica el motivo exacto si algo falla. Orden de envío: Resend → tu correo (SMTP) → `mail()` del
+   hosting (armado en base64 con texto + HTML; no garantiza nada). El panel muestra a quién le llega,
+   por dónde sale y el resultado del último envío (`last-mail.json`); si ningún camino pudo enviar un
    aviso de venta, queda en `outbox/` y se reintenta solo (2 min, 4, 8… hasta 1 h, durante 48 h).
-   Si Resend falla, el aviso intenta salir por `mail()` (armado en base64 con texto + HTML).
+   Por seguridad el panel solo acepta los puertos 465, 587 y 2525 y rechaza servidores de la red
+   interna. Pruebas: `node tools/smtp-mail-test.mjs` (servidor SMTP falso con TLS y STARTTLS).
 4. **Login del panel en el dominio nuevo:** en Google Cloud Console → APIs y
    servicios → Credenciales → el ID de cliente OAuth de `site.js`
    (`OAUTH_CLIENT_ID`) → "Orígenes autorizados de JavaScript", agregar

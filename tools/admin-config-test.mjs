@@ -374,7 +374,7 @@ try {
   const cfgFileM = join(STORAGE6, "runtime-config.json");
 
   const hm0 = await healthM(ownerM), em0 = emailCheck(hm0);
-  t("sin llave de Resend: ✕, dice «SIN Resend», a quién le llega (enmascarado) y que todavía no se envió ninguno", [em0.ok, /SIN Resend/.test(em0.detail), /Le llega a: j\*\*\*@gmail\.com/.test(em0.detail), /Todav[ií]a no se ha enviado/.test(em0.detail)], [false, true, true, true]);
+  t("sin correo propio ni Resend: ✕, dice «SIN servicio de correo propio», a quién le llega (enmascarado) y que todavía no se envió ninguno", [em0.ok, /SIN servicio de correo propio/.test(em0.detail), /Le llega a: j\*\*\*@gmail\.com/.test(em0.detail), /Todav[ií]a no se ha enviado/.test(em0.detail)], [false, true, true, true]);
   t("el dueño recibe el bloque «mail» para el formulario (destinatarios completos, Resend sin configurar); el administrador no", [hm0.mail.recipients, hm0.mail.resend.configured, (await healthM(adminM)).mail === undefined], [["jparra375@gmail.com"], false, true]);
   const t0 = await cfgM(ownerM, { action: "test_email" });
   t("el correo de prueba sale por el correo del hosting y dice que NO es confiable", [t0.json.ok, t0.json.via, t0.json.reliable, t0.json.resendConfigured], [true, "mail", false, false]);
@@ -415,7 +415,7 @@ try {
   t("con el remitente de pruebas y un destinatario ajeno a la cuenta: Resend dice «solo a tu propio correo»; se intenta por el hosting y la respuesta lo dice", [t2.json.ok, t2.json.via, t2.json.reliable, t2.json.resendError.code, /otro\.dueno@gmail\.com/.test(t2.json.resendError.detail), /verifica stikebikeshop\.com/.test(t2.json.resendError.detail)], [true, "mail", false, "sandbox_only", true, true]);
   t("el hosting recibió el mensaje de respaldo", captured(CAP6).length, nCap + 1);
   const em3 = emailCheck(await healthM(ownerM));
-  t("el panel marca ✕ y cuenta que Resend falló y se usó el hosting, con el motivo", [em3.ok, /Resend falló y se usó el del hosting/.test(em3.detail), /otro\.dueno@gmail\.com/.test(em3.detail)], [false, true, true]);
+  t("el panel marca ✕ y cuenta que el envío principal falló y se usó el hosting, con el motivo", [em3.ok, /El envío principal falló y se usó el correo del hosting/.test(em3.detail), /otro\.dueno@gmail\.com/.test(em3.detail)], [false, true, true]);
   resendMode = "badkey";
   t("llave que Resend ya no acepta (la borraron): «RECHAZÓ la llave»", (await cfgM(ownerM, { action: "test_email" })).json.resendError.code, "key_rejected");
   resendMode = "down";
