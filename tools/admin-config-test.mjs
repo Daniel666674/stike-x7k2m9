@@ -82,6 +82,18 @@ try {
   await sign(API, "stike-1700000000009-zzzzzzzz");
   t("otro cliente que lo intenta no dispara otro correo (máximo uno cada 6 horas)", mails.length, 1);
 
+  console.log("\nEl panel cuando el secreto está mal (no debe decir «sandbox» sin saberlo)");
+  const h0 = await fetch(`${API}/admin-health.php`, { headers: { Cookie: owner } }).then(r => r.json());
+  const c0 = id => (h0.checks || []).find(c => c.id === id) || {};
+  t("«Modo producción» no afirma «todavía en sandbox»: dice que no se puede confirmar", [/Todav[ií]a en sandbox/.test(c0("wompi_prod").detail), /no se puede confirmar/.test(c0("wompi_prod").detail)], [false, true]);
+  t("y enseña lo que tiene cada llave: pública y privada de pruebas, secreto de integridad ✕ (parece la privada)", [/Llave pública: pruebas/.test(c0("wompi_prod").detail), /Llave privada: pruebas/.test(c0("wompi_prod").detail), /Secreto de integridad: ✕ está mal \(lo que hay parece la llave PRIVADA\)/.test(c0("wompi_prod").detail)], [true, true, true]);
+  const prodBad = await startPhp({ WOMPI_PUBLIC_KEY: "pub_prod_demo1234", WOMPI_PRIVATE_KEY: "prv_prod_demo1234", WOMPI_INTEGRITY_SECRET: "prv_prod_la_privada_pegada_donde_no_iba" });
+  const h1 = await fetch(`${prodBad.API}/admin-health.php`, { headers: { Cookie: owner } }).then(r => r.json());
+  const c1 = id => (h1.checks || []).find(c => c.id === id) || {};
+  t("con llaves de PRODUCCIÓN y el secreto mal: dice «Llave pública: producción» y «Llave privada: producción»", [/Llave pública: producción/.test(c1("wompi_prod").detail), /Llave privada: producción/.test(c1("wompi_prod").detail)], [true, true]);
+  t("y los eventos se piden en la pestaña PRODUCCIÓN (no «Sandbox»)", [/pestaña PRODUCCIÓN/.test(c1("wompi_last_event").detail), /Sandbox/.test(c1("wompi_last_event").detail)], [true, false]);
+  prodBad.proc.kill();
+
   console.log("\nQuién puede cambiarlo");
   t("sin sesión: 401", (await cfg(null, { key: "WOMPI_INTEGRITY_SECRET", value: GOOD })).code, 401);
   t("tienda (staff): 403", (await cfg(staff, { key: "WOMPI_INTEGRITY_SECRET", value: GOOD })).code, 403);

@@ -14,6 +14,17 @@ stike_run(function () {
   $checks = [];
   $add = function ($id, $ok, $label, $detail) use (&$checks) { $checks[] = ["id" => $id, "ok" => $ok, "label" => $label, "detail" => $detail]; };
 
+  // Que ambiente tiene CADA llave por separado (aunque otra este mal): asi el panel nunca dice "sandbox"
+  // solo porque no pudo validar el conjunto.
+  $seen = [];
+  $summary = [];
+  foreach (["Llave pública" => ["WOMPI_PUBLIC_KEY", '/^pub_(test|prod)_/'], "Llave privada" => ["WOMPI_PRIVATE_KEY", '/^prv_(test|prod)_/'], "Secreto de integridad" => ["WOMPI_INTEGRITY_SECRET", '/^(test|prod)_integrity_/']] as $lbl => [$name, $re]) {
+    $v = stike_wompi_clean(stike_config($name));
+    if (!is_string($v) || $v === "") { $seen[$lbl] = null; $summary[] = "$lbl: falta"; }
+    elseif (preg_match($re, $v, $mm)) { $seen[$lbl] = $mm[1]; $summary[] = "$lbl: " . ($mm[1] === "prod" ? "producción" : "pruebas (sandbox)"); }
+    else { $seen[$lbl] = false; $summary[] = "$lbl: ✕ está mal (lo que hay parece " . stike_wompi_kind($v) . ")"; }
+  }
+
   // Wompi: las tres llaves, mismo ambiente, y que la privada funcione.
   $env = null;
   try {
@@ -49,7 +60,12 @@ stike_run(function () {
   } catch (ApiError $e) {
     $add("wompi_keys", false, "Llaves de Wompi", $e->detail ?: $e->errorCode);
   }
-  $add("wompi_prod", $env === "prod", "Modo producción", $env === "prod" ? "Las ventas se cobran de verdad" : "Todavía en sandbox: cambia las 3 llaves por las de producción");
+  if ($env !== null) {
+    $add("wompi_prod", $env === "prod", "Modo producción", $env === "prod" ? "Las ventas se cobran de verdad" : "Las llaves son de PRUEBAS (sandbox): no cobra de verdad. Para cobrar, cambia las 3 por las de producción.");
+  } else {
+    $add("wompi_prod", false, "Modo producción", "Todavía no se puede confirmar, porque las llaves no pasan la revisión de arriba. Esto es lo que hay en el servidor → " . implode(" · ", $summary) . ".");
+  }
+  $envName = $env ?? (is_string($seen["Llave pública"] ?? null) ? $seen["Llave pública"] : null);   // la llave publica manda si el conjunto no valida
 
   // Eventos de Wompi: la URL tiene que estar puesta en Wompi, en la pestana de ESTE ambiente (produccion y
   // sandbox tienen cada una la suya). Aca se ve si de verdad han llegado.
@@ -61,7 +77,7 @@ stike_run(function () {
     $bad = in_array($ev["result"] ?? "", ["firma_invalida"], true) || str_starts_with((string)($ev["result"] ?? ""), "error:");
     $add("wompi_last_event", !$bad, "Eventos de Wompi (aviso de cada pago)", "Último evento recibido " . $when . " · " . ($ev["result"] ?? "?") . ($bad ? ". Revisa WOMPI_EVENTS_SECRET (debe ser el secreto de EVENTOS de este ambiente)." : ""));
   } else {
-    $add("wompi_last_event", false, "Eventos de Wompi (aviso de cada pago)", "Todavía no ha llegado ninguno. En Wompi, pestaña " . ($env === "prod" ? "PRODUCCIÓN" : "Sandbox") . " → Desarrolladores → URL de eventos, pega: https://stikebikeshop.com/api/wompi-events . Se marca ✔ solo cuando Wompi avisa de un pago (haz la compra de prueba).");
+    $add("wompi_last_event", false, "Eventos de Wompi (aviso de cada pago)", "Todavía no ha llegado ninguno. En Wompi, pestaña " . ($envName === "prod" ? "PRODUCCIÓN" : ($envName === "test" ? "Sandbox" : "PRODUCCIÓN (o Sandbox si tus llaves son de pruebas)")) . " → Desarrolladores → URL de eventos, pega: https://stikebikeshop.com/api/wompi-events . Se marca ✔ solo cuando Wompi avisa de un pago (haz la compra de prueba).");
   }
 
   // GitHub (panel + descuento automatico de stock de ventas online).
