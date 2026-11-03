@@ -164,7 +164,7 @@ try {
   t("un evento con firma falsa se rechaza (401)", evBad.status, 401);
   const hh2 = await fetch(`${API}/admin-health.php`, { headers: { Cookie: owner } }).then(r => r.json());
   const ev2 = (hh2.checks || []).find(c => c.id === "wompi_last_event") || {};
-  t("y el panel avisa que el último evento llegó con firma inválida (revisar el secreto de eventos)", [ev2.ok, /firma_invalida/.test(ev2.detail), /WOMPI_EVENTS_SECRET/.test(ev2.detail)], [false, true, true]);
+  t("y el panel avisa que llegó un aviso con firma NO válida (revisar el secreto de eventos), sin tomarlo por un evento real", [ev2.ok, /Todav[ií]a no ha llegado ninguno v[aá]lido/.test(ev2.detail), /1 aviso\(s\) con firma no v[aá]lida/.test(ev2.detail), /secreto de eventos/.test(ev2.detail)], [false, true, true, true]);
   t("el panel NUNCA devuelve ningún secreto", JSON.stringify(hh2).includes(GOOD) || JSON.stringify(hh2).includes("AbCdEfGh12345678"), false);
 
   console.log("\nProducción: el servidor de Wompi correcto según las llaves");
@@ -211,6 +211,10 @@ try {
   const evValido = await post(evt(EVS));
   t("evento con firma válida -> 200 y se registra con sus propios datos (sin consultar a Wompi)", [evValido.code, evValido.json.recorded], [200, 1]);
   t("la venta está en el panel y salió el correo", [(await salesOf()).filter(x => x.orderRef === R10).length, mails.length - mailsBefore], [1, 2]);
+  await post(evt("otro_secreto_mas"));   // alguien prueba la dirección DESPUÉS del evento real
+  const hh3 = await fetch(`${API}/admin-health.php`, { headers: { Cookie: owner } }).then(r => r.json());
+  const ev3 = (hh3.checks || []).find(c => c.id === "wompi_last_event") || {};
+  t("un aviso falso posterior NO tapa el último evento real: sigue ✔ «venta_registrada» y solo se anota cuántos falsos llegaron (3 hasta ahora)", [ev3.ok, /venta_registrada/.test(ev3.detail), /3 aviso\(s\) con firma no v[aá]lida/.test(ev3.detail)], [true, true, true]);
   getByIdDown = false;
 
   console.log("\nCorreo de prueba desde el panel");
@@ -274,6 +278,17 @@ try {
   const refLg = "stike-1700000000095-oooooooo";
   const gLg = await sign(legacy.API, refLg);
   t("un secreto guardado ANTES (texto plano, formato anterior) sigue funcionando", [gLg.code, gLg.json.signature], [200, createHash("sha256").update(`${refLg}${gLg.json && gLg.json.amount_in_cents}COP${GOOD2}`).digest("hex")]);
+  // Al abrir el panel, lo que quedó en texto plano se cifra solo (nadie tiene que volver a pegarlo) y sigue funcionando.
+  writeFileSync(join(STORAGE3, "last-event.json"), JSON.stringify({ at: new Date().toISOString(), result: "firma_invalida", reference: null, status: null }));   // así lo anotaba la versión anterior
+  const ownerL = await fetch(`${legacy.API}/admin-login.php`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ credential: "owner" }) }).then(r => (r.headers.get("set-cookie") || "").split(";")[0]);
+  const hl = await fetch(`${legacy.API}/admin-health.php`, { headers: { Cookie: ownerL } }).then(r => r.json());
+  const rawL = readFileSync(join(STORAGE3, "runtime-config.json"), "utf8"), entL = JSON.parse(rawL).WOMPI_INTEGRITY_SECRET;
+  t("al abrir el panel, lo guardado en texto plano se CIFRA solo: ya no queda el secreto en el archivo (y conserva quién lo guardó)", [rawL.includes("ZzZzZzZz98765432"), entL.enc, entL.by, "value" in entL], [false, "v1", "jparra375@gmail.com", false]);
+  t("el panel lo dice: «Cifrados en el servidor»", [(hl.checks.find(c => c.id === "wompi_panel_encrypted") || {}).ok, /Cifrados en el servidor/.test((hl.checks.find(c => c.id === "wompi_panel_encrypted") || {}).detail)], [true, true]);
+  const refL2 = "stike-1700000000097-qqqqqqqq", gL2 = await sign(legacy.API, refL2);
+  t("y el cobro sigue firmando con el mismo secreto después de cifrarlo", gL2.json.signature, createHash("sha256").update(`${refL2}${gL2.json && gL2.json.amount_in_cents}COP${GOOD2}`).digest("hex"));
+  const evL = hl.checks.find(c => c.id === "wompi_last_event") || {};
+  t("un last-event.json del formato anterior con «firma_invalida» no se toma por un evento real", [evL.ok, /Todav[ií]a no ha llegado ninguno v[aá]lido/.test(evL.detail), /aviso\(s\) con firma no v[aá]lida/.test(evL.detail)], [false, true, true]);
   legacy.proc.kill(); rmSync(STORAGE3, { recursive: true, force: true });
 
   // Si cambia la clave interna del servidor (ADMIN_API_KEY), lo cifrado ya no se puede leer: el cobro NO se rompe (usa la

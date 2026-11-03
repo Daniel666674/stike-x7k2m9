@@ -18,6 +18,7 @@ api/config.local.php
 # vive en la carpeta de datos fuera del sitio, pero si una prueba local la deja dentro del repo, nunca se sube.
 runtime-config.json
 last-event.json
+last-bad-event.json
 ventas.jsonl
 pending/
 alerts/
