@@ -288,5 +288,101 @@
     "total": 160000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-10-30T15:09:34.653Z",
+    "slug": "marco-fiend-reynolds",
+    "name": "Marco Fiend Reynolds",
+    "size": "20.5",
+    "color": "Negro",
+    "qty": 1,
+    "unitPrice": 1480000,
+    "total": 1480000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
+  },
+  {
+    "ts": "2026-10-30T15:10:22.790Z",
+    "slug": "cana-fiend-reynolds-v4",
+    "name": "Caña Fiend Reynolds V4",
+    "size": null,
+    "color": "Negro",
+    "qty": 1,
+    "unitPrice": 236000,
+    "total": 236000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
+  },
+  {
+    "ts": "2026-10-30T15:10:58.665Z",
+    "slug": "poste-pivotal-fiend-185mm",
+    "name": "Poste Pivotal Fiend 185mm",
+    "size": null,
+    "color": "Cromado",
+    "qty": 1,
+    "unitPrice": 112000,
+    "total": 112000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
+  },
+  {
+    "ts": "2026-10-30T15:11:33.622Z",
+    "slug": "plato-fiend-omicron-guard",
+    "name": "Plato Fiend Omicron Guard",
+    "size": "28T",
+    "color": "Cromado",
+    "qty": 1,
+    "unitPrice": 272000,
+    "total": 272000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
+  },
+  {
+    "ts": "2026-10-30T15:11:53.743Z",
+    "slug": "barends-process-aluminio",
+    "name": "Barends Process en Aluminio 6061",
+    "size": null,
+    "color": "Negro",
+    "qty": 1,
+    "unitPrice": 64000,
+    "total": 64000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
+  },
+  {
+    "ts": "2026-10-30T15:12:39.112Z",
+    "slug": "pedales-fiend-reynolds-blancos",
+    "name": "Pedales Fiend Reynolds Blancos",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 68000,
+    "total": 68000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
+  },
+  {
+    "ts": "2026-10-30T16:48:46.881Z",
+    "slug": "caja-de-centro-fate-negra",
+    "name": "Caja de Centro Fate Negra",
+    "size": "1022mm",
+    "color": null,
+    "qty": 1,
+    "unitPrice": 64000,
+    "total": 64000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
+  },
+  {
+    "ts": "2026-10-30T16:49:53.384Z",
+    "slug": "caja-frente-fate-negra",
+    "name": "Caja De Frente Fate Integrada Negra",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 68000,
+    "total": 68000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
