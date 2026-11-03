@@ -132,6 +132,46 @@ function stike_runtime_config_unreadable() {
   return $bad;
 }
 
+/* Escritura atomica, solo para el dueño del proceso (0600), en la carpeta de datos (fuera del sitio). */
+function stike_runtime_config_write($data) {
+  $path = stike_runtime_config_path();
+  $tmp = $path . "." . bin2hex(random_bytes(4)) . ".tmp";
+  $json = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+  if (@file_put_contents($tmp, $json) === false) { @unlink($tmp); throw new ApiError(500, "storage_unavailable", "no se pudo guardar"); }
+  @chmod($tmp, 0600);
+  if (!@rename($tmp, $path)) { @unlink($tmp); throw new ApiError(500, "storage_unavailable", "no se pudo guardar"); }
+}
+
+/* Estado de lo guardado desde el panel: cuantos secretos hay, cuantos van cifrados y cuantos siguen en texto (formato anterior). */
+function stike_runtime_config_state() {
+  $s = ["total" => 0, "encrypted" => 0, "plain" => 0];
+  foreach (stike_runtime_config_all() as $k => $entry) {
+    if (!in_array($k, STIKE_RUNTIME_KEYS, true) || !is_array($entry)) continue;
+    $s["total"]++;
+    if (($entry["enc"] ?? null) === "v1") $s["encrypted"]++;
+    elseif (is_string($entry["value"] ?? null)) $s["plain"]++;
+  }
+  return $s;
+}
+
+/* Cifra lo que quedo guardado en texto plano por la version anterior (se llama al abrir el panel). Devuelve cuantos cifro;
+   si el servidor no puede cifrar, lo deja como esta (nunca pierde un secreto). */
+function stike_runtime_config_upgrade() {
+  $all = stike_runtime_config_all();
+  $n = 0;
+  foreach ($all as $k => $entry) {
+    if (!in_array($k, STIKE_RUNTIME_KEYS, true) || !is_array($entry) || !is_string($entry["value"] ?? null) || $entry["value"] === "") continue;
+    $sealed = stike_runtime_seal($entry["value"]);
+    if (!$sealed) return 0;
+    $check = stike_runtime_open($sealed);   // se comprueba que lo cifrado se lee de vuelta antes de soltar el texto
+    if ($check !== $entry["value"]) return 0;
+    $all[$k] = $sealed + array_diff_key($entry, ["value" => true]);
+    $n++;
+  }
+  if ($n) stike_runtime_config_write($all);
+  return $n;
+}
+
 function stike_config($key, $default = null) {
   static $file = null;
   if (in_array($key, STIKE_RUNTIME_KEYS, true)) {
@@ -915,7 +955,17 @@ function stike_alert_owner($kind, $title, $detail, $everySec = 21600) {
    con sus ojos que la URL de eventos de PRODUCCION quedo bien puesta. */
 function stike_note_event($result, $reference = null, $status = null) {
   try {
-    @file_put_contents(stike_storage_dir() . "/last-event.json", json_encode(["at" => stike_now_iso(), "result" => $result, "reference" => $reference, "status" => $status], JSON_UNESCAPED_UNICODE));
+    $dir = stike_storage_dir();
+    if ($result === "firma_invalida") {
+      /* Los avisos con firma falsa se cuentan APARTE: si se anotaran como «ultimo evento», cualquiera que probara la direccion
+         taparia en el panel el ultimo evento real de Wompi. */
+      $path = $dir . "/last-bad-event.json";
+      $prev = is_file($path) ? json_decode((string)@file_get_contents($path), true) : null;
+      $recent = is_array($prev) && !empty($prev["since"]) && (time() - (int)strtotime((string)$prev["since"])) < 7 * 86400;
+      @file_put_contents($path, json_encode(["at" => stike_now_iso(), "since" => $recent ? $prev["since"] : stike_now_iso(), "count" => $recent ? (int)($prev["count"] ?? 0) + 1 : 1]));
+      return;
+    }
+    @file_put_contents($dir . "/last-event.json", json_encode(["at" => stike_now_iso(), "result" => $result, "reference" => $reference, "status" => $status], JSON_UNESCAPED_UNICODE));
   } catch (Throwable $e) { /* nunca por esto se rechaza un evento */ }
 }
 

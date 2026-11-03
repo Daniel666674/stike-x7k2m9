@@ -72,20 +72,42 @@ stike_run(function () {
 
   // Eventos de Wompi: la URL tiene que estar puesta en Wompi, en la pestana de ESTE ambiente (produccion y
   // sandbox tienen cada una la suya). Aca se ve si de verdad han llegado.
-  $ev = null;
-  try { $evPath = stike_storage_dir() . "/last-event.json"; if (is_file($evPath)) $ev = json_decode((string)file_get_contents($evPath), true); } catch (Throwable $e) {}
+  $ev = null; $badEv = null;
+  try {
+    $dirEv = stike_storage_dir();
+    if (is_file($dirEv . "/last-event.json")) $ev = json_decode((string)file_get_contents($dirEv . "/last-event.json"), true);
+    if (is_file($dirEv . "/last-bad-event.json")) $badEv = json_decode((string)file_get_contents($dirEv . "/last-bad-event.json"), true);
+  } catch (Throwable $e) {}
+  /* La version anterior anotaba los avisos con firma falsa como «ultimo evento»: eso no es un evento real. */
+  if (is_array($ev) && ($ev["result"] ?? "") === "firma_invalida") {
+    if (!is_array($badEv) || strtotime((string)($badEv["at"] ?? "")) < strtotime((string)($ev["at"] ?? ""))) $badEv = ["at" => $ev["at"] ?? null, "count" => 1];
+    $ev = null;
+  }
+  $evWhen = function ($iso) {
+    $ago = max(0, time() - (int)strtotime((string)$iso));
+    return $ago < 3600 ? "hace " . max(1, intdiv($ago, 60)) . " min" : ($ago < 172800 ? "hace " . intdiv($ago, 3600) . " h" : "hace " . intdiv($ago, 86400) . " días");
+  };
+  $badNote = (is_array($badEv) && !empty($badEv["at"]) && time() - (int)strtotime((string)$badEv["at"]) < 7 * 86400)
+    ? " Llegaron " . max(1, (int)($badEv["count"] ?? 1)) . " aviso(s) con firma no válida (el último " . $evWhen($badEv["at"]) . "): si Wompi ya está enviando eventos de verdad, el secreto de eventos pegado no es el de este ambiente; si no esperabas ninguno, alguien probó la dirección (no registra nada)."
+    : "";
   if (is_array($ev) && !empty($ev["at"])) {
-    $ago = max(0, time() - (int)strtotime($ev["at"]));
-    $when = $ago < 3600 ? "hace " . max(1, intdiv($ago, 60)) . " min" : ($ago < 172800 ? "hace " . intdiv($ago, 3600) . " h" : "hace " . intdiv($ago, 86400) . " días");
-    $bad = in_array($ev["result"] ?? "", ["firma_invalida"], true) || str_starts_with((string)($ev["result"] ?? ""), "error:");
-    $add("wompi_last_event", !$bad, "Eventos de Wompi (aviso de cada pago)", "Último evento recibido " . $when . " · " . ($ev["result"] ?? "?") . ($bad ? ". Revisa WOMPI_EVENTS_SECRET (debe ser el secreto de EVENTOS de este ambiente)." : ""));
+    $evErr = str_starts_with((string)($ev["result"] ?? ""), "error:");
+    $add("wompi_last_event", !$evErr, "Eventos de Wompi (aviso de cada pago)", "Último evento recibido " . $evWhen($ev["at"]) . " · " . ($ev["result"] ?? "?") . ($evErr ? ". Revisa que la URL de eventos y el secreto de eventos sean los de este ambiente." : "") . $badNote);
   } else {
-    $add("wompi_last_event", false, "Eventos de Wompi (aviso de cada pago)", "Todavía no ha llegado ninguno. En Wompi, pestaña " . ($envName === "prod" ? "PRODUCCIÓN" : ($envName === "test" ? "Sandbox" : "PRODUCCIÓN (o Sandbox si tus llaves son de pruebas)")) . " → Desarrolladores → URL de eventos, pega: https://stikebikeshop.com/api/wompi-events . Se marca ✔ solo cuando Wompi avisa de un pago (haz la compra de prueba).");
+    $add("wompi_last_event", false, "Eventos de Wompi (aviso de cada pago)", "Todavía no ha llegado ninguno válido. En Wompi, pestaña " . ($envName === "prod" ? "PRODUCCIÓN" : ($envName === "test" ? "Sandbox" : "PRODUCCIÓN (o Sandbox si tus llaves son de pruebas)")) . " → Desarrolladores → URL de eventos, pega: https://stikebikeshop.com/api/wompi-events . Se marca ✔ solo cuando Wompi avisa de un pago (haz la compra de prueba)." . $badNote);
   }
 
-  // Secretos guardados desde el panel que ya no se pueden leer (cambio la clave de cifrado del servidor).
+  // Secretos guardados desde el panel: los que quedaron en texto plano (version anterior) se cifran ahora, y se avisa si alguno
+  // ya no se puede leer (cambio la clave interna del servidor).
+  try { stike_runtime_config_upgrade(); } catch (Throwable $e) { error_log("[stike] no se pudo cifrar lo guardado desde el panel: " . get_class($e)); }
   $unreadable = stike_runtime_config_unreadable();
-  if ($unreadable) $add("wompi_panel_unreadable", false, "Secretos guardados desde el panel", "No se pueden leer (" . implode(", ", $unreadable) . "): cambió la clave interna del servidor. Vuelve a pegarlos abajo; mientras tanto el servidor usa lo de su archivo de configuración.");
+  $rstate = stike_runtime_config_state();
+  if ($unreadable) {
+    $add("wompi_panel_unreadable", false, "Secretos guardados desde el panel", "No se pueden leer (" . implode(", ", $unreadable) . "): cambió la clave interna del servidor. Vuelve a pegarlos abajo; mientras tanto el servidor usa lo de su archivo de configuración.");
+  } elseif ($rstate["total"] > 0) {
+    $add("wompi_panel_encrypted", $rstate["plain"] === 0, "Secretos guardados desde el panel",
+      $rstate["plain"] === 0 ? "Cifrados en el servidor (AES-256): " . $rstate["encrypted"] . " guardado(s), ninguno en texto plano" : $rstate["plain"] . " siguen en texto plano porque este servidor no puede cifrar (falta la extensión openssl de PHP); quedan solo legibles por el servidor.");
+  }
 
   // Pagos aprobados que no se habian registrado: al abrir el panel se buscan y se registran (venta + correo + stock).
   $rc = stike_reconcile_pending(4);

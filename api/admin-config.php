@@ -85,13 +85,3 @@ stike_run(function () {
   error_log("[stike] $key guardado desde el panel por " . $s["email"] . " (ambiente $env, " . strlen($value) . " caracteres)");
   respond(200, ["ok" => true, "key" => $key, "environment" => $env, "length" => strlen($value), "tail" => substr($value, -4), "encrypted" => (bool)$sealed]);
 });
-
-/* Escritura atomica, solo para el dueño del proceso (0600), en la carpeta de datos (fuera del sitio). */
-function stike_runtime_config_write($data) {
-  $path = stike_runtime_config_path();
-  $tmp = $path . "." . bin2hex(random_bytes(4)) . ".tmp";
-  $json = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-  if (@file_put_contents($tmp, $json) === false) { @unlink($tmp); throw new ApiError(500, "storage_unavailable", "no se pudo guardar"); }
-  @chmod($tmp, 0600);
-  if (!@rename($tmp, $path)) { @unlink($tmp); throw new ApiError(500, "storage_unavailable", "no se pudo guardar"); }
-}

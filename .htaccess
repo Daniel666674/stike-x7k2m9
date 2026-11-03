@@ -154,7 +154,7 @@ DirectoryIndex index.html
   RewriteRule ^data/(costs|sales-log|audit-log|stock-applied)\.json$ - [F,L]
   # Carpeta de datos del servidor (pedidos, ventas, llaves guardadas desde el panel): vive fuera del sitio, pero si algun
   # dia quedara dentro, estos archivos nunca se sirven.
-  RewriteRule (^|/)(runtime-config|last-event|ventas|rate-limit|alerts?)\.(json|jsonl)$ - [F,L]
+  RewriteRule (^|/)(runtime-config|last-event|last-bad-event|ventas|rate-limit|alerts?)\.(json|jsonl)$ - [F,L]
   RewriteRule ^(pending|alerts|rate)(/|$) - [F,L]
   RewriteRule ^(PROPOSAL|MOTOR|README|SEO)\.md$ - [F,L]
   RewriteRule ^propuesta\.html$ - [F,L]
