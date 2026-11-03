@@ -39,11 +39,12 @@ const mails = [];
 const resend = await listen((req, res) => { const c = []; req.on("data", d => c.push(d)); req.on("end", () => { mails.push(JSON.parse(Buffer.concat(c).toString() || "{}")); res.setHeader("content-type", "application/json"); res.end("{}"); }); });
 const txns = {};          // id -> transaccion (como la devuelve Wompi)
 let getByIdDown = false;  // simula que "consultar por id" falla (lo que paso con el pago real)
+let listPublic = false;   // simula que Wompi atiende la lista por referencia SIN pedir llave
 const wompi = await listen((req, res) => {
   res.setHeader("content-type", "application/json");
   if (req.url.startsWith("/merchants/")) return res.end(JSON.stringify({ data: { name: "Stike Bike Shop SAS", active: true } }));
   if (req.url.startsWith("/transactions?")) {   // lista por referencia: pide la llave privada
-    if (req.headers.authorization !== "Bearer prv_test_demo1234") { res.statusCode = 401; return res.end("{}"); }
+    if (!listPublic && req.headers.authorization !== "Bearer prv_test_demo1234") { res.statusCode = 401; return res.end("{}"); }
     const ref = new URL(req.url, "http://x").searchParams.get("reference");
     return res.end(JSON.stringify({ data: Object.values(txns).filter(x => x.reference === ref), meta: {} }));
   }
@@ -123,7 +124,7 @@ try {
   const r3 = await cfg(owner, { key: "WOMPI_INTEGRITY_SECRET", value: "prod_integrity_AbCdEfGh12345678" });
   t("de producción con llave pública de sandbox -> 400 wrong_environment", [r3.code, r3.json.error, /SANDBOX/.test(r3.json.detail) && /PRODUCCI/.test(r3.json.detail)], [400, "wrong_environment", true]);
   t("vacío -> 400", (await cfg(owner, { key: "WOMPI_INTEGRITY_SECRET", value: "   " })).code, 400);
-  t("una llave que no se puede cambiar desde el panel (la privada) -> 400", (await cfg(owner, { key: "WOMPI_PRIVATE_KEY", value: "prv_test_nueva_larga_12345" })).json.error, "invalid_key");
+  t("la llave PÚBLICA no se puede cambiar desde el panel (cambiarla redirige el dinero) -> 400", (await cfg(owner, { key: "WOMPI_PUBLIC_KEY", value: "pub_test_nueva_larga_12345" })).json.error, "invalid_key");
   t("nada de eso guardó algo", existsSync(join(STORAGE, "runtime-config.json")), false);
 
   console.log("\nSe corrige desde el panel");
@@ -154,7 +155,7 @@ try {
   const hh = await fetch(`${API}/admin-health.php`, { headers: { Cookie: owner } }).then(r => r.json());
   const chk = id => (hh.checks || []).find(c => c.id === id) || {};
   t("Wompi reconoce la llave pública y muestra el nombre del comercio", [chk("wompi_reach").ok, /Stike Bike Shop SAS/.test(chk("wompi_reach").detail)], [true, true]);
-  t("(la consulta de una transacción en Wompi es pública: ya no se «comprueba» la llave privada con ella, porque daría un ✔ falso)", chk("wompi_private").id === undefined, true);
+  t("Wompi acepta la llave privada (se prueba con la lista de transacciones, que sí la usa; la consulta de UNA transacción es pública y no sirve para saberlo)", chk("wompi_private").ok, true);
   t("«de dónde salen las llaves» dice que el secreto viene del panel", /integridad: guardado desde el panel/.test(chk("wompi_source").detail), true);
   t("los eventos de Wompi: todavía ninguno -> ✕ con la instrucción de dónde ponerlo", [chk("wompi_last_event").ok, /URL de eventos/.test(chk("wompi_last_event").detail)], [false, true]);
   // el secreto de EVENTOS tambien se pega desde el panel; un evento con firma mala se rechaza y queda anotado
@@ -217,6 +218,38 @@ try {
   t("el dueño envía un correo de prueba -> ok, por Resend, a su correo (enmascarado)", [te.code, te.json.ok, te.json.via, /^j\*\*\*@/.test(te.json.to)], [200, true, "resend", true]);
   t("llega al servidor de correo", /Prueba de correo/.test(mails[mails.length - 1].subject), true);
   t("staff no puede (403)", (await cfg(staff, { action: "test_email" })).code, 403);
+
+  console.log("\nLlave privada: se corrige desde el panel y se comprueba con Wompi");
+  t("una llave que no es la privada (el secreto de integridad) -> 400", (await cfg(owner, { key: "WOMPI_PRIVATE_KEY", value: GOOD })).json.error, "wrong_kind");
+  t("una privada de producción con la pública de pruebas -> 400 wrong_environment", (await cfg(owner, { key: "WOMPI_PRIVATE_KEY", value: "prv_prod_AbCdEfGh12345678" })).json.error, "wrong_environment");
+  const rej = await cfg(owner, { key: "WOMPI_PRIVATE_KEY", value: "prv_test_otra_llave_larga_que_wompi_rechaza" });
+  t("una llave que WOMPI RECHAZA (401) -> 400 key_rejected, y NO se guarda", [rej.code, rej.json.error, /RECHAZ/.test(rej.json.detail), JSON.parse(readFileSync(join(STORAGE, "runtime-config.json"), "utf8")).WOMPI_PRIVATE_KEY], [400, "key_rejected", true, undefined]);
+  t("el mensaje nunca devuelve la llave", JSON.stringify(rej.json).includes("otra_llave_larga"), false);
+  t("staff no puede cambiarla (403)", (await cfg(staff, { key: "WOMPI_PRIVATE_KEY", value: "prv_test_demo1234" })).code, 403);
+  const okPrv = await cfg(owner, { key: "WOMPI_PRIVATE_KEY", value: " prv_test_demo1234 " });
+  t("la que Wompi acepta -> 200 y se guarda", [okPrv.code, okPrv.json.ok, okPrv.json.tail], [200, true, "1234"]);
+  const hp = await fetch(`${API}/admin-health.php`, { headers: { Cookie: owner } }).then(r => r.json());
+  t("el panel dice que Wompi acepta la llave privada y de dónde sale", [(hp.checks.find(c => c.id === "wompi_private") || {}).ok, /privada: guardado desde el panel/.test((hp.checks.find(c => c.id === "wompi_source") || {}).detail)], [true, true]);
+
+  console.log("\nLa llave privada del servidor está MAL (401): lo que pasó en producción");
+  const STORAGE2 = mkdtempSync(join(tmpdir(), "stike-cfg2-"));
+  const badKey = await startPhp({ STORAGE_DIR: STORAGE2, WOMPI_INTEGRITY_SECRET: GOOD, WOMPI_PRIVATE_KEY: "prv_test_mala_llave_larga" });
+  const hb = await fetch(`${badKey.API}/admin-health.php`, { headers: { Cookie: owner } }).then(r => r.json());
+  const pb = (hb.checks || []).find(c => c.id === "wompi_private") || {};
+  t("el panel lo avisa: «Wompi RECHAZÓ la llave privada» (y dice que los cobros no se afectan)", [pb.ok, /RECHAZ/.test(pb.detail), /no se afectan/.test(pb.detail)], [false, true, true]);
+  t("el cobro sigue firmando (ya no depende de esa llave)", (await sign(badKey.API, "stike-1700000000092-kkkkkkkk")).code, 200);
+  await sign(badKey.API, "stike-1700000000093-llllllll");
+  for (const r of ["stike-1700000000092-kkkkkkkk", "stike-1700000000093-llllllll"]) {
+    const f = join(STORAGE2, "pending", r + ".json"); const d = JSON.parse(readFileSync(f, "utf8")); d.createdAt = new Date(Date.now() - 20 * 60000).toISOString(); (await import("node:fs")).writeFileSync(f, JSON.stringify(d));
+  }
+  txns["txn-real-3"] = { id: "txn-real-3", reference: "stike-1700000000092-kkkkkkkk", status: "APPROVED", amount_in_cents: 31000000, currency: "COP" };
+  const r401 = await fetch(`${badKey.API}/wompi-reconcile.php`, { method: "POST", headers: { Cookie: owner, "Content-Type": "application/json" }, body: "{}" }).then(r => r.json());
+  t("«Buscar pagos sin registrar» con la llave mala: un solo aviso claro (wompi_key_rejected) y no insiste pedido por pedido", [r401.errors.length, r401.errors[0].error, r401.errors[0].detail, r401.checked], [1, "wompi_key_rejected", "401", 1]);
+  listPublic = true;   // Wompi atiende la lista por referencia sin pedir llave: la llave mala deja de importar
+  const rPub = await fetch(`${badKey.API}/wompi-reconcile.php`, { method: "POST", headers: { Cookie: owner, "Content-Type": "application/json" }, body: "{}" }).then(r => r.json());
+  t("si la lista es pública, se recupera la venta AUNQUE la llave privada esté mal (se consulta primero sin llave)", [rPub.recovered.length, rPub.recovered[0] && rPub.recovered[0].wompiId, rPub.errors.length], [1, "txn-real-3", 0]);
+  listPublic = false;
+  badKey.proc.kill(); rmSync(STORAGE2, { recursive: true, force: true });
 
   console.log("\nProtecciones del cobro");
   await cfg(owner, { key: "WOMPI_INTEGRITY_SECRET", value: GOOD });
