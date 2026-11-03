@@ -51,6 +51,15 @@ stike_run(function () {
     $inactive = $r["status"] === 200 && array_key_exists("active", $m) && $m["active"] === false;
     $add("wompi_reach", $r["status"] === 200 && !$inactive, "Wompi reconoce la llave pública",
       $r["status"] === 200 ? ($inactive ? "El comercio «" . $mName . "» aparece INACTIVO en Wompi: pídeles que lo activen para cobrar." : "OK" . ($mName !== "" ? " · comercio: " . $mName : "")) : "Wompi respondió " . ($r["status"] ?: "sin conexión"));
+    // La llave privada: se prueba con la lista de transacciones de Wompi (la consulta de UNA transaccion es publica y
+    // no sirve para saber si la llave vale). 401/403 = Wompi no la acepta. No frena los cobros (el pago ya no depende
+    // de ella) pero SI la busqueda automatica de pagos sin registrar.
+    $pr = stike_http("GET", rtrim($base, "/") . "/transactions?reference=stike-comprobacion-de-llave", ["Authorization: Bearer " . $k["private"]]);
+    $privOk = in_array($pr["status"], [200, 404], true);
+    $add("wompi_private", $privOk, "Wompi acepta la llave privada (busca pagos sin registrar)",
+      $privOk ? "OK" : (in_array($pr["status"], [401, 403], true)
+        ? "Wompi RECHAZÓ la llave privada del servidor (" . $pr["status"] . "). Los cobros no se afectan, pero no se pueden buscar pagos sin registrar. Pega la correcta abajo, en «Llave privada de Wompi»."
+        : "Wompi respondió " . ($pr["status"] ?: "sin conexión") . "."));
   } catch (ApiError $e) {
     $add("wompi_keys", false, "Llaves de Wompi", $e->detail ?: $e->errorCode);
   }

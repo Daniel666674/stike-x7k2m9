@@ -74,10 +74,11 @@ function stike_run($fn) {
 
 /* Secretos que se pueden corregir desde el panel (api/admin-config.php) sin tocar
    archivos del servidor. Lo guardado ahi manda sobre la variable de entorno y sobre
-   api/config.local.php: es lo ultimo que alguien decidio a proposito. Las llaves
-   publica y privada NO estan aqui: cambiarlas redirige el dinero, asi que solo se
-   cambian en el servidor. */
-const STIKE_RUNTIME_KEYS = ["WOMPI_INTEGRITY_SECRET", "WOMPI_EVENTS_SECRET"];
+   api/config.local.php: es lo ultimo que alguien decidio a proposito. La llave
+   PUBLICA NO esta aqui: cambiarla redirige el dinero a otra cuenta, asi que solo se
+   cambia en el servidor. La privada si (solo busca pagos ya hechos; el panel la
+   comprueba con Wompi antes de guardarla). */
+const STIKE_RUNTIME_KEYS = ["WOMPI_INTEGRITY_SECRET", "WOMPI_EVENTS_SECRET", "WOMPI_PRIVATE_KEY"];
 
 function stike_runtime_config_path() { return stike_storage_dir() . "/runtime-config.json"; }
 
@@ -564,12 +565,17 @@ function stike_wompi_get_transaction($id, $attempts = 1) {
   return $res["json"]["data"];
 }
 
-/* Las transacciones de Wompi con una referencia (lo pide con la llave PRIVADA: es una lista del comercio).
-   Sirve para encontrar pagos aprobados que nunca se registraron (stike_reconcile_pending). */
+/* Las transacciones de Wompi con una referencia. Primero se pide SIN llave (puede ser publico, y asi una llave
+   privada vieja o mal puesta no lo rompe); si Wompi la exige (401/403) se repite con la llave PRIVADA. 404 = no
+   hay nada con esa referencia. Sirve para encontrar pagos aprobados que nunca se registraron
+   (stike_reconcile_pending). */
 function stike_wompi_find_by_reference($reference) {
   $key = stike_wompi_clean(stike_config("WOMPI_PRIVATE_KEY"));
   if (!$key) throw new ApiError(500, "server_not_configured", "falta WOMPI_PRIVATE_KEY (env o api/config.local.php)");
-  $res = stike_http("GET", rtrim(stike_wompi_api_base($key), "/") . "/transactions?reference=" . rawurlencode($reference), ["Authorization: Bearer " . $key]);
+  $url = rtrim(stike_wompi_api_base($key), "/") . "/transactions?reference=" . rawurlencode($reference);
+  $res = stike_http("GET", $url);
+  if ($res["status"] === 401 || $res["status"] === 403) $res = stike_http("GET", $url, ["Authorization: Bearer " . $key]);
+  if ($res["status"] === 404) return [];
   if ($res["status"] !== 200 || !is_array($res["json"]["data"] ?? null)) throw new ApiError(502, "wompi_lookup_failed", (string)$res["status"]);
   $d = $res["json"]["data"];
   if (isset($d["id"])) $d = [$d];   // por si Wompi devolviera una sola transaccion en vez de una lista
@@ -799,6 +805,10 @@ function stike_reconcile_pending($max = 6, $force = false) {
           if (@file_put_contents($tmp, json_encode($p, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)) !== false) @rename($tmp, $f);
         }
       } catch (ApiError $e) {
+        if ($e->errorCode === "wompi_lookup_failed" && in_array($e->detail, ["401", "403"], true)) {
+          $out["errors"][] = ["error" => "wompi_key_rejected", "detail" => $e->detail];   // una sola vez: no tiene sentido insistir pedido por pedido
+          break;
+        }
         $out["errors"][] = ["reference" => $p["reference"], "error" => $e->errorCode, "detail" => $e->detail];
       }
     }

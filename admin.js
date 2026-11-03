@@ -3363,6 +3363,9 @@ async function renderHealth(msg) {
       $("#cfg-int-save").addEventListener("click", () => saveWompiSecret(false));
       $("#cfg-int-clear").addEventListener("click", () => saveWompiSecret(true));
       $("#cfg-int-secret").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); saveWompiSecret(false); } });
+      $("#cfg-prv-save").addEventListener("click", () => saveWompiSecret(false, "prv"));
+      $("#cfg-prv-clear").addEventListener("click", () => saveWompiSecret(true, "prv"));
+      $("#cfg-prv-secret").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); saveWompiSecret(false, "prv"); } });
       $("#cfg-ev-save").addEventListener("click", () => saveWompiSecret(false, "ev"));
       $("#cfg-ev-clear").addEventListener("click", () => saveWompiSecret(true, "ev"));
       $("#cfg-ev-secret").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); saveWompiSecret(false, "ev"); } });
@@ -3398,6 +3401,16 @@ function wompiSecretFormHtml(h, msg) {
         <button class="btn ghost sm" id="cfg-ev-clear" type="button" title="Vuelve a usar el valor que está en el servidor">Quitar lo guardado aquí</button>
       </div>
       <p class="hint" id="cfg-ev-msg" role="status" style="margin:10px 0 0"></p>
+      <hr style="border:0;border-top:1px solid var(--line-soft);margin:16px 0">
+      <h4 style="margin:0 0 6px">Llave privada de Wompi ${(h.checks || []).some(c => c.id === "wompi_private" && !c.ok) ? `<span class="pill" style="background:var(--bad);color:#fff;font-weight:600">Wompi la rechaza</span>` : ""}</h4>
+      <p class="hint muted" style="margin:0 0 12px">La usa el panel para buscar en Wompi los pagos que no se registraron. En Wompi: <b>Desarrolladores → Llaves del API → Llave privada → Mostrar</b> (empieza por <span class="mono">prv_prod_</span> en producción). Antes de guardarla se comprueba con Wompi: si la rechaza, no se guarda. No afecta los cobros.</p>
+      <div class="field" style="margin-bottom:10px"><label for="cfg-prv-secret">Pega aquí la llave privada</label>
+        <input id="cfg-prv-secret" type="text" class="mono" placeholder="prv_prod_…" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <button class="btn cyan" id="cfg-prv-save" type="button">Guardar y buscar pagos sin registrar</button>
+        <button class="btn ghost sm" id="cfg-prv-clear" type="button" title="Vuelve a usar el valor que está en el servidor">Quitar lo guardado aquí</button>
+      </div>
+      <p class="hint" id="cfg-prv-msg" role="status" style="margin:10px 0 0"></p>
     </div>`;
 }
 /* Herramientas de cobro: buscar pagos aprobados que no se registraron, y probar el correo de cada venta. */
@@ -3422,8 +3435,11 @@ async function reconcilePayments() {
     if (!res.ok) throw new Error(({ forbidden: "Tu rol no puede hacer esto.", not_logged_in: "Tu sesión venció: vuelve a iniciar sesión." })[j.error] || j.detail || j.error || ("HTTP " + res.status));
     const lines = [`Revisados: ${j.checked} pedido(s) esperando pago.`];
     if (j.recovered.length) lines.push(`✔ Registrados ahora: ${j.recovered.length} (${j.recovered.map(r => r.reference).join(", ")}). Revisa Ventas y el correo.`);
-    else lines.push("No hay pagos aprobados pendientes de registrar.");
-    if (j.errors.length) lines.push("⚠ No se pudieron revisar: " + j.errors.map(e => `${e.reference || ""} → ${e.error}${e.detail ? " (" + e.detail + ")" : ""}`).join("; "));
+    else if (!j.errors.some(e => e.error === "wompi_key_rejected")) lines.push("No hay pagos aprobados pendientes de registrar.");
+    const keyRejected = j.errors.some(e => e.error === "wompi_key_rejected");
+    if (keyRejected) lines.push("⚠ Wompi rechaza la llave privada que tiene el servidor (" + j.errors.find(e => e.error === "wompi_key_rejected").detail + "). Pega la correcta más abajo, en «Llave privada de Wompi»: se comprueba con Wompi y se buscan los pagos al instante.");
+    else if (j.errors.length) lines.push("⚠ No se pudieron revisar: " + j.errors.map(e => `${e.reference || ""} → ${e.error}${e.detail ? " (" + e.detail + ")" : ""}`).join("; "));
+    if (keyRejected) j.recovered = j.recovered || [];
     out.style.color = j.errors.length && !j.recovered.length ? "var(--bad)" : (j.recovered.length ? "var(--good, #3ecf8e)" : "");
     out.textContent = lines.join("\n");
     if (j.recovered.length) await pollSalesLog().catch(() => {});
@@ -3458,7 +3474,7 @@ function wompiGoLiveHtml() {
     </details>`;
 }
 async function saveWompiSecret(clear, kind = "int") {
-  const KEY = kind === "ev" ? "WOMPI_EVENTS_SECRET" : "WOMPI_INTEGRITY_SECRET";
+  const KEY = { ev: "WOMPI_EVENTS_SECRET", prv: "WOMPI_PRIVATE_KEY", int: "WOMPI_INTEGRITY_SECRET" }[kind];
   const input = $(`#cfg-${kind}-secret`), out = $(`#cfg-${kind}-msg`);
   const value = input ? input.value : "";
   if (!clear && !value.trim()) { out.style.color = "var(--bad)"; out.textContent = "Pega primero el secreto."; input.focus(); return; }
@@ -3475,9 +3491,11 @@ async function saveWompiSecret(clear, kind = "int") {
     const ambiente = j.environment === "prod" ? "producción" : "sandbox";
     const text = clear ? "Listo: se quitó lo guardado aquí; ahora vale lo que está en el servidor."
       : kind === "ev" ? `Guardado: termina en …${j.tail}, ${j.length} caracteres, ${ambiente}. Desde ahora los avisos de Wompi se verifican con este secreto.`
+      : kind === "prv" ? `Guardada y aceptada por Wompi: termina en …${j.tail}, ${ambiente}.`
       : `Guardado: termina en …${j.tail}, ${j.length} caracteres, ${ambiente}. Revisa arriba que diga «Listo para cobrar» y haz una compra de prueba.`;
-    await renderHealth({ ok: true, text: kind === "int" ? text : undefined, evText: kind === "ev" ? text : undefined });
-    if (kind === "ev") { const m = $("#cfg-ev-msg"); if (m) { m.style.color = "var(--good, #3ecf8e)"; m.textContent = text; } }
+    await renderHealth({ ok: true, text: kind === "int" ? text : undefined });
+    if (kind !== "int") { const m = $(`#cfg-${kind}-msg`); if (m) { m.style.color = "var(--good, #3ecf8e)"; m.textContent = text; } }
+    if (kind === "prv" && !clear && $("#cfg-reconcile")) await reconcilePayments();   // con la llave buena, se buscan ya los pagos que faltaban
   } catch (e) {
     out.style.color = "var(--bad)"; out.textContent = e.message;
     save.disabled = clr.disabled = false;
