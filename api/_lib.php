@@ -31,6 +31,10 @@
    carrito.html; los tres tienen que decir lo mismo.
    ========================================================================= */
 
+/* Los errores de PHP nunca se imprimen en la respuesta (rutas del servidor, valores): van solo al log del servidor. */
+@ini_set("display_errors", "0");
+@ini_set("log_errors", "1");
+
 const STIKE_FREE_SHIP = 300000;   // pesos: desde este subtotal el envio es gratis
 const STIKE_SHIP_COST = 18000;    // pesos
 const STIKE_MAX_LINES = 50;
@@ -93,10 +97,45 @@ function stike_runtime_config_all() {
   }
 }
 
+/* Lo guardado desde el panel se CIFRA en el disco (AES-256-GCM): aunque alguien llegara a leer la carpeta de datos
+   (un respaldo, un error de permisos), no veria las llaves en texto plano. La clave de cifrado sale del
+   ADMIN_SESSION_SECRET / ADMIN_API_KEY del servidor (api/config.local.php), que nunca esta en el repositorio ni en la
+   carpeta de datos. Si esa clave cambia, lo guardado deja de poder leerse: el servidor vuelve a usar lo de su
+   configuracion y el panel avisa que hay que pegar los secretos otra vez. */
+function stike_runtime_cipher_key() {
+  $m = stike_config("ADMIN_SESSION_SECRET");
+  if (!is_string($m) || strlen($m) < 24) $m = stike_config("ADMIN_API_KEY");
+  if (!is_string($m) || strlen($m) < 24) return null;
+  return hash_hmac("sha256", "stike-runtime-config-v1", $m, true);
+}
+function stike_runtime_seal($plain) {
+  $key = stike_runtime_cipher_key();
+  if (!$key || !function_exists("openssl_encrypt")) return null;
+  $iv = random_bytes(12);
+  $ct = openssl_encrypt($plain, "aes-256-gcm", $key, OPENSSL_RAW_DATA, $iv, $tag);
+  return $ct === false ? null : ["enc" => "v1", "iv" => base64_encode($iv), "tag" => base64_encode($tag), "ct" => base64_encode($ct)];
+}
+/* El valor de una entrada guardada: texto del formato anterior (sin cifrar) o descifrado. null si no se puede leer. */
+function stike_runtime_open($entry) {
+  if (!is_array($entry)) return null;
+  if (is_string($entry["value"] ?? null)) return $entry["value"];
+  if (($entry["enc"] ?? null) !== "v1") return null;
+  $key = stike_runtime_cipher_key();
+  if (!$key || !function_exists("openssl_decrypt")) return null;
+  $pt = @openssl_decrypt((string)base64_decode((string)($entry["ct"] ?? "")), "aes-256-gcm", $key, OPENSSL_RAW_DATA, (string)base64_decode((string)($entry["iv"] ?? "")), (string)base64_decode((string)($entry["tag"] ?? "")));
+  return $pt === false ? null : $pt;
+}
+/* Claves guardadas en el panel que YA no se pueden leer (cambio la clave de cifrado del servidor). */
+function stike_runtime_config_unreadable() {
+  $bad = [];
+  foreach (stike_runtime_config_all() as $k => $entry) if (in_array($k, STIKE_RUNTIME_KEYS, true) && stike_runtime_open($entry) === null) $bad[] = $k;
+  return $bad;
+}
+
 function stike_config($key, $default = null) {
   static $file = null;
   if (in_array($key, STIKE_RUNTIME_KEYS, true)) {
-    $rv = stike_runtime_config_all()[$key]["value"] ?? null;
+    $rv = stike_runtime_open(stike_runtime_config_all()[$key] ?? null);
     if (is_string($rv) && $rv !== "") return $rv;
   }
   $env = getenv($key);
@@ -586,7 +625,8 @@ function stike_wompi_find_by_reference($reference) {
    api/config.local.php. Si hay una variable vieja en hPanel, pisa en silencio
    lo que se pegue en el archivo, y el cobro se firma con la llave equivocada. */
 function stike_config_sources($key) {
-  $panel = in_array($key, STIKE_RUNTIME_KEYS, true) && is_string(stike_runtime_config_all()[$key]["value"] ?? null) && stike_runtime_config_all()[$key]["value"] !== "";
+  $pv = in_array($key, STIKE_RUNTIME_KEYS, true) ? stike_runtime_open(stike_runtime_config_all()[$key] ?? null) : null;
+  $panel = is_string($pv) && $pv !== "";
   $env = getenv($key);
   $env = ($env !== false && $env !== "") ? (string)$env : null;
   $file = null;

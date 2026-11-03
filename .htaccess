@@ -151,11 +151,20 @@ DirectoryIndex index.html
   # Segunda capa: lo interno no se sirve nunca, aunque algun dia llegue al
   # hosting por error. (El deploy ya lo deja fuera: tools/stage-hostinger.sh.)
   RewriteRule ^(tools|vercel-wompi-api|bmx-builder|\.github|node_modules)(/|$) - [F,L]
-  RewriteRule ^data/(costs|sales-log|audit-log)\.json$ - [F,L]
+  RewriteRule ^data/(costs|sales-log|audit-log|stock-applied)\.json$ - [F,L]
+  # Carpeta de datos del servidor (pedidos, ventas, llaves guardadas desde el panel): vive fuera del sitio, pero si algun
+  # dia quedara dentro, estos archivos nunca se sirven.
+  RewriteRule (^|/)(runtime-config|last-event|ventas|rate-limit|alerts?)\.(json|jsonl)$ - [F,L]
+  RewriteRule ^(pending|alerts|rate)(/|$) - [F,L]
   RewriteRule ^(PROPOSAL|MOTOR|README|SEO)\.md$ - [F,L]
   RewriteRule ^propuesta\.html$ - [F,L]
   RewriteRule ^\.git(/|$) - [F,L]
   RewriteRule ^api/(_lib|_admin|config\.local)\.php$ - [F,L]
+  # Archivos ocultos (.env, .git, .htpasswd...) y restos de edicion o respaldo (config.php.bak, llaves.txt~, volcado.sql):
+  # no se sirven nunca. Solo .well-known (verificaciones de dominio) queda abierto.
+  RewriteRule (^|/)\.(?!well-known(/|$)) - [F,L]
+  RewriteRule \.(bak|old|orig|save|swp|swo|sql|dump|log|ini|env|pem|key|p12|pfx)$ - [F,L]
+  RewriteRule ~$ - [F,L]
 </IfModule>
 
 # ----------------------------- Cacheo ---------------------------------------

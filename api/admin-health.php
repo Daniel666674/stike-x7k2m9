@@ -83,6 +83,10 @@ stike_run(function () {
     $add("wompi_last_event", false, "Eventos de Wompi (aviso de cada pago)", "Todavía no ha llegado ninguno. En Wompi, pestaña " . ($envName === "prod" ? "PRODUCCIÓN" : ($envName === "test" ? "Sandbox" : "PRODUCCIÓN (o Sandbox si tus llaves son de pruebas)")) . " → Desarrolladores → URL de eventos, pega: https://stikebikeshop.com/api/wompi-events . Se marca ✔ solo cuando Wompi avisa de un pago (haz la compra de prueba).");
   }
 
+  // Secretos guardados desde el panel que ya no se pueden leer (cambio la clave de cifrado del servidor).
+  $unreadable = stike_runtime_config_unreadable();
+  if ($unreadable) $add("wompi_panel_unreadable", false, "Secretos guardados desde el panel", "No se pueden leer (" . implode(", ", $unreadable) . "): cambió la clave interna del servidor. Vuelve a pegarlos abajo; mientras tanto el servidor usa lo de su archivo de configuración.");
+
   // Pagos aprobados que no se habian registrado: al abrir el panel se buscan y se registran (venta + correo + stock).
   $rc = stike_reconcile_pending(4);
   if (!empty($rc["recovered"])) {

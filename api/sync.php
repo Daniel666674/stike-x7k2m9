@@ -35,7 +35,7 @@ function stike_sync_safe_path($rel) {
     && !preg_match('#(^|/)\.git(/|$)#', $rel) && !in_array($rel, STIKE_SYNC_KEEP, true);
 }
 
-function stike_sync_download($url, $dest) {
+function stike_sync_download($url, $dest, $headers = []) {
   $fh = fopen($dest, "wb");
   if (!$fh) throw new ApiError(500, "sync_failed", "no se pudo crear el archivo temporal");
   $ch = curl_init($url);
@@ -43,6 +43,7 @@ function stike_sync_download($url, $dest) {
     CURLOPT_FILE => $fh, CURLOPT_FOLLOWLOCATION => true, CURLOPT_MAXREDIRS => 5,
     CURLOPT_REDIR_PROTOCOLS => CURLPROTO_HTTPS | CURLPROTO_HTTP, CURLOPT_CONNECTTIMEOUT => 20,
     CURLOPT_TIMEOUT => 240, CURLOPT_USERAGENT => "stike-sync",
+    CURLOPT_HTTPHEADER => $headers, CURLOPT_UNRESTRICTED_AUTH => false,   // la llave NO se reenvia si GitHub redirige a otro servidor
   ]);
   $ok = curl_exec($ch);
   $code = (int)curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
@@ -91,7 +92,18 @@ stike_run(function () {
   $zip = null;
   $result = null;
   try {
-    stike_sync_download($base . $sha . ".zip", $tmp);
+    try {
+      stike_sync_download($base . $sha . ".zip", $tmp);   // repositorio publico: descarga sin credenciales
+    } catch (ApiError $anon) {
+      /* Repositorio PRIVADO (o descarga anonima bloqueada): se pide por la API de GitHub con el GITHUB_TOKEN del
+         servidor (el mismo que usa el panel; solo necesita permiso de lectura de Contenido). Sin token, el error original. */
+      $ghToken = stike_config("GITHUB_TOKEN");
+      if (!$ghToken) throw $anon;
+      $api = rtrim(getenv("STIKE_SYNC_API") ?: "https://api.github.com", "/");   // el entorno no lo controla un visitante
+      stike_sync_download($api . "/repos/" . STIKE_SYNC_REPO . "/zipball/" . $sha, $tmp, [
+        "Authorization: Bearer " . $ghToken, "Accept: application/vnd.github+json", "X-GitHub-Api-Version: 2022-11-28",
+      ]);
+    }
     $zip = new ZipArchive();
     if ($zip->open($tmp) !== true) throw new ApiError(500, "sync_failed", "no se pudo abrir el ZIP");
     $first = (string)$zip->getNameIndex(0);
