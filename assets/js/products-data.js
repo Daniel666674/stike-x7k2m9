@@ -2462,27 +2462,6 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "plato-fiend-reynolds-purpura",
-    "sku": "PLT-FND-001",
-    "n": "Plato Fiend Reynolds Púrpura con Guardia",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Platos",
-    "spec": [
-      "Material: Aluminio 6061",
-      "Dientes: 25T",
-      "Con guardia",
-      "Color: Púrpura"
-    ],
-    "price": 290000,
-    "promo": false,
-    "units": 2,
-    "imgs": [
-      "assets/img/products/plato-fiend-reynolds-purpura-1.jpg"
-    ],
-    "published": true
-  },
-  {
     "slug": "plato-gw-corona",
     "sku": "PLT-GWB-002",
     "n": "Plato GW Corona Negro",
