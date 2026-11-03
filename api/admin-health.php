@@ -10,7 +10,7 @@ require __DIR__ . "/_admin.php";
 
 stike_run(function () {
   stike_require_method("GET");
-  stike_admin_require();
+  $sess = stike_admin_require();
   $checks = [];
   $add = function ($id, $ok, $label, $detail) use (&$checks) { $checks[] = ["id" => $id, "ok" => $ok, "label" => $label, "detail" => $detail]; };
 
@@ -134,12 +134,51 @@ stike_run(function () {
   $add("wompi_events", (bool)stike_config("WOMPI_EVENTS_SECRET"), "Firma de los eventos de Wompi (opcional)",
     stike_config("WOMPI_EVENTS_SECRET") ? "OK: cada evento se verifica con el secreto de eventos" : "Opcional: sin WOMPI_EVENTS_SECRET los eventos igual se confirman consultando a Wompi, pero no se verifica su firma");
   $add("sync", strlen((string)stike_config("SYNC_TOKEN")) >= 24, "Publicación automática (SYNC_TOKEN)", strlen((string)stike_config("SYNC_TOKEN")) >= 24 ? "OK" : "Falta SYNC_TOKEN");
-  $add("email", (bool)stike_config("RESEND_API_KEY") && (bool)stike_config("OWNER_NOTIFY_EMAIL"), "Correo de cada venta (Resend)",
-    stike_config("RESEND_API_KEY") ? (stike_config("OWNER_NOTIFY_EMAIL") ? "OK" : "Falta OWNER_NOTIFY_EMAIL") : "Opcional: sin RESEND_API_KEY el aviso sale por el correo del hosting y puede caer en spam");
+  // Correo de aviso de cada venta: a quien le llega, por donde sale y si el ultimo aviso de verdad salio. El correo del hosting
+  // (mail) puede decir «enviado» y no llegar nunca; solo Resend confirma.
+  $rcpt = stike_owner_recipients();
+  $hasResend = (bool)stike_config("RESEND_API_KEY");
+  $lm = []; $queued = 0;
+  try {
+    $dirMail = stike_storage_dir();
+    if (is_file($dirMail . "/last-mail.json")) $lm = json_decode((string)file_get_contents($dirMail . "/last-mail.json"), true) ?: [];
+    $queued = count(glob($dirMail . "/outbox/*.json") ?: []);
+  } catch (Throwable $e) {}
+  $mailLast = null;   // lo ultimo que se intento enviar (aviso de venta o prueba)
+  foreach (["venta", "prueba"] as $mk) {
+    if (is_array($lm[$mk] ?? null) && !empty($lm[$mk]["at"]) && (!$mailLast || strtotime((string)$lm[$mk]["at"]) >= strtotime((string)$mailLast["at"]))) $mailLast = $lm[$mk] + ["kind" => $mk];
+  }
+  $mailKind = ["venta" => "aviso de venta", "prueba" => "correo de prueba"];
+  $mailBits = ["Le llega a: " . implode(", ", array_map("stike_mask_email", $rcpt)) . "."];
+  $mailBits[] = $hasResend ? "Sale por Resend." : "SIN Resend: sale por el correo del hosting, que muchas veces no se entrega o cae en spam (por eso puede que no te lleguen las ventas). Actívalo abajo en «Correo de avisos».";
+  if (!$mailLast) $mailBits[] = "Todavía no se ha enviado ninguno: usa «Enviar correo de prueba».";
+  elseif (!empty($mailLast["ok"])) {
+    $mailBits[] = "Último envío (" . $mailKind[$mailLast["kind"]] . "): " . $evWhen($mailLast["at"]) . ($mailLast["via"] === "resend" ? " ✔ por Resend." : " por el correo del hosting (el servidor lo aceptó, pero eso no garantiza que llegue).");
+    if (!empty($mailLast["fellBack"])) $mailBits[] = "Resend falló y se usó el del hosting: " . ($mailLast["detail"] ?? $mailLast["error"] ?? "?");
+  } else {
+    $mailBits[] = "El último envío (" . $mailKind[$mailLast["kind"]] . ") FALLÓ " . $evWhen($mailLast["at"]) . ": " . ($mailLast["detail"] ?? $mailLast["error"] ?? "?");
+  }
+  if ($queued) $mailBits[] = $queued . " aviso(s) de venta esperando para reenviarse solos.";
+  foreach ($rcpt as $ra) if (preg_match('/@(correo|ejemplo|example|dominio|tucorreo|email|test|mail)\.(com|co|org)$/i', $ra)) $mailBits[] = "«" . stike_mask_email($ra) . "» parece un correo de EJEMPLO: cámbialo por el real.";
+  $mailOk = $hasResend && $mailLast && !empty($mailLast["ok"]) && ($mailLast["via"] ?? "") === "resend" && !$queued;
+  $add("email", $mailOk, "Correo de aviso de cada venta", implode(" ", $mailBits));
   $add("https", !empty($_SERVER["HTTPS"]) || ($_SERVER["HTTP_X_FORWARDED_PROTO"] ?? "") === "https", "HTTPS", "Requerido por Wompi");
 
   $required = ["wompi_keys", "wompi_reach", "wompi_source", "wompi_prod", "github", "storage", "https"];
   $ready = true;
   foreach ($checks as $c) if (in_array($c["id"], $required, true) && !$c["ok"]) $ready = false;
-  respond(200, ["ready" => $ready, "checks" => $checks, "eventsUrl" => "https://stikebikeshop.com/api/wompi-events", "recovered" => count($rc["recovered"] ?? [])]);
+  $out = ["ready" => $ready, "checks" => $checks, "eventsUrl" => "https://stikebikeshop.com/api/wompi-events", "recovered" => count($rc["recovered"] ?? [])];
+  if (in_array($sess["role"], ["owner", "developer"], true)) {
+    // Para el formulario del panel: lo que NO es secreto va completo; de la llave de Resend, solo si existe y sus ultimas 4 letras.
+    $rk = (string)stike_config("RESEND_API_KEY");
+    $rsrc = stike_config_sources("RESEND_API_KEY");
+    $out["mail"] = [
+      "recipients" => $rcpt,
+      "recipientsFromPanel" => stike_config_sources("OWNER_NOTIFY_EMAIL")["panel"],
+      "from" => (string)stike_config("RESEND_FROM", ""),
+      "resend" => ["configured" => $hasResend, "source" => $rsrc["panel"] ? "panel" : ($hasResend ? "servidor" : null), "tail" => $hasResend ? substr($rk, -4) : null, "length" => strlen($rk)],
+      "queued" => $queued,
+    ];
+  }
+  respond(200, $out);
 });
