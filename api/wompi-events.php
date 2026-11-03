@@ -52,12 +52,20 @@ stike_run(function () {
   try {
     $reference = stike_valid_reference($txn["reference"] ?? null);
     $wompiId = stike_valid_wompi_id($txn["id"] ?? null);
-    $r = stike_finalize_order($reference, $wompiId);
+    /* Con el secreto de eventos y un checksum valido, el evento es autentico (lo firmo Wompi): se registra con sus
+       propios datos y la venta no depende de que la consulta a Wompi funcione en ese instante. */
+    $authentic = ($eventsSecret && stike_event_checksum_ok($event, $eventsSecret)) ? $txn : null;
+    $r = stike_finalize_order($reference, $wompiId, $authentic);
   } catch (ApiError $e) {
     stike_note_event("error:" . $e->errorCode, $txn["reference"] ?? null, $txn["status"] ?? null);
     if ($e->status >= 500) throw $e;   // que Wompi reintente
+    /* Wompi nos avisa de una transaccion y todavia no la vemos: casi seguro es cuestion de segundos. Si se
+       respondiera 200 "ignorado", Wompi no volveria a avisar y la venta se perderia si el cliente cierra la pestana. */
+    if ($e->errorCode === "transaction_not_found") throw new ApiError(503, "retry_later", "transaction_not_found");
     respond(200, ["ok" => true, "ignored" => $e->errorCode]);
   }
   stike_note_event(empty($r["ignored"]) ? (!empty($r["alreadyRecorded"]) ? "ya_registrada" : "venta_registrada") : "estado:" . ($r["status"] ?? "?"), $reference, $txn["status"] ?? null);
-  respond(200, ["ok" => true] + (empty($r["ignored"]) ? $r : ["ignored" => "status", "status" => $r["status"]]));
+  $reply = ["ok" => true] + (empty($r["ignored"]) ? $r : ["ignored" => "status", "status" => $r["status"]]);
+  stike_reconcile_pending(2);   // aprovecha el aviso para recoger cualquier otro pago que haya quedado sin registrar
+  respond(200, $reply);
 });

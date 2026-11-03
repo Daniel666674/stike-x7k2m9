@@ -3348,11 +3348,17 @@ async function renderHealth(msg) {
           <span style="flex:none;width:18px;color:${c.ok ? "var(--good, #3ecf8e)" : "var(--bad)"}">${c.ok ? "✔" : "✕"}</span>
           <span style="flex:1"><b>${escHtml(c.label)}</b><br><span class="muted">${escHtml(c.detail)}</span></span>
         </div>`).join("")}
+      ${seesFinance() ? wompiToolsHtml() : ""}
       ${["owner", "developer"].includes(session.role) ? wompiSecretFormHtml(h, msg) + wompiGoLiveHtml() : ""}
       <p class="hint muted" style="margin-top:12px">URL de eventos para el panel de Wompi: <span class="mono">${escHtml(h.eventsUrl)}</span></p>`;
     $("#cfg-health-refresh").addEventListener("click", () => renderHealth());
     const nb = document.querySelector('.navbtn[data-panel="config"]');
     if (nb) nb.classList.toggle("needs", !h.ready);
+    if ($("#cfg-reconcile")) {
+      $("#cfg-reconcile").addEventListener("click", reconcilePayments);
+      if ($("#cfg-test-email")) $("#cfg-test-email").addEventListener("click", sendTestEmail);
+    }
+    if (h.recovered) { pollSalesLog().catch(() => {}); showStatus([{ text: `🔔 Se recuperaron ${h.recovered} venta(s) que Wompi tenía aprobadas y no estaban registradas. Revisa Ventas y tu correo.`, cls: "ok" }]); }
     if ($("#cfg-int-save")) {
       $("#cfg-int-save").addEventListener("click", () => saveWompiSecret(false));
       $("#cfg-int-clear").addEventListener("click", () => saveWompiSecret(true));
@@ -3381,6 +3387,49 @@ function wompiSecretFormHtml(h, msg) {
       <p class="hint" id="cfg-int-msg" role="status" style="margin:10px 0 0;${msg ? (msg.ok ? "color:var(--good, #3ecf8e)" : "color:var(--bad)") : ""}">${msg ? escHtml(msg.text) : ""}</p>
     </div>`;
 }
+/* Herramientas de cobro: buscar pagos aprobados que no se registraron, y probar el correo de cada venta. */
+function wompiToolsHtml() {
+  return `
+    <div style="margin-top:18px;padding:16px;border:1px solid var(--line);border-radius:12px">
+      <h4 style="margin:0 0 6px">Si un cliente pagó y no aparece la venta</h4>
+      <p class="hint muted" style="margin:0 0 12px">Busca en Wompi los pagos <b>aprobados</b> que no se registraron y los registra ahora: queda la venta en <b>Ventas</b>, sale el correo al dueño y baja el stock. Es seguro repetirlo (no duplica nada). Esto también se hace solo cada vez que abres el panel.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <button class="btn cyan" id="cfg-reconcile" type="button">Buscar pagos sin registrar</button>
+        ${["owner", "developer"].includes(session.role) ? `<button class="btn ghost" id="cfg-test-email" type="button">Enviar correo de prueba</button>` : ""}
+      </div>
+      <p class="hint" id="cfg-tools-msg" role="status" style="margin:10px 0 0;white-space:pre-line"></p>
+    </div>`;
+}
+async function reconcilePayments() {
+  const out = $("#cfg-tools-msg"), btn = $("#cfg-reconcile");
+  btn.disabled = true; out.style.color = ""; out.textContent = "Buscando en Wompi…";
+  try {
+    const res = await fetch(new URL("api/wompi-reconcile", document.baseURI), { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: "{}" });
+    const j = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(({ forbidden: "Tu rol no puede hacer esto.", not_logged_in: "Tu sesión venció: vuelve a iniciar sesión." })[j.error] || j.detail || j.error || ("HTTP " + res.status));
+    const lines = [`Revisados: ${j.checked} pedido(s) esperando pago.`];
+    if (j.recovered.length) lines.push(`✔ Registrados ahora: ${j.recovered.length} (${j.recovered.map(r => r.reference).join(", ")}). Revisa Ventas y el correo.`);
+    else lines.push("No hay pagos aprobados pendientes de registrar.");
+    if (j.errors.length) lines.push("⚠ No se pudieron revisar: " + j.errors.map(e => `${e.reference || ""} → ${e.error}${e.detail ? " (" + e.detail + ")" : ""}`).join("; "));
+    out.style.color = j.errors.length && !j.recovered.length ? "var(--bad)" : (j.recovered.length ? "var(--good, #3ecf8e)" : "");
+    out.textContent = lines.join("\n");
+    if (j.recovered.length) await pollSalesLog().catch(() => {});
+  } catch (e) { out.style.color = "var(--bad)"; out.textContent = e.message; }
+  finally { btn.disabled = false; }
+}
+async function sendTestEmail() {
+  const out = $("#cfg-tools-msg"), btn = $("#cfg-test-email");
+  btn.disabled = true; out.style.color = ""; out.textContent = "Enviando…";
+  try {
+    const res = await fetch(new URL("api/admin-config", document.baseURI), { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "test_email" }) });
+    const j = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(j.detail || j.error || ("HTTP " + res.status));
+    out.style.color = j.ok ? "var(--good, #3ecf8e)" : "var(--bad)";
+    out.textContent = j.ok ? `Enviado a ${j.to} (${j.via === "resend" ? "por Resend" : "por el correo del hosting"}). Revisa la bandeja y también spam.${j.via === "mail" ? "\nSi no llega, hay que activar Resend: el correo del hosting no siempre se entrega." : ""}` : "No se pudo enviar el correo (el hosting lo rechazó). Hay que configurar Resend.";
+  } catch (e) { out.style.color = "var(--bad)"; out.textContent = e.message; }
+  finally { btn.disabled = false; }
+}
+
 /* Lista para salir a PRODUCCION (cobros reales). Es la misma que esta en el README. */
 function wompiGoLiveHtml() {
   return `

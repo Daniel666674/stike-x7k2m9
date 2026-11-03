@@ -539,16 +539,41 @@ function stike_wompi_api_base($privateKey) {
   return rtrim($cfg, "/");
 }
 
-function stike_wompi_get_transaction($id) {
+/* Consulta una transaccion a Wompi. Esa consulta es PUBLICA (no pide llave): primero se hace SIN
+   Authorization, asi una llave privada vieja, de otro comercio o mal pegada no puede romper la confirmacion de
+   un pago; si Wompi llegara a pedirla (401/403), se repite con la llave.
+   Justo despues de pagar, Wompi puede tardar uno o dos segundos en dejar ver la transaccion (404) o responder
+   con un error pasajero (429, 5xx, sin conexion). Quien CONFIRMA un pago (stike_finalize_order) pide varios
+   intentos; la pagina de resultado pide uno y repite ella misma. */
+function stike_wompi_get_transaction($id, $attempts = 1) {
   $key = stike_wompi_clean(stike_config("WOMPI_PRIVATE_KEY"));
   if (!$key) throw new ApiError(500, "server_not_configured", "falta WOMPI_PRIVATE_KEY (env o api/config.local.php)");
-  $base = stike_wompi_api_base($key);
-  $res = stike_http("GET", rtrim($base, "/") . "/transactions/" . rawurlencode($id), ["Authorization: Bearer " . $key]);
-  if ($res["status"] === 404) throw new ApiError(404, "transaction_not_found");   // no es falla nuestra: Wompi no la conoce con esta llave
+  $url = rtrim(stike_wompi_api_base($key), "/") . "/transactions/" . rawurlencode($id);
+  $res = null;
+  for ($i = 1; $i <= max(1, $attempts); $i++) {
+    $res = stike_http("GET", $url);
+    if ($res["status"] === 401 || $res["status"] === 403) $res = stike_http("GET", $url, ["Authorization: Bearer " . $key]);
+    $retryable = $res["status"] === 404 || $res["status"] === 0 || $res["status"] === 429 || $res["status"] >= 500;
+    if ($res["status"] === 200 || !$retryable || $i === $attempts) break;
+    usleep(1200000);
+  }
+  if ($res["status"] === 404) throw new ApiError(404, "transaction_not_found");   // no es falla nuestra: Wompi no la conoce todavia, o no existe
   if ($res["status"] !== 200 || !isset($res["json"]["data"]) || !is_array($res["json"]["data"])) {
     throw new ApiError(502, "wompi_verify_failed", (string)$res["status"]);
   }
   return $res["json"]["data"];
+}
+
+/* Las transacciones de Wompi con una referencia (lo pide con la llave PRIVADA: es una lista del comercio).
+   Sirve para encontrar pagos aprobados que nunca se registraron (stike_reconcile_pending). */
+function stike_wompi_find_by_reference($reference) {
+  $key = stike_wompi_clean(stike_config("WOMPI_PRIVATE_KEY"));
+  if (!$key) throw new ApiError(500, "server_not_configured", "falta WOMPI_PRIVATE_KEY (env o api/config.local.php)");
+  $res = stike_http("GET", rtrim(stike_wompi_api_base($key), "/") . "/transactions?reference=" . rawurlencode($reference), ["Authorization: Bearer " . $key]);
+  if ($res["status"] !== 200 || !is_array($res["json"]["data"] ?? null)) throw new ApiError(502, "wompi_lookup_failed", (string)$res["status"]);
+  $d = $res["json"]["data"];
+  if (isset($d["id"])) $d = [$d];   // por si Wompi devolviera una sola transaccion en vez de una lista
+  return array_values(array_filter($d, "is_array"));
 }
 
 /* De donde sale una config: variable de entorno del hosting (tiene prioridad) o
@@ -658,8 +683,11 @@ function stike_event_checksum_ok($event, $secret) {
    guardado al firmar. Idempotente por referencia.
 
    Devuelve ["ignored" => true, ...] si el pago no esta APPROVED. */
-function stike_finalize_order($reference, $wompiId) {
-  $txn = stike_wompi_get_transaction($wompiId);
+function stike_finalize_order($reference, $wompiId, $trusted = null) {
+  /* $trusted: la transaccion YA confirmada por un canal autentico (un evento con checksum valido, o la lista
+     que Wompi devolvio a nuestra llave privada). Nunca viene del navegador. Sin ella se le pregunta a Wompi. */
+  if (is_array($trusted) && ($trusted["id"] ?? null) === $wompiId && ($trusted["reference"] ?? null) === $reference) $txn = $trusted;
+  else $txn = stike_wompi_get_transaction($wompiId, 3);   // 3 intentos: recien pagado, Wompi puede tardar un par de segundos en mostrarla
   if (($txn["reference"] ?? null) !== $reference) throw new ApiError(400, "reference_mismatch");
   if (($txn["status"] ?? null) !== "APPROVED") return ["ignored" => true, "status" => $txn["status"] ?? null];
 
@@ -730,6 +758,55 @@ function stike_finalize_order($reference, $wompiId) {
   if ($recordError !== null) throw new ApiError(500, "storage_unavailable", "pago aprobado pero no se pudo guardar; el dueno fue avisado por correo");
   stike_delete_pending($reference);
   return ["recorded" => count($entries), "email" => $email, "flag" => $flag];
+}
+
+/* Busca pagos APROBADOS que nunca se registraron (el cliente pago y la pagina no pudo confirmar, y el aviso de
+   Wompi tampoco llego o fallo). Recorre los pedidos guardados al firmar, le pregunta a Wompi por cada
+   referencia y registra los aprobados (venta + correo al dueno + stock + aviso en el panel). Se llama al abrir
+   el panel, cada minuto mientras esta abierto, con el boton «Buscar pagos sin registrar» y cuando llega un aviso
+   de Wompi. Cada pedido se revisa a los 90 s, 10 min, 1 h, 6 h y 24 h de creado; $force los revisa todos ya.
+   Nunca lanza: devuelve un resumen. */
+function stike_reconcile_pending($max = 6, $force = false) {
+  $out = ["checked" => 0, "recovered" => [], "errors" => [], "waiting" => 0];
+  try {
+    $dir = stike_pending_dir();
+    $lock = stike_storage_dir() . "/reconcile.at";
+    if (!$force && is_file($lock) && (int)@file_get_contents($lock) > time() - 60) { $out["skipped"] = "throttled"; return $out; }
+    @file_put_contents($lock, (string)time());
+    $schedule = [90, 600, 3600, 21600, 86400];
+    $now = time();
+    foreach (glob($dir . "/*.json") ?: [] as $f) {
+      if ($out["checked"] >= $max) { $out["waiting"]++; continue; }
+      $p = json_decode((string)@file_get_contents($f), true);
+      if (!is_array($p) || !is_string($p["reference"] ?? null)) continue;
+      $age = $now - (strtotime($p["createdAt"] ?? "") ?: (int)@filemtime($f));
+      $tries = (int)($p["rc"] ?? 0);
+      $due = $force ? $age >= 45 : ($tries < count($schedule) && $age >= $schedule[$tries]);
+      if (!$due) { $out["waiting"]++; continue; }
+      $out["checked"]++;
+      try {
+        $approved = null;
+        foreach (stike_wompi_find_by_reference($p["reference"]) as $t) {
+          if (($t["status"] ?? null) === "APPROVED" && ($t["reference"] ?? null) === $p["reference"] && is_string($t["id"] ?? null)) { $approved = $t; break; }
+        }
+        if ($approved) {
+          $r = stike_finalize_order($p["reference"], $approved["id"], $approved);
+          $out["recovered"][] = ["reference" => $p["reference"], "wompiId" => $approved["id"], "result" => $r];
+          error_log("[stike] pago recuperado por reconciliacion: " . $p["reference"] . " (" . $approved["id"] . ")");
+        } else {
+          $p["rc"] = $tries + 1; $p["rcAt"] = stike_now_iso();   // aun sin pago aprobado: se vuelve a mirar mas tarde
+          $tmp = $f . "." . bin2hex(random_bytes(4)) . ".tmp";
+          if (@file_put_contents($tmp, json_encode($p, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)) !== false) @rename($tmp, $f);
+        }
+      } catch (ApiError $e) {
+        $out["errors"][] = ["reference" => $p["reference"], "error" => $e->errorCode, "detail" => $e->detail];
+      }
+    }
+  } catch (Throwable $e) {
+    error_log("[stike] reconciliacion: " . get_class($e) . ": " . $e->getMessage());
+    $out["errors"][] = ["error" => "reconcile_failed"];
+  }
+  return $out;
 }
 
 /* ---------------------------------- correo ------------------------------- */

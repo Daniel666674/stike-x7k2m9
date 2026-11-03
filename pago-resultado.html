@@ -56,11 +56,22 @@
        llave privada). Lanza si no se pudo confirmar. */
     async function fetchTxn(id) {
       const res = await fetch(`${STATUS_ENDPOINT}?id=${encodeURIComponent(id)}`, { cache: "no-store" });
-      const body = await res.json();
-      if (!res.ok) throw new Error(body?.error || `HTTP ${res.status}`);
+      const body = await res.json().catch(() => null);
+      if (!res.ok || !body) { const e = new Error((body && body.error) || `HTTP ${res.status}`); e.code = (body && body.error) || `http_${res.status}`; throw e; }
       return body.data || body;
     }
+    /* Recien pagado, Wompi puede tardar unos segundos en dejar ver la transaccion (o fallar un instante):
+       antes de decir que no se pudo confirmar se reintenta ~25 segundos. */
+    async function fetchTxnPatient(id) {
+      let last;
+      for (let i = 0; i < 9; i++) {
+        try { return await fetchTxn(id); }
+        catch (e) { last = e; if (e.code === "invalid_transaction_id") break; await sleep(i < 2 ? 1500 : 3000); }
+      }
+      throw last;
+    }
     const sleep = ms => new Promise(r => setTimeout(r, ms));
+    const escHtml = t => String(t == null ? "" : t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
     /* PSE y Nequi quedan PENDING hasta que el banco / la app confirman (de
        segundos a unos minutos). Mientras la pestana siga abierta se vuelve a
        preguntar; si se cierra, el webhook (api/wompi-events) registra el
@@ -135,13 +146,21 @@
       }
 
       let txn;
+      renderState({
+        icon: CLOCK_SVG, title: "Confirmando tu pago…",
+        message: "Estamos confirmando tu pago con Wompi. No cierres esta página.",
+        actionHref: "tienda.html", actionLabel: "Volver a la tienda",
+      });
       try {
-        txn = await fetchTxn(id);
+        txn = await fetchTxnPatient(id);
       } catch (err) {
+        /* El dinero pudo haber entrado: se muestra el id para que se pueda reconciliar rapido, y el mensaje de WhatsApp ya lo lleva. */
+        const wa = encodeURIComponent(`Hola Stike! Pagué por Wompi y la página no pudo confirmarlo.%0AID de la transacción: ${id}`.replace(/%0A/g, "\n"));
         renderState({
           icon: X_SVG, title: "No pudimos confirmar el pago",
-          message: "Escríbenos por WhatsApp con tu comprobante y lo confirmamos a mano.",
-          actionHref: `https://wa.me/${STIKE_CONFIG.whatsapp}`, actionLabel: "Escribir por WhatsApp",
+          message: "Si el pago salió de tu cuenta, no lo repitas: escríbenos por WhatsApp y lo confirmamos a mano enseguida.",
+          extra: `<p style="font-size:12.5px;color:var(--muted);margin:0 0 16px">ID de la transacción: <b>${escHtml(id)}</b> · código: ${escHtml((err && err.code) || "desconocido")}</p>`,
+          actionHref: `https://wa.me/${STIKE_CONFIG.whatsapp}?text=${wa}`, actionLabel: "Escribir por WhatsApp",
         });
         return;
       }

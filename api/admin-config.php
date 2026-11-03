@@ -29,6 +29,15 @@ stike_run(function () {
   if (!in_array($s["role"], ["owner", "developer"], true)) throw new ApiError(403, "forbidden");
 
   $body = stike_json_body();
+
+  /* «Enviar correo de prueba»: el mismo camino que usa el aviso de cada venta, para ver ya si llega. */
+  if (($body["action"] ?? "") === "test_email") {
+    $to = (string)stike_config("OWNER_NOTIFY_EMAIL", "jparra375@gmail.com");
+    $r = stike_send_owner_mail("Prueba de correo — Stike Bike Shop", '<div style="font-family:system-ui,sans-serif;max-width:480px"><h2>Si lees esto, el aviso de cada venta llega.</h2><p>Lo pidió ' . stike_h($s["email"]) . ' desde el panel (Configuración → Pagos y servidor).</p></div>');
+    $masked = preg_replace('/^(.).*(@.*)$/', '$1***$2', $to);
+    respond(200, ["ok" => empty($r["error"]), "via" => $r["sent"] ?? null, "to" => $masked, "error" => $r["error"] ?? null]);
+  }
+
   $key = $body["key"] ?? null;
   $rules = [
     "WOMPI_INTEGRITY_SECRET" => ['/^(test|prod)_integrity_[A-Za-z0-9_-]{8,}$/', "el SECRETO DE INTEGRIDAD (empieza por test_integrity_ o prod_integrity_)"],
