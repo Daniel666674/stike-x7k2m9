@@ -44,6 +44,7 @@ const wompi = await listen((req, r) => {
   const x = txns[id];
   if (x === 'down') { r.statusCode = 500; return r.end('{}'); }
   if (!x) { r.statusCode = 404; return r.end('{}'); }
+  if (x.misses > 0) { x.misses--; r.statusCode = 404; return r.end('{}'); }   // recien pagada: Wompi tarda un par de intentos en mostrarla
   r.setHeader('Content-Type', 'application/json');
   r.end(JSON.stringify({ data: { id, ...x } }));
 });
@@ -145,10 +146,17 @@ try {
   const e3 = await post(A.url, 'wompi-events', ev('txn-1003', 'stike-1700000000011-eeeeee', 'DECLINED'));
   t('pago rechazado -> 200, no registra', [e3.code, e3.body.ignored], [200, 'status']);
   t('evento con referencia basura -> 200 ignorado', (await post(A.url, 'wompi-events', ev('txn-1003', 'x; DROP'))).body.ignored, 'invalid_reference');
-  t('transaccion que Wompi no conoce con nuestra llave -> 200 ignorada (no es falla nuestra, no se reintenta)', (await post(A.url, 'wompi-events', ev('FALSA', 'stike-1700000000012-ffffff'))).body.ignored, 'transaction_not_found');
+  const eFalsa = await post(A.url, 'wompi-events', ev('FALSA', 'stike-1700000000012-ffffff'));
+  t('Wompi avisa de una transaccion que todavia no vemos -> 503 para que REINTENTE (antes se ignoraba y la venta se perdia)', [eFalsa.code, eFalsa.body.error], [503, 'retry_later']);
+  /* Recien pagado: Wompi deja ver la transaccion despues de 2 consultas fallidas (404). El servidor reintenta y la registra. */
+  const R3 = 'stike-1700000000014-hhhhhh';
+  await post(A.url, 'wompi-sign', order(R3));
+  approve('txn-tarde', R3); txns['txn-tarde'].misses = 2;
+  const eLate = await post(A.url, 'wompi-events', ev('txn-tarde', R3));
+  t('la transaccion aparece tarde (2 intentos en 404) -> igual se registra', [eLate.code, eLate.body.recorded], [200, 2]);
   txns['TDOWN'] = 'down';
   t('Wompi caido -> 5xx para que reintente', (await post(A.url, 'wompi-events', ev('TDOWN', 'stike-1700000000013-gggggg'))).code >= 500, true);
-  t('ninguno de esos registro nada', (await getSales(KEY)).body.length, 4);
+  t('ninguno de esos registro nada (solo la que aparecio tarde, que son 2 lineas mas)', (await getSales(KEY)).body.length, 6);
 
   console.log('\nPSE / Nequi: el pago queda PENDING y se aprueba minutos despues');
   const R7 = 'stike-1700000000080-pppppp';
@@ -158,7 +166,7 @@ try {
   const e7a = await post(A.url, 'wompi-events', ev('txn-1007', R7, 'PENDING'));
   t('evento PENDING -> 200 y NO se registra', [e7a.code, e7a.body.ignored, (await getSales(KEY)).body.length], [200, 'status', salesBefore7]);
   t('el pedido sigue guardado esperando el pago', existsSync(join(STORAGE, 'pending', `${R7}.json`)), true);
-  t('no sale correo mientras esta PENDING', emails.length, 2);
+  t('no sale correo mientras esta PENDING', emails.length, 3);
   approve('txn-1007', R7);
   const e7b = await post(A.url, 'wompi-events', ev('txn-1007', R7, 'APPROVED'));
   t('minutos despues llega APPROVED -> ahora si se registra', [e7b.code, e7b.body.recorded], [200, 2]);

@@ -20,7 +20,10 @@ stike_run(function () {
   // El panel entra con su cookie de sesion (ver api/_admin.php).
   $sess = stike_admin_session();
   if ($sess && !stike_admin_sees_sales($sess["role"])) throw new ApiError(403, "role_not_allowed");   // el editor no ve datos de clientes
-  if ($sess) respond(200, stike_read_sales());
+  if ($sess) {
+    stike_reconcile_pending(3);   // el panel abierto revisa cada minuto si hay pagos aprobados que no se registraron
+    respond(200, stike_read_sales());
+  }
   $key = stike_config("ADMIN_API_KEY");
   if (!$key || strlen($key) < 24) throw new ApiError(500, "server_not_configured", "falta ADMIN_API_KEY (minimo 24 caracteres)");
 

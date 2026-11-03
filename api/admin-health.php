@@ -51,12 +51,6 @@ stike_run(function () {
     $inactive = $r["status"] === 200 && array_key_exists("active", $m) && $m["active"] === false;
     $add("wompi_reach", $r["status"] === 200 && !$inactive, "Wompi reconoce la llave pública",
       $r["status"] === 200 ? ($inactive ? "El comercio «" . $mName . "» aparece INACTIVO en Wompi: pídeles que lo activen para cobrar." : "OK" . ($mName !== "" ? " · comercio: " . $mName : "")) : "Wompi respondió " . ($r["status"] ?: "sin conexión"));
-    // La llave privada se prueba preguntando por una transaccion que no existe: 404 = la reconocio; 401/403 = no.
-    $pr = stike_http("GET", rtrim($base, "/") . "/transactions/stike-comprobacion-inexistente", ["Authorization: Bearer " . $k["private"]]);
-    $privOk = $pr["status"] === 404;
-    $add("wompi_private", $privOk, "Wompi acepta la llave privada (la que confirma los pagos)",
-      $privOk ? "OK: sin esto no se podrían confirmar los pagos ni registrar las ventas" : ($pr["status"] === 401 || $pr["status"] === 403
-        ? "Wompi RECHAZÓ la llave privada: ¿es del mismo ambiente y del mismo comercio que la pública?" : "Wompi respondió " . ($pr["status"] ?: "sin conexión")));
   } catch (ApiError $e) {
     $add("wompi_keys", false, "Llaves de Wompi", $e->detail ?: $e->errorCode);
   }
@@ -78,6 +72,12 @@ stike_run(function () {
     $add("wompi_last_event", !$bad, "Eventos de Wompi (aviso de cada pago)", "Último evento recibido " . $when . " · " . ($ev["result"] ?? "?") . ($bad ? ". Revisa WOMPI_EVENTS_SECRET (debe ser el secreto de EVENTOS de este ambiente)." : ""));
   } else {
     $add("wompi_last_event", false, "Eventos de Wompi (aviso de cada pago)", "Todavía no ha llegado ninguno. En Wompi, pestaña " . ($envName === "prod" ? "PRODUCCIÓN" : ($envName === "test" ? "Sandbox" : "PRODUCCIÓN (o Sandbox si tus llaves son de pruebas)")) . " → Desarrolladores → URL de eventos, pega: https://stikebikeshop.com/api/wompi-events . Se marca ✔ solo cuando Wompi avisa de un pago (haz la compra de prueba).");
+  }
+
+  // Pagos aprobados que no se habian registrado: al abrir el panel se buscan y se registran (venta + correo + stock).
+  $rc = stike_reconcile_pending(4);
+  if (!empty($rc["recovered"])) {
+    $add("wompi_recovered", true, "Pagos recuperados ahora mismo", count($rc["recovered"]) . " venta(s) que Wompi tenía aprobadas y no estaban en el panel quedaron registradas (revisa Ventas y el correo).");
   }
 
   // GitHub (panel + descuento automatico de stock de ventas online).
@@ -103,8 +103,8 @@ stike_run(function () {
     stike_config("RESEND_API_KEY") ? (stike_config("OWNER_NOTIFY_EMAIL") ? "OK" : "Falta OWNER_NOTIFY_EMAIL") : "Opcional: sin RESEND_API_KEY el aviso sale por el correo del hosting y puede caer en spam");
   $add("https", !empty($_SERVER["HTTPS"]) || ($_SERVER["HTTP_X_FORWARDED_PROTO"] ?? "") === "https", "HTTPS", "Requerido por Wompi");
 
-  $required = ["wompi_keys", "wompi_reach", "wompi_private", "wompi_source", "wompi_prod", "github", "storage", "https"];
+  $required = ["wompi_keys", "wompi_reach", "wompi_source", "wompi_prod", "github", "storage", "https"];
   $ready = true;
   foreach ($checks as $c) if (in_array($c["id"], $required, true) && !$c["ok"]) $ready = false;
-  respond(200, ["ready" => $ready, "checks" => $checks, "eventsUrl" => "https://stikebikeshop.com/api/wompi-events"]);
+  respond(200, ["ready" => $ready, "checks" => $checks, "eventsUrl" => "https://stikebikeshop.com/api/wompi-events", "recovered" => count($rc["recovered"] ?? [])]);
 });

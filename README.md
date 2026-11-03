@@ -317,7 +317,7 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
       `https://stikebikeshop.com/api/wompi-events` (la de sandbox no vale para pagos reales).
       Opcional: el secreto `prod_events_…` (panel → Configuración).
    3. Panel → Configuración → «Pagos y servidor» en ✔ (incluye: Wompi reconoce la llave
-      pública y el comercio está activo, y Wompi acepta la llave privada). «Eventos de
+      pública y el comercio está activo). «Eventos de
       Wompi» se marca con la primera compra.
    4. Compra real de prueba con el producto más barato y tarjeta propia: «¡Pago exitoso!»,
       correo de nueva venta, aparece en Ventas, baja el stock, y «Eventos de Wompi» en ✔.

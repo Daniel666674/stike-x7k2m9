@@ -37,10 +37,22 @@ const google = await listen((req, res) => {
 /* Wompi simulado: reconoce la llave publica del comercio y, con la llave privada, dice 404 para una transaccion que no existe. */
 const mails = [];
 const resend = await listen((req, res) => { const c = []; req.on("data", d => c.push(d)); req.on("end", () => { mails.push(JSON.parse(Buffer.concat(c).toString() || "{}")); res.setHeader("content-type", "application/json"); res.end("{}"); }); });
+const txns = {};          // id -> transaccion (como la devuelve Wompi)
+let getByIdDown = false;  // simula que "consultar por id" falla (lo que paso con el pago real)
 const wompi = await listen((req, res) => {
   res.setHeader("content-type", "application/json");
   if (req.url.startsWith("/merchants/")) return res.end(JSON.stringify({ data: { name: "Stike Bike Shop SAS", active: true } }));
-  if (req.url.startsWith("/transactions/")) { if (req.headers.authorization !== "Bearer prv_test_demo1234") { res.statusCode = 401; return res.end("{}"); } res.statusCode = 404; return res.end("{}"); }
+  if (req.url.startsWith("/transactions?")) {   // lista por referencia: pide la llave privada
+    if (req.headers.authorization !== "Bearer prv_test_demo1234") { res.statusCode = 401; return res.end("{}"); }
+    const ref = new URL(req.url, "http://x").searchParams.get("reference");
+    return res.end(JSON.stringify({ data: Object.values(txns).filter(x => x.reference === ref), meta: {} }));
+  }
+  if (req.url.startsWith("/transactions/")) {
+    if (getByIdDown) { res.statusCode = 502; return res.end("{}"); }
+    const x = txns[decodeURIComponent(req.url.split("/transactions/")[1])];
+    if (!x) { res.statusCode = 404; return res.end("{}"); }
+    return res.end(JSON.stringify({ data: x }));
+  }
   res.statusCode = 404; res.end("{}");
 });
 
@@ -142,7 +154,7 @@ try {
   const hh = await fetch(`${API}/admin-health.php`, { headers: { Cookie: owner } }).then(r => r.json());
   const chk = id => (hh.checks || []).find(c => c.id === id) || {};
   t("Wompi reconoce la llave pública y muestra el nombre del comercio", [chk("wompi_reach").ok, /Stike Bike Shop SAS/.test(chk("wompi_reach").detail)], [true, true]);
-  t("Wompi acepta la llave privada (se prueba con una transacción inexistente: 404 = la reconoció)", chk("wompi_private").ok, true);
+  t("(la consulta de una transacción en Wompi es pública: ya no se «comprueba» la llave privada con ella, porque daría un ✔ falso)", chk("wompi_private").id === undefined, true);
   t("«de dónde salen las llaves» dice que el secreto viene del panel", /integridad: guardado desde el panel/.test(chk("wompi_source").detail), true);
   t("los eventos de Wompi: todavía ninguno -> ✕ con la instrucción de dónde ponerlo", [chk("wompi_last_event").ok, /URL de eventos/.test(chk("wompi_last_event").detail)], [false, true]);
   // el secreto de EVENTOS tambien se pega desde el panel; un evento con firma mala se rechaza y queda anotado
@@ -161,6 +173,50 @@ try {
   t("un WOMPI_API_BASE de sandbox que se quedó del ensayo, con llaves de producción, se IGNORA (si no, ningún pago real se podría confirmar)", base("prv_prod_x", "https://sandbox.wompi.co/v1"), "https://production.wompi.co/v1");
   t("y al revés (base de producción con llaves de pruebas) también", base("prv_test_x", "https://production.wompi.co/v1"), "https://sandbox.wompi.co/v1");
   t("un Wompi simulado de las pruebas locales sí se respeta", base("prv_test_x", "http://127.0.0.1:9999/"), "http://127.0.0.1:9999");
+
+  console.log("\nUn cliente pagó y la venta no quedó registrada (lo que pasó en producción)");
+  const salesOf = async () => (await fetch(`${API}/sales.php`, { headers: { Cookie: owner } }).then(r => r.json()));
+  const mailsBefore = mails.length;
+  const R9 = "stike-1700000000090-iiiiiiii";
+  t("el cliente firma su pedido (queda guardado en el servidor)", (await sign(API, R9)).code, 200);
+  const pendingFile = join(STORAGE, "pending", R9 + ".json");
+  const pend9 = JSON.parse(readFileSync(pendingFile, "utf8")); pend9.createdAt = new Date(Date.now() - 10 * 60000).toISOString();
+  (await import("node:fs")).writeFileSync(pendingFile, JSON.stringify(pend9));   // hace 10 minutos
+  txns["txn-real-1"] = { id: "txn-real-1", reference: R9, status: "APPROVED", amount_in_cents: 31000000, currency: "COP" };
+  getByIdDown = true;   // y la consulta por id de Wompi falla (la página dijo «No pudimos confirmar el pago»)
+  const browser = await fetch(`${API}/wompi-order.php`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ reference: R9, wompiId: "txn-real-1" }) });
+  t("la página de resultado NO puede confirmar (Wompi no responde por id)", browser.status >= 500, true);
+  t("y la venta no está registrada", (await salesOf()).filter(x => x.orderRef === R9).length, 0);
+  t("ni salió correo", mails.length, mailsBefore);
+  t("staff no puede usar «Buscar pagos sin registrar» (403)", (await fetch(`${API}/wompi-reconcile.php`, { method: "POST", headers: { Cookie: staff, "Content-Type": "application/json" }, body: "{}" })).status, 403);
+  t("sin sesión: 401", (await fetch(`${API}/wompi-reconcile.php`, { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" })).status, 401);
+  const rec = await fetch(`${API}/wompi-reconcile.php`, { method: "POST", headers: { Cookie: owner, "Content-Type": "application/json" }, body: "{}" }).then(r => r.json());
+  t("«Buscar pagos sin registrar»: Wompi lo tiene APROBADO por referencia -> se registra", [rec.ok, rec.recovered.length, rec.recovered[0] && rec.recovered[0].reference], [true, 1, R9]);
+  const sale9 = (await salesOf()).filter(x => x.orderRef === R9);
+  t("la venta aparece en el panel (Ventas) con los datos del pedido", [sale9.length, sale9[0] && sale9[0].shipping.name, sale9[0] && sale9[0].wompiId, sale9[0] && sale9[0].source], [1, "Prueba", "txn-real-1", "wompi"]);
+  t("sale el correo «Nueva venta» al dueño", [mails.length - mailsBefore, /Nueva venta/.test(mails[mails.length - 1].subject), /Prueba/.test(mails[mails.length - 1].html)], [1, true, true]);
+  t("el pedido pendiente se limpia", existsSync(pendingFile), false);
+  const rec2 = await fetch(`${API}/wompi-reconcile.php`, { method: "POST", headers: { Cookie: owner, "Content-Type": "application/json" }, body: "{}" }).then(r => r.json());
+  t("repetirlo no duplica la venta ni manda otro correo", [rec2.recovered.length, (await salesOf()).filter(x => x.orderRef === R9).length, mails.length - mailsBefore], [0, 1, 1]);
+
+  console.log("\nEl aviso de Wompi (evento firmado) registra la venta aunque la consulta por id falle");
+  const R10 = "stike-1700000000091-jjjjjjjj";
+  await sign(API, R10);
+  const ts10 = 1700000999, EVS = "test_events_AbCdEfGh12345678";
+  const evt = (secret) => ({ event: "transaction.updated", data: { transaction: { id: "txn-real-2", reference: R10, status: "APPROVED", amount_in_cents: 31000000 } }, environment: "prod", timestamp: ts10, signature: { properties: ["transaction.id", "transaction.status", "transaction.amount_in_cents"], checksum: createHash("sha256").update(`txn-real-2APPROVED31000000${ts10}${secret}`).digest("hex") } });
+  const post = (b) => fetch(`${API}/wompi-events.php`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(b) }).then(async r => ({ code: r.status, json: await r.json().catch(() => null) }));
+  const evFalso = await post(evt("otro_secreto"));
+  t("evento con firma falsa -> 401 y NO registra", [evFalso.code, (await salesOf()).filter(x => x.orderRef === R10).length], [401, 0]);
+  const evValido = await post(evt(EVS));
+  t("evento con firma válida -> 200 y se registra con sus propios datos (sin consultar a Wompi)", [evValido.code, evValido.json.recorded], [200, 1]);
+  t("la venta está en el panel y salió el correo", [(await salesOf()).filter(x => x.orderRef === R10).length, mails.length - mailsBefore], [1, 2]);
+  getByIdDown = false;
+
+  console.log("\nCorreo de prueba desde el panel");
+  const te = await cfg(owner, { action: "test_email" });
+  t("el dueño envía un correo de prueba -> ok, por Resend, a su correo (enmascarado)", [te.code, te.json.ok, te.json.via, /^j\*\*\*@/.test(te.json.to)], [200, true, "resend", true]);
+  t("llega al servidor de correo", /Prueba de correo/.test(mails[mails.length - 1].subject), true);
+  t("staff no puede (403)", (await cfg(staff, { action: "test_email" })).code, 403);
 
   console.log("\nProtecciones del cobro");
   await cfg(owner, { key: "WOMPI_INTEGRITY_SECRET", value: GOOD });
