@@ -1311,7 +1311,7 @@
       <g:image_link>https://stikebikeshop.com/assets/img/products/marco-fiend-reynolds-negro-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/marco-fiend-reynolds-dorado-1.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/marco-fiend-reynolds-purpura-1.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
+      <g:availability>out_of_stock</g:availability>
       <g:price>1850000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
@@ -1832,63 +1832,6 @@
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
     <item>
-      <g:id>ROP-ETN-001-s</g:id>
-      <g:title>Buzo Etnies Beige y Negro - S</g:title>
-      <g:description>Buzo Etnies Beige y Negro. Color Beige y negro. Tela Algodón/Poliéster. Disponible en tallas S, M, L. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/buzo-etnies-beige.html?size=S</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/3ca51af7-0254-4076-8e7e-f7b4317c0e30.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/eb45f983-e634-437b-a509-ec1bd6290578.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/buzo-etnies-beige-2.jpg</g:additional_image_link>
-      <g:availability>out_of_stock</g:availability>
-      <g:price>120000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Etnies</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
-      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
-      <g:item_group_id>ROP-ETN-001</g:item_group_id>
-      <g:size>S</g:size>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
-      <g:id>ROP-ETN-001-m</g:id>
-      <g:title>Buzo Etnies Beige y Negro - M</g:title>
-      <g:description>Buzo Etnies Beige y Negro. Color Beige y negro. Tela Algodón/Poliéster. Disponible en tallas S, M, L. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/buzo-etnies-beige.html?size=M</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/3ca51af7-0254-4076-8e7e-f7b4317c0e30.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/eb45f983-e634-437b-a509-ec1bd6290578.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/buzo-etnies-beige-2.jpg</g:additional_image_link>
-      <g:availability>out_of_stock</g:availability>
-      <g:price>120000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Etnies</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
-      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
-      <g:item_group_id>ROP-ETN-001</g:item_group_id>
-      <g:size>M</g:size>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
-      <g:id>ROP-ETN-001-l</g:id>
-      <g:title>Buzo Etnies Beige y Negro - L</g:title>
-      <g:description>Buzo Etnies Beige y Negro. Color Beige y negro. Tela Algodón/Poliéster. Disponible en tallas S, M, L. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/buzo-etnies-beige.html?size=L</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/3ca51af7-0254-4076-8e7e-f7b4317c0e30.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/eb45f983-e634-437b-a509-ec1bd6290578.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/buzo-etnies-beige-2.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
-      <g:price>120000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Etnies</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
-      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
-      <g:item_group_id>ROP-ETN-001</g:item_group_id>
-      <g:size>L</g:size>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
       <g:id>ROP-NIG-002-aguamarina-s</g:id>
       <g:title>Chaqueta Nightmare - Aguamarina - S</g:title>
       <g:description>Chaqueta Nightmare. Tela Satinada, rompevientos. Cierre Cremallera completa. Disponible en colores Aguamarina, Negro; tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
@@ -2324,116 +2267,6 @@
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
     <item>
-      <g:id>ROP-SYM-001-s</g:id>
-      <g:title>Buzo S&amp;M BMX Negro - S</g:title>
-      <g:description>Buzo S&amp;M BMX Negro de S&amp;M Bikes. Color Negro. Estampado Escudo S&amp;M American Bicycle Co.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/buzo-sm-bmx-negro.html?size=S</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/ca6f3ff1-0d17-48ae-8802-88705c1fa42f.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/buzo-sm-bmx-negro-1.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/941d3816-7480-4aae-8dcd-ceea9c8225e8.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2042ac18-0651-4d49-abe4-b91ca82ce22e.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/aa15ee07-044a-4d9e-9f82-e44d3e5bf187.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/fdd1760e-bec8-4259-bb34-e4959cbc2569.jpg</g:additional_image_link>
-      <g:availability>out_of_stock</g:availability>
-      <g:price>120000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>S&amp;M Bikes</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
-      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
-      <g:item_group_id>ROP-SYM-001</g:item_group_id>
-      <g:size>S</g:size>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
-      <g:id>ROP-SYM-001-m</g:id>
-      <g:title>Buzo S&amp;M BMX Negro - M</g:title>
-      <g:description>Buzo S&amp;M BMX Negro de S&amp;M Bikes. Color Negro. Estampado Escudo S&amp;M American Bicycle Co.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/buzo-sm-bmx-negro.html?size=M</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/ca6f3ff1-0d17-48ae-8802-88705c1fa42f.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/buzo-sm-bmx-negro-1.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/941d3816-7480-4aae-8dcd-ceea9c8225e8.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2042ac18-0651-4d49-abe4-b91ca82ce22e.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/aa15ee07-044a-4d9e-9f82-e44d3e5bf187.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/fdd1760e-bec8-4259-bb34-e4959cbc2569.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
-      <g:price>120000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>S&amp;M Bikes</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
-      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
-      <g:item_group_id>ROP-SYM-001</g:item_group_id>
-      <g:size>M</g:size>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
-      <g:id>ROP-SYM-001-l</g:id>
-      <g:title>Buzo S&amp;M BMX Negro - L</g:title>
-      <g:description>Buzo S&amp;M BMX Negro de S&amp;M Bikes. Color Negro. Estampado Escudo S&amp;M American Bicycle Co.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/buzo-sm-bmx-negro.html?size=L</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/ca6f3ff1-0d17-48ae-8802-88705c1fa42f.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/buzo-sm-bmx-negro-1.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/941d3816-7480-4aae-8dcd-ceea9c8225e8.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2042ac18-0651-4d49-abe4-b91ca82ce22e.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/aa15ee07-044a-4d9e-9f82-e44d3e5bf187.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/fdd1760e-bec8-4259-bb34-e4959cbc2569.jpg</g:additional_image_link>
-      <g:availability>out_of_stock</g:availability>
-      <g:price>120000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>S&amp;M Bikes</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
-      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
-      <g:item_group_id>ROP-SYM-001</g:item_group_id>
-      <g:size>L</g:size>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
-      <g:id>ROP-SYM-001-xl</g:id>
-      <g:title>Buzo S&amp;M BMX Negro - XL</g:title>
-      <g:description>Buzo S&amp;M BMX Negro de S&amp;M Bikes. Color Negro. Estampado Escudo S&amp;M American Bicycle Co.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/buzo-sm-bmx-negro.html?size=XL</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/ca6f3ff1-0d17-48ae-8802-88705c1fa42f.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/buzo-sm-bmx-negro-1.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/941d3816-7480-4aae-8dcd-ceea9c8225e8.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2042ac18-0651-4d49-abe4-b91ca82ce22e.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/aa15ee07-044a-4d9e-9f82-e44d3e5bf187.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/fdd1760e-bec8-4259-bb34-e4959cbc2569.jpg</g:additional_image_link>
-      <g:availability>out_of_stock</g:availability>
-      <g:price>120000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>S&amp;M Bikes</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
-      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
-      <g:item_group_id>ROP-SYM-001</g:item_group_id>
-      <g:size>XL</g:size>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
-      <g:id>ROP-SYM-001-xxl</g:id>
-      <g:title>Buzo S&amp;M BMX Negro - XXL</g:title>
-      <g:description>Buzo S&amp;M BMX Negro de S&amp;M Bikes. Color Negro. Estampado Escudo S&amp;M American Bicycle Co.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/buzo-sm-bmx-negro.html?size=XXL</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/ca6f3ff1-0d17-48ae-8802-88705c1fa42f.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/buzo-sm-bmx-negro-1.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/941d3816-7480-4aae-8dcd-ceea9c8225e8.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2042ac18-0651-4d49-abe4-b91ca82ce22e.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/aa15ee07-044a-4d9e-9f82-e44d3e5bf187.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/fdd1760e-bec8-4259-bb34-e4959cbc2569.jpg</g:additional_image_link>
-      <g:availability>out_of_stock</g:availability>
-      <g:price>120000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>S&amp;M Bikes</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
-      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
-      <g:item_group_id>ROP-SYM-001</g:item_group_id>
-      <g:size>XXL</g:size>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
       <g:id>ROP-FOX-001-s</g:id>
       <g:title>Buzo Fox Pro Circuit Negro y Gris - S</g:title>
       <g:description>Buzo Fox Pro Circuit Negro y Gris. Color Negro y gris. Estampado Fox Pro Circuit. Disponible en tallas S, M, L. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
@@ -2487,177 +2320,6 @@
       <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
       <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
       <g:item_group_id>ROP-FOX-001</g:item_group_id>
-      <g:size>L</g:size>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
-      <g:id>ROP-FOX-002-s</g:id>
-      <g:title>Buzo Fox Honda Racing Crema y Negro - S</g:title>
-      <g:description>Buzo Fox Honda Racing Crema y Negro. Color Crema y negro. Estampado Fox x Honda Racing. Disponible en tallas S, M, L. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/buzo-fox-honda.html?size=S</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/buzo-fox-honda-1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/33048a83-2eb2-4043-a566-05e54db5df17.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/83b950bd-4491-43da-8320-55967e071c62.jpg</g:additional_image_link>
-      <g:availability>out_of_stock</g:availability>
-      <g:price>120000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Fox</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
-      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
-      <g:item_group_id>ROP-FOX-002</g:item_group_id>
-      <g:size>S</g:size>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
-      <g:id>ROP-FOX-002-m</g:id>
-      <g:title>Buzo Fox Honda Racing Crema y Negro - M</g:title>
-      <g:description>Buzo Fox Honda Racing Crema y Negro. Color Crema y negro. Estampado Fox x Honda Racing. Disponible en tallas S, M, L. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/buzo-fox-honda.html?size=M</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/buzo-fox-honda-1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/33048a83-2eb2-4043-a566-05e54db5df17.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/83b950bd-4491-43da-8320-55967e071c62.jpg</g:additional_image_link>
-      <g:availability>out_of_stock</g:availability>
-      <g:price>120000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Fox</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
-      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
-      <g:item_group_id>ROP-FOX-002</g:item_group_id>
-      <g:size>M</g:size>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
-      <g:id>ROP-FOX-002-l</g:id>
-      <g:title>Buzo Fox Honda Racing Crema y Negro - L</g:title>
-      <g:description>Buzo Fox Honda Racing Crema y Negro. Color Crema y negro. Estampado Fox x Honda Racing. Disponible en tallas S, M, L. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/buzo-fox-honda.html?size=L</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/buzo-fox-honda-1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/33048a83-2eb2-4043-a566-05e54db5df17.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/83b950bd-4491-43da-8320-55967e071c62.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
-      <g:price>120000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Fox</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
-      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
-      <g:item_group_id>ROP-FOX-002</g:item_group_id>
-      <g:size>L</g:size>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
-      <g:id>ROP-FOX-003-s</g:id>
-      <g:title>Buzo Fox Retro Aqua y Negro - S</g:title>
-      <g:description>Buzo Fox Retro Aqua y Negro. Color Aqua y negro. Estampado Fox estilo retro. Disponible en tallas S, M, L. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/buzo-fox-retro-aqua.html?size=S</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/8db16d27-2602-428b-81c1-09f46bbbbb2b.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/c179f908-fd61-4150-bd7d-dc633ad70a3d.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/buzo-fox-retro-aqua-1.jpg</g:additional_image_link>
-      <g:availability>out_of_stock</g:availability>
-      <g:price>120000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Fox</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
-      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
-      <g:item_group_id>ROP-FOX-003</g:item_group_id>
-      <g:size>S</g:size>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
-      <g:id>ROP-FOX-003-m</g:id>
-      <g:title>Buzo Fox Retro Aqua y Negro - M</g:title>
-      <g:description>Buzo Fox Retro Aqua y Negro. Color Aqua y negro. Estampado Fox estilo retro. Disponible en tallas S, M, L. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/buzo-fox-retro-aqua.html?size=M</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/8db16d27-2602-428b-81c1-09f46bbbbb2b.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/c179f908-fd61-4150-bd7d-dc633ad70a3d.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/buzo-fox-retro-aqua-1.jpg</g:additional_image_link>
-      <g:availability>out_of_stock</g:availability>
-      <g:price>120000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Fox</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
-      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
-      <g:item_group_id>ROP-FOX-003</g:item_group_id>
-      <g:size>M</g:size>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
-      <g:id>ROP-FOX-003-l</g:id>
-      <g:title>Buzo Fox Retro Aqua y Negro - L</g:title>
-      <g:description>Buzo Fox Retro Aqua y Negro. Color Aqua y negro. Estampado Fox estilo retro. Disponible en tallas S, M, L. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/buzo-fox-retro-aqua.html?size=L</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/8db16d27-2602-428b-81c1-09f46bbbbb2b.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/c179f908-fd61-4150-bd7d-dc633ad70a3d.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/buzo-fox-retro-aqua-1.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
-      <g:price>120000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Fox</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
-      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
-      <g:item_group_id>ROP-FOX-003</g:item_group_id>
-      <g:size>L</g:size>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
-      <g:id>ROP-FIT-001-s</g:id>
-      <g:title>Buzo Fit Bike Co. Negro - S</g:title>
-      <g:description>Buzo Fit Bike Co. Negro. Color Negro. Estampado Fit Bike Co.. Disponible en tallas S, M, L. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/buzo-fitbikeco-negro.html?size=S</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/d1cdd06a-29f4-4c25-9005-17c985167d14.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/ff98b94f-7799-441d-b41d-d6f40ffc0e73.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/c7c2c4d6-ca23-4247-a4d1-a88196ffad1e.jpg</g:additional_image_link>
-      <g:availability>out_of_stock</g:availability>
-      <g:price>120000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Fit Bike Co.</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
-      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
-      <g:item_group_id>ROP-FIT-001</g:item_group_id>
-      <g:size>S</g:size>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
-      <g:id>ROP-FIT-001-m</g:id>
-      <g:title>Buzo Fit Bike Co. Negro - M</g:title>
-      <g:description>Buzo Fit Bike Co. Negro. Color Negro. Estampado Fit Bike Co.. Disponible en tallas S, M, L. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/buzo-fitbikeco-negro.html?size=M</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/d1cdd06a-29f4-4c25-9005-17c985167d14.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/ff98b94f-7799-441d-b41d-d6f40ffc0e73.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/c7c2c4d6-ca23-4247-a4d1-a88196ffad1e.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
-      <g:price>120000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Fit Bike Co.</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
-      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
-      <g:item_group_id>ROP-FIT-001</g:item_group_id>
-      <g:size>M</g:size>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
-      <g:id>ROP-FIT-001-l</g:id>
-      <g:title>Buzo Fit Bike Co. Negro - L</g:title>
-      <g:description>Buzo Fit Bike Co. Negro. Color Negro. Estampado Fit Bike Co.. Disponible en tallas S, M, L. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/buzo-fitbikeco-negro.html?size=L</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/d1cdd06a-29f4-4c25-9005-17c985167d14.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/ff98b94f-7799-441d-b41d-d6f40ffc0e73.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/c7c2c4d6-ca23-4247-a4d1-a88196ffad1e.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
-      <g:price>120000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Fit Bike Co.</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
-      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
-      <g:item_group_id>ROP-FIT-001</g:item_group_id>
       <g:size>L</g:size>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -2925,101 +2587,6 @@
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
     <item>
-      <g:id>ROP-FOX-004-s</g:id>
-      <g:title>BUZO FOX NEGRO - S</g:title>
-      <g:description>BUZO FOX NEGRO de Total BMX. Color Negro. Estampado FOX LOGO. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/buzo-fox-negro.html?size=S</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/a69bfa64-3064-4816-a066-b612dd3be8cc.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/b849ed5f-7bc3-492e-a4cf-c7a4560c28ff.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/092f85a7-0830-4166-9054-f58bfb7905cf.jpg</g:additional_image_link>
-      <g:availability>out_of_stock</g:availability>
-      <g:price>120000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Total BMX</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
-      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
-      <g:item_group_id>ROP-FOX-004</g:item_group_id>
-      <g:size>S</g:size>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
-      <g:id>ROP-FOX-004-m</g:id>
-      <g:title>BUZO FOX NEGRO - M</g:title>
-      <g:description>BUZO FOX NEGRO de Total BMX. Color Negro. Estampado FOX LOGO. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/buzo-fox-negro.html?size=M</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/a69bfa64-3064-4816-a066-b612dd3be8cc.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/b849ed5f-7bc3-492e-a4cf-c7a4560c28ff.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/092f85a7-0830-4166-9054-f58bfb7905cf.jpg</g:additional_image_link>
-      <g:availability>out_of_stock</g:availability>
-      <g:price>120000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Total BMX</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
-      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
-      <g:item_group_id>ROP-FOX-004</g:item_group_id>
-      <g:size>M</g:size>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
-      <g:id>ROP-FOX-004-l</g:id>
-      <g:title>BUZO FOX NEGRO - L</g:title>
-      <g:description>BUZO FOX NEGRO de Total BMX. Color Negro. Estampado FOX LOGO. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/buzo-fox-negro.html?size=L</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/a69bfa64-3064-4816-a066-b612dd3be8cc.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/b849ed5f-7bc3-492e-a4cf-c7a4560c28ff.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/092f85a7-0830-4166-9054-f58bfb7905cf.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
-      <g:price>120000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Total BMX</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
-      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
-      <g:item_group_id>ROP-FOX-004</g:item_group_id>
-      <g:size>L</g:size>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
-      <g:id>ROP-FOX-004-xl</g:id>
-      <g:title>BUZO FOX NEGRO - XL</g:title>
-      <g:description>BUZO FOX NEGRO de Total BMX. Color Negro. Estampado FOX LOGO. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/buzo-fox-negro.html?size=XL</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/a69bfa64-3064-4816-a066-b612dd3be8cc.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/b849ed5f-7bc3-492e-a4cf-c7a4560c28ff.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/092f85a7-0830-4166-9054-f58bfb7905cf.jpg</g:additional_image_link>
-      <g:availability>out_of_stock</g:availability>
-      <g:price>120000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Total BMX</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
-      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
-      <g:item_group_id>ROP-FOX-004</g:item_group_id>
-      <g:size>XL</g:size>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
-      <g:id>ROP-FOX-004-xxl</g:id>
-      <g:title>BUZO FOX NEGRO - XXL</g:title>
-      <g:description>BUZO FOX NEGRO de Total BMX. Color Negro. Estampado FOX LOGO. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/buzo-fox-negro.html?size=XXL</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/a69bfa64-3064-4816-a066-b612dd3be8cc.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/b849ed5f-7bc3-492e-a4cf-c7a4560c28ff.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/092f85a7-0830-4166-9054-f58bfb7905cf.jpg</g:additional_image_link>
-      <g:availability>out_of_stock</g:availability>
-      <g:price>120000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Total BMX</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
-      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
-      <g:item_group_id>ROP-FOX-004</g:item_group_id>
-      <g:size>XXL</g:size>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
       <g:id>ROP-FRE-002-s</g:id>
       <g:title>Buzo Freaak Azul y GRIS - S</g:title>
       <g:description>Buzo Freaak Azul y GRIS de Total BMX. Color Azul y GRIS. Cierre Cremallera completa. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
@@ -3106,101 +2673,6 @@
       <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
       <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
       <g:item_group_id>ROP-FRE-002</g:item_group_id>
-      <g:size>XXL</g:size>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
-      <g:id>ROP-ALP-001-s</g:id>
-      <g:title>Buzo Alpinestars Negro - S</g:title>
-      <g:description>Buzo Alpinestars Negro de Total BMX. Color Negro. Estampado Alpinestars. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/buzo-alpinestars-negro.html?size=S</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/b01a554f-67e8-407b-9c8c-61d1cc1b76a1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/9f15afb8-0f5c-43c2-9da7-42bf4798504c.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/4938950d-b3b9-4da1-94a7-9b87b4aa4673.jpg</g:additional_image_link>
-      <g:availability>out_of_stock</g:availability>
-      <g:price>120000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Total BMX</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
-      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
-      <g:item_group_id>ROP-ALP-001</g:item_group_id>
-      <g:size>S</g:size>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
-      <g:id>ROP-ALP-001-m</g:id>
-      <g:title>Buzo Alpinestars Negro - M</g:title>
-      <g:description>Buzo Alpinestars Negro de Total BMX. Color Negro. Estampado Alpinestars. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/buzo-alpinestars-negro.html?size=M</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/b01a554f-67e8-407b-9c8c-61d1cc1b76a1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/9f15afb8-0f5c-43c2-9da7-42bf4798504c.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/4938950d-b3b9-4da1-94a7-9b87b4aa4673.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
-      <g:price>120000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Total BMX</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
-      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
-      <g:item_group_id>ROP-ALP-001</g:item_group_id>
-      <g:size>M</g:size>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
-      <g:id>ROP-ALP-001-l</g:id>
-      <g:title>Buzo Alpinestars Negro - L</g:title>
-      <g:description>Buzo Alpinestars Negro de Total BMX. Color Negro. Estampado Alpinestars. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/buzo-alpinestars-negro.html?size=L</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/b01a554f-67e8-407b-9c8c-61d1cc1b76a1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/9f15afb8-0f5c-43c2-9da7-42bf4798504c.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/4938950d-b3b9-4da1-94a7-9b87b4aa4673.jpg</g:additional_image_link>
-      <g:availability>out_of_stock</g:availability>
-      <g:price>120000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Total BMX</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
-      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
-      <g:item_group_id>ROP-ALP-001</g:item_group_id>
-      <g:size>L</g:size>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
-      <g:id>ROP-ALP-001-xl</g:id>
-      <g:title>Buzo Alpinestars Negro - XL</g:title>
-      <g:description>Buzo Alpinestars Negro de Total BMX. Color Negro. Estampado Alpinestars. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/buzo-alpinestars-negro.html?size=XL</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/b01a554f-67e8-407b-9c8c-61d1cc1b76a1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/9f15afb8-0f5c-43c2-9da7-42bf4798504c.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/4938950d-b3b9-4da1-94a7-9b87b4aa4673.jpg</g:additional_image_link>
-      <g:availability>out_of_stock</g:availability>
-      <g:price>120000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Total BMX</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
-      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
-      <g:item_group_id>ROP-ALP-001</g:item_group_id>
-      <g:size>XL</g:size>
-      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
-    </item>
-    <item>
-      <g:id>ROP-ALP-001-xxl</g:id>
-      <g:title>Buzo Alpinestars Negro - XXL</g:title>
-      <g:description>Buzo Alpinestars Negro de Total BMX. Color Negro. Estampado Alpinestars. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/buzo-alpinestars-negro.html?size=XXL</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/b01a554f-67e8-407b-9c8c-61d1cc1b76a1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/9f15afb8-0f5c-43c2-9da7-42bf4798504c.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/4938950d-b3b9-4da1-94a7-9b87b4aa4673.jpg</g:additional_image_link>
-      <g:availability>out_of_stock</g:availability>
-      <g:price>120000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Total BMX</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
-      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
-      <g:item_group_id>ROP-ALP-001</g:item_group_id>
       <g:size>XXL</g:size>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
@@ -5824,13 +5296,13 @@
     </item>
     <item>
       <g:id>ROP-NIK-002</g:id>
-      <g:title>Chaqueta Nike Gris Negro - M</g:title>
-      <g:description>Chaqueta Nike Gris Negro. Rompevientos. Color Beige y negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:title>CHAQUETA ROMPE VIENTOS INSPIRADA NIKE - M</g:title>
+      <g:description>CHAQUETA ROMPE VIENTOS INSPIRADA NIKE . Rompevientos. Color Beige y negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/chaqueta-nike-beige-negro.html</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/6a972223-2e06-4c75-b6f7-4be739d6a923.jpg</g:image_link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/6233a90c-2077-4093-bcf8-012d474fe38b.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/6a972223-2e06-4c75-b6f7-4be739d6a923.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/ee1a2077-0f6e-482d-b071-03b2cd3a2c33.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/e855d4be-3535-45eb-a501-db664c6330dc.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/6233a90c-2077-4093-bcf8-012d474fe38b.jpg</g:additional_image_link>
       <g:availability>in_stock</g:availability>
       <g:price>120000.00 COP</g:price>
       <g:condition>new</g:condition>
@@ -5843,13 +5315,13 @@
     </item>
     <item>
       <g:id>ROP-VAN-008</g:id>
-      <g:title>Chaqueta Vans Beige y Negro - M</g:title>
-      <g:description>Chaqueta Vans Beige y Negro. Rompevientos. Color Beige y negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:title>ROMPE VIENTOS INSPIRADA VANS - M</g:title>
+      <g:description>ROMPE VIENTOS INSPIRADA VANS. Rompevientos. Color Beige y negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/chaqueta-vans-beige-negro.html</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/85839f4a-f6ad-49e3-9f54-a3f3cceb7697.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/4352afae-5224-4423-8be0-7f99dca5ad8e.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/42e2b523-0b61-4dc6-be54-796567f46132.jpg</g:additional_image_link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/42e2b523-0b61-4dc6-be54-796567f46132.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/85839f4a-f6ad-49e3-9f54-a3f3cceb7697.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/306e99ca-7a50-42e1-97ee-f3a38595caae.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/4352afae-5224-4423-8be0-7f99dca5ad8e.jpg</g:additional_image_link>
       <g:availability>in_stock</g:availability>
       <g:price>120000.00 COP</g:price>
       <g:condition>new</g:condition>
@@ -9983,8 +9455,8 @@
     </item>
     <item>
       <g:id>ROP-OAK-002-azul-m</g:id>
-      <g:title>CHAQUETA OAKLEY - Azul - M</g:title>
-      <g:description>CHAQUETA OAKLEY. CHAQUETA ROMPEVIENTOS INSPIRADA EN SUPER NYLON DE ALTA CALIDAD. Disponible en largo M, L. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:title>CHAQUETA INSPIRADA OAKLEY - Azul - M</g:title>
+      <g:description>CHAQUETA INSPIRADA OAKLEY. CHAQUETA ROMPEVIENTOS INSPIRADA EN SUPER NYLON DE ALTA CALIDAD. Disponible en largo M, L. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/chaqueta-inspirada-oakley.html?color=Azul&amp;size=M</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/8547c9bf-1521-4575-9651-7b8a69298ae7.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/a969162a-81e9-4f99-b5da-54f29ca16169.jpg</g:additional_image_link>
@@ -10004,8 +9476,8 @@
     </item>
     <item>
       <g:id>ROP-OAK-002-azul-l</g:id>
-      <g:title>CHAQUETA OAKLEY - Azul - L</g:title>
-      <g:description>CHAQUETA OAKLEY. CHAQUETA ROMPEVIENTOS INSPIRADA EN SUPER NYLON DE ALTA CALIDAD. Disponible en largo M, L. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:title>CHAQUETA INSPIRADA OAKLEY - Azul - L</g:title>
+      <g:description>CHAQUETA INSPIRADA OAKLEY. CHAQUETA ROMPEVIENTOS INSPIRADA EN SUPER NYLON DE ALTA CALIDAD. Disponible en largo M, L. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/chaqueta-inspirada-oakley.html?color=Azul&amp;size=L</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/8547c9bf-1521-4575-9651-7b8a69298ae7.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/a969162a-81e9-4f99-b5da-54f29ca16169.jpg</g:additional_image_link>
@@ -10065,8 +9537,8 @@
     </item>
     <item>
       <g:id>ROP-ALP-003-negro-m</g:id>
-      <g:title>CHAQUETA INSPIRADA EN ALPINESTARS - Negro - M</g:title>
-      <g:description>CHAQUETA INSPIRADA EN ALPINESTARS. ROMPEVIENTOS EN SUPER NYLON DE ALTA CALIDAD CON LOGOS REFLECTIVOS. Disponible en tallas M, L, S. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:title>CHAQUETA ROMPE VIENTOS INSPIRADA EN ALPINESTARS - Negro - M</g:title>
+      <g:description>CHAQUETA ROMPE VIENTOS INSPIRADA EN ALPINESTARS. ROMPEVIENTOS EN SUPER NYLON DE ALTA CALIDAD CON LOGOS REFLECTIVOS. Disponible en tallas M, L, S. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/chaqueta-inspirada-en-alpinestars.html?color=Negro&amp;size=M</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/c22cdf56-77db-4260-ab1c-d2619ed2303f.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/f419e2b1-b5a9-498e-a4d4-793bef521494.jpg</g:additional_image_link>
@@ -10086,8 +9558,8 @@
     </item>
     <item>
       <g:id>ROP-ALP-003-negro-l</g:id>
-      <g:title>CHAQUETA INSPIRADA EN ALPINESTARS - Negro - L</g:title>
-      <g:description>CHAQUETA INSPIRADA EN ALPINESTARS. ROMPEVIENTOS EN SUPER NYLON DE ALTA CALIDAD CON LOGOS REFLECTIVOS. Disponible en tallas M, L, S. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:title>CHAQUETA ROMPE VIENTOS INSPIRADA EN ALPINESTARS - Negro - L</g:title>
+      <g:description>CHAQUETA ROMPE VIENTOS INSPIRADA EN ALPINESTARS. ROMPEVIENTOS EN SUPER NYLON DE ALTA CALIDAD CON LOGOS REFLECTIVOS. Disponible en tallas M, L, S. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/chaqueta-inspirada-en-alpinestars.html?color=Negro&amp;size=L</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/c22cdf56-77db-4260-ab1c-d2619ed2303f.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/f419e2b1-b5a9-498e-a4d4-793bef521494.jpg</g:additional_image_link>
@@ -10107,8 +9579,8 @@
     </item>
     <item>
       <g:id>ROP-ALP-003-negro-s</g:id>
-      <g:title>CHAQUETA INSPIRADA EN ALPINESTARS - Negro - S</g:title>
-      <g:description>CHAQUETA INSPIRADA EN ALPINESTARS. ROMPEVIENTOS EN SUPER NYLON DE ALTA CALIDAD CON LOGOS REFLECTIVOS. Disponible en tallas M, L, S. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:title>CHAQUETA ROMPE VIENTOS INSPIRADA EN ALPINESTARS - Negro - S</g:title>
+      <g:description>CHAQUETA ROMPE VIENTOS INSPIRADA EN ALPINESTARS. ROMPEVIENTOS EN SUPER NYLON DE ALTA CALIDAD CON LOGOS REFLECTIVOS. Disponible en tallas M, L, S. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/chaqueta-inspirada-en-alpinestars.html?color=Negro&amp;size=S</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/c22cdf56-77db-4260-ab1c-d2619ed2303f.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/f419e2b1-b5a9-498e-a4d4-793bef521494.jpg</g:additional_image_link>
@@ -10594,6 +10066,1406 @@
       <g:identifier_exists>no</g:identifier_exists>
       <g:product_type>Ropa &gt; Gorras</g:product_type>
       <g:google_product_category>Apparel &amp; Accessories &gt; Clothing Accessories &gt; Hats</g:google_product_category>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-020-s</g:id>
+      <g:title>HOODIE INSPIRADO SYM NEGRO - S</g:title>
+      <g:description>HOODIE INSPIRADO SYM NEGRO de Total BMX. Hoodie SYM en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-sym-negro.html?size=S</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/a1eb7afc-9c62-4879-9139-5b4cc021070c.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/1f658069-c170-4d39-90b8-27cf10d59f37.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/480d9fdd-d50f-4a68-96d1-2caf66db8ce1.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2032683c-3b74-4f83-9f69-3f7c4031bbcb.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-VAN-020</g:item_group_id>
+      <g:size>S</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-020-m</g:id>
+      <g:title>HOODIE INSPIRADO SYM NEGRO - M</g:title>
+      <g:description>HOODIE INSPIRADO SYM NEGRO de Total BMX. Hoodie SYM en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-sym-negro.html?size=M</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/a1eb7afc-9c62-4879-9139-5b4cc021070c.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/1f658069-c170-4d39-90b8-27cf10d59f37.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/480d9fdd-d50f-4a68-96d1-2caf66db8ce1.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2032683c-3b74-4f83-9f69-3f7c4031bbcb.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-VAN-020</g:item_group_id>
+      <g:size>M</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-020-l</g:id>
+      <g:title>HOODIE INSPIRADO SYM NEGRO - L</g:title>
+      <g:description>HOODIE INSPIRADO SYM NEGRO de Total BMX. Hoodie SYM en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-sym-negro.html?size=L</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/a1eb7afc-9c62-4879-9139-5b4cc021070c.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/1f658069-c170-4d39-90b8-27cf10d59f37.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/480d9fdd-d50f-4a68-96d1-2caf66db8ce1.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2032683c-3b74-4f83-9f69-3f7c4031bbcb.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-VAN-020</g:item_group_id>
+      <g:size>L</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-020-xl</g:id>
+      <g:title>HOODIE INSPIRADO SYM NEGRO - XL</g:title>
+      <g:description>HOODIE INSPIRADO SYM NEGRO de Total BMX. Hoodie SYM en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-sym-negro.html?size=XL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/a1eb7afc-9c62-4879-9139-5b4cc021070c.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/1f658069-c170-4d39-90b8-27cf10d59f37.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/480d9fdd-d50f-4a68-96d1-2caf66db8ce1.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2032683c-3b74-4f83-9f69-3f7c4031bbcb.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-VAN-020</g:item_group_id>
+      <g:size>XL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-020-xxl</g:id>
+      <g:title>HOODIE INSPIRADO SYM NEGRO - XXL</g:title>
+      <g:description>HOODIE INSPIRADO SYM NEGRO de Total BMX. Hoodie SYM en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-sym-negro.html?size=XXL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/a1eb7afc-9c62-4879-9139-5b4cc021070c.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/1f658069-c170-4d39-90b8-27cf10d59f37.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/480d9fdd-d50f-4a68-96d1-2caf66db8ce1.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2032683c-3b74-4f83-9f69-3f7c4031bbcb.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-VAN-020</g:item_group_id>
+      <g:size>XXL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-021-s</g:id>
+      <g:title>HOODIE INSPIRADO FOX NEGRO - S</g:title>
+      <g:description>HOODIE INSPIRADO FOX NEGRO de Total BMX. Hoodie fox en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-fox-negro.html?size=S</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/affd1cbd-48fb-45dc-8067-08f1c8f98774.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/9a3c135a-5ed7-400a-8689-08304fa49b1c.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/a71e7955-c01a-464a-a00d-81a4ec6d9e93.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/8e78b2e5-9a16-42a0-80d6-fc2c297cb207.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-VAN-021</g:item_group_id>
+      <g:size>S</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-021-m</g:id>
+      <g:title>HOODIE INSPIRADO FOX NEGRO - M</g:title>
+      <g:description>HOODIE INSPIRADO FOX NEGRO de Total BMX. Hoodie fox en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-fox-negro.html?size=M</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/affd1cbd-48fb-45dc-8067-08f1c8f98774.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/9a3c135a-5ed7-400a-8689-08304fa49b1c.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/a71e7955-c01a-464a-a00d-81a4ec6d9e93.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/8e78b2e5-9a16-42a0-80d6-fc2c297cb207.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-VAN-021</g:item_group_id>
+      <g:size>M</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-021-l</g:id>
+      <g:title>HOODIE INSPIRADO FOX NEGRO - L</g:title>
+      <g:description>HOODIE INSPIRADO FOX NEGRO de Total BMX. Hoodie fox en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-fox-negro.html?size=L</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/affd1cbd-48fb-45dc-8067-08f1c8f98774.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/9a3c135a-5ed7-400a-8689-08304fa49b1c.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/a71e7955-c01a-464a-a00d-81a4ec6d9e93.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/8e78b2e5-9a16-42a0-80d6-fc2c297cb207.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-VAN-021</g:item_group_id>
+      <g:size>L</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-021-xl</g:id>
+      <g:title>HOODIE INSPIRADO FOX NEGRO - XL</g:title>
+      <g:description>HOODIE INSPIRADO FOX NEGRO de Total BMX. Hoodie fox en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-fox-negro.html?size=XL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/affd1cbd-48fb-45dc-8067-08f1c8f98774.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/9a3c135a-5ed7-400a-8689-08304fa49b1c.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/a71e7955-c01a-464a-a00d-81a4ec6d9e93.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/8e78b2e5-9a16-42a0-80d6-fc2c297cb207.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-VAN-021</g:item_group_id>
+      <g:size>XL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-021-xxl</g:id>
+      <g:title>HOODIE INSPIRADO FOX NEGRO - XXL</g:title>
+      <g:description>HOODIE INSPIRADO FOX NEGRO de Total BMX. Hoodie fox en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-fox-negro.html?size=XXL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/affd1cbd-48fb-45dc-8067-08f1c8f98774.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/9a3c135a-5ed7-400a-8689-08304fa49b1c.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/a71e7955-c01a-464a-a00d-81a4ec6d9e93.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/8e78b2e5-9a16-42a0-80d6-fc2c297cb207.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-VAN-021</g:item_group_id>
+      <g:size>XXL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-022-s</g:id>
+      <g:title>HOODIE INSPIRADO ALLPINESTAR - S</g:title>
+      <g:description>HOODIE INSPIRADO ALLPINESTAR de Total BMX. Hoodie allpinestar en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-allpinestar.html?size=S</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/9038c76f-fa5a-43ad-8881-4bd6c32be5e7.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/04b55f1f-6ca8-4596-a62c-53b5fbcc111e.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/19059848-6475-47a7-8c39-57afec3c6e13.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/790adad1-e7d4-4d74-a792-dec63c0e08e7.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-VAN-022</g:item_group_id>
+      <g:size>S</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-022-m</g:id>
+      <g:title>HOODIE INSPIRADO ALLPINESTAR - M</g:title>
+      <g:description>HOODIE INSPIRADO ALLPINESTAR de Total BMX. Hoodie allpinestar en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-allpinestar.html?size=M</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/9038c76f-fa5a-43ad-8881-4bd6c32be5e7.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/04b55f1f-6ca8-4596-a62c-53b5fbcc111e.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/19059848-6475-47a7-8c39-57afec3c6e13.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/790adad1-e7d4-4d74-a792-dec63c0e08e7.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-VAN-022</g:item_group_id>
+      <g:size>M</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-022-l</g:id>
+      <g:title>HOODIE INSPIRADO ALLPINESTAR - L</g:title>
+      <g:description>HOODIE INSPIRADO ALLPINESTAR de Total BMX. Hoodie allpinestar en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-allpinestar.html?size=L</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/9038c76f-fa5a-43ad-8881-4bd6c32be5e7.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/04b55f1f-6ca8-4596-a62c-53b5fbcc111e.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/19059848-6475-47a7-8c39-57afec3c6e13.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/790adad1-e7d4-4d74-a792-dec63c0e08e7.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-VAN-022</g:item_group_id>
+      <g:size>L</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-022-xl</g:id>
+      <g:title>HOODIE INSPIRADO ALLPINESTAR - XL</g:title>
+      <g:description>HOODIE INSPIRADO ALLPINESTAR de Total BMX. Hoodie allpinestar en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-allpinestar.html?size=XL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/9038c76f-fa5a-43ad-8881-4bd6c32be5e7.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/04b55f1f-6ca8-4596-a62c-53b5fbcc111e.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/19059848-6475-47a7-8c39-57afec3c6e13.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/790adad1-e7d4-4d74-a792-dec63c0e08e7.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-VAN-022</g:item_group_id>
+      <g:size>XL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-VAN-022-xxl</g:id>
+      <g:title>HOODIE INSPIRADO ALLPINESTAR - XXL</g:title>
+      <g:description>HOODIE INSPIRADO ALLPINESTAR de Total BMX. Hoodie allpinestar en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-allpinestar.html?size=XXL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/9038c76f-fa5a-43ad-8881-4bd6c32be5e7.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/04b55f1f-6ca8-4596-a62c-53b5fbcc111e.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/19059848-6475-47a7-8c39-57afec3c6e13.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/790adad1-e7d4-4d74-a792-dec63c0e08e7.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-VAN-022</g:item_group_id>
+      <g:size>XXL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FOX-006-s</g:id>
+      <g:title>HOODIE INSPIRADO FOX AZUL - S</g:title>
+      <g:description>HOODIE INSPIRADO FOX AZUL. Buso inspirado marca fox en color azul con negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-fox-azul.html?size=S</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/bea89f55-a824-45b2-8f4b-5346bae6c938.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2b3eda75-405f-4d39-ab6d-1058e9fe8972.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/940c1a76-ab58-45f2-8656-43f3304ffde2.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/a7044fa2-f57c-4ec0-adf6-c18fe71b7f79.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fox</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FOX-006</g:item_group_id>
+      <g:size>S</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FOX-006-m</g:id>
+      <g:title>HOODIE INSPIRADO FOX AZUL - M</g:title>
+      <g:description>HOODIE INSPIRADO FOX AZUL. Buso inspirado marca fox en color azul con negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-fox-azul.html?size=M</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/bea89f55-a824-45b2-8f4b-5346bae6c938.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2b3eda75-405f-4d39-ab6d-1058e9fe8972.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/940c1a76-ab58-45f2-8656-43f3304ffde2.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/a7044fa2-f57c-4ec0-adf6-c18fe71b7f79.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fox</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FOX-006</g:item_group_id>
+      <g:size>M</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FOX-006-l</g:id>
+      <g:title>HOODIE INSPIRADO FOX AZUL - L</g:title>
+      <g:description>HOODIE INSPIRADO FOX AZUL. Buso inspirado marca fox en color azul con negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-fox-azul.html?size=L</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/bea89f55-a824-45b2-8f4b-5346bae6c938.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2b3eda75-405f-4d39-ab6d-1058e9fe8972.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/940c1a76-ab58-45f2-8656-43f3304ffde2.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/a7044fa2-f57c-4ec0-adf6-c18fe71b7f79.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fox</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FOX-006</g:item_group_id>
+      <g:size>L</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FOX-006-xl</g:id>
+      <g:title>HOODIE INSPIRADO FOX AZUL - XL</g:title>
+      <g:description>HOODIE INSPIRADO FOX AZUL. Buso inspirado marca fox en color azul con negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-fox-azul.html?size=XL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/bea89f55-a824-45b2-8f4b-5346bae6c938.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2b3eda75-405f-4d39-ab6d-1058e9fe8972.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/940c1a76-ab58-45f2-8656-43f3304ffde2.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/a7044fa2-f57c-4ec0-adf6-c18fe71b7f79.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fox</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FOX-006</g:item_group_id>
+      <g:size>XL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FOX-006-xxl</g:id>
+      <g:title>HOODIE INSPIRADO FOX AZUL - XXL</g:title>
+      <g:description>HOODIE INSPIRADO FOX AZUL. Buso inspirado marca fox en color azul con negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-fox-azul.html?size=XXL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/bea89f55-a824-45b2-8f4b-5346bae6c938.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2b3eda75-405f-4d39-ab6d-1058e9fe8972.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/940c1a76-ab58-45f2-8656-43f3304ffde2.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/a7044fa2-f57c-4ec0-adf6-c18fe71b7f79.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fox</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FOX-006</g:item_group_id>
+      <g:size>XXL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-GNX-001-s</g:id>
+      <g:title>HOODIE 259 AZUL CAMUFLADO - S</g:title>
+      <g:description>HOODIE 259 AZUL CAMUFLADO. Hoodie marca dos cinco nueve en color azul camuflado.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-259-azul-camuflado.html?size=S</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/c59a4a9f-3a75-4c8a-8ad5-7e1c2b38c7c9.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2c892d82-a087-4379-8b0e-918678fd8977.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/c3189548-05b4-44f1-845d-786bc0644ca3.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/86d8a9c8-91f4-4aff-b194-fc09898e32fb.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>259</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-GNX-001</g:item_group_id>
+      <g:size>S</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-GNX-001-m</g:id>
+      <g:title>HOODIE 259 AZUL CAMUFLADO - M</g:title>
+      <g:description>HOODIE 259 AZUL CAMUFLADO. Hoodie marca dos cinco nueve en color azul camuflado.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-259-azul-camuflado.html?size=M</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/c59a4a9f-3a75-4c8a-8ad5-7e1c2b38c7c9.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2c892d82-a087-4379-8b0e-918678fd8977.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/c3189548-05b4-44f1-845d-786bc0644ca3.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/86d8a9c8-91f4-4aff-b194-fc09898e32fb.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>259</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-GNX-001</g:item_group_id>
+      <g:size>M</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-GNX-001-l</g:id>
+      <g:title>HOODIE 259 AZUL CAMUFLADO - L</g:title>
+      <g:description>HOODIE 259 AZUL CAMUFLADO. Hoodie marca dos cinco nueve en color azul camuflado.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-259-azul-camuflado.html?size=L</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/c59a4a9f-3a75-4c8a-8ad5-7e1c2b38c7c9.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2c892d82-a087-4379-8b0e-918678fd8977.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/c3189548-05b4-44f1-845d-786bc0644ca3.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/86d8a9c8-91f4-4aff-b194-fc09898e32fb.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>259</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-GNX-001</g:item_group_id>
+      <g:size>L</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-GNX-001-xl</g:id>
+      <g:title>HOODIE 259 AZUL CAMUFLADO - XL</g:title>
+      <g:description>HOODIE 259 AZUL CAMUFLADO. Hoodie marca dos cinco nueve en color azul camuflado.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-259-azul-camuflado.html?size=XL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/c59a4a9f-3a75-4c8a-8ad5-7e1c2b38c7c9.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2c892d82-a087-4379-8b0e-918678fd8977.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/c3189548-05b4-44f1-845d-786bc0644ca3.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/86d8a9c8-91f4-4aff-b194-fc09898e32fb.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>259</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-GNX-001</g:item_group_id>
+      <g:size>XL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-GNX-001-xxl</g:id>
+      <g:title>HOODIE 259 AZUL CAMUFLADO - XXL</g:title>
+      <g:description>HOODIE 259 AZUL CAMUFLADO. Hoodie marca dos cinco nueve en color azul camuflado.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-259-azul-camuflado.html?size=XXL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/c59a4a9f-3a75-4c8a-8ad5-7e1c2b38c7c9.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2c892d82-a087-4379-8b0e-918678fd8977.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/c3189548-05b4-44f1-845d-786bc0644ca3.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/86d8a9c8-91f4-4aff-b194-fc09898e32fb.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>259</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-GNX-001</g:item_group_id>
+      <g:size>XXL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-ETN-002-s</g:id>
+      <g:title>HOODIE INSPIRADO ETNIES - S</g:title>
+      <g:description>HOODIE INSPIRADO ETNIES. Hoodie inspirado marca etnies en color negro y blanco.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-etnies.html?size=S</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/e67ab915-3996-4309-87b7-e75a5fc065fa.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/d0962aad-e4e8-4d4d-8df1-831e52db307c.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/d320b8da-3807-430b-a441-d673eee352d5.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/27272519-8c92-4e9c-8ea8-41ee944bae0b.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Etnies</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-ETN-002</g:item_group_id>
+      <g:size>S</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-ETN-002-m</g:id>
+      <g:title>HOODIE INSPIRADO ETNIES - M</g:title>
+      <g:description>HOODIE INSPIRADO ETNIES. Hoodie inspirado marca etnies en color negro y blanco.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-etnies.html?size=M</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/e67ab915-3996-4309-87b7-e75a5fc065fa.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/d0962aad-e4e8-4d4d-8df1-831e52db307c.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/d320b8da-3807-430b-a441-d673eee352d5.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/27272519-8c92-4e9c-8ea8-41ee944bae0b.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Etnies</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-ETN-002</g:item_group_id>
+      <g:size>M</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-ETN-002-l</g:id>
+      <g:title>HOODIE INSPIRADO ETNIES - L</g:title>
+      <g:description>HOODIE INSPIRADO ETNIES. Hoodie inspirado marca etnies en color negro y blanco.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-etnies.html?size=L</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/e67ab915-3996-4309-87b7-e75a5fc065fa.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/d0962aad-e4e8-4d4d-8df1-831e52db307c.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/d320b8da-3807-430b-a441-d673eee352d5.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/27272519-8c92-4e9c-8ea8-41ee944bae0b.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Etnies</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-ETN-002</g:item_group_id>
+      <g:size>L</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-ETN-002-xl</g:id>
+      <g:title>HOODIE INSPIRADO ETNIES - XL</g:title>
+      <g:description>HOODIE INSPIRADO ETNIES. Hoodie inspirado marca etnies en color negro y blanco.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-etnies.html?size=XL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/e67ab915-3996-4309-87b7-e75a5fc065fa.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/d0962aad-e4e8-4d4d-8df1-831e52db307c.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/d320b8da-3807-430b-a441-d673eee352d5.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/27272519-8c92-4e9c-8ea8-41ee944bae0b.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Etnies</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-ETN-002</g:item_group_id>
+      <g:size>XL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-ETN-002-xxl</g:id>
+      <g:title>HOODIE INSPIRADO ETNIES - XXL</g:title>
+      <g:description>HOODIE INSPIRADO ETNIES. Hoodie inspirado marca etnies en color negro y blanco.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-etnies.html?size=XXL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/e67ab915-3996-4309-87b7-e75a5fc065fa.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/d0962aad-e4e8-4d4d-8df1-831e52db307c.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/d320b8da-3807-430b-a441-d673eee352d5.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/27272519-8c92-4e9c-8ea8-41ee944bae0b.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Etnies</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-ETN-002</g:item_group_id>
+      <g:size>XXL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FIT-002-s</g:id>
+      <g:title>HOODIE INSPIRADO FIT BIKE CO - S</g:title>
+      <g:description>HOODIE INSPIRADO FIT BIKE CO de Fit Bike Co.. Hoodie inspirado marca fit bike co, en color negro.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-fit-bike-co.html?size=S</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/3010d098-80e1-4469-b316-ab55bb95000e.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/607b954d-4a65-4518-9ebf-ec26629e00a6.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/f8c7a0f5-edb3-4a30-ab65-2d7ba25a26fb.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/f7163df1-e7c1-468c-b316-8213718f2128.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fit Bike Co.</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FIT-002</g:item_group_id>
+      <g:size>S</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FIT-002-m</g:id>
+      <g:title>HOODIE INSPIRADO FIT BIKE CO - M</g:title>
+      <g:description>HOODIE INSPIRADO FIT BIKE CO de Fit Bike Co.. Hoodie inspirado marca fit bike co, en color negro.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-fit-bike-co.html?size=M</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/3010d098-80e1-4469-b316-ab55bb95000e.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/607b954d-4a65-4518-9ebf-ec26629e00a6.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/f8c7a0f5-edb3-4a30-ab65-2d7ba25a26fb.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/f7163df1-e7c1-468c-b316-8213718f2128.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fit Bike Co.</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FIT-002</g:item_group_id>
+      <g:size>M</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FIT-002-l</g:id>
+      <g:title>HOODIE INSPIRADO FIT BIKE CO - L</g:title>
+      <g:description>HOODIE INSPIRADO FIT BIKE CO de Fit Bike Co.. Hoodie inspirado marca fit bike co, en color negro.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-fit-bike-co.html?size=L</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/3010d098-80e1-4469-b316-ab55bb95000e.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/607b954d-4a65-4518-9ebf-ec26629e00a6.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/f8c7a0f5-edb3-4a30-ab65-2d7ba25a26fb.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/f7163df1-e7c1-468c-b316-8213718f2128.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fit Bike Co.</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FIT-002</g:item_group_id>
+      <g:size>L</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FIT-002-xl</g:id>
+      <g:title>HOODIE INSPIRADO FIT BIKE CO - XL</g:title>
+      <g:description>HOODIE INSPIRADO FIT BIKE CO de Fit Bike Co.. Hoodie inspirado marca fit bike co, en color negro.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-fit-bike-co.html?size=XL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/3010d098-80e1-4469-b316-ab55bb95000e.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/607b954d-4a65-4518-9ebf-ec26629e00a6.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/f8c7a0f5-edb3-4a30-ab65-2d7ba25a26fb.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/f7163df1-e7c1-468c-b316-8213718f2128.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fit Bike Co.</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FIT-002</g:item_group_id>
+      <g:size>XL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FIT-002-xxl</g:id>
+      <g:title>HOODIE INSPIRADO FIT BIKE CO - XXL</g:title>
+      <g:description>HOODIE INSPIRADO FIT BIKE CO de Fit Bike Co.. Hoodie inspirado marca fit bike co, en color negro.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-fit-bike-co.html?size=XXL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/3010d098-80e1-4469-b316-ab55bb95000e.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/607b954d-4a65-4518-9ebf-ec26629e00a6.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/f8c7a0f5-edb3-4a30-ab65-2d7ba25a26fb.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/f7163df1-e7c1-468c-b316-8213718f2128.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fit Bike Co.</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FIT-002</g:item_group_id>
+      <g:size>XXL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FOX-007-s</g:id>
+      <g:title>HOODIE INSPIRADO MARCA FOX - S</g:title>
+      <g:description>HOODIE INSPIRADO MARCA FOX . Hoodie inspirado en marca fox en color negro y blanco.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-marca-fox.html?size=S</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/e8ca6f5c-3f98-4d44-9da0-b785204a1c00.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/39f130ba-99b6-4acd-a05d-f75e952713a3.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/278e28cf-4312-4567-8d3f-547006405548.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/ec4818e4-83f7-453b-9b39-91611e1f31fb.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fox</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FOX-007</g:item_group_id>
+      <g:size>S</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FOX-007-m</g:id>
+      <g:title>HOODIE INSPIRADO MARCA FOX - M</g:title>
+      <g:description>HOODIE INSPIRADO MARCA FOX . Hoodie inspirado en marca fox en color negro y blanco.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-marca-fox.html?size=M</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/e8ca6f5c-3f98-4d44-9da0-b785204a1c00.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/39f130ba-99b6-4acd-a05d-f75e952713a3.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/278e28cf-4312-4567-8d3f-547006405548.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/ec4818e4-83f7-453b-9b39-91611e1f31fb.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fox</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FOX-007</g:item_group_id>
+      <g:size>M</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FOX-007-l</g:id>
+      <g:title>HOODIE INSPIRADO MARCA FOX - L</g:title>
+      <g:description>HOODIE INSPIRADO MARCA FOX . Hoodie inspirado en marca fox en color negro y blanco.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-marca-fox.html?size=L</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/e8ca6f5c-3f98-4d44-9da0-b785204a1c00.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/39f130ba-99b6-4acd-a05d-f75e952713a3.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/278e28cf-4312-4567-8d3f-547006405548.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/ec4818e4-83f7-453b-9b39-91611e1f31fb.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fox</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FOX-007</g:item_group_id>
+      <g:size>L</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FOX-007-xl</g:id>
+      <g:title>HOODIE INSPIRADO MARCA FOX - XL</g:title>
+      <g:description>HOODIE INSPIRADO MARCA FOX . Hoodie inspirado en marca fox en color negro y blanco.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-marca-fox.html?size=XL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/e8ca6f5c-3f98-4d44-9da0-b785204a1c00.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/39f130ba-99b6-4acd-a05d-f75e952713a3.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/278e28cf-4312-4567-8d3f-547006405548.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/ec4818e4-83f7-453b-9b39-91611e1f31fb.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fox</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FOX-007</g:item_group_id>
+      <g:size>XL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FOX-007-xxl</g:id>
+      <g:title>HOODIE INSPIRADO MARCA FOX - XXL</g:title>
+      <g:description>HOODIE INSPIRADO MARCA FOX . Hoodie inspirado en marca fox en color negro y blanco.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-marca-fox.html?size=XXL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/e8ca6f5c-3f98-4d44-9da0-b785204a1c00.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/39f130ba-99b6-4acd-a05d-f75e952713a3.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/278e28cf-4312-4567-8d3f-547006405548.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/ec4818e4-83f7-453b-9b39-91611e1f31fb.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fox</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FOX-007</g:item_group_id>
+      <g:size>XXL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FOX-008-s</g:id>
+      <g:title>HOODIE INSPIRADO FOX - S</g:title>
+      <g:description>HOODIE INSPIRADO FOX. Hoodie inspirado en la marca fox en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-fox.html?size=S</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/9d19a5ab-8535-4f77-9ddb-2b0feecdefe9.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/63967c68-2c11-4581-be08-df8eacffe483.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/e26474a2-d08c-4d6d-a239-8abc81c24706.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/cca38ff0-e02d-4347-857e-4a7822c53942.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fox</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FOX-008</g:item_group_id>
+      <g:size>S</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FOX-008-m</g:id>
+      <g:title>HOODIE INSPIRADO FOX - M</g:title>
+      <g:description>HOODIE INSPIRADO FOX. Hoodie inspirado en la marca fox en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-fox.html?size=M</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/9d19a5ab-8535-4f77-9ddb-2b0feecdefe9.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/63967c68-2c11-4581-be08-df8eacffe483.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/e26474a2-d08c-4d6d-a239-8abc81c24706.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/cca38ff0-e02d-4347-857e-4a7822c53942.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fox</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FOX-008</g:item_group_id>
+      <g:size>M</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FOX-008-l</g:id>
+      <g:title>HOODIE INSPIRADO FOX - L</g:title>
+      <g:description>HOODIE INSPIRADO FOX. Hoodie inspirado en la marca fox en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-fox.html?size=L</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/9d19a5ab-8535-4f77-9ddb-2b0feecdefe9.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/63967c68-2c11-4581-be08-df8eacffe483.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/e26474a2-d08c-4d6d-a239-8abc81c24706.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/cca38ff0-e02d-4347-857e-4a7822c53942.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fox</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FOX-008</g:item_group_id>
+      <g:size>L</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FOX-008-xl</g:id>
+      <g:title>HOODIE INSPIRADO FOX - XL</g:title>
+      <g:description>HOODIE INSPIRADO FOX. Hoodie inspirado en la marca fox en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-fox.html?size=XL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/9d19a5ab-8535-4f77-9ddb-2b0feecdefe9.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/63967c68-2c11-4581-be08-df8eacffe483.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/e26474a2-d08c-4d6d-a239-8abc81c24706.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/cca38ff0-e02d-4347-857e-4a7822c53942.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fox</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FOX-008</g:item_group_id>
+      <g:size>XL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FOX-008-xxl</g:id>
+      <g:title>HOODIE INSPIRADO FOX - XXL</g:title>
+      <g:description>HOODIE INSPIRADO FOX. Hoodie inspirado en la marca fox en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-fox.html?size=XXL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/9d19a5ab-8535-4f77-9ddb-2b0feecdefe9.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/63967c68-2c11-4581-be08-df8eacffe483.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/e26474a2-d08c-4d6d-a239-8abc81c24706.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/cca38ff0-e02d-4347-857e-4a7822c53942.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fox</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FOX-008</g:item_group_id>
+      <g:size>XXL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FOX-009-s</g:id>
+      <g:title>HOODIE INSPIRADO MONSTER X FOX - S</g:title>
+      <g:description>HOODIE INSPIRADO MONSTER X FOX. Hoodie inspirado en la marca fox por monster en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-monster-x-fox.html?size=S</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/2f0287d6-9dc6-4434-bfed-057f6d27f88a.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/b24593e1-ec4a-409c-bce8-6d1c8e19ac4a.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2c61bbd3-8b52-494d-9f52-78c987ce0a28.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/ab02d336-e960-439b-a6d4-a1d7b36503fb.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fox</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FOX-009</g:item_group_id>
+      <g:size>S</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FOX-009-m</g:id>
+      <g:title>HOODIE INSPIRADO MONSTER X FOX - M</g:title>
+      <g:description>HOODIE INSPIRADO MONSTER X FOX. Hoodie inspirado en la marca fox por monster en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-monster-x-fox.html?size=M</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/2f0287d6-9dc6-4434-bfed-057f6d27f88a.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/b24593e1-ec4a-409c-bce8-6d1c8e19ac4a.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2c61bbd3-8b52-494d-9f52-78c987ce0a28.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/ab02d336-e960-439b-a6d4-a1d7b36503fb.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fox</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FOX-009</g:item_group_id>
+      <g:size>M</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FOX-009-l</g:id>
+      <g:title>HOODIE INSPIRADO MONSTER X FOX - L</g:title>
+      <g:description>HOODIE INSPIRADO MONSTER X FOX. Hoodie inspirado en la marca fox por monster en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-monster-x-fox.html?size=L</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/2f0287d6-9dc6-4434-bfed-057f6d27f88a.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/b24593e1-ec4a-409c-bce8-6d1c8e19ac4a.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2c61bbd3-8b52-494d-9f52-78c987ce0a28.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/ab02d336-e960-439b-a6d4-a1d7b36503fb.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fox</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FOX-009</g:item_group_id>
+      <g:size>L</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FOX-009-xl</g:id>
+      <g:title>HOODIE INSPIRADO MONSTER X FOX - XL</g:title>
+      <g:description>HOODIE INSPIRADO MONSTER X FOX. Hoodie inspirado en la marca fox por monster en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-monster-x-fox.html?size=XL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/2f0287d6-9dc6-4434-bfed-057f6d27f88a.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/b24593e1-ec4a-409c-bce8-6d1c8e19ac4a.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2c61bbd3-8b52-494d-9f52-78c987ce0a28.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/ab02d336-e960-439b-a6d4-a1d7b36503fb.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fox</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FOX-009</g:item_group_id>
+      <g:size>XL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FOX-009-xxl</g:id>
+      <g:title>HOODIE INSPIRADO MONSTER X FOX - XXL</g:title>
+      <g:description>HOODIE INSPIRADO MONSTER X FOX. Hoodie inspirado en la marca fox por monster en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-monster-x-fox.html?size=XXL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/2f0287d6-9dc6-4434-bfed-057f6d27f88a.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/b24593e1-ec4a-409c-bce8-6d1c8e19ac4a.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2c61bbd3-8b52-494d-9f52-78c987ce0a28.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/ab02d336-e960-439b-a6d4-a1d7b36503fb.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fox</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FOX-009</g:item_group_id>
+      <g:size>XXL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-SMX-001-s</g:id>
+      <g:title>HOODIE INSPIRADO SYM - S</g:title>
+      <g:description>HOODIE INSPIRADO SYM. Hoodie inspirado en la marca sym en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-sym.html?size=S</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/a84bf29e-5d09-4922-add9-41e96d4faefc.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/b3db8505-d180-40d5-a1ab-8515c42a3b78.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/9ba5b65e-2566-497d-810a-bcbe6c6adf09.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/1cd6c777-41ad-4bca-be48-fbe68ac75596.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>SYM</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-SMX-001</g:item_group_id>
+      <g:size>S</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-SMX-001-m</g:id>
+      <g:title>HOODIE INSPIRADO SYM - M</g:title>
+      <g:description>HOODIE INSPIRADO SYM. Hoodie inspirado en la marca sym en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-sym.html?size=M</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/a84bf29e-5d09-4922-add9-41e96d4faefc.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/b3db8505-d180-40d5-a1ab-8515c42a3b78.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/9ba5b65e-2566-497d-810a-bcbe6c6adf09.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/1cd6c777-41ad-4bca-be48-fbe68ac75596.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>SYM</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-SMX-001</g:item_group_id>
+      <g:size>M</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-SMX-001-l</g:id>
+      <g:title>HOODIE INSPIRADO SYM - L</g:title>
+      <g:description>HOODIE INSPIRADO SYM. Hoodie inspirado en la marca sym en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-sym.html?size=L</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/a84bf29e-5d09-4922-add9-41e96d4faefc.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/b3db8505-d180-40d5-a1ab-8515c42a3b78.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/9ba5b65e-2566-497d-810a-bcbe6c6adf09.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/1cd6c777-41ad-4bca-be48-fbe68ac75596.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>SYM</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-SMX-001</g:item_group_id>
+      <g:size>L</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-SMX-001-xl</g:id>
+      <g:title>HOODIE INSPIRADO SYM - XL</g:title>
+      <g:description>HOODIE INSPIRADO SYM. Hoodie inspirado en la marca sym en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-sym.html?size=XL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/a84bf29e-5d09-4922-add9-41e96d4faefc.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/b3db8505-d180-40d5-a1ab-8515c42a3b78.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/9ba5b65e-2566-497d-810a-bcbe6c6adf09.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/1cd6c777-41ad-4bca-be48-fbe68ac75596.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>SYM</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-SMX-001</g:item_group_id>
+      <g:size>XL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-SMX-001-xxl</g:id>
+      <g:title>HOODIE INSPIRADO SYM - XXL</g:title>
+      <g:description>HOODIE INSPIRADO SYM. Hoodie inspirado en la marca sym en color negro. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/hoodie-inspirado-sym.html?size=XXL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/a84bf29e-5d09-4922-add9-41e96d4faefc.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/b3db8505-d180-40d5-a1ab-8515c42a3b78.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/9ba5b65e-2566-497d-810a-bcbe6c6adf09.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/1cd6c777-41ad-4bca-be48-fbe68ac75596.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>SYM</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-SMX-001</g:item_group_id>
+      <g:size>XXL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-KIN-003-s</g:id>
+      <g:title>CHAQUETA ROMPE VIENTOS INSPIRADA KINK - S</g:title>
+      <g:description>CHAQUETA ROMPE VIENTOS INSPIRADA KINK . Chaqueta rompe vientos inspirada en la marca kink en color negro y gris. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/chaqueta-rompe-vientos-inspirada-kink.html?size=S</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/dd9baeaa-5fd6-4123-988c-d9f4b6e3bc76.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/6fa12144-386e-48e7-8c68-785d80c8a625.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2a3696a7-868e-4b19-8470-282e71deab14.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/0540abaf-461f-4547-8528-a1026fd2024d.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Kink</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-KIN-003</g:item_group_id>
+      <g:size>S</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-KIN-003-m</g:id>
+      <g:title>CHAQUETA ROMPE VIENTOS INSPIRADA KINK - M</g:title>
+      <g:description>CHAQUETA ROMPE VIENTOS INSPIRADA KINK . Chaqueta rompe vientos inspirada en la marca kink en color negro y gris. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/chaqueta-rompe-vientos-inspirada-kink.html?size=M</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/dd9baeaa-5fd6-4123-988c-d9f4b6e3bc76.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/6fa12144-386e-48e7-8c68-785d80c8a625.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2a3696a7-868e-4b19-8470-282e71deab14.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/0540abaf-461f-4547-8528-a1026fd2024d.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Kink</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-KIN-003</g:item_group_id>
+      <g:size>M</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-KIN-003-l</g:id>
+      <g:title>CHAQUETA ROMPE VIENTOS INSPIRADA KINK - L</g:title>
+      <g:description>CHAQUETA ROMPE VIENTOS INSPIRADA KINK . Chaqueta rompe vientos inspirada en la marca kink en color negro y gris. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/chaqueta-rompe-vientos-inspirada-kink.html?size=L</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/dd9baeaa-5fd6-4123-988c-d9f4b6e3bc76.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/6fa12144-386e-48e7-8c68-785d80c8a625.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2a3696a7-868e-4b19-8470-282e71deab14.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/0540abaf-461f-4547-8528-a1026fd2024d.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Kink</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-KIN-003</g:item_group_id>
+      <g:size>L</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-KIN-003-xl</g:id>
+      <g:title>CHAQUETA ROMPE VIENTOS INSPIRADA KINK - XL</g:title>
+      <g:description>CHAQUETA ROMPE VIENTOS INSPIRADA KINK . Chaqueta rompe vientos inspirada en la marca kink en color negro y gris. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/chaqueta-rompe-vientos-inspirada-kink.html?size=XL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/dd9baeaa-5fd6-4123-988c-d9f4b6e3bc76.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/6fa12144-386e-48e7-8c68-785d80c8a625.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2a3696a7-868e-4b19-8470-282e71deab14.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/0540abaf-461f-4547-8528-a1026fd2024d.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Kink</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-KIN-003</g:item_group_id>
+      <g:size>XL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-KIN-003-xxl</g:id>
+      <g:title>CHAQUETA ROMPE VIENTOS INSPIRADA KINK - XXL</g:title>
+      <g:description>CHAQUETA ROMPE VIENTOS INSPIRADA KINK . Chaqueta rompe vientos inspirada en la marca kink en color negro y gris. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/chaqueta-rompe-vientos-inspirada-kink.html?size=XXL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/dd9baeaa-5fd6-4123-988c-d9f4b6e3bc76.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/6fa12144-386e-48e7-8c68-785d80c8a625.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2a3696a7-868e-4b19-8470-282e71deab14.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/0540abaf-461f-4547-8528-a1026fd2024d.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Kink</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-KIN-003</g:item_group_id>
+      <g:size>XXL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FOX-010-s</g:id>
+      <g:title>CHAQUETA ROMPE VIENTOS INSPIRADA FOX - S</g:title>
+      <g:description>CHAQUETA ROMPE VIENTOS INSPIRADA FOX. Chaqueta rompe vientos inspirada en la marca fox en color negro.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/chaqueta-rompe-vientos-fox.html?size=S</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/6bd7fe78-c453-461f-b7ce-499936383da1.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/b7a3aa95-86b6-417e-8d8a-7cac92e81e7a.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/54719785-5ec0-4c76-8db8-0df5b04003ba.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/f5de91de-fb07-4b62-ac4d-e418a2485597.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fox</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FOX-010</g:item_group_id>
+      <g:size>S</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FOX-010-m</g:id>
+      <g:title>CHAQUETA ROMPE VIENTOS INSPIRADA FOX - M</g:title>
+      <g:description>CHAQUETA ROMPE VIENTOS INSPIRADA FOX. Chaqueta rompe vientos inspirada en la marca fox en color negro.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/chaqueta-rompe-vientos-fox.html?size=M</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/6bd7fe78-c453-461f-b7ce-499936383da1.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/b7a3aa95-86b6-417e-8d8a-7cac92e81e7a.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/54719785-5ec0-4c76-8db8-0df5b04003ba.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/f5de91de-fb07-4b62-ac4d-e418a2485597.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fox</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FOX-010</g:item_group_id>
+      <g:size>M</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FOX-010-l</g:id>
+      <g:title>CHAQUETA ROMPE VIENTOS INSPIRADA FOX - L</g:title>
+      <g:description>CHAQUETA ROMPE VIENTOS INSPIRADA FOX. Chaqueta rompe vientos inspirada en la marca fox en color negro.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/chaqueta-rompe-vientos-fox.html?size=L</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/6bd7fe78-c453-461f-b7ce-499936383da1.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/b7a3aa95-86b6-417e-8d8a-7cac92e81e7a.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/54719785-5ec0-4c76-8db8-0df5b04003ba.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/f5de91de-fb07-4b62-ac4d-e418a2485597.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fox</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FOX-010</g:item_group_id>
+      <g:size>L</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FOX-010-xl</g:id>
+      <g:title>CHAQUETA ROMPE VIENTOS INSPIRADA FOX - XL</g:title>
+      <g:description>CHAQUETA ROMPE VIENTOS INSPIRADA FOX. Chaqueta rompe vientos inspirada en la marca fox en color negro.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/chaqueta-rompe-vientos-fox.html?size=XL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/6bd7fe78-c453-461f-b7ce-499936383da1.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/b7a3aa95-86b6-417e-8d8a-7cac92e81e7a.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/54719785-5ec0-4c76-8db8-0df5b04003ba.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/f5de91de-fb07-4b62-ac4d-e418a2485597.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fox</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FOX-010</g:item_group_id>
+      <g:size>XL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-FOX-010-xxl</g:id>
+      <g:title>CHAQUETA ROMPE VIENTOS INSPIRADA FOX - XXL</g:title>
+      <g:description>CHAQUETA ROMPE VIENTOS INSPIRADA FOX. Chaqueta rompe vientos inspirada en la marca fox en color negro.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/chaqueta-rompe-vientos-fox.html?size=XXL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/6bd7fe78-c453-461f-b7ce-499936383da1.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/b7a3aa95-86b6-417e-8d8a-7cac92e81e7a.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/54719785-5ec0-4c76-8db8-0df5b04003ba.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/f5de91de-fb07-4b62-ac4d-e418a2485597.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fox</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-FOX-010</g:item_group_id>
+      <g:size>XXL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-NIK-003-s</g:id>
+      <g:title>CHAQUETA ROMPE VIENTOS INSPIRADA NIKE - S</g:title>
+      <g:description>CHAQUETA ROMPE VIENTOS INSPIRADA NIKE. Chaqueta rompe vientos inspirada en la marca nike en color gris con verde.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/chaqueta-rompe-vientos-insperada-nike.html?size=S</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/60e1a0e5-40f3-4b9a-953e-bf9d7b212830.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/00318251-59b0-4ae6-9d44-a45b16e52272.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/1a694fff-5f2c-4215-8a64-749ead640aaf.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/201fce80-f1e7-4717-b32d-7f72c696585f.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Nike</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-NIK-003</g:item_group_id>
+      <g:size>S</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-NIK-003-m</g:id>
+      <g:title>CHAQUETA ROMPE VIENTOS INSPIRADA NIKE - M</g:title>
+      <g:description>CHAQUETA ROMPE VIENTOS INSPIRADA NIKE. Chaqueta rompe vientos inspirada en la marca nike en color gris con verde.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/chaqueta-rompe-vientos-insperada-nike.html?size=M</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/60e1a0e5-40f3-4b9a-953e-bf9d7b212830.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/00318251-59b0-4ae6-9d44-a45b16e52272.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/1a694fff-5f2c-4215-8a64-749ead640aaf.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/201fce80-f1e7-4717-b32d-7f72c696585f.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Nike</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-NIK-003</g:item_group_id>
+      <g:size>M</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-NIK-003-l</g:id>
+      <g:title>CHAQUETA ROMPE VIENTOS INSPIRADA NIKE - L</g:title>
+      <g:description>CHAQUETA ROMPE VIENTOS INSPIRADA NIKE. Chaqueta rompe vientos inspirada en la marca nike en color gris con verde.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/chaqueta-rompe-vientos-insperada-nike.html?size=L</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/60e1a0e5-40f3-4b9a-953e-bf9d7b212830.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/00318251-59b0-4ae6-9d44-a45b16e52272.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/1a694fff-5f2c-4215-8a64-749ead640aaf.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/201fce80-f1e7-4717-b32d-7f72c696585f.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Nike</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-NIK-003</g:item_group_id>
+      <g:size>L</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-NIK-003-xl</g:id>
+      <g:title>CHAQUETA ROMPE VIENTOS INSPIRADA NIKE - XL</g:title>
+      <g:description>CHAQUETA ROMPE VIENTOS INSPIRADA NIKE. Chaqueta rompe vientos inspirada en la marca nike en color gris con verde.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/chaqueta-rompe-vientos-insperada-nike.html?size=XL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/60e1a0e5-40f3-4b9a-953e-bf9d7b212830.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/00318251-59b0-4ae6-9d44-a45b16e52272.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/1a694fff-5f2c-4215-8a64-749ead640aaf.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/201fce80-f1e7-4717-b32d-7f72c696585f.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Nike</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-NIK-003</g:item_group_id>
+      <g:size>XL</g:size>
+      <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
+    </item>
+    <item>
+      <g:id>ROP-NIK-003-xxl</g:id>
+      <g:title>CHAQUETA ROMPE VIENTOS INSPIRADA NIKE - XXL</g:title>
+      <g:description>CHAQUETA ROMPE VIENTOS INSPIRADA NIKE. Chaqueta rompe vientos inspirada en la marca nike en color gris con verde.. Disponible en tallas S, M, L, XL, XXL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/chaqueta-rompe-vientos-insperada-nike.html?size=XXL</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/60e1a0e5-40f3-4b9a-953e-bf9d7b212830.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/00318251-59b0-4ae6-9d44-a45b16e52272.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/1a694fff-5f2c-4215-8a64-749ead640aaf.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/201fce80-f1e7-4717-b32d-7f72c696585f.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>120000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Nike</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Ropa &gt; Busos y Chaquetas</g:product_type>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
+      <g:item_group_id>ROP-NIK-003</g:item_group_id>
+      <g:size>XXL</g:size>
       <g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>18000.00 COP</g:price></g:shipping>
     </item>
   </channel>

@@ -44,7 +44,6 @@ DirectoryIndex index.html
   RewriteRule ^producto/bielas-federal-vice-2-cromadas-175mm\.html$ /producto/bielas-federal-vice.html [R=301,L]
   RewriteRule ^producto/bielas-fiend-segment-22mm-cromadas\.html$ /producto/bielas-fiend-segment-22mm.html [R=301,L]
   RewriteRule ^producto/bielas-fiend-segment-22mm-negras-170mm\.html$ /producto/bielas-fiend-segment-22mm.html [R=301,L]
-  RewriteRule ^producto/buzo-sm-negro\.html$ /producto/buzo-sm-bmx-negro.html [R=301,L]
   RewriteRule ^producto/caja-de-centro-fate-1019mm-negra\.html$ /producto/caja-de-centro-fate-negra.html [R=301,L]
   RewriteRule ^producto/caja-de-centro-fate-1022mm-negra\.html$ /producto/caja-de-centro-fate-negra.html [R=301,L]
   RewriteRule ^producto/caja-de-centro-odyssey-1019mm-negra\.html$ /producto/caja-de-centro-odyssey-negra.html [R=301,L]
