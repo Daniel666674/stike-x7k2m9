@@ -377,9 +377,10 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
 
 **Lo que no está resuelto ni probado:**
 
-- **Stock:** una venta online no descuenta unidades (la venta a mano del panel sí).
-  El servidor valida que el producto exista, esté publicado y tenga precio. Hoy lo
-  cubre la confirmación por WhatsApp.
+- **Stock:** una venta online descuenta las unidades sola (el servidor lo hace en
+  `products-data.js` por GitHub y lo anota en `data/stock-applied.json` para no
+  descontar dos veces; si falla, el panel lo concilia al abrirse). El servidor
+  valida que el producto exista, esté publicado y tenga precio.
 - **Sin probar en el hosting real:** el `.htaccess` (redirecciones, rutas `/api/…`,
   bloqueos), el CSP contra el widget de Wompi, el `ZipArchive`/`curl` del PHP de
   Hostinger y que su firewall deje pasar la llamada desde GitHub a `/api/sync` (la
@@ -389,9 +390,41 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
   carpetas fuera de `public_html`: verificarlo en hPanel o descargar la carpeta
   `stike-private/` cada cierto tiempo. Si se prefiere dentro de `public_html`,
   `STORAGE_DIR` en `config.local.php` lo permite (se bloquea el acceso web solo).
-- **Webhook sin checksum:** `wompi-events.php` no valida el checksum del evento a
-  propósito (explicación en el archivo): le pregunta a Wompi por la transacción,
-  así que un evento falso no registra nada.
+- **Eventos de Wompi:** si está el secreto de eventos (panel → Configuración),
+  `wompi-events.php` verifica el checksum de cada aviso y, con firma válida, registra
+  la venta con los datos del propio evento; sin ese secreto, o con firma falsa, no
+  registra nada por confianza: solo si Wompi confirma la transacción al consultarla.
+
+## 🔒 Seguridad: dónde viven los secretos
+
+- **Nunca en el repositorio.** Las llaves y secretos (Wompi, `GITHUB_TOKEN`,
+  `ADMIN_API_KEY`, `SYNC_TOKEN`, Resend) viven solo en el servidor
+  (`api/config.local.php`, fuera de git) y en los *secrets* de GitHub Actions.
+  `tools/secrets-scan-test.mjs` revisa todo el repo con los patrones de
+  `tools/secret-patterns.txt` (llaves `prv_…`, secretos de integridad/eventos,
+  tokens de GitHub, Resend, PEM…); `tools/stage-hostinger.sh` usa los mismos
+  patrones y **frena la publicación** si algo así llega a la copia que se sube.
+- **Lo que se pega en el panel** (secreto de integridad, de eventos, llave privada)
+  se guarda **cifrado** (AES-256-GCM) en la carpeta de datos del servidor, fuera de
+  `public_html`. La clave de cifrado sale de `ADMIN_SESSION_SECRET` / `ADMIN_API_KEY`
+  del servidor: si alguna vez se cambia, lo guardado deja de poder leerse (el cobro
+  sigue con lo de `config.local.php` y el panel avisa qué hay que pegar otra vez).
+  Lo guardado antes en texto plano se cifra solo al abrir el panel. La llave
+  **pública** no se cambia desde el panel (redirige el dinero).
+- **Nada se devuelve completo:** ninguna respuesta de la API trae un secreto; el
+  panel solo muestra ambiente, largo y últimas 4 letras para compararlo a ojo con
+  Wompi. Los errores de PHP no se imprimen (van al log del servidor).
+- **Archivos internos bloqueados** (`.htaccess` y copia a Hostinger): `data/costs.json`,
+  `sales-log.json`, `audit-log.json`, `stock-applied.json`, el código de `api/` que no
+  es un endpoint, archivos ocultos y respaldos (`.env`, `*.bak`, `*.sql`…), la carpeta
+  de datos del servidor y `tools/`. `tools/secrets-scan-test.mjs` lo comprueba.
+- **Repositorio privado recomendado.** Con el repo público cualquiera puede leer
+  `data/costs.json` (costos y márgenes), `sales-log.json`, `audit-log.json` y los
+  correos de `api/_admin.php`. Se puede volver privado sin romper la publicación:
+  `api/sync.php` baja el código con `GITHUB_TOKEN` cuando el archivo anónimo falla
+  (GitHub → Settings → Danger Zone → *Change visibility*; después de cambiarlo,
+  publicar algo y mirar en Actions que «Publish to Hostinger» siga en verde). La
+  demo de GitHub Pages deja de verse.
 
 ## 🗂️ Estructura
 
