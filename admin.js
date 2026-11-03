@@ -3363,6 +3363,9 @@ async function renderHealth(msg) {
       $("#cfg-int-save").addEventListener("click", () => saveWompiSecret(false));
       $("#cfg-int-clear").addEventListener("click", () => saveWompiSecret(true));
       $("#cfg-int-secret").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); saveWompiSecret(false); } });
+      $("#cfg-ev-save").addEventListener("click", () => saveWompiSecret(false, "ev"));
+      $("#cfg-ev-clear").addEventListener("click", () => saveWompiSecret(true, "ev"));
+      $("#cfg-ev-secret").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); saveWompiSecret(false, "ev"); } });
     }
   } catch (e) {
     el.innerHTML = `<p class="hint" style="color:var(--bad)">No se pudo revisar la configuración: ${escHtml(e.message)}</p>`;
@@ -3384,7 +3387,17 @@ function wompiSecretFormHtml(h, msg) {
         <button class="btn cyan" id="cfg-int-save" type="button">Guardar y comprobar</button>
         <button class="btn ghost sm" id="cfg-int-clear" type="button" title="Vuelve a usar el valor que está en el servidor (api/config.local.php)">Quitar lo guardado aquí</button>
       </div>
-      <p class="hint" id="cfg-int-msg" role="status" style="margin:10px 0 0;${msg ? (msg.ok ? "color:var(--good, #3ecf8e)" : "color:var(--bad)") : ""}">${msg ? escHtml(msg.text) : ""}</p>
+      <p class="hint" id="cfg-int-msg" role="status" style="margin:10px 0 0;${msg && msg.text ? (msg.ok ? "color:var(--good, #3ecf8e)" : "color:var(--bad)") : ""}">${msg && msg.text ? escHtml(msg.text) : ""}</p>
+      <hr style="border:0;border-top:1px solid var(--line-soft);margin:16px 0">
+      <h4 style="margin:0 0 6px">Secreto de eventos de Wompi <span class="muted" style="font-weight:400">(recomendado)</span></h4>
+      <p class="hint muted" style="margin:0 0 12px">Con este secreto, cuando Wompi avisa de un pago el servidor comprueba que el aviso es auténtico y <b>registra la venta con los datos del aviso</b>, aunque la consulta a Wompi falle en ese momento. Está en el mismo lugar que el de integridad: <b>Secretos para integración técnica → Eventos</b>. Empieza por <span class="mono">prod_events_</span> (producción) o <span class="mono">test_events_</span>.</p>
+      <div class="field" style="margin-bottom:10px"><label for="cfg-ev-secret">Pega aquí el secreto de eventos</label>
+        <input id="cfg-ev-secret" type="text" class="mono" placeholder="prod_events_…" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <button class="btn cyan" id="cfg-ev-save" type="button">Guardar y comprobar</button>
+        <button class="btn ghost sm" id="cfg-ev-clear" type="button" title="Vuelve a usar el valor que está en el servidor">Quitar lo guardado aquí</button>
+      </div>
+      <p class="hint" id="cfg-ev-msg" role="status" style="margin:10px 0 0"></p>
     </div>`;
 }
 /* Herramientas de cobro: buscar pagos aprobados que no se registraron, y probar el correo de cada venta. */
@@ -3444,21 +3457,27 @@ function wompiGoLiveHtml() {
       </ol>
     </details>`;
 }
-async function saveWompiSecret(clear) {
-  const input = $("#cfg-int-secret"), out = $("#cfg-int-msg");
+async function saveWompiSecret(clear, kind = "int") {
+  const KEY = kind === "ev" ? "WOMPI_EVENTS_SECRET" : "WOMPI_INTEGRITY_SECRET";
+  const input = $(`#cfg-${kind}-secret`), out = $(`#cfg-${kind}-msg`);
   const value = input ? input.value : "";
   if (!clear && !value.trim()) { out.style.color = "var(--bad)"; out.textContent = "Pega primero el secreto."; input.focus(); return; }
-  const save = $("#cfg-int-save"), clr = $("#cfg-int-clear");
+  const save = $(`#cfg-${kind}-save`), clr = $(`#cfg-${kind}-clear`);
   save.disabled = clr.disabled = true; out.style.color = ""; out.textContent = "Guardando…";
   try {
     const res = await fetch(new URL("api/admin-config", document.baseURI), {
       method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(clear ? { key: "WOMPI_INTEGRITY_SECRET", clear: true } : { key: "WOMPI_INTEGRITY_SECRET", value }),
+      body: JSON.stringify(clear ? { key: KEY, clear: true } : { key: KEY, value }),
     });
     const j = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(j.detail || ({ forbidden: "Solo el dueño y el desarrollador pueden cambiar esto.", not_logged_in: "Tu sesión venció: vuelve a iniciar sesión." }[j.error]) || j.error || ("HTTP " + res.status));
     if (input) input.value = "";
-    await renderHealth({ ok: true, text: clear ? "Listo: se quitó lo guardado aquí; ahora vale lo que está en el servidor." : `Guardado: termina en …${j.tail}, ${j.length} caracteres, ${j.environment === "prod" ? "producción" : "sandbox"}. Revisa arriba que diga «Listo para cobrar» y haz una compra de prueba.` });
+    const ambiente = j.environment === "prod" ? "producción" : "sandbox";
+    const text = clear ? "Listo: se quitó lo guardado aquí; ahora vale lo que está en el servidor."
+      : kind === "ev" ? `Guardado: termina en …${j.tail}, ${j.length} caracteres, ${ambiente}. Desde ahora los avisos de Wompi se verifican con este secreto.`
+      : `Guardado: termina en …${j.tail}, ${j.length} caracteres, ${ambiente}. Revisa arriba que diga «Listo para cobrar» y haz una compra de prueba.`;
+    await renderHealth({ ok: true, text: kind === "int" ? text : undefined, evText: kind === "ev" ? text : undefined });
+    if (kind === "ev") { const m = $("#cfg-ev-msg"); if (m) { m.style.color = "var(--good, #3ecf8e)"; m.textContent = text; } }
   } catch (e) {
     out.style.color = "var(--bad)"; out.textContent = e.message;
     save.disabled = clr.disabled = false;
