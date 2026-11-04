@@ -408,5 +408,17 @@
     "total": 1850000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-04T02:26:58.080Z",
+    "slug": "marco-fiend-mills",
+    "name": "Marco Fiend Mills",
+    "size": null,
+    "color": "Rojo translúcido",
+    "qty": 1,
+    "unitPrice": 1850000,
+    "total": 1850000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
