@@ -5608,11 +5608,12 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 25000,
     "promo": false,
-    "units": 3,
+    "units": 0,
     "imgs": [
       "assets/img/products/0e5db8e5-ca51-4736-8d21-53fe4e99197b.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "manzana-trasera-trueno-alfa-v2-izquierda",
