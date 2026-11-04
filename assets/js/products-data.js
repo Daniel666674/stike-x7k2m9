@@ -1303,7 +1303,7 @@ window.STIKE_PRODUCTS = [
       },
       {
         "v": "Rojo",
-        "u": 5
+        "u": 4
       }
     ],
     "combos": null
