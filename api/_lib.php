@@ -86,8 +86,11 @@ function stike_run($fn) {
    cambia en el servidor. La privada si (solo busca pagos ya hechos; el panel la
    comprueba con Wompi antes de guardarla). El resto es del correo de aviso de cada venta: la llave
    de Resend (secreta), a quien le llega, desde que remitente sale y la cuenta de correo propia
-   (SMTP: servidor, puerto, correo y contraseña, esta ultima secreta). */
-const STIKE_RUNTIME_KEYS = ["WOMPI_INTEGRITY_SECRET", "WOMPI_EVENTS_SECRET", "WOMPI_PRIVATE_KEY", "RESEND_API_KEY", "OWNER_NOTIFY_EMAIL", "RESEND_FROM", "SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS"];
+   (SMTP: servidor, puerto, correo y contraseña, esta ultima secreta) y la conexion con la API de
+   Gmail de Google Cloud (ID y secreto de cliente OAuth, y el permiso permanente que Google entrega
+   al conectar la cuenta: los dos secretos van cifrados). */
+const STIKE_RUNTIME_KEYS = ["WOMPI_INTEGRITY_SECRET", "WOMPI_EVENTS_SECRET", "WOMPI_PRIVATE_KEY", "RESEND_API_KEY", "OWNER_NOTIFY_EMAIL", "RESEND_FROM", "SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS",
+  "GMAIL_CLIENT_ID", "GMAIL_CLIENT_SECRET", "GMAIL_REFRESH_TOKEN", "GMAIL_SENDER"];
 
 function stike_runtime_config_path() { return stike_storage_dir() . "/runtime-config.json"; }
 
@@ -1142,6 +1145,101 @@ function stike_smtp_send($cfg, $to, $subject, $html) {
   }
 }
 
+/* ------------- API de Gmail (Google Cloud): enviar desde una cuenta de Google conectada desde el panel -------------
+   Sin servidor de correo ni cuentas en servicios nuevos: en Google Cloud Console se crea un «ID de cliente OAuth» (proyecto de Google
+   que ya usa el login del panel), se pega en el panel y se pulsa «Conectar con Google». Google le pide permiso a la cuenta UNA vez
+   (solo para enviar correos) y devuelve un permiso permanente (refresh token) que se guarda cifrado. Desde ahi, cada aviso sale por
+   la API de Gmail (users.messages.send) desde esa cuenta, con SPF y DKIM de Google. */
+function stike_google_url($which) {
+  $d = ["oauth" => "https://oauth2.googleapis.com", "auth" => "https://accounts.google.com/o/oauth2/v2/auth", "gmail" => "https://gmail.googleapis.com"];
+  $env = ["oauth" => "GOOGLE_OAUTH_BASE", "auth" => "GOOGLE_AUTH_URL", "gmail" => "GMAIL_API_BASE"][$which];
+  return rtrim((string)stike_config($env, $d[$which]), "/");   // solo pruebas cambian esto: un visitante no controla el entorno
+}
+function stike_public_base() { return rtrim((string)stike_config("SITE_URL", "https://stikebikeshop.com"), "/"); }
+function stike_gmail_redirect_uri() { return stike_public_base() . "/api/gmail-callback"; }
+/* ID y secreto de cliente OAuth guardados (para poder pedir permiso), o null. */
+function stike_gmail_client() {
+  $id = trim((string)stike_config("GMAIL_CLIENT_ID", "")); $secret = trim((string)stike_config("GMAIL_CLIENT_SECRET", ""));
+  return ($id !== "" && $secret !== "") ? ["id" => $id, "secret" => $secret] : null;
+}
+/* Todo lo necesario para enviar (cliente + permiso permanente + cuenta conectada), o null. */
+function stike_gmail_config() {
+  $c = stike_gmail_client();
+  $rt = trim((string)stike_config("GMAIL_REFRESH_TOKEN", "")); $sender = trim((string)stike_config("GMAIL_SENDER", ""));
+  if (!$c || $rt === "" || !filter_var($sender, FILTER_VALIDATE_EMAIL)) return null;
+  return ["client_id" => $c["id"], "client_secret" => $c["secret"], "refresh_token" => $rt, "sender" => $sender];
+}
+function stike_gmail_fail($code, $detail) { return ["ok" => false, "code" => $code, "detail" => $detail]; }
+/* Cambia el permiso permanente por un token de acceso (dura una hora; no se guarda: un aviso cada tanto no justifica cachearlo). */
+function stike_gmail_token($cfg) {
+  $res = stike_http("POST", stike_google_url("oauth") . "/token", ["Content-Type: application/x-www-form-urlencoded"], http_build_query([
+    "client_id" => $cfg["client_id"], "client_secret" => $cfg["client_secret"], "refresh_token" => $cfg["refresh_token"], "grant_type" => "refresh_token",
+  ]), 15);
+  if ($res["status"] === 200 && is_array($res["json"]) && is_string($res["json"]["access_token"] ?? null) && $res["json"]["access_token"] !== "") return ["ok" => true, "token" => $res["json"]["access_token"]];
+  $err = is_array($res["json"]) && is_string($res["json"]["error"] ?? null) ? $res["json"]["error"] : "";
+  if ($res["status"] === 0) return stike_gmail_fail("gmail_unreachable", "No se pudo conectar con Google (" . ($res["error"] ?: "sin respuesta") . "). Suele ser momentáneo.");
+  if ($err === "invalid_grant") return stike_gmail_fail("gmail_disconnected", "Google desconectó la cuenta de Gmail: se cambió su contraseña, se quitó el permiso o pasaron 7 días con la app en «Pruebas» en Google Cloud. Conéctala de nuevo en el panel (y publica la app en Google Cloud para que no se repita).");
+  if ($err === "invalid_client" || $err === "unauthorized_client") return stike_gmail_fail("gmail_client_rejected", "Google no reconoce el ID o el secreto de cliente guardados. Revísalos en Google Cloud → Credenciales y pégalos de nuevo.");
+  if ($res["status"] === 429 || $res["status"] >= 500) return stike_gmail_fail("gmail_down", "Google no respondió bien (" . $res["status"] . "). Suele ser momentáneo.");
+  return stike_gmail_fail("gmail_token_failed", "Google no entregó permiso para enviar (" . $res["status"] . ($err !== "" ? ": " . $err : "") . ").");
+}
+/* Envia un correo (texto + HTML) a $to desde la cuenta conectada. -> ["ok" => true] o ["ok" => false, "code", "detail"] */
+function stike_gmail_send($cfg, $to, $subject, $html) {
+  $t = stike_gmail_token($cfg);
+  if (empty($t["ok"])) return $t;
+  [$hdr, $body] = stike_build_mime("Stike Bike Shop", $cfg["sender"], $html);
+  $raw = "To: " . implode(", ", $to) . "\r\nSubject: " . stike_mime_subject($subject) . "\r\n" . $hdr . "\r\n\r\n" . $body;
+  $res = stike_http("POST", stike_google_url("gmail") . "/gmail/v1/users/me/messages/send", ["Authorization: Bearer " . $t["token"], "Content-Type: application/json"],
+    json_encode(["raw" => rtrim(strtr(base64_encode($raw), "+/", "-_"), "=")]), 20);
+  if ($res["status"] >= 200 && $res["status"] < 300) return ["ok" => true, "id" => is_array($res["json"]) ? ($res["json"]["id"] ?? null) : null];
+  $e = (is_array($res["json"]) && is_array($res["json"]["error"] ?? null)) ? $res["json"]["error"] : [];
+  $reason = (string)($e["errors"][0]["reason"] ?? ($e["details"][0]["reason"] ?? ""));
+  $msg = (string)($e["message"] ?? "");
+  $st = $res["status"];
+  if ($st === 0) return stike_gmail_fail("gmail_unreachable", "No se pudo conectar con Gmail (" . ($res["error"] ?: "sin respuesta") . "). Suele ser momentáneo.");
+  if ($st === 401) return stike_gmail_fail("gmail_token_rejected", "Google rechazó el permiso de envío (401). Conecta la cuenta de nuevo en el panel.");
+  if ($st === 403 && (stripos($reason, "accessNotConfigured") !== false || $reason === "SERVICE_DISABLED" || stripos($msg, "has not been used") !== false || stripos($msg, "is disabled") !== false)) {
+    return stike_gmail_fail("gmail_api_disabled", "La API de Gmail no está activada en tu proyecto de Google Cloud. Entra a console.cloud.google.com → APIs y servicios → Biblioteca → «Gmail API» → Habilitar, espera un minuto y vuelve a probar.");
+  }
+  if ($st === 403 && (stripos($reason, "insufficient") !== false || stripos($msg, "insufficient") !== false || stripos($msg, "scope") !== false)) {
+    return stike_gmail_fail("gmail_scope", "A la cuenta conectada le falta el permiso de enviar correos. Desconéctala y vuelve a conectarla aceptando el permiso «Enviar correos».");
+  }
+  if ($st === 429 || stripos($reason, "ratelimit") !== false || stripos($reason, "quota") !== false) return stike_gmail_fail("gmail_rate_limited", "Gmail pide esperar: se alcanzó el límite de envíos de la cuenta.");
+  if ($st >= 500) return stike_gmail_fail("gmail_down", "Gmail tuvo un problema (" . $st . "). Suele ser momentáneo.");
+  $short = function_exists("mb_substr") ? mb_substr($msg, 0, 160) : substr($msg, 0, 160);
+  return stike_gmail_fail("gmail_rejected", "Gmail no aceptó el mensaje (" . $st . ($short !== "" ? ": " . $short : "") . ").");
+}
+/* Pedir permiso: la URL a la que se manda al dueño (la cuenta elige y acepta ahi) y el «state» que ata el regreso a quien lo pidio. */
+function stike_gmail_auth_url($clientId, $state) {
+  return stike_google_url("auth") . "?" . http_build_query([
+    "client_id" => $clientId, "redirect_uri" => stike_gmail_redirect_uri(), "response_type" => "code",
+    "scope" => "https://www.googleapis.com/auth/gmail.send openid email",
+    "access_type" => "offline", "prompt" => "consent", "state" => $state,
+  ], "", "&", PHP_QUERY_RFC3986);
+}
+function stike_oauth_state_dir() {
+  $d = stike_storage_dir() . "/oauth-state";
+  if (!is_dir($d) && !@mkdir($d, 0750, true) && !is_dir($d)) throw new ApiError(500, "storage_unavailable");
+  return $d;
+}
+function stike_oauth_state_new($email) {
+  $d = stike_oauth_state_dir();
+  foreach (glob($d . "/*.json") ?: [] as $f) if (@filemtime($f) < time() - 3600) @unlink($f);
+  $s = bin2hex(random_bytes(32));
+  if (@file_put_contents($d . "/" . $s . ".json", json_encode(["by" => $email, "at" => time()])) === false) throw new ApiError(500, "storage_unavailable");
+  @chmod($d . "/" . $s . ".json", 0600);
+  return $s;
+}
+/* Un solo uso y 10 minutos de vida. -> ["by" => correo de quien lo pidio] o null. */
+function stike_oauth_state_take($s) {
+  if (!is_string($s) || !preg_match('/^[a-f0-9]{64}$/', $s)) return null;
+  $f = stike_oauth_state_dir() . "/" . $s . ".json";
+  if (!is_file($f)) return null;
+  $d = json_decode((string)@file_get_contents($f), true);
+  @unlink($f);
+  return (is_array($d) && time() - (int)($d["at"] ?? 0) <= 600) ? $d : null;
+}
+
 /* Ultimo resultado de cada tipo de correo (venta, prueba, alerta): lo lee el panel para decir con claridad si el aviso esta llegando. */
 function stike_note_mail($kind, $via, $ok, $code = null, $detail = null, $extra = []) {
   try {
@@ -1194,48 +1292,59 @@ function stike_mail_outbox_flush($max = 3) {
   return $sent;
 }
 
-/* Envia un correo al dueno. Orden: Resend (si hay llave) -> el correo propio por SMTP (si esta configurado) -> el correo del hosting
-   (mail(), que no garantiza nada). Cada uno solo se prueba si el anterior fallo o no esta configurado. Nunca lanza.
+/* Envia un correo al dueno. Orden: Resend (si hay llave) -> la cuenta de Gmail conectada (API de Google) -> el correo propio por SMTP
+   -> el correo del hosting (mail(), que no garantiza nada). Cada uno solo se prueba si el anterior fallo o no esta configurado. Nunca lanza.
    $opts: kind = venta | prueba | alerta (para el registro del panel); noQueue = no guardar para reintentar; fromOutbox.
-   Devuelve ["sent" => "resend"|"smtp"|"mail", "to" => [...], "resendError" => null|["code","detail"], "smtpError" => ...]
+   Devuelve ["sent" => "resend"|"gmail"|"smtp"|"mail", "to" => [...], "resendError" => null|["code","detail"], "gmailError", "smtpError"]
    o ["error" => "email_failed", ...]. OJO: lo que sale al navegador de un cliente (wompi-order.php) nunca lleva este arreglo
    completo: ver stike_finalize_order. */
 function stike_send_owner_mail($subject, $html, $opts = []) {
   $kind = (string)($opts["kind"] ?? "venta");
   $to = (!empty($opts["to"]) && is_array($opts["to"])) ? array_values($opts["to"]) : stike_owner_recipients();   // to: solo avisos internos (p. ej. al cambiar el destinatario)
-  $resendErr = null; $smtpErr = null;
+  $resendErr = null; $gmailErr = null; $smtpErr = null;
   try {
     $apiKey = stike_config("RESEND_API_KEY");
     if ($apiKey) {
       $r = stike_resend_send($apiKey, $to, $subject, $html);
-      if (!empty($r["ok"])) { stike_note_mail($kind, "resend", true); return ["sent" => "resend", "to" => $to, "resendError" => null, "smtpError" => null]; }
+      if (!empty($r["ok"])) { stike_note_mail($kind, "resend", true); return ["sent" => "resend", "to" => $to, "resendError" => null, "gmailError" => null, "smtpError" => null]; }
       $resendErr = ["code" => $r["code"], "detail" => $r["detail"]];
       error_log("[stike] Resend no envio el correo ($kind): " . $r["code"] . " (" . ($r["status"] ?? "?") . ")");
+    }
+    $gmail = stike_gmail_config();
+    if ($gmail) {
+      $r = stike_gmail_send($gmail, $to, $subject, $html);
+      if (!empty($r["ok"])) {
+        stike_note_mail($kind, "gmail", true, $resendErr["code"] ?? null, $resendErr["detail"] ?? null, ["fellBack" => (bool)$resendErr]);
+        return ["sent" => "gmail", "to" => $to, "resendError" => $resendErr, "gmailError" => null, "smtpError" => null];
+      }
+      $gmailErr = ["code" => $r["code"], "detail" => $r["detail"]];
+      error_log("[stike] Gmail no envio el correo ($kind): " . $r["code"]);
     }
     $smtp = stike_smtp_config();
     if ($smtp) {
       $r = stike_smtp_send($smtp, $to, $subject, $html);
       if (!empty($r["ok"])) {
-        stike_note_mail($kind, "smtp", true, $resendErr["code"] ?? null, $resendErr["detail"] ?? null, ["fellBack" => (bool)$resendErr]);
-        return ["sent" => "smtp", "to" => $to, "resendError" => $resendErr, "smtpError" => null];
+        $f1 = $resendErr ?: $gmailErr;
+        stike_note_mail($kind, "smtp", true, $f1["code"] ?? null, $f1["detail"] ?? null, ["fellBack" => (bool)$f1]);
+        return ["sent" => "smtp", "to" => $to, "resendError" => $resendErr, "gmailError" => $gmailErr, "smtpError" => null];
       }
       $smtpErr = ["code" => $r["code"], "detail" => $r["detail"]];
       error_log("[stike] SMTP no envio el correo ($kind): " . $r["code"]);
     }
-    $first = $resendErr ?: $smtpErr;   // lo primero que fallo (lo que el panel le explica al dueno)
+    $first = $resendErr ?: ($gmailErr ?: $smtpErr);   // lo primero que fallo (lo que el panel le explica al dueno)
     if (stike_mail_fallback($to, $subject, $html)) {
       stike_note_mail($kind, "mail", true, $first["code"] ?? null, $first["detail"] ?? null, ["fellBack" => (bool)$first]);
-      return ["sent" => "mail", "to" => $to, "resendError" => $resendErr, "smtpError" => $smtpErr];
+      return ["sent" => "mail", "to" => $to, "resendError" => $resendErr, "gmailError" => $gmailErr, "smtpError" => $smtpErr];
     }
     error_log("[stike] mail() del hosting no envio el correo ($kind)");
   } catch (Throwable $e) {
     error_log("[stike] correo al dueno fallo: " . get_class($e) . ": " . $e->getMessage());
   }
-  $first = $resendErr ?: $smtpErr;
+  $first = $resendErr ?: ($gmailErr ?: $smtpErr);
   stike_note_mail($kind, null, false, $first["code"] ?? "mail_failed", $first["detail"] ?? "El correo del hosting (mail) no aceptó el mensaje.");
   $queued = false;
   if ($kind === "venta" && empty($opts["noQueue"]) && empty($opts["fromOutbox"])) $queued = stike_mail_outbox_add($kind, $subject, $html);
-  return ["error" => "email_failed", "to" => $to, "resendError" => $resendErr, "smtpError" => $smtpErr, "queued" => $queued];
+  return ["error" => "email_failed", "to" => $to, "resendError" => $resendErr, "gmailError" => $gmailErr, "smtpError" => $smtpErr, "queued" => $queued];
 }
 
 /* Aviso de que el cobro se cayo (no de una venta). Como maximo uno por tipo cada

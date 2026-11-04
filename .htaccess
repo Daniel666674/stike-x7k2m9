@@ -140,7 +140,7 @@ DirectoryIndex index.html
 
   # El front llama /api/wompi-sign (igual que el backend de Vercel); aca se
   # traduce al archivo PHP.
-  RewriteRule ^api/(wompi-sign|wompi-status|wompi-order|wompi-events|sales|sync|admin-login|admin-health|admin-config|wompi-reconcile|gh)/?$ api/$1.php [L]
+  RewriteRule ^api/(wompi-sign|wompi-status|wompi-order|wompi-events|sales|sync|admin-login|admin-health|admin-config|wompi-reconcile|gmail-callback|gh)/?$ api/$1.php [L]
 
   # Panel admin: el HTML y el codigo SOLO salen por admin.php, que exige una
   # sesion iniciada (cookie firmada, verificada en el servidor). Sin sesion
@@ -155,7 +155,7 @@ DirectoryIndex index.html
   # Carpeta de datos del servidor (pedidos, ventas, llaves guardadas desde el panel): vive fuera del sitio, pero si algun
   # dia quedara dentro, estos archivos nunca se sirven.
   RewriteRule (^|/)(runtime-config|last-event|last-bad-event|last-mail|ventas|rate-limit|alerts?)\.(json|jsonl)$ - [F,L]
-  RewriteRule ^(pending|alerts|rate|outbox)(/|$) - [F,L]
+  RewriteRule ^(pending|alerts|rate|outbox|oauth-state)(/|$) - [F,L]
   RewriteRule ^(PROPOSAL|MOTOR|README|SEO)\.md$ - [F,L]
   RewriteRule ^propuesta\.html$ - [F,L]
   RewriteRule ^\.git(/|$) - [F,L]
