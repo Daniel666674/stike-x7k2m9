@@ -456,5 +456,17 @@
     "total": 97500,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-04T02:28:42.072Z",
+    "slug": "cadena-primo-121-halflink",
+    "name": "Cadena Primo 121 Half Link",
+    "size": null,
+    "color": "Dorado",
+    "qty": 1,
+    "unitPrice": 120000,
+    "total": 120000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
