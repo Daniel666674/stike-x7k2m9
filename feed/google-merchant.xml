@@ -3442,12 +3442,12 @@
     </item>
     <item>
       <g:id>REP-MUT-005</g:id>
-      <g:title>Kit De Tornillos para Bielas Mutanty x2</g:title>
-      <g:description>Kit De Tornillos para Bielas Mutanty x2. Material Cr-mo Sanko japonés. Para eje de bielas de 22mm, 48T. Compatible con bielas Mutanty entre otras de esta medida. Color Negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:title>Kit De Tornillos para eje de 48 estrias</g:title>
+      <g:description>Kit De Tornillos para eje de 48 estrias de Mutanty. Material Cr-mo Sanko japonés. Para eje de bielas de 19mm, 48T. Compatible con bielas Mutanty entre otras de esta medida. Color Negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/kit-eje-bielas-mutanty.html</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/kit-eje-bielas-mutanty-1.jpg</g:image_link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/d4426e34-5989-45f3-9a24-de0eda8186ac.jpg</g:image_link>
       <g:availability>in_stock</g:availability>
-      <g:price>20000.00 COP</g:price>
+      <g:price>15000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Mutanty</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
@@ -10844,6 +10844,20 @@
       <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
       <g:item_group_id>ROP-NIK-003</g:item_group_id>
       <g:size>XXL</g:size>
+    </item>
+    <item>
+      <g:id>REP-MUT-015</g:id>
+      <g:title>Kit de tornillos para eje de 8 estrias</g:title>
+      <g:description>Kit de tornillos para eje de 8 estrias de Mutanty. Material Cr-mo Sanko japonés. Para eje de bielas de 19mm, 48T. Compatible con bielas Mutanty y optimus entre otras de esta medida. Color Negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/kit-de-tornillos-para-eje-de-8-estrias.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/4c964d29-0477-4ef9-81bb-eec64d752a55.jpg</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>15000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Mutanty</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Bielas</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
     </item>
   </channel>
 </rss>

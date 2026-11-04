@@ -98,7 +98,7 @@
 - [Bielas Federal Vice](https://stikebikeshop.com/producto/bielas-federal-vice.html) — Federal; $920.000; disponible; colores: Negro, Cromado; largo: 160mm, 175mm
 - [Bielas Demolition Markit 165mm](https://stikebikeshop.com/producto/bielas-demolition-markit-165mm.html) — Demolition; $700.000; disponible
 - [Bielas Primo Churchill 160mm Cromadas](https://stikebikeshop.com/producto/bielas-primo-churchill-160mm-cromadas.html) — Primo; $920.000; disponible
-- [Kit De Tornillos para Bielas Mutanty x2](https://stikebikeshop.com/producto/kit-eje-bielas-mutanty.html) — Mutanty; $20.000; disponible
+- [Kit De Tornillos para eje de 48 estrias](https://stikebikeshop.com/producto/kit-eje-bielas-mutanty.html) — Mutanty; $15.000; disponible
 - [Reductor Extension Bikes Centro Americano a MID (par)](https://stikebikeshop.com/producto/reductor-extension-bikes-negro.html) — Extension; $30.000; disponible
 - [Caja de Centro Cult Crew Negra](https://stikebikeshop.com/producto/caja-de-centro-cult-crew-negra.html) — Cult; $135.000; disponible
 - [Caja de Centro Odyssey Negra](https://stikebikeshop.com/producto/caja-de-centro-odyssey-negra.html) — Odyssey; desde $100.000; disponible; medida: 1019mm, 1022mm
@@ -110,6 +110,7 @@
 - [Brazos GW Negros](https://stikebikeshop.com/producto/brazos-gw-negros.html) — GW; $60.000; disponible
 - [JUEGO DE TORNILLOS PARA BIELAS FIEND SEGMENT](https://stikebikeshop.com/producto/juego-de-tornillos-para-bielas-fiend-segment.html) — Fiend; $45.000; disponible
 - [BIELAS SUNDAY SAKER V2](https://stikebikeshop.com/producto/bielas-sunday-saker-v2.html) — Sunday; $380.000; disponible
+- [Kit de tornillos para  eje de 8 estrias](https://stikebikeshop.com/producto/kit-de-tornillos-para-eje-de-8-estrias.html) — Mutanty; $15.000; disponible
 
 ### Platos
 - [Plato Fiend Reynolds 25T Sin Guardia](https://stikebikeshop.com/producto/plato-fiend-reynolds-25t.html) — Fiend; $140.000; disponible; colores: Negro, Cromado

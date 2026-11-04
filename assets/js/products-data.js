@@ -3031,23 +3031,24 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "kit-eje-bielas-mutanty",
     "sku": "REP-MUT-005",
-    "n": "Kit De Tornillos para Bielas Mutanty x2",
+    "n": "Kit De Tornillos para eje de 48 estrias",
     "brand": "Mutanty",
     "cat": "repuestos",
     "sub": "Bielas",
     "spec": [
       "Material: Cr-mo Sanko japonés",
-      "Para eje de bielas de 22mm, 48T",
+      "Para eje de bielas de 19mm, 48T",
       "Compatible con bielas Mutanty entre otras de esta medida",
       "Color: Negro"
     ],
-    "price": 20000,
+    "price": 15000,
     "promo": false,
     "units": 6,
     "imgs": [
-      "assets/img/products/kit-eje-bielas-mutanty-1.jpg"
+      "assets/img/products/d4426e34-5989-45f3-9a24-de0eda8186ac.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "protector-rin-mutanty-elite",
@@ -9351,6 +9352,28 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/00318251-59b0-4ae6-9d44-a45b16e52272.jpg",
       "assets/img/products/1a694fff-5f2c-4215-8a64-749ead640aaf.jpg",
       "assets/img/products/201fce80-f1e7-4717-b32d-7f72c696585f.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "kit-de-tornillos-para-eje-de-8-estrias",
+    "sku": "REP-MUT-015",
+    "n": "Kit de tornillos para  eje de 8 estrias",
+    "brand": "Mutanty",
+    "cat": "repuestos",
+    "sub": "Bielas",
+    "spec": [
+      "Material: Cr-mo Sanko japonés",
+      "Para eje de bielas de 19mm, 48T",
+      "Compatible con bielas Mutanty  y optimus entre otras de esta medida",
+      "Color: Negro"
+    ],
+    "price": 15000,
+    "promo": false,
+    "units": 5,
+    "combos": null,
+    "imgs": [
+      "assets/img/products/4c964d29-0477-4ef9-81bb-eec64d752a55.jpg"
     ],
     "published": true
   }

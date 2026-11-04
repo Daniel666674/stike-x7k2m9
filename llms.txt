@@ -1,6 +1,6 @@
 # Stike Bike Shop
 
-> Tienda BMX en Bogotá: repuestos, protecciones, ropa y armado de BMX a la medida con asesoría de riders. Vendemos 290 productos de marcas como Fiend, Odyssey, Total BMX, Mutanty, Decaye, Fade, con envíos a toda Colombia y tienda física en Venecia, Bogotá.
+> Tienda BMX en Bogotá: repuestos, protecciones, ropa y armado de BMX a la medida con asesoría de riders. Vendemos 291 productos de marcas como Fiend, Odyssey, Total BMX, Mutanty, Decaye, Fade, con envíos a toda Colombia y tienda física en Venecia, Bogotá.
 
 ## Datos del negocio
 - Nombre: Stike Bike Shop (también "Stike")
@@ -29,7 +29,7 @@
 - [Tenedores](https://stikebikeshop.com/categoria/tenedores.html): 19 productos desde $40.000
 - [Timones](https://stikebikeshop.com/categoria/timones.html): 10 productos desde $220.000
 - [Manubrios](https://stikebikeshop.com/categoria/manubrios.html): 1 producto desde $80.000
-- [Bielas](https://stikebikeshop.com/categoria/bielas.html): 17 productos desde $20.000
+- [Bielas](https://stikebikeshop.com/categoria/bielas.html): 18 productos desde $15.000
 - [Platos](https://stikebikeshop.com/categoria/platos.html): 15 productos desde $9.000
 - [Cadenas](https://stikebikeshop.com/categoria/cadenas.html): 5 productos desde $80.000
 - [Manzana Delantera](https://stikebikeshop.com/categoria/manzana-delantera.html): 1 producto desde $95.000
@@ -77,7 +77,7 @@
 - [Innova](https://stikebikeshop.com/marca/innova.html): 3 productos
 - [Kink](https://stikebikeshop.com/marca/kink.html): 5 productos
 - [Merritt](https://stikebikeshop.com/marca/merritt.html): 4 productos
-- [Mutanty](https://stikebikeshop.com/marca/mutanty.html): 12 productos
+- [Mutanty](https://stikebikeshop.com/marca/mutanty.html): 13 productos
 - [Nightmare](https://stikebikeshop.com/marca/nightmare.html): 3 productos
 - [Nike](https://stikebikeshop.com/marca/nike.html): 3 productos
 - [ODI](https://stikebikeshop.com/marca/odi.html): 2 productos
