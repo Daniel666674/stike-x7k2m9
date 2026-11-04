@@ -480,5 +480,17 @@
     "total": 495000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-04T20:01:24.823Z",
+    "slug": "tenis-fade-joy-negro-blanco",
+    "name": "Tenis Fade Joy Negro Blanco",
+    "size": "40",
+    "color": null,
+    "qty": 1,
+    "unitPrice": 160000,
+    "total": 160000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
