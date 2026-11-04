@@ -3670,7 +3670,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 130000,
     "promo": false,
-    "units": 47,
+    "units": 46,
     "imgs": [
       "assets/img/products/silla-pivotal-fate-negra-1.jpg",
       "assets/img/products/silla-pivotal-fate-negra-2.jpg",
