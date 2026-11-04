@@ -3841,21 +3841,6 @@
       <g:size>XL</g:size>
     </item>
     <item>
-      <g:id>REP-FED-014</g:id>
-      <g:title>Cassette Federal Stance Negro</g:title>
-      <g:description>Cassette Federal Stance Negro. Color Negro. Hub trasero completo (cassette). Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/cassette-federal-stance-negro.html</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/cassette-federal-stance-negro-1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/cassette-federal-stance-negro-2.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
-      <g:price>710000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Federal</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Manzana Trasera</g:product_type>
-      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
-    </item>
-    <item>
       <g:id>REP-MUT-007</g:id>
       <g:title>Cassette Mutanty Mercury Elite Negro</g:title>
       <g:description>Cassette Mutanty Mercury Elite Negro. Color Negro. Hub trasero completo (cassette). Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
@@ -5116,14 +5101,13 @@
     </item>
     <item>
       <g:id>REP-FED-015</g:id>
-      <g:title>Manzana Trasera Federal Derecha Negra 9T</g:title>
-      <g:description>Manzana Trasera Federal Derecha Negra 9T. Posición Trasera (cassette). Piñón 9T. Color Negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:title>Manzana Trasera Federal Derecha Usada</g:title>
+      <g:description>Manzana Trasera Federal Derecha Usada (usado). Posición Trasera (cassette). Piñón 9T. Color Negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/manzana-trasera-federal-derecha-negra-9t.html</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/manzana-trasera-federal-derecha-negra-9t-1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/manzana-trasera-federal-derecha-negra-9t-2.jpg</g:additional_image_link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/0725683f-51cf-4e97-a8b6-94cee6b5c155.jpg</g:image_link>
       <g:availability>in_stock</g:availability>
       <g:price>500000.00 COP</g:price>
-      <g:condition>new</g:condition>
+      <g:condition>used</g:condition>
       <g:brand>Federal</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
       <g:product_type>Repuestos &gt; Manzana Trasera</g:product_type>
@@ -5134,8 +5118,7 @@
       <g:title>Freecoaster Fiend Derecho USADO</g:title>
       <g:description>Freecoaster Fiend Derecho USADO (usado). Tipo Freecoaster. Posición Trasera. Color Negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/freecoaster-fiend-derecho-negro.html</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/freecoaster-fiend-derecho-negro-1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/freecoaster-fiend-derecho-negro-2.jpg</g:additional_image_link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/6f21658e-ca57-4147-b302-137cca09d328.jpg</g:image_link>
       <g:availability>in_stock</g:availability>
       <g:price>500000.00 COP</g:price>
       <g:condition>used</g:condition>
@@ -5467,20 +5450,6 @@
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-RAN-004</g:item_group_id>
       <g:color>Morado</g:color>
-    </item>
-    <item>
-      <g:id>REP-SHA-013</g:id>
-      <g:title>Freecoaster Shadow Derecho USADO</g:title>
-      <g:description>Freecoaster Shadow Derecho USADO (usado). Tipo Freecoaster. Eje 14mm macho. Piñón 9T. Agujeros 36h. Color Negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/freecoaster-shadow-derecho-negro.html</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/freecoaster-shadow-derecho-negro-1.jpg</g:image_link>
-      <g:availability>out_of_stock</g:availability>
-      <g:price>500000.00 COP</g:price>
-      <g:condition>used</g:condition>
-      <g:brand>Shadow</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Manzana Trasera</g:product_type>
-      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
     </item>
     <item>
       <g:id>REP-SHA-014-negro</g:id>
@@ -10857,6 +10826,48 @@
       <g:brand>Mutanty</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
       <g:product_type>Repuestos &gt; Bielas</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+    </item>
+    <item>
+      <g:id>REP-GWB-003</g:id>
+      <g:title>Manzana trasera cassete GW</g:title>
+      <g:description>Manzana trasera cassete GW. Sistema 3 trinquetes 1 resorte. Drive 9t. Lado Derecho. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/manzana-trasera-cassete-gw.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/df3d331a-edff-4cc2-9686-f5290990e72f.jpg</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>130000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>GW</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+    </item>
+    <item>
+      <g:id>REP-850-001</g:id>
+      <g:title>Manzana trasera Cassete CULT USADO</g:title>
+      <g:description>Manzana trasera Cassete CULT USADO (usado). Sistema 4 Resortes 4 trinquetes. Drive 10 t reconstruido. Lado izquierdo. Eje Hembra. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/manzana-trasera-cassete-cult-usado.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/fc0c4cb2-7249-4cfb-9f0f-ae00e80b5181.jpg</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>400000.00 COP</g:price>
+      <g:condition>used</g:condition>
+      <g:brand>Cult</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Manzana Trasera</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+    </item>
+    <item>
+      <g:id>REP-TRU-005</g:id>
+      <g:title>Manzana trasera Cassete TRUENO</g:title>
+      <g:description>Manzana trasera Cassete TRUENO . Sistema 6 trinquetes 6 resorte. Drive 9t. Lado Izquierdo. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/manzana-trasera-cassete-trueno.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/ff689b05-8a8a-4905-91a3-25361a334b0d.jpg</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>400000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Trueno</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Manzana Trasera</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
     </item>
   </channel>
