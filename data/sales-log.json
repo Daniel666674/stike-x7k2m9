@@ -384,5 +384,17 @@
     "total": 68000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-04T02:26:18.541Z",
+    "slug": "chaqueta-inspirada-en-alpinestars",
+    "name": "CHAQUETA ROMPE VIENTOS INSPIRADA EN ALPINESTARS",
+    "size": "M",
+    "color": "Negro",
+    "qty": 1,
+    "unitPrice": 120000,
+    "total": 120000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
