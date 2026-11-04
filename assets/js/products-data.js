@@ -1253,7 +1253,7 @@ window.STIKE_PRODUCTS = [
       },
       {
         "v": "Rojo translúcido",
-        "u": 1
+        "u": 0
       }
     ],
     "imgs": [
