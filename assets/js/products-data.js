@@ -3465,7 +3465,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 550000,
     "promo": false,
-    "units": 1,
+    "units": 0,
     "imgs": [
       "assets/img/products/cassette-mutanty-mercury-elite-negro-1.jpg",
       "assets/img/products/cassette-mutanty-mercury-elite-negro-2.jpg",
