@@ -647,7 +647,7 @@ window.STIKE_PRODUCTS = [
       },
       {
         "v": "Cromado",
-        "u": 2
+        "u": 0
       }
     ],
     "imgs": [
@@ -3488,9 +3488,10 @@ window.STIKE_PRODUCTS = [
     "promo": false,
     "units": 1,
     "imgs": [
-      "assets/img/products/cassette-profile-mini-cromado-2.jpg"
+      "assets/img/products/81b59b3b-d118-41d6-9f9a-59221e9f879d.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "cassette-trueno-v2-negro",
