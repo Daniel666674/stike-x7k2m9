@@ -6549,7 +6549,7 @@ window.STIKE_PRODUCTS = [
     "sizes": [
       {
         "v": "40",
-        "u": 1
+        "u": 0
       }
     ],
     "sizeLabel": "Talla",
