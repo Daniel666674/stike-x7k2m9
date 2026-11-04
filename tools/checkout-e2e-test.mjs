@@ -100,10 +100,9 @@ const pendingExists = ref => existsSync(join(STORAGE, 'pending', `${ref}.json`))
 
 /* ---- catalogo ---- */
 const catalog = P.parseCatalog(readFileSync(join(ROOT, 'assets/js/products-data.js'), 'utf8')).filter(p => p.published !== false);
-const FREE_SHIP = 300000, SHIP_COST = 18000;
 const sellable = p => { const n = D.stikeSellable(p); return n === null || n > 0; };
 const plain = catalog.filter(p => !(p.sizes && p.sizes.length) && !(p.colors && p.colors.length) && typeof p.units === 'number' && p.units >= 3);
-const totalWithShip = sub => sub + (sub >= FREE_SHIP ? 0 : SHIP_COST);
+const totalToPay = sub => sub;   // el envio NO se cobra en el pago: se cotiza por WhatsApp y lo paga el cliente
 
 /* ---- navegador ---- */
 const browser = await chromium.launch({ executablePath: EXE });
@@ -136,9 +135,10 @@ async function newPage(opts = {}) {
 const closePage = async page => { page.problems.push(...(await page.evaluate(() => (window.__csp || []).map(x => 'CSP: ' + x)).catch(() => []))); await page.context().close(); };
 const cartOf = page => page.evaluate(() => JSON.parse(localStorage.getItem('stike_cart_v1') || '[]'));
 const setCart = (page, cart) => page.evaluate(c => localStorage.setItem('stike_cart_v1', JSON.stringify(c)), cart);
-async function fillShip(page) {
+async function fillShip(page, ack = true) {
   await page.fill('#ship-name', SHIP.name); await page.fill('#ship-phone', SHIP.phone);
   await page.fill('#ship-address', SHIP.address); await page.fill('#ship-city', SHIP.city); await page.fill('#ship-notes', SHIP.notes);
+  if (ack) await page.check('#ship-ack');   // «entiendo que el envio no esta incluido...»: sin marcarla no se puede pagar
 }
 async function addViaPdp(page, p) {
   await page.goto(`${BASE}/producto/${p.slug}.html`, { waitUntil: 'load' });
@@ -172,15 +172,28 @@ try {
     await addViaPdp(page, p);
     eq('la ficha agrega al carrito', (await cartOf(page)).map(r => [r.slug, r.qty]), [[p.slug, 1]]);
     await page.goto(`${BASE}/carrito.html`, { waitUntil: 'load' });
-    eq('el carrito muestra el total con envio', await cartTotalFromScreen(page), totalWithShip(p.price));
+    eq('el carrito muestra el total a pagar ahora: solo los productos (sin envio)', await cartTotalFromScreen(page), totalToPay(p.price));
     eq('el carrito muestra los 5 medios de pago (con Bancolombia, sin Efecty)', [await page.locator('.summary .pay-chip img').evaluateAll(a => a.map(i => i.alt)), (await page.locator('.summary').innerText()).includes('Efecty')], [['Visa', 'Mastercard', 'PSE', 'Nequi', 'Bancolombia'], false]);
     t('ya no hay codigo promo falso', (await page.locator('#promo').count()) === 0);
-    await page.click('#pay-btn');   // sin datos de envio
+    await page.click('#pay-btn');   // sin datos de envio ni casilla
     t('sin datos de envio no abre Wompi', (await page.evaluate(() => window.__wompiOpened)) !== true);
-    await fillShip(page);
+
+    // El ENVIO no se cobra en el pago: se cotiza por WhatsApp y corre por cuenta del cliente.
+    const cartText = await page.locator('#cart-mount').innerText();
+    t('el carrito dice que el envio NO esta incluido, que se cotiza por WhatsApp y que va por cuenta del cliente', /El envío no está incluido/.test(cartText) && /Se cotiza por WhatsApp/.test(cartText) && /por cuenta del cliente/.test(cartText) && /Total a pagar ahora/.test(cartText), cartText.slice(0, 300));
+    t('ya no promete envio gratis ni cobra $18.000', !/gratis/i.test(cartText) && !/18\.000/.test(cartText), cartText.slice(0, 300));
+    await fillShip(page, false);   // datos completos, pero SIN marcar la casilla del envio
+    await page.click('#pay-btn');
+    t('con los datos pero sin marcar la casilla del envio no abre Wompi, y la casilla se marca en rojo', (await page.evaluate(() => window.__wompiOpened)) !== true && await page.locator('#ship-ack-box.needs').count() === 1);
+    eq('ni siquiera se pidio la firma al servidor', page.signCalls, 0);
+    const waOrder = decodeURIComponent(await page.locator('#wa-order').getAttribute('href'));
+    t('el pedido por WhatsApp lleva la ciudad escrita y dice que el envio esta por cotizar y va por cuenta del cliente', /Bogota/.test(waOrder) && /Envío: por cotizar/.test(waOrder) && /va por mi cuenta/.test(waOrder) && !/Total:/.test(waOrder), waOrder);
+    await page.check('#ship-ack');
+    t('al marcar la casilla desaparece el aviso rojo', await page.locator('#ship-ack-box.needs').count() === 0);
     await page.click('#pay-btn');
     const cfg = await openedConfig(page);
-    eq('el widget recibe el monto del servidor = total del carrito', cfg.amountInCents, totalWithShip(p.price) * 100);
+    eq('el pedido guardado anota que el cliente acepto que el envio va por su cuenta', JSON.parse(readFileSync(join(STORAGE, 'pending', `${cfg.reference}.json`), 'utf8')).shippingAck, true);
+    eq('el widget recibe el monto del servidor = total del carrito', cfg.amountInCents, totalToPay(p.price) * 100);
     eq('moneda COP', cfg.currency, 'COP');
     eq('la firma de integridad es sha256(ref + monto + COP + secreto)', cfg.signature.integrity, expectedSig(cfg));
     eq('llave publica la da el servidor', cfg.publicKey, 'pub_test_falsa');
@@ -193,6 +206,10 @@ try {
     await page.waitForURL(/pago-resultado\.html\?id=txn-e2e-1/);
     await page.waitForSelector('.co-success h3');
     eq('muestra pago exitoso', await page.locator('.co-success h3').textContent(), '¡Pago exitoso!');
+    const okText = await page.locator('.co-success').innerText();
+    t('y dice que falta el envio: lo cotizan por WhatsApp, no estaba incluido y va por cuenta del cliente', /Falta el envío/.test(okText) && /WhatsApp/.test(okText) && /no estaba incluido/.test(okText) && /por cuenta del cliente/.test(okText), okText);
+    const okWa = decodeURIComponent(await page.locator('.co-success a.wa').getAttribute('href'));
+    t('con un boton de WhatsApp que ya trae la referencia, la ciudad y el pedido de cotizar el envio', /pedir el valor del envío por whatsapp/i.test(await page.locator(".co-success a.wa").innerText()) && okWa.includes(cfg.reference) && /Bogota/.test(okWa) && /cotices el envío/.test(okWa), okWa);
     eq('el carrito del navegador queda vacio', await cartOf(page), []);
     await page.waitForFunction(() => true); await page.waitForTimeout(600);
     const sale = salesLog().filter(x => x.orderRef === cfg.reference);
@@ -200,6 +217,7 @@ try {
     eq('con direccion y wompiId', [sale[0].shipping.address, sale[0].wompiId, sale[0].source], [SHIP.address, 'txn-e2e-1', 'wompi']);
     t('el pedido pendiente se limpia', !pendingExists(cfg.reference));
     eq('un correo al dueno', emails.length, 1);
+    t('el correo dice que el envio NO se cobro, que lo cotice por WhatsApp (con el boton al cliente) y que el cliente lo acepto', emails[0].html.includes('El envío NO se cobró') && emails[0].html.includes('https://wa.me/573001112233') && emails[0].html.includes('El cliente aceptó') && /cotizar envío/.test(emails[0].subject), emails[0].subject);
     await page.reload({ waitUntil: 'load' });
     await page.waitForSelector('.co-success h3'); await page.waitForTimeout(600);
     eq('recargar la pagina de resultado no duplica la venta', salesLog().filter(x => x.orderRef === cfg.reference).length, 1);
@@ -294,7 +312,7 @@ try {
     await fillShip(page);
     await page.click('#pay-btn');
     const cfg = await openedConfig(page);
-    eq('y el pago abre con el total que se ve', cfg.amountInCents, totalWithShip(stocked.price * cap + ok.price) * 100);
+    eq('y el pago abre con el total que se ve', cfg.amountInCents, totalToPay(stocked.price * cap + ok.price) * 100);
     // el "+" no pasa del stock
     await page.goto(`${BASE}/carrito.html`, { waitUntil: 'load' });
     await setCart(page, [{ slug: stocked.slug, qty: cap }]);
@@ -353,7 +371,7 @@ try {
     await page.click('#pay-btn');
     await page.waitForFunction(() => location.hostname === 'checkout.wompi.co', null, { timeout: 8000 });
     const u = new URL(page.url());
-    eq(`[${mode}] llega a checkout.wompi.co/p/ con monto y firma`, [u.pathname, u.searchParams.get('amount-in-cents'), u.searchParams.get('currency'), u.searchParams.get('public-key')], ['/p/', String(totalWithShip(p.price) * 100), 'COP', 'pub_test_falsa']);
+    eq(`[${mode}] llega a checkout.wompi.co/p/ con monto y firma`, [u.pathname, u.searchParams.get('amount-in-cents'), u.searchParams.get('currency'), u.searchParams.get('public-key')], ['/p/', String(totalToPay(p.price) * 100), 'COP', 'pub_test_falsa']);
     eq(`[${mode}] la firma de integridad viaja`, u.searchParams.get('signature:integrity'), createHash('sha256').update(`${u.searchParams.get('reference')}${u.searchParams.get('amount-in-cents')}COP${SECRET}`).digest('hex'));
     eq(`[${mode}] y vuelve a pago-resultado`, u.searchParams.get('redirect-url'), `${BASE}/pago-resultado.html`);
     await page.context().close();
@@ -398,7 +416,7 @@ try {
       await page.click('#pay-btn');
       let cfg;
       try { cfg = await openedConfig(page); } catch { cfg = null; }
-      const expect = totalWithShip(D.stikePriceFor(p, row.size || null, row.color || null) * row.qty);
+      const expect = totalToPay(D.stikePriceFor(p, row.size || null, row.color || null) * row.qty);
       t(`[${label}] ${p.slug} ${[row.size, row.color].filter(Boolean).join('/')}: ficha -> carrito -> Wompi cobra ${expect}`, cfg && cfg.amountInCents === expect * 100 && shown === expect, `pantalla ${shown}, widget ${cfg && cfg.amountInCents / 100}, esperado ${expect}; ${page.problems.join('|')}`);
       await closePage(page);
       if (page.problems.length) t(`[${label}] ${p.slug}: sin errores de JS ni CSP`, false, page.problems.join(' | '));
@@ -433,8 +451,8 @@ try {
       await page.click('#pay-btn');
       let cfg; try { cfg = await openedConfig(page); } catch { cfg = null; }
       const err = await page.locator('#pay-error:not([hidden])').count() ? await page.locator('#pay-error').innerText() : '';
-      const good = rows === chunk.length && notice === 0 && cfg && cfg.amountInCents === totalWithShip(sub) * 100;
-      t(`tanda ${++chunks}: ${chunk.length} lineas -> ${rows} filas, sin avisos, cobro ${totalWithShip(sub)}`, good, `filas ${rows}, avisos ${notice}, widget ${cfg && cfg.amountInCents / 100}, error "${err}"`);
+      const good = rows === chunk.length && notice === 0 && cfg && cfg.amountInCents === totalToPay(sub) * 100;
+      t(`tanda ${++chunks}: ${chunk.length} lineas -> ${rows} filas, sin avisos, cobro ${totalToPay(sub)}`, good, `filas ${rows}, avisos ${notice}, widget ${cfg && cfg.amountInCents / 100}, error "${err}"`);
       lineCount += chunk.length;
     }
     eq('se probaron todas las combinaciones comprables', lineCount, lines.length);

@@ -32,14 +32,15 @@ const cat = [
 console.log('\nEl monto sale del catalogo');
 const a = P.priceOrder(cat, [{ slug: 'barato', qty: 2 }]);
 t('2 x 100.000 = subtotal 200.000', a.subtotal, 200000);
-t('bajo el umbral cobra envio',     a.shipping, P.SHIP_COST);
-t('total = subtotal + envio',       a.total, 200000 + P.SHIP_COST);
-t('centavos = total x 100',         a.amountInCents, (200000 + P.SHIP_COST) * 100);
+t('el envio NO se cobra en el pago (se cotiza por WhatsApp y lo paga el cliente)', a.shipping, 0);
+t('total = solo los productos',     a.total, 200000);
+t('centavos = total x 100',         a.amountInCents, 200000 * 100);
 
-console.log('\nEnvio gratis (umbral inclusivo, igual que carrito.html)');
-t('justo en el umbral -> gratis',  P.priceOrder(cat, [{ slug: 'barato', qty: 3 }]).shipping, 0);
-t('un peso debajo -> cobra envio', P.priceOrder([{ slug: 'x', n: 'x', price: P.FREE_SHIP - 1 }], [{ slug: 'x', qty: 1 }]).shipping, P.SHIP_COST);
-t('producto caro -> gratis',       P.priceOrder(cat, [{ slug: 'caro', qty: 1 }]).total, 1850000);
+console.log('\nEl envio nunca entra al cobro, sea cual sea el monto (ya no hay umbral de envio gratis)');
+t('un pedido barato no paga envio',    P.priceOrder([{ slug: 'x', n: 'x', price: 20000 }], [{ slug: 'x', qty: 1 }]).total, 20000);
+t('justo en el viejo umbral ($300.000): mismo total', P.priceOrder(cat, [{ slug: 'barato', qty: 3 }]).total, 300000);
+t('producto caro: solo su precio',     P.priceOrder(cat, [{ slug: 'caro', qty: 1 }]).total, 1850000);
+t('ya no existen las constantes de envio', [P.FREE_SHIP, P.SHIP_COST], [undefined, undefined]);
 
 console.log('\nVarias lineas');
 const m = P.priceOrder(cat, [{ slug: 'barato', qty: 1 }, { slug: 'barato', qty: 1, size: 'M' }, { slug: 'caro', qty: 1 }]);

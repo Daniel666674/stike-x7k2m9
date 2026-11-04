@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css?v=36b157d2">
+  <link rel="stylesheet" href="assets/css/styles.css?v=378f57df">
   <link rel="icon" href="assets/img/favicon.png">
 </head>
 <body>
@@ -29,8 +29,8 @@
 
   <script src="assets/js/products-data.js?v=3"></script>
   <script src="assets/js/data.js?v=79ae0870"></script>
-  <script src="assets/js/app.js?v=2129ca3b"></script>
-  <script src="assets/js/wompi.js?v=e7ab6ca2"></script>
+  <script src="assets/js/app.js?v=7c71e1a1"></script>
+  <script src="assets/js/wompi.js?v=583a36d7"></script>
   <script>
     stikeInit();
 
@@ -98,12 +98,13 @@
         if (r.color) variantBits.push(`Color ${r.color}`);
         const variant = variantBits.length ? ` (${variantBits.join(", ")})` : "";
         return `• ${r.qty}x ${p.n}${variant}, ${stikePrice(stikePriceFor(p, r.size || null, r.color || null) * r.qty)}`;
-      }).filter(Boolean).join("%0A");
+      }).filter(Boolean).join("\n");
       const amountPesos = Math.round((txn.amount_in_cents || 0) / 100);
       const shipLines = shipInfo
-        ? `%0A%0AEnviar a:%0A${shipInfo.name} - ${shipInfo.phone}%0A${shipInfo.address}, ${shipInfo.city}` + (shipInfo.notes ? `%0ANotas: ${shipInfo.notes}` : "")
+        ? `\n\nEnviar a:\n${shipInfo.name} - ${shipInfo.phone}\n${shipInfo.address}, ${shipInfo.city}` + (shipInfo.notes ? `\nNotas: ${shipInfo.notes}` : "")
         : "";
-      const waMsg = `Hola Stike! Ya pague mi pedido por Wompi.%0AReferencia: ${ref}%0A${waLines}%0A%0ATotal pagado: ${stikePrice(amountPesos)}${shipLines}`;
+      /* Todo el mensaje se codifica junto: una direccion con «#» (Calle 1 # 2-3) cortaba el mensaje de WhatsApp en ese caracter. */
+      const waMsg = encodeURIComponent(`Hola Stike! Ya pague mi pedido por Wompi.\nReferencia: ${ref}\n${waLines}\n\nTotal pagado (solo productos): ${stikePrice(amountPesos)}${shipLines}\n\nQuiero que me cotices el envío (va por mi cuenta).`);
 
       /* Solo la referencia y el id: el servidor ignora cualquier otro dato del navegador. */
       /* Si el servidor falla un momento (hosting lento, disco ocupado) se reintenta 3 veces; el registro es
@@ -127,8 +128,8 @@
       stikeClearShipping();
       renderState({
         icon: CHECK_SVG, title: "¡Pago exitoso!", orderNo: ref,
-        message: "Avísanos por WhatsApp para confirmar el envío de tu pedido:",
-        extra: `<a class="btn wa block" style="margin-bottom:10px" href="${waLink(waMsg)}" target="_blank" rel="noopener">Avisar por WhatsApp</a>`,
+        message: "Pagaste tus productos. <b>Falta el envío</b>: lo calculamos según tu ciudad y te lo compartimos por <b>WhatsApp</b>. El envío no estaba incluido en este pago y <b>corre por cuenta del cliente</b>; despachamos cuando lo confirmes y lo pagues. Para ir más rápido, escríbenos tú ahora:",
+        extra: `<a class="btn wa block" style="margin-bottom:10px" href="${waLink(waMsg)}" target="_blank" rel="noopener">Pedir el valor del envío por WhatsApp</a>`,
         actionHref: "tienda.html", actionLabel: "Volver a la tienda",
       });
     }

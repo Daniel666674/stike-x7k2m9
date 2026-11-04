@@ -30,7 +30,6 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const D = require(join(ROOT, 'assets/js/data.js'));
 const P = require(join(ROOT, 'vercel-wompi-api/lib/pricing.js'));
 
-const FREE_SHIP = 300000, SHIP_COST = 18000;
 const SHIP = { name: 'Cliente Prueba', phone: '3001112233', address: 'Calle 1 # 2-3', city: 'Bogota', notes: '' };
 
 const freePort = () => new Promise(res => { const s = createNetServer(); s.listen(0, '127.0.0.1', () => { const p = s.address().port; s.close(() => res(p)); }); });
@@ -38,7 +37,7 @@ const STORAGE = mkdtempSync(join(tmpdir(), 'stike-cat-'));
 const port = await freePort();
 const proc = spawn('php', ['-S', `127.0.0.1:${port}`, '-t', ROOT], {
   env: {
-    ...process.env, STORAGE_DIR: STORAGE, NO_PROXY: '*', no_proxy: '*',
+    ...process.env, STORAGE_DIR: STORAGE, NO_PROXY: '*', no_proxy: '*', STIKE_SIGN_RATE_LIMIT: '1000000',   // la prueba firma cientos de variantes desde una sola IP
     WOMPI_PUBLIC_KEY: 'pub_test_falsa', WOMPI_PRIVATE_KEY: 'prv_test_falsa', WOMPI_INTEGRITY_SECRET: 'test_integrity_falso',
   },
   stdio: 'ignore',
@@ -75,9 +74,9 @@ try {
       if (kept !== (r.code === 200)) bad.push(`${tag}: el carrito ${kept ? 'lo deja' : 'lo quita'} pero el servidor responde ${r.code}`);
       if (sellable && priced) {
         buyable++;
-        const want = (price >= FREE_SHIP ? price : price + SHIP_COST) * 100;
+        const want = price * 100;   // el envio no se cobra en el pago: solo el precio del producto
         if (r.code !== 200) bad.push(`${tag}: el sitio lo deja comprar pero el servidor responde ${r.code} ${r.body && r.body.error}`);
-        else if (r.body.amount_in_cents !== want) bad.push(`${tag}: el cliente ve ${price} y el servidor cobra ${r.body.amount_in_cents / 100 - (price >= FREE_SHIP ? 0 : SHIP_COST)}`);
+        else if (r.body.amount_in_cents !== want) bad.push(`${tag}: el cliente ve ${price} y el servidor cobra ${r.body.amount_in_cents / 100}`);
         // si hay stock registrado, pedir uno mas debe rechazarse
         if (r.code === 200 && stock !== null && stock <= 20) {
           const over = await sign([{ slug: p.slug, qty: stock + 1, size: s, color: c }]);

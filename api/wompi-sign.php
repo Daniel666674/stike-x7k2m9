@@ -11,9 +11,10 @@
    no puedan quedar mezcladas.
 
    Que hace: recibe {reference, items:[{slug, qty, size?, color?}], shipping,
-   customerEmail?} desde el carrito. Calcula el monto AQUI con los precios del
-   catalogo publicado (assets/js/products-data.js), guarda el pedido (que se
-   compro y a donde enviarlo) y firma
+   shippingAck?, customerEmail?} desde el carrito. Calcula el monto AQUI con los
+   precios del catalogo publicado (assets/js/products-data.js) -- solo los
+   productos: el envio se cotiza aparte por WhatsApp --, guarda el pedido (que
+   se compro y a donde enviarlo) y firma
    SHA256(reference + amount_in_cents + currency + secreto).
 
    El navegador nunca manda ni decide el monto: cualquier amount_in_cents que
@@ -54,6 +55,9 @@ stike_run(function () {
     "lines" => $priced["lines"], "subtotal" => $priced["subtotal"], "shippingCost" => $priced["shipping"],
     "amountInCents" => $priced["amountInCents"],
     "shipping" => $shipping, "customerEmail" => $customerEmail,
+    /* El envio NO va en el cobro: se cotiza por WhatsApp y lo paga el cliente. El carrito exige una casilla («entiendo que el envio no
+       esta incluido...»); se guarda para que el dueno sepa que el cliente lo acepto. */
+    "shippingAck" => !empty($body["shippingAck"]),
   ]);
 
   $signature = hash("sha256", $reference . $priced["amountInCents"] . STIKE_CURRENCY . $keys["integrity"]);

@@ -197,16 +197,8 @@
     return out.slice(0, 80);
   }
 
-  function shippingDetails(site) {
-    var sh = site.shipping;
-    if (!sh) return null;
-    return {
-      "@type": "OfferShippingDetails",
-      "shippingRate": { "@type": "MonetaryAmount", "value": sh.cost, "currency": "COP" },
-      "shippingDestination": { "@type": "DefinedRegion", "addressCountry": "CO" },
-      "deliveryTime": { "@type": "ShippingDeliveryTime", "transitTime": { "@type": "QuantitativeValue", "minValue": 1, "maxValue": 5, "unitCode": "DAY" } }
-    };
-  }
+  /* Sin shippingDetails a proposito: el envio no tiene tarifa fija (se cotiza por WhatsApp y lo paga el cliente), y declarar un
+     shippingRate en los datos estructurados le diria a Google un costo que no es el real. */
 
   /* @graph: Product (o ProductGroup con una variante por color/talla) +
      BreadcrumbList. Un producto agrupado le dice a Google y a los
@@ -217,14 +209,12 @@
     if (!imgs.length) imgs = [ogImage];
     var itemCond = isUsed(p) ? "https://schema.org/UsedCondition" : "https://schema.org/NewCondition";
     var seller = { "@type": "Organization", "@id": site.url("") + "#organization", "name": site.name };
-    var ship = shippingDetails(site);
     var mkOffer = function (price, units, url) {
       var o = {
         "@type": "Offer", "url": url, "priceCurrency": "COP", "price": String(price),
         "availability": (typeof units === "number" && units <= 0) ? "https://schema.org/OutOfStock" : "https://schema.org/InStock",
         "itemCondition": itemCond, "seller": seller
       };
-      if (ship) o.shippingDetails = ship;
       return o;
     };
     var desc = describe(p, site);

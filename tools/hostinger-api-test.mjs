@@ -84,7 +84,7 @@ const barato = vendibles.reduce((a, p) => (p.price < a.price ? p : a));
 const caro = vendibles.reduce((a, p) => (p.price > a.price ? p : a));
 const agotado = real.find(p => !(p.sizes && p.sizes.length) && !(p.colors && p.colors.length) && p.units === 0);
 const SHIP = { name: 'Cliente Prueba', phone: '3001112233', address: 'Calle 1 # 2-3', city: 'Bogota', notes: 'Timbre roto' };
-const order = (ref, extra = {}) => ({ reference: ref, items: [{ slug: barato.slug, qty: 2, size: 'M', color: 'Negro' }, { slug: caro.slug, qty: 1 }], shipping: SHIP, customerEmail: 'cliente@example.com', ...extra });
+const order = (ref, extra = {}) => ({ reference: ref, items: [{ slug: barato.slug, qty: 2, size: 'M', color: 'Negro' }, { slug: caro.slug, qty: 1 }], shipping: SHIP, shippingAck: true, customerEmail: 'cliente@example.com', ...extra });
 const expectedCents = P.priceOrder(real, [{ slug: barato.slug, qty: 2 }, { slug: caro.slug, qty: 1 }]).amountInCents;
 const approve = (id, ref, cents = expectedCents) => { txns[id] = { status: 'APPROVED', reference: ref, amount_in_cents: cents, customer_email: 'cliente@example.com' }; };
 
@@ -99,6 +99,11 @@ try {
   const pend = JSON.parse(readFileSync(join(STORAGE, 'pending', `${R1}.json`), 'utf8'));
   t('guarda a donde enviar', pend.shipping.address, 'Calle 1 # 2-3');
   t('guarda talla y color', [pend.lines[0].size, pend.lines[0].color], ['M', 'Negro']);
+  t('el cobro es SOLO el de los productos: el envio no se cobra (se cotiza por WhatsApp y lo paga el cliente)', [s1.body.shipping, s1.body.total, s1.body.subtotal, pend.shippingCost], [0, s1.body.subtotal, s1.body.subtotal, 0]);
+  t('guarda que el cliente acepto que el envio va por su cuenta', pend.shippingAck, true);
+  const sAck = await post(A.url, 'wompi-sign', order('stike-1700000000005-eeeeee', { shippingAck: undefined }));
+  t('sin la casilla igual firma (el servidor no la exige) pero queda anotado que no la marco', [sAck.code, JSON.parse(readFileSync(join(STORAGE, 'pending', 'stike-1700000000005-eeeeee.json'), 'utf8')).shippingAck], [200, false]);
+  rmSync(join(STORAGE, 'pending', 'stike-1700000000005-eeeeee.json'), { force: true });
   t('sin datos de envio -> rechazado', (await post(A.url, 'wompi-sign', order('stike-1700000000002-bbbbbb', { shipping: undefined }))).body.error, 'missing_shipping');
   t('envio incompleto -> rechazado', (await post(A.url, 'wompi-sign', order('stike-1700000000002-bbbbbb', { shipping: { ...SHIP, address: '' } }))).body.error, 'missing_shipping');
   t('contrato viejo (solo monto) -> rechazado', (await post(A.url, 'wompi-sign', { reference: 'stike-1700000000003-cccccc', amount_in_cents: 100, currency: 'COP' })).body.error, 'empty_order');
@@ -123,6 +128,11 @@ try {
   t('sale 1 correo al dueno', [emails.length, emails[0].to], [1, ['dueno@example.com']]);
   t('el correo trae direccion y total pagado', [emails[0].html.includes('Calle 1 # 2-3'), emails[0].html.includes('Total pagado'), emails[0].html.includes('Timbre roto')], [true, true, true]);
   t('el correo usa la llave de Resend', emails[0].auth, 'Bearer re_falsa');
+  t('el correo dice que el envio NO se cobro, que solo se pagaron productos y que el cliente acepto que va por su cuenta', [emails[0].html.includes('El envío NO se cobró'), emails[0].html.includes('solo productos: el envío no está incluido'), emails[0].html.includes('El cliente aceptó')], [true, true, true]);
+  t('trae el boton de WhatsApp al telefono del cliente (+57) con el pedido y la ciudad ya escritos', [emails[0].html.includes('https://wa.me/573001112233?text='), decodeURIComponent((emails[0].html.match(/wa\.me\/573001112233\?text=([^"]+)"/) || [])[1] || '').includes(R1), decodeURIComponent((emails[0].html.match(/wa\.me\/573001112233\?text=([^"]+)"/) || [])[1] || '').includes('Bogota')], [true, true, true]);
+  t('el asunto avisa que hay que cotizar el envio', /cotizar envío/.test(emails[0].subject), true);
+  t('la venta guardada lleva la aceptacion del cliente', v1[0].shippingAck, true);
+  t('lo que sale al navegador del cliente no trae el correo del dueno ni el enlace a WhatsApp', [JSON.stringify(o1.body).includes('dueno@example.com'), JSON.stringify(o1.body).includes('wa.me')], [false, false]);
 
   console.log('\nIdempotencia (recargar la pagina / reintento)');
   const o1b = await post(A.url, 'wompi-order', { reference: R1, wompiId: 'txn-1001' });
@@ -315,6 +325,18 @@ try {
   const prod = await withKeys({ WOMPI_PUBLIC_KEY: 'pub_prod_falsa', WOMPI_PRIVATE_KEY: 'prv_prod_falsa', WOMPI_INTEGRITY_SECRET: 'prod_integrity_falso' }, 'stike-1700000000063-oooooo');
   t('juego completo de produccion -> firma bien', [prod.code, prod.body.public_key], [200, 'pub_prod_falsa']);
   t('y la firma usa el secreto de produccion', prod.body.signature, createHash('sha256').update(`stike-1700000000063-oooooo${prod.body.amount_in_cents}COPprod_integrity_falso`).digest('hex'));
+
+  console.log('\nPedido que quedo en curso ANTES del cambio de envio (pago el envio dentro del total)');
+  const RL = 'stike-1700000000070-legado';
+  await post(A.url, 'wompi-sign', order(RL));
+  const pf = join(STORAGE, 'pending', `${RL}.json`);
+  const pl = JSON.parse(readFileSync(pf, 'utf8')); pl.amountInCents += 1800000; pl.shippingCost = 18000; writeFileSync(pf, JSON.stringify(pl));
+  approve('txn-legado', RL, expectedCents + 1800000);
+  const nEm = emails.length;
+  const ol = await post(A.url, 'wompi-order', { reference: RL, wompiId: 'txn-legado' });
+  t('se registra normal (el monto coincide con el pedido guardado)', [ol.code, ol.body.flag], [200, null]);
+  const eml = emails[nEm];
+  t('el correo dice «incluye envío $18.000» y NO pide cotizar el envio (ya lo pago)', [eml.html.includes('incluye envío $18.000'), eml.html.includes('El envío NO se cobró'), /cotizar envío/.test(eml.subject)], [true, false, false]);
 } finally {
   A.proc.kill(); wompi.close(); resend.close();
   rmSync(STORAGE, { recursive: true, force: true });

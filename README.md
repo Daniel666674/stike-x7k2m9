@@ -35,7 +35,7 @@ backend**, no hay servidor ni base de datos.
   - `producto/<slug>.html` — Una página **generada** por producto (galería,
     talla/color con stock real, cantidad, specs); `producto.html?id=` viejo
     redirige a la nueva URL
-  - `carrito.html` — Carrito con cantidades, envío gratis y checkout por WhatsApp
+  - `carrito.html` — Carrito con cantidades; el envío NO se cobra (se cotiza por WhatsApp y lo paga el cliente) y checkout por WhatsApp o Wompi
   - `marcas.html`, `contacto.html`, `nosotros.html`, `armar.html` (configurador), `blog*.html`
   - `admin.html` — Panel de inventario (ver abajo)
   - `fate/` — Sitio de marca de **Fate BMX Colombia**. **No es una tienda**:
@@ -218,9 +218,17 @@ Cambiar de uno a otro es cambiar esas llaves: ver "Salir a producción".
 
 1. El carrito manda al servidor los productos (`slug` + cantidad + talla/color) y
    los datos de envío, **nunca un monto**.
-2. El servidor calcula el total con los precios del catálogo publicado (subtotal +
-   envío, gratis desde $300.000), **guarda el pedido** y firma ese monto con el
-   secreto de integridad de Wompi. El navegador abre el widget de Wompi con eso.
+2. El servidor calcula el total con los precios del catálogo publicado (**solo los
+   productos: el envío no se cobra en el pago**), **guarda el pedido** y firma ese monto
+   con el secreto de integridad de Wompi. El navegador abre el widget de Wompi con eso.
+   **El envío** se calcula para cada pedido (ciudad, peso, transportadora), se le comparte
+   al cliente por WhatsApp y **corre por su cuenta**: el carrito lo explica (aviso, línea
+   «Se cotiza por WhatsApp» y una casilla obligatoria que el servidor anota como
+   `shippingAck`), la página de pago exitoso le da un botón de WhatsApp con la ciudad, el
+   correo de nueva venta dice «el envío NO se cobró» con un botón de WhatsApp al cliente,
+   y el detalle de la venta en el panel trae lo mismo. Las páginas `envios.html`,
+   `terminos.html`, las preguntas frecuentes y las fichas dicen lo mismo; no hay tarifa
+   fija ni «gratis desde» en ningún lado (tampoco en los datos de Google).
 3. Cuando Wompi aprueba el pago, la venta se registra por **dos caminos** que no
    se pisan (idempotente por referencia): el regreso del cliente a
    `pago-resultado.html` (`wompi-order`) y el **webhook** de Wompi
@@ -241,9 +249,9 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
 
 - `api/` (Hostinger, PHP): `wompi-sign.php`, `wompi-order.php`, `wompi-events.php`,
   `sales.php` (lo lee el panel, exige clave), `wompi-status.php`, y `_lib.php`
-  (lo compartido). Las constantes de envío (`FREE_SHIP`, `SHIP_COST`) están en
-  `carrito.html`, `api/_lib.php` y `vercel-wompi-api/lib/pricing.js`: si se
-  cambian, cambiarlas en los tres.
+  (lo compartido). El monto a cobrar (solo productos) lo calculan igual
+  `carrito.html`, `api/_lib.php` y `vercel-wompi-api/lib/pricing.js`: si se cambia
+  la regla, cambiarla en los tres.
 - `vercel-wompi-api/` (demo en GitHub Pages): backend temporal en Vercel que
   existe porque Pages no corre PHP. Se borra cuando el sitio viva en Hostinger.
   **Nunca poner llaves de producción en Vercel.**

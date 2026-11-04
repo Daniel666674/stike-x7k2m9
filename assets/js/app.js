@@ -19,7 +19,7 @@ const STIKE_CONFIG = {
   /* --- Datos legales (los muestran terminos.html y privacidad.html) --- */
   legalName: "Jefersson Stike Parra González",   // persona natural; si algun dia pasa a una S.A.S., cambiar aca
   nit: "1013643302-7",
-  legalUpdated: "14 de octubre de 2026",
+  legalUpdated: "3 de noviembre de 2026",
   /* Envío de formularios (contacto + boletín) por correo real al dueño.
      Para activarlo (gratis, sin tarjeta, sin contraseña):
        1. Entra a https://web3forms.com

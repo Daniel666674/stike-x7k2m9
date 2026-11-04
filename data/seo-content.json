@@ -105,11 +105,15 @@
       "items": [
         {
           "q": "¿Hacen envíos a toda Colombia?",
-          "a": "Sí. Despachamos a todo el país con transportadoras aliadas. En Bogotá la entrega a domicilio tarda de 24 a 48 horas hábiles, en ciudades cercanas de 1 a 2 días hábiles y en las más lejanas de 2 a 3 días hábiles, si no hay contratiempos. También puedes recoger tu pedido sin costo en nuestra tienda de Venecia. Detalles en [Envíos y entregas](envios.html)."
+          "a": "Sí. Despachamos a todo el país con transportadoras aliadas. En Bogotá la entrega a domicilio tarda de 24 a 48 horas hábiles, en ciudades cercanas de 1 a 2 días hábiles y en las más lejanas de 2 a 3 días hábiles, si no hay contratiempos. También puedes recoger tu pedido sin costo en nuestra tienda de Venecia. El valor del envío se calcula para cada pedido, se comparte por WhatsApp y corre por cuenta del cliente. Detalles en [Envíos y entregas](envios.html)."
         },
         {
           "q": "¿Cuánto cuesta el envío?",
-          "a": "En la tienda en línea el envío dentro de Colombia cuesta {{shipCost}} y es gratis en compras desde {{freeFrom}}. Recoger en la tienda de Venecia, Bogotá, no tiene costo."
+          "a": "El envío no está incluido en el precio de los productos ni en el pago en línea. Lo calculamos para cada pedido según tu ciudad y el peso, y te lo compartimos por WhatsApp antes de despachar. El valor del envío corre por cuenta del cliente. Recoger en la tienda de Venecia, Bogotá, no tiene costo."
+        },
+        {
+          "q": "¿Cómo y cuándo pago el envío?",
+          "a": "Primero pagas tus productos en la tienda en línea. Luego te escribimos por WhatsApp (o nos escribes tú al {{phone}}) con el valor del envío a tu ciudad; lo pagas aparte por los medios que te indiquemos y despachamos tu pedido. El envío siempre va por cuenta del cliente."
         },
         {
           "q": "¿Hacen envíos internacionales?",

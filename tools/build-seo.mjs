@@ -451,11 +451,10 @@ function faqFromHtml(html) {
 }
 
 /* ---- preguntas-frecuentes.html: el contenido sale de data/seo-content.json y
-   de site.js (precios de envio, telefono, horario), asi que no se desactualiza. ---- */
+   de site.js (telefono, horario), asi que no se desactualiza. ---- */
 const FAQ_START = "<!--faq:start-->", FAQ_END = "<!--faq:end-->";
 function faqTokens() {
   return {
-    shipCost: money(SITE.shipping.cost), freeFrom: money(SITE.shipping.freeFrom),
     phone: B.telephone.replace(/^\+57(\d{3})(\d{3})(\d{4})$/, "+57 $1 $2 $3"), email: B.email,
     address: `${B.street}, ${B.locality}, ${B.region}`, hours: B.hours.text,
     payments: (B.payments || []).join(", "), topBrands: brandsByCount().slice(0, 6).map(([b]) => b).join(", "),
@@ -662,7 +661,7 @@ function variantSummary(p) {
   if (p.sizes && p.sizes.length > 1) bits.push(`${String(p.sizeLabel || "tallas").toLowerCase()}: ${p.sizes.map((z) => z.v).join(", ")}`);
   return bits.join("; ");
 }
-const policyLine = `Envío dentro de Colombia: ${money(SITE.shipping.cost)}; gratis en compras desde ${money(SITE.shipping.freeFrom)}. Bogotá: entrega en 24 a 48 horas hábiles o recoge en tienda sin costo.`;
+const policyLine = `Envío: no está incluido en el precio de los productos; se calcula para cada pedido y se comparte por WhatsApp, y corre por cuenta del cliente. Bogotá: entrega en 24 a 48 horas hábiles o recoge en tienda sin costo.`;
 
 function businessFacts() {
   return [
@@ -790,7 +789,6 @@ const x = (s) => String(s == null ? "" : s).replace(/[\u0000-\u0008\u000B\u000C\
         group ? `<g:item_group_id>${x(p.sku)}</g:item_group_id>` : "",
         v.color != null ? `<g:color>${x(v.color)}</g:color>` : "",
         v.size != null ? `<g:size>${x(v.size)}</g:size>` : "",
-        `<g:shipping><g:country>CO</g:country><g:service>Estándar</g:service><g:price>${SITE.shipping.cost}.00 COP</g:price></g:shipping>`,
       ].filter(Boolean);
       items.push(`    <item>\n      ${lines.join("\n      ")}\n    </item>`);
     }

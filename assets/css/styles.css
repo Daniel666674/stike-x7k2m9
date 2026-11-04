@@ -2471,6 +2471,18 @@ body.vb-lock { overflow: hidden; }
 .pay-error a { color: inherit; font-weight: 700; text-decoration: underline; }
 .summary .btn[disabled] { opacity: .6; cursor: wait; }
 .summary > .line.total { margin-top: 14px; }
+/* Envio: no va en el cobro; se cotiza por WhatsApp y corre por cuenta del cliente (carrito.html). */
+.summary .line.ship-line .ship-quote { color: var(--ink); font-weight: 600; font-size: 14px; text-align: right; }
+.summary .ship-fine { margin: -2px 0 0; font-size: 12.5px; color: var(--muted); }
+.summary .ship-fine b { color: var(--ink); font-weight: 600; }
+.ship-notice { margin: 14px 0 0; padding: 12px 14px; border-radius: 10px; background: rgba(255,176,32,.08); border: 1px solid rgba(255,176,32,.4); font-size: 13.5px; line-height: 1.45; color: var(--ink); }
+.ship-notice ol { margin: 6px 0 6px 18px; padding: 0; }
+.ship-notice li + li { margin-top: 3px; }
+.ship-notice p { margin: 6px 0 0; color: var(--muted); }
+.ship-ack { display: flex; gap: 10px; align-items: flex-start; margin: 14px 0 0; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; }
+.ship-ack input { margin: 3px 0 0; width: 18px; height: 18px; flex: none; accent-color: var(--mint, #52f0d8); cursor: pointer; }
+.ship-ack label { margin: 0; font-size: 13.5px; line-height: 1.4; letter-spacing: 0; text-transform: none; color: var(--ink); cursor: pointer; }
+.ship-ack.needs { border-color: rgba(255,80,80,.75); background: rgba(255,80,80,.08); }
 
 /* Logos alargados (Nequi, Bancolombia): se miden por ancho, no por alto, para que el texto se lea. */
 .pay-chip.wm { padding: 0 16px; }

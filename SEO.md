@@ -26,8 +26,8 @@ Todo se **genera solo** desde el catálogo (`assets/js/products-data.js`) y los 
 
 ## Datos que sí hay que mantener (y dónde)
 
-* Dirección, teléfono, horario, redes, medios de pago, costo de envío y envío gratis: `assets/js/site.js` (`business`, `shipping`).
-  El costo real del carrito está en `api/_lib.php` y `carrito.html` (`STIKE_SHIP_COST`, `STIKE_FREE_SHIP`): si cambia, cámbialo en los tres.
+* Dirección, teléfono, horario, redes y medios de pago: `assets/js/site.js` (`business`).
+  El envío NO tiene tarifa: se cotiza por WhatsApp y lo paga el cliente (no va en el pago). Por eso no hay costo de envío en `site.js`, ni en los datos estructurados de los productos, ni en el feed de Google; el texto de la política está en `envios.html`, `terminos.html` y `data/seo-content.json` (preguntas frecuentes). Si en Merchant Center te piden el envío, configúralo allá («se calcula por pedido»).
 * Textos de las páginas de tipo/marca y las preguntas frecuentes: `data/seo-content.json`.
 * Todo lo demás (precios, stock, variantes, conteos, listados) sale del catálogo y se actualiza solo.
 

@@ -62,13 +62,13 @@
     return new URL("pago-resultado.html", document.baseURI).href;
   }
 
-  async function signTransaction(reference, items, shipping, customerEmail) {
+  async function signTransaction(reference, items, shipping, customerEmail, shippingAck) {
     let res;
     try {
       res = await fetch(WOMPI_API.sign, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ reference, items, shipping: shipping || null, customerEmail: customerEmail || null }),
+        body: JSON.stringify({ reference, items, shipping: shipping || null, shippingAck: !!shippingAck, customerEmail: customerEmail || null }),
       });
     } catch (netErr) {
       const err = new Error("No se pudo conectar con wompi-sign: " + netErr.message);
@@ -134,15 +134,17 @@
      code "price_mismatch" y NO se abre Wompi.
      opts.shipping (nombre, telefono, direccion, ciudad, notas): se guarda en
      el servidor junto con el pedido, para que la venta quede completa aunque
-     el cliente pague y cierre la pestana. opts.customerEmail es opcional,
-     Wompi lo usa para prellenar el checkout. */
+     el cliente pague y cierre la pestana. opts.shippingAck: el cliente marco la
+     casilla de que el envio NO esta incluido en el pago (se cotiza por
+     WhatsApp y va por su cuenta); el servidor lo anota. opts.customerEmail es
+     opcional, Wompi lo usa para prellenar el checkout. */
   async function stikeWompiCheckout(items, expectedTotalPesos, opts) {
-    const { shipping, customerEmail } = opts || {};
+    const { shipping, shippingAck, customerEmail } = opts || {};
     const reference = wompiReference();
     const signed = await signTransaction(
       reference,
       items.map(r => ({ slug: r.slug, qty: r.qty, size: r.size || null, color: r.color || null })),
-      shipping, customerEmail
+      shipping, customerEmail, shippingAck
     );
     const amountInCents = signed.amount_in_cents;
     const signature = signed.signature;

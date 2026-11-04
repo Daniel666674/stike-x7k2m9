@@ -11,17 +11,16 @@
    (assets/js/products-data.js). Cualquier precio, total o monto que venga
    en la peticion se ignora.
 
-   Las dos constantes de envio replican las de carrito.html (FREE_SHIP y
-   SHIP_COST). Si se cambian alla, cambiarlas aca: el carrito compara su
-   total con el del servidor y, si no coinciden, frena el pago antes de
+   El ENVIO no se cobra en el pago en linea: lo calcula la tienda para cada
+   pedido (ciudad, peso, transportadora), se lo comparte al cliente por
+   WhatsApp y corre por su cuenta. El carrito compara su total (solo
+   productos) con el del servidor y, si no coinciden, frena el pago antes de
    abrir Wompi (mejor un aviso que un cobro distinto al que el cliente vio).
 
    Sin dependencias, CommonJS: lo usan las funciones de Vercel, el servidor
    local de pruebas (tools/wompi-dev-server.mjs) y tools/wompi-pricing-test.mjs.
    ========================================================================= */
 
-const FREE_SHIP = 300000;   // pesos: desde este subtotal el envio es gratis
-const SHIP_COST = 18000;    // pesos
 const MAX_LINES = 50;       // lineas distintas por pedido
 const MAX_QTY = 20;         // unidades por linea
 
@@ -74,9 +73,9 @@ function priceOrder(catalog, items) {
     return { slug, name: p.n, qty, unitPrice: p.price, total };
   });
 
-  const shipping = subtotal >= FREE_SHIP ? 0 : SHIP_COST;
+  const shipping = 0;   // el envio se cotiza aparte por WhatsApp y lo paga el cliente: no entra en el cobro
   const total = subtotal + shipping;
   return { lines, subtotal, shipping, total, amountInCents: total * 100 };
 }
 
-module.exports = { FREE_SHIP, SHIP_COST, MAX_LINES, MAX_QTY, PricingError, parseCatalog, fetchCatalog, priceOrder };
+module.exports = { MAX_LINES, MAX_QTY, PricingError, parseCatalog, fetchCatalog, priceOrder };
