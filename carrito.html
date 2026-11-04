@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=Barlow+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css?v=36b157d273">
+  <link rel="stylesheet" href="assets/css/styles.css?v=378f57df8c">
   <link rel="icon" href="assets/img/favicon.png">
 </head>
 <body>
@@ -31,12 +31,14 @@
 
   <script src="assets/js/products-data.js?v=09b28bd9f2"></script>
   <script src="assets/js/data.js?v=79ae087066"></script>
-  <script src="assets/js/app.js?v=2129ca3b0e"></script>
-  <script src="assets/js/wompi.js?v=e7ab6ca294"></script>
+  <script src="assets/js/app.js?v=7c71e1a117"></script>
+  <script src="assets/js/wompi.js?v=583a36d730"></script>
   <script>
     stikeInit();
-    const FREE_SHIP = 300000;
-    const SHIP_COST = 18000;
+    /* El ENVIO no se cobra en el pago: lo calculamos para cada pedido (ciudad, peso, transportadora), se lo compartimos al cliente
+       por WhatsApp y corre por cuenta del cliente. Lo que se cobra aqui es solo el valor de los productos (lo mismo que firma el
+       servidor en api/wompi-sign.php). El cliente tiene que marcar una casilla que lo confirma antes de pagar. */
+    let shipAck = false;
 
     /* ------------------------------- Pago -------------------------------
        El boton manda al checkout de Wompi (widget embebido; si no carga,
@@ -103,6 +105,14 @@
         showPayError("Actualizamos tu carrito (ver arriba). Revisa el total y vuelve a pagar.");
         return;
       }
+      const ack = document.getElementById("ship-ack");
+      if (!ack || !ack.checked) {
+        const box = document.getElementById("ship-ack-box");
+        if (box) { box.classList.add("needs"); box.scrollIntoView({ block: "center", behavior: "smooth" }); }
+        if (ack) ack.focus({ preventScroll: true });
+        stikeToast("Marca la casilla: el envío no está incluido y lo cotizamos por WhatsApp");
+        return;
+      }
       const shipInfo = readShippingForm();
       if (!shipInfo) return;
       stikeSaveShipping(shipInfo);
@@ -119,7 +129,7 @@
       const box = document.getElementById("pay-error");
       if (box) box.hidden = true;
       setBusy(true);
-      stikeWompiCheckout(stikeGetCart(), total, { shipping: shipInfo }).then(() => {
+      stikeWompiCheckout(stikeGetCart(), total, { shipping: shipInfo, shippingAck: true }).then(() => {
         /* El widget ya se abrio: se libera el boton por si el cliente lo cierra y reintenta. */
         setTimeout(() => setBusy(false), 1500);
       }).catch(err => {
@@ -193,9 +203,7 @@
       }).join("");
 
       const subtotal = stikeCartTotal();
-      const shipping = subtotal >= FREE_SHIP ? 0 : SHIP_COST;
-      const total = subtotal + shipping;
-      const missing = FREE_SHIP - subtotal;
+      const total = subtotal;   // solo productos: el envio se cotiza por WhatsApp y se paga aparte
       const ship = stikeGetShipping() || {};
       const escAttr = s => String(s || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
       const waLines = cart.map(r => {
@@ -206,8 +214,17 @@
         if (r.color) variantBits.push(`Color ${r.color}`);
         const variant = variantBits.length ? ` (${variantBits.join(", ")})` : "";
         return `• ${r.qty}x ${p.n}${variant}, ${stikePrice(stikePriceFor(p, r.size || null, r.color || null) * r.qty)}`;
-      }).join("%0A");
-      const waMsg = `Hola Stike! Quiero hacer este pedido:%0A${waLines}%0A%0ASubtotal: ${stikePrice(subtotal)}%0ATotal: ${stikePrice(total)}`;
+      }).join("\n");
+      /* El mensaje del pedido por WhatsApp se arma con lo que haya escrito el cliente en este momento (ciudad y direccion), para que
+         podamos cotizar el envio sin volver a preguntarle a donde va. */
+      const waHref = () => {
+        const v = id => { const el = document.getElementById(id); return el ? el.value.trim() : String(ship[id.replace("ship-", "")] || "").trim(); };
+        const city = v("ship-city"), addr = v("ship-address");
+        const dest = city || addr ? `\n\nEnvío a: ${[addr, city].filter(Boolean).join(", ")}` : "";
+        const msg = `Hola Stike! Quiero hacer este pedido:\n${waLines}\n\nSubtotal productos: ${stikePrice(subtotal)}\nEnvío: por cotizar (me lo comparten por aquí y va por mi cuenta)${dest}`;
+        /* Todo el mensaje se codifica junto: una direccion con «#» (Calle 1 # 2-3) cortaba el mensaje de WhatsApp en ese caracter. */
+        return `https://wa.me/${STIKE_CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`;
+      };
 
       /* Cross-sell del carrito: una sugerencia por cada producto distinto
          que ya esta en el carrito (mismo motor que el PDP -- marca + pieza
@@ -230,15 +247,25 @@
       <div class="cart-layout">
         <div class="cart-items">
           ${cartNotes.length ? `<div class="cart-notice" role="status">${cartNotes.map(n => `<p>${n.replace(/&/g, "&amp;").replace(/</g, "&lt;")}</p>`).join("")}</div>` : ""}
-          ${subtotal < FREE_SHIP ? `<div class="ship-note">Te faltan <b>${stikePrice(missing)}</b> para el <b>envío gratis</b>.</div>` : `<div class="ship-note"><b>Envío gratis</b> aplicado a tu pedido.</div>`}
+          <div class="ship-note"><b>El envío no está incluido.</b> Lo calculamos según tu ciudad y el peso del pedido y te lo compartimos por WhatsApp. <b>El valor del envío corre por cuenta del cliente.</b></div>
           ${rows}
           <a href="tienda.html" class="link-more" style="margin-top:8px;display:inline-block">← Seguir comprando</a>
         </div>
         <aside class="summary">
           <h3>Resumen</h3>
           <div class="line"><span>Subtotal</span><span>${stikePrice(subtotal)}</span></div>
-          <div class="line"><span>Envío</span><span>${shipping === 0 ? "Gratis" : stikePrice(shipping)}</span></div>
+          <div class="line ship-line"><span>Envío</span><span class="ship-quote">Se cotiza por WhatsApp</span></div>
           <div class="line total"><span>Total</span><span>${stikePrice(total)}</span></div>
+          <p class="ship-fine"><b>Total a pagar ahora: solo los productos.</b> El envío se paga aparte, a cargo del cliente.</p>
+          <div class="ship-notice">
+            <b>¿Cómo funciona el envío?</b>
+            <ol>
+              <li>Aquí pagas solo los productos.</li>
+              <li>Calculamos el envío a tu ciudad y te lo compartimos por WhatsApp.</li>
+              <li>El envío corre por cuenta del cliente: lo pagas aparte y despachamos tu pedido.</li>
+            </ol>
+            <p>¿Prefieres recoger? En nuestra tienda de Venecia, Bogotá, no tiene costo.</p>
+          </div>
           <div class="co-form" id="ship-form" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--line)">
             <label for="ship-name" style="margin-bottom:0">Datos de envío</label>
             <input type="text" id="ship-name" placeholder="Nombre completo" value="${escAttr(ship.name)}">
@@ -247,7 +274,11 @@
             <input type="text" id="ship-city" placeholder="Ciudad / Barrio" value="${escAttr(ship.city)}">
             <input type="text" id="ship-notes" placeholder="Notas para la entrega (opcional)" value="${escAttr(ship.notes)}">
           </div>
-          <a class="btn wa block" style="margin-top:16px" href="https://wa.me/${STIKE_CONFIG.whatsapp}?text=${waMsg}" target="_blank" rel="noopener">Finalizar por WhatsApp</a>
+          <div class="ship-ack" id="ship-ack-box">
+            <input type="checkbox" id="ship-ack"${shipAck ? " checked" : ""}>
+            <label for="ship-ack">Entiendo que el envío <b>no está incluido</b> en este pago: me lo cotizan por WhatsApp y corre por mi cuenta.</label>
+          </div>
+          <a class="btn wa block" id="wa-order" style="margin-top:16px" href="${waHref()}" target="_blank" rel="noopener">Finalizar por WhatsApp</a>
           <button class="btn block" id="pay-btn" style="margin-top:10px" onclick="handlePagarAhora(${total})">Pagar ahora</button>
           <div class="pay-error" id="pay-error" role="alert" hidden></div>
           <div class="pay-cart">${stikePayStrip(true)}${stikeWompiBadge(true)}</div>
@@ -269,12 +300,17 @@
       // cada vez que cambia una cantidad -- sin esto, lo que el cliente
       // alcanzo a escribir pero no habia guardado se perdia al tocar + o -.
       ["ship-name", "ship-phone", "ship-address", "ship-city", "ship-notes"].forEach(id => {
-        $ship(id).addEventListener("input", () => stikeSaveShipping({
-          name: $ship("ship-name").value, phone: $ship("ship-phone").value,
-          address: $ship("ship-address").value, city: $ship("ship-city").value,
-          notes: $ship("ship-notes").value,
-        }));
+        $ship(id).addEventListener("input", () => {
+          stikeSaveShipping({
+            name: $ship("ship-name").value, phone: $ship("ship-phone").value,
+            address: $ship("ship-address").value, city: $ship("ship-city").value,
+            notes: $ship("ship-notes").value,
+          });
+          $ship("wa-order").href = waHref();   // el pedido por WhatsApp lleva la ciudad que se acaba de escribir
+        });
       });
+      // La casilla del envio sobrevive a los cambios de cantidad (render() reconstruye todo el HTML).
+      $ship("ship-ack").addEventListener("change", e => { shipAck = e.target.checked; $ship("ship-ack-box").classList.remove("needs"); });
     }
     render();
   </script>

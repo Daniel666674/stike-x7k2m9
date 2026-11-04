@@ -84,10 +84,9 @@
       payments: ["Tarjeta de crédito o débito", "PSE", "Nequi", "Bancolombia"]
     },
 
-    /* Envio del carrito (api/_lib.php STIKE_FREE_SHIP / STIKE_SHIP_COST y
-       carrito.html usan los mismos valores; build-seo los publica en los
-       datos estructurados de cada producto). */
-    shipping: { cost: 18000, freeFrom: 300000 },
+    /* El ENVIO no tiene tarifa fija ni «gratis desde»: se calcula para cada pedido, se comparte por WhatsApp y corre por cuenta del
+       cliente (no va en el pago en linea). Por eso NO hay un valor de envio aqui: ni los datos estructurados de los productos ni el
+       feed de Google lo declaran. */
 
     /* Verificacion de propiedad (Google Search Console / Bing Webmaster).
        Si te dan una etiqueta <meta>, pega aca SOLO el valor del content=""

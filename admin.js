@@ -2324,6 +2324,15 @@ function renderSalesHistory() {
   });
 }
 
+/* Telefono del cliente en formato de WhatsApp (57 + 10 digitos), o null si no se puede saber con seguridad (igual que stike_wa_phone
+   en api/_lib.php). */
+function waPhoneCO(raw) {
+  const d = String(raw || "").replace(/\D+/g, "");
+  if (d.length === 10 && d[0] === "3") return "57" + d;
+  if (d.length === 12 && d.startsWith("57") && d[2] === "3") return d;
+  return null;
+}
+
 /* Detalle completo de una venta -- sobre todo para las de Wompi, que traen
    datos de envio y referencia de pago que la fila de la tabla no alcanza a
    mostrar. Reusa el mismo modal generico que el ajuste de precio en lote. */
@@ -2358,6 +2367,16 @@ function openSaleDetail(sale) {
   ] : [];
 
   const ship = sale.shipping;
+  /* Desde que el envio dejo de cobrarse en el pago (se cotiza por WhatsApp y lo paga el cliente), cada venta online trae shippingAck:
+     el cliente marco que lo entiende. Las anteriores (que ya cobraron el envio dentro del total) no llevan este aviso. */
+  const quote = isWompi && ship && sale.shippingAck ? (() => {
+    const to = waPhoneCO(ship.phone);
+    const msg = `Hola${ship.name ? " " + ship.name : ""}! Te escribimos de Stike Bike Shop por tu pedido ${sale.orderRef || ""}. Ya recibimos tu pago. El envío a ${ship.city || "tu ciudad"} (va por tu cuenta) cuesta $`;
+    return `<div id="sd-quote" style="margin-top:14px;padding:12px 14px;border:1px solid rgba(255,176,32,.45);background:rgba(255,176,32,.08);border-radius:10px;font-size:13px;line-height:1.5">
+      <b>El envío no se cobró en el pago.</b> Calcúlalo${ship.city ? " para " + escHtml(ship.city) : ""} y compártelo con el cliente por WhatsApp: va por cuenta del cliente (lo aceptó al pagar ✔) y se despacha cuando lo pague.
+      ${to ? `<a class="btn cyan block" id="sd-wa" style="margin-top:10px;text-align:center;text-decoration:none" href="https://wa.me/${to}?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener">Escribirle por WhatsApp</a>` : `<p class="muted" style="margin:8px 0 0">No pude armar el enlace de WhatsApp con el teléfono «${escHtml(ship.phone)}»: escríbele a mano.</p>`}
+    </div>`;
+  })() : "";
   const shipRows = ship ? [
     ["Nombre", ship.name],
     ["Teléfono", ship.phone],
@@ -2374,7 +2393,7 @@ function openSaleDetail(sale) {
     ${fieldRows(mainRows)}
     ${isWompi ? sectionTitle("Pago (Wompi)") + fieldRows(wompiRows) : ""}
     ${shipRows.length
-      ? sectionTitle("Envío") + fieldRows(shipRows)
+      ? sectionTitle("Envío") + fieldRows(shipRows) + quote
       : (isWompi ? `<p style="color:var(--bad);font-size:12.5px;margin-top:14px">Sin datos de envío -- venta anterior a que se pidieran en el carrito.</p>` : "")}
     ${sale.invoice ? `<button class="btn cyan block" id="sd-invoice" style="margin-top:20px">Ver / imprimir factura Nº ${escHtml(sale.invoice)}</button>` : ""}
     <button class="btn block" id="sd-close" style="margin-top:${sale.invoice ? "10px" : "20px"}">Cerrar</button>`;

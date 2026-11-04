@@ -29,16 +29,17 @@
    (nombre, telefono, direccion) quedan SOLO ahi y en el correo al dueno --
    nunca en el repo, que es publico.
 
-   Los precios y las constantes de envio replican lib/pricing.js (Vercel) y
-   carrito.html; los tres tienen que decir lo mismo.
+   Los precios replican lib/pricing.js (Vercel) y carrito.html; los tres tienen
+   que decir lo mismo. El envio NO se cobra en el pago: se cotiza por WhatsApp.
    ========================================================================= */
 
 /* Los errores de PHP nunca se imprimen en la respuesta (rutas del servidor, valores): van solo al log del servidor. */
 @ini_set("display_errors", "0");
 @ini_set("log_errors", "1");
 
-const STIKE_FREE_SHIP = 300000;   // pesos: desde este subtotal el envio es gratis
-const STIKE_SHIP_COST = 18000;    // pesos
+/* El ENVIO no se cobra en el pago en linea: depende de la ciudad, el peso y la transportadora, asi que lo calcula la tienda para
+   cada pedido, se lo comparte al cliente por WhatsApp y corre por cuenta del cliente. Lo que firma Wompi es solo el valor de los
+   productos (stike_price_order devuelve "shipping" => 0). */
 const STIKE_MAX_LINES = 50;
 const STIKE_MAX_QTY = 20;
 const STIKE_CURRENCY = "COP";
@@ -374,7 +375,7 @@ function stike_price_order($catalog, $items) {
       "color" => $color,
     ];
   }
-  $shipping = $subtotal >= STIKE_FREE_SHIP ? 0 : STIKE_SHIP_COST;
+  $shipping = 0;   // el envio se cotiza aparte por WhatsApp y lo paga el cliente: no entra en el cobro
   $total = $subtotal + $shipping;
   return [
     "lines" => $lines, "subtotal" => $subtotal, "shipping" => $shipping,
@@ -801,7 +802,7 @@ function stike_finalize_order($reference, $wompiId, $trusted = null) {
         "qty" => $l["qty"], "unitPrice" => $l["unitPrice"], "total" => $l["total"],
         "admin" => $admin, "source" => "wompi", "orderRef" => $reference, "wompiId" => $wompiId,
         "customerEmail" => $customerEmail, "shipping" => $shipping,
-      ];
+      ] + (!empty($pending["shippingAck"]) ? ["shippingAck" => true] : []);   // el cliente acepto que el envio va por su cuenta
     }
   }
   if (!$entries) {
@@ -844,6 +845,7 @@ function stike_finalize_order($reference, $wompiId, $trusted = null) {
   $email = stike_notify_owner($entries, [
     "reference" => $reference, "wompiId" => $wompiId, "customerEmail" => $customerEmail,
     "shipping" => $shipping, "paidInCents" => $paid, "flag" => $flag, "recordError" => $recordError,
+    "shippingAck" => !empty($pending["shippingAck"]),
   ]);
   if ($recordError !== null) throw new ApiError(500, "storage_unavailable", "pago aprobado pero no se pudo guardar; el dueno fue avisado por correo");
   stike_delete_pending($reference);
@@ -1279,6 +1281,18 @@ function stike_note_event($result, $reference = null, $status = null) {
   } catch (Throwable $e) { /* nunca por esto se rechaza un evento */ }
 }
 
+/* Telefono del cliente en formato de WhatsApp (57 + 10 digitos), o null si no se puede saber con seguridad. */
+function stike_wa_phone($raw) {
+  $d = preg_replace('/\D+/', "", (string)$raw);
+  if (strlen($d) === 10 && $d[0] === "3") return "57" . $d;
+  if (strlen($d) === 12 && substr($d, 0, 2) === "57" && $d[2] === "3") return $d;
+  return null;
+}
+function stike_wa_link($phoneRaw, $text) {
+  $p = stike_wa_phone($phoneRaw);
+  return $p ? "https://wa.me/" . $p . "?text=" . rawurlencode($text) : null;
+}
+
 /* Aviso al dueno. Con RESEND_API_KEY sale por Resend (entrega confiable); sin
    ella cae a mail() del hosting. Un correo que falla NO tumba la venta. */
 function stike_notify_owner($entries, $ctx) {
@@ -1299,6 +1313,20 @@ function stike_notify_owner($entries, $ctx) {
   if ($ctx["flag"] === "amount_mismatch") $warn .= '<p style="color:#b00"><b>Revisar a mano:</b> el monto cobrado no coincide con el pedido guardado. Confirma con el cliente antes de enviar.</p>';
   if ($ctx["flag"] === "no_pending_order") $warn .= '<p style="color:#b00"><b>Pago sin pedido guardado:</b> Wompi aprobó este pago pero no tenemos qué compró ni a dónde enviarlo. Búscalo por la referencia en el panel de Wompi y contacta al cliente.</p>';
 
+  /* El envio NO se cobro en el pago: lo cotiza la tienda y se lo comparte al cliente por WhatsApp (corre por su cuenta). Los pedidos
+     que quedaron en curso ANTES de este cambio pagaron envio dentro del total ($shipCost > 0): esos no llevan este bloque. */
+  $quote = "";
+  if ($shipCost <= 0 && $ctx["shipping"] && $ctx["flag"] !== "no_pending_order") {
+    $who = trim((string)($ctx["shipping"]["name"] ?? ""));
+    $city = trim((string)($ctx["shipping"]["city"] ?? ""));
+    $wa = stike_wa_link($ctx["shipping"]["phone"] ?? "", "Hola" . ($who !== "" ? " " . $who : "") . "! Te escribimos de Stike Bike Shop por tu pedido " . $ctx["reference"] . ". Ya recibimos tu pago. El envío a " . ($city !== "" ? $city : "tu ciudad") . " (va por tu cuenta) cuesta $");
+    $quote = '<div style="background:#fff7e0;border:1px solid #f0d58a;border-radius:8px;padding:10px 12px;margin:12px 0;font-size:14px">'
+      . '<b>El envío NO se cobró en este pago.</b> Calcúlalo' . ($city !== "" ? " para " . stike_h($city) : "") . ' y compártelo con el cliente por WhatsApp: el envío va por cuenta del cliente y se despacha cuando lo confirme y lo pague.'
+      . (!empty($ctx["shippingAck"]) ? '<br><span style="font-size:12px;color:#666">El cliente aceptó esto al pagar (casilla del carrito).</span>' : "")
+      . ($wa ? '<br><a href="' . stike_h($wa) . '" style="display:inline-block;margin-top:8px;background:#25d366;color:#fff;text-decoration:none;padding:8px 14px;border-radius:6px;font-weight:600">Escribirle por WhatsApp</a>' : "")
+      . "</div>";
+  }
+
   $ship = $ctx["shipping"]
     ? "<p><b>Enviar a:</b><br>" . stike_h($ctx["shipping"]["name"]) . " — " . stike_h($ctx["shipping"]["phone"]) . "<br>"
       . stike_h($ctx["shipping"]["address"]) . ", " . stike_h($ctx["shipping"]["city"])
@@ -1314,11 +1342,12 @@ function stike_notify_owner($entries, $ctx) {
     . '<th style="text-align:center;padding:6px 10px;border-bottom:2px solid #222">Cant.</th>'
     . '<th style="text-align:right;padding:6px 10px;border-bottom:2px solid #222">Total</th></tr></thead><tbody>' . $rows . "</tbody></table>"
     . '<p style="text-align:right;font-size:16px;margin-top:10px"><b>Total pagado: ' . stike_money($paidPesos) . "</b>"
-    . ($shipCost > 0 ? '<br><span style="font-size:12px;color:#666">incluye envío ' . stike_money($shipCost) . "</span>" : "") . "</p>"
+    . ($shipCost > 0 ? '<br><span style="font-size:12px;color:#666">incluye envío ' . stike_money($shipCost) . "</span>" : '<br><span style="font-size:12px;color:#666">solo productos: el envío no está incluido</span>') . "</p>"
+    . $quote
     . $ship
     . ($ctx["customerEmail"] ? "<p><b>Email del cliente:</b> " . stike_h($ctx["customerEmail"]) . "</p>" : "")
     . '<p style="color:#999;font-size:12px">También quedó en el panel admin (pestaña Ventas).</p></div>';
-  $subject = "Nueva venta Stike — " . stike_money($paidPesos) . " (ref " . $ctx["reference"] . ")";
+  $subject = "Nueva venta Stike — " . stike_money($paidPesos) . ($quote !== "" ? " · cotizar envío" : "") . " (ref " . $ctx["reference"] . ")";
 
   return stike_send_owner_mail($subject, $html, ["kind" => "venta"]);
 }
