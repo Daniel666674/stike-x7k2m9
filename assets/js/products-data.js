@@ -543,7 +543,7 @@ window.STIKE_PRODUCTS = [
       },
       {
         "v": "Cromado",
-        "u": 4,
+        "u": 2,
         "price": 420000
       }
     ],
@@ -563,7 +563,7 @@ window.STIKE_PRODUCTS = [
       },
       {
         "v": "9.75",
-        "u": 4
+        "u": 2
       }
     ],
     "sizeLabel": "Medida",
@@ -586,7 +586,7 @@ window.STIKE_PRODUCTS = [
       {
         "s": "9.75",
         "c": "Cromado",
-        "u": 2
+        "u": 0
       }
     ]
   },
