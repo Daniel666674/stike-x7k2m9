@@ -420,5 +420,17 @@
     "total": 1850000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-04T02:27:46.899Z",
+    "slug": "barends-process-aluminio",
+    "name": "Barends Process en Aluminio 6061",
+    "size": null,
+    "color": "Rojo",
+    "qty": 1,
+    "unitPrice": 80000,
+    "total": 80000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
