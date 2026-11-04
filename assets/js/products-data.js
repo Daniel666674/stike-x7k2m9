@@ -3433,26 +3433,6 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "cassette-federal-stance-negro",
-    "sku": "REP-FED-014",
-    "n": "Cassette Federal Stance Negro",
-    "brand": "Federal",
-    "cat": "repuestos",
-    "sub": "Manzana Trasera",
-    "spec": [
-      "Color: Negro",
-      "Hub trasero completo (cassette)"
-    ],
-    "price": 710000,
-    "promo": false,
-    "units": 1,
-    "imgs": [
-      "assets/img/products/cassette-federal-stance-negro-1.jpg",
-      "assets/img/products/cassette-federal-stance-negro-2.jpg"
-    ],
-    "published": true
-  },
-  {
     "slug": "cassette-mutanty-mercury-elite-negro",
     "sku": "REP-MUT-007",
     "n": "Cassette Mutanty Mercury Elite Negro",
@@ -4855,7 +4835,7 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "manzana-trasera-federal-derecha-negra-9t",
     "sku": "REP-FED-015",
-    "n": "Manzana Trasera Federal Derecha Negra 9T",
+    "n": "Manzana Trasera Federal Derecha Usada",
     "brand": "Federal",
     "cat": "repuestos",
     "sub": "Manzana Trasera",
@@ -4868,10 +4848,10 @@ window.STIKE_PRODUCTS = [
     "promo": false,
     "units": 1,
     "imgs": [
-      "assets/img/products/manzana-trasera-federal-derecha-negra-9t-1.jpg",
-      "assets/img/products/manzana-trasera-federal-derecha-negra-9t-2.jpg"
+      "assets/img/products/0725683f-51cf-4e97-a8b6-94cee6b5c155.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "freecoaster-fiend-derecho-negro",
@@ -4889,8 +4869,7 @@ window.STIKE_PRODUCTS = [
     "promo": false,
     "units": 1,
     "imgs": [
-      "assets/img/products/freecoaster-fiend-derecho-negro-1.jpg",
-      "assets/img/products/freecoaster-fiend-derecho-negro-2.jpg"
+      "assets/img/products/6f21658e-ca57-4147-b302-137cca09d328.jpg"
     ],
     "published": true,
     "combos": null
@@ -5235,29 +5214,6 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/pedales-rant-trill-morado-1.jpg": "Morado"
     },
     "published": true
-  },
-  {
-    "slug": "freecoaster-shadow-derecho-negro",
-    "sku": "REP-SHA-013",
-    "n": "Freecoaster Shadow Derecho USADO",
-    "brand": "Shadow",
-    "cat": "repuestos",
-    "sub": "Manzana Trasera",
-    "spec": [
-      "Tipo: Freecoaster",
-      "Eje: 14mm macho",
-      "Piñón: 9T",
-      "Agujeros: 36h",
-      "Color: Negro"
-    ],
-    "price": 500000,
-    "promo": false,
-    "units": 0,
-    "imgs": [
-      "assets/img/products/freecoaster-shadow-derecho-negro-1.jpg"
-    ],
-    "published": true,
-    "combos": null
   },
   {
     "slug": "pedales-shadow-surface",
@@ -9375,6 +9331,70 @@ window.STIKE_PRODUCTS = [
     "combos": null,
     "imgs": [
       "assets/img/products/4c964d29-0477-4ef9-81bb-eec64d752a55.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "manzana-trasera-cassete-gw",
+    "sku": "REP-GWB-003",
+    "n": "Manzana trasera cassete GW",
+    "brand": "GW",
+    "cat": "repuestos",
+    "sub": "",
+    "spec": [
+      "Sistema : 3 trinquetes 1 resorte",
+      "Drive : 9t",
+      "Lado : Derecho"
+    ],
+    "price": 130000,
+    "promo": false,
+    "units": 10,
+    "combos": null,
+    "imgs": [
+      "assets/img/products/df3d331a-edff-4cc2-9686-f5290990e72f.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "manzana-trasera-cassete-cult-usado",
+    "sku": "REP-850-001",
+    "n": "Manzana trasera Cassete CULT USADO",
+    "brand": "Cult",
+    "cat": "repuestos",
+    "sub": "Manzana Trasera",
+    "spec": [
+      "Sistema : 4 Resortes 4 trinquetes",
+      "Drive : 10 t reconstruido",
+      "Lado : izquierdo",
+      "Eje : Hembra"
+    ],
+    "price": 400000,
+    "promo": false,
+    "units": 1,
+    "combos": null,
+    "imgs": [
+      "assets/img/products/fc0c4cb2-7249-4cfb-9f0f-ae00e80b5181.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "manzana-trasera-cassete-trueno",
+    "sku": "REP-TRU-005",
+    "n": "Manzana trasera Cassete TRUENO ",
+    "brand": "Trueno",
+    "cat": "repuestos",
+    "sub": "Manzana Trasera",
+    "spec": [
+      "Sistema : 6 trinquetes 6 resorte",
+      "Drive : 9t",
+      "Lado : Izquierdo"
+    ],
+    "price": 400000,
+    "promo": false,
+    "units": 1,
+    "combos": null,
+    "imgs": [
+      "assets/img/products/ff689b05-8a8a-4905-91a3-25361a334b0d.jpg"
     ],
     "published": true
   }
