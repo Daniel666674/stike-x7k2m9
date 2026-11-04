@@ -468,5 +468,17 @@
     "total": 120000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-04T19:49:19.987Z",
+    "slug": "cassette-mutanty-mercury-elite-negro",
+    "name": "Cassette Mutanty Mercury Elite Negro",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 495000,
+    "total": 495000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
