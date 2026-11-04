@@ -444,5 +444,17 @@
     "total": 780000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-04T02:28:27.231Z",
+    "slug": "silla-pivotal-fate-negra",
+    "name": "Silla Pivotal Fate Negra",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 97500,
+    "total": 97500,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
