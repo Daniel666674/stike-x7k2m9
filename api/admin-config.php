@@ -45,9 +45,11 @@ stike_run(function () {
       "via" => $r["sent"] ?? null,
       "to" => implode(", ", array_map("stike_mask_email", $r["to"] ?? [])),
       "error" => $r["error"] ?? null,
-      "reliable" => $ok && in_array($r["sent"] ?? null, ["resend", "smtp"], true),
+      "reliable" => $ok && in_array($r["sent"] ?? null, ["resend", "gmail", "smtp"], true),
       "resendConfigured" => (bool)stike_config("RESEND_API_KEY"),
       "smtpConfigured" => (bool)stike_smtp_config(),
+      "gmailConfigured" => (bool)stike_gmail_config(),
+      "gmailError" => $r["gmailError"] ?? null,     // {code, detail}: lo que dijo Google/Gmail, ya explicado (nunca lleva tokens)
       "resendError" => $r["resendError"] ?? null,   // {code, detail}: lo que dijo Resend, ya explicado (nunca lleva la llave)
       "smtpError" => $r["smtpError"] ?? null,       // {code, detail}: lo que dijo el servidor de correo, ya explicado (nunca lleva la contraseña)
     ]);
@@ -88,6 +90,46 @@ stike_run(function () {
     stike_runtime_config_write($all);
     error_log("[stike] SMTP guardado desde el panel por " . $s["email"] . " (" . $host . ":" . $port . ")");
     respond(200, ["ok" => true, "host" => $host, "port" => $port, "user" => $user, "secure" => stike_smtp_security($host, $port), "encrypted" => $sealedAll]);
+  }
+
+  /* ---- Gmail por la API de Google Cloud: ID y secreto de cliente OAuth -> «Conectar con Google» -> el permiso permanente queda guardado cifrado ---- */
+  $action = $body["action"] ?? "";
+  if ($action === "gmail_save_client") {
+    $id = trim((string)($body["clientId"] ?? ""));
+    $secret = trim((string)($body["clientSecret"] ?? ""));
+    if (!preg_match('/^[0-9]{6,}-[a-z0-9]{10,}\.apps\.googleusercontent\.com$/', $id)) {
+      throw new ApiError(400, "invalid_client_id", "El ID de cliente tiene este formato: 123456789-abcdef….apps.googleusercontent.com (Google Cloud → APIs y servicios → Credenciales → tu «ID de cliente de OAuth»).");
+    }
+    if (!preg_match('/^[A-Za-z0-9_-]{16,}$/', $secret)) {
+      throw new ApiError(400, "invalid_client_secret", "Pega el «Secreto del cliente» completo (suele empezar por GOCSPX-). Está en Google Cloud → Credenciales → tu ID de cliente.");
+    }
+    $all = stike_runtime_config_all();
+    $old = stike_gmail_client();
+    if ($old && $old["id"] !== $id) { unset($all["GMAIL_REFRESH_TOKEN"], $all["GMAIL_SENDER"]); }   // otro cliente: el permiso anterior ya no sirve
+    $sealedAll = true;
+    foreach (["GMAIL_CLIENT_ID" => $id, "GMAIL_CLIENT_SECRET" => $secret] as $k => $v) {
+      $sealed = stike_runtime_seal($v);
+      if (!$sealed) $sealedAll = false;
+      $all[$k] = ($sealed ?: ["value" => $v]) + ["by" => $s["email"], "at" => stike_now_iso()];
+    }
+    stike_runtime_config_write($all);
+    error_log("[stike] Gmail: ID y secreto de cliente guardados desde el panel por " . $s["email"]);
+    respond(200, ["ok" => true, "clientId" => $id, "redirectUri" => stike_gmail_redirect_uri(), "encrypted" => $sealedAll]);
+  }
+  if ($action === "gmail_connect_start") {
+    $c = stike_gmail_client();
+    if (!$c) throw new ApiError(400, "gmail_client_missing", "Primero guarda el ID y el secreto de cliente.");
+    respond(200, ["ok" => true, "url" => stike_gmail_auth_url($c["id"], stike_oauth_state_new($s["email"])), "redirectUri" => stike_gmail_redirect_uri()]);
+  }
+  if ($action === "gmail_disconnect") {
+    $all = stike_runtime_config_all();
+    $cfg = stike_gmail_config();
+    if ($cfg) @stike_http("POST", stike_google_url("oauth") . "/revoke", ["Content-Type: application/x-www-form-urlencoded"], http_build_query(["token" => $cfg["refresh_token"]]), 10);   // que Google tambien lo anule (si falla, igual se borra aqui)
+    unset($all["GMAIL_REFRESH_TOKEN"], $all["GMAIL_SENDER"]);
+    if (!empty($body["all"])) unset($all["GMAIL_CLIENT_ID"], $all["GMAIL_CLIENT_SECRET"]);
+    stike_runtime_config_write($all);
+    error_log("[stike] Gmail desconectado desde el panel por " . $s["email"]);
+    respond(200, ["ok" => true, "disconnected" => true]);
   }
 
   $key = $body["key"] ?? null;

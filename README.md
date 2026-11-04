@@ -341,7 +341,7 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
    ventas". **Correo de aviso de cada venta:** sin cuenta de correo propia ni Resend el correo sale
    con el `mail()` del hosting, que casi nunca llega a Gmail (cae en spam o se pierde, y PHP dice
    «enviado» igual). No hace falta editar archivos: panel → Configuración → **«Correo de aviso
-   de cada venta»** (dueño y desarrollador), con dos formas a elegir:
+   de cada venta»** (dueño y desarrollador), con tres formas a elegir:
    **A) Un correo del propio dominio por SMTP** (sin crear cuentas en servicios nuevos): se crea
    una cuenta de correo en hPanel (p. ej. `ventas@stikebikeshop.com`) y se escribe servidor
    (`smtp.hostinger.com`), puerto (465; 587 también sirve), correo y contraseña. El servidor entra a la
@@ -350,14 +350,30 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
    aplicación»). **B) Resend** (gratis, resend.com): se pega la llave (se comprueba con Resend y se
    guarda cifrada); con el remitente de pruebas (`onboarding@resend.dev`) solo se entrega al correo
    con el que se creó la cuenta de Resend; para enviar a cualquier correo y desde `@stikebikeshop.com`
-   hay que verificar el dominio en Resend (registros DNS en hPanel). Además: a quién le llega (uno o
+   hay que verificar el dominio en Resend (registros DNS en hPanel). **C) Tu cuenta de Gmail por la API
+   de Google Cloud** (sin Hostinger ni Resend): en console.cloud.google.com se crea un proyecto, se
+   habilita **Gmail API**, se configura la pantalla de consentimiento (Externo, permiso `gmail.send`) y
+   se **publica la app** (si queda en «Pruebas», Google anula el permiso a los 7 días), y se crea un **ID
+   de cliente de OAuth tipo «Aplicación web»** con la URI de regreso `https://stikebikeshop.com/api/gmail-callback`
+   (el panel la muestra lista para copiar). El panel guarda el ID y el secreto de cliente cifrados; **«Guardar
+   y conectar con Google»** lleva a Google, la cuenta acepta el permiso de ENVIAR correos (no puede leer
+   la bandeja; Google avisa «no verificó esta aplicación» porque es una app propia: Avanzado → Ir a Stike) y
+   Google devuelve a `api/gmail-callback`, que cambia el código por el permiso permanente (`refresh_token`),
+   lo guarda cifrado y vuelve al panel mandando un correo de prueba. Esa dirección es pública a propósito,
+   así que solo sirve con un `state` de un solo uso (10 minutos) que creó una sesión de dueño o desarrollador;
+   no muestra nunca un token. Cada envío pide un token de acceso de 1 hora (`messages.send`, MIME en base64url).
+   Si Google anula el permiso (cambias la contraseña de esa cuenta, o la app seguía en «Pruebas»), el
+   panel lo dice y basta con volver a pulsar «Conectar con Google». «Desconectar» también le pide a Google
+   que anule el permiso. Además: a quién le llega (uno o
    varios; a los anteriores les avisa del cambio) y el remitente de Resend. «Enviar correo de prueba»
-   explica el motivo exacto si algo falla. Orden de envío: Resend → tu correo (SMTP) → `mail()` del
-   hosting (armado en base64 con texto + HTML; no garantiza nada). El panel muestra a quién le llega,
+   explica el motivo exacto si algo falla. Orden de envío: Resend → Gmail (API de Google) → tu correo
+   (SMTP) → `mail()` del hosting (armado en base64 con texto + HTML; no garantiza nada). El panel muestra a quién le llega,
    por dónde sale y el resultado del último envío (`last-mail.json`); si ningún camino pudo enviar un
    aviso de venta, queda en `outbox/` y se reintenta solo (2 min, 4, 8… hasta 1 h, durante 48 h).
    Por seguridad el panel solo acepta los puertos 465, 587 y 2525 y rechaza servidores de la red
-   interna. Pruebas: `node tools/smtp-mail-test.mjs` (servidor SMTP falso con TLS y STARTTLS).
+   interna. Pruebas: `node tools/smtp-mail-test.mjs` (servidor SMTP falso con TLS y STARTTLS),
+   `node tools/gmail-api-test.mjs` (Google OAuth y Gmail API falsos; necesita `php`) y
+   `node tools/admin-email-ui-test.mjs` (el formulario del panel; con `python3 -m http.server 8143`).
 4. **Login del panel en el dominio nuevo:** en Google Cloud Console → APIs y
    servicios → Credenciales → el ID de cliente OAuth de `site.js`
    (`OAUTH_CLIENT_ID`) → "Orígenes autorizados de JavaScript", agregar

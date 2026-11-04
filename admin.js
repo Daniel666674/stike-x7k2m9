@@ -3343,7 +3343,7 @@ function showApp() {
          <button class="btn ghost sm" onclick="clearLogin()">Cerrar sesión</button>
        </div>`;
   loadAll().catch(e => handleLoadError(e));
-  renderHealth();
+  return renderHealth();
 }
 
 /* Pestaña Configuracion: que esta listo para cobrar y que falta. El servidor
@@ -3385,6 +3385,11 @@ async function renderHealth(msg) {
       $("#cfg-ms-save").addEventListener("click", () => saveSmtp());
       $("#cfg-ms-clear").addEventListener("click", () => saveSmtp(true));
       for (const id of ["host", "port", "user", "pass"]) $(`#cfg-ms-${id}`).addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); saveSmtp(); } });
+      $("#cfg-gm-connect").addEventListener("click", () => connectGmail());
+      $("#cfg-gm-copy").addEventListener("click", copyGmailRedirect);
+      if ($("#cfg-gm-disc")) $("#cfg-gm-disc").addEventListener("click", () => disconnectGmail(false));
+      if ($("#cfg-gm-clear")) $("#cfg-gm-clear").addEventListener("click", openGmailClearConfirm);
+      for (const id of ["id", "secret"]) $(`#cfg-gm-${id}`).addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); connectGmail(); } });
     }
     if (h.recovered) { pollSalesLog().catch(() => {}); showStatus([{ text: `🔔 Se recuperaron ${h.recovered} venta(s) que Wompi tenía aprobadas y no estaban registradas. Revisa Ventas y tu correo.`, cls: "ok" }]); }
     if ($("#cfg-int-save")) {
@@ -3441,17 +3446,19 @@ function wompiSecretFormHtml(h, msg) {
       <p class="hint" id="cfg-prv-msg" role="status" style="margin:10px 0 0"></p>
     </div>`;
 }
-/* Correo de aviso de cada venta (api/admin-config). Dos formas de enviarlo, a elegir:
-   A) con una cuenta de correo del propio dominio por SMTP (p. ej. ventas@stikebikeshop.com de Hostinger): no hace falta crear cuentas en
-      ningun servicio nuevo; el servidor comprueba el usuario y la contraseña ANTES de guardar.
+/* Correo de aviso de cada venta (api/admin-config). Tres formas de enviarlo, a elegir:
+   A) con una cuenta de correo del propio dominio por SMTP (p. ej. ventas@stikebikeshop.com de Hostinger) o con Gmail y una «contraseña de
+      aplicacion»: el servidor comprueba el usuario y la contraseña ANTES de guardar.
    B) con Resend (gratis).
-   Todo se valida en el servidor; la contraseña y la llave nunca vuelven a mostrarse. Sin ninguna, el aviso sale por el correo del hosting,
-   que casi nunca llega a Gmail. */
+   C) con tu cuenta de Gmail por la API de Google Cloud (OAuth): se pegan el ID y el secreto de cliente, se pulsa «Conectar con Google» y
+      Google devuelve al panel por api/gmail-callback; el permiso permanente queda guardado cifrado en el servidor.
+   Todo se valida en el servidor; la contraseña, la llave y el secreto nunca vuelven a mostrarse. Sin ninguna, el aviso sale por el correo
+   del hosting, que casi nunca llega a Gmail. */
 function emailSettingsHtml(h) {
-  const m = h.mail || {}, resend = m.resend || {}, smtp = m.smtp || {};
+  const m = h.mail || {}, resend = m.resend || {}, smtp = m.smtp || {}, gm = m.gmail || {};
   const chk = (h.checks || []).find(c => c.id === "email");
   const bad = !!chk && !chk.ok;
-  const none = !resend.configured && !smtp.configured;
+  const none = !resend.configured && !smtp.configured && !gm.connected;
   const field = (k, label, ph, val, saveText, clearTitle) => `
       <div class="field" style="margin-bottom:10px"><label for="cfg-m${k}-input">${label}</label>
         <input id="cfg-m${k}-input" type="text" class="mono" placeholder="${escHtml(ph)}" value="${escHtml(val)}" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
@@ -3463,11 +3470,11 @@ function emailSettingsHtml(h) {
   return `
     <div id="cfg-mail-box" style="margin-top:18px;padding:16px;border:1px solid ${bad ? "var(--bad)" : "var(--line)"};border-radius:12px">
       <h4 style="margin:0 0 6px">Correo de aviso de cada venta ${chk ? `<span class="pill" style="${chk.ok ? "" : "background:var(--bad);color:#fff;"}font-weight:600">${chk.ok ? "Funcionando" : "Revisar"}</span>` : ""}</h4>
-      <p class="hint muted" style="margin:0 0 12px">Cada venta pagada le llega por correo al dueño. El correo del hosting casi nunca se entrega (Gmail lo descarta o lo manda a spam), así que el aviso tiene que salir desde una cuenta de correo de verdad. Elige <b>una</b> de las dos formas (la A no necesita crear cuentas en ningún servicio nuevo):</p>
+      <p class="hint muted" style="margin:0 0 12px">Cada venta pagada le llega por correo al dueño. El correo del hosting casi nunca se entrega (Gmail lo descarta o lo manda a spam), así que el aviso tiene que salir desde una cuenta de correo de verdad. Elige <b>una</b> de las tres formas (si quieres que salga de tu propio Gmail con la API de Google Cloud, es la C):</p>
 
       <div style="${box}">
         <h5 style="margin:0 0 6px">A) Con un correo de tu dominio ${smtp.configured ? `<span class="pill owner" style="font-weight:600">Guardado</span>` : ""}</h5>
-        <details ${none ? "open" : ""} style="margin:0 0 10px">
+        <details style="margin:0 0 10px">
           <summary style="cursor:pointer;font-weight:600">Cómo hacerlo (3 minutos)</summary>
           <ol class="hint" style="margin:10px 0 0 18px;padding:0;line-height:1.6">
             <li>En Hostinger (hPanel) → <b>Correos</b> (Emails) → <b>Crear cuenta de correo</b>, por ejemplo <span class="mono">ventas@stikebikeshop.com</span>, y guarda su contraseña. (Si ya tienes una cuenta, úsala.)</li>
@@ -3507,6 +3514,39 @@ function emailSettingsHtml(h) {
         ${field("from", "Remitente de Resend <span class=\"muted\" style=\"font-weight:400\">(opcional; déjalo vacío hasta verificar tu dominio en Resend)</span>", "Stike Bike Shop <ventas@stikebikeshop.com>", m.from || "", "Guardar y enviar prueba", "Vuelve a usar el remitente de pruebas de Resend")}
       </div>
 
+      <div id="cfg-gm-box" data-client="${gm.clientConfigured ? "1" : "0"}" data-client-id="${escHtml(gm.clientId || "")}" data-connected="${gm.connected ? "1" : "0"}" style="${box}">
+        <h5 style="margin:0 0 6px">C) Con tu cuenta de Gmail, por la API de Google Cloud ${gm.connected ? `<span class="pill owner" style="font-weight:600">Conectada</span>` : gm.clientConfigured ? `<span class="pill" style="font-weight:600">Falta conectar</span>` : ""}</h5>
+        <p class="hint muted" id="cfg-gm-status" style="margin:0 0 10px">${gm.connected
+          ? `Los avisos de venta salen desde <b>${escHtml(gm.sender || "")}</b> con la API de Gmail (${gm.source === "panel" ? "conectada desde este panel" : "configurada en el servidor"}). Si Google anula el permiso (por ejemplo, si cambias la contraseña de esa cuenta), vuelve a pulsar «Conectar con Google».`
+          : gm.clientConfigured ? `Ya están guardados el ID y el secreto de cliente. Falta pulsar <b>Conectar con Google</b> y aceptar con la cuenta de Gmail desde la que quieres enviar.`
+          : `Los avisos salen desde tu propia cuenta de Gmail, sin Hostinger ni Resend. Se prepara una sola vez en Google Cloud Console (unos 10 minutos); el permiso es solo para <b>enviar</b> correos, no para leer tu bandeja.`}</p>
+        <details ${(none || (gm.clientConfigured && !gm.connected)) ? "open" : ""} style="margin:0 0 10px">
+          <summary style="cursor:pointer;font-weight:600">Cómo hacerlo en Google Cloud (una sola vez)</summary>
+          <ol class="hint" style="margin:10px 0 0 18px;padding:0;line-height:1.6">
+            <li>Entra a <b>console.cloud.google.com</b> con la cuenta de Gmail desde la que quieres que salgan los avisos. Arriba, en el selector de proyectos: <b>Proyecto nuevo</b> → nombre «Stike» → <b>Crear</b>.</li>
+            <li>Menú <b>APIs y servicios → Biblioteca</b> → busca <b>Gmail API</b> → <b>Habilitar</b>.</li>
+            <li>Menú <b>APIs y servicios → Pantalla de consentimiento de OAuth</b> (ahora se llama «Google Auth Platform»): tipo de usuario <b>Externo</b>, nombre de la app «Stike», y tu correo como correo de asistencia y de contacto. En <b>Acceso a los datos</b> agrega el permiso <span class="mono">gmail.send</span> (Enviar correo). Por último, en <b>Público</b> pulsa <b>Publicar la app</b>.</li>
+            <li><b>APIs y servicios → Credenciales → Crear credenciales → ID de cliente de OAuth</b> (o «Clientes → Crear cliente»): tipo <b>Aplicación web</b>; en <b>URI de redireccionamiento autorizados</b> pega <u>exactamente</u> la dirección de abajo («URI de regreso») y pulsa <b>Crear</b>. Copia el <b>ID de cliente</b> y el <b>Secreto del cliente</b> en ese momento: Google puede no volver a mostrarlo.</li>
+            <li>Pega los dos aquí abajo y pulsa <b>Guardar y conectar con Google</b>. Elige la cuenta y acepta. Saldrá «Google no ha verificado esta aplicación» (es tu propia app): <b>Avanzado → Ir a Stike (no seguro)</b> y luego <b>Continuar</b>.</li>
+          </ol>
+          <p class="hint muted" style="margin:8px 0 0"><b>Importante:</b> si en el paso 3 dejas la app en «Pruebas» en vez de publicarla, Google anula el permiso a los 7 días y los avisos dejan de salir por Gmail. Si Google muestra «Error 400: redirect_uri_mismatch», la URI de regreso no se pegó exactamente igual.</p>
+        </details>
+        <div class="field" style="margin-bottom:10px"><label for="cfg-gm-redirect">URI de regreso (cópiala en «URI de redireccionamiento autorizados»)</label>
+          <div style="display:flex;gap:8px;align-items:center">
+            <input id="cfg-gm-redirect" type="text" readonly class="mono" style="flex:1" value="${escHtml(gm.redirectUri || "")}" autocomplete="off" spellcheck="false">
+            <button class="btn ghost sm" id="cfg-gm-copy" type="button">Copiar</button>
+          </div></div>
+        <div class="field" style="margin-bottom:10px"><label for="cfg-gm-id">ID de cliente</label>
+          <input id="cfg-gm-id" type="text" class="mono" placeholder="123456789-abcdef….apps.googleusercontent.com" value="${escHtml(gm.clientId || "")}" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
+        <div class="field" style="margin-bottom:10px"><label for="cfg-gm-secret">Secreto del cliente ${gm.clientConfigured ? `<span class="muted" style="font-weight:400">· ya hay uno guardado; escribe otro solo si lo cambiaste en Google Cloud</span>` : ""}</label>
+          <input id="cfg-gm-secret" type="password" class="mono" placeholder="${gm.clientConfigured ? "••••••••" : "GOCSPX-…"}" autocomplete="new-password" spellcheck="false"></div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <button class="btn cyan" id="cfg-gm-connect" type="button">${gm.connected ? "Volver a conectar con Google" : "Guardar y conectar con Google"}</button>
+          ${gm.connected ? `<button class="btn ghost sm" id="cfg-gm-disc" type="button" title="Quita el permiso y la cuenta; deja el ID y el secreto de cliente">Desconectar la cuenta</button>` : ""}
+          ${gm.clientConfigured ? `<button class="btn ghost sm" id="cfg-gm-clear" type="button" title="Borra también el ID y el secreto de cliente">Quitar todo</button>` : ""}
+        </div>
+      </div>
+
       ${field("to", "Quién recibe el aviso de cada venta <span class=\"muted\" style=\"font-weight:400\">(uno o varios, separados por coma)</span>", "dueno@gmail.com, socio@gmail.com", (m.recipients || []).join(", "), "Guardar y enviar prueba", "Vuelve a usar el valor que está en el servidor")}
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
         <button class="btn ghost" id="cfg-test-email" type="button">Enviar correo de prueba</button>
@@ -3521,13 +3561,14 @@ function mailDomainsText(j) {
   return ver.length ? `\nDominios verificados en Resend: ${ver.join(", ")}. Puedes enviar desde ellos (paso 3).`
     : "\nTodavía no hay un dominio verificado: los avisos salen desde onboarding@resend.dev y Resend solo los entrega al correo con el que creaste la cuenta de Resend.";
 }
-/* Resultado del correo de prueba, explicado: solo cuenta como «bien» si salio por Resend o por tu correo (SMTP); el del hosting no garantiza la entrega. */
+/* Resultado del correo de prueba, explicado: solo cuenta como «bien» si salio por Resend, por tu Gmail (API) o por tu correo (SMTP); el del hosting no garantiza la entrega. */
 function describeTestEmail(j) {
-  const why = (j.resendError ? `\n⚠ Resend falló: ${j.resendError.detail}` : "") + (j.smtpError ? `\n⚠ Tu correo (SMTP) falló: ${j.smtpError.detail}` : "");
-  if (!j.ok) return { ok: false, text: "✕ No se pudo enviar el correo por ningún camino." + (why || ((j.resendConfigured || j.smtpConfigured) ? "" : "\nTodavía no hay un correo configurado: llena la opción A o la B de arriba.")) };
+  const why = (j.resendError ? `\n⚠ Resend falló: ${j.resendError.detail}` : "") + (j.gmailError ? `\n⚠ Gmail (API de Google) falló: ${j.gmailError.detail}` : "") + (j.smtpError ? `\n⚠ Tu correo (SMTP) falló: ${j.smtpError.detail}` : "");
+  if (!j.ok) return { ok: false, text: "✕ No se pudo enviar el correo por ningún camino." + (why || ((j.resendConfigured || j.smtpConfigured || j.gmailConfigured) ? "" : "\nTodavía no hay un correo configurado: llena la opción A, B o C de arriba.")) };
   if (j.via === "resend") return { ok: true, text: `✔ Enviado por Resend a ${j.to}. Debe llegar en segundos; mira también en spam la primera vez.` };
+  if (j.via === "gmail") return { ok: true, text: `✔ Enviado por Gmail (API de Google) a ${j.to}. Debe llegar en segundos; mira también en spam la primera vez.${why}` };
   if (j.via === "smtp") return { ok: true, text: `✔ Enviado desde tu correo (SMTP) a ${j.to}. Debe llegar en segundos; mira también en spam la primera vez.${why}` };
-  return { ok: false, text: `Enviado por el correo del hosting a ${j.to}, pero eso NO garantiza que llegue.` + (why || "\nPara que llegue siempre, configura la opción A o la B de arriba.") };
+  return { ok: false, text: `Enviado por el correo del hosting a ${j.to}, pero eso NO garantiza que llegue.` + (why || "\nPara que llegue siempre, configura la opción A, B o C de arriba.") };
 }
 /* Opcion A: la cuenta de correo propia (SMTP). El servidor entra a la cuenta antes de guardar; la contraseña no vuelve nunca. */
 async function saveSmtp(clear = false) {
@@ -3583,6 +3624,113 @@ async function saveMailSetting(kind, clear = false) {
     out.style.color = "var(--bad)"; out.textContent = e.message;
     btns.forEach(b => { b.disabled = false; });
   }
+}
+/* Opcion C: Gmail por la API de Google Cloud. El panel guarda el ID y el secreto de cliente (cifrados en el servidor, el secreto no vuelve nunca),
+   pide una direccion de permiso de un solo uso y lleva al navegador a Google; Google regresa por api/gmail-callback, que guarda el permiso
+   permanente y vuelve aqui con ?gmail=ok o ?gmail=error&r=motivo (ver gmailReturn). */
+const GMAIL_ERR = { forbidden: "Solo el dueño y el desarrollador pueden cambiar esto.", not_logged_in: "Tu sesión venció: vuelve a iniciar sesión." };
+async function gmailPost(body) {
+  const res = await fetch(new URL("api/admin-config", document.baseURI), { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+  const j = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(j.detail || GMAIL_ERR[j.error] || j.error || ("HTTP " + res.status));
+  return j;
+}
+async function connectGmail() {
+  const out = $("#cfg-mail-msg"), box = $("#cfg-gm-box"), idEl = $("#cfg-gm-id"), secEl = $("#cfg-gm-secret");
+  const id = idEl.value.trim(), secret = secEl.value.trim();
+  const hasClient = box.dataset.client === "1";
+  const changed = !!secret || (id !== "" && id !== box.dataset.clientId);   // lo escrito ahora reemplaza lo guardado
+  if (changed || !hasClient) {
+    if (!id || !secret) {
+      out.style.color = "var(--bad)";
+      out.textContent = !id && !secret ? "Pega el ID de cliente y el secreto del cliente que te dio Google Cloud (Credenciales → tu ID de cliente de OAuth)."
+        : !id ? "Falta el ID de cliente (termina en .apps.googleusercontent.com)." : "Falta el secreto del cliente (suele empezar por GOCSPX-).";
+      (!id ? idEl : secEl).focus();
+      return;
+    }
+  }
+  const btns = [...document.querySelectorAll("#cfg-mail-box button")]; btns.forEach(b => { b.disabled = true; });
+  out.style.color = ""; out.textContent = "Preparando la conexión con Google…";
+  try {
+    if (changed || !hasClient) await gmailPost({ action: "gmail_save_client", clientId: id, clientSecret: secret });
+    const j = await gmailPost({ action: "gmail_connect_start" });
+    if (typeof j.url !== "string" || !j.url.startsWith("https://accounts.google.com/")) throw new Error("El servidor no devolvió una dirección válida de Google. Vuelve a intentarlo.");
+    out.textContent = "Abriendo Google… elige la cuenta de Gmail desde la que saldrán los avisos y acepta el permiso de enviar correos.";
+    location.assign(j.url);
+  } catch (e) {
+    out.style.color = "var(--bad)"; out.textContent = e.message;
+    btns.forEach(b => { b.disabled = false; });
+  }
+}
+async function disconnectGmail(all) {
+  const out = $("#cfg-mail-msg");
+  const btns = [...document.querySelectorAll("#cfg-mail-box button")]; btns.forEach(b => { b.disabled = true; });
+  out.style.color = ""; out.textContent = all ? "Quitando todo…" : "Desconectando…";
+  try {
+    await gmailPost(all ? { action: "gmail_disconnect", all: true } : { action: "gmail_disconnect" });
+    await renderHealth();
+    const m = $("#cfg-mail-msg"); if (m) { m.style.color = "var(--good, #3ecf8e)"; m.textContent = all ? "Listo: se borraron el ID y el secreto de cliente, y el permiso de la cuenta. Google ya no deja que este sitio envíe correos por ella." : "Listo: la cuenta quedó desconectada (y Google anuló el permiso). El ID y el secreto de cliente siguen guardados para volver a conectar."; }
+  } catch (e) {
+    out.style.color = "var(--bad)"; out.textContent = e.message;
+    btns.forEach(b => { b.disabled = false; });
+  }
+}
+function openGmailClearConfirm() {
+  $("#confirm-modal").innerHTML = `
+    <h3 style="margin-bottom:4px">Quitar la conexión con Gmail</h3>
+    <p class="muted" style="margin:0 0 20px;font-size:13px">Se borran el ID y el secreto de cliente y el permiso de la cuenta. Para volver a usar Gmail tendrás que pegar de nuevo el ID y el secreto (si Google ya no te los muestra, crea un secreto nuevo en Credenciales). Mientras tanto los avisos de venta saldrán por las otras opciones o, al final, por el correo del hosting.</p>
+    <div style="display:flex;gap:10px">
+      <button class="btn ghost" id="gc-cancel" style="flex:1">Cancelar</button>
+      <button class="btn bad" id="gc-confirm" style="flex:2">Quitar todo</button>
+    </div>`;
+  $("#gc-cancel").addEventListener("click", closeConfirmModal);
+  $("#gc-confirm").addEventListener("click", () => { closeConfirmModal(); disconnectGmail(true); });
+  $("#confirm-overlay").classList.add("open");
+}
+async function copyGmailRedirect() {
+  const el = $("#cfg-gm-redirect"), b = $("#cfg-gm-copy");
+  let ok = false;
+  try { await navigator.clipboard.writeText(el.value); ok = true; }
+  catch (e) { try { el.focus(); el.select(); ok = document.execCommand("copy"); } catch (_) {} }
+  b.textContent = ok ? "¡Copiada!" : "Selecciónala y copia (Ctrl+C)";
+  setTimeout(() => { if (b.isConnected) b.textContent = "Copiar"; }, 2200);
+}
+/* Mensaje claro para cada motivo con el que api/gmail-callback puede devolver al panel (?gmail=error&r=…&e=…). */
+function gmailReturnError(why, google) {
+  const redirect = ($("#cfg-gm-redirect") || {}).value || "";
+  const E = {
+    invalid_client: "el ID o el secreto de cliente no son correctos. Cópialos de nuevo desde Google Cloud → Credenciales → tu ID de cliente de OAuth.",
+    invalid_grant: "el código de permiso venció o ya se usó. Vuelve a pulsar «Conectar con Google».",
+    redirect_uri_mismatch: `la URI de regreso no coincide. En Google Cloud → Credenciales → tu ID de cliente → «URI de redireccionamiento autorizados» debe estar exactamente: ${redirect}`,
+    unauthorized_client: "este ID de cliente no tiene permiso para este tipo de acceso. Crea un ID de cliente de tipo «Aplicación web».",
+    invalid_request: "Google rechazó la solicitud. Revisa que el ID de cliente sea de tipo «Aplicación web» y vuelve a intentarlo.",
+    access_denied: "Google no dio el permiso. Si la app está en «Pruebas», agrega tu correo como usuario de prueba o publícala (Público → Publicar la app).",
+  };
+  switch (why) {
+    case "denied": return "Cancelaste el permiso en Google, así que no se conectó nada. Pulsa «Conectar con Google» otra vez y acepta.";
+    case "state": return "El enlace de conexión venció o ya se había usado (dura 10 minutos y sirve una sola vez). Pulsa «Conectar con Google» otra vez.";
+    case "client": return "Falta el ID y el secreto de cliente: pégalos aquí abajo y pulsa «Guardar y conectar con Google».";
+    case "no_refresh": return "Google aceptó, pero no entregó el permiso permanente. Entra a myaccount.google.com/permissions, quita el acceso de «Stike» y vuelve a pulsar «Conectar con Google».";
+    case "no_email": return "Google no dijo cuál es la cuenta. Vuelve a pulsar «Conectar con Google» y acepta todos los permisos que pide.";
+    case "save": return "Google aceptó, pero el servidor no pudo guardar la conexión. Revisa que la carpeta de datos del sitio se pueda escribir y vuelve a intentarlo.";
+    default: return "Google no aceptó la conexión" + (google ? ` (${google})` : "") + (E[google] ? ": " + E[google] : ". Vuelve a intentarlo; si se repite, revisa el ID y el secreto de cliente.");
+  }
+}
+/* Al volver de Google (api/gmail-callback manda a /admin.html?gmail=ok|error&r=…): limpia la direccion, abre Configuración y muestra el resultado.
+   Si salio bien, manda enseguida un correo de prueba para confirmar que Gmail envia de verdad. */
+function gmailReturn(ready) {
+  let q; try { q = new URLSearchParams(location.search); } catch (e) { return; }
+  const st = q.get("gmail");
+  if (st !== "ok" && st !== "error") return;
+  const why = (q.get("r") || "").slice(0, 40), google = (q.get("e") || "").slice(0, 40);
+  try { history.replaceState(null, "", location.pathname + location.hash); } catch (e) {}
+  if (!["owner", "developer"].includes(session.role)) return;
+  switchPanel("config");
+  Promise.resolve(ready).then(async () => {
+    const box = $("#cfg-mail-box"); if (box && box.scrollIntoView) box.scrollIntoView({ block: "start" });
+    if (st === "ok") { await sendTestEmail("✔ Listo: Google aceptó la conexión y el permiso quedó guardado cifrado en el servidor."); return; }
+    const out = $("#cfg-mail-msg"); if (out) { out.style.color = "var(--bad)"; out.textContent = gmailReturnError(why, google); }
+  }).catch(() => {});
 }
 /* Herramientas de cobro: buscar pagos aprobados que no se registraron. */
 function wompiToolsHtml() {
@@ -4121,7 +4269,7 @@ function bootApp() {
   session.pat = "server";   // el token vive en el servidor (api/gh.php)
   // Limpieza: borra las llaves que versiones anteriores guardaban en el navegador.
   try { ["stike_admin_pat", "stike_admin_sales_key"].forEach(k => localStorage.removeItem(k)); sessionStorage.removeItem("stike_admin_login_v1"); } catch (e) {}
-  showApp();
+  gmailReturn(showApp());
   // Chrome restaura valores DESPUES del load: se vuelve a limpiar en el
   // siguiente frame y un instante despues, por si llega tarde.
   requestAnimationFrame(() => resetSearchFilter(true));

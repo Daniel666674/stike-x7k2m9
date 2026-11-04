@@ -25,6 +25,7 @@ pending/
 alerts/
 rate/
 outbox/
+oauth-state/
 
 # Llaves y certificados: nunca al repositorio, vengan de donde vengan.
 *.pem

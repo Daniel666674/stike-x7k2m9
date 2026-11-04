@@ -33,7 +33,7 @@ const git = (...a) => execFileSync("git", a, { cwd: ROOT, encoding: "utf8", maxB
 
 /* ---- los patrones (una expresion por linea) ---- */
 const PATTERN_LINES = readFileSync(join(ROOT, "tools/secret-patterns.txt"), "utf8").split("\n").filter(Boolean);
-const LABELS = ["llave privada de Wompi", "secreto de integridad o de eventos de Wompi", "token de GitHub", "token de GitHub (granular)", "llave de Resend", "clave privada (PEM)", "llave de AWS", "llave de Google", "llave de Stripe", "token de Slack", "clave puesta en un archivo de configuracion"];
+const LABELS = ["llave privada de Wompi", "secreto de integridad o de eventos de Wompi", "token de GitHub", "token de GitHub (granular)", "llave de Resend", "clave privada (PEM)", "llave de AWS", "llave de Google", "llave de Stripe", "token de Slack", "clave puesta en un archivo de configuracion", "secreto de cliente de Google", "permiso permanente de Google", "token de acceso de Google"];
 const PATTERNS = PATTERN_LINES.map((s, i) => ({ re: new RegExp(s, "g"), label: LABELS[i] || `patron ${i + 1}` }));
 
 /* Datos FALSOS de las pruebas (nunca una llave real): solo valen dentro de tools/. */
@@ -82,6 +82,9 @@ const samples = [
   ["llave de Resend", `re_${big(8)}_${big(26)}`],
   ["clave privada PEM", "-----BEGIN RSA " + "PRIVATE KEY-----"],
   ["clave puesta en un archivo de configuración", `'ADMIN_API_KEY' => '${big(30)}'`],
+  ["secreto de cliente de Google (OAuth)", `GOCSPX-${big(28)}`],
+  ["permiso permanente de Google (refresh token)", `1//0${big(40)}`],
+  ["token de acceso de Google", `ya29.${big(40)}`],
 ];
 for (const [name, text] of samples) t(`detecta: ${name}`, scanText("api/x.php", text).filter(h => !h.fake).length > 0, true);
 t("deja pasar los textos de ayuda con puntos suspensivos (prod_integrity_...)", scanText("api/_lib.php", "'WOMPI_INTEGRITY_SECRET' => 'prod_integrity_...', prv_prod_..., re_...").length, 0);
@@ -89,16 +92,16 @@ t("deja pasar los datos falsos de las pruebas SOLO dentro de tools/", [scanText(
 t("y un secreto real pegado dentro de un archivo de pruebas SÍ se detecta", scanText("tools/x-test.mjs", `prod_integrity_${big(30)}`).some(h => !h.fake), true);
 
 console.log("\nNingún archivo sensible está versionado, y .gitignore los cubre");
-const sensitiveTracked = tracked.filter(f => /(^|\/)(\.env(\..*)?|config\.local\.php|runtime-config\.json|last-event\.json|ventas\.jsonl|id_rsa|\.htpasswd)$|\.(pem|key|p12|pfx)$|^(pending|alerts|rate|outbox|stike-private)\//.test(f));
+const sensitiveTracked = tracked.filter(f => /(^|\/)(\.env(\..*)?|config\.local\.php|runtime-config\.json|last-event\.json|ventas\.jsonl|id_rsa|\.htpasswd)$|\.(pem|key|p12|pfx)$|^(pending|alerts|rate|outbox|oauth-state|stike-private)\//.test(f));
 t("ninguno de estos está en el repositorio: .env, api/config.local.php, runtime-config.json, ventas.jsonl, llaves .pem/.key, pending/", sensitiveTracked, []);
 const ignored = p => spawnSync("git", ["check-ignore", "-q", p], { cwd: ROOT }).status === 0;
-for (const p of ["api/config.local.php", ".env", ".env.production", "runtime-config.json", "last-event.json", "last-mail.json", "ventas.jsonl", "pending/stike-1.json", "outbox/aviso.json", "llave.pem", "servidor.key", "stike-private/ventas.jsonl"]) t(`.gitignore cubre ${p}`, ignored(p), true);
+for (const p of ["api/config.local.php", ".env", ".env.production", "runtime-config.json", "last-event.json", "last-mail.json", "ventas.jsonl", "pending/stike-1.json", "outbox/aviso.json", "oauth-state/estado.json", "llave.pem", "servidor.key", "stike-private/ventas.jsonl"]) t(`.gitignore cubre ${p}`, ignored(p), true);
 
 console.log("\n.htaccess bloquea lo interno y deja pasar lo público");
 const hta = readFileSync(join(ROOT, ".htaccess"), "utf8");
 const forbidRules = [...hta.matchAll(/^\s*RewriteRule\s+(\S+)\s+-\s+\[[^\]]*\bF\b[^\]]*\]/gm)].map(m => new RegExp(m[1]));
 const blocked = p => forbidRules.some(re => re.test(p));
-for (const p of ["data/costs.json", "data/sales-log.json", "data/audit-log.json", "data/stock-applied.json", "api/_lib.php", "api/_admin.php", "api/config.local.php", "api/config.local.php.bak", ".env", ".git/config", ".htpasswd", "tools/build-pages.mjs", "vercel-wompi-api/index.html", "bmx-builder/index.html", "README.md", "PROPOSAL.md", "runtime-config.json", "last-event.json", "last-bad-event.json", "last-mail.json", "ventas.jsonl", "pending/stike-1.json", "outbox/aviso.json", "volcado.sql", "servidor.log", "llaves.txt~", "id_rsa.pem"]) t(`se niega: ${p}`, blocked(p), true);
+for (const p of ["data/costs.json", "data/sales-log.json", "data/audit-log.json", "data/stock-applied.json", "api/_lib.php", "api/_admin.php", "api/config.local.php", "api/config.local.php.bak", ".env", ".git/config", ".htpasswd", "tools/build-pages.mjs", "vercel-wompi-api/index.html", "bmx-builder/index.html", "README.md", "PROPOSAL.md", "runtime-config.json", "last-event.json", "last-bad-event.json", "last-mail.json", "ventas.jsonl", "pending/stike-1.json", "outbox/aviso.json", "oauth-state/estado.json", "volcado.sql", "servidor.log", "llaves.txt~", "id_rsa.pem"]) t(`se niega: ${p}`, blocked(p), true);
 for (const p of ["index.html", "tienda.html", "assets/js/app.js", "assets/img/products/x-1.jpg", "data/site-content.json", "sitemap.xml", "robots.txt", "llms.txt", ".well-known/security.txt", "api/wompi-sign.php", "api/sales.php", "producto/cana-fiend-ransom.html", "categoria/canas.html"]) t(`se permite: ${p}`, blocked(p), false);
 
 console.log("\nLa copia que se sube a Hostinger no trae datos del negocio ni secretos");

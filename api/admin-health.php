@@ -140,6 +140,8 @@ stike_run(function () {
   $hasResend = (bool)stike_config("RESEND_API_KEY");
   $smtpCfg = stike_smtp_config();
   $hasSmtp = (bool)$smtpCfg;
+  $gmailCfg = stike_gmail_config();
+  $hasGmail = (bool)$gmailCfg;
   $lm = []; $queued = 0;
   try {
     $dirMail = stike_storage_dir();
@@ -152,20 +154,22 @@ stike_run(function () {
   }
   $mailKind = ["venta" => "aviso de venta", "prueba" => "correo de prueba"];
   $mailBits = ["Le llega a: " . implode(", ", array_map("stike_mask_email", $rcpt)) . "."];
-  if ($hasResend) $mailBits[] = "Sale por Resend" . ($hasSmtp ? " (y, si falla, por tu correo " . stike_mask_email($smtpCfg["user"]) . ")." : ".");
+  if ($hasResend) $mailBits[] = "Sale por Resend" . ($hasGmail ? " (y, si falla, por Gmail " . stike_mask_email($gmailCfg["sender"]) . ")." : ($hasSmtp ? " (y, si falla, por tu correo " . stike_mask_email($smtpCfg["user"]) . ")." : "."));
+  elseif ($hasGmail) $mailBits[] = "Sale por Gmail (API de Google), desde la cuenta " . stike_mask_email($gmailCfg["sender"]) . ".";
   elseif ($hasSmtp) $mailBits[] = "Sale por tu correo " . stike_mask_email($smtpCfg["user"]) . " (" . $smtpCfg["host"] . ").";
-  else $mailBits[] = "SIN servicio de correo propio: sale por el correo del hosting, que muchas veces no se entrega o cae en spam (por eso puede que no te lleguen las ventas). Configúralo abajo en «Correo de aviso de cada venta» (con un correo de tu dominio o con Resend).";
-  $viaName = ["resend" => "Resend", "smtp" => "tu correo (SMTP)", "mail" => "el correo del hosting"];
+  elseif (stike_gmail_client()) $mailBits[] = "Falta conectar la cuenta de Gmail: ya están guardados el ID y el secreto de Google Cloud; pulsa «Conectar con Google» (opción C).";
+  else $mailBits[] = "SIN servicio de correo propio: sale por el correo del hosting, que muchas veces no se entrega o cae en spam (por eso puede que no te lleguen las ventas). Configúralo abajo en «Correo de aviso de cada venta» (con tu cuenta de Gmail por Google Cloud, un correo de tu dominio o Resend).";
+  $viaName = ["resend" => "Resend", "gmail" => "Gmail (API de Google)", "smtp" => "tu correo (SMTP)", "mail" => "el correo del hosting"];
   if (!$mailLast) $mailBits[] = "Todavía no se ha enviado ninguno: usa «Enviar correo de prueba».";
   elseif (!empty($mailLast["ok"])) {
-    $mailBits[] = "Último envío (" . $mailKind[$mailLast["kind"]] . "): " . $evWhen($mailLast["at"]) . (in_array($mailLast["via"], ["resend", "smtp"], true) ? " ✔ por " . $viaName[$mailLast["via"]] . "." : " por el correo del hosting (el servidor lo aceptó, pero eso no garantiza que llegue).");
+    $mailBits[] = "Último envío (" . $mailKind[$mailLast["kind"]] . "): " . $evWhen($mailLast["at"]) . (in_array($mailLast["via"], ["resend", "gmail", "smtp"], true) ? " ✔ por " . $viaName[$mailLast["via"]] . "." : " por el correo del hosting (el servidor lo aceptó, pero eso no garantiza que llegue).");
     if (!empty($mailLast["fellBack"])) $mailBits[] = "El envío principal falló y se usó " . ($viaName[$mailLast["via"]] ?? "otro") . ": " . ($mailLast["detail"] ?? $mailLast["error"] ?? "?");
   } else {
     $mailBits[] = "El último envío (" . $mailKind[$mailLast["kind"]] . ") FALLÓ " . $evWhen($mailLast["at"]) . ": " . ($mailLast["detail"] ?? $mailLast["error"] ?? "?");
   }
   if ($queued) $mailBits[] = $queued . " aviso(s) de venta esperando para reenviarse solos.";
   foreach ($rcpt as $ra) if (preg_match('/@(correo|ejemplo|example|dominio|tucorreo|email|test|mail)\.(com|co|org)$/i', $ra)) $mailBits[] = "«" . stike_mask_email($ra) . "» parece un correo de EJEMPLO: cámbialo por el real.";
-  $mailOk = ($hasResend || $hasSmtp) && $mailLast && !empty($mailLast["ok"]) && in_array($mailLast["via"] ?? "", ["resend", "smtp"], true) && !$queued;
+  $mailOk = ($hasResend || $hasGmail || $hasSmtp) && $mailLast && !empty($mailLast["ok"]) && in_array($mailLast["via"] ?? "", ["resend", "gmail", "smtp"], true) && !$queued;
   $add("email", $mailOk, "Correo de aviso de cada venta", implode(" ", $mailBits));
   $add("https", !empty($_SERVER["HTTPS"]) || ($_SERVER["HTTP_X_FORWARDED_PROTO"] ?? "") === "https", "HTTPS", "Requerido por Wompi");
 
@@ -187,6 +191,13 @@ stike_run(function () {
         "configured" => $hasSmtp, "source" => stike_config_sources("SMTP_PASS")["panel"] ? "panel" : ($hasSmtp ? "servidor" : null),
         "host" => $hasSmtp ? $smtpCfg["host"] : (string)stike_config("SMTP_HOST", ""), "port" => $hasSmtp ? $smtpCfg["port"] : (int)stike_config("SMTP_PORT", 465),
         "user" => $hasSmtp ? $smtpCfg["user"] : (string)stike_config("SMTP_USER", ""),
+      ],
+      // Gmail por la API de Google Cloud: el ID de cliente y la cuenta conectada no son secretos; el secreto y el permiso permanente nunca salen.
+      "gmail" => [
+        "clientConfigured" => (bool)stike_gmail_client(), "clientId" => (string)stike_config("GMAIL_CLIENT_ID", ""),
+        "connected" => $hasGmail, "sender" => $hasGmail ? $gmailCfg["sender"] : null,
+        "source" => stike_config_sources("GMAIL_REFRESH_TOKEN")["panel"] ? "panel" : ($hasGmail ? "servidor" : null),
+        "redirectUri" => stike_gmail_redirect_uri(),
       ],
       "queued" => $queued,
     ];
