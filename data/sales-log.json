@@ -540,5 +540,17 @@
     "total": 136000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-05T22:52:02.457Z",
+    "slug": "coraza-odyssey-broc",
+    "name": "CORAZA ODYSSEY BROC ",
+    "size": "2.40",
+    "color": null,
+    "qty": 1,
+    "unitPrice": 150000,
+    "total": 150000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
