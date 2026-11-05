@@ -3183,7 +3183,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 30000,
     "promo": false,
-    "units": 2,
+    "units": 1,
     "imgs": [
       "assets/img/products/hub-guard-trasero-normal-brainstorm-2.jpg"
     ],
