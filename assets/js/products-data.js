@@ -1029,7 +1029,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 120000,
     "promo": false,
-    "units": 10,
+    "units": 8,
     "imgs": [
       "assets/img/products/cadena-fiend-halflink-negra-1.jpg"
     ],
