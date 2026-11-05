@@ -1430,10 +1430,6 @@ window.STIKE_PRODUCTS = [
       {
         "v": "160mm",
         "u": 1
-      },
-      {
-        "v": "175mm",
-        "u": 1
       }
     ],
     "sizeLabel": "Largo",
@@ -1441,31 +1437,12 @@ window.STIKE_PRODUCTS = [
       {
         "v": "Negro",
         "u": 1
-      },
-      {
-        "v": "Cromado",
-        "u": 1
       }
     ],
     "combos": [
       {
         "s": "160mm",
         "c": "Negro",
-        "u": 1
-      },
-      {
-        "s": "160mm",
-        "c": "Cromado",
-        "u": 0
-      },
-      {
-        "s": "175mm",
-        "c": "Negro",
-        "u": 0
-      },
-      {
-        "s": "175mm",
-        "c": "Cromado",
         "u": 1
       }
     ],
@@ -5554,26 +5531,6 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "bielas-premium-22mm-negras",
-    "sku": "REP-PRM-001",
-    "n": "Bielas Premium Eje 22mm",
-    "brand": "Premium",
-    "cat": "repuestos",
-    "sub": "Bielas",
-    "spec": [
-      "Eje: 22 mm",
-      "Incluye eje y tornillos",
-      "Color: Negro"
-    ],
-    "price": 600000,
-    "promo": false,
-    "units": 1,
-    "imgs": [
-      "assets/img/products/776ef972-21f6-474f-839a-54701f6f2e16.jpg"
-    ],
-    "published": true
-  },
-  {
     "slug": "manzana-trasera-mutanty-mercury-derecha-cromada",
     "sku": "REP-MUT-013",
     "n": "Manzana Trasera Mutanty Mercury Derecha Cromada",
@@ -5895,26 +5852,6 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/caja-de-centro-colony-1022mm-cromado-1.jpg": "Cromado",
       "assets/img/products/caja-de-centro-colony-1022mm-cromado-2.jpg": "Cromado"
     },
-    "published": true
-  },
-  {
-    "slug": "brazos-gw-negros",
-    "sku": "REP-GWB-002",
-    "n": "Brazos GW Negros",
-    "brand": "GW",
-    "cat": "repuestos",
-    "sub": "Bielas",
-    "spec": [
-      "Material: Cr-Mo",
-      "Incluye eje y tornillería",
-      "Color: Negro"
-    ],
-    "price": 60000,
-    "promo": false,
-    "units": 4,
-    "imgs": [
-      "assets/img/products/brazos-gw-negros-1.jpg"
-    ],
     "published": true
   },
   {
