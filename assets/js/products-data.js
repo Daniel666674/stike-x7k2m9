@@ -8245,7 +8245,7 @@ window.STIKE_PRODUCTS = [
     "sizes": [
       {
         "v": "2.40",
-        "u": 12
+        "u": 11
       }
     ],
     "sizeLabel": "Medida",
