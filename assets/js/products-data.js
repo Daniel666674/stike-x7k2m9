@@ -5061,7 +5061,7 @@ window.STIKE_PRODUCTS = [
     "sizes": [
       {
         "v": "Corto",
-        "u": 1
+        "u": 0
       },
       {
         "v": "Largo",
