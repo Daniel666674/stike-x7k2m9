@@ -1535,10 +1535,10 @@
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
     </item>
     <item>
-      <g:id>REP-FED-011-negro-160mm</g:id>
+      <g:id>REP-FED-011</g:id>
       <g:title>Bielas Federal Vice - Negro - 160mm</g:title>
-      <g:description>Bielas Federal Vice. Eje 24mm hollow, 48 spline. Material Cromoly 4130 tratado térmicamente. Incluye caja de centro (BB) y espaciadores. Disponible en colores Negro, Cromado; largo 160mm, 175mm. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/bielas-federal-vice.html?color=Negro&amp;size=160mm</g:link>
+      <g:description>Bielas Federal Vice. Eje 24mm hollow, 48 spline. Material Cromoly 4130 tratado térmicamente. Incluye caja de centro (BB) y espaciadores. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/bielas-federal-vice.html</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-160mm-negras-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-160mm-negras-2.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-160mm-negras-3.jpg</g:additional_image_link>
@@ -1552,75 +1552,8 @@
       <g:identifier_exists>no</g:identifier_exists>
       <g:product_type>Repuestos &gt; Bielas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
-      <g:item_group_id>REP-FED-011</g:item_group_id>
       <g:color>Negro</g:color>
       <g:size>160mm</g:size>
-    </item>
-    <item>
-      <g:id>REP-FED-011-cromado-160mm</g:id>
-      <g:title>Bielas Federal Vice - Cromado - 160mm</g:title>
-      <g:description>Bielas Federal Vice. Eje 24mm hollow, 48 spline. Material Cromoly 4130 tratado térmicamente. Incluye caja de centro (BB) y espaciadores. Disponible en colores Negro, Cromado; largo 160mm, 175mm. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/bielas-federal-vice.html?color=Cromado&amp;size=160mm</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-2-cromadas-175mm-1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-160mm-negras-1.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-160mm-negras-2.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-160mm-negras-3.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-2-cromadas-175mm-2.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-2-cromadas-175mm-3.jpg</g:additional_image_link>
-      <g:availability>out_of_stock</g:availability>
-      <g:price>920000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Federal</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Bielas</g:product_type>
-      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
-      <g:item_group_id>REP-FED-011</g:item_group_id>
-      <g:color>Cromado</g:color>
-      <g:size>160mm</g:size>
-    </item>
-    <item>
-      <g:id>REP-FED-011-negro-175mm</g:id>
-      <g:title>Bielas Federal Vice - Negro - 175mm</g:title>
-      <g:description>Bielas Federal Vice. Eje 24mm hollow, 48 spline. Material Cromoly 4130 tratado térmicamente. Incluye caja de centro (BB) y espaciadores. Disponible en colores Negro, Cromado; largo 160mm, 175mm. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/bielas-federal-vice.html?color=Negro&amp;size=175mm</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-160mm-negras-1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-160mm-negras-2.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-160mm-negras-3.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-2-cromadas-175mm-1.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-2-cromadas-175mm-2.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-2-cromadas-175mm-3.jpg</g:additional_image_link>
-      <g:availability>out_of_stock</g:availability>
-      <g:price>920000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Federal</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Bielas</g:product_type>
-      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
-      <g:item_group_id>REP-FED-011</g:item_group_id>
-      <g:color>Negro</g:color>
-      <g:size>175mm</g:size>
-    </item>
-    <item>
-      <g:id>REP-FED-011-cromado-175mm</g:id>
-      <g:title>Bielas Federal Vice - Cromado - 175mm</g:title>
-      <g:description>Bielas Federal Vice. Eje 24mm hollow, 48 spline. Material Cromoly 4130 tratado térmicamente. Incluye caja de centro (BB) y espaciadores. Disponible en colores Negro, Cromado; largo 160mm, 175mm. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/bielas-federal-vice.html?color=Cromado&amp;size=175mm</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-2-cromadas-175mm-1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-160mm-negras-1.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-160mm-negras-2.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-160mm-negras-3.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-2-cromadas-175mm-2.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-2-cromadas-175mm-3.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
-      <g:price>920000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Federal</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Bielas</g:product_type>
-      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
-      <g:item_group_id>REP-FED-011</g:item_group_id>
-      <g:color>Cromado</g:color>
-      <g:size>175mm</g:size>
     </item>
     <item>
       <g:id>REP-DEM-001</g:id>
@@ -5716,20 +5649,6 @@
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
     </item>
     <item>
-      <g:id>REP-PRM-001</g:id>
-      <g:title>Bielas Premium Eje 22mm</g:title>
-      <g:description>Bielas Premium Eje 22mm. Eje 22 mm. Incluye eje y tornillos. Color Negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/bielas-premium-22mm-negras.html</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/776ef972-21f6-474f-839a-54701f6f2e16.jpg</g:image_link>
-      <g:availability>in_stock</g:availability>
-      <g:price>600000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Premium</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Bielas</g:product_type>
-      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
-    </item>
-    <item>
       <g:id>REP-MUT-013</g:id>
       <g:title>Manzana Trasera Mutanty Mercury Derecha Cromada</g:title>
       <g:description>Manzana Trasera Mutanty Mercury Derecha Cromada. Posición Trasera (cassette). Tracción Derecha (RHD). Incluye protector de manzana. Color Cromado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
@@ -5978,20 +5897,6 @@
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-COL-001</g:item_group_id>
       <g:color>Cromado</g:color>
-    </item>
-    <item>
-      <g:id>REP-GWB-002</g:id>
-      <g:title>Brazos GW Negros</g:title>
-      <g:description>Brazos GW Negros. Material Cr-Mo. Incluye eje y tornillería. Color Negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/brazos-gw-negros.html</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/brazos-gw-negros-1.jpg</g:image_link>
-      <g:availability>in_stock</g:availability>
-      <g:price>60000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>GW</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Bielas</g:product_type>
-      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
     </item>
     <item>
       <g:id>REP-WTP-002</g:id>
