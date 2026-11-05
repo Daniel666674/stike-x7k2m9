@@ -3162,7 +3162,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 40000,
     "promo": false,
-    "units": 2,
+    "units": 1,
     "imgs": [
       "assets/img/products/hub-guard-delantero-medio-brainstorm-1.jpg",
       "assets/img/products/hub-guard-delantero-medio-brainstorm-2.jpg"
