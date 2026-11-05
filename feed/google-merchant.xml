@@ -10775,5 +10775,19 @@
       <g:product_type>Repuestos &gt; Manzana Trasera</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
     </item>
+    <item>
+      <g:id>REP-FAT-019</g:id>
+      <g:title>PEG FATE</g:title>
+      <g:description>PEG FATE de Fate BMX Colombia. 4.5 MM. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/peg-fate.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/74c46efa-b717-4cae-8fd1-b9324bed8bad.jpg</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>80000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fate BMX Colombia</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Pegs y Protectores</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+    </item>
   </channel>
 </rss>

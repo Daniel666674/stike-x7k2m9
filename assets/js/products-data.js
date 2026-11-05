@@ -9335,5 +9335,24 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/ff689b05-8a8a-4905-91a3-25361a334b0d.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "peg-fate",
+    "sku": "REP-FAT-019",
+    "n": "PEG FATE",
+    "brand": "Fate BMX Colombia",
+    "cat": "repuestos",
+    "sub": "Pegs y Protectores",
+    "spec": [
+      "4.5 MM"
+    ],
+    "price": 80000,
+    "promo": false,
+    "units": 11,
+    "combos": null,
+    "imgs": [
+      "assets/img/products/74c46efa-b717-4cae-8fd1-b9324bed8bad.jpg"
+    ],
+    "published": true
   }
 ];
