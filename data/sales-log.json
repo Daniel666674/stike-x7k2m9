@@ -564,5 +564,17 @@
     "total": 80000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-05T22:53:09.566Z",
+    "slug": "poste-pivotal-optimus",
+    "name": "Poste Pivotal Optimus Negro",
+    "size": "Corto",
+    "color": null,
+    "qty": 1,
+    "unitPrice": 45000,
+    "total": 45000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
