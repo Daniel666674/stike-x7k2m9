@@ -2113,11 +2113,11 @@ window.STIKE_PRODUCTS = [
     "sizes": [
       {
         "v": "25T",
-        "u": 1
+        "u": 0
       },
       {
         "v": "28T",
-        "u": 1,
+        "u": 0,
         "price": 340000
       }
     ],
@@ -2127,7 +2127,8 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/plato-odyssey-utility-pro-negro-28t-1.jpg",
       "assets/img/products/plato-odyssey-utility-pro-negro-28t-2.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "plato-federal-negro-25t-guardia",
@@ -2253,31 +2254,6 @@ window.STIKE_PRODUCTS = [
     "imgs": [
       "assets/img/products/tenedor-pirana-20-cromado-1.jpg",
       "assets/img/products/tenedor-pirana-20-cromado-2.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "plato-fiend-palmere-guardia-negro-25t",
-    "sku": "REP-FIE-055",
-    "n": "Plato Fiend Palmere Negro 25T con Guardia",
-    "brand": "Fiend",
-    "cat": "repuestos",
-    "sub": "Platos",
-    "spec": [
-      "Dientes: 25T",
-      "Guardia en nylon desmontable",
-      "Compatible con ejes de 24mm, incluye adaptadores de 22mm y 19mm",
-      "Material: Aluminio CNC 6061, 6mm de grosor",
-      "Peso: 453g",
-      "Color: Negro"
-    ],
-    "price": 230000,
-    "promo": false,
-    "units": 1,
-    "imgs": [
-      "assets/img/products/plato-fiend-palmere-guardia-negro-25t-1.jpg",
-      "assets/img/products/plato-fiend-palmere-guardia-negro-25t-2.jpg",
-      "assets/img/products/plato-fiend-palmere-guardia-negro-25t-3.jpg"
     ],
     "published": true
   },
@@ -2436,55 +2412,6 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/plato-mutanty-diamond-negro-1.jpg": "Negro",
       "assets/img/products/plato-mutanty-diamond-cromado-1.jpg": "Cromado"
     },
-    "published": true
-  },
-  {
-    "slug": "plato-gw-corona",
-    "sku": "PLT-GWB-002",
-    "n": "Plato GW Corona Negro",
-    "brand": "GW",
-    "cat": "repuestos",
-    "sub": "Platos",
-    "spec": [
-      "Material: Acero",
-      "Color: Negro"
-    ],
-    "price": 9000,
-    "promo": false,
-    "sizes": [
-      {
-        "v": "25T",
-        "u": 1
-      },
-      {
-        "v": "28T",
-        "u": 0
-      }
-    ],
-    "sizeLabel": "Dientes",
-    "imgs": [
-      "assets/img/products/plato-gw-corona-negro-25t-1.jpg",
-      "assets/img/products/plato-gw-corona-negro-28t-1.jpg"
-    ],
-    "published": true
-  },
-  {
-    "slug": "plato-gw-kl215-negro",
-    "sku": "PLT-GWB-001",
-    "n": "Plato GW KL215 Negro",
-    "brand": "GW",
-    "cat": "repuestos",
-    "sub": "Platos",
-    "spec": [
-      "Material: Aluminio 6061-T6",
-      "Dientes: 25T"
-    ],
-    "price": 35000,
-    "promo": false,
-    "units": 10,
-    "imgs": [
-      "assets/img/products/plato-gw-kl215-negro-1.jpg"
-    ],
     "published": true
   },
   {

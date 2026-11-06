@@ -2522,7 +2522,7 @@
       <g:image_link>https://stikebikeshop.com/assets/img/products/plato-odyssey-utility-pro-negro-25t-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/plato-odyssey-utility-pro-negro-28t-1.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/plato-odyssey-utility-pro-negro-28t-2.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
+      <g:availability>out_of_stock</g:availability>
       <g:price>250000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Odyssey</g:brand>
@@ -2540,7 +2540,7 @@
       <g:image_link>https://stikebikeshop.com/assets/img/products/plato-odyssey-utility-pro-negro-25t-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/plato-odyssey-utility-pro-negro-28t-1.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/plato-odyssey-utility-pro-negro-28t-2.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
+      <g:availability>out_of_stock</g:availability>
       <g:price>340000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Odyssey</g:brand>
@@ -2639,22 +2639,6 @@
       <g:brand>Piraña</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
       <g:product_type>Repuestos &gt; Tenedores</g:product_type>
-      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
-    </item>
-    <item>
-      <g:id>REP-FIE-055</g:id>
-      <g:title>Plato Fiend Palmere Negro 25T con Guardia</g:title>
-      <g:description>Plato Fiend Palmere Negro 25T con Guardia. Dientes 25T. Guardia en nylon desmontable. Compatible con ejes de 24mm, incluye adaptadores de 22mm y 19mm. Material Aluminio CNC 6061, 6mm de grosor. Peso 453g. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/plato-fiend-palmere-guardia-negro-25t.html</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/plato-fiend-palmere-guardia-negro-25t-1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/plato-fiend-palmere-guardia-negro-25t-2.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/plato-fiend-palmere-guardia-negro-25t-3.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
-      <g:price>230000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Fiend</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Platos</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
     </item>
     <item>
@@ -2805,54 +2789,6 @@
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>PLT-MUT-001</g:item_group_id>
       <g:color>Cromado</g:color>
-    </item>
-    <item>
-      <g:id>PLT-GWB-002-25t</g:id>
-      <g:title>Plato GW Corona Negro - 25T</g:title>
-      <g:description>Plato GW Corona Negro. Material Acero. Color Negro. Disponible en dientes 25T, 28T. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/plato-gw-corona.html?size=25T</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/plato-gw-corona-negro-25t-1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/plato-gw-corona-negro-28t-1.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
-      <g:price>9000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>GW</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Platos</g:product_type>
-      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
-      <g:item_group_id>PLT-GWB-002</g:item_group_id>
-      <g:size>25T</g:size>
-    </item>
-    <item>
-      <g:id>PLT-GWB-002-28t</g:id>
-      <g:title>Plato GW Corona Negro - 28T</g:title>
-      <g:description>Plato GW Corona Negro. Material Acero. Color Negro. Disponible en dientes 25T, 28T. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/plato-gw-corona.html?size=28T</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/plato-gw-corona-negro-25t-1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/plato-gw-corona-negro-28t-1.jpg</g:additional_image_link>
-      <g:availability>out_of_stock</g:availability>
-      <g:price>9000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>GW</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Platos</g:product_type>
-      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
-      <g:item_group_id>PLT-GWB-002</g:item_group_id>
-      <g:size>28T</g:size>
-    </item>
-    <item>
-      <g:id>PLT-GWB-001</g:id>
-      <g:title>Plato GW KL215 Negro</g:title>
-      <g:description>Plato GW KL215 Negro. Material Aluminio 6061-T6. Dientes 25T. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/plato-gw-kl215-negro.html</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/plato-gw-kl215-negro-1.jpg</g:image_link>
-      <g:availability>in_stock</g:availability>
-      <g:price>35000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>GW</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Platos</g:product_type>
-      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
     </item>
     <item>
       <g:id>PED-CIN-001</g:id>

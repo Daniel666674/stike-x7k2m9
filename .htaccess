@@ -107,8 +107,6 @@ DirectoryIndex index.html
   RewriteRule ^producto/plato-fiend-omicron-negro-28t\.html$ /producto/plato-fiend-omicron.html [R=301,L]
   RewriteRule ^producto/plato-fiend-reynolds-cromado-25t\.html$ /producto/plato-fiend-reynolds-25t.html [R=301,L]
   RewriteRule ^producto/plato-fiend-reynolds-negro-25t-sin-guardia\.html$ /producto/plato-fiend-reynolds-25t.html [R=301,L]
-  RewriteRule ^producto/plato-gw-corona-negro-25t\.html$ /producto/plato-gw-corona.html [R=301,L]
-  RewriteRule ^producto/plato-gw-corona-negro-28t\.html$ /producto/plato-gw-corona.html [R=301,L]
   RewriteRule ^producto/plato-mutanty-diamond-cromado\.html$ /producto/plato-mutanty-diamond-con-guardia.html [R=301,L]
   RewriteRule ^producto/plato-mutanty-diamond-negro\.html$ /producto/plato-mutanty-diamond-con-guardia.html [R=301,L]
   RewriteRule ^producto/plato-odyssey-utility-pro-negro-25t\.html$ /producto/plato-odyssey-utility-pro-negro.html [R=301,L]
