@@ -29,7 +29,8 @@
 
   <script src="assets/js/products-data.js?v=e68d49c120"></script>
   <script src="assets/js/data.js?v=79ae087066"></script>
-  <script src="assets/js/app.js?v=7c71e1a117"></script>
+  <script src="assets/js/app.js?v=de4887584b"></script>
+  <script src="assets/js/analytics.js?v=7913e5666f" defer></script>
   <script src="assets/js/wompi.js?v=583a36d730"></script>
   <script>
     stikeInit();
@@ -100,6 +101,9 @@
         return `• ${r.qty}x ${p.n}${variant}, ${stikePrice(stikePriceFor(p, r.size || null, r.color || null) * r.qty)}`;
       }).filter(Boolean).join("\n");
       const amountPesos = Math.round((txn.amount_in_cents || 0) / 100);
+      /* Medicion (assets/js/analytics.js): la compra se cuenta UNA vez, con el pago ya APROBADO, su referencia, el valor cobrado y
+         lo que habia en el carrito (que se vacia mas abajo). Recargar esta pagina no la cuenta otra vez. */
+      try { document.dispatchEvent(new CustomEvent("stike:purchase", { detail: { reference: ref, value: amountPesos, items: cart.map(r => ({ slug: r.slug, qty: r.qty, size: r.size || null, color: r.color || null })) } })); } catch (e) {}
       const shipLines = shipInfo
         ? `\n\nEnviar a:\n${shipInfo.name} - ${shipInfo.phone}\n${shipInfo.address}, ${shipInfo.city}` + (shipInfo.notes ? `\nNotas: ${shipInfo.notes}` : "")
         : "";
@@ -191,6 +195,7 @@
           actionHref: "tienda.html", actionLabel: "Volver a la tienda",
         });
       } else {
+        try { document.dispatchEvent(new CustomEvent("stike:payment_failed", { detail: { reference: ref, status: txn.status } })); } catch (e) {}
         renderState({
           icon: X_SVG, title: "El pago no se completó", orderNo: ref,
           message: "El pago no fue aprobado, así que no se hizo ningún cobro definitivo (si ves un valor retenido, tu banco lo libera solo en unos días). Tu carrito sigue como lo dejaste: puedes intentarlo de nuevo, con otro medio de pago si prefieres.",
