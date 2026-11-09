@@ -2095,6 +2095,230 @@ async function registrarVenta() {
   if (ok) resetSaleForm();
 }
 
+/* ===================== Venta de un producto que NO esta en la pagina ==========
+   A veces se vende algo que no esta en el catalogo (una pieza usada, mano de obra, un encargo...).
+   Se anota SOLO en el historial de ventas: no se crea el producto en la tienda y no se toca el stock (no hay
+   inventario de eso en la pagina). Queda marcada offCatalog: los KPIs no inventan un margen (no hay costo
+   guardado) y el historial lo dice. Con «Generar factura» sale la factura igual que en cualquier venta. */
+const OFFCAT_SLUG = "fuera-de-catalogo";
+const SALE_MAX_QTY = 999, SALE_MAX_PRICE = 99999999;
+function cleanSaleName(s) { return String(s == null ? "" : s).replace(/[\u0000-\u001f\u007f]+/g, " ").replace(/\s+/g, " ").trim().slice(0, 120); }
+function offCatalogCheck(name, qty, unitPrice) {
+  if (name.length < 2) return { field: "offcat-name", text: "Escribe qué se vendió (al menos 2 letras)." };
+  if (!Number.isInteger(qty) || qty < 1 || qty > SALE_MAX_QTY) return { field: "offcat-qty", text: `La cantidad tiene que ser un número entre 1 y ${SALE_MAX_QTY}.` };
+  if (!Number.isInteger(unitPrice) || unitPrice < 1 || unitPrice > SALE_MAX_PRICE) return { field: "offcat-price", text: "Escribe el precio de venta de cada unidad, en pesos (más de $0)." };
+  return null;
+}
+async function applyOffCatalogSale(opts) {
+  if (saleInFlight) return false;
+  const name = cleanSaleName(opts.name), qty = opts.qty, unitPrice = opts.unitPrice;
+  if (offCatalogCheck(name, qty, unitPrice)) return false;
+  const discount = opts.customer ? Math.min(unitPrice * qty, opts.customer.discount || 0) : 0;
+  const entry = { ts: new Date().toISOString(), slug: OFFCAT_SLUG, name, size: null, color: null, qty, unitPrice, total: unitPrice * qty - discount, admin: session.email, source: "tienda", offCatalog: true };
+  if (discount) entry.discount = discount;
+  saleInFlight = true;
+  setPublishing(true);
+  showStatus([{ text: `Registrando la venta de ${name}...`, cls: "now" }]);
+  try {
+    if (opts.customer) {
+      entry.invoice = nextInvoiceNumber();
+      entry.payment = opts.customer.pay;
+      saveInvoiceCustomer(entry.invoice, opts.customer);
+    }
+    salesLogGh = await appendJsonLog(CONFIG.paths.salesLog, [entry], `Venta (fuera de la página): ${qty}x ${name}`);
+    rebuildSalesLog();
+    showStatus([{ text: `✔ Venta registrada: ${qty}x ${name}. Es un producto fuera de la página: no se creó en la tienda ni se descontó stock.`, cls: "ok" }]);
+  } catch (e) {
+    showStatus([{ text: "La venta NO se registró: " + e.message, cls: "bad" }]);
+    return false;
+  } finally {
+    saleInFlight = false;
+    setPublishing(false);
+  }
+  renderSalesTab();
+  renderKpis();
+  if (opts.customer) writeInvoice(opts.invWin, entry, opts.customer);
+  return entry;
+}
+function setOffcatMsg(text) { const m = $("#offcat-msg"); if (!m) return; m.textContent = text || ""; m.hidden = !text; }
+function openOffCatalog(name) {
+  $("#sale-catalog-part").hidden = true;
+  $("#offcat-link").hidden = true;
+  $("#offcat").hidden = false;
+  if (typeof name === "string" && name.trim()) $("#offcat-name").value = cleanSaleName(name);
+  const q = $("#sale-q"); if (q) { q.value = ""; renderSaleResults(); }
+  setOffcatMsg("");
+  refreshOffCatalog();
+  setTimeout(() => ($("#offcat-name").value ? $("#offcat-price") : $("#offcat-name")).focus(), 30);
+}
+function closeOffCatalog(reset) {
+  $("#offcat").hidden = true;
+  $("#sale-catalog-part").hidden = false;
+  $("#offcat-link").hidden = false;
+  if (reset) { $("#offcat-name").value = ""; $("#offcat-qty").value = 1; $("#offcat-price").value = ""; setOffcatMsg(""); refreshOffCatalog(); }
+  const q = $("#sale-q"); if (q) q.focus();
+}
+/* Total en vivo y, si lo escrito se parece a algo que SI esta en la pagina, un aviso: asi no se vende por aqui algo
+   que tiene stock y se queda sin descontar. */
+function refreshOffCatalog() {
+  const qty = parseInt($("#offcat-qty").value, 10) || 0, price = parseInt($("#offcat-price").value, 10) || 0;
+  $("#offcat-total").textContent = money(Math.max(0, qty * price));
+  const name = cleanSaleName($("#offcat-name").value);
+  const sim = name.length >= 3 ? searchProducts(name, 3).filter(p => p.published !== false) : [];
+  const box = $("#offcat-similar");
+  box.hidden = !sim.length;
+  box.innerHTML = sim.length ? `Ojo: en la página sí hay <b>${sim.map(p => escHtml(p.n)).join("</b>, <b>")}</b>. Si es ese producto, <button type="button" class="linkbtn" id="offcat-back">búscalo en la página</button> para que se descuente el stock.` : "";
+  const back = $("#offcat-back");
+  if (back) back.addEventListener("click", () => { closeOffCatalog(false); const q = $("#sale-q"); q.value = name; renderSaleResults(); });
+}
+async function registrarVentaFuera() {
+  const name = cleanSaleName($("#offcat-name").value);
+  const qty = parseInt($("#offcat-qty").value, 10), unitPrice = parseInt($("#offcat-price").value, 10);
+  const bad = offCatalogCheck(name, qty, unitPrice);
+  if (bad) { setOffcatMsg(bad.text); $("#" + bad.field).focus(); return; }
+  setOffcatMsg("");
+  const customer = readCustomerFields("sale");
+  const invWin = customer ? openInvoiceWindow() : null;
+  const ok = await applyOffCatalogSale({ name, qty, unitPrice, customer, invWin });
+  if (!ok && invWin) invWin.close();
+  if (ok) closeOffCatalog(true);
+}
+
+/* ===================== Corregir una venta ya registrada =======================
+   Se corrige el PRECIO UNITARIO (el total se recalcula). En las ventas de un producto fuera de la pagina tambien el nombre
+   y la cantidad (no hay stock de por medio). En las del catalogo la cantidad y el producto no se tocan: el stock ya se
+   descontó. Las ventas online (Wompi) no se editan: reflejan lo que el cliente pagó. Cada cambio queda en la propia
+   venta (edits: quien, cuando, antes y despues) y en Auditoria; el historial de git guarda ademas cada version. */
+const SALE_EDIT_LABELS = { unitPrice: "Precio", qty: "Cantidad", name: "Nombre", discount: "Descuento", total: "Total" };
+function describeSaleChanges(changes) {
+  const fmt = (k, v) => k === "name" ? "«" + String(v == null ? "" : v) + "»" : k === "qty" ? String(v) : money(v);
+  const c = changes && typeof changes === "object" ? changes : {};
+  const same = (x, y) => Array.isArray(x) && Array.isArray(y) && x[0] === y[0] && x[1] === y[1];
+  return Object.entries(c)
+    .filter(([k, v]) => Array.isArray(v) && v.length === 2 && !(k === "total" && same(v, c.unitPrice)))   // el total solo se muestra si dice algo distinto al precio
+    .map(([k, [a, b]]) => `${SALE_EDIT_LABELS[k] || k}: ${fmt(k, a)} → ${fmt(k, b)}`).join(" · ");
+}
+/* Lee la version MAS RECIENTE del historial, aplica el cambio a esa venta y lo escribe (si otro cambio llego en medio, reintenta). */
+async function editSaleInLog(sale, buildNext, commitMessage) {
+  for (let attempt = 1; attempt <= 5; attempt++) {
+    const fresh = await ghGetFile(CONFIG.paths.salesLog);
+    if (!fresh) throw Object.assign(new Error("No se pudo leer el historial de ventas."), { userFacing: true });
+    const arr = JSON.parse(fresh.text);
+    const i = arr.findIndex(x => x.ts === sale.ts && x.slug === sale.slug);
+    if (i < 0) throw Object.assign(new Error("Esa venta ya no está en el historial. Cierra esto y vuelve a abrir Ventas."), { userFacing: true });
+    const next = buildNext(arr[i]);
+    arr[i] = next;
+    try { await ghPutOnce(CONFIG.paths.salesLog, b64EncodeText(JSON.stringify(arr, null, 2) + "\n"), commitMessage, fresh.sha); return { arr, entry: next }; }
+    catch (e) { if (e.conflict && attempt < 5) { await sleep(backoffMs(Math.min(attempt, 4))); continue; } throw e; }
+  }
+}
+/* Total que quedaria con lo escrito en el formulario (el descuento de la venta se mantiene, sin pasar del subtotal). */
+function saleEditValues(sale) {
+  const off = !!sale.offCatalog;
+  const unitPrice = parseInt($("#se-price").value, 10);
+  const qty = off ? parseInt($("#se-qty").value, 10) : Number(sale.qty);
+  const name = off ? cleanSaleName($("#se-name").value) : (sale.name || "");
+  let error = "";
+  if (off && name.length < 2) error = "Escribe qué se vendió (al menos 2 letras).";
+  else if (off && (!Number.isInteger(qty) || qty < 1 || qty > SALE_MAX_QTY)) error = `La cantidad tiene que ser un número entre 1 y ${SALE_MAX_QTY}.`;
+  else if (!Number.isInteger(unitPrice) || unitPrice < 1 || unitPrice > SALE_MAX_PRICE) error = "Escribe el precio de cada unidad, en pesos (más de $0).";
+  const sub = (unitPrice || 0) * (qty || 0), disc = Math.min(Number(sale.discount) || 0, sub);
+  return { error, unitPrice, qty, name, total: sub - disc, changed: !error && (unitPrice !== Number(sale.unitPrice) || qty !== Number(sale.qty) || name !== (sale.name || "")) };
+}
+function openSaleEdit(sale) {
+  if (!sale || sale.source === "wompi") return;
+  const off = !!sale.offCatalog;
+  const attr = v => escHtml(v).replace(/"/g, "&quot;");
+  $("#confirm-modal").innerHTML = `
+    <h3 style="margin-bottom:2px">Corregir venta</h3>
+    <p class="muted" style="margin:0 0 14px;font-size:13px">${escHtml(sale.name || sale.slug)} · ${escHtml(new Date(sale.ts).toLocaleString("es-CO"))}</p>
+    ${off
+      ? `<div class="field"><label for="se-name">Producto</label><input id="se-name" type="text" maxlength="120" value="${attr(sale.name || "")}" autocomplete="off"></div>
+         <div class="field"><label for="se-qty">Cantidad</label><input id="se-qty" type="number" min="1" max="${SALE_MAX_QTY}" value="${Number(sale.qty) || 1}"></div>`
+      : `<p class="hint muted" style="margin:0 0 10px">Aquí se corrige solo el precio. La cantidad (<b>${Number(sale.qty) || 1}</b>) y el producto no se pueden cambiar porque ya se descontó el stock.</p>`}
+    <div class="field"><label for="se-price">Precio unitario (COP)</label><input id="se-price" type="number" min="1" step="1" value="${Math.round(Number(sale.unitPrice) || 0)}"></div>
+    ${sale.discount ? `<p class="hint muted" style="margin:0 0 8px">Esta venta tiene un descuento de ${escHtml(money(sale.discount))}; se mantiene.</p>` : ""}
+    <p class="sale-edit-diff" id="se-diff"></p>
+    ${sale.invoice ? `<p class="hint" style="color:var(--warn);margin:0 0 10px">Esta venta tiene la factura Nº ${escHtml(sale.invoice)}. Si ya se la entregaste al cliente, esa copia no va a coincidir: al volver a imprimirla saldrá con el precio nuevo.</p>` : ""}
+    <p class="hint" id="se-msg" role="status" hidden style="color:var(--bad);margin:0 0 10px"></p>
+    <div style="display:flex;gap:10px;margin-top:6px">
+      <button class="btn ghost" id="se-cancel" style="flex:1">Cancelar</button>
+      <button class="btn cyan" id="se-save" style="flex:2" disabled>Guardar corrección</button>
+    </div>`;
+  const refresh = () => {
+    const v = saleEditValues(sale);
+    $("#se-diff").innerHTML = v.error ? "" : v.changed ? `Total: <b>${escHtml(money(sale.total))}</b> → <b>${escHtml(money(v.total))}</b>` : `<span class="muted">Todavía no cambiaste nada.</span>`;
+    $("#se-save").disabled = !v.changed;
+    const m = $("#se-msg"); m.textContent = v.error; m.hidden = !v.error;
+  };
+  ["#se-price", "#se-qty", "#se-name"].forEach(sel => { const el = $(sel); if (el) el.addEventListener("input", refresh); });
+  $("#se-cancel").addEventListener("click", () => openSaleDetail(sale));
+  $("#se-save").addEventListener("click", () => {
+    const v = saleEditValues(sale);
+    if (v.error || !v.changed) { refresh(); return; }
+    saveSaleCorrection(sale, off ? { unitPrice: v.unitPrice, qty: v.qty, name: v.name } : { unitPrice: v.unitPrice });
+  });
+  disableAutofill($("#confirm-modal"));
+  refresh();
+  $("#confirm-overlay").classList.add("open");
+  setTimeout(() => { const f = $("#se-price"); if (f) { f.focus(); f.select(); } }, 30);
+}
+async function saveSaleCorrection(sale, patch) {
+  if (saleInFlight) return false;
+  saleInFlight = true;
+  setPublishing(true);
+  const btns = [...document.querySelectorAll("#confirm-modal button")]; btns.forEach(b => { b.disabled = true; });
+  showStatus([{ text: "Guardando la corrección de la venta...", cls: "now" }]);
+  const when = new Date().toISOString();
+  let result;
+  try {
+    result = await editSaleInLog(sale, cur => {
+      /* La venta no puede haber cambiado mientras se editaba (otra persona u otro computador). */
+      if (Number(cur.unitPrice) !== Number(sale.unitPrice) || Number(cur.qty) !== Number(sale.qty) || (cur.name || "") !== (sale.name || "")) {
+        throw Object.assign(new Error(`Esta venta cambió mientras la editabas (ahora dice ${money(cur.unitPrice)} por unidad). Ciérrala y ábrela otra vez.`), { userFacing: true });
+      }
+      const next = { ...cur };
+      if (patch.name !== undefined) next.name = patch.name;
+      if (patch.qty !== undefined) next.qty = patch.qty;
+      next.unitPrice = patch.unitPrice;
+      const sub = next.unitPrice * next.qty, disc = Math.min(Number(cur.discount) || 0, sub);
+      if (disc) next.discount = disc; else delete next.discount;
+      next.total = sub - disc;
+      const before = { unitPrice: cur.unitPrice, qty: cur.qty, name: cur.name, discount: Number(cur.discount) || 0, total: cur.total };
+      const after = { unitPrice: next.unitPrice, qty: next.qty, name: next.name, discount: disc, total: next.total };
+      const changes = {};
+      for (const k of Object.keys(before)) if (before[k] !== after[k]) changes[k] = [before[k], after[k]];
+      if (!Object.keys(changes).length) throw Object.assign(new Error("No cambiaste nada."), { userFacing: true });
+      next.edits = (Array.isArray(cur.edits) ? cur.edits : []).concat([{ ts: when, by: session.email, changes }]).slice(-30);
+      return next;
+    }, `Corrección de venta: ${sale.qty}x ${sale.name || sale.slug}`);
+    salesLogGh = result.arr;
+    rebuildSalesLog();
+    const last = result.entry.edits[result.entry.edits.length - 1];
+    /* Auditoria: si falla, la correccion igual quedo guardada en la propia venta. */
+    try {
+      auditLog = await appendJsonLog(CONFIG.paths.auditLog, [{
+        ts: when, admin: session.email, created: 0, edited: 0, deleted: 0, photos: 0, saleEdit: true,
+        summary: `Corrigió una venta (${result.entry.qty}x ${result.entry.name}, ${new Date(result.entry.ts).toLocaleString("es-CO")}): ${describeSaleChanges(last.changes)}`,
+      }], "Auditoría: venta corregida");
+    } catch (e) { console.warn("auditoria de la correccion no escrita", e); }
+    showStatus([{ text: `✔ Venta corregida: ${describeSaleChanges(last.changes)}.`, cls: "ok" }]);
+  } catch (e) {
+    showStatus([{ text: "La corrección NO se guardó: " + e.message, cls: "bad" }]);
+    const m = $("#se-msg"); if (m) { m.textContent = "No se guardó: " + e.message; m.hidden = false; }
+    btns.forEach(b => { if (b.id !== "se-save") b.disabled = false; });
+    return false;
+  } finally {
+    saleInFlight = false;
+    setPublishing(false);
+  }
+  renderSalesTab();
+  renderKpis();
+  renderAudit();
+  openSaleDetail(salesLog.find(x => saleKey(x) === saleKey(result.entry)) || result.entry);
+  return true;
+}
+
 /* ===================== Entrada 2: venta rapida desde la tarjeta ==============
    Un boton "Vender" en cada producto del inventario abre este modal chico con
    talla/color/cantidad/precio ya resueltos para ese producto: es el camino
@@ -2271,6 +2495,8 @@ function saleHaystack(s) {
     s.name, s.slug, prod && prod.sku, prod && prod.brand, s.size, s.color, s.admin,
     s.invoice && ("factura " + s.invoice), s.payment, s.orderRef, s.customerEmail,
     s.source === "wompi" ? "online wompi pagina web" : "tienda mostrador",
+    s.offCatalog && "fuera de la pagina otro producto sin catalogo",
+    Array.isArray(s.edits) && s.edits.length && "corregida editada correccion",
     s.shipping && [s.shipping.name, s.shipping.city, s.shipping.phone].join(" "),
     okDate && [d.toLocaleString("es-CO"), d.toISOString().slice(0, 10), d.toLocaleDateString("es-CO", { day: "numeric", month: "long", year: "numeric" }), d.toLocaleDateString("es-CO", { weekday: "long" })].join(" "),
   ];
@@ -2301,6 +2527,13 @@ function saleThumbHtml(s, big) {
   const src = saleImageSrc(s);
   return `<span class="sale-thumb${big ? " big" : ""}${src ? "" : " empty"}">${src ? `<img src="${escAttr(src)}" alt="" loading="lazy">` : ""}</span>`;
 }
+/* Etiquetas de una venta en el historial: la de un producto que no esta en la pagina y la que se corrigio despues de registrarla. */
+function saleTagsHtml(s) {
+  const tags = [];
+  if (s.offCatalog) tags.push(`<span class="pill" title="Producto que no está en la página (no se descontó stock)">fuera de la página</span>`);
+  if (Array.isArray(s.edits) && s.edits.length) tags.push(`<span class="pill dirty" title="Se corrigió después de registrarla">corregida</span>`);
+  return tags.length ? `<span class="sale-tags">${tags.join("")}</span>` : "";
+}
 function renderSalesHistory() {
   const qEl = $("#sales-q"); if (!qEl) return;
   const q = qEl.value, words = searchWords(q), U = window.stikeSearchUtil;
@@ -2316,7 +2549,7 @@ function renderSalesHistory() {
     ? `${rows.length} venta${rows.length === 1 ? "" : "s"} · ${units} unidad${units === 1 ? "" : "es"}${seesFinance() ? " · " + money(total) : ""}` : "";
   $("#sales-tbody").innerHTML = rows.slice(0, 200).map((s, i) => `
     <tr data-sale-idx="${i}" style="cursor:pointer" title="Ver detalle">
-      <td>${new Date(s.ts).toLocaleString("es-CO")}</td><td><div class="sale-prod">${saleThumbHtml(s)}<span>${hl(s.name || s.slug)}</span></div></td>
+      <td>${new Date(s.ts).toLocaleString("es-CO")}</td><td><div class="sale-prod">${saleThumbHtml(s)}<span>${hl(s.name || s.slug)}${saleTagsHtml(s)}</span></div></td>
       <td>${hl([s.size, s.color].filter(Boolean).join(" / ")) || "—"}</td><td>${s.qty}</td><td>${money(s.total)}</td><td>${hl(s.admin || "")}</td></tr>`).join("")
     || `<tr><td colspan="6" class="muted" style="padding:16px;text-align:center">${all ? `No hay ventas que coincidan${words.length ? ` con «${escHtml(q.trim())}»` : ""}.` : "Sin ventas registradas."}</td></tr>`;
   $("#sales-tbody").querySelectorAll("tr[data-sale-idx]").forEach(tr => {
@@ -2355,8 +2588,10 @@ function openSaleDetail(sale) {
     sale.discount && ["Descuento", money(sale.discount)],
     sale.payment && ["Forma de pago", sale.payment],
     sale.invoice && ["Factura", "Nº " + sale.invoice],
+    sale.offCatalog && ["Origen", "Producto que no está en la página (no se descontó stock)"],
     ["Vendedor", sale.admin || "—"],
   ];
+  const editRows = (Array.isArray(sale.edits) ? sale.edits : []).map(e => [`${new Date(e.ts).toLocaleString("es-CO")} · ${e.by || "—"}`, describeSaleChanges(e.changes) || "—"]);
 
   const isWompi = sale.source === "wompi";
   const wompiRows = isWompi ? [
@@ -2392,13 +2627,16 @@ function openSaleDetail(sale) {
     </div></div>
     ${fieldRows(mainRows)}
     ${isWompi ? sectionTitle("Pago (Wompi)") + fieldRows(wompiRows) : ""}
+    ${editRows.length ? sectionTitle("Correcciones") + editRows.map(([k, v]) => `<div style="padding:7px 0;border-bottom:1px solid var(--line-soft);font-size:13px"><div class="muted" style="font-size:12px">${escHtml(k)}</div><div>${escHtml(v)}</div></div>`).join("") : ""}
     ${shipRows.length
       ? sectionTitle("Envío") + fieldRows(shipRows) + quote
       : (isWompi ? `<p style="color:var(--bad);font-size:12.5px;margin-top:14px">Sin datos de envío -- venta anterior a que se pidieran en el carrito.</p>` : "")}
     ${sale.invoice ? `<button class="btn cyan block" id="sd-invoice" style="margin-top:20px">Ver / imprimir factura Nº ${escHtml(sale.invoice)}</button>` : ""}
-    <button class="btn block" id="sd-close" style="margin-top:${sale.invoice ? "10px" : "20px"}">Cerrar</button>`;
+    ${isWompi ? "" : `<button class="btn ghost block" id="sd-edit" style="margin-top:${sale.invoice ? "10px" : "20px"}">Corregir venta (precio)</button>`}
+    <button class="btn block" id="sd-close" style="margin-top:${sale.invoice || !isWompi ? "10px" : "20px"}">Cerrar</button>`;
   $("#sd-close").addEventListener("click", closeConfirmModal);
   if (sale.invoice) $("#sd-invoice").addEventListener("click", () => reprintInvoice(sale));
+  if (!isWompi) $("#sd-edit").addEventListener("click", () => openSaleEdit(sale));
   $("#confirm-overlay").classList.add("open");
 }
 
@@ -2473,8 +2711,8 @@ function renderNotifPanel() {
   panel.innerHTML = `<h4>Ventas recientes</h4>` + (rows.length
     ? rows.map(s => `
       <div class="notif-row">
-        <div class="nr-top"><span>${s.qty}x ${s.name || s.slug}</span><b>${money(s.total)}</b></div>
-        <div class="nr-sub">${new Date(s.ts).toLocaleString("es-CO")} · ${s.admin || ""}</div>
+        <div class="nr-top"><span>${escHtml(s.qty)}x ${escHtml(s.name || s.slug)}</span><b>${money(s.total)}</b></div>
+        <div class="nr-sub">${new Date(s.ts).toLocaleString("es-CO")} · ${escHtml(s.admin || "")}</div>
       </div>`).join("")
     : `<div class="notif-empty">Sin ventas todavía.</div>`);
 }
@@ -2506,16 +2744,18 @@ function notifySaleEntries(entries) {
   }
 }
 
+/* Huella de lo que se ve de cada venta: cambia si entra una venta nueva O si alguien corrige una. */
+function salesSig(arr) { return arr.map(s => `${saleKey(s)}|${s.total}|${s.qty}|${s.name || ""}|${Array.isArray(s.edits) ? s.edits.length : 0}`).join("\n"); }
 async function pollSalesLog() {
   if (demoMode || !session.pat) return;
   const [fresh] = await Promise.all([ghGetFile(CONFIG.paths.salesLog), fetchOnlineSales()]);
   reconcileOnlineStock();
-  const before = salesLog;
+  const before = salesLog, beforeSig = salesSig(before);
   salesLogGh = fresh ? JSON.parse(fresh.text) : [];
   rebuildSalesLog();
   const known = new Set(before.map(saleKey));
   const added = salesLog.filter(s => !known.has(saleKey(s)));
-  if (!added.length && salesLog.length === before.length) { renderOnlineSalesNote(); return; }
+  if (!added.length && salesSig(salesLog) === beforeSig) { renderOnlineSalesNote(); return; }
   renderSalesTab();
   renderKpis();
   renderNotifBadge();
@@ -2556,8 +2796,12 @@ function renderKpis() {
   const activos = workingCatalog.filter(p => p.published !== false).length;
 
   const costOf = slug => { const p = workingCatalog.find(x => x.slug === slug); return p ? (p.cost || costsMap[slug] || 0) : 0; };
-  const cogs = last30.reduce((a, s) => a + costOf(s.slug) * s.qty, 0);
-  const marginPct = revenue > 0 ? Math.round(((revenue - cogs) / revenue) * 100) : 0;
+  /* Lo vendido fuera de la pagina no tiene costo guardado: se deja fuera del margen para no inventar uno (queda en los ingresos). */
+  const withCost = last30.filter(s => !s.offCatalog);
+  const offN = last30.length - withCost.length;
+  const cogs = withCost.reduce((a, s) => a + costOf(s.slug) * s.qty, 0);
+  const marginRevenue = sum(withCost);
+  const marginPct = marginRevenue > 0 ? Math.round(((marginRevenue - cogs) / marginRevenue) * 100) : 0;
 
   const delta = (cur, prev) => {
     if (!prev) return `<div class="delta flat">sin base previa</div>`;
@@ -2572,7 +2816,7 @@ function renderKpis() {
     <div class="kpi"><div class="n">${units}</div><div class="l">Unidades vendidas (30d)</div>${delta(units, prevUnits)}</div>
     <div class="kpi"><div class="n">${money(avgTicket)}</div><div class="l">Ticket promedio</div>${delta(avgTicket, prevAvg)}</div>
     <div class="kpi"><div class="n">${isOwner ? marginPct + "%" : LOCKED_ICON}</div><div class="l">Margen bruto (30d)</div>
-      <div class="delta flat">${isOwner ? "Costo: " + money(cogs) : "solo dueño"}</div></div>
+      <div class="delta flat">${isOwner ? "Costo: " + money(cogs) + (offN ? ` · sin ${offN} venta${offN === 1 ? "" : "s"} de otros productos` : "") : "solo dueño"}</div></div>
     <div class="kpi"><div class="n">${lowStock}</div><div class="l">Bajo stock / agotados</div>
       <div class="delta ${lowStock ? "down" : "up"}">${lowStock ? "requieren reposición" : "todo cubierto"}</div></div>
     <div class="kpi"><div class="n">${activos}</div><div class="l">Productos publicados</div>
@@ -2605,7 +2849,7 @@ function renderKpis() {
     const map = {};
     last30.forEach(s => {
       const p = workingCatalog.find(x => x.slug === s.slug);
-      const k = p ? keyFn(p) : "—";
+      const k = s.offCatalog ? "Fuera de la página" : p ? keyFn(p) : "—";
       map[k] = (map[k] || 0) + s.total;
     });
     return Object.entries(map).sort((a, b) => b[1] - a[1]).slice(0, 6);
@@ -2625,15 +2869,16 @@ function renderKpis() {
   // Top productos con margen
   const bySlug = {};
   last30.forEach(s => {
-    bySlug[s.slug] = bySlug[s.slug] || { name: s.name || s.slug, units: 0, revenue: 0, cost: 0 };
-    bySlug[s.slug].units += s.qty;
-    bySlug[s.slug].revenue += s.total;
-    bySlug[s.slug].cost += costOf(s.slug) * s.qty;
+    const key = s.offCatalog ? "x:" + searchFold(s.name || "") : s.slug;   // cada articulo de otro producto sale aparte
+    bySlug[key] = bySlug[key] || { name: s.name || s.slug, units: 0, revenue: 0, cost: 0, noCost: !!s.offCatalog };
+    bySlug[key].units += s.qty;
+    bySlug[key].revenue += s.total;
+    if (!s.offCatalog) bySlug[key].cost += costOf(s.slug) * s.qty;
   });
   const top = Object.values(bySlug).sort((a, b) => b.revenue - a.revenue).slice(0, 10);
   $("#top-products-tbody").innerHTML = top.map(t => {
-    const m = t.revenue > 0 ? Math.round(((t.revenue - t.cost) / t.revenue) * 100) + "%" : "—";
-    return `<tr><td>${t.name}</td><td>${t.units}</td><td>${money(t.revenue)}</td><td>${isOwner ? m : LOCKED_ICON}</td></tr>`;
+    const m = t.noCost ? "—" : t.revenue > 0 ? Math.round(((t.revenue - t.cost) / t.revenue) * 100) + "%" : "—";
+    return `<tr><td>${escHtml(t.name)}${t.noCost ? ` <span class="sale-tags"><span class="pill" title="Producto que no está en la página">fuera de la página</span></span>` : ""}</td><td>${t.units}</td><td>${money(t.revenue)}</td><td>${isOwner ? m : LOCKED_ICON}</td></tr>`;
   }).join("")
     || `<tr><td colspan="4" class="muted" style="padding:16px;text-align:center">Sin ventas en los últimos 30 días.</td></tr>`;
 }
@@ -2641,7 +2886,7 @@ function renderKpis() {
 /* ============================== AUDITORÍA =================================== */
 function renderAudit() {
   $("#audit-tbody").innerHTML = auditLog.slice().reverse().slice(0, 100).map(a => `
-    <tr><td>${new Date(a.ts).toLocaleString("es-CO")}</td><td>${a.admin}</td><td>${a.summary}</td></tr>`).join("")
+    <tr><td>${new Date(a.ts).toLocaleString("es-CO")}</td><td>${escHtml(a.admin)}</td><td>${escHtml(a.summary)}</td></tr>`).join("")
     || `<tr><td colspan="3" class="muted" style="padding:16px;text-align:center">Sin publicaciones todavía.</td></tr>`;
 }
 
@@ -3937,7 +4182,7 @@ function cmdkSections() {
   const nav = PANEL_NAV.filter(([n]) => panelAllowed(n)).map(([n, label, ico]) => ({ type: "nav", name: n, label, ico, hint: n === currentPanelName() ? "estás aquí" : "ir" }));
   const usable = id => { const b = $(id); return b && b.offsetParent !== null && !b.disabled; };
   const actions = [
-    panelAllowed("ventas") && { type: "action", key: "sale", label: "Registrar una venta", ico: "➕", hint: "Ventas", run: () => { switchPanel("ventas"); setTimeout(() => $("#sale-q") && $("#sale-q").focus(), 60); } },
+    panelAllowed("ventas") && { type: "action", key: "sale", label: "Registrar una venta", ico: "➕", hint: "Ventas", run: () => { switchPanel("ventas"); if ($("#offcat") && !$("#offcat").hidden) closeOffCatalog(false); setTimeout(() => $("#sale-q") && $("#sale-q").focus(), 60); } },
     usable("#btn-new-product") && { type: "action", key: "new", label: "Nuevo producto", ico: "✨", hint: "", run: () => $("#btn-new-product").click() },
     usable("#btn-publish") && { type: "action", key: "publish", label: "Publicar cambios", ico: "🚀", hint: "", run: () => $("#btn-publish").click() },
     usable("#btn-refresh") && { type: "action", key: "refresh", label: "Recargar de GitHub", ico: "↻", hint: "", run: () => $("#btn-refresh").click() },
@@ -4050,7 +4295,7 @@ function renderSaleResults() {
   saleActive = firstOk > -1 ? firstOk : (saleItems.length ? 0 : -1);
   box.innerHTML = saleItems.length
     ? saleItems.map((p, i) => searchRowHtml(p, words, i, "sale", saleActive)).join("")
-    : `<div class="sr-empty">No encontré «${escHtml(q.trim())}». Prueba con otra palabra, el color o el SKU.</div>`;
+    : `<div class="sr-empty">No encontré «${escHtml(q.trim())}». Prueba con otra palabra, el color o el SKU.<br><span style="display:inline-block;margin-top:8px">¿No está en la página? <button type="button" class="linkbtn" data-offcat="${escHtml(q.trim()).replace(/"/g, "&quot;")}">Registrar «${escHtml(q.trim())}» como venta de otro producto</button></span></div>`;
   box.hidden = false;
   input.setAttribute("aria-expanded", "true");
 }
@@ -4067,6 +4312,7 @@ function pickSaleResult(i) {
 function selectSaleProduct(slug) {
   const p = workingCatalog.find(x => x.slug === slug); if (!p) return;
   if (currentPanelName() !== "ventas") switchPanel("ventas");
+  if ($("#offcat") && !$("#offcat").hidden) closeOffCatalog(false);
   const sel = $("#sale-product");
   if (![...sel.options].some(o => o.value === slug)) populateSaleProductSelect();
   sel.value = slug;
@@ -4138,7 +4384,11 @@ function wireSearch() {
     else if (e.key === "Enter") { e.preventDefault(); if (saleActive > -1) pickSaleResult(saleActive); }
     else if (e.key === "Escape") { if (sq.value) { e.preventDefault(); e.stopPropagation(); sq.value = ""; renderSaleResults(); } }
   });
-  $("#sale-results").addEventListener("mousedown", e => { e.preventDefault(); const el = e.target.closest("[data-i]"); if (el) pickSaleResult(+el.getAttribute("data-i")); });
+  $("#sale-results").addEventListener("mousedown", e => {
+    e.preventDefault();
+    const off = e.target.closest("[data-offcat]"); if (off) { openOffCatalog(off.getAttribute("data-offcat")); return; }
+    const el = e.target.closest("[data-i]"); if (el) pickSaleResult(+el.getAttribute("data-i"));
+  });
   $("#sale-results").addEventListener("mousemove", e => { const el = e.target.closest("[data-i]"); if (el && +el.getAttribute("data-i") !== saleActive) setSaleActive(+el.getAttribute("data-i")); });
   document.addEventListener("mousedown", e => { if (!e.target.closest(".sale-search")) { const b = $("#sale-results"); if (b && !b.hidden) { b.hidden = true; } } });
   renderSalePicked(null);
@@ -4228,6 +4478,10 @@ function updateSalePrice() {
 $("#sale-size").addEventListener("change", () => { updateSalePrice(); updateSaleStockHint(); });
 $("#sale-color").addEventListener("change", () => { updateSalePrice(); updateSaleStockHint(); });
 $("#btn-registrar-venta").addEventListener("click", registrarVenta);
+$("#offcat-open").addEventListener("click", () => openOffCatalog());
+$("#offcat-close").addEventListener("click", () => closeOffCatalog(false));
+$("#btn-registrar-offcat").addEventListener("click", registrarVentaFuera);
+["#offcat-name", "#offcat-qty", "#offcat-price"].forEach(sel => $(sel).addEventListener("input", () => { setOffcatMsg(""); refreshOffCatalog(); }));
 $("#btn-save-content").addEventListener("click", saveSiteContent);
 $("#editor-overlay").addEventListener("click", e => { if (e.target.id === "editor-overlay") closeEditor(); });
 $("#sale-overlay").addEventListener("click", e => { if (e.target.id === "sale-overlay") closeQuickSale(); });
@@ -4375,7 +4629,7 @@ function invoiceHtml(sale, customer) {
   const c = customer || {};
   const d = new Date(sale.ts);
   const p = workingCatalog.find(x => x.slug === sale.slug) || {};
-  const code = p.sku || sale.slug || "";
+  const code = sale.offCatalog ? "" : (p.sku || sale.slug || "");
   const desc = [sale.name || p.n || sale.slug, [sale.size && `Talla ${sale.size}`, sale.color].filter(Boolean).join(" · ")].filter(Boolean).join(" — ");
   const subtotal = sale.unitPrice * sale.qty;
   const discount = Math.min(subtotal, c.discount || 0);
