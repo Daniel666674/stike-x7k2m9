@@ -143,6 +143,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-
 .btn.cyan{background:var(--accent);color:var(--accent-ink)}
 .btn.bad{background:var(--bad);color:#2a0508}
 .btn.sm{padding:6px 12px;font-size:12px;border-radius:var(--radius-sm)}
+.btn.block{display:block;width:100%;text-align:center}
 /* Los badges de estado SI se quedan pildora (999px): es el patron correcto
    para chips en un dashboard tipo Stripe/Shopify -- lo que cambia de forma
    es el boton, no el badge. */
@@ -361,6 +362,19 @@ kbd.k{flex:none;padding:2px 7px;border:1px solid var(--line);border-bottom-width
 .sale-picked{display:flex;align-items:center;gap:14px;padding:12px 14px;margin-bottom:14px;border:1px dashed var(--line);border-radius:12px;color:var(--muted);font-size:13.5px}
 .sale-picked.has{border:1.5px solid var(--accent);background:var(--accent-soft);color:var(--ink)}
 .sale-picked .sr-thumb{width:56px;height:56px}
+.linkbtn{background:none;border:0;padding:0;margin:0;font:inherit;color:var(--accent);text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+.linkbtn:hover{opacity:.85}
+.offcat-link{margin:2px 0 14px;font-size:13.5px;color:var(--muted)}
+.offcat{border:1.5px solid var(--accent);background:var(--accent-soft);border-radius:12px;padding:14px 16px;margin-bottom:14px}
+.offcat h4{margin:0 0 4px;font-size:15px}
+.offcat>.hint{margin:0 0 12px;font-size:12.5px;line-height:1.5}
+.offcat-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px}
+.offcat-total{margin:0 0 12px;font-size:14px}
+.offcat-actions{display:flex;gap:10px;flex-wrap:wrap}
+.sale-tags{display:inline-flex;gap:6px;flex-wrap:wrap;margin-left:8px;vertical-align:middle}
+.sale-tags .pill{font-size:10px;padding:2px 7px}
+.sale-edit-diff{margin:0 0 12px;font-size:13px}
+@media (max-width:700px){.offcat-grid{grid-template-columns:1fr 1fr}.offcat-grid .field:first-child{grid-column:1/-1}}
 @media (max-width:700px){.cmdk-trigger{flex-basis:100%;max-width:none;order:3}.cmdk{padding-top:4vh}.sr-btns{display:none}.sr-btns.always{display:flex}}
 .sale-search-bar.sm{height:48px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg-2)}
 .sale-search-bar.sm input{font-size:15px}
@@ -777,6 +791,7 @@ body.role-editor #btn-notif,body.role-editor #btn-test-sound,body.role-editor [d
     <section class="panel" id="panel-ventas">
       <div class="card">
         <h3 style="margin-bottom:12px">Registrar venta</h3>
+        <div id="sale-catalog-part">
         <div class="sale-search">
           <label for="sale-q">Buscar el producto que se vendió</label>
           <div class="sale-search-bar">
@@ -798,6 +813,24 @@ body.role-editor #btn-notif,body.role-editor #btn-test-sound,body.role-editor [d
           <div class="field" style="display:flex;align-items:flex-end"><button class="btn cyan" id="btn-registrar-venta" style="width:100%">Registrar venta</button></div>
         </div>
         <p class="hint muted" id="sale-stock-hint"></p>
+        </div>
+        <p class="offcat-link" id="offcat-link">¿El producto no está en la página? <button type="button" class="linkbtn" id="offcat-open">Registrar una venta de otro producto</button></p>
+        <div class="offcat" id="offcat" hidden>
+          <h4>Venta de un producto que no está en la página</h4>
+          <p class="hint muted">Solo se anota la venta (sale en el historial, en los KPIs y en la factura). No se crea el producto en la tienda ni se descuenta stock, porque ese producto no está en el inventario de la página.</p>
+          <div class="offcat-grid">
+            <div class="field"><label for="offcat-name">¿Qué se vendió?</label><input id="offcat-name" type="text" maxlength="120" placeholder="Ej. Cadena usada, pedales, mano de obra…" autocomplete="off" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore></div>
+            <div class="field"><label for="offcat-qty">Cantidad</label><input id="offcat-qty" type="number" min="1" max="999" value="1"></div>
+            <div class="field"><label for="offcat-price">Precio unitario (COP)</label><input id="offcat-price" type="number" min="1" step="1000"></div>
+          </div>
+          <p class="hint" id="offcat-similar" hidden></p>
+          <p class="offcat-total">Total: <b id="offcat-total">$0</b></p>
+          <p class="hint" id="offcat-msg" role="status" hidden style="color:var(--bad)"></p>
+          <div class="offcat-actions">
+            <button class="btn cyan" id="btn-registrar-offcat" type="button">Registrar venta</button>
+            <button class="btn ghost" id="offcat-close" type="button">Volver a buscar en la página</button>
+          </div>
+        </div>
         <div id="sale-customer"></div>
       </div>
       <div class="grid-4" id="sales-kpis" style="margin-top:14px"></div>
@@ -931,7 +964,7 @@ body.role-editor #btn-notif,body.role-editor #btn-test-sound,body.role-editor [d
 <script src="assets/js/photo-editor.js?v=6f906ace"></script>
 <script src="assets/js/select-search.js?v=6e44a6b1"></script>
 <script src="assets/js/video-tools.js?v=aaa2b1fa"></script>
-<script src="admin.js?v=29"></script>
+<script src="admin.js?v=30"></script>
 <script>
   // Service worker propio del panel: solo cachea el logo del shell, nunca
   // admin.html/admin.js (ver admin-sw.js).

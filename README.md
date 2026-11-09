@@ -422,6 +422,15 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
   `products-data.js` por GitHub y lo anota en `data/stock-applied.json` para no
   descontar dos veces; si falla, el panel lo concilia al abrirse). El servidor
   valida que el producto exista, esté publicado y tenga precio.
+- **Ventas del mostrador (panel → Ventas):** además de vender un producto del catálogo (descuenta
+  stock), **«¿El producto no está en la página? Registrar una venta de otro producto»** anota una venta
+  de algo que no está en el catálogo (nombre, cantidad y precio): no crea el producto ni toca el stock, queda
+  marcada `offCatalog` en `data/sales-log.json` (con `slug: "fuera-de-catalogo"`), sale en el historial, los
+  ingresos y la factura, y **no entra al margen** (no hay costo). **«Corregir venta»** (en el detalle de una
+  venta de tienda) cambia el **precio unitario** (y, en las de otro producto, el nombre y la cantidad; en
+  las del catálogo la cantidad no se toca porque ya descontó stock): se lee la versión más reciente del
+  historial, se cambia solo esa venta y queda anotado quién, cuándo y antes → después, en la propia venta
+  (`edits`) y en Auditoría. Las ventas online (Wompi) no se editan. Pruebas: `node tools/admin-sale-edit-test.mjs`.
 - **Sin probar en el hosting real:** el `.htaccess` (redirecciones, rutas `/api/…`,
   bloqueos), el CSP contra el widget de Wompi, el `ZipArchive`/`curl` del PHP de
   Hostinger y que su firewall deje pasar la llamada desde GitHub a `/api/sync` (la
@@ -484,7 +493,7 @@ bmxstore/
 │   └── photo-test.mjs       el PNG transparente (Playwright)
 ├── data/
 │   ├── costs.json          (interno, nunca se publica al sitio)
-│   ├── sales-log.json      (ventas, append-only)
+│   ├── sales-log.json      (ventas; una corrección queda anotada en la venta: `edits`)
 │   ├── audit-log.json      (auditoría de publicaciones, append-only)
 │   └── site-content.json   (textos editables del sitio)
 └── assets/
