@@ -19,7 +19,7 @@ const STIKE_CONFIG = {
   /* --- Datos legales (los muestran terminos.html y privacidad.html) --- */
   legalName: "Jefersson Stike Parra González",   // persona natural; si algun dia pasa a una S.A.S., cambiar aca
   nit: "1013643302-7",
-  legalUpdated: "3 de noviembre de 2026",
+  legalUpdated: "9 de noviembre de 2026",
   /* Envío de formularios (contacto + boletín) por correo real al dueño.
      Para activarlo (gratis, sin tarjeta, sin contraseña):
        1. Entra a https://web3forms.com
@@ -1190,7 +1190,7 @@ function stikeCookieBanner() {
     <div class="cookie-inner">
       <div class="cookie-text">
         <strong>Cookies en Stike</strong>
-        <p>Usamos cookies propias y de terceros para que la tienda funcione, recordar tu carrito y entender el tráfico del sitio. Acepta o rechaza las opcionales. Lee nuestra <a href="cookies.html">Política de Cookies</a> y de <a href="privacidad.html">Privacidad</a>.</p>
+        <p>Usamos cookies propias y de terceros para que la tienda funcione, recordar tu carrito y medir las visitas (Google Analytics) para mejorar el sitio. Puedes rechazar las opcionales y no mediremos tu visita. Lee nuestra <a href="cookies.html">Política de Cookies</a> y de <a href="privacidad.html">Privacidad</a>.</p>
       </div>
       <div class="cookie-actions">
         <button class="btn ghost sm" data-cookie="reject" type="button">Rechazar opcionales</button>

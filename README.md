@@ -445,6 +445,39 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
   la venta con los datos del propio evento; sin ese secreto, o con firma falsa, no
   registra nada por confianza: solo si Wompi confirma la transacción al consultarla.
 
+## 📈 Analítica y medición (GA4, WhatsApp, Search Console)
+
+**En el sitio** (`assets/js/analytics.js`, cargado en todas las páginas, incluida la web de Fate):
+
+- **Google Analytics 4**: se activa pegando el **ID de medición** (`G-XXXXXXXXXX`) en `data/analytics.json` →
+  `ga4MeasurementId` (público, no es un secreto) y publicando. Vacío = GA4 apagado. Manda los eventos de comercio
+  electrónico del esquema de GA4: `view_item_list`, `select_item`, `view_item`, `add_to_cart`, `remove_from_cart`,
+  `view_cart`, `begin_checkout`, `purchase` (solo con el pago **aprobado**, una vez por referencia, con `transaction_id`),
+  `payment_failed`, `checkout_error`, `search`, `generate_lead`, `share`, `page_not_found` y `contact_click` (teléfono,
+  correo, mapa, Instagram, Facebook, TikTok).
+- **Clics a WhatsApp** (`whatsapp_click`): se mide TODO enlace a `wa.me` o `api.whatsapp.com` y los que abre el código con
+  `window.open`. Cada evento dice **dónde** estaba el botón (`link_location`: `floating_button`, `header`, `menu`, `footer`,
+  `product_page`, `cart`, `build`, `payment_result`, `contact_page`, `home`, `fate`, `form_fallback`…) y en qué tipo de página
+  (`page_type`); en una ficha lleva el producto y su precio, en el carrito el valor. **Nunca viaja el texto del mensaje**
+  (puede traer nombre, teléfono o dirección): del enlace solo se usa el número de la tienda. «Compartir por WhatsApp»
+  (`wa.me/?text=`) es otro evento (`share`), no un contacto. En GA4 conviene marcar `whatsapp_click` como **evento clave** (antes
+  «conversión») y registrar `link_location` y `page_type` como **dimensiones personalizadas** (alcance de evento).
+- **Contador propio** (`api/track.php`, datos en `analytics/fp-AAAA-MM-DD.json` dentro de la carpeta de datos del servidor):
+  cuenta en el servidor, SIN cookies, SIN IP y SIN identificadores, las visitas, los clics a WhatsApp, lo agregado al
+  carrito, `begin_checkout`, las búsquedas y los formularios, por día, lugar, página, producto, dispositivo y hora (hora de
+  Colombia). Sirve de **respaldo cuando un bloqueador de anuncios tapa Google** y para comparar cifras. Se conserva 400
+  días; límite de 120 eventos por minuto y por IP; los mapas se topan en 400 claves.
+- **Consentimiento**: respeta el aviso de cookies (`stike:consent`). «Rechazar opcionales», «No rastrear» (DNT) y Global
+  Privacy Control apagan GA4 y el contador propio. `consentMode` en `data/analytics.json`: `"opt_out"` (por defecto: mide hasta
+  que la persona rechace) o `"opt_in"` (espera a que acepte). No se cuentan las visitas del equipo (`?stike_internal=1`, y
+  cualquier navegador que abra el panel), las de la vista previa del panel, las de robots ni las de otro dominio (localhost).
+- **Probar**: abrir cualquier página con `?stike_debug=1` imprime cada evento en la consola (`window.__stikeAnalytics.log`) y
+  GA4 los marca como depuración (aparecen en *Admin → DebugView*).
+- La CSP (`.htaccess`) deja pasar solo `*.googletagmanager.com`, `*.google-analytics.com`, `*.analytics.google.com` y
+  `stats.g.doubleclick.net`. Las políticas `cookies.html` y `privacidad.html` describen la medición.
+- Pruebas: `node tools/analytics-site-test.mjs` (navegador, con Google simulado; `python3 -m http.server 8143`) y
+  `node tools/analytics-track-test.mjs` (el contador propio con PHP real).
+
 ## 🔒 Seguridad: dónde viven los secretos
 
 - **Nunca en el repositorio.** Las llaves y secretos (Wompi, `GITHUB_TOKEN`,

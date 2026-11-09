@@ -138,7 +138,7 @@ DirectoryIndex index.html
 
   # El front llama /api/wompi-sign (igual que el backend de Vercel); aca se
   # traduce al archivo PHP.
-  RewriteRule ^api/(wompi-sign|wompi-status|wompi-order|wompi-events|sales|sync|admin-login|admin-health|admin-config|wompi-reconcile|gmail-callback|gh)/?$ api/$1.php [L]
+  RewriteRule ^api/(wompi-sign|wompi-status|wompi-order|wompi-events|sales|sync|admin-login|admin-health|admin-config|wompi-reconcile|gmail-callback|track|gh)/?$ api/$1.php [L]
 
   # Panel admin: el HTML y el codigo SOLO salen por admin.php, que exige una
   # sesion iniciada (cookie firmada, verificada en el servidor). Sin sesion
@@ -153,11 +153,12 @@ DirectoryIndex index.html
   # Carpeta de datos del servidor (pedidos, ventas, llaves guardadas desde el panel): vive fuera del sitio, pero si algun
   # dia quedara dentro, estos archivos nunca se sirven.
   RewriteRule (^|/)(runtime-config|last-event|last-bad-event|last-mail|ventas|rate-limit|alerts?)\.(json|jsonl)$ - [F,L]
-  RewriteRule ^(pending|alerts|rate|outbox|oauth-state)(/|$) - [F,L]
+  RewriteRule ^(pending|alerts|rate|outbox|oauth-state|analytics)(/|$) - [F,L]
+  RewriteRule (^|/)fp-[0-9-]+\.json$ - [F,L]
   RewriteRule ^(PROPOSAL|MOTOR|README|SEO)\.md$ - [F,L]
   RewriteRule ^propuesta\.html$ - [F,L]
   RewriteRule ^\.git(/|$) - [F,L]
-  RewriteRule ^api/(_lib|_admin|config\.local)\.php$ - [F,L]
+  RewriteRule ^api/(_[A-Za-z0-9-]+|config\.local)\.php$ - [F,L]
   # Archivos ocultos (.env, .git, .htpasswd...) y restos de edicion o respaldo (config.php.bak, llaves.txt~, volcado.sql):
   # no se sirven nunca. Solo .well-known (verificaciones de dominio) queda abierto.
   RewriteRule (^|/)\.(?!well-known(/|$)) - [F,L]
@@ -232,6 +233,10 @@ DirectoryIndex index.html
   # original) usa manejadores inline (onclick=...); migrar eso a
   # addEventListener queda pendiente como mejora.
   #
+  # Google Analytics 4 (medicion del sitio, assets/js/analytics.js): gtag.js viene de googletagmanager.com (script-src) y
+  # los envios van a *.google-analytics.com, *.analytics.google.com y stats.g.doubleclick.net (connect-src; las imagenes ya
+  # estan abiertas a https:). No se usa Tag Manager ni publicidad.
+  #
   # accounts.google.com (script-src + frame-src + connect-src) es del boton
   # de login del panel. GitHub y la verificacion del login de Google los hace
   # el SERVIDOR (api/gh.php, api/admin-login.php), no el navegador.
@@ -240,7 +245,7 @@ DirectoryIndex index.html
   # llega a checkout.wompi.co). Despues del primer deploy: abrir el carrito, dar
   # "Pagar ahora" y mirar la consola del navegador; cualquier linea
   # "Refused to ..." dice exactamente que host falta agregar aca.
-  Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://accounts.google.com https://www.youtube.com https://*.wompi.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' blob:; connect-src 'self' https://accounts.google.com https://*.wompi.co; frame-src 'self' https://maps.google.com https://www.google.com https://accounts.google.com https://www.youtube.com https://www.youtube-nocookie.com https://*.wompi.co; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://*.wompi.co; object-src 'none'"
+  Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://accounts.google.com https://www.youtube.com https://www.googletagmanager.com https://*.wompi.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' blob:; connect-src 'self' https://accounts.google.com https://*.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://analytics.google.com https://stats.g.doubleclick.net https://*.wompi.co; frame-src 'self' https://maps.google.com https://www.google.com https://accounts.google.com https://www.youtube.com https://www.youtube-nocookie.com https://*.wompi.co; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://*.wompi.co; object-src 'none'"
   Header set X-Content-Type-Options "nosniff"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
   Header set X-Frame-Options "SAMEORIGIN"

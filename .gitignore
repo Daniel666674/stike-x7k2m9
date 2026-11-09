@@ -26,6 +26,8 @@ alerts/
 rate/
 outbox/
 oauth-state/
+analytics/
+fp-*.json
 
 # Llaves y certificados: nunca al repositorio, vengan de donde vengan.
 *.pem

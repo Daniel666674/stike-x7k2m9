@@ -4521,6 +4521,9 @@ function bootApp() {
   populateCategoryFilter();
   renderProductGrid();
   session.pat = "server";   // el token vive en el servidor (api/gh.php)
+  /* El equipo que abre el panel no debe contar como visita del sitio: assets/js/analytics.js ignora los navegadores con esta marca
+     (stike_internal=0 la quita, por si alguien quiere probar el seguimiento desde su propio navegador). */
+  try { if (localStorage.getItem("stike_internal") !== "0") localStorage.setItem("stike_internal", "1"); } catch (e) {}
   // Limpieza: borra las llaves que versiones anteriores guardaban en el navegador.
   try { ["stike_admin_pat", "stike_admin_sales_key"].forEach(k => localStorage.removeItem(k)); sessionStorage.removeItem("stike_admin_login_v1"); } catch (e) {}
   gmailReturn(showApp());
