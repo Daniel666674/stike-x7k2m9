@@ -864,8 +864,8 @@
   function buildShell() {
     root().innerHTML = `<div class="an-filters" id="an-filters"><div class="viewtoggle" role="group" aria-label="Periodo" id="an-ranges">${RANGES.map(([k, t]) => `<button type="button" class="viewtoggle-btn${k === S.range ? " active" : ""}" data-range="${k}" aria-pressed="${k === S.range}">${esc(t)}</button>`).join("")}</div>`
       + `<button type="button" class="btn ghost sm" id="an-refresh" title="Volver a pedir los datos a Google">↻ Actualizar</button><span class="an-stamp" id="an-stamp"></span><span class="grow"></span><span class="an-stamp" id="an-rng"></span></div>`
-      + `<div class="an-tabs" role="tablist" id="an-tabs">${TABS.map(([k, t]) => `<button type="button" role="tab" class="an-tab${k === S.tab ? " active" : ""}" data-tab="${k}" aria-selected="${k === S.tab}">${esc(t)}${k === "conexion" ? `<span class="dot" id="an-dot" hidden></span>` : ""}</button>`).join("")}</div>`
-      + `<div class="an-body" id="an-body" aria-live="polite"></div>`;
+      + `<div class="an-tabs" role="group" aria-label="Secciones de la analítica" id="an-tabs">${TABS.map(([k, t]) => `<button type="button" class="an-tab${k === S.tab ? " active" : ""}" data-tab="${k}" aria-current="${k === S.tab}">${esc(t)}${k === "conexion" ? `<span class="dot" id="an-dot" hidden></span>` : ""}</button>`).join("")}</div>`
+      + `<div class="an-body" id="an-body"></div>`;
     const r = root();
     wireTips(r);
     r.addEventListener("click", e => {
@@ -880,7 +880,7 @@
   }
   function syncShell() {
     $$all("#an-ranges [data-range]").forEach(b => { const on = b.getAttribute("data-range") === S.range; b.classList.toggle("active", on); b.setAttribute("aria-pressed", String(on)); });
-    $$all("#an-tabs [data-tab]").forEach(b => { const on = b.getAttribute("data-tab") === S.tab; b.classList.toggle("active", on); b.setAttribute("aria-selected", String(on)); });
+    $$all("#an-tabs [data-tab]").forEach(b => { const on = b.getAttribute("data-tab") === S.tab; b.classList.toggle("active", on); b.setAttribute("aria-current", String(on)); });
     const noRange = S.tab === "vivo" || S.tab === "conexion";
     const rg = $("#an-ranges"), rf = $("#an-refresh"); if (rg) rg.hidden = noRange; if (rf) rf.hidden = S.tab === "conexion";
   }
