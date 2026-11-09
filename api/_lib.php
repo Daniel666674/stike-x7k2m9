@@ -88,9 +88,11 @@ function stike_run($fn) {
    de Resend (secreta), a quien le llega, desde que remitente sale y la cuenta de correo propia
    (SMTP: servidor, puerto, correo y contraseña, esta ultima secreta) y la conexion con la API de
    Gmail de Google Cloud (ID y secreto de cliente OAuth, y el permiso permanente que Google entrega
-   al conectar la cuenta: los dos secretos van cifrados). */
+   al conectar la cuenta: los dos secretos van cifrados) y la lectura de Google Analytics 4 y Search Console para la pestaña
+   Analitica (la llave JSON de la cuenta de servicio, que va cifrada, el ID de la propiedad de GA4 y la propiedad de Search Console). */
 const STIKE_RUNTIME_KEYS = ["WOMPI_INTEGRITY_SECRET", "WOMPI_EVENTS_SECRET", "WOMPI_PRIVATE_KEY", "RESEND_API_KEY", "OWNER_NOTIFY_EMAIL", "RESEND_FROM", "SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS",
-  "GMAIL_CLIENT_ID", "GMAIL_CLIENT_SECRET", "GMAIL_REFRESH_TOKEN", "GMAIL_SENDER"];
+  "GMAIL_CLIENT_ID", "GMAIL_CLIENT_SECRET", "GMAIL_REFRESH_TOKEN", "GMAIL_SENDER",
+  "GOOGLE_SA_JSON", "GA4_PROPERTY_ID", "GSC_SITE_URL"];
 
 function stike_runtime_config_path() { return stike_storage_dir() . "/runtime-config.json"; }
 
@@ -1151,8 +1153,10 @@ function stike_smtp_send($cfg, $to, $subject, $html) {
    (solo para enviar correos) y devuelve un permiso permanente (refresh token) que se guarda cifrado. Desde ahi, cada aviso sale por
    la API de Gmail (users.messages.send) desde esa cuenta, con SPF y DKIM de Google. */
 function stike_google_url($which) {
-  $d = ["oauth" => "https://oauth2.googleapis.com", "auth" => "https://accounts.google.com/o/oauth2/v2/auth", "gmail" => "https://gmail.googleapis.com"];
-  $env = ["oauth" => "GOOGLE_OAUTH_BASE", "auth" => "GOOGLE_AUTH_URL", "gmail" => "GMAIL_API_BASE"][$which];
+  $d = ["oauth" => "https://oauth2.googleapis.com", "auth" => "https://accounts.google.com/o/oauth2/v2/auth", "gmail" => "https://gmail.googleapis.com",
+        "ga4data" => "https://analyticsdata.googleapis.com", "ga4admin" => "https://analyticsadmin.googleapis.com", "gsc" => "https://www.googleapis.com", "gscinspect" => "https://searchconsole.googleapis.com"];
+  $env = ["oauth" => "GOOGLE_OAUTH_BASE", "auth" => "GOOGLE_AUTH_URL", "gmail" => "GMAIL_API_BASE",
+          "ga4data" => "GA4_DATA_API_BASE", "ga4admin" => "GA4_ADMIN_API_BASE", "gsc" => "GSC_API_BASE", "gscinspect" => "GSC_INSPECT_API_BASE"][$which];
   return rtrim((string)stike_config($env, $d[$which]), "/");   // solo pruebas cambian esto: un visitante no controla el entorno
 }
 function stike_public_base() { return rtrim((string)stike_config("SITE_URL", "https://stikebikeshop.com"), "/"); }

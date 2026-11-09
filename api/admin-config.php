@@ -132,6 +132,51 @@ stike_run(function () {
     respond(200, ["ok" => true, "disconnected" => true]);
   }
 
+  /* ---- Analitica: la llave JSON de la cuenta de servicio de Google (cifrada), el ID de propiedad de GA4 y la propiedad de Search Console ----
+     Lo lee api/analytics.php. La llave NUNCA vuelve al navegador: solo se muestra el correo de la cuenta de servicio. */
+  if ($action === "analytics_save") {
+    require_once __DIR__ . "/_google.php";
+    $all = stike_runtime_config_all();
+    $saved = [];
+    $put = function ($k, $v) use (&$all, $s) {
+      $sealed = stike_runtime_seal($v);
+      $all[$k] = ($sealed ?: ["value" => $v]) + ["by" => $s["email"], "at" => stike_now_iso()];
+    };
+    if (array_key_exists("propertyId", $body) && trim((string)$body["propertyId"]) !== "") {
+      $pid = preg_replace('/\s+/', "", (string)$body["propertyId"]);
+      if (preg_match('/^(G-|UA-|AW-|GTM-)/i', $pid)) throw new ApiError(400, "invalid_property_id", "Eso es un ID de medición o de etiqueta, no el ID de la propiedad. El ID de propiedad son solo números: en Google Analytics → Administrar → Detalles de la propiedad → «ID de propiedad».");
+      if (!preg_match('/^\d{5,15}$/', $pid)) throw new ApiError(400, "invalid_property_id", "El ID de propiedad de GA4 son solo números (por ejemplo 412345678): Google Analytics → Administrar → Detalles de la propiedad → «ID de propiedad».");
+      $put("GA4_PROPERTY_ID", $pid); $saved[] = "propertyId";
+    }
+    if (array_key_exists("gscSite", $body) && trim((string)$body["gscSite"]) !== "") {
+      $site = trim((string)$body["gscSite"]);
+      if (preg_match('#^https?://[^/\s]+$#i', $site)) $site .= "/";   // una propiedad «con dirección» termina en /
+      if (!preg_match('#^(sc-domain:[A-Za-z0-9.-]+\.[A-Za-z]{2,}|https?://[^\s]+/[^\s]*)$#', $site)) throw new ApiError(400, "invalid_gsc_site", "La propiedad de Search Console se escribe así: sc-domain:stikebikeshop.com (si es de tipo «Dominio») o https://stikebikeshop.com/ (si es de tipo «Prefijo de la URL»). Es el nombre exacto que ves arriba a la izquierda en Search Console.");
+      $put("GSC_SITE_URL", $site); $saved[] = "gscSite";
+    }
+    $sa = null;
+    if (array_key_exists("serviceAccountJson", $body) && trim((string)$body["serviceAccountJson"]) !== "") {
+      $v = stike_g_sa_validate($body["serviceAccountJson"]);
+      if (empty($v["ok"])) throw new ApiError(400, $v["code"], $v["detail"]);
+      $put("GOOGLE_SA_JSON", $v["json"]); $saved[] = "serviceAccountJson";
+      $sa = ["email" => $v["email"], "project" => $v["project"]];
+    }
+    if (!$saved) throw new ApiError(400, "empty_value", "No hay nada que guardar: escribe el ID de propiedad, la propiedad de Search Console o pega la llave JSON.");
+    stike_runtime_config_write($all);
+    foreach (glob(stike_g_cache_dir() . "/*.json") ?: [] as $f) @unlink($f);   // datos y tokens de la configuracion anterior
+    error_log("[stike] Analitica: guardado desde el panel por " . $s["email"] . " (" . implode(", ", $saved) . ")");
+    respond(200, ["ok" => true, "saved" => $saved, "serviceAccount" => $sa ?: (($cur = stike_g_sa()) ? ["email" => $cur["email"], "project" => $cur["project"]] : null), "propertyId" => stike_ga4_property(), "gscSite" => stike_gsc_site()]);
+  }
+  if ($action === "analytics_clear") {
+    require_once __DIR__ . "/_google.php";
+    $all = stike_runtime_config_all();
+    foreach (!empty($body["all"]) ? ["GOOGLE_SA_JSON", "GA4_PROPERTY_ID", "GSC_SITE_URL"] : ["GOOGLE_SA_JSON"] as $k) unset($all[$k]);
+    stike_runtime_config_write($all);
+    foreach (glob(stike_g_cache_dir() . "/*.json") ?: [] as $f) @unlink($f);
+    error_log("[stike] Analitica: se quito lo guardado desde el panel (" . $s["email"] . ")");
+    respond(200, ["ok" => true, "cleared" => true]);
+  }
+
   $key = $body["key"] ?? null;
   $rules = [
     "WOMPI_INTEGRITY_SECRET" => ['/^(test|prod)_integrity_[A-Za-z0-9_-]{8,}$/', "el SECRETO DE INTEGRIDAD (empieza por test_integrity_ o prod_integrity_)"],

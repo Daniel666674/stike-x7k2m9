@@ -4176,7 +4176,7 @@ function searchRowHtml(p, words, i, mode, activeIdx) {
 /* ---- ventana Ctrl+K ---- */
 let cmdkOpen = false, cmdkItems = [], cmdkActive = -1, cmdkReturnTo = null;
 const IS_MAC = /Mac|iPhone|iPad/.test(navigator.platform || "");
-const PANEL_NAV = [["productos", "Productos", "📦"], ["ventas", "Ventas", "🧾"], ["kpis", "KPIs", "📈"], ["auditoria", "Auditoría", "🕑"], ["contenido", "Contenido del sitio", "✏️"], ["config", "Configuración", "⚙️"]];
+const PANEL_NAV = [["productos", "Productos", "📦"], ["ventas", "Ventas", "🧾"], ["kpis", "KPIs", "📈"], ["analitica", "Analítica", "📊"], ["auditoria", "Auditoría", "🕑"], ["contenido", "Contenido del sitio", "✏️"], ["config", "Configuración", "⚙️"]];
 function currentPanelName() { const a = $(".panel.active"); return a ? a.id.replace("panel-", "") : "productos"; }
 function cmdkSections() {
   const nav = PANEL_NAV.filter(([n]) => panelAllowed(n)).map(([n, label, ico]) => ({ type: "nav", name: n, label, ico, hint: n === currentPanelName() ? "estás aquí" : "ir" }));
@@ -4403,13 +4403,42 @@ function wireSearch() {
   }));
 }
 
+/* ============================== ANALITICA (graficos) ========================
+   La pestaña vive en admin-analytics.js: se pide al servidor solo la primera vez que se abre y solo los roles con acceso a las
+   finanzas lo reciben (admin.php?f=an), porque los datos incluyen ingresos. Aca solo se carga y se le entrega lo que necesita. */
+let anLoading = null;
+function openAnalytics() {
+  const root = $("#an-root");
+  const fail = msg => { root.innerHTML = `<div class="card"><p class="hint" style="color:var(--bad)">${escHtml(msg)}</p></div>`; };
+  const go = () => {
+    try {
+      window.StikeAnalytics.open({
+        role: session.role, email: session.email, mergeFlatMap, ghGetFile, showStatus, goPanel: switchPanel,
+        productName: slug => { const p = (typeof workingCatalog !== "undefined" ? workingCatalog : []).find(x => x.slug === slug); return p ? p.n : ""; },
+      });
+    }
+    catch (e) { fail("No se pudo abrir la analítica: " + e.message); console.error(e); }
+  };
+  if (window.StikeAnalytics) return go();
+  if (!anLoading) anLoading = new Promise((ok, no) => {
+    const s = document.createElement("script");
+    s.src = new URL("admin-analytics.js", document.baseURI).href;
+    s.onload = ok;
+    s.onerror = () => { anLoading = null; no(new Error("No se pudo cargar el módulo de gráficos.")); };
+    document.head.appendChild(s);
+  });
+  anLoading.then(go).catch(e => fail(e.message + " Recarga la página e intenta de nuevo."));
+}
+
 /* ============================== NAV / PANELES ================================ */
 function switchPanel(name) {
   if (!panelAllowed(name)) name = "productos";
   $$(".navbtn").forEach(b => b.classList.toggle("active", b.getAttribute("data-panel") === name));
   $$(".panel").forEach(p => p.classList.toggle("active", p.id === "panel-" + name));
-  const titles = { productos: "Productos", ventas: "Ventas", kpis: "KPIs", auditoria: "Auditoría", contenido: "Contenido del sitio", config: "Configuración" };
+  const titles = { productos: "Productos", ventas: "Ventas", kpis: "KPIs", analitica: "Analítica", auditoria: "Auditoría", contenido: "Contenido del sitio", config: "Configuración" };
   $("#panel-title").textContent = titles[name] || name;
+  if (window.StikeAnalytics && name !== "analitica") window.StikeAnalytics.pause();   // el «En vivo» deja de consultar cuando la pestaña no se ve
+  if (name === "analitica") openAnalytics();
   if (name === "contenido") openContentTab();
   if (name === "kpis") renderKpis();
   if (name === "auditoria") renderAudit();
