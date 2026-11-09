@@ -619,7 +619,7 @@
       <g:link>https://stikebikeshop.com/producto/timon-fiend-team.html?color=Cromado&amp;size=9.75</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/timon-fiend-team-cromado-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/timon-fiend-team-negro-1.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
+      <g:availability>out_of_stock</g:availability>
       <g:price>420000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
@@ -692,7 +692,7 @@
       <g:link>https://stikebikeshop.com/producto/cana-fiend-ransom.html?color=Cromado</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/cana-fiend-ransom-cromada-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/cana-fiend-ransom-gold-1.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
+      <g:availability>out_of_stock</g:availability>
       <g:price>295000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
@@ -1206,7 +1206,7 @@
       <g:description>Peg Fiend Belmont Cromo Plástico 4.5mm. Material Cromoly con funda plástica. Diámetro 4.5mm. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/peg-fiend-belmont-cromo-plastico-4-5mm.html</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/peg-fiend-belmont-cromo-plastico-4-5mm-1.jpg</g:image_link>
-      <g:availability>in_stock</g:availability>
+      <g:availability>out_of_stock</g:availability>
       <g:price>90000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
@@ -1279,7 +1279,7 @@
       <g:image_link>https://stikebikeshop.com/assets/img/products/marco-fiend-reynolds-dorado-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/marco-fiend-reynolds-negro-1.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/marco-fiend-reynolds-purpura-1.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
+      <g:availability>out_of_stock</g:availability>
       <g:price>1850000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
@@ -1336,7 +1336,7 @@
       <g:image_link>https://stikebikeshop.com/assets/img/products/marco-fiend-mills-azul-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/marco-fiend-mills-negro-1.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/marco-fiend-mills-rojo-1.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
+      <g:availability>out_of_stock</g:availability>
       <g:price>1850000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
@@ -1372,7 +1372,7 @@
       <g:image_link>https://stikebikeshop.com/assets/img/products/marco-fiend-mills-rojo-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/marco-fiend-mills-azul-1.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/marco-fiend-mills-negro-1.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
+      <g:availability>out_of_stock</g:availability>
       <g:price>1850000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Fiend</g:brand>
@@ -1535,10 +1535,10 @@
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
     </item>
     <item>
-      <g:id>REP-FED-011-negro-160mm</g:id>
+      <g:id>REP-FED-011</g:id>
       <g:title>Bielas Federal Vice - Negro - 160mm</g:title>
-      <g:description>Bielas Federal Vice. Eje 24mm hollow, 48 spline. Material Cromoly 4130 tratado térmicamente. Incluye caja de centro (BB) y espaciadores. Disponible en colores Negro, Cromado; largo 160mm, 175mm. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/bielas-federal-vice.html?color=Negro&amp;size=160mm</g:link>
+      <g:description>Bielas Federal Vice. Eje 24mm hollow, 48 spline. Material Cromoly 4130 tratado térmicamente. Incluye caja de centro (BB) y espaciadores. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/bielas-federal-vice.html</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-160mm-negras-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-160mm-negras-2.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-160mm-negras-3.jpg</g:additional_image_link>
@@ -1552,75 +1552,8 @@
       <g:identifier_exists>no</g:identifier_exists>
       <g:product_type>Repuestos &gt; Bielas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
-      <g:item_group_id>REP-FED-011</g:item_group_id>
       <g:color>Negro</g:color>
       <g:size>160mm</g:size>
-    </item>
-    <item>
-      <g:id>REP-FED-011-cromado-160mm</g:id>
-      <g:title>Bielas Federal Vice - Cromado - 160mm</g:title>
-      <g:description>Bielas Federal Vice. Eje 24mm hollow, 48 spline. Material Cromoly 4130 tratado térmicamente. Incluye caja de centro (BB) y espaciadores. Disponible en colores Negro, Cromado; largo 160mm, 175mm. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/bielas-federal-vice.html?color=Cromado&amp;size=160mm</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-2-cromadas-175mm-1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-160mm-negras-1.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-160mm-negras-2.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-160mm-negras-3.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-2-cromadas-175mm-2.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-2-cromadas-175mm-3.jpg</g:additional_image_link>
-      <g:availability>out_of_stock</g:availability>
-      <g:price>920000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Federal</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Bielas</g:product_type>
-      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
-      <g:item_group_id>REP-FED-011</g:item_group_id>
-      <g:color>Cromado</g:color>
-      <g:size>160mm</g:size>
-    </item>
-    <item>
-      <g:id>REP-FED-011-negro-175mm</g:id>
-      <g:title>Bielas Federal Vice - Negro - 175mm</g:title>
-      <g:description>Bielas Federal Vice. Eje 24mm hollow, 48 spline. Material Cromoly 4130 tratado térmicamente. Incluye caja de centro (BB) y espaciadores. Disponible en colores Negro, Cromado; largo 160mm, 175mm. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/bielas-federal-vice.html?color=Negro&amp;size=175mm</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-160mm-negras-1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-160mm-negras-2.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-160mm-negras-3.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-2-cromadas-175mm-1.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-2-cromadas-175mm-2.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-2-cromadas-175mm-3.jpg</g:additional_image_link>
-      <g:availability>out_of_stock</g:availability>
-      <g:price>920000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Federal</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Bielas</g:product_type>
-      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
-      <g:item_group_id>REP-FED-011</g:item_group_id>
-      <g:color>Negro</g:color>
-      <g:size>175mm</g:size>
-    </item>
-    <item>
-      <g:id>REP-FED-011-cromado-175mm</g:id>
-      <g:title>Bielas Federal Vice - Cromado - 175mm</g:title>
-      <g:description>Bielas Federal Vice. Eje 24mm hollow, 48 spline. Material Cromoly 4130 tratado térmicamente. Incluye caja de centro (BB) y espaciadores. Disponible en colores Negro, Cromado; largo 160mm, 175mm. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/bielas-federal-vice.html?color=Cromado&amp;size=175mm</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-2-cromadas-175mm-1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-160mm-negras-1.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-160mm-negras-2.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-160mm-negras-3.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-2-cromadas-175mm-2.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bielas-federal-vice-2-cromadas-175mm-3.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
-      <g:price>920000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Federal</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Bielas</g:product_type>
-      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
-      <g:item_group_id>REP-FED-011</g:item_group_id>
-      <g:color>Cromado</g:color>
-      <g:size>175mm</g:size>
     </item>
     <item>
       <g:id>REP-DEM-001</g:id>
@@ -2589,7 +2522,7 @@
       <g:image_link>https://stikebikeshop.com/assets/img/products/plato-odyssey-utility-pro-negro-25t-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/plato-odyssey-utility-pro-negro-28t-1.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/plato-odyssey-utility-pro-negro-28t-2.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
+      <g:availability>out_of_stock</g:availability>
       <g:price>250000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Odyssey</g:brand>
@@ -2607,7 +2540,7 @@
       <g:image_link>https://stikebikeshop.com/assets/img/products/plato-odyssey-utility-pro-negro-25t-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/plato-odyssey-utility-pro-negro-28t-1.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/plato-odyssey-utility-pro-negro-28t-2.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
+      <g:availability>out_of_stock</g:availability>
       <g:price>340000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Odyssey</g:brand>
@@ -2706,22 +2639,6 @@
       <g:brand>Piraña</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
       <g:product_type>Repuestos &gt; Tenedores</g:product_type>
-      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
-    </item>
-    <item>
-      <g:id>REP-FIE-055</g:id>
-      <g:title>Plato Fiend Palmere Negro 25T con Guardia</g:title>
-      <g:description>Plato Fiend Palmere Negro 25T con Guardia. Dientes 25T. Guardia en nylon desmontable. Compatible con ejes de 24mm, incluye adaptadores de 22mm y 19mm. Material Aluminio CNC 6061, 6mm de grosor. Peso 453g. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/plato-fiend-palmere-guardia-negro-25t.html</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/plato-fiend-palmere-guardia-negro-25t-1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/plato-fiend-palmere-guardia-negro-25t-2.jpg</g:additional_image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/plato-fiend-palmere-guardia-negro-25t-3.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
-      <g:price>230000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Fiend</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Platos</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
     </item>
     <item>
@@ -2872,54 +2789,6 @@
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>PLT-MUT-001</g:item_group_id>
       <g:color>Cromado</g:color>
-    </item>
-    <item>
-      <g:id>PLT-GWB-002-25t</g:id>
-      <g:title>Plato GW Corona Negro - 25T</g:title>
-      <g:description>Plato GW Corona Negro. Material Acero. Color Negro. Disponible en dientes 25T, 28T. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/plato-gw-corona.html?size=25T</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/plato-gw-corona-negro-25t-1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/plato-gw-corona-negro-28t-1.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
-      <g:price>9000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>GW</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Platos</g:product_type>
-      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
-      <g:item_group_id>PLT-GWB-002</g:item_group_id>
-      <g:size>25T</g:size>
-    </item>
-    <item>
-      <g:id>PLT-GWB-002-28t</g:id>
-      <g:title>Plato GW Corona Negro - 28T</g:title>
-      <g:description>Plato GW Corona Negro. Material Acero. Color Negro. Disponible en dientes 25T, 28T. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/plato-gw-corona.html?size=28T</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/plato-gw-corona-negro-25t-1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/plato-gw-corona-negro-28t-1.jpg</g:additional_image_link>
-      <g:availability>out_of_stock</g:availability>
-      <g:price>9000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>GW</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Platos</g:product_type>
-      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
-      <g:item_group_id>PLT-GWB-002</g:item_group_id>
-      <g:size>28T</g:size>
-    </item>
-    <item>
-      <g:id>PLT-GWB-001</g:id>
-      <g:title>Plato GW KL215 Negro</g:title>
-      <g:description>Plato GW KL215 Negro. Material Aluminio 6061-T6. Dientes 25T. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/plato-gw-kl215-negro.html</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/plato-gw-kl215-negro-1.jpg</g:image_link>
-      <g:availability>in_stock</g:availability>
-      <g:price>35000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>GW</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Platos</g:product_type>
-      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
     </item>
     <item>
       <g:id>PED-CIN-001</g:id>
@@ -3229,7 +3098,7 @@
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/cadena-primo-121-halflink-cromado-1.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/cadena-primo-121-halflink-cromado-2.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/cadena-primo-121-halflink-dorado-2.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
+      <g:availability>out_of_stock</g:availability>
       <g:price>120000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Primo</g:brand>
@@ -3442,12 +3311,12 @@
     </item>
     <item>
       <g:id>REP-MUT-005</g:id>
-      <g:title>Kit De Tornillos para Bielas Mutanty x2</g:title>
-      <g:description>Kit De Tornillos para Bielas Mutanty x2. Material Cr-mo Sanko japonés. Para eje de bielas de 22mm, 48T. Compatible con bielas Mutanty entre otras de esta medida. Color Negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:title>Kit De Tornillos para eje de 48 estrias</g:title>
+      <g:description>Kit De Tornillos para eje de 48 estrias de Mutanty. Material Cr-mo Sanko japonés. Para eje de bielas de 19mm, 48T. Compatible con bielas Mutanty entre otras de esta medida. Color Negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/kit-eje-bielas-mutanty.html</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/kit-eje-bielas-mutanty-1.jpg</g:image_link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/d4426e34-5989-45f3-9a24-de0eda8186ac.jpg</g:image_link>
       <g:availability>in_stock</g:availability>
-      <g:price>20000.00 COP</g:price>
+      <g:price>15000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Mutanty</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
@@ -3841,21 +3710,6 @@
       <g:size>XL</g:size>
     </item>
     <item>
-      <g:id>REP-FED-014</g:id>
-      <g:title>Cassette Federal Stance Negro</g:title>
-      <g:description>Cassette Federal Stance Negro. Color Negro. Hub trasero completo (cassette). Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/cassette-federal-stance-negro.html</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/cassette-federal-stance-negro-1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/cassette-federal-stance-negro-2.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
-      <g:price>710000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Federal</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Manzana Trasera</g:product_type>
-      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
-    </item>
-    <item>
       <g:id>REP-MUT-007</g:id>
       <g:title>Cassette Mutanty Mercury Elite Negro</g:title>
       <g:description>Cassette Mutanty Mercury Elite Negro. Color Negro. Hub trasero completo (cassette). Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
@@ -3863,7 +3717,7 @@
       <g:image_link>https://stikebikeshop.com/assets/img/products/cassette-mutanty-mercury-elite-negro-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/cassette-mutanty-mercury-elite-negro-2.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/cassette-mutanty-mercury-elite-negro-3.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
+      <g:availability>out_of_stock</g:availability>
       <g:price>550000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Mutanty</g:brand>
@@ -3876,7 +3730,7 @@
       <g:title>Cassette Profile Mini Cromado</g:title>
       <g:description>Cassette Profile Mini Cromado. Color Cromado. Hub trasero completo (cassette). Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/cassette-profile-mini-cromado.html</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/cassette-profile-mini-cromado-2.jpg</g:image_link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/81b59b3b-d118-41d6-9f9a-59221e9f879d.jpg</g:image_link>
       <g:availability>in_stock</g:availability>
       <g:price>900000.00 COP</g:price>
       <g:condition>new</g:condition>
@@ -5116,14 +4970,13 @@
     </item>
     <item>
       <g:id>REP-FED-015</g:id>
-      <g:title>Manzana Trasera Federal Derecha Negra 9T</g:title>
-      <g:description>Manzana Trasera Federal Derecha Negra 9T. Posición Trasera (cassette). Piñón 9T. Color Negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:title>Manzana Trasera Federal Derecha Usada</g:title>
+      <g:description>Manzana Trasera Federal Derecha Usada (usado). Posición Trasera (cassette). Piñón 9T. Color Negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/manzana-trasera-federal-derecha-negra-9t.html</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/manzana-trasera-federal-derecha-negra-9t-1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/manzana-trasera-federal-derecha-negra-9t-2.jpg</g:additional_image_link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/0725683f-51cf-4e97-a8b6-94cee6b5c155.jpg</g:image_link>
       <g:availability>in_stock</g:availability>
       <g:price>500000.00 COP</g:price>
-      <g:condition>new</g:condition>
+      <g:condition>used</g:condition>
       <g:brand>Federal</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
       <g:product_type>Repuestos &gt; Manzana Trasera</g:product_type>
@@ -5134,8 +4987,7 @@
       <g:title>Freecoaster Fiend Derecho USADO</g:title>
       <g:description>Freecoaster Fiend Derecho USADO (usado). Tipo Freecoaster. Posición Trasera. Color Negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/freecoaster-fiend-derecho-negro.html</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/freecoaster-fiend-derecho-negro-1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/freecoaster-fiend-derecho-negro-2.jpg</g:additional_image_link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/6f21658e-ca57-4147-b302-137cca09d328.jpg</g:image_link>
       <g:availability>in_stock</g:availability>
       <g:price>500000.00 COP</g:price>
       <g:condition>used</g:condition>
@@ -5316,7 +5168,7 @@
       <g:image_link>https://stikebikeshop.com/assets/img/products/poste-pivotal-optimus-corto-negro-1.jpg</g:image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/poste-pivotal-optimus-corto-negro-2.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/poste-pivotal-optimus-largo-negro-1.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
+      <g:availability>out_of_stock</g:availability>
       <g:price>45000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Optimus</g:brand>
@@ -5467,20 +5319,6 @@
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-RAN-004</g:item_group_id>
       <g:color>Morado</g:color>
-    </item>
-    <item>
-      <g:id>REP-SHA-013</g:id>
-      <g:title>Freecoaster Shadow Derecho USADO</g:title>
-      <g:description>Freecoaster Shadow Derecho USADO (usado). Tipo Freecoaster. Eje 14mm macho. Piñón 9T. Agujeros 36h. Color Negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/freecoaster-shadow-derecho-negro.html</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/freecoaster-shadow-derecho-negro-1.jpg</g:image_link>
-      <g:availability>out_of_stock</g:availability>
-      <g:price>500000.00 COP</g:price>
-      <g:condition>used</g:condition>
-      <g:brand>Shadow</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Manzana Trasera</g:product_type>
-      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
     </item>
     <item>
       <g:id>REP-SHA-014-negro</g:id>
@@ -5747,20 +5585,6 @@
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
     </item>
     <item>
-      <g:id>REP-PRM-001</g:id>
-      <g:title>Bielas Premium Eje 22mm</g:title>
-      <g:description>Bielas Premium Eje 22mm. Eje 22 mm. Incluye eje y tornillos. Color Negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/bielas-premium-22mm-negras.html</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/776ef972-21f6-474f-839a-54701f6f2e16.jpg</g:image_link>
-      <g:availability>in_stock</g:availability>
-      <g:price>600000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>Premium</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Bielas</g:product_type>
-      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
-    </item>
-    <item>
       <g:id>REP-MUT-013</g:id>
       <g:title>Manzana Trasera Mutanty Mercury Derecha Cromada</g:title>
       <g:description>Manzana Trasera Mutanty Mercury Derecha Cromada. Posición Trasera (cassette). Tracción Derecha (RHD). Incluye protector de manzana. Color Cromado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
@@ -5781,7 +5605,7 @@
       <g:description>Tuercas para Cassette Negras de Genérico. Tuercas de eje para manzana trasera. Color Negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/tuercas-para-cassette-negras.html</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/0e5db8e5-ca51-4736-8d21-53fe4e99197b.jpg</g:image_link>
-      <g:availability>in_stock</g:availability>
+      <g:availability>out_of_stock</g:availability>
       <g:price>25000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Genérico</g:brand>
@@ -6009,20 +5833,6 @@
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
       <g:item_group_id>REP-COL-001</g:item_group_id>
       <g:color>Cromado</g:color>
-    </item>
-    <item>
-      <g:id>REP-GWB-002</g:id>
-      <g:title>Brazos GW Negros</g:title>
-      <g:description>Brazos GW Negros. Material Cr-Mo. Incluye eje y tornillería. Color Negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/brazos-gw-negros.html</g:link>
-      <g:image_link>https://stikebikeshop.com/assets/img/products/brazos-gw-negros-1.jpg</g:image_link>
-      <g:availability>in_stock</g:availability>
-      <g:price>60000.00 COP</g:price>
-      <g:condition>new</g:condition>
-      <g:brand>GW</g:brand>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos &gt; Bielas</g:product_type>
-      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
     </item>
     <item>
       <g:id>REP-WTP-002</g:id>
@@ -6832,7 +6642,7 @@
       <g:description>Tenis Fade Joy Negro Blanco. Suela propia de la marca. Cosidos para evitar el despegue. Material de primera calidad. Hechos en Colombia. Corte bota media. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
       <g:link>https://stikebikeshop.com/producto/tenis-fade-joy-negro-blanco.html</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/1785b58d-f8a5-4aa8-8b68-f666a0bbf2f4.jpg</g:image_link>
-      <g:availability>in_stock</g:availability>
+      <g:availability>out_of_stock</g:availability>
       <g:price>160000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Fade</g:brand>
@@ -9022,7 +8832,7 @@
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/f419e2b1-b5a9-498e-a4d4-793bef521494.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2ac7d033-de01-4f3a-a75c-acf36f5e2b28.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/6670d1f1-1049-46fd-aead-ffd924794b86.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
+      <g:availability>out_of_stock</g:availability>
       <g:price>120000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Alpinestars</g:brand>
@@ -9194,7 +9004,7 @@
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/63fc5c7c-ef99-4ccc-82d2-c8ed9f3b8d9a.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/71fc6c49-a3ca-42ed-a635-4a95289dc589.jpg</g:additional_image_link>
       <g:additional_image_link>https://stikebikeshop.com/assets/img/products/4746b4c3-8c8e-4b8e-b6a5-c87ea86f554e.jpg</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
+      <g:availability>out_of_stock</g:availability>
       <g:price>780000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Odyssey</g:brand>
@@ -10844,6 +10654,76 @@
       <g:google_product_category>Apparel &amp; Accessories &gt; Clothing</g:google_product_category>
       <g:item_group_id>ROP-NIK-003</g:item_group_id>
       <g:size>XXL</g:size>
+    </item>
+    <item>
+      <g:id>REP-MUT-015</g:id>
+      <g:title>Kit de tornillos para eje de 8 estrias</g:title>
+      <g:description>Kit de tornillos para eje de 8 estrias de Mutanty. Material Cr-mo Sanko japonés. Para eje de bielas de 19mm, 48T. Compatible con bielas Mutanty y optimus entre otras de esta medida. Color Negro. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/kit-de-tornillos-para-eje-de-8-estrias.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/4c964d29-0477-4ef9-81bb-eec64d752a55.jpg</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>15000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Mutanty</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Bielas</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+    </item>
+    <item>
+      <g:id>REP-GWB-003</g:id>
+      <g:title>Manzana trasera cassete GW</g:title>
+      <g:description>Manzana trasera cassete GW. Sistema 3 trinquetes 1 resorte. Drive 9t. Lado Derecho. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/manzana-trasera-cassete-gw.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/df3d331a-edff-4cc2-9686-f5290990e72f.jpg</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>130000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>GW</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+    </item>
+    <item>
+      <g:id>REP-850-001</g:id>
+      <g:title>Manzana trasera Cassete CULT USADO</g:title>
+      <g:description>Manzana trasera Cassete CULT USADO (usado). Sistema 4 Resortes 4 trinquetes. Drive 10 t reconstruido. Lado izquierdo. Eje Hembra. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/manzana-trasera-cassete-cult-usado.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/fc0c4cb2-7249-4cfb-9f0f-ae00e80b5181.jpg</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>400000.00 COP</g:price>
+      <g:condition>used</g:condition>
+      <g:brand>Cult</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Manzana Trasera</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+    </item>
+    <item>
+      <g:id>REP-TRU-005</g:id>
+      <g:title>Manzana trasera Cassete TRUENO</g:title>
+      <g:description>Manzana trasera Cassete TRUENO . Sistema 6 trinquetes 6 resorte. Drive 9t. Lado Izquierdo. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/manzana-trasera-cassete-trueno.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/ff689b05-8a8a-4905-91a3-25361a334b0d.jpg</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>400000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Trueno</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Manzana Trasera</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+    </item>
+    <item>
+      <g:id>REP-FAT-019</g:id>
+      <g:title>PEG FATE</g:title>
+      <g:description>PEG FATE de Fate BMX Colombia. 4.5 MM. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/peg-fate.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/74c46efa-b717-4cae-8fd1-b9324bed8bad.jpg</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>80000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fate BMX Colombia</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Pegs y Protectores</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
     </item>
   </channel>
 </rss>
