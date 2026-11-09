@@ -67,6 +67,9 @@ const brandsByCount = () => {
   return [...c].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "es"));
 };
 
+/* Configuracion publica de la medicion (data/analytics.json): aqui solo se usa el token de verificacion de Search Console. */
+const ANALYTICS_CFG = (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, "data", "analytics.json"), "utf8")) || {}; } catch (e) { return {}; } })();
+
 /* ===================== <head>: bloque SEO idempotente ===================== */
 const START = "<!--seo:start-->", END = "<!--seo:end-->";
 
@@ -94,7 +97,8 @@ function headBlock(d) {
     lines.push(`<link rel="alternate" hreflang="es-CO" href="${esc(d.canonical)}">`,
                `<link rel="alternate" hreflang="x-default" href="${esc(d.canonical)}">`);
   }
-  if (d.home && SITE.googleSiteVerification) lines.push(`<meta name="google-site-verification" content="${esc(SITE.googleSiteVerification)}">`);
+  const gscToken = ANALYTICS_CFG.gscVerification || SITE.googleSiteVerification;   // data/analytics.json (se puede cambiar desde el panel) o site.js
+  if (d.home && gscToken) lines.push(`<meta name="google-site-verification" content="${esc(gscToken)}">`);
   if (d.home && SITE.bingSiteVerification) lines.push(`<meta name="msvalidate.01" content="${esc(SITE.bingSiteVerification)}">`);
   if (indexable) {
     lines.push(

@@ -66,7 +66,7 @@ if hits=$(grep -rIlE -f "$SRC/tools/secret-patterns.txt" "$OUT" 2>/dev/null) && 
   echo "$hits" | sed "s#^$OUT/#  - #" >&2
   exit 1
 fi
-for required in index.html carrito.html pago-resultado.html .htaccess api/_lib.php api/wompi-sign.php api/wompi-order.php api/wompi-events.php api/sales.php api/sync.php api/_admin.php api/admin-login.php api/admin-health.php api/gh.php admin.php admin.html admin.js data/site-content.json assets/js/products-data.js robots.txt sitemap.xml llms.txt 404.html; do
+for required in index.html carrito.html pago-resultado.html .htaccess api/_lib.php api/wompi-sign.php api/wompi-order.php api/wompi-events.php api/sales.php api/sync.php api/_admin.php api/admin-login.php api/admin-health.php api/gh.php api/track.php api/_track.php api/analytics.php api/_google.php admin.php admin.html admin.js admin-analytics.js data/site-content.json data/analytics.json assets/js/products-data.js robots.txt sitemap.xml llms.txt 404.html; do
   if [ ! -e "$OUT/$required" ]; then echo "ERROR: falta $required en la copia a publicar" >&2; exit 1; fi
 done
 

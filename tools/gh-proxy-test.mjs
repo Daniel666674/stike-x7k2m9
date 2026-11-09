@@ -24,7 +24,7 @@ const freePort = () => new Promise(res => { const s = createNetServer(); s.liste
 const listen = handler => new Promise(res => { const s = createServer(handler); s.listen(0, "127.0.0.1", () => res(s)); });
 
 /* Google falso: el "credential" es el nombre de la persona. */
-const WHO = { owner: "jparra375@gmail.com", staff: "kevinarevalo1996@gmail.com", editor: "crystaldonkey18@gmail.com", extrano: "alguien@example.com" };
+const WHO = { owner: "jparra375@gmail.com", developer: "daniel.f.acosta96@gmail.com", admin: "yeimy.hernandez.corredor@gmail.com", staff: "kevinarevalo1996@gmail.com", editor: "crystaldonkey18@gmail.com", extrano: "alguien@example.com" };
 const google = await listen((req, res) => {
   const tok = new URL(req.url, "http://x").searchParams.get("id_token");
   if (!WHO[tok]) { res.statusCode = 400; return res.end("{}"); }
@@ -96,6 +96,16 @@ try {
   t("el catálogo, las fichas y las fotos siguen permitidos", [
     (await gh(owner, "GET", "assets/js/products-data.js")).code, (await put(owner, "assets/img/products/x.jpg", Buffer.from([1]))).code,
   ], [200, 201]);
+
+  console.log("\nConfiguración de la medición (data/analytics.json)");
+  const [developer, adminRole] = [await login("developer"), await login("admin")];
+  n = seen.length;
+  t("el dueño y el desarrollador pueden cambiar el ID de medición de GA4", [(await put(owner, "data/analytics.json", Buffer.from("{}"))).code, (await put(developer, "data/analytics.json", Buffer.from("{}"))).code], [201, 201]);
+  t("llegaron a GitHub los 2 cambios", seen.length - n, 2);
+  n = seen.length;
+  t("el administrador, la tienda y el editor NO (403)", [(await put(adminRole, "data/analytics.json", Buffer.from("{}"))).code, (await put(staff, "data/analytics.json", Buffer.from("{}"))).code, (await put(editor, "data/analytics.json", Buffer.from("{}"))).code], [403, 403, 403]);
+  t("y no llegó nada a GitHub", seen.length, n);
+  t("pero cualquiera con sesión puede LEERLO (es público, también en el sitio)", [(await gh(adminRole, "GET", "data/analytics.json")).code, (await gh(editor, "GET", "data/analytics.json")).code], [200, 200]);
 
   console.log("\nRol «tienda» (staff)");
   n = seen.length;

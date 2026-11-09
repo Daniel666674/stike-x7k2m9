@@ -16,7 +16,7 @@
    ========================================================================= */
 require __DIR__ . "/_admin.php";
 
-const STIKE_GH_ALLOWED = '#^(assets/js/products-data\.js|data/(costs|sales-log|audit-log|site-content|stock-applied)\.json|sitemap\.xml|_template\.html|producto/[a-z0-9-]+\.html|assets/img/products/[A-Za-z0-9._-]+\.(jpg|jpeg|png|webp)|assets/video/(products|site)/[A-Za-z0-9._-]+\.(mp4|jpg))$#';
+const STIKE_GH_ALLOWED = '#^(assets/js/products-data\.js|data/(costs|sales-log|audit-log|site-content|stock-applied|analytics)\.json|sitemap\.xml|_template\.html|producto/[a-z0-9-]+\.html|assets/img/products/[A-Za-z0-9._-]+\.(jpg|jpeg|png|webp)|assets/video/(products|site)/[A-Za-z0-9._-]+\.(mp4|jpg))$#';
 
 /* Un video del panel pesa hasta 10 MB (el panel lo exige). Aca se pone un tope un poco mayor
    como segunda barrera: que no entre nada gigante ni un archivo que no sea MP4. */
@@ -30,6 +30,9 @@ stike_run(function () {
 
   $path = $_GET["path"] ?? "";
   if (!is_string($path) || strpos($path, "..") !== false || !preg_match(STIKE_GH_ALLOWED, $path)) throw new ApiError(403, "path_not_allowed", $path);
+
+  // data/analytics.json (el ID de medicion de GA4 y el aviso de consentimiento del sitio) solo lo cambian el dueño y el desarrollador.
+  if ($method !== "GET" && $path === "data/analytics.json" && !in_array($session["role"], ["owner", "developer"], true)) throw new ApiError(403, "role_not_allowed", $path);
 
   // Rol "editor" (diseño y contenido): publica productos, fotos, videos y textos del sitio, pero ni lee ni escribe
   // costos ni ventas (esos archivos "no existen" para el), ni toca la plantilla de las fichas ni el registro de stock.

@@ -27,6 +27,7 @@ rate/
 outbox/
 oauth-state/
 analytics/
+analytics-cache/
 fp-*.json
 
 # Llaves y certificados: nunca al repositorio, vengan de donde vengan.

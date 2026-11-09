@@ -8,14 +8,20 @@
    ========================================================================= */
 require __DIR__ . "/api/_admin.php";
 
-$file = ($_GET["f"] ?? "html") === "js" ? "js" : "html";
+$f = $_GET["f"] ?? "html";
+$file = $f === "js" ? "js" : ($f === "an" ? "an" : "html");   // an = pestaña Analitica (admin-analytics.js)
 $session = stike_admin_session();
 
 header("Cache-Control: no-store");
 header("X-Robots-Tag: noindex, nofollow");
 
 if ($session) {
-  if ($file === "js") {
+  if ($file === "an") {
+    // Los graficos de la pestaña Analitica solo los reciben los roles con acceso a las finanzas (los datos incluyen ingresos).
+    if (!stike_admin_sees_finance($session["role"])) { http_response_code(403); header("Content-Type: application/javascript"); echo "/* sin permiso */"; exit; }
+    header("Content-Type: application/javascript; charset=utf-8");
+    readfile(__DIR__ . "/admin-analytics.js");
+  } elseif ($file === "js") {
     header("Content-Type: application/javascript; charset=utf-8");
     readfile(__DIR__ . "/admin.js");
   } else {
@@ -25,7 +31,7 @@ if ($session) {
   exit;
 }
 
-if ($file === "js") { http_response_code(401); header("Content-Type: application/javascript"); echo "/* sin sesion */"; exit; }
+if ($file === "js" || $file === "an") { http_response_code(401); header("Content-Type: application/javascript"); echo "/* sin sesion */"; exit; }
 
 header("Content-Type: text/html; charset=utf-8");
 $clientId = htmlspecialchars(STIKE_OAUTH_CLIENT_ID, ENT_QUOTES);

@@ -138,13 +138,15 @@ DirectoryIndex index.html
 
   # El front llama /api/wompi-sign (igual que el backend de Vercel); aca se
   # traduce al archivo PHP.
-  RewriteRule ^api/(wompi-sign|wompi-status|wompi-order|wompi-events|sales|sync|admin-login|admin-health|admin-config|wompi-reconcile|gmail-callback|track|gh)/?$ api/$1.php [L]
+  RewriteRule ^api/(wompi-sign|wompi-status|wompi-order|wompi-events|sales|sync|admin-login|admin-health|admin-config|wompi-reconcile|gmail-callback|track|analytics|gh)/?$ api/$1.php [L]
 
   # Panel admin: el HTML y el codigo SOLO salen por admin.php, que exige una
   # sesion iniciada (cookie firmada, verificada en el servidor). Sin sesion
   # se ve unicamente la pantalla de "Iniciar sesion".
   RewriteRule ^admin(\.html)?/?$ admin.php?f=html [L,QSA]
   RewriteRule ^admin\.js$ admin.php?f=js [L,QSA]
+  # La pestaña Analitica (graficos) se carga aparte y solo la reciben los roles con acceso a las finanzas (admin.php?f=an).
+  RewriteRule ^admin-analytics\.js$ admin.php?f=an [L,QSA]
 
   # Segunda capa: lo interno no se sirve nunca, aunque algun dia llegue al
   # hosting por error. (El deploy ya lo deja fuera: tools/stage-hostinger.sh.)
@@ -153,7 +155,7 @@ DirectoryIndex index.html
   # Carpeta de datos del servidor (pedidos, ventas, llaves guardadas desde el panel): vive fuera del sitio, pero si algun
   # dia quedara dentro, estos archivos nunca se sirven.
   RewriteRule (^|/)(runtime-config|last-event|last-bad-event|last-mail|ventas|rate-limit|alerts?)\.(json|jsonl)$ - [F,L]
-  RewriteRule ^(pending|alerts|rate|outbox|oauth-state|analytics)(/|$) - [F,L]
+  RewriteRule ^(pending|alerts|rate|outbox|oauth-state|analytics|analytics-cache)(/|$) - [F,L]
   RewriteRule (^|/)fp-[0-9-]+\.json$ - [F,L]
   RewriteRule ^(PROPOSAL|MOTOR|README|SEO)\.md$ - [F,L]
   RewriteRule ^propuesta\.html$ - [F,L]

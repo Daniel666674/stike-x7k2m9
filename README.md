@@ -478,6 +478,51 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
 - Pruebas: `node tools/analytics-site-test.mjs` (navegador, con Google simulado; `python3 -m http.server 8143`) y
   `node tools/analytics-track-test.mjs` (el contador propio con PHP real).
 
+### Pestaña «Analítica» del panel (solo roles con finanzas)
+
+Menú **Analítica** (`admin-analytics.js`, se carga aparte la primera vez que se abre; lo entrega `admin.php?f=an` solo a
+dueño, desarrollador, administrador y asistente: los datos incluyen ingresos; tienda y diseño/contenido no lo reciben). Lee
+todo de `api/analytics.php` y dibuja a mano (SVG/HTML, sin librerías) con la paleta validada de la guía dataviz. Selector de
+periodo (hoy, 7, 28, 90 días) y «Actualizar»; cada gráfico tiene su **tabla equivalente** («Ver tabla») y se puede recorrer
+con el teclado. Todo texto que viene de los datos (rutas, búsquedas, nombres) se escapa: nunca se inserta como HTML.
+
+| Pestaña | Qué muestra |
+|---|---|
+| **Resumen** | 8 fichas con su cambio frente al periodo anterior (visitantes, sesiones, clics a WhatsApp, carrito, compras, ingresos Wompi, visitas que compran, tiempo), sesiones por día contra el periodo anterior, «Lo que se nota» (resumen en palabras), embudo (sesiones → producto → carrito → pago → compra, y WhatsApp como alternativa), acciones clave y una comparación **Google Analytics vs. contador propio** |
+| **WhatsApp** | Clics por día, **desde qué botón**, en qué tipo de página, qué **productos** y páginas generan más chats, **a qué hora** escriben (mapa de calor día × hora), aparato y fuente de la visita |
+| **Cómo llegan** | Canales (con interacción, WhatsApp, compras e ingresos), fuente/medio, páginas de entrada y qué canal trae más chats |
+| **Qué ven** | Productos más vistos (vistas, carrito, compras, ingresos; ordenable), «Para revisar» (muy vistos sin carrito, o al carrito sin compra), categorías, marcas, búsquedas en la tienda, páginas 404 y páginas más vistas |
+| **Quiénes** | Aparatos, nuevos y recurrentes, ciudades y mapa de calor de sesiones |
+| **Google (SEO)** | Search Console: clics, apariciones, CTR, posición, tendencia, búsqueda por marca o no, consultas, **oportunidades** (posición 4-20), páginas, aparatos, países y estado del sitemap (el dueño/desarrollador puede enviarlo) |
+| **En vivo** | Personas en el sitio ahora (30 min), páginas, acciones y ciudades; se actualiza solo cada 30 s mientras se mira y se detiene al salir |
+| **Conexión** | Lista de lo que está listo, «Probar conexión» punto por punto, formularios de la medición del sitio y de la conexión con Google, guía paso a paso y cómo probar el seguimiento |
+
+Si Google todavía no está conectado (o falla), **Resumen y WhatsApp se llenan con el contador propio** y las demás pestañas
+muestran una tarjeta con lo que hay que hacer; un error de Google nunca tumba toda la pestaña.
+
+**Conectar Google (una sola vez, ~15 min)** — el panel lee con una **cuenta de servicio** de Google Cloud (no pide permisos de
+persona ni caduca):
+
+1. Google Cloud → proyecto → habilitar **Google Analytics Data API** y **Google Search Console API**.
+2. IAM y administración → Cuentas de servicio → crear `stike-analitica` (sin roles) → Claves → Agregar clave → **JSON**.
+3. Panel → Analítica → **Conexión** → pegar el contenido del JSON (solo ahí: nunca por chat, correo ni repositorio), el ID de
+   propiedad de GA4 (solo números) y la propiedad de Search Console (`sc-domain:stikebikeshop.com` o la URL con `/`).
+4. GA4 → Administrar → Acceso a la propiedad → agregar el correo de la cuenta (termina en `.iam.gserviceaccount.com`) con rol
+   **Lector**. Search Console → Configuración → Usuarios y permisos → el mismo correo, permiso **Completo** (con «Restringido» se
+   lee pero no se puede enviar el sitemap).
+5. «Guardar y probar» y luego «Probar conexión»: cada punto en ✔. En GA4, una vez: marcar `whatsapp_click` como evento clave y
+   crear las dimensiones personalizadas `link_location` y `page_type` (alcance Evento).
+
+La llave se valida, se guarda **cifrada** (AES-256-GCM, `runtime-config.json` fuera de la web) y **nunca vuelve al navegador**: el
+panel solo muestra el correo de la cuenta y el proyecto. El **ID de medición** (`G-…`), el modo de permiso y el token de
+verificación de Search Console se editan en el mismo lugar y se publican en `data/analytics.json` por `api/gh.php` (solo dueño
+y desarrollador pueden escribirlo; `tools/build-seo.mjs` pone el token como `<meta name="google-site-verification">` en el inicio).
+Los resultados buenos de Google se guardan unos minutos en `analytics-cache/` (carpeta de datos; no se sirve ni se versiona).
+
+Pruebas: `node tools/admin-analytics-test.mjs` (la pestaña con Google, GitHub y roles simulados; `python3 -m http.server 8143`;
+`AN_SHOTS=carpeta` guarda capturas), `node tools/analytics-google-test.mjs` (PHP real contra un Google simulado que verifica la
+firma RS256, la cifra de la llave y los permisos por rol, incluida la puerta `admin.php?f=an`).
+
 ## 🔒 Seguridad: dónde viven los secretos
 
 - **Nunca en el repositorio.** Las llaves y secretos (Wompi, `GITHUB_TOKEN`,

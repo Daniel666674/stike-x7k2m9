@@ -92,17 +92,20 @@ t("deja pasar los datos falsos de las pruebas SOLO dentro de tools/", [scanText(
 t("y un secreto real pegado dentro de un archivo de pruebas SÍ se detecta", scanText("tools/x-test.mjs", `prod_integrity_${big(30)}`).some(h => !h.fake), true);
 
 console.log("\nNingún archivo sensible está versionado, y .gitignore los cubre");
-const sensitiveTracked = tracked.filter(f => /(^|\/)(\.env(\..*)?|config\.local\.php|runtime-config\.json|last-event\.json|ventas\.jsonl|id_rsa|\.htpasswd)$|\.(pem|key|p12|pfx)$|^(pending|alerts|rate|outbox|oauth-state|analytics|stike-private)\//.test(f));
+const sensitiveTracked = tracked.filter(f => /(^|\/)(\.env(\..*)?|config\.local\.php|runtime-config\.json|last-event\.json|ventas\.jsonl|id_rsa|\.htpasswd)$|\.(pem|key|p12|pfx)$|^(pending|alerts|rate|outbox|oauth-state|analytics|analytics-cache|stike-private)\//.test(f));
 t("ninguno de estos está en el repositorio: .env, api/config.local.php, runtime-config.json, ventas.jsonl, llaves .pem/.key, pending/", sensitiveTracked, []);
 const ignored = p => spawnSync("git", ["check-ignore", "-q", p], { cwd: ROOT }).status === 0;
-for (const p of ["api/config.local.php", ".env", ".env.production", "runtime-config.json", "last-event.json", "last-mail.json", "ventas.jsonl", "pending/stike-1.json", "outbox/aviso.json", "oauth-state/estado.json", "analytics/fp-2026-11-01.json", "llave.pem", "servidor.key", "stike-private/ventas.jsonl"]) t(`.gitignore cubre ${p}`, ignored(p), true);
+for (const p of ["api/config.local.php", ".env", ".env.production", "runtime-config.json", "last-event.json", "last-mail.json", "ventas.jsonl", "pending/stike-1.json", "outbox/aviso.json", "oauth-state/estado.json", "analytics/fp-2026-11-01.json", "analytics-cache/token-abc.json", "llave.pem", "servidor.key", "stike-private/ventas.jsonl"]) t(`.gitignore cubre ${p}`, ignored(p), true);
 
 console.log("\n.htaccess bloquea lo interno y deja pasar lo público");
 const hta = readFileSync(join(ROOT, ".htaccess"), "utf8");
 const forbidRules = [...hta.matchAll(/^\s*RewriteRule\s+(\S+)\s+-\s+\[[^\]]*\bF\b[^\]]*\]/gm)].map(m => new RegExp(m[1]));
 const blocked = p => forbidRules.some(re => re.test(p));
-for (const p of ["data/costs.json", "data/sales-log.json", "data/audit-log.json", "data/stock-applied.json", "api/_lib.php", "api/_admin.php", "api/config.local.php", "api/config.local.php.bak", ".env", ".git/config", ".htpasswd", "tools/build-pages.mjs", "vercel-wompi-api/index.html", "bmx-builder/index.html", "README.md", "PROPOSAL.md", "runtime-config.json", "last-event.json", "last-bad-event.json", "last-mail.json", "ventas.jsonl", "pending/stike-1.json", "outbox/aviso.json", "oauth-state/estado.json", "analytics/fp-2026-11-01.json", "fp-2026-11-01.json", "api/_track.php", "api/_google.php", "volcado.sql", "servidor.log", "llaves.txt~", "id_rsa.pem"]) t(`se niega: ${p}`, blocked(p), true);
+for (const p of ["data/costs.json", "data/sales-log.json", "data/audit-log.json", "data/stock-applied.json", "api/_lib.php", "api/_admin.php", "api/config.local.php", "api/config.local.php.bak", ".env", ".git/config", ".htpasswd", "tools/build-pages.mjs", "vercel-wompi-api/index.html", "bmx-builder/index.html", "README.md", "PROPOSAL.md", "runtime-config.json", "last-event.json", "last-bad-event.json", "last-mail.json", "ventas.jsonl", "pending/stike-1.json", "outbox/aviso.json", "oauth-state/estado.json", "analytics/fp-2026-11-01.json", "analytics-cache/token-abc.json", "fp-2026-11-01.json", "api/_track.php", "api/_google.php", "volcado.sql", "servidor.log", "llaves.txt~", "id_rsa.pem"]) t(`se niega: ${p}`, blocked(p), true);
 for (const p of ["index.html", "tienda.html", "assets/js/app.js", "assets/img/products/x-1.jpg", "data/site-content.json", "sitemap.xml", "robots.txt", "llms.txt", ".well-known/security.txt", "api/wompi-sign.php", "api/sales.php", "producto/cana-fiend-ransom.html", "categoria/canas.html"]) t(`se permite: ${p}`, blocked(p), false);
+
+console.log("\nEl código del panel solo sale por admin.php (con sesión)");
+for (const [file, f] of [["admin.js", "js"], ["admin-analytics.js", "an"]]) t(`.htaccess manda ${file} a admin.php?f=${f}`, new RegExp("RewriteRule\\s+\\^" + file.replace(/[.-]/g, m => (m === "." ? "\\\\." : m)) + "\\$\\s+admin\\.php\\?f=" + f).test(hta) || hta.includes("RewriteRule ^" + file.replace(".", "\\.") + "$ admin.php?f=" + f), true);
 
 console.log("\nLa copia que se sube a Hostinger no trae datos del negocio ni secretos");
 const OUT = join(mkdtempSync(join(tmpdir(), "stike-stage-")), "out");
