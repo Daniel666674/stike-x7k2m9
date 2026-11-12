@@ -3530,7 +3530,7 @@ window.STIKE_PRODUCTS = [
       },
       {
         "v": "M",
-        "u": 3
+        "u": 2
       },
       {
         "v": "L",
