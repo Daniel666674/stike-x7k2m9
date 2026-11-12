@@ -713,5 +713,17 @@
     "total": 324000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-12T13:55:15.701Z",
+    "slug": "grips-stranger-quan-negros",
+    "name": "Grips Stranger Quan Negros",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 45000,
+    "total": 45000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
