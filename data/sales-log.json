@@ -614,5 +614,18 @@
     "source": "tienda",
     "invoice": 3784,
     "payment": "Efectivo"
+  },
+  {
+    "ts": "2026-11-12T13:50:00.148Z",
+    "slug": "fuera-de-catalogo",
+    "name": "CORAZA ANIMAL GLH DE SEGUNDA",
+    "size": null,
+    "color": null,
+    "qty": 2,
+    "unitPrice": 80000,
+    "total": 160000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda",
+    "offCatalog": true
   }
 ]
