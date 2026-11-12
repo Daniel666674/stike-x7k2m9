@@ -609,7 +609,7 @@ window.STIKE_PRODUCTS = [
       },
       {
         "v": "Cromado",
-        "u": 4
+        "u": 3
       }
     ],
     "imgs": [
