@@ -1497,7 +1497,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 920000,
     "promo": false,
-    "units": 1,
+    "units": 0,
     "imgs": [
       "assets/img/products/bielas-primo-churchill-160mm-cromadas-1.jpg"
     ],
