@@ -627,5 +627,18 @@
     "admin": "jparra375@gmail.com",
     "source": "tienda",
     "offCatalog": true
+  },
+  {
+    "ts": "2026-11-12T13:52:09.301Z",
+    "slug": "fuera-de-catalogo",
+    "name": "MANZANA DELANTERA FEDERAL STANCE NEGRA",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 300000,
+    "total": 300000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda",
+    "offCatalog": true
   }
 ]
