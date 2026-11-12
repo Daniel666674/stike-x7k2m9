@@ -750,5 +750,17 @@
     "total": 145000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-12T13:56:30.621Z",
+    "slug": "grips-odi-soft-negros",
+    "name": "Grips ODI Soft Negros",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 60000,
+    "total": 60000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
