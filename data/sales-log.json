@@ -762,5 +762,18 @@
     "total": 60000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-12T13:56:51.561Z",
+    "slug": "fuera-de-catalogo",
+    "name": "TORNILLO PARA PLATO",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 8000,
+    "total": 8000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda",
+    "offCatalog": true
   }
 ]
