@@ -640,5 +640,18 @@
     "admin": "jparra375@gmail.com",
     "source": "tienda",
     "offCatalog": true
+  },
+  {
+    "ts": "2026-11-12T13:52:32.701Z",
+    "slug": "fuera-de-catalogo",
+    "name": "ARO STOLEN RAMPAGE AZUL",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 150000,
+    "total": 150000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda",
+    "offCatalog": true
   }
 ]
