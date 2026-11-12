@@ -689,5 +689,17 @@
     "total": 260000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-12T13:54:15.403Z",
+    "slug": "peg-fate",
+    "name": "PEG FATE",
+    "size": null,
+    "color": null,
+    "qty": 4,
+    "unitPrice": 80000,
+    "total": 320000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
