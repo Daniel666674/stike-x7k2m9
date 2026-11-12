@@ -469,7 +469,7 @@ window.STIKE_PRODUCTS = [
     "colors": [
       {
         "v": "Negro",
-        "u": 6,
+        "u": 5,
         "price": 360000
       },
       {
@@ -496,7 +496,7 @@ window.STIKE_PRODUCTS = [
       },
       {
         "v": "9.25",
-        "u": 9
+        "u": 8
       }
     ],
     "sizeLabel": "Medida",
@@ -514,7 +514,7 @@ window.STIKE_PRODUCTS = [
       {
         "s": "9.25",
         "c": "Negro",
-        "u": 5
+        "u": 4
       },
       {
         "s": "9.25",
