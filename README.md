@@ -426,11 +426,18 @@ no hay pedido guardado; el correo lo avisa y hay que confirmarlo a mano.
   stock), **«¿El producto no está en la página? Registrar una venta de otro producto»** anota una venta
   de algo que no está en el catálogo (nombre, cantidad y precio): no crea el producto ni toca el stock, queda
   marcada `offCatalog` en `data/sales-log.json` (con `slug: "fuera-de-catalogo"`), sale en el historial, los
-  ingresos y la factura, y **no entra al margen** (no hay costo). **«Corregir venta»** (en el detalle de una
-  venta de tienda) cambia el **precio unitario** (y, en las de otro producto, el nombre y la cantidad; en
-  las del catálogo la cantidad no se toca porque ya descontó stock): se lee la versión más reciente del
-  historial, se cambia solo esa venta y queda anotado quién, cuándo y antes → después, en la propia venta
-  (`edits`) y en Auditoría. Las ventas online (Wompi) no se editan. Pruebas: `node tools/admin-sale-edit-test.mjs`.
+  ingresos y la factura. **Costo y margen:** quien ve las finanzas (dueño, desarrollador, administración) puede
+  escribir el **costo unitario** de esa venta (`unitCost`, opcional; el panel muestra la ganancia y el margen en
+  vivo, ya descontando el descuento de la factura, y avisa «Pérdida» si el costo supera el precio). Con costo, la
+  venta entra al **margen bruto** de los KPIs («Ganancia», «Costo», margen del artículo en «Top productos») y su
+  detalle muestra costo, ganancia y margen; **sin costo** no entra al margen (no se inventa uno), el historial la
+  marca «sin costo» y el costo se agrega, cambia o quita después en «Corregir venta». La tienda (staff) no ve ni
+  guarda costos, ni la factura los lleva; las correcciones de costo no se le muestran. **«Corregir venta»** (en el
+  detalle de una venta de tienda) cambia el **precio unitario** (y, en las de otro producto, el nombre, la
+  cantidad y, para finanzas, el costo; en las del catálogo la cantidad no se toca porque ya descontó stock): se
+  lee la versión más reciente del historial, se cambia solo esa venta y queda anotado quién, cuándo y antes →
+  después, en la propia venta (`edits`) y en Auditoría. Las ventas online (Wompi) no se editan. Pruebas:
+  `node tools/admin-sale-edit-test.mjs`.
 - **Sin probar en el hosting real:** el `.htaccess` (redirecciones, rutas `/api/…`,
   bloqueos), el CSP contra el widget de Wompi, el `ZipArchive`/`curl` del PHP de
   Hostinger y que su firewall deje pasar la llamada desde GitHub a `/api/sync` (la
