@@ -3517,7 +3517,7 @@ window.STIKE_PRODUCTS = [
       "Protege rodilla, canilla y tobillo en una sola pieza",
       "Ajuste con velcro"
     ],
-    "price": 160000,
+    "price": 150000,
     "promo": false,
     "sizes": [
       {
@@ -3540,7 +3540,8 @@ window.STIKE_PRODUCTS = [
     "imgs": [
       "assets/img/products/rodicanitobillera-r2-protect-1.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "silla-pivotal-fate-negra",
