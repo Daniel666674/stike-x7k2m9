@@ -701,5 +701,17 @@
     "total": 320000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-12T13:54:40.783Z",
+    "slug": "timon-fiend-reynolds",
+    "name": "Timón Fiend Reynolds",
+    "size": "9.25",
+    "color": "Negro",
+    "qty": 1,
+    "unitPrice": 324000,
+    "total": 324000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
