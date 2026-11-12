@@ -738,5 +738,17 @@
     "admin": "jparra375@gmail.com",
     "source": "tienda",
     "offCatalog": true
+  },
+  {
+    "ts": "2026-11-12T13:56:15.197Z",
+    "slug": "rodicanitobillera-r2-protect",
+    "name": "Rodicanitobillera R2 Protect",
+    "size": "L",
+    "color": null,
+    "qty": 1,
+    "unitPrice": 145000,
+    "total": 145000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
