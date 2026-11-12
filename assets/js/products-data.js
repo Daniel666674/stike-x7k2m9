@@ -3534,7 +3534,7 @@ window.STIKE_PRODUCTS = [
       },
       {
         "v": "L",
-        "u": 5
+        "u": 4
       }
     ],
     "imgs": [
