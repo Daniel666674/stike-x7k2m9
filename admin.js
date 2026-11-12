@@ -2098,24 +2098,52 @@ async function registrarVenta() {
 /* ===================== Venta de un producto que NO esta en la pagina ==========
    A veces se vende algo que no esta en el catalogo (una pieza usada, mano de obra, un encargo...).
    Se anota SOLO en el historial de ventas: no se crea el producto en la tienda y no se toca el stock (no hay
-   inventario de eso en la pagina). Queda marcada offCatalog: los KPIs no inventan un margen (no hay costo
-   guardado) y el historial lo dice. Con «Generar factura» sale la factura igual que en cualquier venta. */
+   inventario de eso en la pagina). Queda marcada offCatalog. Como el catalogo no guarda un costo de eso, quien ve las finanzas
+   (dueño, desarrollador, administracion) puede escribir el COSTO UNITARIO de la venta (unitCost, opcional): con el se calcula la
+   ganancia y el margen en el detalle de la venta y en los KPIs. Sin costo la venta NO entra al margen (no se inventa uno) y el
+   historial la marca «sin costo»; el costo se puede agregar despues en «Corregir venta». La tienda (staff) no ve ni escribe
+   costos. Con «Generar factura» sale la factura igual que en cualquier venta (el costo nunca sale en ella). */
 const OFFCAT_SLUG = "fuera-de-catalogo";
 const SALE_MAX_QTY = 999, SALE_MAX_PRICE = 99999999;
 function cleanSaleName(s) { return String(s == null ? "" : s).replace(/[\u0000-\u001f\u007f]+/g, " ").replace(/\s+/g, " ").trim().slice(0, 120); }
-function offCatalogCheck(name, qty, unitPrice) {
+/* Costo escrito en un campo: «» → null (no se sabe); un entero de pesos (0 o más) → ese número; cualquier otra cosa → NaN. */
+function parseCostField(raw) {
+  const t = String(raw == null ? "" : raw).trim();
+  if (t === "") return null;
+  if (!/^\d+$/.test(t)) return NaN;
+  const n = parseInt(t, 10);
+  return n <= SALE_MAX_PRICE ? n : NaN;
+}
+const COST_FIELD_ERROR = "El costo de cada unidad tiene que ser un número de pesos (0 o más, sin puntos ni comas). Si no lo sabes, déjalo vacío.";
+function hasUnitCost(s) { return !!s && s.unitCost != null && s.unitCost !== "" && isFinite(Number(s.unitCost)) && Number(s.unitCost) >= 0; }
+/* Ganancia de una venta con costo conocido, sobre lo que se cobró de verdad (ya con el descuento). */
+function saleProfit(total, unitCost, qty) {
+  const cost = Number(unitCost) * Number(qty), profit = Number(total) - cost;
+  return { cost, profit, pct: Number(total) > 0 ? Math.round((profit / Number(total)) * 100) : null };
+}
+function profitText(total, unitCost, qty) {
+  const g = saleProfit(total, unitCost, qty);
+  return g.profit < 0 ? `Pérdida de ${money(-g.profit)}` : `Ganancia de ${money(g.profit)}${g.pct != null ? ` (margen ${g.pct}%)` : ""}`;
+}
+function profitHtml(total, unitCost, qty) {
+  const g = saleProfit(total, unitCost, qty);
+  return g.profit < 0 ? `Pérdida: <b>${escHtml(money(-g.profit))}</b> (el costo es mayor que lo cobrado)` : `Ganancia: <b>${escHtml(money(g.profit))}</b>${g.pct != null ? ` · margen <b>${g.pct}%</b>` : ""}`;
+}
+function offCatalogCheck(name, qty, unitPrice, unitCost) {
   if (name.length < 2) return { field: "offcat-name", text: "Escribe qué se vendió (al menos 2 letras)." };
   if (!Number.isInteger(qty) || qty < 1 || qty > SALE_MAX_QTY) return { field: "offcat-qty", text: `La cantidad tiene que ser un número entre 1 y ${SALE_MAX_QTY}.` };
   if (!Number.isInteger(unitPrice) || unitPrice < 1 || unitPrice > SALE_MAX_PRICE) return { field: "offcat-price", text: "Escribe el precio de venta de cada unidad, en pesos (más de $0)." };
+  if (Number.isNaN(unitCost)) return { field: "offcat-cost", text: COST_FIELD_ERROR };
   return null;
 }
 async function applyOffCatalogSale(opts) {
   if (saleInFlight) return false;
   const name = cleanSaleName(opts.name), qty = opts.qty, unitPrice = opts.unitPrice;
-  if (offCatalogCheck(name, qty, unitPrice)) return false;
+  if (offCatalogCheck(name, qty, unitPrice, opts.unitCost)) return false;
   const discount = opts.customer ? Math.min(unitPrice * qty, opts.customer.discount || 0) : 0;
   const entry = { ts: new Date().toISOString(), slug: OFFCAT_SLUG, name, size: null, color: null, qty, unitPrice, total: unitPrice * qty - discount, admin: session.email, source: "tienda", offCatalog: true };
   if (discount) entry.discount = discount;
+  if (seesFinance() && Number.isInteger(opts.unitCost) && opts.unitCost >= 0) entry.unitCost = opts.unitCost;   // la tienda nunca guarda costos
   saleInFlight = true;
   setPublishing(true);
   showStatus([{ text: `Registrando la venta de ${name}...`, cls: "now" }]);
@@ -2127,7 +2155,7 @@ async function applyOffCatalogSale(opts) {
     }
     salesLogGh = await appendJsonLog(CONFIG.paths.salesLog, [entry], `Venta (fuera de la página): ${qty}x ${name}`);
     rebuildSalesLog();
-    showStatus([{ text: `✔ Venta registrada: ${qty}x ${name}. Es un producto fuera de la página: no se creó en la tienda ni se descontó stock.`, cls: "ok" }]);
+    showStatus([{ text: `✔ Venta registrada: ${qty}x ${name}.${hasUnitCost(entry) ? " " + profitText(entry.total, entry.unitCost, qty) + "." : ""} Es un producto fuera de la página: no se creó en la tienda ni se descontó stock.`, cls: "ok" }]);
   } catch (e) {
     showStatus([{ text: "La venta NO se registró: " + e.message, cls: "bad" }]);
     return false;
@@ -2145,6 +2173,10 @@ function openOffCatalog(name) {
   $("#sale-catalog-part").hidden = true;
   $("#offcat-link").hidden = true;
   $("#offcat").hidden = false;
+  /* El costo solo lo ven y escriben los roles con finanzas (la tienda no). */
+  const fin = seesFinance();
+  $("#offcat-cost-field").hidden = !fin; $("#offcat-cost-hint").hidden = !fin;
+  $("#offcat .offcat-grid").classList.toggle("cost", fin);
   if (typeof name === "string" && name.trim()) $("#offcat-name").value = cleanSaleName(name);
   const q = $("#sale-q"); if (q) { q.value = ""; renderSaleResults(); }
   setOffcatMsg("");
@@ -2155,7 +2187,7 @@ function closeOffCatalog(reset) {
   $("#offcat").hidden = true;
   $("#sale-catalog-part").hidden = false;
   $("#offcat-link").hidden = false;
-  if (reset) { $("#offcat-name").value = ""; $("#offcat-qty").value = 1; $("#offcat-price").value = ""; setOffcatMsg(""); refreshOffCatalog(); }
+  if (reset) { $("#offcat-name").value = ""; $("#offcat-qty").value = 1; $("#offcat-price").value = ""; $("#offcat-cost").value = ""; setOffcatMsg(""); refreshOffCatalog(); }
   const q = $("#sale-q"); if (q) q.focus();
 }
 /* Total en vivo y, si lo escrito se parece a algo que SI esta en la pagina, un aviso: asi no se vende por aqui algo
@@ -2163,6 +2195,15 @@ function closeOffCatalog(reset) {
 function refreshOffCatalog() {
   const qty = parseInt($("#offcat-qty").value, 10) || 0, price = parseInt($("#offcat-price").value, 10) || 0;
   $("#offcat-total").textContent = money(Math.max(0, qty * price));
+  /* Ganancia en vivo: solo para quien ve costos y solo con un costo válido; ya con el descuento de la factura si hay uno. */
+  const mEl = $("#offcat-margin"), cost = seesFinance() ? parseCostField($("#offcat-cost").value) : null;
+  if (cost === null || Number.isNaN(cost) || qty < 1 || price < 1) { mEl.hidden = true; mEl.innerHTML = ""; mEl.className = "offcat-margin"; }
+  else {
+    const cust = readCustomerFields("sale"), disc = cust ? Math.min(qty * price, cust.discount || 0) : 0, total = qty * price - disc;
+    mEl.hidden = false;
+    mEl.className = "offcat-margin " + (saleProfit(total, cost, qty).profit < 0 ? "bad" : "good");
+    mEl.innerHTML = profitHtml(total, cost, qty) + (disc ? ` <span class="muted">(ya descontados ${escHtml(money(disc))})</span>` : "");
+  }
   const name = cleanSaleName($("#offcat-name").value);
   const sim = name.length >= 3 ? searchProducts(name, 3).filter(p => p.published !== false) : [];
   const box = $("#offcat-similar");
@@ -2174,12 +2215,13 @@ function refreshOffCatalog() {
 async function registrarVentaFuera() {
   const name = cleanSaleName($("#offcat-name").value);
   const qty = parseInt($("#offcat-qty").value, 10), unitPrice = parseInt($("#offcat-price").value, 10);
-  const bad = offCatalogCheck(name, qty, unitPrice);
+  const unitCost = seesFinance() ? parseCostField($("#offcat-cost").value) : null;
+  const bad = offCatalogCheck(name, qty, unitPrice, unitCost);
   if (bad) { setOffcatMsg(bad.text); $("#" + bad.field).focus(); return; }
   setOffcatMsg("");
   const customer = readCustomerFields("sale");
   const invWin = customer ? openInvoiceWindow() : null;
-  const ok = await applyOffCatalogSale({ name, qty, unitPrice, customer, invWin });
+  const ok = await applyOffCatalogSale({ name, qty, unitPrice, unitCost, customer, invWin });
   if (!ok && invWin) invWin.close();
   if (ok) closeOffCatalog(true);
 }
@@ -2189,13 +2231,14 @@ async function registrarVentaFuera() {
    y la cantidad (no hay stock de por medio). En las del catalogo la cantidad y el producto no se tocan: el stock ya se
    descontó. Las ventas online (Wompi) no se editan: reflejan lo que el cliente pagó. Cada cambio queda en la propia
    venta (edits: quien, cuando, antes y despues) y en Auditoria; el historial de git guarda ademas cada version. */
-const SALE_EDIT_LABELS = { unitPrice: "Precio", qty: "Cantidad", name: "Nombre", discount: "Descuento", total: "Total" };
-function describeSaleChanges(changes) {
-  const fmt = (k, v) => k === "name" ? "«" + String(v == null ? "" : v) + "»" : k === "qty" ? String(v) : money(v);
+const SALE_EDIT_LABELS = { unitPrice: "Precio", unitCost: "Costo", qty: "Cantidad", name: "Nombre", discount: "Descuento", total: "Total" };
+/* hideCost: quien no ve costos (la tienda) no debe enterarse de ellos por el historial de correcciones. */
+function describeSaleChanges(changes, hideCost) {
+  const fmt = (k, v) => k === "name" ? "«" + String(v == null ? "" : v) + "»" : k === "qty" ? String(v) : k === "unitCost" && v == null ? "sin costo" : money(v);
   const c = changes && typeof changes === "object" ? changes : {};
   const same = (x, y) => Array.isArray(x) && Array.isArray(y) && x[0] === y[0] && x[1] === y[1];
   return Object.entries(c)
-    .filter(([k, v]) => Array.isArray(v) && v.length === 2 && !(k === "total" && same(v, c.unitPrice)))   // el total solo se muestra si dice algo distinto al precio
+    .filter(([k, v]) => Array.isArray(v) && v.length === 2 && !(k === "total" && same(v, c.unitPrice)) && !(hideCost && k === "unitCost"))   // el total solo se muestra si dice algo distinto al precio
     .map(([k, [a, b]]) => `${SALE_EDIT_LABELS[k] || k}: ${fmt(k, a)} → ${fmt(k, b)}`).join(" · ");
 }
 /* Lee la version MAS RECIENTE del historial, aplica el cambio a esa venta y lo escribe (si otro cambio llego en medio, reintenta). */
@@ -2214,7 +2257,9 @@ async function editSaleInLog(sale, buildNext, commitMessage) {
 }
 /* Total que quedaria con lo escrito en el formulario (el descuento de la venta se mantiene, sin pasar del subtotal). */
 function saleEditValues(sale) {
-  const off = !!sale.offCatalog;
+  const off = !!sale.offCatalog, costOn = off && seesFinance();
+  const curCost = hasUnitCost(sale) ? Number(sale.unitCost) : null;
+  const unitCost = costOn ? parseCostField($("#se-cost").value) : curCost;
   const unitPrice = parseInt($("#se-price").value, 10);
   const qty = off ? parseInt($("#se-qty").value, 10) : Number(sale.qty);
   const name = off ? cleanSaleName($("#se-name").value) : (sale.name || "");
@@ -2222,12 +2267,13 @@ function saleEditValues(sale) {
   if (off && name.length < 2) error = "Escribe qué se vendió (al menos 2 letras).";
   else if (off && (!Number.isInteger(qty) || qty < 1 || qty > SALE_MAX_QTY)) error = `La cantidad tiene que ser un número entre 1 y ${SALE_MAX_QTY}.`;
   else if (!Number.isInteger(unitPrice) || unitPrice < 1 || unitPrice > SALE_MAX_PRICE) error = "Escribe el precio de cada unidad, en pesos (más de $0).";
+  else if (costOn && Number.isNaN(unitCost)) error = COST_FIELD_ERROR;
   const sub = (unitPrice || 0) * (qty || 0), disc = Math.min(Number(sale.discount) || 0, sub);
-  return { error, unitPrice, qty, name, total: sub - disc, changed: !error && (unitPrice !== Number(sale.unitPrice) || qty !== Number(sale.qty) || name !== (sale.name || "")) };
+  return { error, unitPrice, unitCost, qty, name, total: sub - disc, changed: !error && (unitPrice !== Number(sale.unitPrice) || qty !== Number(sale.qty) || name !== (sale.name || "") || (costOn && unitCost !== curCost)) };
 }
 function openSaleEdit(sale) {
   if (!sale || sale.source === "wompi") return;
-  const off = !!sale.offCatalog;
+  const off = !!sale.offCatalog, costOn = off && seesFinance();
   const attr = v => escHtml(v).replace(/"/g, "&quot;");
   $("#confirm-modal").innerHTML = `
     <h3 style="margin-bottom:2px">Corregir venta</h3>
@@ -2237,6 +2283,7 @@ function openSaleEdit(sale) {
          <div class="field"><label for="se-qty">Cantidad</label><input id="se-qty" type="number" min="1" max="${SALE_MAX_QTY}" value="${Number(sale.qty) || 1}"></div>`
       : `<p class="hint muted" style="margin:0 0 10px">Aquí se corrige solo el precio. La cantidad (<b>${Number(sale.qty) || 1}</b>) y el producto no se pueden cambiar porque ya se descontó el stock.</p>`}
     <div class="field"><label for="se-price">Precio unitario (COP)</label><input id="se-price" type="number" min="1" step="1" value="${Math.round(Number(sale.unitPrice) || 0)}"></div>
+    ${costOn ? `<div class="field"><label for="se-cost">Costo unitario (COP)</label><input id="se-cost" type="number" min="0" step="1" inputmode="numeric" placeholder="Opcional: lo que te costó" value="${hasUnitCost(sale) ? Math.round(Number(sale.unitCost)) : ""}"><p class="hint">Con el costo se calcula la ganancia y el margen. Déjalo vacío si no lo sabes.</p></div>` : ""}
     ${sale.discount ? `<p class="hint muted" style="margin:0 0 8px">Esta venta tiene un descuento de ${escHtml(money(sale.discount))}; se mantiene.</p>` : ""}
     <p class="sale-edit-diff" id="se-diff"></p>
     ${sale.invoice ? `<p class="hint" style="color:var(--warn);margin:0 0 10px">Esta venta tiene la factura Nº ${escHtml(sale.invoice)}. Si ya se la entregaste al cliente, esa copia no va a coincidir: al volver a imprimirla saldrá con el precio nuevo.</p>` : ""}
@@ -2247,16 +2294,16 @@ function openSaleEdit(sale) {
     </div>`;
   const refresh = () => {
     const v = saleEditValues(sale);
-    $("#se-diff").innerHTML = v.error ? "" : v.changed ? `Total: <b>${escHtml(money(sale.total))}</b> → <b>${escHtml(money(v.total))}</b>` : `<span class="muted">Todavía no cambiaste nada.</span>`;
+    $("#se-diff").innerHTML = v.error ? "" : v.changed ? `Total: <b>${escHtml(money(sale.total))}</b> → <b>${escHtml(money(v.total))}</b>${costOn && v.unitCost != null ? `<br>${profitHtml(v.total, v.unitCost, v.qty)}` : ""}` : `<span class="muted">Todavía no cambiaste nada.</span>`;
     $("#se-save").disabled = !v.changed;
     const m = $("#se-msg"); m.textContent = v.error; m.hidden = !v.error;
   };
-  ["#se-price", "#se-qty", "#se-name"].forEach(sel => { const el = $(sel); if (el) el.addEventListener("input", refresh); });
+  ["#se-price", "#se-qty", "#se-name", "#se-cost"].forEach(sel => { const el = $(sel); if (el) el.addEventListener("input", refresh); });
   $("#se-cancel").addEventListener("click", () => openSaleDetail(sale));
   $("#se-save").addEventListener("click", () => {
     const v = saleEditValues(sale);
     if (v.error || !v.changed) { refresh(); return; }
-    saveSaleCorrection(sale, off ? { unitPrice: v.unitPrice, qty: v.qty, name: v.name } : { unitPrice: v.unitPrice });
+    saveSaleCorrection(sale, off ? { unitPrice: v.unitPrice, qty: v.qty, name: v.name, ...(costOn ? { unitCost: v.unitCost } : {}) } : { unitPrice: v.unitPrice });
   });
   disableAutofill($("#confirm-modal"));
   refresh();
@@ -2274,18 +2321,20 @@ async function saveSaleCorrection(sale, patch) {
   try {
     result = await editSaleInLog(sale, cur => {
       /* La venta no puede haber cambiado mientras se editaba (otra persona u otro computador). */
-      if (Number(cur.unitPrice) !== Number(sale.unitPrice) || Number(cur.qty) !== Number(sale.qty) || (cur.name || "") !== (sale.name || "")) {
+      const curCost = hasUnitCost(cur) ? Number(cur.unitCost) : null, oldCost = hasUnitCost(sale) ? Number(sale.unitCost) : null;
+      if (Number(cur.unitPrice) !== Number(sale.unitPrice) || Number(cur.qty) !== Number(sale.qty) || (cur.name || "") !== (sale.name || "") || curCost !== oldCost) {
         throw Object.assign(new Error(`Esta venta cambió mientras la editabas (ahora dice ${money(cur.unitPrice)} por unidad). Ciérrala y ábrela otra vez.`), { userFacing: true });
       }
       const next = { ...cur };
       if (patch.name !== undefined) next.name = patch.name;
       if (patch.qty !== undefined) next.qty = patch.qty;
+      if (patch.unitCost !== undefined) { if (patch.unitCost === null) delete next.unitCost; else next.unitCost = patch.unitCost; }
       next.unitPrice = patch.unitPrice;
       const sub = next.unitPrice * next.qty, disc = Math.min(Number(cur.discount) || 0, sub);
       if (disc) next.discount = disc; else delete next.discount;
       next.total = sub - disc;
-      const before = { unitPrice: cur.unitPrice, qty: cur.qty, name: cur.name, discount: Number(cur.discount) || 0, total: cur.total };
-      const after = { unitPrice: next.unitPrice, qty: next.qty, name: next.name, discount: disc, total: next.total };
+      const before = { unitPrice: cur.unitPrice, unitCost: curCost, qty: cur.qty, name: cur.name, discount: Number(cur.discount) || 0, total: cur.total };
+      const after = { unitPrice: next.unitPrice, unitCost: hasUnitCost(next) ? Number(next.unitCost) : null, qty: next.qty, name: next.name, discount: disc, total: next.total };
       const changes = {};
       for (const k of Object.keys(before)) if (before[k] !== after[k]) changes[k] = [before[k], after[k]];
       if (!Object.keys(changes).length) throw Object.assign(new Error("No cambiaste nada."), { userFacing: true });
@@ -2496,6 +2545,7 @@ function saleHaystack(s) {
     s.invoice && ("factura " + s.invoice), s.payment, s.orderRef, s.customerEmail,
     s.source === "wompi" ? "online wompi pagina web" : "tienda mostrador",
     s.offCatalog && "fuera de la pagina otro producto sin catalogo",
+    s.offCatalog && !hasUnitCost(s) && "sin costo",
     Array.isArray(s.edits) && s.edits.length && "corregida editada correccion",
     s.shipping && [s.shipping.name, s.shipping.city, s.shipping.phone].join(" "),
     okDate && [d.toLocaleString("es-CO"), d.toISOString().slice(0, 10), d.toLocaleDateString("es-CO", { day: "numeric", month: "long", year: "numeric" }), d.toLocaleDateString("es-CO", { weekday: "long" })].join(" "),
@@ -2531,6 +2581,7 @@ function saleThumbHtml(s, big) {
 function saleTagsHtml(s) {
   const tags = [];
   if (s.offCatalog) tags.push(`<span class="pill" title="Producto que no está en la página (no se descontó stock)">fuera de la página</span>`);
+  if (s.offCatalog && !hasUnitCost(s) && seesFinance()) tags.push(`<span class="pill low" title="No tiene costo guardado: agrégalo en «Corregir venta» para ver la ganancia">sin costo</span>`);
   if (Array.isArray(s.edits) && s.edits.length) tags.push(`<span class="pill dirty" title="Se corrigió después de registrarla">corregida</span>`);
   return tags.length ? `<span class="sale-tags">${tags.join("")}</span>` : "";
 }
@@ -2578,6 +2629,11 @@ function openSaleDetail(sale) {
   const sectionTitle = t => `<h4 style="margin:18px 0 4px;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)">${escHtml(t)}</h4>`;
 
   const variant = [sale.size, sale.color].filter(Boolean).join(" / ");
+  /* Costo y ganancia de una venta de otro producto: solo quien ve las finanzas. */
+  const fin = seesFinance();
+  const costRows = !(sale.offCatalog && fin) ? [] : hasUnitCost(sale)
+    ? (g => [["Costo unitario", money(sale.unitCost)], ["Costo total", money(g.cost)], g.profit < 0 ? ["Pérdida", money(-g.profit)] : ["Ganancia", money(g.profit) + (g.pct != null ? ` · margen ${g.pct}%` : "")]])(saleProfit(sale.total, sale.unitCost, sale.qty))
+    : [["Costo", "sin registrar (agrégalo en «Corregir venta»)"]];
   const mainRows = [
     ["Fecha", new Date(sale.ts).toLocaleString("es-CO")],
     ["Producto", sale.name || sale.slug],
@@ -2586,12 +2642,16 @@ function openSaleDetail(sale) {
     ["Precio unitario", money(sale.unitPrice)],
     ["Total", money(sale.total)],
     sale.discount && ["Descuento", money(sale.discount)],
+    ...costRows,
     sale.payment && ["Forma de pago", sale.payment],
     sale.invoice && ["Factura", "Nº " + sale.invoice],
     sale.offCatalog && ["Origen", "Producto que no está en la página (no se descontó stock)"],
     ["Vendedor", sale.admin || "—"],
   ];
-  const editRows = (Array.isArray(sale.edits) ? sale.edits : []).map(e => [`${new Date(e.ts).toLocaleString("es-CO")} · ${e.by || "—"}`, describeSaleChanges(e.changes) || "—"]);
+  const editRows = (Array.isArray(sale.edits) ? sale.edits : []).map(e => {
+    const d = describeSaleChanges(e.changes, !fin);
+    return !fin && !d && e.changes && e.changes.unitCost ? null : [`${new Date(e.ts).toLocaleString("es-CO")} · ${e.by || "—"}`, d || "—"];   // la tienda no ve las correcciones de costo
+  }).filter(Boolean);
 
   const isWompi = sale.source === "wompi";
   const wompiRows = isWompi ? [
@@ -2632,7 +2692,7 @@ function openSaleDetail(sale) {
       ? sectionTitle("Envío") + fieldRows(shipRows) + quote
       : (isWompi ? `<p style="color:var(--bad);font-size:12.5px;margin-top:14px">Sin datos de envío -- venta anterior a que se pidieran en el carrito.</p>` : "")}
     ${sale.invoice ? `<button class="btn cyan block" id="sd-invoice" style="margin-top:20px">Ver / imprimir factura Nº ${escHtml(sale.invoice)}</button>` : ""}
-    ${isWompi ? "" : `<button class="btn ghost block" id="sd-edit" style="margin-top:${sale.invoice ? "10px" : "20px"}">Corregir venta (precio)</button>`}
+    ${isWompi ? "" : `<button class="btn ghost block" id="sd-edit" style="margin-top:${sale.invoice ? "10px" : "20px"}">Corregir venta (${sale.offCatalog && fin ? "precio y costo" : "precio"})</button>`}
     <button class="btn block" id="sd-close" style="margin-top:${sale.invoice || !isWompi ? "10px" : "20px"}">Cerrar</button>`;
   $("#sd-close").addEventListener("click", closeConfirmModal);
   if (sale.invoice) $("#sd-invoice").addEventListener("click", () => reprintInvoice(sale));
@@ -2796,10 +2856,12 @@ function renderKpis() {
   const activos = workingCatalog.filter(p => p.published !== false).length;
 
   const costOf = slug => { const p = workingCatalog.find(x => x.slug === slug); return p ? (p.cost || costsMap[slug] || 0) : 0; };
-  /* Lo vendido fuera de la pagina no tiene costo guardado: se deja fuera del margen para no inventar uno (queda en los ingresos). */
-  const withCost = last30.filter(s => !s.offCatalog);
+  /* Entra al margen toda venta de la que se conoce el costo: las del catalogo (costo guardado por producto) y las de otros
+     productos que traen su costo unitario. Las de otros productos SIN costo se dejan fuera para no inventar uno (siguen en los ingresos). */
+  const withCost = last30.filter(s => !s.offCatalog || hasUnitCost(s));
   const offN = last30.length - withCost.length;
-  const cogs = withCost.reduce((a, s) => a + costOf(s.slug) * s.qty, 0);
+  const costOfSale = s => (s.offCatalog ? Number(s.unitCost) : costOf(s.slug)) * s.qty;
+  const cogs = withCost.reduce((a, s) => a + costOfSale(s), 0);
   const marginRevenue = sum(withCost);
   const marginPct = marginRevenue > 0 ? Math.round(((marginRevenue - cogs) / marginRevenue) * 100) : 0;
 
@@ -2816,7 +2878,7 @@ function renderKpis() {
     <div class="kpi"><div class="n">${units}</div><div class="l">Unidades vendidas (30d)</div>${delta(units, prevUnits)}</div>
     <div class="kpi"><div class="n">${money(avgTicket)}</div><div class="l">Ticket promedio</div>${delta(avgTicket, prevAvg)}</div>
     <div class="kpi"><div class="n">${isOwner ? marginPct + "%" : LOCKED_ICON}</div><div class="l">Margen bruto (30d)</div>
-      <div class="delta flat">${isOwner ? "Costo: " + money(cogs) + (offN ? ` · sin ${offN} venta${offN === 1 ? "" : "s"} de otros productos` : "") : "solo dueño"}</div></div>
+      <div class="delta flat">${isOwner ? "Ganancia: " + money(marginRevenue - cogs) + " · Costo: " + money(cogs) + (offN ? ` · sin ${offN} venta${offN === 1 ? "" : "s"} de otros productos (sin costo)` : "") : "solo dueño"}</div></div>
     <div class="kpi"><div class="n">${lowStock}</div><div class="l">Bajo stock / agotados</div>
       <div class="delta ${lowStock ? "down" : "up"}">${lowStock ? "requieren reposición" : "todo cubierto"}</div></div>
     <div class="kpi"><div class="n">${activos}</div><div class="l">Productos publicados</div>
@@ -2870,15 +2932,16 @@ function renderKpis() {
   const bySlug = {};
   last30.forEach(s => {
     const key = s.offCatalog ? "x:" + searchFold(s.name || "") : s.slug;   // cada articulo de otro producto sale aparte
-    bySlug[key] = bySlug[key] || { name: s.name || s.slug, units: 0, revenue: 0, cost: 0, noCost: !!s.offCatalog };
+    bySlug[key] = bySlug[key] || { name: s.name || s.slug, units: 0, revenue: 0, cost: 0, off: !!s.offCatalog, noCost: false };
     bySlug[key].units += s.qty;
     bySlug[key].revenue += s.total;
-    if (!s.offCatalog) bySlug[key].cost += costOf(s.slug) * s.qty;
+    if (s.offCatalog && !hasUnitCost(s)) bySlug[key].noCost = true;   // basta una venta sin costo para no inventar el margen del articulo
+    else bySlug[key].cost += costOfSale(s);
   });
   const top = Object.values(bySlug).sort((a, b) => b.revenue - a.revenue).slice(0, 10);
   $("#top-products-tbody").innerHTML = top.map(t => {
     const m = t.noCost ? "—" : t.revenue > 0 ? Math.round(((t.revenue - t.cost) / t.revenue) * 100) + "%" : "—";
-    return `<tr><td>${escHtml(t.name)}${t.noCost ? ` <span class="sale-tags"><span class="pill" title="Producto que no está en la página">fuera de la página</span></span>` : ""}</td><td>${t.units}</td><td>${money(t.revenue)}</td><td>${isOwner ? m : LOCKED_ICON}</td></tr>`;
+    return `<tr><td>${escHtml(t.name)}${t.off ? ` <span class="sale-tags"><span class="pill" title="Producto que no está en la página">fuera de la página</span></span>` : ""}</td><td>${t.units}</td><td>${money(t.revenue)}</td><td>${isOwner ? m : LOCKED_ICON}</td></tr>`;
   }).join("")
     || `<tr><td colspan="4" class="muted" style="padding:16px;text-align:center">Sin ventas en los últimos 30 días.</td></tr>`;
 }
@@ -4510,7 +4573,7 @@ $("#btn-registrar-venta").addEventListener("click", registrarVenta);
 $("#offcat-open").addEventListener("click", () => openOffCatalog());
 $("#offcat-close").addEventListener("click", () => closeOffCatalog(false));
 $("#btn-registrar-offcat").addEventListener("click", registrarVentaFuera);
-["#offcat-name", "#offcat-qty", "#offcat-price"].forEach(sel => $(sel).addEventListener("input", () => { setOffcatMsg(""); refreshOffCatalog(); }));
+["#offcat-name", "#offcat-qty", "#offcat-price", "#offcat-cost"].forEach(sel => $(sel).addEventListener("input", () => { setOffcatMsg(""); refreshOffCatalog(); }));
 $("#btn-save-content").addEventListener("click", saveSiteContent);
 $("#editor-overlay").addEventListener("click", e => { if (e.target.id === "editor-overlay") closeEditor(); });
 $("#sale-overlay").addEventListener("click", e => { if (e.target.id === "sale-overlay") closeQuickSale(); });
@@ -4744,3 +4807,5 @@ function reprintInvoice(sale) {
 
 $("#sale-customer").innerHTML = customerFieldsHtml("sale");
 wireCustomerFields("sale");
+/* El descuento de la factura cambia la ganancia que se ve en vivo en el formulario de otro producto. */
+[["#sale-c-disc", "input"], ["#sale-inv", "change"]].forEach(([sel, ev]) => { const el = $(sel); if (el) el.addEventListener(ev, () => { if ($("#offcat") && !$("#offcat").hidden) refreshOffCatalog(); }); });
