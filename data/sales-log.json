@@ -725,5 +725,18 @@
     "total": 45000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-12T13:55:51.463Z",
+    "slug": "fuera-de-catalogo",
+    "name": "ROMPEVIENTOS QUICK SILVER TALLA L GRIS ROJO",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 120000,
+    "total": 120000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda",
+    "offCatalog": true
   }
 ]
