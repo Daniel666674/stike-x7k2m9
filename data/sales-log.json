@@ -1069,5 +1069,18 @@
     "admin": "jparra375@gmail.com",
     "source": "tienda",
     "offCatalog": true
+  },
+  {
+    "ts": "2026-11-13T19:52:32.098Z",
+    "slug": "fuera-de-catalogo",
+    "name": "PLATIC PEG FIEND BELMONT ALUMINIO",
+    "size": null,
+    "color": null,
+    "qty": 4,
+    "unitPrice": 72000,
+    "total": 288000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda",
+    "offCatalog": true
   }
 ]
