@@ -995,5 +995,17 @@
     "total": 236000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-13T19:45:45.831Z",
+    "slug": "poste-pivotal-fiend-185mm",
+    "name": "Poste Pivotal Fiend 185mm",
+    "size": null,
+    "color": "Cromado",
+    "qty": 1,
+    "unitPrice": 112000,
+    "total": 112000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
