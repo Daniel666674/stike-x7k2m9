@@ -3290,7 +3290,7 @@ window.STIKE_PRODUCTS = [
       },
       {
         "v": "1022mm",
-        "u": 55
+        "u": 53
       }
     ],
     "sizeLabel": "Medida",
