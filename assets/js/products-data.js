@@ -308,14 +308,14 @@ window.STIKE_PRODUCTS = [
       },
       {
         "v": "20.75",
-        "u": 3
+        "u": 2
       }
     ],
     "sizeLabel": "Medida",
     "colors": [
       {
         "v": "Negro brillante",
-        "u": 2
+        "u": 1
       },
       {
         "v": "Gris mate",
@@ -354,7 +354,7 @@ window.STIKE_PRODUCTS = [
       {
         "s": "20.75",
         "c": "Negro brillante",
-        "u": 1
+        "u": 0
       },
       {
         "s": "20.75",
