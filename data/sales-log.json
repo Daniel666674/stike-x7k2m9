@@ -827,5 +827,17 @@
     "total": 536000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-13T19:36:14.475Z",
+    "slug": "conix-fiend",
+    "name": "CONIX FIEND ",
+    "size": null,
+    "color": "Negro",
+    "qty": 1,
+    "unitPrice": 48000,
+    "total": 48000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
