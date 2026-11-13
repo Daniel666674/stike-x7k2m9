@@ -1031,5 +1031,18 @@
     "total": 144000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-13T19:48:54.079Z",
+    "slug": "fuera-de-catalogo",
+    "name": "SILLA FATE CORDUROY",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 97500,
+    "total": 97500,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda",
+    "offCatalog": true
   }
 ]
