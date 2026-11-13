@@ -787,5 +787,17 @@
     "total": 1480000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-13T19:34:22.121Z",
+    "slug": "marco-fiend-reynolds",
+    "name": "Marco Fiend Reynolds",
+    "size": "20.5",
+    "color": "Púrpura intenso",
+    "qty": 1,
+    "unitPrice": 1850000,
+    "total": 1850000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
