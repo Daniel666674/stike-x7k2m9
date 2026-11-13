@@ -718,7 +718,7 @@ window.STIKE_PRODUCTS = [
     "colors": [
       {
         "v": "Negro",
-        "u": 5
+        "u": 3
       },
       {
         "v": "Cromado",
