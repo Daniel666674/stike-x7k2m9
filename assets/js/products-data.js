@@ -1164,7 +1164,7 @@ window.STIKE_PRODUCTS = [
     "sizes": [
       {
         "v": "20.5",
-        "u": 2
+        "u": 1
       },
       {
         "v": "20.75",
@@ -1183,7 +1183,7 @@ window.STIKE_PRODUCTS = [
       },
       {
         "v": "Púrpura intenso",
-        "u": 2
+        "u": 1
       }
     ],
     "combos": [
@@ -1200,7 +1200,7 @@ window.STIKE_PRODUCTS = [
       {
         "s": "20.5",
         "c": "Púrpura intenso",
-        "u": 1
+        "u": 0
       },
       {
         "s": "20.75",
