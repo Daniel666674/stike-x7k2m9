@@ -839,5 +839,17 @@
     "total": 48000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-13T19:36:45.865Z",
+    "slug": "timon-fiend-team",
+    "name": "Timón Fiend Team",
+    "size": "9.5",
+    "color": "Negro",
+    "qty": 1,
+    "unitPrice": 288000,
+    "total": 288000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
