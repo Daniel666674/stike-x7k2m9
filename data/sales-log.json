@@ -935,5 +935,17 @@
     "total": 216000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-13T19:42:30.802Z",
+    "slug": "plato-fiend-reynolds-25t",
+    "name": "Plato Fiend Reynolds 25T Sin Guardia",
+    "size": null,
+    "color": "Negro",
+    "qty": 1,
+    "unitPrice": 112000,
+    "total": 112000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
