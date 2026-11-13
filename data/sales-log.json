@@ -795,10 +795,26 @@
     "size": "20.5",
     "color": "Púrpura intenso",
     "qty": 1,
-    "unitPrice": 1850000,
-    "total": 1850000,
+    "unitPrice": 1480000,
+    "total": 1480000,
     "admin": "jparra375@gmail.com",
-    "source": "tienda"
+    "source": "tienda",
+    "edits": [
+      {
+        "ts": "2026-11-13T19:35:45.783Z",
+        "by": "jparra375@gmail.com",
+        "changes": {
+          "unitPrice": [
+            1850000,
+            1480000
+          ],
+          "total": [
+            1850000,
+            1480000
+          ]
+        }
+      }
+    ]
   },
   {
     "ts": "2026-11-13T19:35:02.508Z",
