@@ -887,5 +887,17 @@
     "total": 80000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-13T19:39:21.898Z",
+    "slug": "caja-de-frente-fiend-frente-integrado-ransom",
+    "name": "Caja De Frente Fiend Frente Integrado Ransom",
+    "size": null,
+    "color": "Negro",
+    "qty": 2,
+    "unitPrice": 108000,
+    "total": 216000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
