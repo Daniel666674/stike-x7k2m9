@@ -1019,5 +1019,17 @@
     "total": 128000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-13T19:47:29.336Z",
+    "slug": "caja-de-centro-fate-negra",
+    "name": "Caja de Centro Fate Negra",
+    "size": "1022mm",
+    "color": null,
+    "qty": 2,
+    "unitPrice": 72000,
+    "total": 144000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
