@@ -9334,8 +9334,8 @@ window.STIKE_PRODUCTS = [
     "cat": "repuestos",
     "sub": "Timones",
     "spec": [
-      "MEDIDA 9.5     LARGO 29\"",
-      "Up Sweep: 1°  Backsweep: 12°",
+      "MEDIDA 9.5        LARGO 29\"",
+      "Up Sweep: 1°     Backsweep: 12°",
       "Peso: 907 g"
     ],
     "price": 180000,
