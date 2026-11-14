@@ -9325,5 +9325,39 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/2de528ae-2469-4fbb-b3c5-4d5d4c3e6034.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "timon-rant-sway",
+    "sku": "REP-RAN-005",
+    "n": "TIMON RANT SWAY",
+    "brand": "Rant",
+    "cat": "repuestos",
+    "sub": "Timones",
+    "spec": [
+      "MEDIDA 9.5     LARGO 29\"",
+      "Up Sweep: 1°  Backsweep: 12°",
+      "Peso: 907 g"
+    ],
+    "price": 180000,
+    "promo": false,
+    "sizeLabel": "Medida",
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 1,
+        "price": 180000
+      },
+      {
+        "v": "Cromado",
+        "u": 1,
+        "price": 190000
+      }
+    ],
+    "combos": null,
+    "imgs": [
+      "assets/img/products/6cb3d5cf-9177-4b60-831e-51c5e29a6081.jpg",
+      "assets/img/products/fcca1904-a66c-4bfd-98e6-66319c25fde4.jpg"
+    ],
+    "published": true
   }
 ];
