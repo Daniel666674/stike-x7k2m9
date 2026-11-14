@@ -9393,5 +9393,33 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/6b85088a-4143-497c-bb13-895ece0b8797.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "cassete-demolition-whistler-pro",
+    "sku": "REP-DEM-008",
+    "n": "CASSETE DEMOLITION WHISTLER PRO",
+    "brand": "Demolition",
+    "cat": "repuestos",
+    "sub": "Manzana Trasera",
+    "spec": [
+      "LHD - RHD",
+      "SISTEMA DE 6 TRINQUETES Y 6 RESORTES INDEPENDIENTES",
+      "INCLUTE PROTECTORES EN NYLON"
+    ],
+    "price": 750000,
+    "promo": false,
+    "sizes": [
+      {
+        "v": "Única",
+        "u": 0
+      }
+    ],
+    "combos": null,
+    "imgs": [
+      "assets/img/products/1d7fa01a-6032-49a1-af7e-15a0936f2746.jpg",
+      "assets/img/products/8ea0afc0-7f21-44ce-9cb9-139cb32f9edc.jpg",
+      "assets/img/products/3413fb29-122a-44c6-9bc7-33ccb775ab9e.jpg"
+    ],
+    "published": true
   }
 ];
