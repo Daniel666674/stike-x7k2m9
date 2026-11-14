@@ -9282,5 +9282,27 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/74c46efa-b717-4cae-8fd1-b9324bed8bad.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "coraza-cult-fast-and-loose",
+    "sku": "REP-850-002",
+    "n": "CORAZA CULT FAST AND LOOSE",
+    "brand": "Cult",
+    "cat": "repuestos",
+    "sub": "Llantas",
+    "spec": [
+      "MEDIDA 20X 2.40",
+      "110 PSI"
+    ],
+    "price": 150000,
+    "promo": false,
+    "units": 6,
+    "combos": null,
+    "imgs": [
+      "assets/img/products/54a4e818-d76a-49d9-a494-d78ee28ac4ae.jpg",
+      "assets/img/products/69452fa7-b98c-413b-b5da-61d15f3b9864.jpg",
+      "assets/img/products/9defc40a-ccba-485c-af11-76e7f7a14bbd.jpg"
+    ],
+    "published": true
   }
 ];
