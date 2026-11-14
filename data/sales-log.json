@@ -1094,5 +1094,18 @@
     "total": 150000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-14T16:25:36.204Z",
+    "slug": "fuera-de-catalogo",
+    "name": "TIMON FEDERAL DE SEGUNDA",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 150000,
+    "total": 150000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda",
+    "offCatalog": true
   }
 ]
