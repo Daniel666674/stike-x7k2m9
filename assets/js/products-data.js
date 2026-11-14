@@ -9404,7 +9404,7 @@ window.STIKE_PRODUCTS = [
     "spec": [
       "LHD - RHD",
       "SISTEMA DE 6 TRINQUETES Y 6 RESORTES INDEPENDIENTES",
-      "INCLUTE PROTECTORES EN NYLON"
+      "INCLUYE PROTECTORES EN NYLON"
     ],
     "price": 750000,
     "promo": false,
