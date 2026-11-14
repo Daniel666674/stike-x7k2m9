@@ -3544,28 +3544,6 @@ window.STIKE_PRODUCTS = [
     "combos": null
   },
   {
-    "slug": "silla-pivotal-fate-negra",
-    "sku": "REP-FAT-016",
-    "n": "Silla Pivotal Fate Negra",
-    "brand": "Fate BMX Colombia",
-    "cat": "repuestos",
-    "sub": "Sillas y Postes",
-    "spec": [
-      "Tipo: Pivotal",
-      "Tapizado: Pana",
-      "Color: Negro"
-    ],
-    "price": 130000,
-    "promo": false,
-    "units": 46,
-    "imgs": [
-      "assets/img/products/silla-pivotal-fate-negra-1.jpg",
-      "assets/img/products/silla-pivotal-fate-negra-2.jpg",
-      "assets/img/products/silla-pivotal-fate-negra-3.jpg"
-    ],
-    "published": true
-  },
-  {
     "slug": "tobillera-de-impacto-r2-protect",
     "sku": "PRO-R2P-003",
     "n": "Tobillera de Impacto R2 Protect",
