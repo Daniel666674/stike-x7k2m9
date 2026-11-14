@@ -5335,7 +5335,7 @@ window.STIKE_PRODUCTS = [
     "colors": [
       {
         "v": "Negro",
-        "u": 3
+        "u": 2
       },
       {
         "v": "Café",
