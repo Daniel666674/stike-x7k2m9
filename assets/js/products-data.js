@@ -5260,7 +5260,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 80000,
     "promo": false,
-    "units": 135,
+    "units": 134,
     "imgs": [
       "assets/img/products/5cb67fe9-9818-4c78-b2e6-e81a53adc649.jpg"
     ],
