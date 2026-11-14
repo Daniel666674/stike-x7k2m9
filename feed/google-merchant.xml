@@ -10790,5 +10790,41 @@
       <g:item_group_id>REP-RAN-005</g:item_group_id>
       <g:color>Cromado</g:color>
     </item>
+    <item>
+      <g:id>REP-850-004-negro</g:id>
+      <g:title>TIMON CULT DEVON - Negro</g:title>
+      <g:description>TIMON CULT DEVON . MEDIDA 9.5 LARGO 28. 10.5° backsweep. 3° upsweep. Disponible en colores Negro, Cromado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/timon-cult-devon.html?color=Negro</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/89110370-710e-4a90-b8fd-0c8c574675c5.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/6b85088a-4143-497c-bb13-895ece0b8797.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/af42eab4-54c2-4672-99bc-02c20bd5085f.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>350000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Cult</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Timones</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:item_group_id>REP-850-004</g:item_group_id>
+      <g:color>Negro</g:color>
+    </item>
+    <item>
+      <g:id>REP-850-004-cromado</g:id>
+      <g:title>TIMON CULT DEVON - Cromado</g:title>
+      <g:description>TIMON CULT DEVON . MEDIDA 9.5 LARGO 28. 10.5° backsweep. 3° upsweep. Disponible en colores Negro, Cromado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/timon-cult-devon.html?color=Cromado</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/89110370-710e-4a90-b8fd-0c8c574675c5.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/6b85088a-4143-497c-bb13-895ece0b8797.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/af42eab4-54c2-4672-99bc-02c20bd5085f.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>370000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Cult</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Timones</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:item_group_id>REP-850-004</g:item_group_id>
+      <g:color>Cromado</g:color>
+    </item>
   </channel>
 </rss>

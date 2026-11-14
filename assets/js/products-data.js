@@ -9359,5 +9359,39 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/fcca1904-a66c-4bfd-98e6-66319c25fde4.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "timon-cult-devon",
+    "sku": "REP-850-004",
+    "n": "TIMON CULT DEVON ",
+    "brand": "Cult",
+    "cat": "repuestos",
+    "sub": "Timones",
+    "spec": [
+      "MEDIDA 9.5       LARGO  28",
+      "10.5° backsweep",
+      "3° upsweep"
+    ],
+    "price": 350000,
+    "promo": false,
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 1,
+        "price": 350000
+      },
+      {
+        "v": "Cromado",
+        "u": 1,
+        "price": 370000
+      }
+    ],
+    "combos": null,
+    "imgs": [
+      "assets/img/products/89110370-710e-4a90-b8fd-0c8c574675c5.jpg",
+      "assets/img/products/6b85088a-4143-497c-bb13-895ece0b8797.jpg",
+      "assets/img/products/af42eab4-54c2-4672-99bc-02c20bd5085f.jpg"
+    ],
+    "published": true
   }
 ];
