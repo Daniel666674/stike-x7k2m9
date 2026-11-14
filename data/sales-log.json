@@ -1168,5 +1168,17 @@
     "total": 300000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-14T16:27:52.114Z",
+    "slug": "cadena-fate-x-kmc",
+    "name": "Cadena Fate x KMC",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 80000,
+    "total": 80000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
