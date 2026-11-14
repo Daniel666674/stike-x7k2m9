@@ -1,6 +1,6 @@
 # Stike Bike Shop
 
-> Tienda BMX en Bogotá: repuestos, protecciones, ropa y armado de BMX a la medida con asesoría de riders. Vendemos 289 productos de marcas como Fiend, Odyssey, Total BMX, Mutanty, Cult, Decaye, con envíos a toda Colombia y tienda física en Venecia, Bogotá.
+> Tienda BMX en Bogotá: repuestos, protecciones, ropa y armado de BMX a la medida con asesoría de riders. Vendemos 290 productos de marcas como Fiend, Odyssey, Total BMX, Mutanty, Cult, Decaye, con envíos a toda Colombia y tienda física en Venecia, Bogotá.
 
 ## Datos del negocio
 - Nombre: Stike Bike Shop (también "Stike")
@@ -35,7 +35,7 @@
 - [Manzana Delantera](https://stikebikeshop.com/categoria/manzana-delantera.html): 1 producto desde $95.000
 - [Manzana Trasera](https://stikebikeshop.com/categoria/manzana-trasera.html): 13 productos desde $25.000
 - [Rines](https://stikebikeshop.com/categoria/rines.html): 4 productos desde $14.000
-- [Llantas](https://stikebikeshop.com/categoria/llantas.html): 11 productos desde $12.000
+- [Llantas](https://stikebikeshop.com/categoria/llantas.html): 12 productos desde $12.000
 - [Pedales](https://stikebikeshop.com/categoria/pedales.html): 10 productos desde $73.000
 - [Sillas y Postes](https://stikebikeshop.com/categoria/sillas-y-postes.html): 15 productos desde $45.000
 - [Grips](https://stikebikeshop.com/categoria/grips.html): 8 productos desde $20.000
@@ -62,7 +62,7 @@
 - [BSD](https://stikebikeshop.com/marca/bsd.html): 3 productos
 - [Cinema](https://stikebikeshop.com/marca/cinema.html): 4 productos
 - [Colony](https://stikebikeshop.com/marca/colony.html): 2 productos
-- [Cult](https://stikebikeshop.com/marca/cult.html): 11 productos
+- [Cult](https://stikebikeshop.com/marca/cult.html): 12 productos
 - [Decaye](https://stikebikeshop.com/marca/decaye.html): 11 productos
 - [Demolition](https://stikebikeshop.com/marca/demolition.html): 8 productos
 - [Éclat](https://stikebikeshop.com/marca/eclat.html): 2 productos

@@ -9304,5 +9304,26 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/9defc40a-ccba-485c-af11-76e7f7a14bbd.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "coraza-cult-dehart",
+    "sku": "REP-850-003",
+    "n": "CORAZA CULT DEHART ",
+    "brand": "Cult",
+    "cat": "repuestos",
+    "sub": "Llantas",
+    "spec": [
+      "MEDIDA 20 X 2.40",
+      "110 PSI"
+    ],
+    "price": 150000,
+    "promo": false,
+    "units": 6,
+    "combos": null,
+    "imgs": [
+      "assets/img/products/2f27fb27-0bf9-45be-8e63-821005962a04.jpg",
+      "assets/img/products/2de528ae-2469-4fbb-b3c5-4d5d4c3e6034.jpg"
+    ],
+    "published": true
   }
 ];
