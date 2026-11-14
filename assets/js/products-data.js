@@ -9388,9 +9388,9 @@ window.STIKE_PRODUCTS = [
     ],
     "combos": null,
     "imgs": [
+      "assets/img/products/af42eab4-54c2-4672-99bc-02c20bd5085f.jpg",
       "assets/img/products/89110370-710e-4a90-b8fd-0c8c574675c5.jpg",
-      "assets/img/products/6b85088a-4143-497c-bb13-895ece0b8797.jpg",
-      "assets/img/products/af42eab4-54c2-4672-99bc-02c20bd5085f.jpg"
+      "assets/img/products/6b85088a-4143-497c-bb13-895ece0b8797.jpg"
     ],
     "published": true
   }
