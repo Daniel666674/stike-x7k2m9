@@ -10841,5 +10841,21 @@
       <g:product_type>Repuestos &gt; Sillas y Postes</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
     </item>
+    <item>
+      <g:id>REP-850-005</g:id>
+      <g:title>SILLA CULT VANS OLD SCHOOL PRO</g:title>
+      <g:description>SILLA CULT VANS OLD SCHOOL PRO. SILLA SISTEMA PIVOTAL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/silla-cult-vans-old-school-pro.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/e3ec7042-4904-44fc-8e1a-66d279a7d69a.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/83403490-c24e-45c7-9984-327a8c435fcf.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/4a4604f0-4dad-4efa-87a5-b55d5b8c5b97.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>190000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Cult</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Sillas y Postes</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+    </item>
   </channel>
 </rss>
