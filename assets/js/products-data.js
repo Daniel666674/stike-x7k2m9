@@ -1385,7 +1385,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 340000,
     "promo": false,
-    "units": 1,
+    "units": 0,
     "imgs": [
       "assets/img/products/timon-eclat-chocolate-925-1.jpg",
       "assets/img/products/timon-eclat-chocolate-925-2.jpg"
