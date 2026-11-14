@@ -1156,5 +1156,17 @@
     "total": 340000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-14T16:27:38.749Z",
+    "slug": "coraza-odyssey-path-pro",
+    "name": "CORAZA ODYSSEY PATH PRO",
+    "size": "2.40",
+    "color": null,
+    "qty": 2,
+    "unitPrice": 150000,
+    "total": 300000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
