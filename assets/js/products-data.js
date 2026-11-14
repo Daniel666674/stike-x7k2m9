@@ -9406,7 +9406,7 @@ window.STIKE_PRODUCTS = [
     "n": "SILLA PIVOTAL ANIMAL CUSH",
     "brand": "Animal",
     "cat": "repuestos",
-    "sub": "",
+    "sub": "Sillas y Postes",
     "spec": [
       "SISTEMA PIVOTAL",
       "ESTRUCTURA DE ALTA RESISTENCIA"

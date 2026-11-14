@@ -10838,7 +10838,7 @@
       <g:condition>new</g:condition>
       <g:brand>Animal</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Repuestos</g:product_type>
+      <g:product_type>Repuestos &gt; Sillas y Postes</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
     </item>
   </channel>
