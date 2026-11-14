@@ -1082,5 +1082,17 @@
     "admin": "jparra375@gmail.com",
     "source": "tienda",
     "offCatalog": true
+  },
+  {
+    "ts": "2026-11-14T16:25:09.699Z",
+    "slug": "coraza-innova-pro-big-slick",
+    "name": "Coraza Innova Pro The Big Slick 20x2.4",
+    "size": null,
+    "color": "Negro",
+    "qty": 2,
+    "unitPrice": 75000,
+    "total": 150000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
