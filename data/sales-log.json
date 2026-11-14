@@ -1107,5 +1107,17 @@
     "admin": "jparra375@gmail.com",
     "source": "tienda",
     "offCatalog": true
+  },
+  {
+    "ts": "2026-11-14T16:26:14.084Z",
+    "slug": "silla-mutanty",
+    "name": "Silla Mutanty",
+    "size": null,
+    "color": "Camuflado",
+    "qty": 1,
+    "unitPrice": 130000,
+    "total": 130000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
