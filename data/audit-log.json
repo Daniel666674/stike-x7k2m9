@@ -1223,5 +1223,14 @@
     "photos": 0,
     "saleEdit": true,
     "summary": "Corrigió una venta (1x Marco Fiend Reynolds, 13/11/2026, 2:34:22 p. m.): Precio: $1.850.000 → $1.480.000"
+  },
+  {
+    "ts": "2026-11-14T17:19:36.193Z",
+    "admin": "jparra375@gmail.com",
+    "summary": "1 creado(s), 0 editado(s), 0 eliminado(s), 3 foto(s)",
+    "created": 1,
+    "edited": 0,
+    "deleted": 0,
+    "photos": 3
   }
 ]
