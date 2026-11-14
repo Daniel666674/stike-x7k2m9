@@ -9411,7 +9411,7 @@ window.STIKE_PRODUCTS = [
     "sizes": [
       {
         "v": "Única",
-        "u": 0
+        "u": 2
       }
     ],
     "combos": null,
