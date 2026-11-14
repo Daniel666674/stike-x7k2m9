@@ -1144,5 +1144,17 @@
     "admin": "jparra375@gmail.com",
     "source": "tienda",
     "offCatalog": true
+  },
+  {
+    "ts": "2026-11-14T16:27:15.152Z",
+    "slug": "timon-eclat-chocolate-925",
+    "name": "Timón Éclat Chocolate 9.25",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 340000,
+    "total": 340000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
