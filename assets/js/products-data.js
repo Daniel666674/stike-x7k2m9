@@ -9440,5 +9440,25 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/4a4604f0-4dad-4efa-87a5-b55d5b8c5b97.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "grips-cult-crew",
+    "sku": "REP-850-006",
+    "n": "GRIPS CULT CREW",
+    "brand": "Cult",
+    "cat": "repuestos",
+    "sub": "Grips",
+    "spec": [
+      "HECHOS EN SOFT RUBBER"
+    ],
+    "price": 50000,
+    "promo": false,
+    "units": 10,
+    "combos": null,
+    "imgs": [
+      "assets/img/products/51afe988-30a9-4bc8-ae26-c9b9bf11b4a5.jpg",
+      "assets/img/products/6f4b9ec5-ef99-4951-9b5c-df42d7137715.jpg"
+    ],
+    "published": true
   }
 ];
