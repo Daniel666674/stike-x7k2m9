@@ -9419,5 +9419,26 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/746ea7a8-10f9-4758-8afa-deabeda83e72.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "silla-cult-vans-old-school-pro",
+    "sku": "REP-850-005",
+    "n": "SILLA CULT VANS OLD SCHOOL PRO",
+    "brand": "Cult",
+    "cat": "repuestos",
+    "sub": "Sillas y Postes",
+    "spec": [
+      "SILLA SISTEMA PIVOTAL"
+    ],
+    "price": 190000,
+    "promo": false,
+    "units": 2,
+    "combos": null,
+    "imgs": [
+      "assets/img/products/e3ec7042-4904-44fc-8e1a-66d279a7d69a.jpg",
+      "assets/img/products/83403490-c24e-45c7-9984-327a8c435fcf.jpg",
+      "assets/img/products/4a4604f0-4dad-4efa-87a5-b55d5b8c5b97.jpg"
+    ],
+    "published": true
   }
 ];
