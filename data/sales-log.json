@@ -1180,5 +1180,17 @@
     "total": 80000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-14T17:23:31.367Z",
+    "slug": "coraza-mutanty-azul",
+    "name": "Coraza Mutanty Azul 20x2.40",
+    "size": null,
+    "color": null,
+    "qty": 2,
+    "unitPrice": 95000,
+    "total": 190000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
