@@ -10826,5 +10826,22 @@
       <g:item_group_id>REP-850-004</g:item_group_id>
       <g:color>Cromado</g:color>
     </item>
+    <item>
+      <g:id>REP-DEM-008</g:id>
+      <g:title>CASSETE DEMOLITION WHISTLER PRO - Única</g:title>
+      <g:description>CASSETE DEMOLITION WHISTLER PRO. LHD - RHD. SISTEMA DE 6 TRINQUETES Y 6 RESORTES INDEPENDIENTES. INCLUTE PROTECTORES EN NYLON. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/cassete-demolition-whistler-pro.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/1d7fa01a-6032-49a1-af7e-15a0936f2746.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/8ea0afc0-7f21-44ce-9cb9-139cb32f9edc.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/3413fb29-122a-44c6-9bc7-33ccb775ab9e.jpg</g:additional_image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>750000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Demolition</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Manzana Trasera</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:size>Única</g:size>
+    </item>
   </channel>
 </rss>
