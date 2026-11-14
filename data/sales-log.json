@@ -1131,5 +1131,18 @@
     "total": 75000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-14T16:26:59.581Z",
+    "slug": "fuera-de-catalogo",
+    "name": "FRENO ECLAT",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 30000,
+    "total": 30000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda",
+    "offCatalog": true
   }
 ]
