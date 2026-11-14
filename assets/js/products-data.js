@@ -4915,7 +4915,7 @@ window.STIKE_PRODUCTS = [
       },
       {
         "v": "Camuflado",
-        "u": 1
+        "u": 0
       }
     ],
     "imgs": [
