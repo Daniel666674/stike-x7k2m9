@@ -8225,7 +8225,7 @@ window.STIKE_PRODUCTS = [
     "sizes": [
       {
         "v": "2.40",
-        "u": 4
+        "u": 2
       },
       {
         "v": "2.25",
