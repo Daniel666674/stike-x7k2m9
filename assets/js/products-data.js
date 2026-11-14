@@ -9421,5 +9421,25 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/3413fb29-122a-44c6-9bc7-33ccb775ab9e.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "silla-pivotal-animal-cush",
+    "sku": "REP-ANI-003",
+    "n": "SILLA PIVOTAL ANIMAL CUSH",
+    "brand": "Animal",
+    "cat": "repuestos",
+    "sub": "",
+    "spec": [
+      "SISTEMA PIVOTAL",
+      "ESTRUCTURA DE ALTA RESISTENCIA"
+    ],
+    "price": 180000,
+    "promo": false,
+    "units": 2,
+    "combos": null,
+    "imgs": [
+      "assets/img/products/746ea7a8-10f9-4758-8afa-deabeda83e72.jpg"
+    ],
+    "published": true
   }
 ];
