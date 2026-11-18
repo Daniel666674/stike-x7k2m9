@@ -1122,7 +1122,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 80000,
     "promo": false,
-    "units": 6,
+    "units": 4,
     "imgs": [
       "assets/img/products/peg-fiend-belmont-cromo-4-4mm-1.jpg"
     ],
