@@ -9582,5 +9582,46 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/fdc9dd31-de80-45ba-89af-ac39c844a30e.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "cadena-cult-510",
+    "sku": "REP-850-008",
+    "n": "CADENA CULT 510",
+    "brand": "Cult",
+    "cat": "repuestos",
+    "sub": "Cadenas",
+    "spec": [
+      "CADENA DE ESLABON NORMAL",
+      "TRATADA TERMICAMENTE",
+      "ALTA RESISTENCIA"
+    ],
+    "price": 80000,
+    "promo": false,
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 6
+      },
+      {
+        "v": "Cromado",
+        "u": 6
+      },
+      {
+        "v": "Dorado",
+        "u": 2
+      }
+    ],
+    "combos": null,
+    "imgs": [
+      "assets/img/products/e1eead1f-6eca-4ff7-824f-bedb30e81f3b.jpg",
+      "assets/img/products/7137e02d-a9bb-4adc-ad46-1d46dda1ae71.jpg",
+      "assets/img/products/be2d018d-2b86-4793-adf5-89fedd70f09d.jpg"
+    ],
+    "imgColorMap": {
+      "assets/img/products/e1eead1f-6eca-4ff7-824f-bedb30e81f3b.jpg": "Dorado",
+      "assets/img/products/7137e02d-a9bb-4adc-ad46-1d46dda1ae71.jpg": "Dorado",
+      "assets/img/products/be2d018d-2b86-4793-adf5-89fedd70f09d.jpg": "Negro"
+    },
+    "published": true
   }
 ];
