@@ -10918,5 +10918,22 @@
       <g:product_type>Repuestos &gt; Sillas y Postes</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
     </item>
+    <item>
+      <g:id>REP-SUB-002</g:id>
+      <g:title>SILLA SUBROSA THASTED</g:title>
+      <g:description>SILLA SUBROSA THASTED. SISTEMA PIVOTAL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/silla-subrosa-thasted.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/d5c2d081-9e00-4fde-80d3-672dcf53e673.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/95d680dd-da45-4425-a290-1105e6c8086a.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/c7dd5fdb-b7bb-4c0a-81c2-d517771b10ae.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/010e7f98-6dac-4bac-9db0-08110dd107c7.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>180000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Subrosa</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Sillas y Postes</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+    </item>
   </channel>
 </rss>

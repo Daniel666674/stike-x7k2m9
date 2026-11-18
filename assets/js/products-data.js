@@ -9526,5 +9526,27 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/2142ee3d-db0e-4584-a98d-5d5325ae7abe.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "silla-subrosa-thasted",
+    "sku": "REP-SUB-002",
+    "n": "SILLA SUBROSA THASTED",
+    "brand": "Subrosa",
+    "cat": "repuestos",
+    "sub": "Sillas y Postes",
+    "spec": [
+      "SISTEMA PIVOTAL"
+    ],
+    "price": 180000,
+    "promo": false,
+    "units": 1,
+    "combos": null,
+    "imgs": [
+      "assets/img/products/d5c2d081-9e00-4fde-80d3-672dcf53e673.jpg",
+      "assets/img/products/95d680dd-da45-4425-a290-1105e6c8086a.jpg",
+      "assets/img/products/c7dd5fdb-b7bb-4c0a-81c2-d517771b10ae.jpg",
+      "assets/img/products/010e7f98-6dac-4bac-9db0-08110dd107c7.jpg"
+    ],
+    "published": true
   }
 ];
