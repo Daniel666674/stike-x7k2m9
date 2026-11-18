@@ -1450,5 +1450,17 @@
     "total": 288000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-18T18:33:12.477Z",
+    "slug": "cadena-fiend-halflink-negra",
+    "name": "Cadena Fiend Halflink Negra",
+    "size": null,
+    "color": null,
+    "qty": 4,
+    "unitPrice": 96000,
+    "total": 384000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
