@@ -9482,5 +9482,25 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/55a5986e-e5e9-45a5-8504-b2e841472cab.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "plato-shadow-sabotage",
+    "sku": "REP-VAN-001",
+    "n": "PLATO SHADOW SABOTAGE",
+    "brand": "Total BMX",
+    "cat": "repuestos",
+    "sub": "Platos",
+    "spec": [
+      "PROTECTOR EN NYLON DE ALTA RESISTENCIA",
+      "DISPONIBLE EN 28 DIENTES"
+    ],
+    "price": 180000,
+    "promo": false,
+    "units": 2,
+    "combos": null,
+    "imgs": [
+      "assets/img/products/e381cdd4-4438-4955-b1d4-6d916636ffdf.jpg"
+    ],
+    "published": true
   }
 ];

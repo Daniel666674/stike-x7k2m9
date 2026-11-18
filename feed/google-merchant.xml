@@ -10888,5 +10888,19 @@
       <g:product_type>Repuestos &gt; Platos</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
     </item>
+    <item>
+      <g:id>REP-VAN-001</g:id>
+      <g:title>PLATO SHADOW SABOTAGE</g:title>
+      <g:description>PLATO SHADOW SABOTAGE de Total BMX. PROTECTOR EN NYLON DE ALTA RESISTENCIA. DISPONIBLE EN 28 DIENTES. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/plato-shadow-sabotage.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/e381cdd4-4438-4955-b1d4-6d916636ffdf.jpg</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>180000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Total BMX</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Platos</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+    </item>
   </channel>
 </rss>
