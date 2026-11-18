@@ -1364,5 +1364,17 @@
     "source": "tienda",
     "offCatalog": true,
     "unitCost": 75000
+  },
+  {
+    "ts": "2026-11-18T18:10:20.013Z",
+    "slug": "grips-stranger-piston",
+    "name": "Grips Stranger Piston",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 50000,
+    "total": 50000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
