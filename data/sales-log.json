@@ -1338,5 +1338,17 @@
     "source": "tienda",
     "offCatalog": true,
     "unitCost": 140000
+  },
+  {
+    "ts": "2026-11-18T18:09:23.488Z",
+    "slug": "coraza-odyssey-broc",
+    "name": "CORAZA ODYSSEY BROC ",
+    "size": "2.40",
+    "color": null,
+    "qty": 2,
+    "unitPrice": 150000,
+    "total": 300000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
