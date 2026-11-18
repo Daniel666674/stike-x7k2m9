@@ -1390,5 +1390,17 @@
     "source": "tienda",
     "offCatalog": true,
     "unitCost": 90000
+  },
+  {
+    "ts": "2026-11-18T18:11:14.279Z",
+    "slug": "timon-rant-sway",
+    "name": "TIMON RANT SWAY",
+    "size": null,
+    "color": "Negro",
+    "qty": 1,
+    "unitPrice": 180000,
+    "total": 180000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
