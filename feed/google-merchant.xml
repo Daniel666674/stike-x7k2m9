@@ -10921,5 +10921,34 @@
       <g:product_type>Repuestos &gt; Sillas y Postes</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
     </item>
+    <item>
+      <g:id>REP-DEM-009</g:id>
+      <g:title>CAÑA DEMOLITION KEVIN PERAZA</g:title>
+      <g:description>CAÑA DEMOLITION KEVIN PERAZA . ALUMINIO 6061 CNC. MEDIDA 50MM. PESO 10 Oz. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/cana-demolition-kevin-peraza.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/9fb2d548-8a42-415a-a549-9144847e3808.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/45ad381e-d554-4265-8ab4-f64d7c6f2816.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>350000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Demolition</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+    </item>
+    <item>
+      <g:id>REP-850-007</g:id>
+      <g:title>CAÑA CULT MIND CONTROL</g:title>
+      <g:description>CAÑA CULT MIND CONTROL. ALUMINIO 6061 CNC. MEDIDA 48 MM. COLOR NEGRO. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/cana-cult-mind-control.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/fdc9dd31-de80-45ba-89af-ac39c844a30e.jpg</g:image_link>
+      <g:availability>out_of_stock</g:availability>
+      <g:price>300000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Cult</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Cañas</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+    </item>
   </channel>
 </rss>

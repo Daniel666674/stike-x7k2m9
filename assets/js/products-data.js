@@ -9527,5 +9527,48 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/010e7f98-6dac-4bac-9db0-08110dd107c7.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "cana-demolition-kevin-peraza",
+    "sku": "REP-DEM-009",
+    "n": "CAÑA DEMOLITION KEVIN PERAZA ",
+    "brand": "Demolition",
+    "cat": "repuestos",
+    "sub": "Cañas",
+    "spec": [
+      "ALUMINIO 6061 CNC",
+      "MEDIDA 50MM",
+      "PESO 10 Oz"
+    ],
+    "price": 350000,
+    "promo": false,
+    "units": 1,
+    "combos": null,
+    "imgs": [
+      "assets/img/products/9fb2d548-8a42-415a-a549-9144847e3808.jpg",
+      "assets/img/products/45ad381e-d554-4265-8ab4-f64d7c6f2816.jpg"
+    ],
+    "published": true
+  },
+  {
+    "slug": "cana-cult-mind-control",
+    "sku": "REP-850-007",
+    "n": "CAÑA CULT MIND CONTROL",
+    "brand": "Cult",
+    "cat": "repuestos",
+    "sub": "Cañas",
+    "spec": [
+      "ALUMINIO: 6061 CNC",
+      "MEDIDA: 48 MM",
+      "COLOR: NEGRO"
+    ],
+    "price": 300000,
+    "promo": false,
+    "units": 0,
+    "combos": null,
+    "imgs": [
+      "assets/img/products/fdc9dd31-de80-45ba-89af-ac39c844a30e.jpg"
+    ],
+    "published": true
   }
 ];
