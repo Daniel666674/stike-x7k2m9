@@ -1376,5 +1376,19 @@
     "total": 50000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-18T18:10:58.955Z",
+    "slug": "fuera-de-catalogo",
+    "name": "JUEGO DE BRASOS DE BIELAS GW MILIMETRICAS",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 150000,
+    "total": 150000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda",
+    "offCatalog": true,
+    "unitCost": 90000
   }
 ]
