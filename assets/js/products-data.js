@@ -3279,12 +3279,14 @@ window.STIKE_PRODUCTS = [
     "promo": false,
     "sizes": [
       {
-        "v": "1019mm",
-        "u": 54
+        "v": "19mm",
+        "u": 54,
+        "price": 80000
       },
       {
-        "v": "1022mm",
-        "u": 53
+        "v": "22mm",
+        "u": 53,
+        "price": 90000
       }
     ],
     "sizeLabel": "Medida",
@@ -3292,7 +3294,8 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/caja-de-centro-fate-1019mm-negra-1.jpg",
       "assets/img/products/caja-de-centro-fate-1022mm-negra-1.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "canitobillera-r2-protect",
@@ -3475,7 +3478,8 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/plato-fate-garuda-28t-negro-1.jpg": "Negro",
       "assets/img/products/plato-fate-garuda-28t-cromado-1.jpg": "Cromado"
     },
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "poste-pivotal-gw-extralargo-negro",
