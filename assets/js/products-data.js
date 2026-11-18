@@ -9460,5 +9460,27 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/6f4b9ec5-ef99-4951-9b5c-df42d7137715.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "plato-shadow-maya-con-protector",
+    "sku": "REP-SHA-020",
+    "n": "PLATO SHADOW MAYA CON PROTECTOR",
+    "brand": "Shadow",
+    "cat": "repuestos",
+    "sub": "Platos",
+    "spec": [
+      "GUARDIA EN  NYLON DE ALTA RESISTENCIA",
+      "DISPONIBLE EN 28 DIENTES"
+    ],
+    "price": 180,
+    "promo": false,
+    "units": 1,
+    "combos": null,
+    "imgs": [
+      "assets/img/products/0a8a498a-6365-4ed9-a1ae-db132e022755.jpg",
+      "assets/img/products/dbbdd398-2053-4a7b-bea7-fb34eca50f23.jpg",
+      "assets/img/products/55a5986e-e5e9-45a5-8504-b2e841472cab.jpg"
+    ],
+    "published": true
   }
 ];
