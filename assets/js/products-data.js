@@ -2692,21 +2692,33 @@ window.STIKE_PRODUCTS = [
     "cat": "repuestos",
     "sub": "Cadenas",
     "spec": [
-      "Recubierta en teflón",
       "Placas laterales redondeadas, compatibles con piñones 8T o más",
       "Paso: 1 1/8\"",
       "Tratada térmicamente",
-      "Pernos de hongo",
       "Recortes con logo de Cult"
     ],
-    "price": 135000,
+    "price": 140000,
     "promo": false,
-    "units": 1,
     "imgs": [
       "assets/img/products/cadena-cult-halflink-negra-1.jpg",
-      "assets/img/products/cadena-cult-halflink-negra-2.jpg"
+      "assets/img/products/86758734-bf7e-48d1-bc08-1365e2a5ad9a.jpg"
     ],
-    "published": true
+    "published": true,
+    "colors": [
+      {
+        "v": "Negro",
+        "u": 6
+      },
+      {
+        "v": "Cromado",
+        "u": 5
+      }
+    ],
+    "combos": null,
+    "imgColorMap": {
+      "assets/img/products/cadena-cult-halflink-negra-1.jpg": "Negro",
+      "assets/img/products/86758734-bf7e-48d1-bc08-1365e2a5ad9a.jpg": "Cromado"
+    }
   },
   {
     "slug": "caja-frente-cult-crew-negra",
