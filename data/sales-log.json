@@ -1272,5 +1272,19 @@
     "total": 370000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-18T18:06:36.877Z",
+    "slug": "fuera-de-catalogo",
+    "name": "PEDALES DEMOLITION NEGROS",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 94000,
+    "total": 94000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda",
+    "offCatalog": true,
+    "unitCost": 75000
   }
 ]
