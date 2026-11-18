@@ -1524,27 +1524,6 @@ window.STIKE_PRODUCTS = [
     "published": true
   },
   {
-    "slug": "timon-rant-2-piezas-cromado-95",
-    "sku": "REP-RAN-003",
-    "n": "Timón Rant 2 Piezas Cromado 9.5",
-    "brand": "Rant",
-    "cat": "repuestos",
-    "sub": "Timones",
-    "spec": [
-      "Altura: 9.5\"",
-      "Tipo: 2 piezas",
-      "Color: Cromado"
-    ],
-    "price": 220000,
-    "promo": false,
-    "units": 0,
-    "imgs": [
-      "assets/img/products/timon-rant-2-piezas-cromado-95-1.jpg"
-    ],
-    "published": true,
-    "combos": null
-  },
-  {
     "slug": "buzo-nightmare-gris",
     "sku": "ROP-NIG-001",
     "n": "Buzo Nightmare Gris Jaspeado",
