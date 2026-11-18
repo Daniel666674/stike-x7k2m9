@@ -2520,7 +2520,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 50000,
     "promo": false,
-    "units": 53,
+    "units": 52,
     "imgs": [
       "assets/img/products/caja-frente-gw-1.jpg"
     ],
