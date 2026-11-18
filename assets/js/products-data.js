@@ -2156,7 +2156,7 @@ window.STIKE_PRODUCTS = [
   {
     "slug": "plato-shadow-sabotage-negro-25t",
     "sku": "REP-SHA-011",
-    "n": "Plato Shadow Sabotage Negro 25T",
+    "n": "PLATO SHADOW SABOTAGE SUPREME",
     "brand": "Shadow",
     "cat": "repuestos",
     "sub": "Platos",
@@ -2164,13 +2164,14 @@ window.STIKE_PRODUCTS = [
       "Dientes: 25T",
       "Color: Negro"
     ],
-    "price": 190000,
+    "price": 230000,
     "promo": false,
     "units": 1,
     "imgs": [
       "assets/img/products/plato-shadow-sabotage-negro-25t-1.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "aro-shadow-la-calle-cromado",
