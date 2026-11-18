@@ -1286,5 +1286,17 @@
     "source": "tienda",
     "offCatalog": true,
     "unitCost": 75000
+  },
+  {
+    "ts": "2026-11-18T18:07:01.504Z",
+    "slug": "peg-fiend-belmont-cromo-4-4mm",
+    "name": "Peg Fiend Belmont Cromo 4.4mm",
+    "size": null,
+    "color": null,
+    "qty": 2,
+    "unitPrice": 80000,
+    "total": 160000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
