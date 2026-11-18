@@ -1402,5 +1402,17 @@
     "total": 180000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-18T18:21:56.057Z",
+    "slug": "silla-fate-corduroy",
+    "name": "SILLA FATE CORDUROY",
+    "size": null,
+    "color": null,
+    "qty": 3,
+    "unitPrice": 97500,
+    "total": 292500,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
