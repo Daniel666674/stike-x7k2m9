@@ -2023,7 +2023,7 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 115000,
     "promo": false,
-    "units": 2,
+    "units": 1,
     "imgs": [
       "assets/img/products/cana-sunday-freeze-topload-negra-1.jpg",
       "assets/img/products/cana-sunday-freeze-topload-negra-2.jpg",
