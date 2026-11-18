@@ -3111,19 +3111,38 @@
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
     </item>
     <item>
-      <g:id>REP-CUL-001</g:id>
-      <g:title>Cadena Cult Half Link Negra</g:title>
-      <g:description>Cadena Cult Half Link Negra. Recubierta en teflón. Placas laterales redondeadas, compatibles con piñones 8T o más. Paso 1 1/8". Tratada térmicamente. Pernos de hongo. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
-      <g:link>https://stikebikeshop.com/producto/cadena-cult-halflink-negra.html</g:link>
+      <g:id>REP-CUL-001-negro</g:id>
+      <g:title>Cadena Cult Half Link Negra - Negro</g:title>
+      <g:description>Cadena Cult Half Link Negra. Placas laterales redondeadas, compatibles con piñones 8T o más. Paso 1 1/8". Tratada térmicamente. Recortes con logo de Cult. Disponible en colores Negro, Cromado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/cadena-cult-halflink-negra.html?color=Negro</g:link>
       <g:image_link>https://stikebikeshop.com/assets/img/products/cadena-cult-halflink-negra-1.jpg</g:image_link>
-      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/cadena-cult-halflink-negra-2.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/86758734-bf7e-48d1-bc08-1365e2a5ad9a.jpg</g:additional_image_link>
       <g:availability>in_stock</g:availability>
-      <g:price>135000.00 COP</g:price>
+      <g:price>140000.00 COP</g:price>
       <g:condition>new</g:condition>
       <g:brand>Cult</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
       <g:product_type>Repuestos &gt; Cadenas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:item_group_id>REP-CUL-001</g:item_group_id>
+      <g:color>Negro</g:color>
+    </item>
+    <item>
+      <g:id>REP-CUL-001-cromado</g:id>
+      <g:title>Cadena Cult Half Link Negra - Cromado</g:title>
+      <g:description>Cadena Cult Half Link Negra. Placas laterales redondeadas, compatibles con piñones 8T o más. Paso 1 1/8". Tratada térmicamente. Recortes con logo de Cult. Disponible en colores Negro, Cromado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/cadena-cult-halflink-negra.html?color=Cromado</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/86758734-bf7e-48d1-bc08-1365e2a5ad9a.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/cadena-cult-halflink-negra-1.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>140000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Cult</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Cadenas</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:item_group_id>REP-CUL-001</g:item_group_id>
+      <g:color>Cromado</g:color>
     </item>
     <item>
       <g:id>REP-CUL-002</g:id>
