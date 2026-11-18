@@ -1324,5 +1324,19 @@
     "total": 95000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-18T18:09:03.312Z",
+    "slug": "fuera-de-catalogo",
+    "name": "TENIS FADE SPLIT NEGRO 40",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 180000,
+    "total": 180000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda",
+    "offCatalog": true,
+    "unitCost": 140000
   }
 ]
