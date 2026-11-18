@@ -2634,7 +2634,7 @@ window.STIKE_PRODUCTS = [
       },
       {
         "v": "Cromado",
-        "u": 1
+        "u": 0
       },
       {
         "v": "Dorado",
@@ -2658,7 +2658,8 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/cadena-primo-121-halflink-dorado-1.jpg": "Dorado",
       "assets/img/products/cadena-primo-121-halflink-dorado-2.jpg": "Dorado"
     },
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "cadena-odyssey-bluebird-halflink-negra",
