@@ -1232,5 +1232,19 @@
     "total": 75000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-18T18:03:52.878Z",
+    "slug": "fuera-de-catalogo",
+    "name": "TENIS NUCLEO NEGRO EN BOTA 41",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 170000,
+    "total": 170000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda",
+    "offCatalog": true,
+    "unitCost": 130000
   }
 ]
