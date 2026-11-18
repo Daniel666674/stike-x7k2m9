@@ -1394,5 +1394,14 @@
     "edited": 0,
     "deleted": 0,
     "photos": 4
+  },
+  {
+    "ts": "2026-11-18T16:04:51.546Z",
+    "admin": "jparra375@gmail.com",
+    "summary": "0 creado(s), 0 editado(s), 1 eliminado(s), 0 foto(s)",
+    "created": 0,
+    "edited": 0,
+    "deleted": 1,
+    "photos": 0
   }
 ]
