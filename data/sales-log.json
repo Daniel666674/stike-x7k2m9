@@ -1192,5 +1192,19 @@
     "total": 190000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-18T18:02:09.584Z",
+    "slug": "cana-sunday-freeze-topload-negra",
+    "name": "Caña Sunday Freeze TopLoad Negra",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 130000,
+    "total": 130000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda",
+    "invoice": 3785,
+    "payment": "Efectivo"
   }
 ]
