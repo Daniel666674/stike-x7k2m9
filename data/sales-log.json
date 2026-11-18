@@ -1260,5 +1260,17 @@
     "source": "tienda",
     "offCatalog": true,
     "unitCost": 45000
+  },
+  {
+    "ts": "2026-11-18T18:05:29.334Z",
+    "slug": "bielas-sunday-saker-v2",
+    "name": "BIELAS SUNDAY SAKER V2",
+    "size": null,
+    "color": "Negro",
+    "qty": 1,
+    "unitPrice": 370000,
+    "total": 370000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
