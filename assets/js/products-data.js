@@ -2185,12 +2185,13 @@ window.STIKE_PRODUCTS = [
     ],
     "price": 290000,
     "promo": false,
-    "units": 1,
+    "units": 0,
     "imgs": [
       "assets/img/products/aro-stranger-crux-xl-negro-1.jpg",
       "assets/img/products/aro-stranger-crux-xl-negro-2.jpg"
     ],
-    "published": true
+    "published": true,
+    "combos": null
   },
   {
     "slug": "plato-trueno-exotic-guard-negro-25t",
