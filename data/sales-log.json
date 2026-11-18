@@ -1312,5 +1312,17 @@
     "source": "tienda",
     "offCatalog": true,
     "unitCost": 10500
+  },
+  {
+    "ts": "2026-11-18T18:08:04.812Z",
+    "slug": "pedales-bsd-safari-negro",
+    "name": "Pedales BSD Safari Negro",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 95000,
+    "total": 95000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda"
   }
 ]
