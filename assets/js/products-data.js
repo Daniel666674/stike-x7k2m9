@@ -9503,5 +9503,28 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/e381cdd4-4438-4955-b1d4-6d916636ffdf.jpg"
     ],
     "published": true
+  },
+  {
+    "slug": "silla-shadow-crowd",
+    "sku": "REP-SHA-021",
+    "n": "SILLA SHADOW CROWD",
+    "brand": "Shadow",
+    "cat": "repuestos",
+    "sub": "Sillas y Postes",
+    "spec": [
+      "SISTEMA PIVOTAL",
+      "ESTRUCTURA DE ALTA RESISTENCIA",
+      "CUERO NEGRO"
+    ],
+    "price": 180000,
+    "promo": false,
+    "units": 1,
+    "combos": null,
+    "imgs": [
+      "assets/img/products/84a45a63-c798-4bac-a993-62c0377cf571.jpg",
+      "assets/img/products/f0189da3-1284-4a8f-861b-831514653ae9.jpg",
+      "assets/img/products/2142ee3d-db0e-4584-a98d-5d5325ae7abe.jpg"
+    ],
+    "published": true
   }
 ];

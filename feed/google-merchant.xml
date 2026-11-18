@@ -10902,5 +10902,21 @@
       <g:product_type>Repuestos &gt; Platos</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
     </item>
+    <item>
+      <g:id>REP-SHA-021</g:id>
+      <g:title>SILLA SHADOW CROWD</g:title>
+      <g:description>SILLA SHADOW CROWD. SISTEMA PIVOTAL. ESTRUCTURA DE ALTA RESISTENCIA. CUERO NEGRO. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/silla-shadow-crowd.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/84a45a63-c798-4bac-a993-62c0377cf571.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/f0189da3-1284-4a8f-861b-831514653ae9.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/2142ee3d-db0e-4584-a98d-5d5325ae7abe.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>180000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Shadow</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Sillas y Postes</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+    </item>
   </channel>
 </rss>
