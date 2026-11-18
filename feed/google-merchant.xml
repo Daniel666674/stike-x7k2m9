@@ -10969,5 +10969,59 @@
       <g:product_type>Repuestos &gt; Cañas</g:product_type>
       <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
     </item>
+    <item>
+      <g:id>REP-850-008-negro</g:id>
+      <g:title>CADENA CULT 510 - Negro</g:title>
+      <g:description>CADENA CULT 510. CADENA DE ESLABON NORMAL. TRATADA TERMICAMENTE. ALTA RESISTENCIA. Disponible en colores Negro, Cromado, Dorado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/cadena-cult-510.html?color=Negro</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/be2d018d-2b86-4793-adf5-89fedd70f09d.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/e1eead1f-6eca-4ff7-824f-bedb30e81f3b.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/7137e02d-a9bb-4adc-ad46-1d46dda1ae71.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>80000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Cult</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Cadenas</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:item_group_id>REP-850-008</g:item_group_id>
+      <g:color>Negro</g:color>
+    </item>
+    <item>
+      <g:id>REP-850-008-cromado</g:id>
+      <g:title>CADENA CULT 510 - Cromado</g:title>
+      <g:description>CADENA CULT 510. CADENA DE ESLABON NORMAL. TRATADA TERMICAMENTE. ALTA RESISTENCIA. Disponible en colores Negro, Cromado, Dorado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/cadena-cult-510.html?color=Cromado</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/e1eead1f-6eca-4ff7-824f-bedb30e81f3b.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/7137e02d-a9bb-4adc-ad46-1d46dda1ae71.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/be2d018d-2b86-4793-adf5-89fedd70f09d.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>80000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Cult</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Cadenas</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:item_group_id>REP-850-008</g:item_group_id>
+      <g:color>Cromado</g:color>
+    </item>
+    <item>
+      <g:id>REP-850-008-dorado</g:id>
+      <g:title>CADENA CULT 510 - Dorado</g:title>
+      <g:description>CADENA CULT 510. CADENA DE ESLABON NORMAL. TRATADA TERMICAMENTE. ALTA RESISTENCIA. Disponible en colores Negro, Cromado, Dorado. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/cadena-cult-510.html?color=Dorado</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/e1eead1f-6eca-4ff7-824f-bedb30e81f3b.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/7137e02d-a9bb-4adc-ad46-1d46dda1ae71.jpg</g:additional_image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/be2d018d-2b86-4793-adf5-89fedd70f09d.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>80000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Cult</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Cadenas</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+      <g:item_group_id>REP-850-008</g:item_group_id>
+      <g:color>Dorado</g:color>
+    </item>
   </channel>
 </rss>
