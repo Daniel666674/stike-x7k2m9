@@ -1,6 +1,6 @@
 # Stike Bike Shop
 
-> Tienda BMX en Bogotá: repuestos, protecciones, ropa y armado de BMX a la medida con asesoría de riders. Vendemos 301 productos de marcas como Fiend, Cult, Total BMX, Odyssey, Mutanty, Decaye, con envíos a toda Colombia y tienda física en Venecia, Bogotá.
+> Tienda BMX en Bogotá: repuestos, protecciones, ropa y armado de BMX a la medida con asesoría de riders. Vendemos 302 productos de marcas como Fiend, Cult, Total BMX, Odyssey, Mutanty, Decaye, con envíos a toda Colombia y tienda física en Venecia, Bogotá.
 
 ## Datos del negocio
 - Nombre: Stike Bike Shop (también "Stike")
@@ -37,7 +37,7 @@
 - [Rines](https://stikebikeshop.com/categoria/rines.html): 4 productos desde $14.000
 - [Llantas](https://stikebikeshop.com/categoria/llantas.html): 12 productos desde $12.000
 - [Pedales](https://stikebikeshop.com/categoria/pedales.html): 10 productos desde $73.000
-- [Sillas y Postes](https://stikebikeshop.com/categoria/sillas-y-postes.html): 18 productos desde $45.000
+- [Sillas y Postes](https://stikebikeshop.com/categoria/sillas-y-postes.html): 19 productos desde $45.000
 - [Grips](https://stikebikeshop.com/categoria/grips.html): 9 productos desde $20.000
 - [Pegs y Protectores](https://stikebikeshop.com/categoria/pegs-y-protectores.html): 13 productos desde $15.000
 - [Cañas](https://stikebikeshop.com/categoria/canas.html): 27 productos desde $35.000

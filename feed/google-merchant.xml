@@ -11023,5 +11023,20 @@
       <g:item_group_id>REP-850-008</g:item_group_id>
       <g:color>Dorado</g:color>
     </item>
+    <item>
+      <g:id>REP-FAT-020</g:id>
+      <g:title>SILLA FATE CORDUROY</g:title>
+      <g:description>SILLA FATE CORDUROY de Fate BMX Colombia. SISTEMA PIVOTAL. Lo encuentras en Stike Bike Shop, tu tienda BMX en Bogotá, con envíos a toda Colombia y asesoría de riders.</g:description>
+      <g:link>https://stikebikeshop.com/producto/silla-fate-corduroy.html</g:link>
+      <g:image_link>https://stikebikeshop.com/assets/img/products/aeb1a2e1-a6cf-4309-8c8d-830bba9ee2aa.jpg</g:image_link>
+      <g:additional_image_link>https://stikebikeshop.com/assets/img/products/bdf08f0a-d021-4922-97b4-6043e020824c.jpg</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>130000.00 COP</g:price>
+      <g:condition>new</g:condition>
+      <g:brand>Fate BMX Colombia</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Repuestos &gt; Sillas y Postes</g:product_type>
+      <g:google_product_category>Sporting Goods &gt; Outdoor Recreation &gt; Cycling &gt; Bicycle Parts</g:google_product_category>
+    </item>
   </channel>
 </rss>

@@ -9625,5 +9625,25 @@ window.STIKE_PRODUCTS = [
       "assets/img/products/be2d018d-2b86-4793-adf5-89fedd70f09d.jpg": "Negro"
     },
     "published": true
+  },
+  {
+    "slug": "silla-fate-corduroy",
+    "sku": "REP-FAT-020",
+    "n": "SILLA FATE CORDUROY",
+    "brand": "Fate BMX Colombia",
+    "cat": "repuestos",
+    "sub": "Sillas y Postes",
+    "spec": [
+      "SISTEMA PIVOTAL"
+    ],
+    "price": 130000,
+    "promo": false,
+    "units": 50,
+    "combos": null,
+    "imgs": [
+      "assets/img/products/aeb1a2e1-a6cf-4309-8c8d-830bba9ee2aa.jpg",
+      "assets/img/products/bdf08f0a-d021-4922-97b4-6043e020824c.jpg"
+    ],
+    "published": true
   }
 ];
