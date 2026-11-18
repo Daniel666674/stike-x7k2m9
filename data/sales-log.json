@@ -1298,5 +1298,19 @@
     "total": 160000,
     "admin": "jparra375@gmail.com",
     "source": "tienda"
+  },
+  {
+    "ts": "2026-11-18T18:07:45.443Z",
+    "slug": "fuera-de-catalogo",
+    "name": "JUEGO DE PROTECTORES RIN MUTANTY",
+    "size": null,
+    "color": null,
+    "qty": 1,
+    "unitPrice": 14000,
+    "total": 14000,
+    "admin": "jparra375@gmail.com",
+    "source": "tienda",
+    "offCatalog": true,
+    "unitCost": 10500
   }
 ]
